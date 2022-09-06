@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy, Inject} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {debounceTime} from "rxjs/operators";
 import {MODAL_MODEL, ModalButton, ModalResult} from "@sinequa/core/modal";
@@ -11,13 +11,13 @@ import {UserOverride} from "@sinequa/core/login";
     templateUrl: "./override-user.html"
 })
 export class BsOverrideUser implements OnInit, OnDestroy {
-    form: FormGroup;
+    form: UntypedFormGroup;
     formChanges: Subscription;
     buttons: ModalButton[];
 
     constructor(
         @Inject(MODAL_MODEL) public model: UserOverride,
-        private formBuilder: FormBuilder) {
+        private formBuilder: UntypedFormBuilder) {
     }
 
     ngOnInit() {

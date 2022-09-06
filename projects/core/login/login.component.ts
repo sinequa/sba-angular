@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy, Inject} from "@angular/core";
-import {FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {MODAL_MODEL, ModalResult, ModalRef} from "@sinequa/core/modal";
 import {Credentials} from "./authentication.service";
@@ -34,20 +34,20 @@ import {Utils} from "@sinequa/core/base";
     `
 })
 export class Login implements OnInit, OnDestroy {
-    userNameControl: FormControl;
-    passwordControl: FormControl;
-    form: FormGroup;
+    userNameControl: UntypedFormControl;
+    passwordControl: UntypedFormControl;
+    form: UntypedFormGroup;
     formChanges: Subscription;
 
     constructor(
         @Inject(MODAL_MODEL) protected model: Credentials,
         protected modalRef: ModalRef,
-        protected formBuilder: FormBuilder) {
+        protected formBuilder: UntypedFormBuilder) {
     }
 
     ngOnInit() {
-        this.userNameControl = new FormControl(this.model.userName, Validators.required);
-        this.passwordControl = new FormControl(this.model.password, Validators.required);
+        this.userNameControl = new UntypedFormControl(this.model.userName, Validators.required);
+        this.passwordControl = new UntypedFormControl(this.model.password, Validators.required);
         this.form = this.formBuilder.group({
             userName: this.userNameControl,
             password: this.passwordControl
@@ -63,7 +63,7 @@ export class Login implements OnInit, OnDestroy {
         this.formChanges.unsubscribe();
     }
 
-    showError(control: FormControl): boolean {
+    showError(control: UntypedFormControl): boolean {
         return control.invalid && (control.dirty || this.modalRef.submitted);
     }
 

@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy, Inject} from "@angular/core";
-import {FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {MODAL_MODEL, ModalButton, ModalResult} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
@@ -10,18 +10,18 @@ import {Basket} from "../../baskets.service";
     templateUrl: "./edit-basket.html"
 })
 export class BsEditBasket implements OnInit, OnDestroy {
-    nameControl: FormControl;
-    form: FormGroup;
+    nameControl: UntypedFormControl;
+    form: UntypedFormGroup;
     formChanges: Subscription;
     buttons: ModalButton[];
 
     constructor(
         @Inject(MODAL_MODEL) public model: Basket,
-        private formBuilder: FormBuilder) {
+        private formBuilder: UntypedFormBuilder) {
     }
 
     ngOnInit() {
-        this.nameControl = new FormControl(this.model.name, Validators.required);
+        this.nameControl = new UntypedFormControl(this.model.name, Validators.required);
         this.form = this.formBuilder.group({
             basketName: this.nameControl
         });

@@ -22,7 +22,7 @@ import { FacetNgxChart } from "./facet-chart/facet-chart";
         IntlModule,
         UtilsModule,
         BsSelectionModule,
-        
+
         // ngx-charts modules
         AreaChartModule,
         BarChartModule,

@@ -1,6 +1,8 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["projects/**/*.ts"],
+  "include": [
+    "projects/**/*.ts"
+  ],
   "exclude":["projects/**/test.ts","**/*.spec.ts"],
   "compilerOptions": {
     "outDir": "./dist/out-tsc",

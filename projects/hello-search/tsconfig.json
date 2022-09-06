@@ -24,6 +24,6 @@
         "e2e",
         "src/environments/*",
         "**/*.spec.ts",
-        "test.ts"
+        "src/test.ts"
     ]
 }

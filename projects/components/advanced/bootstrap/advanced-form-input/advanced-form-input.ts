@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy } from "@angular/core";
-import { FormGroup, AbstractControl } from "@angular/forms";
+import { UntypedFormGroup, AbstractControl } from "@angular/forms";
 import { AppService } from "@sinequa/core/app-utils";
 import { Utils } from '@sinequa/core/base';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { AutocompleteItem } from '@sinequa/components/autocomplete';
     templateUrl: "./advanced-form-input.html"
 })
 export class BsAdvancedFormInput implements OnChanges, OnDestroy {
-    @Input() form: FormGroup;
+    @Input() form: UntypedFormGroup;
     @Input() field: string;
     @Input() suggestQuery: string;
     @Input() label: string;

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, OnDestroy} from "@angular/core";
-import {FormGroup} from "@angular/forms";
+import {UntypedFormGroup} from "@angular/forms";
 import {AppService, ValueItem} from "@sinequa/core/app-utils";
 import {CCColumn, Aggregation, AggregationItem} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
@@ -11,7 +11,7 @@ import {FirstPageService} from "@sinequa/components/search";
     templateUrl: "./advanced-form-select.html",
 })
 export class BsAdvancedFormSelect implements OnInit, OnDestroy {
-    @Input() form: FormGroup;
+    @Input() form: UntypedFormGroup;
     @Input() field: string;
     /** Optional label: the component looks for the label in the Query web service configuration for the given field */
     @Input() label: string;

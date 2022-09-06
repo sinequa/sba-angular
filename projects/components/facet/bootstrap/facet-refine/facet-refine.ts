@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef} from "@angular/core";
-import {FormGroup, FormBuilder, AbstractControl} from "@angular/forms";
+import {UntypedFormGroup, UntypedFormBuilder, AbstractControl} from "@angular/forms";
 import {Results} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {SearchService} from "@sinequa/components/search";
@@ -43,13 +43,13 @@ export class BsRefine extends AbstractFacet implements FacetRefineParams, OnChan
      */
     @Input() suggestDelay: number = 200;
 
-    form: FormGroup;
+    form: UntypedFormGroup;
     searchControl: AbstractControl | null;
 
     inputErrorMessage: string;
 
     constructor(
-        public formBuilder: FormBuilder,
+        public formBuilder: UntypedFormBuilder,
         public searchService: SearchService,
         private changeDetectorRef: ChangeDetectorRef) {
         super();

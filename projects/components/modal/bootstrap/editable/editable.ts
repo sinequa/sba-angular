@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, HostBinding, HostListener, ElementRef} from "@angular/core";
-import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, UntypedFormControl} from "@angular/forms";
 import {ValidatorFn} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Utils, Keys} from "@sinequa/core/base";
@@ -16,24 +16,24 @@ export class BsEditable implements OnInit, OnDestroy {
     @Input() model: any;
     @Output() valueChange: EventEmitter<string>;
     @Input() validators: ValidatorFn[];
-    editableControl: FormControl;
-    modelControl: FormControl;
-    form: FormGroup;
+    editableControl: UntypedFormControl;
+    modelControl: UntypedFormControl;
+    form: UntypedFormGroup;
     formChanges: Subscription;
     previousValue: string;
     editing: boolean;
     private focusAfterEdit: boolean;
 
     constructor(
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private elementRef: ElementRef
     ) {
         this.valueChange = new EventEmitter<string>();
     }
 
     ngOnInit() {
-        this.editableControl = new FormControl(this.value, this.validators);
-        this.modelControl = new FormControl(this.model);
+        this.editableControl = new UntypedFormControl(this.value, this.validators);
+        this.modelControl = new UntypedFormControl(this.model);
         this.form = this.formBuilder.group({
             editable: this.editableControl,
             model: this.modelControl

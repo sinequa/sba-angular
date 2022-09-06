@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, ContentChild, TemplateRef } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder } from '@angular/forms';
 import { Subscription, combineLatest } from 'rxjs';
 
 import { Results } from '@sinequa/core/web-services';
@@ -58,7 +58,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     @Output() edgeClicked = new EventEmitter<Edge>();
 
     // Settings form
-    form: FormGroup;
+    form: UntypedFormGroup;
 
     // State
     _networkInitialized: boolean;
@@ -83,7 +83,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         public searchService: SearchService,
         public appService: AppService,
         public intlService: IntlService,
-        public formBuilder: FormBuilder,
+        public formBuilder: UntypedFormBuilder,
         public prefs: UserPreferences,
         public exprBuilder: ExprBuilder
     ) {
@@ -377,11 +377,11 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
      */
     override onOpenSettings(opened: boolean){
         if(opened) {
-            const springLengthControl = new FormControl(this.springLengthPref);
-            const springConstantControl = new FormControl(this.springConstantPref);
-            const dampingControl = new FormControl(this.dampingPref);
-            const repulsionControl = new FormControl(this.repulsionPref);
-            const gravityControl = new FormControl(this.gravityPref);
+            const springLengthControl = new UntypedFormControl(this.springLengthPref);
+            const springConstantControl = new UntypedFormControl(this.springConstantPref);
+            const dampingControl = new UntypedFormControl(this.dampingPref);
+            const repulsionControl = new UntypedFormControl(this.repulsionPref);
+            const gravityControl = new UntypedFormControl(this.gravityPref);
 
             this.form = this.formBuilder.group({
                 springLength: springLengthControl,

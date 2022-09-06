@@ -6,6 +6,6 @@
   "include": [
     "**/*.spec.ts",
     "**/*.d.ts",
-    "../core/**/*.d.ts"
+    "../core/**/*.ts"
   ]
 }

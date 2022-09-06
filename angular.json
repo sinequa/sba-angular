@@ -115,7 +115,9 @@
               "@formatjs/intl-relativetimeformat/polyfill",
               "intl-pluralrules",
               "jstz",
-              "atomicjs"
+              "atomicjs",
+              "fast-text-encoding",
+              "diacritics"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -259,7 +261,9 @@
               "@formatjs/intl-relativetimeformat/polyfill",
               "intl-pluralrules",
               "jstz",
-              "atomicjs"
+              "atomicjs",
+              "fast-text-encoding",
+              "diacritics"
             ]
           },
           "configurations": {
@@ -282,7 +286,15 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
             },
             "development": {
               "outputPath": "dist-debug/vanilla-search",
@@ -299,7 +311,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "vanilla-search:build:development"
+            "browserTarget": "vanilla-search:build:development",
+            "ssl": true,
+            "proxyConfig": "projects/vanilla-search/src/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -403,7 +417,16 @@
               "jstz",
               "atomicjs",
               "vis-timeline",
-              "vis-network"
+              "vis-network",
+              "component-emitter",
+              "xss",
+              "fusioncharts",
+              "fusioncharts/fusioncharts.charts",
+              "fusioncharts/themes/fusioncharts.theme.candy",
+              "fusioncharts/themes/fusioncharts.theme.fusion",
+              "fast-text-encoding",
+              "diacritics",
+              "clone-deep"
             ]
           },
           "configurations": {
@@ -426,7 +449,15 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
             },
             "development": {
               "outputPath": "dist-debug/pepper",
@@ -443,7 +474,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pepper:build:development"
+            "browserTarget": "pepper:build:development",
+            "ssl": true,
+            "proxyConfig": "projects/pepper/src/proxy.conf.json"
           },
           "configurations": {
             "production": {

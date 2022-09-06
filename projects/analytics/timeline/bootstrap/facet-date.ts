@@ -7,7 +7,7 @@ import {
     SimpleChanges,
     ChangeDetectorRef,
 } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { Action } from "@sinequa/components/action";
 import { AdvancedService } from "@sinequa/components/advanced";
 import { AbstractFacet, FacetConfig, FacetService } from "@sinequa/components/facet";
@@ -70,8 +70,8 @@ export class BsFacetDate
     clearFiltersAction: Action;
     items: AggregationItem[] = [];
 
-    form: FormGroup;
-    dateRangeControl: FormControl;
+    form: UntypedFormGroup;
+    dateRangeControl: UntypedFormControl;
 
     timeSeries: TimelineSeries[] = [];
     selection: (Date | undefined)[] | undefined;
@@ -83,7 +83,7 @@ export class BsFacetDate
 
     constructor(
         protected facetService: FacetService,
-        protected formBuilder: FormBuilder,
+        protected formBuilder: UntypedFormBuilder,
         protected exprBuilder: ExprBuilder,
         protected searchService: SearchService,
         protected advancedService: AdvancedService,
@@ -103,7 +103,7 @@ export class BsFacetDate
 
     ngOnInit() {
         if (this.allowCustomRange) {
-            this.dateRangeControl = new FormControl(
+            this.dateRangeControl = new UntypedFormControl(
                 [undefined, undefined],
                 [
                     this.advancedService.validators.range(this.field),

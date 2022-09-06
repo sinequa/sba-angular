@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, ElementRef, OnDestroy } from "@angular/core";
-import { FormGroup, AbstractControl } from "@angular/forms";
+import { UntypedFormGroup, AbstractControl } from "@angular/forms";
 import { Keys, Utils } from "@sinequa/core/base";
 import { AutocompleteItem } from "@sinequa/components/autocomplete";
 import { Subscription } from "rxjs";
@@ -16,7 +16,7 @@ import { AppService, ValueItem } from '@sinequa/core/app-utils';
     styleUrls: ["./advanced-form-multi-input.scss"],
 })
 export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
-    @Input() form: FormGroup;
+    @Input() form: UntypedFormGroup;
     @Input() field: string;
     @Input() suggestQuery: string;
     @Input() label: string;

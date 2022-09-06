@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { ValidationService } from "@sinequa/core/validation";
 
 @Component({
@@ -10,14 +10,14 @@ export class BsPreviewPageFormComponent implements OnChanges{
     @Input() pageNumber?: number;
     @Output() gotopage = new EventEmitter<number>();
 
-    form: FormGroup;
-    pageControl: FormControl;
+    form: UntypedFormGroup;
+    pageControl: UntypedFormControl;
 
     constructor(
-        formBuilder: FormBuilder,
+        formBuilder: UntypedFormBuilder,
         validationService: ValidationService
     ) {
-        this.pageControl = new FormControl('', [validationService.integerValidator(), validationService.minValidator(1)]);
+        this.pageControl = new UntypedFormControl('', [validationService.integerValidator(), validationService.minValidator(1)]);
         this.form = formBuilder.group({
           page: this.pageControl
         });

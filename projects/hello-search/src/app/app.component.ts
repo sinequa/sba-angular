@@ -1,5 +1,5 @@
 import {Component, AfterViewInit} from "@angular/core";
-import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, UntypedFormControl} from "@angular/forms";
 import {QueryWebService, Results} from "@sinequa/core/web-services";
 import {LoginService} from "@sinequa/core/login";
 import {AppService, Query} from "@sinequa/core/app-utils";
@@ -12,19 +12,19 @@ import {Observable} from 'rxjs';
     styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements AfterViewInit {
-    searchControl: FormControl;
-    form: FormGroup;
+    searchControl: UntypedFormControl;
+    form: UntypedFormGroup;
     results$: Observable<Results> | undefined;
 
     constructor(
-        protected formBuilder: FormBuilder,
+        protected formBuilder: UntypedFormBuilder,
         public loginService: LoginService,
         public appService: AppService,
         public queryWebService: QueryWebService,
         public notificationsService: NotificationsService) {
 
 
-        this.searchControl = new FormControl("");
+        this.searchControl = new UntypedFormControl("");
         this.form = this.formBuilder.group({
             search: this.searchControl
         });

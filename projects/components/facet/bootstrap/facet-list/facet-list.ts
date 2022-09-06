@@ -6,7 +6,7 @@ import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
 import {BehaviorSubject, Observable, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {FormControl, FormGroup} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import { FacetConfig } from "../../facet-config";
 
 export interface FacetListParams {
@@ -57,8 +57,8 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     filtering: boolean = false;
 
     // Search
-    myGroup: FormGroup;
-    searchQuery: FormControl; // ngModel for textarea
+    myGroup: UntypedFormGroup;
+    searchQuery: UntypedFormControl; // ngModel for textarea
     suggestDelay = 200;
     noResults = false;
     searchActive = false;
@@ -97,11 +97,11 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         private changeDetectorRef: ChangeDetectorRef) {
         super();
 
-        this.myGroup = new FormGroup({
-            searchQuery: new FormControl()
+        this.myGroup = new UntypedFormGroup({
+            searchQuery: new UntypedFormControl()
         });
 
-        this.searchQuery = this.myGroup.get("searchQuery") as FormControl;
+        this.searchQuery = this.myGroup.get("searchQuery") as UntypedFormControl;
         this.subscriptions["suggest"] = this.suggest$(this.searchQuery.valueChanges)
             .subscribe(values => {
                 this.suggestions$.next(values);
