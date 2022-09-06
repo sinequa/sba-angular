@@ -26,11 +26,13 @@ import {
 } from "@sinequa/core/web-services";
 import { Subscription } from "rxjs";
 import { debounceTime, filter, map } from "rxjs/operators";
-import { BsFacetTimelineComponent, TimelineSeries } from ".";
+import { BsFacetTimelineComponent } from "./facet-timeline.component";
+import { TimelineSeries } from "./timeline.component";
+
 import moment from "moment";
 
 export interface FacetDateParams {
-    aggregation: string
+    aggregation: string;
     showCount?: boolean;
     timelineAggregation?: string;
     displayEmptyDistributionIntervals?: boolean;
