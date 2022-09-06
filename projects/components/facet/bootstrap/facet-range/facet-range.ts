@@ -38,8 +38,8 @@ export interface StepDef {
 
 export interface FacetRangeParams {
     aggregation: string;
-    min?: string;
-    max?: string;
+    min?: string | number;
+    max?: string | number;
     stepDefs?: StepDef[];
 }
 
@@ -55,8 +55,8 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
-    @Input() min : string;
-    @Input() max : string;
+    @Input() min : string | number;
+    @Input() max : string | number;
     @Input() stepDefs: StepDef[];
     @ViewChild("slider", {static: false}) slider: ElementRef;
 
@@ -322,7 +322,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         this.options.ceil = max;
     }
 
-    protected parseValue(value: string | Date): number {
+    protected parseValue(value: string | Date | number): number {
         if (Utils.isDate(value)) {
             return value.getTime();
         }
