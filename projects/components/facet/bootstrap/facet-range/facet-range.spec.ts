@@ -16,10 +16,60 @@ import {BsFacetRange} from './facet-range';
 import {MODAL_CONFIRM, MODAL_PROMPT} from '@sinequa/core/modal';
 import {AppService} from '@sinequa/core/app-utils';
 import {UIService} from '@sinequa/components/utils';
+import moment from 'moment';
+
 
 describe('BsFacetRange', () => {
   let context: BsFacetRange;
   let fixture: ComponentFixture<BsFacetRange>;
+
+  function setModifiedAggregation() {
+    context.results = {
+      aggregations: [
+        {
+          "name": "ModifiedRange",
+          "column": "modified",
+          "items": [
+            {
+              "count": 120397,
+              "operatorResults": {
+                "min": "1901-01-01 00:00:00",
+                "max": "2020-09-15 00:00:00"
+              }
+            }
+          ]
+        }
+      ]
+    } as unknown as Results;
+    context.aggregation = "ModifiedRange";
+
+    // fake getColumn() return value
+    spyOn(context["appService"], "getColumn").and.returnValue({name: "modified", type: "date", eType: EngineType.date, eTypeModifier: EngineTypeModifier.none});
+  }
+
+  function setDoubleAggregation() {
+    context.results = {
+      aggregations: [
+        {
+          "name": "DoubleAggregation",
+          "column": "Double",
+          "items": [
+            {
+              "count": 120397,
+              "operatorResults": {
+                "min": -132.4,
+                "max": 435.65
+              }
+            }
+          ]
+        }
+      ]
+    } as unknown as Results;
+    context.aggregation = "DoubleAggregation";
+
+    // fake getColumn() return value
+    spyOn(context["appService"], "getColumn").and.returnValue({name: "double", type: "double", eType: EngineType.double, eTypeModifier: EngineTypeModifier.none});
+  }
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -45,27 +95,6 @@ describe('BsFacetRange', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BsFacetRange);
     context = fixture.debugElement.componentInstance;
-    context.results = {
-      aggregations: [
-        {
-          "name": "ModifiedRange",
-          "column": "modified",
-          "items": [
-            {
-              "count": 120397,
-              "operatorResults": {
-                "min": "1901-01-01 00:00:00",
-                "max": "2020-09-15 00:00:00"
-              }
-            }
-          ]
-        }
-      ]
-    } as unknown as Results;
-    context.aggregation = "ModifiedRange";
-
-    // fake getColumn() return value
-    spyOn(context["appService"], "getColumn").and.returnValue({name: "modified", type: "date", eType: EngineType.date, eTypeModifier: EngineTypeModifier.none});
   });
 
   it('should be created', () => {
@@ -74,6 +103,8 @@ describe('BsFacetRange', () => {
 
   it('should display dates range', () => {
     spyOn<any>(context, "init").and.callThrough();
+    setModifiedAggregation();
+
     context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true }});
 
     fixture.detectChanges();
@@ -90,6 +121,7 @@ describe('BsFacetRange', () => {
 
   it('should display new dates range when results changes', () => {
     spyOn<any>(context, "init").and.callThrough();
+    setModifiedAggregation();
 
     expect(context.initDone).toBeUndefined();
 
@@ -133,6 +165,93 @@ describe('BsFacetRange', () => {
     expect(new Date(context.value).toLocaleDateString("en-US")).toEqual("9/2/1974");
 
     expect(context["init"]).toHaveBeenCalledTimes(2);
+
+  })
+
+  it("should handle number in min/max", () => {
+    spyOn<any>(context, "parseValue").and.callThrough();
+
+    setDoubleAggregation();
+
+    context.min = 12;
+    context.max = 23;
+
+    context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true }});
+    fixture.detectChanges();
+
+    expect(context["parseValue"]).toHaveBeenCalledTimes(2);
+    expect(context.options.floor).toEqual(12);
+    expect(context.options.ceil).toEqual(23);
+
+  })
+
+  it("should handle string in min/max", () => {
+    spyOn<any>(context, "parseValue").and.callThrough();
+
+    setDoubleAggregation();
+
+    context.min = "12";
+    context.max = "23";
+
+    context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true }});
+    fixture.detectChanges();
+
+    expect(context["parseValue"]).toHaveBeenCalledTimes(2);
+    expect(context.options.floor).toEqual(12);
+    expect(context.options.ceil).toEqual(23);
+
+  })
+
+
+  it("should handle date as string in min/max", () => {
+    spyOn<any>(context, "parseValue").and.callThrough();
+
+    setModifiedAggregation();
+
+    context.min = "2010-01-01";
+    context.max = "2020-12-31";
+
+    context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true }});
+    fixture.detectChanges();
+
+    expect(context["parseValue"]).toHaveBeenCalledTimes(2);
+    expect(context.options.floor).toEqual(moment("2010-01-01").toDate().getTime());
+    expect(context.options.ceil).toEqual(moment("2020-12-31").toDate().getTime());
+
+  })
+
+
+  it("should handle date as Date in min/max", () => {
+    spyOn<any>(context, "parseValue").and.callThrough();
+
+    setModifiedAggregation();
+
+    context.min = moment("2010-01-01").toDate();
+    context.max = moment("2020-12-31").toDate();
+
+    context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true }});
+    fixture.detectChanges();
+
+    expect(context["parseValue"]).toHaveBeenCalledTimes(2);
+    expect(context.options.floor).toEqual(moment("2010-01-01").toDate().getTime());
+    expect(context.options.ceil).toEqual(moment("2020-12-31").toDate().getTime());
+
+  })
+
+  it("should handle sizes (for non-date columns)", () => {
+    spyOn<any>(context, "parseValue").and.callThrough();
+
+    setDoubleAggregation();
+
+    context.min = 0;
+    context.max = "3kB";
+
+    context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true }});
+    fixture.detectChanges();
+
+    expect(context["parseValue"]).toHaveBeenCalledTimes(2);
+    expect(context.options.floor).toEqual(0);
+    expect(context.options.ceil).toEqual(3*1024);
 
   })
 
