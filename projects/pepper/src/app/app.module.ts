@@ -41,12 +41,11 @@ import { NgxChartsModule } from '@sinequa/analytics/ngx-charts';
 import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
 import { VisTimelineModule } from '@sinequa/analytics/vis-timeline';
 import { NetworkModule } from '@sinequa/analytics/network';
-import { GoogleMapsModule } from '@sinequa/analytics/googlemaps';
+import { GoogleMapsModule, GOOGLE_MAPS_API_KEY } from '@sinequa/analytics/googlemaps';
 import { FinanceModule } from '@sinequa/analytics/finance';
 
 // Third-party libs
 import { GridsterModule } from 'angular-gridster2';
-import { AgmCoreModule } from '@agm/core';
 
 // Components
 import { AppComponent } from "./app.component";
@@ -168,9 +167,6 @@ export const selectionOptions: SelectionOptions = {
         VisTimelineModule,
         NetworkModule,
         GoogleMapsModule,
-        AgmCoreModule.forRoot({
-            apiKey: "" // Replace with your own Google Maps API key
-        }),
         FinanceModule,
         GridsterModule
     ],
@@ -207,7 +203,9 @@ export const selectionOptions: SelectionOptions = {
         {provide: HTTP_INTERCEPTORS, useClass: NotificationsInterceptor, multi: true},
 
         {provide: SCREEN_SIZE_RULES, useValue: breakpoints},
-        {provide: SELECTION_OPTIONS, useValue: selectionOptions}
+        {provide: SELECTION_OPTIONS, useValue: selectionOptions},
+
+        {provide: GOOGLE_MAPS_API_KEY, useValue: ""}
     ],
     bootstrap: [
         AppComponent

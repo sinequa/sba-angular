@@ -11,6 +11,7 @@
     <sq-googlemaps *ngSwitchCase="'map'"
         #facet
         [results]="results"
+        [width]="innerwidth"
         [height]="innerheight"
         [style]="buttonsStyle"
         (recordClicked)="onRecordClicked($event)">

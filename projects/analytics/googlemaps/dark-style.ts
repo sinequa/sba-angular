@@ -1,4 +1,4 @@
-export const darkStyle = [
+export const darkStyle: google.maps.MapTypeStyle[] = [
     {
       "elementType": "geometry",
       "stylers": [
