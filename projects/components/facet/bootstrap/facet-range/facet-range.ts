@@ -38,8 +38,8 @@ export interface StepDef {
 
 export interface FacetRangeParams {
     aggregation: string;
-    min?: string;
-    max?: string;
+    min?: string | number | Date;
+    max?: string | number | Date;
     stepDefs?: StepDef[];
 }
 
@@ -55,8 +55,8 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
-    @Input() min : string;
-    @Input() max : string;
+    @Input() min : string | number | Date;
+    @Input() max : string | number | Date;
     @Input() stepDefs: StepDef[];
     @ViewChild("slider", {static: false}) slider: ElementRef;
 
@@ -287,8 +287,8 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         let min = 0;
         let max = 0;
         if (!Utils.isEmpty(this.min) && (!Utils.isEmpty(this.max))) {
-            min = this.parseValue(!!new Date(this.min).getDate()? new Date(this.min) : this.min);
-            max = this.parseValue(!!new Date(this.max).getDate()? new Date(this.max) : this.max);
+            min = this.parseValue(this.min);
+            max = this.parseValue(this.max);
         }
         else {
             if (this.data?.items) {
@@ -322,24 +322,31 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         this.options.ceil = max;
     }
 
-    protected parseValue(value: string | Date): number {
-        if (Utils.isDate(value)) {
+    protected parseValue(value: string | number | Date): number {
+        if (Utils.isNumber(value)) { // number => number
+            return value;
+        }
+        if (Utils.isDate(value)) { // Date => number
             return value.getTime();
         }
-        if (!Utils.isString(value)) {
+        if (!Utils.isString(value)) { // Ensure string
             return 0;
         }
-        let _value: number | undefined;
-        if (this.column && this.column.parser) {
-            const str = this.formatService.parseValue(value, this.column.parser);
-            _value = Utils.toNumber(str);
+        if (this.column?.parser) { // Parse string if needed (only parser implemented is memorysize)
+            value = this.formatService.parseValue(value, this.column.parser);
         }
-        if (Utils.isUndefined(_value)) {
-            _value = this.column && AppService.isDate(this.column) ?
-                Utils.toDuration(value) :
-                Utils.toSize(value);
+        if (Utils.testFloat(value)) { // Return as a plain number if it is one
+          return Utils.toNumber(value, 0);
         }
-        return _value;
+        const date = moment(value); // Try parsing as a date
+        if (date.isValid()) {
+          return date.toDate().getTime();
+        }
+        // Finally, manage durations and sizes special formats
+        if(this.column && AppService.isDate(this.column)) {
+          return Utils.toDuration(value);
+        }
+        return Utils.toSize(value, 0);
     }
 
     protected initStep() {
