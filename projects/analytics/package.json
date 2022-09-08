@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "author": "Sinequa",
   "peerDependencies": {
-    "@agm/core": "^3.0.0-beta.0",
+    "@angular/google-maps": "14.0.6",
+    "@googlemaps/js-api-loader": "^1.14.3",
     "@swimlane/ngx-charts": "^14.0.0",
     "angular-fusioncharts": "^3.0.4",
     "fusioncharts": "^3.15.1-sr.1",
