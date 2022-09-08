@@ -48,7 +48,6 @@ module.exports = {
             "ngx-bootstrap/datepicker":         "ngx-bootstrap.datepicker",
             "@popperjs/core":                   "popperjs.core",
             "vis":                              "vis",
-            "@agm/core":                        "core$1",
             "angular-fusioncharts":             "angularFusioncharts",
             "fusioncharts":                     "FusionCharts",
             "fusioncharts/fusioncharts.charts": "charts",
