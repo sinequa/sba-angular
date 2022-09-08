@@ -6,7 +6,7 @@ import { BsActionModule } from "@sinequa/components/action";
 import { BsFacetModule } from "@sinequa/components/facet";
 import { BsSelectionModule } from '@sinequa/components/selection';
 
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsModule as NgGoogleMapsModule } from '@angular/google-maps';
 import { MapComponent } from './map.component';
 
 @NgModule({
@@ -17,8 +17,8 @@ import { MapComponent } from './map.component';
         BsActionModule,
         BsFacetModule,
         BsSelectionModule,
-        
-        AgmCoreModule,
+
+        NgGoogleMapsModule,
     ],
     declarations: [
         MapComponent

@@ -1,157 +1,190 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { AgmInfoWindow } from '@agm/core'
-;
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { AbstractFacet, FacetService } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
-
-import { ExprBuilder } from '@sinequa/core/app-utils';
 import { Results, Record } from '@sinequa/core/web-services';
 
 import { darkStyle } from "./dark-style";
+import { GoogleMapsService } from './googlemaps.service';
+import { SelectionService } from '@sinequa/components/selection';
+import { Subscription } from 'rxjs';
+import { OnDestroy } from '@angular/core';
+import { TemplateRef } from '@angular/core';
+import { ContentChild } from '@angular/core';
+
+export interface GeoRecord {
+  position: google.maps.LatLngLiteral;
+  options: google.maps.MarkerOptions;
+  record: Record;
+}
 
 @Component({
-    selector: "sq-googlemaps",
-    templateUrl: "./map.component.html"
+  selector: "sq-googlemaps",
+  templateUrl: "./map.component.html"
 })
-export class MapComponent extends AbstractFacet implements OnChanges {
-    /** Name of the map used as an identifier for the facet, to associate its selects */
-    @Input() name = "map";
-    /** Results list displayed on the map when possible */
-    @Input() results: Results;
-    /** Desired height of the map */
-    @Input() height = 300;
-    /** Name of the field storing the latitude as a decimal number */
-    @Input() latitudeField = "latitude";
-    /** Name of the field storing the longitude as a decimal number */
-    @Input() longitudeField = "longitude";
-    /** Map style (light or dark are supported) */
-    @Input() style = "light";
-    /** Event emitter that emits a Record object when the marker of that record is clicked by the user */
-    @Output() recordClicked = new EventEmitter<Record>();
+export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy {
+  @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
+  @ContentChild(TemplateRef) infoWindowsTpl?: TemplateRef<any>;
 
-    /** Filtered list of records, keeping only the geolocated records */
-    geoRecords: Record[] = [];
-    /** Mode for fitting the map to its contained markers */
-    fitBounds: google.maps.LatLngBoundsLiteral | boolean;
+  map?: google.maps.Map;
 
-    // Actions for selecting an area on the map, and clearing that selection
-    filterArea: Action;
-    clearFilters: Action;
+  /** Name of the map used as an identifier for the facet, to associate its selects */
+  @Input() name = "map";
+  /** Results list displayed on the map when possible */
+  @Input() results: Results;
+  /** Desired width of the map */
+  @Input() width = 300;
+  /** Desired height of the map */
+  @Input() height = 300;
+  /** Default position of the map */
+  @Input() center: google.maps.LatLngLiteral = { lat: 35, lng: -30 };
+  /** Name of the field storing the latitude as a decimal number */
+  @Input() latitudeField = "latitude";
+  /** Name of the field storing the longitude as a decimal number */
+  @Input() longitudeField = "longitude";
+  /** Minimum size to auto fit in meters */
+  @Input() minFit = 1000;
+  /** Map style (light or dark are supported) */
+  @Input() style = "light";
+  /** Event emitter that emits a Record object when the marker of that record is clicked by the user */
+  @Output() recordClicked = new EventEmitter<Record>();
 
-    /** Bounds of the map updated on initialization and user interaction */
-    bounds: google.maps.LatLngBounds;
-    /** Currently opened info window, which can be closed when another window is closed */
-    openedWindow?: AgmInfoWindow;
+  options: google.maps.MapOptions;
 
-    /** Styles of the map if any */
-    mapStyles: any;
+  /** Filtered list of records, keeping only the geolocated records */
+  geoRecords: GeoRecord[] = [];
+  clickedRecord: Record | undefined;
 
-    constructor(
-        public searchService: SearchService,
-        public facetService: FacetService,
-        public exprBuilder: ExprBuilder
-    ){
-        super();
-        
-        // Clear the current filters
-        this.clearFilters = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facet.clearSelects",
-            action: () => {
-                this.searchService.query.removeSelect(this.name);
-                this.searchService.search();
-            }
-        });
+  // Actions for selecting an area on the map, and clearing that selection
+  filterArea: Action;
+  clearFilters: Action;
 
-        // Filter the currently selected area
-        this.filterArea = new Action({
-            icon: "fas fa-search",
-            title: "msg#googlemaps.filterArea",
-            action: () => {
-                if(this.facetService.hasFiltered(this.name)) {
-                    this.searchService.query.removeSelect(this.name);
-                }
-                const minLat = this.bounds.getSouthWest().lat();
-                const maxLat = this.bounds.getNorthEast().lat();
-                const minLng = this.bounds.getSouthWest().lng();
-                const maxLng = this.bounds.getNorthEast().lng();
-                const expr = this.exprBuilder.concatAndExpr([
-                    this.exprBuilder.makeNumericalExpr(this.latitudeField, '>=', minLat),
-                    this.exprBuilder.makeNumericalExpr(this.latitudeField, '<=', maxLat),
-                    this.exprBuilder.makeNumericalExpr(this.longitudeField, '>=', minLng),
-                    this.exprBuilder.makeNumericalExpr(this.longitudeField, '<=', maxLng)
-                ]);
-                this.searchService.query.addSelect(expr, this.name);
-                this.searchService.search();
-            }
-        });
+  sub: Subscription;
+
+  constructor(
+    public searchService: SearchService,
+    public selectionService: SelectionService,
+    public facetService: FacetService,
+    public gmaps: GoogleMapsService
+  ) {
+    super();
+
+    // Clear the current filters
+    this.clearFilters = new Action({
+      icon: "far fa-minus-square",
+      title: "msg#facet.clearSelects",
+      action: () => {
+        this.searchService.query.removeSelect(this.name);
+        this.searchService.search();
+      }
+    });
+
+    // Filter the currently selected area
+    this.filterArea = new Action({
+      icon: "fas fa-search",
+      title: "msg#googlemaps.filterArea",
+      action: () => {
+        if(this.map) {
+          if (this.facetService.hasFiltered(this.name)) {
+            this.searchService.query.removeSelect(this.name);
+          }
+          const bounds = this.map.getBounds();
+          if(bounds) {
+            const expr = this.gmaps.makeExpr(bounds, this.latitudeField, this.longitudeField);
+            this.searchService.query.addSelect(expr, this.name);
+            this.searchService.search();
+          }
+        }
+      }
+    });
+
+    this.sub = this.selectionService.events.subscribe(() => {
+      for(let rec of this.geoRecords) {
+        // Regenerate the marker styles depending on their selection state
+        rec.options = this.getMarkerOptions(rec.record);
+      }
+    });
+  }
+
+  override get actions(): Action[] {
+    const actions = [] as Action[];
+    if (this.facetService.hasFiltered(this.name)) {
+      actions.push(this.clearFilters);
+    }
+    if (this.map) {
+      actions.push(this.filterArea);
+    }
+    return actions;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (changes['results']) {
+      this.updateGeoRecords();
+      this.infoWindow?.close();
     }
 
-    override get actions(): Action[] {
-        const actions = [] as Action[];
-        if(this.facetService.hasFiltered(this.name)) {
-            actions.push(this.clearFilters);
-        }
-        if(this.bounds) {
-            actions.push(this.filterArea);
-        }
-        return actions;
+    if (changes['style']) {
+      this.options = {
+        styles: this.style === "dark" ? darkStyle : undefined
+      };
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    this.fitBounds();
+  }
 
-        if(changes['results']) {
-            if(this.results) {
-                this.geoRecords = this.results.records.filter(r => !!r[this.latitudeField]);
-            }
-            this.closeWindow();
-        }
+  init(map: google.maps.Map) {
+    this.map = map;
+    this.fitBounds();
+  }
 
-        if(changes['style']) {
-            this.mapStyles = this.style === "dark"? darkStyle : undefined;
-        }
+  updateGeoRecords() {
+    this.geoRecords = this.results?.records
+      .filter(r => r[this.latitudeField] && r[this.longitudeField])
+      .map(record => ({
+        position: {
+          lat: record[this.latitudeField],
+          lng: record[this.longitudeField]
+        },
+        options: this.getMarkerOptions(record),
+        record
+      })) || [];
+  }
 
-        // If no document, the view shows a default latitude / longitude
-        if(this.geoRecords.length === 0) {
-            this.fitBounds = false;
-        }
-        // If multiple documents, the view is centered around them, at the right scale
-        else if(this.geoRecords.length > 1) {
-            this.fitBounds = true;
-        }
-        else {
-            // Custom bounds centered around the single geo record in the results
-            this.fitBounds = {
-                east: this.geoRecords[0][this.longitudeField] + 0.02,
-                north: this.geoRecords[0][this.latitudeField] + 0.02,
-                south: this.geoRecords[0][this.latitudeField] - 0.02,
-                west: this.geoRecords[0][this.longitudeField] - 0.02
-            };
-        }
+  getMarkerOptions(record: Record): google.maps.MarkerOptions {
+    return {opacity: record.$selected? 1 : 0.65, title: record.title}
+  }
+
+  fitBounds() {
+    if(this.map && this.geoRecords.length) {
+      var bounds = new google.maps.LatLngBounds();
+      for (let record of this.geoRecords) {
+        bounds.extend(record.position);
+      }
+      const center = bounds.getCenter();
+      bounds.extend(this.gmaps.move(center, this.minFit*0.5, this.minFit*0.5));
+      bounds.extend(this.gmaps.move(center, -this.minFit*0.5, -this.minFit*0.5));
+      this.map?.fitBounds(bounds);
     }
+  }
 
-    closeWindow() {
-        if(this.openedWindow) {
-            this.openedWindow.close();
-            this.openedWindow = undefined;
-        }
+  // Manage map interactions (avoid multiple opened info windows)
+
+  onMapClick(event: Event) {
+    this.infoWindow.close();
+  }
+
+  onMarkerClick(event: Event, marker: MapMarker, record: GeoRecord) {
+    // Toggle selection except if we focus an previously selected record
+    if(!record.record.$selected || record.record === this.clickedRecord) {
+      this.recordClicked.next(record.record);
     }
+    this.infoWindow.open(marker);
+    this.clickedRecord = record.record;
+  }
 
-
-    // Manage map interactions (avoid multiple opened info windows)
-
-    onMapClick(event: Event) {
-        this.closeWindow();
-    }
-
-    onMarkerClick(event: Event, record: Record, infoWindow?: AgmInfoWindow) {
-        this.closeWindow();
-        this.openedWindow = infoWindow;
-        this.recordClicked.next(record);
-    }
-
-    onBoundsChange(bounds: google.maps.LatLngBounds) {
-        this.bounds = bounds;
-    }
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 }
