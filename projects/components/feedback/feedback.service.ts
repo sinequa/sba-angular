@@ -6,7 +6,7 @@ import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
 import {Action} from "@sinequa/components/action";
 
-export const AuditFeedbackType = "UserFeedback";
+export const AuditFeedbackType = "UserFeedback_UserFeedback";
 
 
 @Injectable({
