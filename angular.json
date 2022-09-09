@@ -152,7 +152,10 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "stylePreprocessorOptions": {
+                "includePaths": ["./node_modules"]
+              }
             }
           },
           "defaultConfiguration": ""
@@ -294,6 +297,9 @@
                   "inlineCritical": false
                 },
                 "fonts": true
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["./node_modules"]
               }
             },
             "development": {
@@ -303,7 +309,10 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "stylePreprocessorOptions": {
+                "includePaths": ["./node_modules"]
+              }
             }
           },
           "defaultConfiguration": "production"
@@ -457,6 +466,9 @@
                   "inlineCritical": false
                 },
                 "fonts": true
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["./node_modules"]
               }
             },
             "development": {
@@ -466,7 +478,10 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "stylePreprocessorOptions": {
+                "includePaths": ["./node_modules"]
+              }
             }
           },
           "defaultConfiguration": "production"
