@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
-import { FusionChartsModule as FCModule } from "angular-fusioncharts";
+import { AngularFusionChartsModule } from "./angular-fusioncharts/fusioncharts.module";
 
 // Import FusionCharts library and chart modules
 import * as FusionCharts from "fusioncharts";
@@ -17,7 +17,7 @@ import { FusionChart } from "./chart/chart";
 
 FusionCharts.options.creditLabel = false;
 // Fusion is a light theme, Candy is a dark theme
-FCModule.fcRoot(FusionCharts, charts, FusionTheme, CandyTheme);
+AngularFusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme, CandyTheme);
 
 @NgModule({
 
@@ -26,7 +26,7 @@ FCModule.fcRoot(FusionCharts, charts, FusionTheme, CandyTheme);
         IntlModule,
         UtilsModule,
         BsSelectionModule,
-        FCModule
+        AngularFusionChartsModule
     ],
     declarations: [
         FusionChart
