@@ -1,4 +1,4 @@
-<svg [attr.viewBox]="'0 0 '+width+' '+height">
+<svg (wheel)="$event" [attr.viewBox]="'0 0 '+width+' '+height">
 
     <g [attr.transform]="'translate('+margin.left+','+ margin.top +')'">
 
@@ -9,14 +9,14 @@
             </clipPath>
             <!-- Mask limits opacity of non-selected areas -->
             <mask [attr.id]="'mask'+instance" *ngIf="!!brushSelection && !!data && !! data.length">
-                <rect *ngIf="brushSelection[0] > 0" 
-                    x="0" [attr.y]="-margin.top" 
+                <rect *ngIf="brushSelection[0] > 0"
+                    x="0" [attr.y]="-margin.top"
                     [attr.width]="brushSelection[0]" [attr.height]="height - margin.bottom"
                     fill="white" opacity="0.5"/>
                 <rect [attr.x]="brushSelection[0]" [attr.y]="-margin.top"
                     [attr.width]="brushSelection[1] - brushSelection[0]" [attr.height]="height - margin.bottom"
                     fill="white"/>
-                <rect *ngIf="innerWidth > brushSelection[1]" 
+                <rect *ngIf="innerWidth > brushSelection[1]"
                     [attr.x]="brushSelection[1]" [attr.y]="-margin.top"
                     [attr.width]="innerWidth - brushSelection[1]" [attr.height]="height - margin.bottom"
                     fill="white" opacity="0.5"/>
@@ -58,9 +58,9 @@
 
         <!-- Timeline events -->
         <g class="events" [attr.clip-path]="'url(#clip'+instance+')'" [attr.mask]="'url(#mask'+instance+')'">
-            <path *ngFor="let events of groupedEvents" class="event" 
-                [attr.d]="drawEvents(events, eventSize(events))" 
-                [ngStyle]="events[0].styles" 
+            <path *ngFor="let events of groupedEvents" class="event"
+                [attr.d]="drawEvents(events, eventSize(events))"
+                [ngStyle]="events[0].styles"
                 (click)="onEventClick(events)"></path>
         </g>
 
