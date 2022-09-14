@@ -3,6 +3,7 @@ import {HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpParams} from "
 import {Observable} from "rxjs";
 import {START_CONFIG, StartConfig, AuditRecord, AuditEvent, AuditEvents} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
+import moment from "moment";
 
 /**
  * An `HttpInterceptor` to process audi events attached to the request body
@@ -12,7 +13,7 @@ import {Utils} from "@sinequa/core/base";
     providedIn: "root"
 })
 export class AuditInterceptor implements HttpInterceptor {
-    
+
     // Store the session id and its datetime of creation/refresh
     sessionid: string;
     sessionstart: Date;
@@ -54,7 +55,7 @@ export class AuditInterceptor implements HttpInterceptor {
 
     /**
      * Add a sessionid to all the audit events
-     * @param auditRecord 
+     * @param auditRecord
      */
     private addSessionId(auditRecord?: AuditRecord) {
         const sessionid = this.getSessionId();
@@ -74,7 +75,7 @@ export class AuditInterceptor implements HttpInterceptor {
         if(!this.sessionid || this.isSessionStale()) {
             this.sessionid = Utils.guid();
         }
-        this.sessionstart = new Date();
+        this.sessionstart = moment().toDate();
         return this.sessionid;
     }
 
@@ -82,7 +83,7 @@ export class AuditInterceptor implements HttpInterceptor {
      * Test whether the current session id valid or stale (need to be refreshed)
      */
     private isSessionStale(): boolean {
-        const lastSession = new Date().getTime() - this.sessionstart.getTime();
+        const lastSession = moment().toDate().getTime() - this.sessionstart.getTime();
         // Consider the session stale after 10 minutes
         return lastSession > 10 * 60 * 1000;
     }

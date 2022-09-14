@@ -4,6 +4,7 @@ import {UserSettingsWebService, AuditEvents} from "@sinequa/core/web-services";
 import {Query} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
 import {SearchService} from "@sinequa/components/search";
+import moment from "moment";
 
 
 export interface RecentQuery {
@@ -79,7 +80,7 @@ export class RecentQueriesService implements OnDestroy {
         // Listen to search service and store queries
         this.searchService.queryStream.subscribe((query) => {
                 if (query) {
-                    this.addRecentQuery({query: query.copy(), date: new Date()});
+                    this.addRecentQuery({query: query.copy(), date: moment().toDate()});
                 }
             });
     }
@@ -229,7 +230,7 @@ export class RecentQueriesService implements OnDestroy {
     private patchRecentQueries(auditEvents?: AuditEvents) {
         // Do not forget to revert back the date conversion done when fetched
         const recentQueries = this.recentqueries.map(query => ({...query, date: Utils.fromDate(query.date)}));
-        
+
         return this.userSettingsService.patch({recentQueries}, auditEvents)
             .subscribe(
                 next => {

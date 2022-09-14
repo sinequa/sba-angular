@@ -154,7 +154,7 @@ export class Utils {
                 const src = obj[key];
                 if (deep && Utils.isObject(src)) {
                     if (Utils.isDate(src)) {
-                        dst[key] = new Date(src.valueOf());
+                        dst[key] = moment(src.valueOf()).toDate();
                     }
                     else if (Utils.isRegExp(src)) {
                         dst[key] = new RegExp(src);
@@ -363,7 +363,7 @@ export class Utils {
             } else if (Utils.isTypedArray(source)) {
                 destination = new source.constructor(source);
             } else if (Utils.isDate(source)) {
-                destination = new Date(source.getTime());
+                destination = moment(source.getTime()).toDate();
             } else if (Utils.isRegExp(source)) {
                 const matches = source.toString().match(/[^\/]*$/);
                 destination = new RegExp(source.source, matches ? matches[0] : "");
@@ -457,9 +457,9 @@ export class Utils {
         if (!ms && ms !== 0) {
             return undefined;
         }
-        return new Date(ms + new Date(ms).getTimezoneOffset() * 60000); // get date in UTC
+        return moment(ms + moment(ms).toDate().getTimezoneOffset() * 60000).toDate(); // get date in UTC
     }
-    
+
     /**
      * Converts a Date in UTC to is previous state.
      * The date is returned. If the string cannot be converted then `undefined` is returned
@@ -469,7 +469,7 @@ export class Utils {
      static fromDate(date: Date): Date | undefined {
         const ms = Date.parse(date.toString());
         if (!ms && ms !== 0) return undefined;
-        return new Date(ms - date.getTimezoneOffset() * 60000);
+        return moment(ms - date.getTimezoneOffset() * 60000).toDate();
     }
 
     /**
@@ -489,7 +489,7 @@ export class Utils {
      * Return the current date and time
      */
     static get now(): Date {
-        return new Date();
+        return moment().toDate();
     }
 
     /**

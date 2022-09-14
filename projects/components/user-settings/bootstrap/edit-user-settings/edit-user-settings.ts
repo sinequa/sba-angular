@@ -6,6 +6,7 @@ import { MapOf, Utils } from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
 
 import {JsonInfo} from '../user-settings-editor/jsonInfo.model';
+import moment from 'moment';
 
 /**
  * Opens a dialog to modify the user settings.
@@ -92,7 +93,7 @@ export class BsEditUserSettings implements OnInit {
             }
             else if (Utils.isObject(value)) {
                 if (Utils.isDate(value)) {
-                    obj[key] = new Date(value.valueOf());
+                    obj[key] = moment(value.valueOf()).toDate();
                 }
                 else if (Utils.isRegExp(value)) {
                     obj[key] = new RegExp(value);
