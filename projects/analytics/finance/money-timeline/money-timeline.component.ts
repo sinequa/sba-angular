@@ -8,6 +8,7 @@ import { Results, Record } from "@sinequa/core/web-services";
 import { FormatService } from "@sinequa/core/app-utils";
 
 import * as d3 from 'd3';
+import moment from "moment";
 
 export interface MoneyDatum {
     value: number;
@@ -58,7 +59,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     // Selections
     xAxis$: d3.Selection<SVGGElement, Date, null, undefined>;
     yAxis$: d3.Selection<SVGGElement, number, null, undefined>;
-    
+
     // Tooltips
     tooltipX: number | undefined;
     tooltipItem: MoneyDatum | undefined;
@@ -68,7 +69,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     tooltipLeft: number;
 
     viewInit: boolean;
-    
+
     clearFilters: Action;
 
     constructor(
@@ -110,7 +111,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     ngOnChanges(changes: SimpleChanges) {
 
         if(!this.x) {
-            
+
             // Scales
             this.x = d3.scaleUtc()
                 .range([0, this.innerWidth]);
@@ -123,9 +124,9 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
             this.c = d3.scaleOrdinal<string>()
                 .range(d3.schemeCategory10);
-                
+
         }
-        
+
         // Resize handling
 
         if(changes["height"]) {
@@ -148,19 +149,19 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     }
 
     ngAfterViewInit() {
-        
+
         // Get native elements
         this.xAxis$ = d3.select(this.gx.nativeElement);
         this.yAxis$ = d3.select(this.gy.nativeElement);
 
-        d3.select(this.overlay.nativeElement)        
+        d3.select(this.overlay.nativeElement)
             .on("mousemove", () => this.onMousemove())
             .on("mouseout", () => this.onMouseout());
-        
+
         this.viewInit = true;
 
         this.updateChart();
-        
+
         // This is necessary to prevent "Expression has changed after check" errors
         // caused by calling updateChart inside ngAfterViewInit().
         // Unfortunately this is necessary because we need the DOM to be rendered in order fill the DOM
@@ -176,7 +177,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         this.turnoffTooltip();
 
         if(this.results) {
-            
+
             this.updateData();
 
             // Update scales
@@ -192,7 +193,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Computes the data displayed in the chart in function of the raw data provided as input
      */
     updateData() {
-        
+
         // Extract number of occurrences from the aggregation
         const counts = new Map<string,number>();
         this.results.aggregations
@@ -225,7 +226,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         return {
             value: parseFloat(val[1]),
             currency: val[0],
-            date: new Date(record.modified),
+            date: moment(record.modified).toDate(),
             count,
             rawvalue,
             record
@@ -253,7 +254,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         }
 
     }
-    
+
     /**
      * Update the x and y axes
      */
@@ -286,7 +287,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         //this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
 
-    
+
     /**
      * Redraw the simple tooltip (vertical line)
      */
@@ -307,7 +308,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
     /**
      * Filter the search results with the clicked amount of money
-     * @param datum 
+     * @param datum
      */
     filterDatum(datum: MoneyDatum) {
         const expr = this.exprBuilder.makeExpr(this.moneyColumn, datum.rawvalue, `${datum.currency} ${this.formatService.moneyFormatter(datum.value)}`)
@@ -326,7 +327,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
     /**
      * Compute the tooltip position when an amount of money is hovered
-     * @param datum 
+     * @param datum
      */
     onMouseEnterDatum(datum: MoneyDatum) {
 
@@ -356,7 +357,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         }
         this.tooltipTop = scale * (this.margin.top + y); // Align tooltip arrow
     }
-    
+
     /**
      * Turns off the tooltip
      */
