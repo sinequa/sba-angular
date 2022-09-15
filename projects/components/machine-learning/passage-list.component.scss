@@ -10,7 +10,7 @@
   white-space: break-spaces;
 
   &.expanded {
-    max-height: 30rem;
+    max-height: var(--maximum);
   }
 }
 

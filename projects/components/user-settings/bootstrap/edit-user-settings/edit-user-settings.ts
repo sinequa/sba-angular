@@ -92,7 +92,7 @@ export class BsEditUserSettings implements OnInit {
             }
             else if (Utils.isObject(value)) {
                 if (Utils.isDate(value)) {
-                    obj[key] = new Date(value.valueOf());
+                    obj[key] = new Date(value.getTime());
                 }
                 else if (Utils.isRegExp(value)) {
                     obj[key] = new RegExp(value);

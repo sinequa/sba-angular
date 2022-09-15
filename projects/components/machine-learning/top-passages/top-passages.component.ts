@@ -55,7 +55,6 @@ export class TopPassagesComponent {
 
   titleClicked(e: Event, index: number, record: Record) {
     e.stopImmediatePropagation();
-    this.selected = index;
     this.onClick.emit(record);
   }
 
