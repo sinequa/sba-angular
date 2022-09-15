@@ -3,7 +3,6 @@ import {Subject} from "rxjs";
 import {UserSettingsWebService, AuditEvents, Record} from "@sinequa/core/web-services";
 import {SearchService} from "@sinequa/components/search";
 import {Utils} from "@sinequa/core/base";
-import moment from "moment";
 
 
 export interface RecentDocument {
@@ -190,7 +189,7 @@ export class RecentDocumentsService implements OnDestroy {
                 docformat: record.docformat,
                 authors: record.authors,
 
-                date: moment().toDate(),
+                date: new Date(),
                 original: original
             });
         }

@@ -111,15 +111,15 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
 
         if (this.format) {
             if (this.column && AppService.isDate(this.column)) {
-                const m = moment(value1);
-                const date = m.toDate();
+                const date = new Date(value1);
+                const m = moment(date);
                 return this.intlService.formatMessage(this.format, {date: date, time: Utils.getTime(date), weekDay: m.weekday(), week: m.week(), weekYear: m.weekYear()});
             }
             else {
                 return this.intlService.formatMessage(this.format, {value: value1});
             }
         }
-        return this.formatService.formatFieldValue(this.column && AppService.isDate(this.column) ? moment(value1).toDate() : value1, this.column);
+        return this.formatService.formatFieldValue(this.column && AppService.isDate(this.column) ? new Date(value1) : value1, this.column);
     }
 
     protected roundAdjustment(value: number, multiple: number, roundType: RoundType): number {
@@ -182,7 +182,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
 
     protected _round(value: number, step: number, target: RoundTarget, multiple: number,  roundType = RoundType.down): number {
         if (this.column && AppService.isDate(this.column)) {
-            let date = moment(value).toDate();
+            let date = new Date(value);
             if (roundType === RoundType.nearest) {
                 // round to the nearest target year, month or day to adjust for the linear step size and leap years
                 date = this._getNearestTargetDate(date, target);
@@ -519,7 +519,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
                     );
                     if (AppService.isDate(this.column)) {
                         value =  value.map(
-                            (val) => val ? moment(val).toDate().getTime() : val
+                            (val) => val ? new Date(val).getTime() : val
                         );
                     }
                     return value;
@@ -534,8 +534,8 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         let valTo;
         let expression: string | undefined;
         if (this.column) {
-            valFrom = AppService.isDate(this.column) && Utils.isNumber(from) ? moment(from).toDate() : from;
-            valTo = AppService.isDate(this.column) && Utils.isNumber(to) ? moment(to).toDate() : to;
+            valFrom = AppService.isDate(this.column) && Utils.isNumber(from) ? new Date(from) : from;
+            valTo = AppService.isDate(this.column) && Utils.isNumber(to) ? new Date(to) : to;
             if (!!valFrom && !!valTo) {
                 expression = this.exprBuilder.makeRangeExpr(this.column.name, valFrom, valTo);
             } else if (!!valFrom) {

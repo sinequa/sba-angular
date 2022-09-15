@@ -457,7 +457,7 @@ export class Utils {
         if (!ms && ms !== 0) {
             return undefined;
         }
-        return moment(ms + moment(ms).toDate().getTimezoneOffset() * 60000).toDate(); // get date in UTC
+        return new Date(ms + new Date(ms).getTimezoneOffset() * 60000); // get date in UTC
     }
 
     /**
@@ -469,7 +469,7 @@ export class Utils {
      static fromDate(date: Date): Date | undefined {
         const ms = Date.parse(date.toString());
         if (!ms && ms !== 0) return undefined;
-        return moment(ms - date.getTimezoneOffset() * 60000).toDate();
+        return new Date(ms - date.getTimezoneOffset() * 60000);
     }
 
     /**
@@ -489,7 +489,7 @@ export class Utils {
      * Return the current date and time
      */
     static get now(): Date {
-        return moment().toDate();
+        return new Date();
     }
 
     /**

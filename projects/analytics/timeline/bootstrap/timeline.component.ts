@@ -4,7 +4,6 @@ import * as d3 from 'd3';
 
 import { IntlService } from '@sinequa/core/intl';
 import {Record} from '@sinequa/core/web-services';
-import moment from 'moment';
 
 
 export interface TimelineDate {
@@ -328,8 +327,8 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const minDiff = this.minZoomDays * 24 * 60 * 60 * 1000;
         if(diff < minDiff) {
             const delta = 0.5 * (minDiff - diff); // Delta is the amount of time missing before and after
-            xExtent[0] = moment(xExtent[0].getTime() - delta).toDate();
-            xExtent[1] = moment(xExtent[0].getTime() + delta).toDate();
+            xExtent[0] = new Date(xExtent[0].getTime() - delta);
+            xExtent[1] = new Date(xExtent[0].getTime() + delta);
         }
 
         this.x.domain(xExtent);

@@ -3,7 +3,6 @@ import {HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpParams} from "
 import {Observable} from "rxjs";
 import {START_CONFIG, StartConfig, AuditRecord, AuditEvent, AuditEvents} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
-import moment from "moment";
 
 /**
  * An `HttpInterceptor` to process audi events attached to the request body
@@ -75,7 +74,7 @@ export class AuditInterceptor implements HttpInterceptor {
         if(!this.sessionid || this.isSessionStale()) {
             this.sessionid = Utils.guid();
         }
-        this.sessionstart = moment().toDate();
+        this.sessionstart = new Date();
         return this.sessionid;
     }
 
@@ -83,7 +82,7 @@ export class AuditInterceptor implements HttpInterceptor {
      * Test whether the current session id valid or stale (need to be refreshed)
      */
     private isSessionStale(): boolean {
-        const lastSession = moment().toDate().getTime() - this.sessionstart.getTime();
+        const lastSession = new Date().getTime() - this.sessionstart.getTime();
         // Consider the session stale after 10 minutes
         return lastSession > 10 * 60 * 1000;
     }

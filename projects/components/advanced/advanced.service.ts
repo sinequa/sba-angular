@@ -23,7 +23,6 @@ import {
 } from "@sinequa/core/app-utils";
 import { ValidationService } from "@sinequa/core/validation";
 import { CCColumn } from "@sinequa/core/web-services";
-import moment from "moment";
 
 /**
  * Defines the possible basic types of an advanced value
@@ -637,7 +636,7 @@ export class AdvancedService {
         ) {
             rangeType = 0;
         } else if (column && AppService.isDate(column)) {
-            rangeType = moment().toDate();
+            rangeType = new Date();
         } else {
             rangeType = "";
         }
