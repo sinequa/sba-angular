@@ -154,7 +154,7 @@ export class Utils {
                 const src = obj[key];
                 if (deep && Utils.isObject(src)) {
                     if (Utils.isDate(src)) {
-                        dst[key] = moment(src.valueOf()).toDate();
+                        dst[key] = new Date(src.getTime());
                     }
                     else if (Utils.isRegExp(src)) {
                         dst[key] = new RegExp(src);
