@@ -6,7 +6,6 @@ import { MapOf, Utils } from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
 
 import {JsonInfo} from '../user-settings-editor/jsonInfo.model';
-import moment from 'moment';
 
 /**
  * Opens a dialog to modify the user settings.
