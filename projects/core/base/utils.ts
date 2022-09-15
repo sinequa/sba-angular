@@ -363,7 +363,7 @@ export class Utils {
             } else if (Utils.isTypedArray(source)) {
                 destination = new source.constructor(source);
             } else if (Utils.isDate(source)) {
-                destination = moment(source.getTime()).toDate();
+                destination = new Date(source.getTime());
             } else if (Utils.isRegExp(source)) {
                 const matches = source.toString().match(/[^\/]*$/);
                 destination = new RegExp(source.source, matches ? matches[0] : "");
