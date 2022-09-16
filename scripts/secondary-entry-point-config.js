@@ -53,7 +53,6 @@ module.exports = {
             "fusioncharts/fusioncharts.charts": "charts",
             "fusioncharts/themes/fusioncharts.theme.fusion":    "FusionTheme",
             "fusioncharts/themes/fusioncharts.theme.candy":     "CandyTheme",
-            "vis-data/peer/esm/vis-data":       "visData",
             "element-resize-detector":          "elementResizeDetectorMaker",
             "ag-grid-angular":                  "ag-grid-angular",
             "marked":                           "markdown"
