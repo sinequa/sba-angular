@@ -12,11 +12,13 @@ nav_order: 4
 
 Please checkout the [reference documentation]({{site.baseurl}}analytics/modules/VisTimelineModule.html) auto-generated from source code.
 
-Also checkout the official documentation of the [Vis Timeline](https://visjs.github.io/vis-timeline/docs/timeline/) library, as well as the Git repository of the [ngx-vis](https://github.com/visjs/ngx-vis) library.
+Also checkout the official documentation of the [Vis Timeline](https://visjs.github.io/vis-timeline/docs/timeline/) library.
+
+This module reuses code from the [ngx-vis](https://github.com/visjs/ngx-vis) project. The documentation from this project is valid, except the directive and service are packaged in this Sinequa module.
 
 ## Features
 
-This module includes a sample Timeline visualization for dates and events, based on the [Vis library](https://visjs.org/) and its Angular adapter [ngx-vis](https://github.com/visjs/ngx-vis). The timeline can display punctual *dates* (generic events) or *events* (dates associated to an event name).
+This module includes a sample Timeline visualization for dates and events, based on the [Vis library](https://visjs.org/). The timeline can display punctual *dates* (generic events) or *events* (dates associated to an event name).
 
 The module only includes one component, which can be used as is, or more probably taken as a starting point for further development using the Vis library API.
 
@@ -71,7 +73,7 @@ A **date** can be a JavaScript [`Date`](https://developer.mozilla.org/fr/docs/We
 
 An **event** is a date associated to an event name. The association is done by formatting the field as `(Event name)#(Date)`, which is the standard format of cooccurrence normalization in the Sinequa platform. For example, the event `(Birthday)#(2021-04-24)` can be extracted from documents with a cooccurrence associating two entities: One for the event names (eg. a whitelist entity) and one for the dates (eg. a TMA entity).
 
-⚠️ Note that you may have other type of data to display on this timeline. Rather than trying to awkwardly coax your data into the data structures that this component expect, we recommend you to create your own component using the [Vis](https://visjs.org/) and [ngx-vis](https://github.com/visjs/ngx-vis) APIs (in particular the `visTimeline` directive, as documented [here](https://github.com/visjs/ngx-vis/blob/develop/demo/timeline/timeline-example.component.ts); the [ngx-vis](https://github.com/visjs/ngx-vis) library also includes a [service](https://github.com/visjs/ngx-vis/blob/develop/components/timeline/vis-timeline.service.ts) to listen to user events, like clicks on the dates and events).
+⚠️ Note that you may have other type of data to display on this timeline. Rather than trying to awkwardly coax your data into the data structures that this component expect, we recommend you to create your own component using the [Vis](https://visjs.org/) and [ngx-vis](https://github.com/visjs/ngx-vis) APIs. In particular the [`[visTimeline]`]({{site.baseurl}}analytics/components/directives/VisTimelineDirective.html) directive and [`VisTimelineService`]({{site.baseurl}}analytics/injectables/VisTimelineService.html) to listen to user events, like clicks on the dates and events. Both the directive and service are packaged in the Sinequa library and can be imported with: `import {VisTimelineDirective, VisTimelineService} from '@sinequa/analytics/vis-timeline';`
 
 ### List of Inputs
 

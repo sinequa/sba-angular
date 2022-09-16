@@ -3,23 +3,21 @@ import {CommonModule} from "@angular/common";
 
 import {IntlModule} from "@sinequa/core/intl";
 
-import {VisModule} from "ngx-vis";
-
 import {ResultTimeline} from "./result-timeline/result-timeline";
+import { VisTimelineDirective } from "./vis-timeline.directive";
 
 @NgModule({
     imports: [
         CommonModule,
-
-        IntlModule,
-
-        VisModule
+        IntlModule
     ],
     declarations: [
-        ResultTimeline
+        ResultTimeline,
+        VisTimelineDirective
     ],
     exports: [
-        ResultTimeline
+        ResultTimeline,
+        VisTimelineDirective
     ]
 })
 export class VisTimelineModule {

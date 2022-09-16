@@ -6,3 +6,5 @@ export * from "./network-models";
 export * from "./network.module";
 export * from "./providers/index";
 export * from "./messages/index";
+export * from "./vis-network.directive";
+export * from "./vis-network.service";

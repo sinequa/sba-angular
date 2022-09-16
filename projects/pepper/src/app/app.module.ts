@@ -39,7 +39,6 @@ import { BsHeatmapModule } from '@sinequa/analytics/heatmap';
 import { BsTimelineModule } from '@sinequa/analytics/timeline';
 import { NgxChartsModule } from '@sinequa/analytics/ngx-charts';
 import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
-import { VisTimelineModule } from '@sinequa/analytics/vis-timeline';
 import { NetworkModule } from '@sinequa/analytics/network';
 import { GoogleMapsModule, GOOGLE_MAPS_API_KEY } from '@sinequa/analytics/googlemaps';
 import { FinanceModule } from '@sinequa/analytics/finance';
@@ -164,7 +163,6 @@ export const selectionOptions: SelectionOptions = {
         BsTimelineModule,
         NgxChartsModule,
         FusionChartsModule,
-        VisTimelineModule,
         NetworkModule,
         GoogleMapsModule,
         FinanceModule,
