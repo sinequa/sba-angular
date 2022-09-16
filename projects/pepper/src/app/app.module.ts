@@ -127,6 +127,14 @@ export const selectionOptions: SelectionOptions = {
 }
 
 
+// Import FusionCharts library and chart modules
+import * as FusionCharts from "fusioncharts";
+import * as charts from "fusioncharts/fusioncharts.charts";
+// Fusion is a light theme, Candy is a dark theme
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
+FusionCharts.options.creditLabel = false;
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -162,7 +170,7 @@ export const selectionOptions: SelectionOptions = {
         BsHeatmapModule,
         BsTimelineModule,
         NgxChartsModule,
-        FusionChartsModule,
+        FusionChartsModule.forRoot(FusionCharts, charts, FusionTheme, CandyTheme),
         NetworkModule,
         GoogleMapsModule,
         FinanceModule,

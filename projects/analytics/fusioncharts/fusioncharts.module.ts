@@ -1,23 +1,14 @@
-import { NgModule } from "@angular/core";
+import { ModuleWithProviders, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-
-import { AngularFusionChartsModule } from "./angular-fusioncharts/fusioncharts.module";
-
-// Import FusionCharts library and chart modules
-import * as FusionCharts from "fusioncharts";
-import * as charts from "fusioncharts/fusioncharts.charts";
-import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
-import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
 
 import { IntlModule } from '@sinequa/core/intl';
 import { BsSelectionModule } from '@sinequa/components/selection';
 import { UtilsModule } from "@sinequa/components/utils";
 
 import { FusionChart } from "./chart/chart";
+import { FusionChartsComponent } from "./angular-fusioncharts/fusioncharts.component";
+import { FusionChartsService, FusionChartsStatic } from "./angular-fusioncharts/fusioncharts.service";
 
-FusionCharts.options.creditLabel = false;
-// Fusion is a light theme, Candy is a dark theme
-AngularFusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme, CandyTheme);
 
 @NgModule({
 
@@ -25,14 +16,31 @@ AngularFusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme, CandyTheme);
         CommonModule,
         IntlModule,
         UtilsModule,
-        BsSelectionModule,
-        AngularFusionChartsModule
+        BsSelectionModule
     ],
     declarations: [
+        FusionChartsComponent,
         FusionChart
     ],
     exports: [
+        FusionChartsComponent,
         FusionChart
-    ],
+    ]
 })
-export class FusionChartsModule {}
+export class FusionChartsModule {
+  static forRoot(core: any, ...modules: any[]): ModuleWithProviders<FusionChartsModule> {
+    return {
+      ngModule: FusionChartsModule,
+      providers: [
+        FusionChartsService,
+        {
+          provide: FusionChartsStatic,
+          useValue: {
+            core,
+            modules
+          }
+        }
+      ]
+    }
+  }
+}
