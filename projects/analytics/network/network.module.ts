@@ -9,30 +9,30 @@ import { CollapseModule } from "@sinequa/components/collapse";
 import { BsActionModule } from "@sinequa/components/action";
 import { BsFacetModule } from "@sinequa/components/facet";
 
-import { VisModule } from 'ngx-vis';
 import { NetworkComponent } from "./network.component";
 import { BsNodeInfoCard } from "./node-info-card.component";
 import { BsEdgeInfoCard } from "./edge-info-card.component";
+import { VisNetworkDirective } from "./vis-network.directive";
 
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule, ReactiveFormsModule, 
+        FormsModule, ReactiveFormsModule,
 
         IntlModule,
         UtilsModule,
         CollapseModule,
         BsActionModule,
-        BsFacetModule,
-        
-        VisModule
+        BsFacetModule
     ],
     declarations: [
+        VisNetworkDirective,
         NetworkComponent,
         BsNodeInfoCard,
         BsEdgeInfoCard
     ],
     exports: [
+        VisNetworkDirective,
         NetworkComponent,
         BsNodeInfoCard,
         BsEdgeInfoCard

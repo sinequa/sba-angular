@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Record, EntityItem} from "@sinequa/core/web-services";
-import {TimelineOptions, DataItem, VisTimelineService} from "ngx-vis";
+import {TimelineOptions, DataItem} from "vis-timeline/esnext";
+import { VisTimelineService } from "../vis-timeline.service";
 
 import moment from "moment";
 
@@ -20,8 +21,8 @@ export const defaultOptions : TimelineOptions = {
 export class ResultTimeline implements OnChanges {
     @Input() name = "vis-timeline";
     @Input() record: Record;
-    @Input() dates: EntityItem[];
-    @Input() events: EntityItem[];
+    @Input() dates: EntityItem[] | undefined;
+    @Input() events: EntityItem[] | undefined;
     @Input() min_year: number = 0;
     @Input() max_year: number = 10000;
     @Input() min_dates: number = 1;

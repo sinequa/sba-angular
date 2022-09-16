@@ -88,13 +88,10 @@
     "ng2-ui-auth": "^10.0.1",
     "ng5-slider": "^1.2.4",
     "ngx-bootstrap": "^8.0.0",
-    "ngx-vis": "^3.1.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.3.1",
-    "vis-data": "6.5.1",
-    "vis-network": "7.6.2",
-    "vis-timeline": "^7.4.4",
-    "vis-util": "4.0.0",
+    "vis-network": "9.1.2",
+    "vis-timeline": "7.7.0",
     "zone.js": "~0.11.4"
   },
   "overrides": {

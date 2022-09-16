@@ -45,8 +45,8 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 }
 
 // Vis.js styles
-@import "vis-timeline/dist/vis-timeline-graph2d.min";
-@import "vis-network/dist/vis-network.min";
+//@import "vis-timeline/dist/vis-timeline-graph2d.min";
+@import "vis-network/dist/dist/vis-network.min";
 
 // Validation
 sq-validation-message {

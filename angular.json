@@ -426,7 +426,8 @@
               "fusioncharts/themes/fusioncharts.theme.fusion",
               "fast-text-encoding",
               "diacritics",
-              "clone-deep"
+              "clone-deep",
+              "keycharm"
             ]
           },
           "configurations": {

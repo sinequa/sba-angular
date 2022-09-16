@@ -10,8 +10,9 @@ import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
 
-import { Options, VisNetworkService } from 'ngx-vis';
-import { DataSet } from "vis-data/peer/esm/vis-data";
+import { VisNetworkService } from './vis-network.service';
+import { Options } from 'vis-network/esnext';
+import { DataSet } from 'vis-data/esnext';
 
 import { Node, Edge, NetworkDataset, NetworkProvider, NetworkContext } from './network-models';
 import { IntlService } from '@sinequa/core/intl';
