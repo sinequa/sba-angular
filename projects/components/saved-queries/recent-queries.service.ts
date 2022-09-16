@@ -229,7 +229,7 @@ export class RecentQueriesService implements OnDestroy {
     private patchRecentQueries(auditEvents?: AuditEvents) {
         // Do not forget to revert back the date conversion done when fetched
         const recentQueries = this.recentqueries.map(query => ({...query, date: Utils.fromDate(query.date)}));
-        
+
         return this.userSettingsService.patch({recentQueries}, auditEvents)
             .subscribe(
                 next => {

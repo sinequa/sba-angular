@@ -12,6 +12,7 @@ import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
 import { mouse } from 'd3';
+import moment from "moment";
 
 export interface MoneyDatum {
     value: number;
@@ -229,7 +230,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         return {
             value: parseFloat(val[1]),
             currency: val[0],
-            date: new Date(record.modified),
+            date: moment(record.modified).toDate(),
             count,
             rawvalue,
             record
