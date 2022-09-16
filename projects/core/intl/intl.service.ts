@@ -760,7 +760,7 @@ export class IntlService implements OnDestroy {
      */
     formatTime(value: string | number | Date, options: Intl.DateTimeFormatOptions & { format?: string } = {}): string {
         const {format} = options;
-        const date = value instanceof Date ? value : new Date(value);
+        const date = value instanceof Date ? value : moment(value).toDate();
         const defaults = (format && this.getNamedFormat("time", format)) || {};
         let filteredOptions = this.filterProps(options, DATE_TIME_FORMAT_OPTIONS, defaults);
         if (!filteredOptions.hour && !filteredOptions.minute && !filteredOptions.second) {
@@ -825,7 +825,7 @@ export class IntlService implements OnDestroy {
             return "";
         }
         if (Utils.isString(value)) {
-            value = new Date(value);
+            value = moment(value).toDate();
         }
         if (Utils.isDate(value)) {
             const params =  this.makeRelativeTimeParams(value);

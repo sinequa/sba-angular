@@ -53,7 +53,7 @@ export class ResultTimeline implements OnChanges {
         events.forEach(event => {
             const data_date = event.display;
             const cooc = data_date.substring(1,data_date.length-1).split(")#(");
-            const date = new Date(cooc[1]);
+            const date = moment(cooc[1]).toDate();
             //console.log("cooc1:",data_date[i+2]);
             //const pos = event.locations.split(",")[0];
             //console.log(cooc);

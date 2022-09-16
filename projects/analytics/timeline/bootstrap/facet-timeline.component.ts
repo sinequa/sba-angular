@@ -175,13 +175,13 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                     parsedexpr = parsedexpr.operands[0];
                 }
                 if(parsedexpr.values){
-                    this.selection = [new Date(parsedexpr.values[0]), new Date(parsedexpr.values[1])];
+                    this.selection = [moment(parsedexpr.values[0]).toDate(), moment(parsedexpr.values[1]).toDate()];
                     // Guess a current range based on the selection
                     if(!this.currentRange) {
                         const interval = this.selection[1].getTime() - this.selection[0].getTime();
                         this.currentRange = [ // Selected Interval +10% on each side
-                            new Date(this.selection[0].getTime()-interval*0.1),
-                            new Date(this.selection[1].getTime()+interval*0.1)
+                            moment(this.selection[0].getTime()-interval*0.1).toDate(),
+                            moment(this.selection[1].getTime()+interval*0.1).toDate()
                         ];
                     }
                 }
