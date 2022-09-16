@@ -32,7 +32,7 @@
         </g>
 
         <!-- Tooltip line -->
-        <g class="tooltip-line" [attr.clip-path]="'url(#clip'+instance+')'" *ngIf="showTooltip && tooltipX && !zooming && !brushing && !currentSelection">
+        <g class="tooltip-line" [attr.clip-path]="'url(#clip'+instance+')'" *ngIf="showTooltip && tooltipX && !zooming && !brushing">
             <line [attr.x1]="tooltipX" [attr.x2]="tooltipX" y1="0" [attr.y2]="innerHeight"></line>
             <text [attr.x]="tooltipX < innerWidth*0.75 ? tooltipX + 5 : tooltipX - 5" y="10"
                 [attr.text-anchor]="tooltipX < innerWidth*0.75 ? 'start' : 'end'" class="tooltip-text">

@@ -11,7 +11,6 @@ import { schemeCategory10 } from "d3-scale-chromatic";
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
-import { mouse } from 'd3';
 import moment from "moment";
 
 export interface MoneyDatum {
@@ -56,9 +55,9 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     c: d3.ScaleOrdinal<string, string>;
 
     // Elements
-    @ViewChild("overlay") overlay: ElementRef;
-    @ViewChild("xAxis") gx: ElementRef;
-    @ViewChild("yAxis") gy: ElementRef;
+    @ViewChild("overlay") overlay: ElementRef<SVGRectElement>;
+    @ViewChild("xAxis") gx: ElementRef<SVGGElement>;
+    @ViewChild("yAxis") gy: ElementRef<SVGGElement>;
 
     // Selections
     xAxis$: d3.Selection<SVGGElement, Date, null, undefined>;
@@ -159,7 +158,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         this.yAxis$ = select(this.gy.nativeElement);
 
         select(this.overlay.nativeElement)
-            .on("mousemove", () => this.onMousemove())
+            .on("mousemove", e => this.onMousemove(e))
             .on("mouseout", () => this.onMouseout());
 
         this.viewInit = true;
@@ -295,11 +294,19 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     /**
      * Redraw the simple tooltip (vertical line)
      */
-    onMousemove() {
+    onMousemove(event) {
         if(!this.tooltipItem && this.showTooltip) {
-            this.tooltipX = mouse(this.overlay.nativeElement)[0];
+            this.tooltipX = this.point(this.overlay.nativeElement, event)[0];
         }
         this.tooltipItem = undefined;
+    }
+
+    /**
+     * Equivalent of former d3.mouse()
+     */
+     private point(node: SVGElement, event: MouseEvent) {
+      var rect = node.getBoundingClientRect();
+      return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
     }
 
     /**
