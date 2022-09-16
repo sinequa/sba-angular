@@ -92,6 +92,7 @@
     "ngx-bootstrap": "^8.0.0",
     "propagating-hammerjs": "2.0.1",
     "rxjs": "~6.6.3",
+    "timsort": "^0.3.0",
     "tslib": "^2.3.1",
     "vis-data": "7.1.4",
     "vis-network": "9.1.2",
