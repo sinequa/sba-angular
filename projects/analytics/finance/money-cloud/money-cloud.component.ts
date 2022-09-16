@@ -6,9 +6,11 @@ import { SelectionService } from "@sinequa/components/selection";
 import { ExprBuilder, FormatService, ValueItem } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { AggregationItem, Results } from "@sinequa/core/web-services";
-
-import * as d3 from 'd3';
-
+import { scaleBand, scaleLog, scaleOrdinal, scaleLinear } from "d3-scale";
+import { schemeCategory10 } from "d3-scale-chromatic";
+import { select } from 'd3-selection';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { extent } from 'd3-array';
 
 export interface MoneyCloudDatum {
     value: number;
@@ -60,7 +62,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     // Selections
     xAxis$: d3.Selection<SVGGElement, string, null, undefined>;
     yAxis$: d3.Selection<SVGGElement, number, null, undefined>;
-    
+
     // Tooltips
     tooltipItem: MoneyCloudDatum | undefined;
     tooltipOrientation: "left" | "right";
@@ -69,7 +71,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     tooltipLeft: number;
 
     viewInit: boolean;
-    
+
     clearFilters: Action;
 
     constructor(
@@ -114,24 +116,24 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     ngOnChanges(changes: SimpleChanges) {
 
         if(!this.x) {
-            
-            // Scales
-            this.x = d3.scaleBand<string>()
-                .range([0, this.innerWidth]);
-                
-            this.x_inner = d3.scaleLinear<number, number>();
 
-            this.y = d3.scaleLog()
+            // Scales
+            this.x = scaleBand<string>()
+                .range([0, this.innerWidth]);
+
+            this.x_inner = scaleLinear<number, number>();
+
+            this.y = scaleLog()
                 .range([this.innerHeight, 0]);
 
-            this.r = d3.scaleLog()
+            this.r = scaleLog()
                 .range([4, 10]);
 
-            this.c = d3.scaleOrdinal<string>()
-                .range(d3.schemeCategory10);
-                
+            this.c = scaleOrdinal<string>()
+                .range(schemeCategory10);
+
         }
-        
+
         // Resize handling
 
         if(changes["height"]) {
@@ -154,18 +156,18 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     }
 
     ngAfterViewInit() {
-        
-        // Get native elements
-        this.xAxis$ = d3.select(this.gx.nativeElement);
-        this.yAxis$ = d3.select(this.gy.nativeElement);
 
-        d3.select(this.overlay.nativeElement)        
+        // Get native elements
+        this.xAxis$ = select(this.gx.nativeElement);
+        this.yAxis$ = select(this.gy.nativeElement);
+
+        select(this.overlay.nativeElement)
             .on("mousemove", () => this.onMousemove());
-        
+
         this.viewInit = true;
 
         this.updateChart();
-        
+
         // This is necessary to prevent "Expression has changed after check" errors
         // caused by calling updateChart inside ngAfterViewInit().
         // Unfortunately this is necessary because we need the DOM to be rendered in order fill the DOM
@@ -178,7 +180,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         this.turnoffTooltip();
 
         if(this.results) {
-            
+
             this.updateData();
 
             // Update scales
@@ -193,7 +195,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     updateData() {
 
         this.updateSelectedItems();
-        
+
         const counts = new Map<string, number>();
 
         this.data = [];
@@ -224,7 +226,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         // Check the data is valid
         if(isNaN(value) || value <= 0) {
             return undefined;
-        }        
+        }
         counts.set(category, (counts.get(category) || 0) + 1);
         return {
             value,
@@ -239,8 +241,8 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     updateScales() {
 
         if(this.data.length) {
-            const yExtent = d3.extent<MoneyCloudDatum, number>(this.data, d => d.value);
-            const rExtent = d3.extent<MoneyCloudDatum, number>(this.data, d => d.count);
+            const yExtent = extent<MoneyCloudDatum, number>(this.data, d => d.value);
+            const rExtent = extent<MoneyCloudDatum, number>(this.data, d => d.count);
 
             if(!yExtent[0] || !yExtent[1] || !rExtent[0] || !rExtent[1]) {
                 return;
@@ -268,7 +270,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
             });
         });
     }
-    
+
     /**
      * Update the x and y axes
      */
@@ -281,7 +283,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
      * Draws the X axis
      */
      protected drawXAxis() {
-        const xAxis = d3.axisBottom(this.x);
+        const xAxis = axisBottom(this.x);
         this.xAxis$.call(xAxis);
         //this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
@@ -293,7 +295,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         const yAxisTicks = this.y.ticks(5)
             .filter(tick => Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
 
-        const yAxis = d3.axisLeft<number>(this.y)
+        const yAxis = axisLeft<number>(this.y)
             .tickSizeInner(-this.innerWidth)
             .tickValues(yAxisTicks)
             .tickFormat(this.formatService.moneyFormatter); //https://github.com/d3/d3-format
@@ -301,7 +303,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         //this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
 
-    
+
     /**
      * Redraw the simple tooltip (vertical line)
      */
@@ -346,7 +348,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         }
         this.tooltipTop = scale * (this.margin.top + y); // Align tooltip arrow
     }
-    
+
     /**
      * Turns off the tooltip
      */

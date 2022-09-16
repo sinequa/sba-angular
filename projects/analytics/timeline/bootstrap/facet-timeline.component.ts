@@ -10,8 +10,9 @@ import { SelectionService } from '@sinequa/components/selection';
 import { Action } from '@sinequa/components/action';
 import { TimelineSeries, TimelineDate, TimelineEvent } from './timeline.component';
 import moment from 'moment';
-import * as d3 from 'd3';
 import { TimelineEventType } from './timeline-legend.component';
+import { timeFormat } from 'd3-time-format';
+import { timeMonth, timeDay, timeHour, timeWeek, timeYear } from 'd3-time';
 
 export interface TimelineAggregation {
     name?: string;
@@ -104,7 +105,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     currentRange?: [Date, Date];
 
     // Formating method for search queries
-    formatDayRequest = d3.timeFormat("%Y-%m-%d");
+    formatDayRequest = timeFormat("%Y-%m-%d");
 
     // Actions
     clearFilters: Action;
@@ -378,7 +379,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      * @param iTimeseries
      */
     updateCombinedAggregation(config: TimelineCombinedAggregations, range: [Date, Date], timeseries$: ReplaySubject<TimelineSeries>) {
-        const nmonths = d3.timeMonth.count(range[0], range[1]);
+        const nmonths = timeMonth.count(range[0], range[1]);
 
         if(!config.maxNMonths || config.maxNMonths.length !== config.aggregations.length) {
             console.error(config);
@@ -581,10 +582,10 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      */
     static shiftDate(date: Date, resolution: string): Date {
         switch(resolution){
-            case "YYYY-MM-DD": return d3.timeHour.offset(date, 12);
-            case "YYYY-WW": return d3.timeHour.offset(date, 84); // 3*24 + 12
-            case "YYYY-MM": return d3.timeDay.offset(date, 15);
-            case "YYYY": return d3.timeMonth.offset(date, 6);
+            case "YYYY-MM-DD": return timeHour.offset(date, 12);
+            case "YYYY-WW": return timeHour.offset(date, 84); // 3*24 + 12
+            case "YYYY-MM": return timeDay.offset(date, 15);
+            case "YYYY": return timeMonth.offset(date, 6);
         }
         return date;
     }
@@ -592,12 +593,12 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     static getD3TimeInterval(resolution: string): d3.CountableTimeInterval {
         switch(resolution){
-            case "YYYY-MM-DD": return d3.timeDay;
-            case "YYYY-WW": return d3.timeWeek;
-            case "YYYY-MM": return d3.timeMonth;
-            case "YYYY": return d3.timeYear;
+            case "YYYY-MM-DD": return timeDay;
+            case "YYYY-WW": return timeWeek;
+            case "YYYY-MM": return timeMonth;
+            case "YYYY": return timeYear;
         }
-        return d3.timeDay;
+        return timeDay;
     }
 
     static defaultRecordStyle(selected: boolean): {[key: string]: any} {
