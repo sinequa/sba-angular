@@ -92,6 +92,8 @@
     "tslib": "^2.3.1",
     "vis-network": "9.1.2",
     "vis-timeline": "7.7.0",
+    "vis-data": "7.1.4",
+    "vis-util": "5.0.3",
     "zone.js": "~0.11.4"
   },
   "overrides": {
