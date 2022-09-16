@@ -1,6 +1,9 @@
 import { Component, ElementRef, Output, EventEmitter, Input, ViewChild, OnChanges, AfterViewInit } from '@angular/core';
-
-import * as d3 from 'd3';
+import { axisLeft, axisTop } from 'd3-axis';
+import { scaleBand, scaleQuantile } from 'd3-scale';
+import { select } from 'd3-selection';
+import { transition } from 'd3-transition';
+import { schemeBlues, schemeReds, schemeGreens, schemeRdBu, schemeSpectral, schemeYlGnBu } from 'd3-scale-chromatic';
 
 export interface HeatmapItem {
     x: string;
@@ -9,6 +12,15 @@ export interface HeatmapItem {
     value: string;
     display: string;
     selected?: boolean;
+}
+
+export const colorSchemes = {
+  schemeBlues,
+  schemeReds,
+  schemeGreens,
+  schemeRdBu,
+  schemeSpectral,
+  schemeYlGnBu
 }
 
 @Component({
@@ -38,7 +50,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     @Input() maxX = 20; // Max items on X
     @Input() maxY = 20; // Max items on Y
     @Input() theme: "light" | "dark" = "light";
-    
+
     // Events from user interactions
     @Output() itemClicked = new EventEmitter<HeatmapItem>();
     @Output() axisClicked = new EventEmitter<{value: string, axis: 'x' | 'y'}>();
@@ -53,11 +65,11 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     @ViewChild("yAxis") gy: ElementRef;
     xAxis: d3.Selection<SVGGElement, string, null, undefined>;
     yAxis: d3.Selection<SVGGElement, string, null, undefined>;
-    
+
     // Data actually displayed
     dataFiltered: HeatmapItem[] = [];
 
-    // Tooltip    
+    // Tooltip
     tooltipItem?: HeatmapItem;
     tooltipOrientation: "left" | "right";
     tooltipTop: number;
@@ -85,17 +97,17 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
         this.dataFiltered = this.data.filter(value => xLabels.includes(value.x) && yLabels.includes(value.y));
 
         // Create scales
-        this.x = d3.scaleBand<string>()
+        this.x = scaleBand<string>()
             .domain(xLabels)
             .range([0, this.width-this.margin.left-this.margin.right]);
 
-        this.y = d3.scaleBand<string>()
+        this.y = scaleBand<string>()
             .domain(yLabels)
             .range([0, this.height-this.margin.top-this.margin.bottom]);
 
-        this.color = d3.scaleQuantile<string>()
+        this.color = scaleQuantile<string>()
             .domain(this.dataFiltered.map(item => item.count))
-            .range(d3[this.colorScheme][this.buckets]);
+            .range(colorSchemes[this.colorScheme][this.buckets]);
 
         // Note: ngOnChanges is always called once, before ngAfterViewInit
         if(this.viewInit) {
@@ -106,37 +118,37 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     // Note: In onAfterViewInit we can access gx and gy, obtained with @ViewChild.
     // At this point we can call buildChart()
     ngAfterViewInit(){
-        this.xAxis = d3.select(this.gx.nativeElement);
-        this.yAxis = d3.select(this.gy.nativeElement);
+        this.xAxis = select(this.gx.nativeElement);
+        this.yAxis = select(this.gy.nativeElement);
         this.viewInit = true;
 
         this.buildChart();
     }
-    
+
     /**
      * buildChart() actually only builds the axes of the chart, since the
      * rest is build automatically with Angular syntax in the template.
      * We build axis programmatically (with D3 selects) to benefit from the
      * D3 abstractions and transitions.
-     * @param update 
+     * @param update
      */
     buildChart(update?: boolean){
-                    
+
         if(update){
-            const t = d3.transition().duration(this.transition) as d3.Transition<any, any, any, any>;
-    
+            const t = transition().duration(this.transition) as d3.Transition<any, any, any, any>;
+
             this.xAxis.transition(t)
-                .call(d3.axisTop<string>(this.x).tickSize(0))
+                .call(axisTop<string>(this.x).tickSize(0))
                 .on("end", () => this.xAxis.selectAll<SVGTextElement, string>('text').each(this.wrap));
 
             this.yAxis.transition(t)
-                .call(d3.axisLeft<string>(this.y).tickSize(0))
+                .call(axisLeft<string>(this.y).tickSize(0))
                 .on("end", () => this.yAxis.selectAll<SVGTextElement, string>('text').each(this.wrap));
-            
+
         }
         else {
-            this.xAxis.call(d3.axisTop<string>(this.x).tickSize(0));
-            this.yAxis.call(d3.axisLeft<string>(this.y).tickSize(0));
+            this.xAxis.call(axisTop<string>(this.x).tickSize(0));
+            this.yAxis.call(axisLeft<string>(this.y).tickSize(0));
         }
 
         this.xAxis.selectAll(".domain").remove(); // Remove the axis line
@@ -154,8 +166,8 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
 
     /**
      * Called when the user hovers the mouse over a heatmap tile
-     * @param item 
-     * @param event 
+     * @param item
+     * @param event
      */
     onMouseOver(item: HeatmapItem, event: MouseEvent){
         this.tooltipItem = item;
@@ -184,7 +196,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
 
     /**
      * Called when the user clicks on a heatmap tile
-     * @param item 
+     * @param item
      */
     onItemClicked(item: HeatmapItem){
         if(this.itemsClickable){
@@ -194,8 +206,8 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
 
     /**
      * Called when the user clicks on an axis item
-     * @param value 
-     * @param axis 
+     * @param value
+     * @param axis
      */
     onAxisClicked(value: string, axis: 'x' | 'y'){
         if(this.axisClickable){
@@ -228,7 +240,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
      * Truncates the axis strings to fit inside 90px width
      */
     wrap = (d: string, i: number, nodes: SVGTextElement[] | ArrayLike<SVGTextElement>) => {
-        const self = d3.select(nodes[i]);
+        const self = select(nodes[i]);
         let textLength = nodes[i].getComputedTextLength();
         let text = self.text();
         const fullText = self.text();

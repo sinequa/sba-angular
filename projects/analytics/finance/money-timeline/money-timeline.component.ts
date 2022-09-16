@@ -6,8 +6,12 @@ import { ExprBuilder } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { Results, Record } from "@sinequa/core/web-services";
 import { FormatService } from "@sinequa/core/app-utils";
-
-import * as d3 from 'd3';
+import { scaleUtc, scaleLog, scaleOrdinal } from "d3-scale";
+import { schemeCategory10 } from "d3-scale-chromatic";
+import { select } from 'd3-selection';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { extent } from 'd3-array';
+import { mouse } from 'd3';
 
 export interface MoneyDatum {
     value: number;
@@ -58,7 +62,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     // Selections
     xAxis$: d3.Selection<SVGGElement, Date, null, undefined>;
     yAxis$: d3.Selection<SVGGElement, number, null, undefined>;
-    
+
     // Tooltips
     tooltipX: number | undefined;
     tooltipItem: MoneyDatum | undefined;
@@ -68,7 +72,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     tooltipLeft: number;
 
     viewInit: boolean;
-    
+
     clearFilters: Action;
 
     constructor(
@@ -110,22 +114,22 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     ngOnChanges(changes: SimpleChanges) {
 
         if(!this.x) {
-            
+
             // Scales
-            this.x = d3.scaleUtc()
+            this.x = scaleUtc()
                 .range([0, this.innerWidth]);
 
-            this.y = d3.scaleLog()
+            this.y = scaleLog()
                 .range([this.innerHeight, 0]);
 
-            this.r = d3.scaleLog()
+            this.r = scaleLog()
                 .range([4, 10]);
 
-            this.c = d3.scaleOrdinal<string>()
-                .range(d3.schemeCategory10);
-                
+            this.c = scaleOrdinal<string>()
+                .range(schemeCategory10);
+
         }
-        
+
         // Resize handling
 
         if(changes["height"]) {
@@ -148,19 +152,19 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     }
 
     ngAfterViewInit() {
-        
-        // Get native elements
-        this.xAxis$ = d3.select(this.gx.nativeElement);
-        this.yAxis$ = d3.select(this.gy.nativeElement);
 
-        d3.select(this.overlay.nativeElement)        
+        // Get native elements
+        this.xAxis$ = select(this.gx.nativeElement);
+        this.yAxis$ = select(this.gy.nativeElement);
+
+        select(this.overlay.nativeElement)
             .on("mousemove", () => this.onMousemove())
             .on("mouseout", () => this.onMouseout());
-        
+
         this.viewInit = true;
 
         this.updateChart();
-        
+
         // This is necessary to prevent "Expression has changed after check" errors
         // caused by calling updateChart inside ngAfterViewInit().
         // Unfortunately this is necessary because we need the DOM to be rendered in order fill the DOM
@@ -176,7 +180,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         this.turnoffTooltip();
 
         if(this.results) {
-            
+
             this.updateData();
 
             // Update scales
@@ -192,7 +196,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Computes the data displayed in the chart in function of the raw data provided as input
      */
     updateData() {
-        
+
         // Extract number of occurrences from the aggregation
         const counts = new Map<string,number>();
         this.results.aggregations
@@ -238,9 +242,9 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     updateScales() {
 
         if(this.data.length) {
-            const xExtent = d3.extent<MoneyDatum, Date>(this.data, d => d.date);
-            const yExtent = d3.extent<MoneyDatum, number>(this.data, d => d.value);
-            const rExtent = d3.extent<MoneyDatum, number>(this.data, d => d.count);
+            const xExtent = extent<MoneyDatum, Date>(this.data, d => d.date);
+            const yExtent = extent<MoneyDatum, number>(this.data, d => d.value);
+            const rExtent = extent<MoneyDatum, number>(this.data, d => d.count);
 
             if(!xExtent[0] || !xExtent[1] || !yExtent[0] || !yExtent[1] || !rExtent[0] || !rExtent[1]) {
                 return;
@@ -253,7 +257,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         }
 
     }
-    
+
     /**
      * Update the x and y axes
      */
@@ -266,7 +270,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Draws the X axis
      */
      protected drawXAxis() {
-        const xAxis = d3.axisBottom(this.x)
+        const xAxis = axisBottom(this.x)
             .ticks(5);
         this.xAxis$.call(xAxis);
         //this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
@@ -279,20 +283,20 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         const yAxisTicks = this.y.ticks(5)
             .filter(tick => Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
 
-        const yAxis = d3.axisLeft<number>(this.y)
+        const yAxis = axisLeft<number>(this.y)
             .tickValues(yAxisTicks)
             .tickFormat(this.formatService.moneyFormatter); //https://github.com/d3/d3-format
         this.yAxis$.call(yAxis);
         //this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
 
-    
+
     /**
      * Redraw the simple tooltip (vertical line)
      */
     onMousemove() {
         if(!this.tooltipItem && this.showTooltip) {
-            this.tooltipX = d3.mouse(this.overlay.nativeElement)[0];
+            this.tooltipX = mouse(this.overlay.nativeElement)[0];
         }
         this.tooltipItem = undefined;
     }
@@ -307,7 +311,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
     /**
      * Filter the search results with the clicked amount of money
-     * @param datum 
+     * @param datum
      */
     filterDatum(datum: MoneyDatum) {
         const expr = this.exprBuilder.makeExpr(this.moneyColumn, datum.rawvalue, `${datum.currency} ${this.formatService.moneyFormatter(datum.value)}`)
@@ -326,7 +330,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
     /**
      * Compute the tooltip position when an amount of money is hovered
-     * @param datum 
+     * @param datum
      */
     onMouseEnterDatum(datum: MoneyDatum) {
 
@@ -356,7 +360,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         }
         this.tooltipTop = scale * (this.margin.top + y); // Align tooltip arrow
     }
-    
+
     /**
      * Turns off the tooltip
      */

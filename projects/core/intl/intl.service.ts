@@ -13,7 +13,6 @@ import {Utils, MapOf, JsonObject} from "@sinequa/core/base";
 // load d3 unbundled.
 import {FormatLocaleDefinition, formatDefaultLocale} from "d3-format";
 import {TimeLocaleDefinition, timeFormatDefaultLocale} from "d3-time-format";
-import * as d3 from "d3";
 import moment from "moment";
 
 /**
@@ -478,8 +477,6 @@ export class IntlService implements OnDestroy {
                 if (this.currentLocale.data.d3) {
                     formatDefaultLocale(this.currentLocale.data.d3.format);
                     timeFormatDefaultLocale(this.currentLocale.data.d3.time);
-                    d3.formatDefaultLocale(this.currentLocale.data.d3.format);
-                    d3.timeFormatDefaultLocale(this.currentLocale.data.d3.time);
                 }
 
                 if (this.currentLocale.data.intl && this.currentLocale.data.intl.locale) {
