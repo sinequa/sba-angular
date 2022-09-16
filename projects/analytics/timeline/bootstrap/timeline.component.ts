@@ -1,9 +1,17 @@
 import { Component, Input, Output, ElementRef, ViewChild, OnChanges, AfterViewInit, EventEmitter, SimpleChanges, OnDestroy, SimpleChange, ContentChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import * as d3 from 'd3';
 
 import { IntlService } from '@sinequa/core/intl';
 import {Record} from '@sinequa/core/web-services';
+import { bisector, extent, max } from 'd3-array';
+import { scaleLinear, scaleUtc } from 'd3-scale';
+import { line, area, curveBasis, curveBasisClosed, curveBasisOpen, curveBumpX, curveBumpY, curveLinear, curveLinearClosed, curveMonotoneX, curveMonotoneY, curveNatural, curveStep, curveStepAfter, curveStepBefore } from 'd3-shape';
+import { brushX, brushSelection } from 'd3-brush';
+import { select } from 'd3-selection';
+import { zoom, zoomIdentity, zoomTransform } from 'd3-zoom';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { format } from 'd3-format';
+import { mouse } from 'd3';
 
 
 export interface TimelineDate {
@@ -28,6 +36,22 @@ export interface TimelineEvent {
     sizeOpened?: number;
     styles?: {[key:string]: any};
     record?: Record;
+}
+
+export const curveTypes = {
+  curveBasis,
+  curveBasisClosed,
+  curveBasisOpen,
+  curveBumpX,
+  curveBumpY,
+  curveLinear,
+  curveLinearClosed,
+  curveMonotoneX,
+  curveMonotoneY,
+  curveNatural,
+  curveStep,
+  curveStepAfter,
+  curveStepBefore
 }
 
 @Component({
@@ -102,7 +126,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     tooltipTop: number;
     tooltipRight: number;
     tooltipLeft: number;
-    bisectDate = d3.bisector<TimelineDate,Date>(d => { return d.date; }).left;
+    bisectDate = bisector<TimelineDate,Date>(d => { return d.date; }).left;
 
     // Misc
     viewInit: boolean;
@@ -139,27 +163,27 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         if(!this.x) {
 
             // Scales
-            this.x = d3.scaleUtc()
+            this.x = scaleUtc()
                 .range([0, this.innerWidth]);
             this.xt = this.x;
 
-            this.y = d3.scaleLinear()
+            this.y = scaleLinear()
                 .range([this.innerHeight, 0]);
 
             // Shapes
-            this.area = d3.area<TimelineDate>()
-                .curve(d3[this.curveType])
+            this.area = area<TimelineDate>()
+                .curve(curveTypes[this.curveType])
                 .x(d => this.xt(d.date)!)
                 .y0(this.y(0)!)
                 .y1(d => this.y(d.value)!);
 
-            this.line = d3.line<TimelineDate>()
-                .curve(d3[this.curveType])
+            this.line = line<TimelineDate>()
+                .curve(curveTypes[this.curveType])
                 .x(d => this.xt(d.date)!)
                 .y(d => this.y(d.value)!);
 
             // Behaviors
-            this.brushBehavior = d3.brushX()
+            this.brushBehavior = brushX()
                 .extent([[0, 0], [this.innerWidth, this.innerHeight]])
                 .on("start", () => this.brushing = true)
                 .on('brush', () => this.onBrush())
@@ -222,9 +246,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     ngAfterViewInit() {
 
         // Get native elements
-        this.xAxis$ = d3.select(this.gx.nativeElement);
-        this.yAxis$ = d3.select(this.gy.nativeElement);
-        this.brush$ = d3.select(this.gbrush.nativeElement);
+        this.xAxis$ = select(this.gx.nativeElement);
+        this.yAxis$ = select(this.gy.nativeElement);
+        this.brush$ = select(this.gbrush.nativeElement);
 
         this.brush$
             .call(this.brushBehavior)
@@ -298,9 +322,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const primarySeries = data.filter(s => s.primary) || [data[0]];
         const allPrimaryDates = ([] as TimelineDate[]).concat(...primarySeries.map(s => s.dates));
 
-        const xExtent = d3.extent<TimelineDate, Date>(allPrimaryDates, d => d.date);
-        const yMax = d3.max<TimelineSeries, number>(data,
-            s => d3.max<TimelineDate, number>(s.dates, d => d.value));
+        const xExtent = extent<TimelineDate, Date>(allPrimaryDates, d => d.date);
+        const yMax = max<TimelineSeries, number>(data,
+            s => max<TimelineDate, number>(s.dates, d => d.value));
 
         // Check validity of data
         if(!xExtent[0] || !xExtent[1] || !yMax) {
@@ -369,7 +393,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         if(this.zoomBehavior){
             this.zoomBehavior.on("zoom", null);
             this.zoomBehavior.on("end", null);
-            this.zoomBehavior.transform(this.brush$, d3.zoomIdentity);
+            this.zoomBehavior.transform(this.brush$, zoomIdentity);
         }
 
         // Compute the minimum and maximum zoom
@@ -377,7 +401,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const scaleExtent = (xDomain[1].getTime() - xDomain[0].getTime()) / 86400000; // current number of days on the scale
 
         // Create the behavior
-        this.zoomBehavior = d3.zoom()
+        this.zoomBehavior = zoom()
             .extent([[0, 0], [this.innerWidth, this.innerHeight]])
             .scaleExtent([scaleExtent/this.maxZoomDays, scaleExtent/this.minZoomDays])
             .on("zoom", () => this.onZoom())
@@ -424,11 +448,11 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Recreate the x scale and axes (in the event of a language change)
      */
     protected updateXAxis(){
-        this.x = d3.scaleUtc()
+        this.x = scaleUtc()
             .domain(this.x.domain())
             .range(this.x.range());
 
-        this.xt = d3.scaleUtc()
+        this.xt = scaleUtc()
             .domain(this.xt.domain())
             .range(this.xt.range());
 
@@ -440,7 +464,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      */
     protected drawXAxis() {
         const nTicks = Math.round(this.width / 100);
-        this.xAxis$.call(d3.axisBottom(this.xt).ticks(nTicks));
+        this.xAxis$.call(axisBottom(this.xt).ticks(nTicks));
         this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
 
@@ -453,9 +477,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const yAxisTicks = this.y.ticks(nTicks)
             .filter(tick => Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
 
-        const yAxis = d3.axisLeft<number>(this.y)
+        const yAxis = axisLeft<number>(this.y)
             .tickValues(yAxisTicks)
-            .tickFormat(d3.format("~s")); //https://github.com/d3/d3-format
+            .tickFormat(format("~s")); //https://github.com/d3/d3-format
         this.yAxis$.call(yAxis);
         this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
@@ -488,7 +512,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     onBrush() {
         this.turnoffTooltip();
-        this.brushSelection = d3.brushSelection(this.gbrush.nativeElement) as [number, number] | null;
+        this.brushSelection = brushSelection(this.gbrush.nativeElement) as [number, number] | null;
         this.updateGrips(this.brushSelection);
     }
 
@@ -511,7 +535,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.zooming = true;
 
         // Create a transformed scale without modifying the original (to enforce the limit of scaleExtent)
-        const transform = d3.zoomTransform(this.brush$.node() as Element);
+        const transform = zoomTransform(this.brush$.node() as Element);
         this.xt = transform.rescaleX(this.x);
 
         // Redraw the axis
@@ -542,7 +566,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      */
     onMousemove() {
         if(!this.tooltipItem && this.showTooltip) {
-            this.tooltipX = d3.mouse(this.gbrush.nativeElement)[0];
+            this.tooltipX = mouse(this.gbrush.nativeElement)[0];
             const date = this.xt.invert(this.tooltipX);
             this.tooltipDatapoints = this.data?.map(series => {
               if(!series.showDatapoints) return;
