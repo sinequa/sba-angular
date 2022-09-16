@@ -427,7 +427,8 @@
               "fast-text-encoding",
               "diacritics",
               "clone-deep",
-              "keycharm"
+              "keycharm",
+              "vis-data"
             ]
           },
           "configurations": {

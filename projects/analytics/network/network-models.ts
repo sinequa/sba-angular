@@ -4,7 +4,7 @@ import { Action } from '@sinequa/components/action';
 import { Utils } from '@sinequa/core/base';
 import { SearchService } from '@sinequa/components/search';
 import { VisNetworkService } from './vis-network.service';
-import { DataSet } from 'vis-data';
+import { DataSet } from 'vis-data/esnext';
 import { AppService, ExprBuilder } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 

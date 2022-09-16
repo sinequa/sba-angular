@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Record, EntityItem} from "@sinequa/core/web-services";
-import {TimelineOptions, DataItem} from "vis-timeline";
+import {TimelineOptions, DataItem} from "vis-timeline/esnext";
 import { VisTimelineService } from "../vis-timeline.service";
 
 import moment from "moment";

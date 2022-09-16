@@ -5,7 +5,7 @@
 */
 
 import { Directive, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange } from '@angular/core';
-import { Data, Options } from 'vis-network';
+import { Data, Options } from 'vis-network/esnext';
 
 import { VisNetworkService } from './vis-network.service';
 
