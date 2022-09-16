@@ -6,7 +6,7 @@
     "@angular/google-maps": "14.0.6",
     "@googlemaps/js-api-loader": "^1.14.3",
     "@swimlane/ngx-charts": "^19.0.0",
-    "fusioncharts": "^3.19",
+    "fusioncharts": "3.15.1-sr.1",
     "vis-network": "9.1.2",
     "vis-timeline": "7.7.0",
     "vis-data": "7.1.4",
