@@ -90,9 +90,9 @@
     "ngx-bootstrap": "^8.0.0",
     "rxjs": "~6.6.3",
     "tslib": "^2.3.1",
+    "vis-data": "7.1.4",
     "vis-network": "9.1.2",
     "vis-timeline": "7.7.0",
-    "vis-data": "7.1.4",
     "vis-util": "5.0.3",
     "zone.js": "~0.11.4"
   },
@@ -112,6 +112,7 @@
     "@compodoc/compodoc": "^1.1.19",
     "@types/d3": "^5.7.2",
     "@types/estree": "^0.0.50",
+    "@types/hammerjs": "^2.0.41",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/marked": "^4.0.3",
