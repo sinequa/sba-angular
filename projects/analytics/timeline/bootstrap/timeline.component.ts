@@ -11,7 +11,6 @@ import { select } from 'd3-selection';
 import { zoom, zoomIdentity, zoomTransform } from 'd3-zoom';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
-import { mouse } from 'd3';
 
 
 export interface TimelineDate {
@@ -108,9 +107,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     currentSelection?: (Date|undefined)[]; // Read/Write
 
     // Elements
-    @ViewChild("xAxis") gx: ElementRef;
-    @ViewChild("yAxis") gy: ElementRef;
-    @ViewChild("brush") gbrush: ElementRef;
+    @ViewChild("xAxis") gx: ElementRef<SVGGElement>;
+    @ViewChild("yAxis") gy: ElementRef<SVGGElement>;
+    @ViewChild("brush") gbrush: ElementRef<SVGGElement>;
 
     // Selections
     xAxis$: d3.Selection<SVGGElement, Date, null, undefined>;
@@ -252,7 +251,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
         this.brush$
             .call(this.brushBehavior)
-            .on("mousemove", () => this.onMousemove())
+            .on("mousemove", e => this.onMousemove(e))
             .on("mouseout", () => this.onMouseout());
 
         // Add 2 "grips" to the brush goup, on each side of the rectangle
@@ -564,9 +563,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     /**
      * Redraw the simple tooltip (vertical line)
      */
-    onMousemove() {
+    onMousemove(event) {
         if(!this.tooltipItem && this.showTooltip) {
-            this.tooltipX = mouse(this.gbrush.nativeElement)[0];
+            this.tooltipX = this.point(this.gbrush.nativeElement, event)[0];
             const date = this.xt.invert(this.tooltipX);
             this.tooltipDatapoints = this.data?.map(series => {
               if(!series.showDatapoints) return;
@@ -577,6 +576,14 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
               return date.getTime() - d0.date.getTime() > d1.date.getTime() - date.getTime() ? d1 : d0;
             });
         }
+    }
+
+    /**
+     * Equivalent of former d3.mouse()
+     */
+    private point(node: SVGGElement, event: MouseEvent) {
+      var rect = node.getBoundingClientRect();
+      return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
     }
 
     /**
