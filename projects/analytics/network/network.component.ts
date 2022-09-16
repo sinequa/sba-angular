@@ -11,8 +11,8 @@ import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
 
 import { VisNetworkService } from './vis-network.service';
-import { Options } from 'vis-network/esnext';
-import { DataSet } from 'vis-data/esnext';
+import { Options } from 'vis-network';
+import { DataSet } from 'vis-data';
 
 import { Node, Edge, NetworkDataset, NetworkProvider, NetworkContext } from './network-models';
 import { IntlService } from '@sinequa/core/intl';
