@@ -1,5 +1,8 @@
 {
   "root": true,
+  "env": {
+    "es6": true
+  },
   "ignorePatterns": [
     "projects/**/*"
   ],
@@ -9,9 +12,9 @@
         "*.ts"
       ],
       "parserOptions": {
+        "ecmaVersion": "latest",
         "project": [
-          "tsconfig.json",
-          "e2e/tsconfig.json"
+          "tsconfig.json"
         ],
         "createDefaultProgram": true
       },
@@ -110,7 +113,8 @@
           }
         ],
         "quote-props": "off",
-        "space-before-function-paren": "off"
+        "space-before-function-paren": "off",
+        "no-console": "warn"
       }
     },
     {
