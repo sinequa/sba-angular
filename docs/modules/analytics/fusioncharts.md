@@ -18,21 +18,29 @@ Also checkout the official documentation of the [FusionCharts](https://www.fusio
 
 [FusionCharts](https://www.fusioncharts.com/angular2-js-charts?framework=angular2) is a charting library which usage is permitted within the scope of a Sinequa-based project.
 
-This module includes a single component which exposes a limited sample of the [FusionChart](https://www.fusioncharts.com/angular2-js-charts?framework=angular2) functionalities. The FusionCharts library includes many rich and configurable charts which are not covered by this module. The purpose of this module is to demonstrate how to integrate FusionCharts into a SBA, and how it can be connected to the Sinequa data structures and APIs.
+This module includes a component which exposes a limited sample of the [FusionChart](https://www.fusioncharts.com/angular2-js-charts?framework=angular2) functionalities. The FusionCharts library includes many rich and configurable charts which are not covered by this component (see [advanced customization](#advanced-customization) below).
 
 ![Chart]({{site.baseurl}}assets/modules/fusioncharts/chart.png){: .d-block .mx-auto }
 
 ## Import
 
-Import this module in your `app.module.ts`.
+Import this module in your `app.module.ts` and load the charts and themes that you need via the `forRoot()` method. An example of these imports is available in the Pepper application's [`app.module.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/pepper/src/app/app.module.ts).
 
 ```ts
 import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
 
+// Import FusionCharts library and chart modules
+import * as FusionCharts from "fusioncharts";
+import * as charts from "fusioncharts/fusioncharts.charts";
+// Fusion is a light theme, Candy is a dark theme
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
+
 @NgModule({
   imports: [
     ...
-    FusionChartsModule
+    FusionChartsModule.forRoot(FusionCharts, charts, FusionTheme, CandyTheme),
+
 ```
 
 ## FusionChart Component
@@ -111,3 +119,23 @@ By default, a FusionCharts theme is used (it can be modified using the above [ch
 - `selectedColor` (default: `#8186d4`): Displays the items that belong to a *selected document* (managed by the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) - see [Selection Module]({{site.baseurl}}/modules/components/selection.html)) in a distinctive color.
 
 ![Custom colors]({{site.baseurl}}assets/modules/fusioncharts/colors.png){: .d-block .mx-auto }
+
+## Advanced Customization
+
+The [`sq-fusion-chart`]({{site.baseurl}}analytics/components/FusionChart.html) component is a wrapper of the `fusioncharts` directive. It takes the Sinequa data structures (aggregations), and converts them into a "datasource" object, which is the structure that the Fusion Charts library expects.
+
+When advanced customizations are needed (custom types of charts or data structures), it is possible to use the `fusioncharts` directive directly. This directive is included in the [`FusionChartsModule`]({{site.baseurl}}analytics/modules/FusionChartsModule.html), so the sample imports shown [above](#import) work just the same.
+
+```html
+<fusioncharts
+    [width]="width"
+    [height]="height"
+    [type]="type"
+    [dataSource]="dataSource"
+    (initialized)="onInitialized($event)"
+    (dataplotClick)="dataplotClick($event)"
+    >
+</fusioncharts>
+```
+
+This approach gives access to the full range of chart types and events supported by Fusion Charts, but requires you to generate the `dataSource` object and manage its lifecycle manually.
