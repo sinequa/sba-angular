@@ -1,15 +1,14 @@
 import {
-  Component,
   Input,
   ElementRef,
   OnInit,
   OnChanges,
-  DoCheck,
   AfterViewInit,
   OnDestroy,
   NgZone,
   Output,
-  EventEmitter
+  EventEmitter,
+  Directive
 } from '@angular/core';
 
 import { FusionChartsService } from './fusioncharts.service';
@@ -18,19 +17,12 @@ import FusionChartsEvent from './interfaces/FusionChartsEvent';
 import FusionChartInstance from './interfaces/FusionChartInstance';
 import EventsList from './events/events';
 
-@Component({
+@Directive({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'fusioncharts',
-  template: `
-    <div attr.id="container-{{ containerId }}" style="width:100%;height:100%">
-      {{ placeholder }}
-    </div>
-  `,
   providers: [FusionChartsService]
 })
-export class FusionChartsComponent
-  // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
-  implements OnInit, OnChanges, DoCheck, AfterViewInit, OnDestroy {
+export class FusionChartsDirective implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   chartObj: any;
 
   @Input()
@@ -146,8 +138,6 @@ export class FusionChartsComponent
   loadMessageImageAlpha!: number;
   @Input()
   loadMessageImageScale!: number;
-  @Input()
-  chartConfig!: string;
 
   /**
    * All Events List
@@ -292,10 +282,7 @@ export class FusionChartsComponent
   @Output() drillUpCancelled = new EventEmitter<FusionChartsEvent>();
   @Output() initialized = new EventEmitter<FusionChartInstance>();
 
-  containerId: string;
   private configObj: any;
-  private oldDataSource: any = this.dataSource;
-  private oldDataTable: any;
   private constructerParams = {
     type: true,
     id: true,
@@ -355,141 +342,43 @@ export class FusionChartsComponent
     loadMessageImageScale: true,
     chartConfig: true
   };
-  element: ElementRef;
-  fusionchartsService: FusionChartsService;
 
   constructor(
-    element: ElementRef,
-    fusionchartsService: FusionChartsService,
+    public element: ElementRef,
+    public fusionchartsService: FusionChartsService,
     private zone: NgZone
-  ) {
-    this.element = element;
-    this.fusionchartsService = fusionchartsService;
-    this.containerId = fusionchartsService.getNextItemCount();
-  }
+  ) {}
 
-  // @ViewChild('samplediv') chartContainer: ElementRef;
-
-  checkIfDataTableExists(dataSource: { data: { _dataStore: any } }) {
-    if (dataSource && dataSource.data && dataSource.data._dataStore) {
-      return true;
-    }
-    return false;
-  }
-
-  cloneDataSource(obj: any) {
-    const type = typeof obj;
-    if (
-      type === 'string' ||
-      type === 'number' ||
-      type === 'function' ||
-      type === 'boolean'
-    ) {
-      return obj;
-    }
-    if (obj === null || obj === undefined) {
-      return obj;
-    }
-    if (Array.isArray(obj)) {
-      const arr: any[] = [];
-      for (let i = 0; i < obj.length; i++) {
-        arr.push(this.cloneDataSource(obj[i]));
-      }
-      return arr;
-    }
-    if (typeof obj === 'object') {
-      const clonedObj = {} as any;
-      for (const prop in obj) {
-        // Edge case handling for DataTable
-        if (prop === 'data') {
-          if (obj[prop]._dataStore) {
-            clonedObj[prop] = `-`;
-          } else {
-            clonedObj[prop] = this.cloneDataSource(obj[prop]);
-          }
-          continue;
-        }
-        clonedObj[prop] = this.cloneDataSource(obj[prop]);
-      }
-      return clonedObj;
-    }
-    return undefined;
-  }
-
-  // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
   ngOnInit() {
-    if (this.checkIfDataTableExists(this.dataSource)) {
-      this.oldDataSource = JSON.stringify(
-        this.cloneDataSource(this.dataSource)
-      );
-    } else {
-      this.oldDataSource = JSON.stringify(this.dataSource);
-    }
     this.placeholder = this.placeholder || 'FusionCharts will render here';
   }
 
-  // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
   ngOnChanges(changes: any) {
-    for (const i of Object.keys(changes)) {
-      const key = i.charAt(0).toUpperCase() + i.slice(1),
-        THIS = this,
-        fnName = `update${key}`;
-      if (THIS[fnName as keyof FusionChartsComponent]) {
-        THIS[fnName as keyof FusionChartsComponent]();
-      }
-    }
-  }
-
-  // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
-  ngDoCheck() {
-    let data;
-    if (this.checkIfDataTableExists(this.dataSource)) {
-      data = JSON.stringify(this.cloneDataSource(this.dataSource));
-    } else {
-      data = JSON.stringify(this.dataSource);
-    }
-    if (
-      this.oldDataSource !== data ||
-      this.oldDataTable !== this.dataSource.data
-    ) {
-      this.oldDataTable = this.dataSource && this.dataSource.data;
-      this.oldDataSource = data;
-      this.updateChartData();
-    }
+    if(changes.width) this.updateWidth();
+    if(changes.height) this.updateHeight();
+    if(changes.type) this.updateType();
+    if(changes.dataSource) this.updateChartData();
   }
 
   updateChartData() {
-    const dataFormat =
-        this.configObj && this.configObj.dataFormat
-          ? this.configObj.dataFormat
-          : 'json',
-      data = this.dataSource;
-
-    if (this.chartObj) {
-      this.chartObj.setChartData(data, dataFormat);
-    }
+    const dataFormat = this.configObj?.dataFormat || 'json';
+    this.chartObj?.setChartData(this.dataSource, dataFormat);
   }
 
   updateWidth() {
-    if (this.chartObj) {
-      this.chartObj.resizeTo({
-        w: this.width
-      });
-    }
+    this.chartObj?.resizeTo({
+      w: this.width
+    });
   }
 
   updateHeight() {
-    if (this.chartObj) {
-      this.chartObj.resizeTo({
-        h: this.height
-      });
-    }
+    this.chartObj?.resizeTo({
+      h: this.height
+    });
   }
 
   updateType() {
-    if (this.chartObj) {
-      this.chartObj.chartType(this.type);
-    }
+    this.chartObj?.chartType(this.type);
   }
 
   generateEventsCallback(eventList: Array<string>) {
@@ -499,7 +388,7 @@ export class FusionChartsComponent
         const fEventObj: FusionChartsEvent = { eventObj: {}, dataObj: {} };
         if (eventObj) fEventObj.eventObj = eventObj;
         if (dataObj) fEventObj.dataObj = dataObj;
-        this[eventName as keyof FusionChartsComponent].emit(fEventObj);
+        this[eventName as keyof FusionChartsDirective].emit(fEventObj);
       };
     });
     return events;
@@ -507,52 +396,37 @@ export class FusionChartsComponent
 
   // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
   ngAfterViewInit() {
-    const _this = this,
-      params = _this.constructerParams,
-      configObj = _this.configObj || (_this.configObj = {});
+    const configObj = this.configObj || (this.configObj = {});
 
-    let _chartConfig: any = _this.chartConfig || {};
-
-    if (typeof _chartConfig === 'string') {
-      _chartConfig = JSON.parse(_chartConfig);
-    }
-
-    for (const i of Object.keys(params)) {
-      const value =_this[i as keyof FusionChartsComponent] || _chartConfig[i];
+    for (const i of Object.keys(this.constructerParams)) {
+      const value = this[i as keyof FusionChartsDirective];
       if (value) {
         configObj[i] = value;
       }
     }
 
     if (configObj['type']) {
-      const events = _this.generateEventsCallback(_this.eventList);
+      const events = this.generateEventsCallback(this.eventList);
       if (!configObj['events']) {
         configObj['events'] = events;
       } else {
         configObj['events'] = Object.assign(events, configObj['events']);
       }
 
-      // configObj['renderAt'] = 'container-' + _this.chartObj.id;
-      // _this.containerId = _this.chartObj.id;
-
       this.zone.runOutsideAngular(() => {
         setTimeout(() => {
-          _this.chartObj = FusionChartsConstructor(
-            _this.fusionchartsService,
+          this.chartObj = FusionChartsConstructor(
+            this.fusionchartsService,
             configObj
           );
-          this.initialized.emit({ chart: _this.chartObj });
-          _this.chartObj.render(
-            _this.element.nativeElement.querySelector('div')
-          );
+          this.initialized.emit({ chart: this.chartObj });
+          this.chartObj.render(this.element.nativeElement);
         }, 1);
       });
     }
   }
 
-  // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
   ngOnDestroy() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    this.chartObj && this.chartObj.dispose();
+    this.chartObj?.dispose();
   }
 }

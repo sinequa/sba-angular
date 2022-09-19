@@ -161,18 +161,10 @@ export class DashboardItemComponent implements OnChanges {
                 this.networkOptions = Utils.copy(defaultOptions);
                 this.networkOptions.height = this.innerheight + "px";
             }
-            // Update chart
-            if(this.chartObj) {
-                this.chartObj.resizeTo(this.width, this.innerheight)
-            }
         }
 
         if(changes["width"] && this.width) {
-            this.innerwidth = this.width;
-            // Update chart, if not already done
-            if(this.chartObj && !changes["height"]) {
-                this.chartObj.resizeTo(this.width, this.innerheight)
-            }
+            this.innerwidth = this.width-2;
         }
 
         // Update the actions
@@ -258,7 +250,7 @@ export class DashboardItemComponent implements OnChanges {
 
     onChartInitialized(chartObj: any) {
         this.chartObj = chartObj;
-        this.chartObj.resizeTo(this.width, this.innerheight);
+        this.chartObj.resizeTo(this.innerwidth, this.innerheight);
     }
 
     onChartAggregationChange(aggregation: string) {

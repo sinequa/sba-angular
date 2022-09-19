@@ -6,26 +6,25 @@ import { BsSelectionModule } from '@sinequa/components/selection';
 import { UtilsModule } from "@sinequa/components/utils";
 
 import { FusionChart } from "./chart/chart";
-import { FusionChartsComponent } from "./angular-fusioncharts/fusioncharts.component";
+import { FusionChartsDirective } from "./angular-fusioncharts/fusioncharts.directive";
 import { FusionChartsService, FusionChartsStatic } from "./angular-fusioncharts/fusioncharts.service";
 
 
 @NgModule({
-
-    imports: [
-        CommonModule,
-        IntlModule,
-        UtilsModule,
-        BsSelectionModule
-    ],
-    declarations: [
-        FusionChartsComponent,
-        FusionChart
-    ],
-    exports: [
-        FusionChartsComponent,
-        FusionChart
-    ]
+  imports: [
+    CommonModule,
+    IntlModule,
+    UtilsModule,
+    BsSelectionModule
+  ],
+  declarations: [
+    FusionChartsDirective,
+    FusionChart
+  ],
+  exports: [
+    FusionChartsDirective,
+    FusionChart
+  ]
 })
 export class FusionChartsModule {
   static forRoot(core: any, ...modules: any[]): ModuleWithProviders<FusionChartsModule> {
