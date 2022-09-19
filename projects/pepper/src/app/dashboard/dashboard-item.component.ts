@@ -148,14 +148,17 @@ export class DashboardItemComponent implements OnChanges {
             }
         }
 
-        if(this.config.type === "chart") {
-            this.chart.theme = this.buttonsStyle === "dark"? "candy" : "fusion";
+        if(this.config.type === "chart" && changes.buttonsStyle) {
+            this.chart = {
+              ...defaultChart,
+              theme: this.buttonsStyle === "dark"? "candy" : "fusion"
+            };
         }
 
         // Manage width and height changes. Some components need additional treatment
 
-        if(changes["height"] && this.height) {
-            this.innerheight = this.height - 43;
+        if(changes.height && this.height) {
+            this.innerheight = this.height - 43; // subtract facet header size
             // Update network
             if(this.config.type === "network") {
                 this.networkOptions = Utils.copy(defaultOptions);
@@ -163,8 +166,8 @@ export class DashboardItemComponent implements OnChanges {
             }
         }
 
-        if(changes["width"] && this.width) {
-            this.innerwidth = this.width-2;
+        if(changes.width && this.width) {
+            this.innerwidth = this.width-2; // 1px border on each side
         }
 
         // Update the actions

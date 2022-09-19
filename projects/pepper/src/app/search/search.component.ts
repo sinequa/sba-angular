@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -61,7 +61,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     public loginService: LoginService,
     public dashboardService: DashboardService,
     public ui: UIService,
-    public cdRef: ChangeDetectorRef,
     public dropdownService: BsDropdownService
   ) {
 
@@ -70,11 +69,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       .pipe(
         tap(_ => {
           this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
-
-          // Hack to fix an issue with change detection...
-          setTimeout(() => {
-            this.cdRef.detectChanges();
-          }, 0);
         })
       );
 
