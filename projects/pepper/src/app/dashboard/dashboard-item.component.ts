@@ -148,31 +148,26 @@ export class DashboardItemComponent implements OnChanges {
             }
         }
 
-        if(this.config.type === "chart") {
-            this.chart.theme = this.buttonsStyle === "dark"? "candy" : "fusion";
+        if(this.config.type === "chart" && changes.buttonsStyle) {
+            this.chart = {
+              ...defaultChart,
+              theme: this.buttonsStyle === "dark"? "candy" : "fusion"
+            };
         }
 
         // Manage width and height changes. Some components need additional treatment
 
-        if(changes["height"] && this.height) {
-            this.innerheight = this.height - 43;
+        if(changes.height && this.height) {
+            this.innerheight = this.height - 43; // subtract facet header size
             // Update network
             if(this.config.type === "network") {
                 this.networkOptions = Utils.copy(defaultOptions);
                 this.networkOptions.height = this.innerheight + "px";
             }
-            // Update chart
-            if(this.chartObj) {
-                this.chartObj.resizeTo(this.width, this.innerheight)
-            }
         }
 
-        if(changes["width"] && this.width) {
-            this.innerwidth = this.width;
-            // Update chart, if not already done
-            if(this.chartObj && !changes["height"]) {
-                this.chartObj.resizeTo(this.width, this.innerheight)
-            }
+        if(changes.width && this.width) {
+            this.innerwidth = this.width-2; // 1px border on each side
         }
 
         // Update the actions
@@ -258,7 +253,7 @@ export class DashboardItemComponent implements OnChanges {
 
     onChartInitialized(chartObj: any) {
         this.chartObj = chartObj;
-        this.chartObj.resizeTo(this.width, this.innerheight);
+        this.chartObj.resizeTo(this.innerwidth, this.innerheight);
     }
 
     onChartAggregationChange(aggregation: string) {

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional, DoCheck } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional, DoCheck, NgZone } from "@angular/core";
 import { IntlService } from "@sinequa/core/intl";
 import { Results, Aggregation, AggregationItem } from '@sinequa/core/web-services';
 import { UIService } from "@sinequa/components/utils";
@@ -72,7 +72,8 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         public facetService: FacetService,
         public selectionService: SelectionService,
         public appService: AppService,
-        @Optional() public cardComponent: BsFacetCard
+        @Optional() public cardComponent: BsFacetCard,
+        private zone: NgZone
     ) {
         super();
 
@@ -182,7 +183,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
             this.updateData();
         }
         if(changes['chart'] || !this.dataSource.chart) {
-            this.dataSource.chart = this.chart;
+            this.dataSource = {...this.dataSource, chart: this.chart};
         }
     }
 
@@ -201,7 +202,9 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         this.updateSelectedValues();
 
         // Create the dataSource.data object, including the custom coloring
-        this.dataSource.data = this.data?.items?.map(item => {
+        this.dataSource = {
+          ...this.dataSource,
+          data: this.data?.items?.map(item => {
             const isSelected = this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase()) && this.selectedColor;
             const isFiltered = this.isFiltered(item) && this.filteredColor;
             return {
@@ -209,7 +212,8 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
                 value: ""+item.count,
                 color: isFiltered? this.filteredColor : isSelected? this.selectedColor : this.defaultColor
             };
-        });
+         })
+        };
     }
 
     override isHidden(): boolean {
@@ -231,15 +235,17 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
      * @param $event
      */
     dataplotClick($event) {
-        if (this.data) {
-            const item = this.getItem($event.dataObj.index);
-            if (item) {
-                if(!this.isFiltered(item))
-                    this.facetService.addFilterSearch(this.getName(), this.data, item);
-                else
-                    this.facetService.removeFilterSearch(this.getName(), this.data, item);
+        this.zone.run(() => { // FusionCharts runs outside Angular zone, so we must re-enter it
+            if (this.data) {
+                const item = this.getItem($event.dataObj.index);
+                if (item) {
+                    if(!this.isFiltered(item))
+                        this.facetService.addFilterSearch(this.getName(), this.data, item);
+                    else
+                        this.facetService.removeFilterSearch(this.getName(), this.data, item);
+                }
             }
-        }
+        });
     }
 
     /**

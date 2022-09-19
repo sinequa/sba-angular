@@ -9,7 +9,6 @@ export class FusionChartsStatic {
 @Injectable()
 export class FusionChartsService {
   static _fcRoot: any = null;
-  static itemCount: any = 0;
   _fusionchartsStatice: FusionChartsStatic = new FusionChartsStatic();
 
   static setFCRoot(fcRoot: any) {
@@ -38,7 +37,7 @@ export class FusionChartsService {
   }
 
   resolveFusionCharts(core: any, modules: any[]) {
-    if (core && core.id && core.id === 'FusionCharts') {
+    if (core?.id === 'FusionCharts') {
       this._fusionchartsStatice = core;
     } else {
       this._fusionchartsStatice = core();
@@ -62,8 +61,4 @@ export class FusionChartsService {
     return this._fusionchartsStatice;
   }
 
-  getNextItemCount() {
-    FusionChartsService.itemCount++;
-    return FusionChartsService.itemCount;
-  }
 }
