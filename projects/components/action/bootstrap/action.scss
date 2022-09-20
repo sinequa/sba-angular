@@ -124,7 +124,7 @@ $action-menu-breakpoint: md !default;
         @include right();
     }
 
-    // first, so later rules win when specicifity the same - we want explicit .dropdown-menu-left to beat .navbar-right 
+    // first, so later rules win when specicifity the same - we want explicit .dropdown-menu-left to beat .navbar-right
     /* not phone */
     @include media-breakpoint-up($action-menu-breakpoint) {
         .navbar-right & {
@@ -181,12 +181,18 @@ $action-menu-breakpoint: md !default;
     background-color: $dropdown-link-hover-bg;
 }
 
+li.sq-scroll-menu-item ul.sq-scroll-menu{
+    border-radius: 0;
+}
+
 /* scroll menu */
 li.sq-scroll-menu-item:first-child {
     margin-top: -(2 * $dropdown-padding-y);
-    
+
     ul.sq-scroll-menu {
         border-top: none;
+        border-top-left-radius: var(--bs-dropdown-border-radius);
+        border-top-right-radius: var(--bs-dropdown-border-radius);
     }
 }
 
@@ -195,6 +201,8 @@ li.sq-scroll-menu-item:last-child {
 
     ul.sq-scroll-menu {
         border-bottom: none;
+        border-bottom-left-radius: var(--bs-dropdown-border-radius);
+        border-bottom-right-radius: var(--bs-dropdown-border-radius);
     }
 }
 
@@ -204,7 +212,7 @@ li.sq-scroll-menu-item:last-child {
 
 @function scroll-menu-max-height($items) {
     @return ($items * ($line-height-base * 1rem + 2 * $dropdown-item-padding-y)) + 2 * $dropdown-padding-y + sq-px2rem($dropdown-border-width);
-} 
+}
 
 ul.sq-scroll-menu {
     position: relative !important;
@@ -224,7 +232,7 @@ ul.sq-scroll-menu {
 
 ul.sq-scrollable-menu {
     max-height: scroll-menu-max-height(10);
-    overflow-y: auto;    
+    overflow-y: auto;
 }
 
 @include media-breakpoint-down($action-menu-breakpoint) {
