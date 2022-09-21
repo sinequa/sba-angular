@@ -1,7 +1,7 @@
 ﻿import {Injectable, Inject} from "@angular/core";
 import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from "@angular/common/http";
-import {Observable, timer, of, throwError} from "rxjs";
-import {share, flatMap, map, catchError} from "rxjs/operators";
+import {Observable, timer, of, throwError, Subject} from "rxjs";
+import {share, flatMap, map, catchError, take} from "rxjs/operators";
 import {AuthService} from "ng2-ui-auth";
 import {HttpService, START_CONFIG, StartConfig, AuditWebService} from "@sinequa/core/web-services";
 import {Utils, IRef, MapOf} from "@sinequa/core/base";
@@ -98,6 +98,7 @@ export interface JsonWebToken {
 export class AuthenticationService extends HttpService {
     private authentication: Authentication | undefined;
     private storage: Storage;
+    private redirect$ = new Subject<string>();
     /**
      * A flag indicating whether an attempt to "override user" has failed. This is normally
      * only set by the {@link HttpInterceptor} and tested and reset in {@link LoginService}
@@ -202,6 +203,8 @@ export class AuthenticationService extends HttpService {
     }
 
     private init() {
+        // To avoid multipe redirection when multiple HTTP 401 error occurs
+        this.redirect$.pipe(take(1)).subscribe(url => window.location.replace(url));
         if (this.startConfig.authenticationStorage === "local") {
             this.storage = window.localStorage;
         }
@@ -345,16 +348,14 @@ export class AuthenticationService extends HttpService {
             return Promise.resolve(undefined);
         }
         return this.jWTService.getToken(credentials).toPromise()
-            .then((value) => {
-                return {
+            .then((value) => ({
                     kind: LEGACY_PROCESSED_CREDENTIALS_KIND,
                     userName: credentials.userName,
                     data: {
                         csrfToken: value,
                         provider: "Sinequa"
                     }
-                };
-            });
+                }));
     }
 
     /**
@@ -464,11 +465,7 @@ export class AuthenticationService extends HttpService {
                         })
                     });
             }
-            observable.subscribe(
-                (response) => {
-                    window.location.replace(response.redirectUrl);
-                }
-            );
+            observable.subscribe((response) => this.redirect$.next(response.redirectUrl));
             return true;
         }
         else {
