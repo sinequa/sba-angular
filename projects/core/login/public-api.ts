@@ -8,4 +8,5 @@ export * from "./login.component";
 export * from "./login.interceptor";
 export * from "./authentication-oauth.service";
 export * from "./authentication-popup.service";
+export * from "./teams-login";
 export * from "./messages/index";
