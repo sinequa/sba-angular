@@ -105,6 +105,8 @@ export class AuthenticationService extends HttpService {
      */
     userOverrideFailed: boolean;
 
+    teamsToken?: string;
+
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
         private httpClient: SqHttpClient,
@@ -259,6 +261,9 @@ export class AuthenticationService extends HttpService {
                     }
                 }
             }
+        }
+        if(this.teamsToken) {
+            config.headers = config.headers.set("teams-token", this.teamsToken);
         }
         return config;
     }
