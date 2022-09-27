@@ -8,21 +8,19 @@ export function TeamsInitializer(authService: AuthenticationService): () => Prom
             return resolve(true);
         }
 
-        console.log("Teams init", app);
         app.initialize().then(() => {
-            console.log("teams initialized");
+            console.log("Teams initialized");
             return authentication.getAuthToken();
         }).then(result => {
-            console.log("success callback:", result);
+            console.log("Teams auth token available");
             if(authService) {
                 authService.teamsToken = result;
             }
             resolve(true);
         }).catch(error => {
-            console.error("failure callback:", error);
+            console.error("Failed to get an auth token for Teams", error);
             reject(error);
         });
-        app.getContext().then(context => console.log("Context",context));
     });
 
     return init;
