@@ -128,7 +128,7 @@ node (params.SBA_NODE) {
 				echo ".unpublishsqcore:"
 				call npm unpublish @sinequa/core@${sba_version}
 				echo ".publishsqcore:"
-				call npm publish ./dist/core --tag ${sba_version}
+				call npm publish ./dist/core --tag ${sba_tag}
 				"""
 			}
 			stage('Build Components') {
@@ -143,7 +143,7 @@ node (params.SBA_NODE) {
 				echo ".unpublishsqcomponents:"
 				call npm unpublish @sinequa/components@${sba_version}
 				echo ".publishsqcomponents:"
-				call npm publish ./dist/components --tag ${sba_version}
+				call npm publish ./dist/components --tag ${sba_tag}
 				"""
 			}
 			stage('Build Analytics') {
@@ -158,7 +158,7 @@ node (params.SBA_NODE) {
 				echo ".unpublishsqanalytics:"
 				call npm unpublish @sinequa/analytics@${sba_version}
 				echo ".publishsqanalytics:"
-				call npm publish ./dist/analytics --tag ${sba_version}
+				call npm publish ./dist/analytics --tag ${sba_tag}
 				"""
 			}
 			
