@@ -124,7 +124,7 @@ node (params.SBA_NODE) {
 				call npm --no-git-tag-version version ${sba_version}
 				cd ../..
 				echo ".buildsqcore:"
-				call ng build core
+				call npm run buildcore
 				echo ".unpublishsqcore:"
 				call npm unpublish @sinequa/core@${sba_version}
 				echo ".publishsqcore:"
@@ -139,7 +139,7 @@ node (params.SBA_NODE) {
 				call npm install @sinequa/core@${sba_version} --save-exact
 				cd ../..
 				echo ".buildsqcomponents:"
-				call ng build components
+				call npm run buildcomponents
 				echo ".unpublishsqcomponents:"
 				call npm unpublish @sinequa/components@${sba_version}
 				echo ".publishsqcomponents:"
@@ -154,7 +154,7 @@ node (params.SBA_NODE) {
 				call npm install @sinequa/components@${sba_version} --save-exact
 				cd ../..
 				echo ".buildsqanalytics:"
-				call ng build analytics
+				call npm run buildanalytics
 				echo ".unpublishsqanalytics:"
 				call npm unpublish @sinequa/analytics@${sba_version}
 				echo ".publishsqanalytics:"
