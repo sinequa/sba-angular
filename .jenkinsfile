@@ -117,10 +117,12 @@ node (params.SBA_NODE) {
 			
 			// validate the build before merge
 			// build sinequa core modules
-			stage('Build Core') {
+			stage('Build Core') {	
 				bat """
 				echo ".installsqcore:"
-				call cd ./projects/core && npm --no-git-tag-version version ${sba_version} && cd ../..
+				cd ./projects/core
+				call npm --no-git-tag-version version ${sba_version}
+				cd ../..
 				echo ".buildsqcore:"
 				call ng build core
 				echo ".unpublishsqcore:"
@@ -132,7 +134,10 @@ node (params.SBA_NODE) {
 			stage('Build Components') {
 				bat """
 				echo ".installsqcomponents:"
-				call cd ./projects/components && npm --no-git-tag-version version ${sba_version} && npm install @sinequa/core@${sba_version} --save-exact && cd ../..
+				cd ./projects/components
+				call npm --no-git-tag-version version ${sba_version}
+				call npm install @sinequa/core@${sba_version} --save-exact
+				cd ../..
 				echo ".buildsqcomponents:"
 				call ng build components
 				echo ".unpublishsqcomponents:"
@@ -144,7 +149,10 @@ node (params.SBA_NODE) {
 			stage('Build Analytics') {
 				bat """
 				echo ".installsqanalytics:"
-				call cd ./projects/analytics && npm --no-git-tag-version version ${sba_version} && npm install @sinequa/components@${sba_version} --save-exact && cd ../..
+				cd ./projects/analytics
+				call npm --no-git-tag-version version ${sba_version}
+				call npm install @sinequa/components@${sba_version} --save-exact
+				cd ../..
 				echo ".buildsqanalytics:"
 				call ng build analytics
 				echo ".unpublishsqanalytics:"
