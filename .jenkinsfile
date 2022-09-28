@@ -75,7 +75,7 @@ node (params.SBA_NODE) {
 		// check if we are in standard case of build or merge/validation (case of PR)
 		def action = jf.buildOrMerge()
 
-		if ("${action}" == "build") {
+		if ("${action}" != "build") {
 			// validate the build in a PR after a commit
 			// build sinequa core modules
 			stage('Build Core') {
