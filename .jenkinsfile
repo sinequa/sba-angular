@@ -118,16 +118,40 @@ node (params.SBA_NODE) {
 			// validate the build before merge
 			// build sinequa core modules
 			stage('Build Core') {
-				echo "npm run buildsqcore --sq_version=${sba_version} --sq_tag=${sba_tag} --if-present"
-				bat  "npm run buildsqcore --sq_version=${sba_version} --sq_tag=${sba_tag} --if-present"
+				bat """
+				echo ".installsqcore:"
+				call cd ./projects/core && npm --no-git-tag-version version ${sba_version} && cd ../..
+				echo ".buildsqcore:"
+				call ng build core
+				echo ".unpublishsqcore:"
+				call npm unpublish @sinequa/core@${sba_version}
+				echo ".publishsqcore:"
+				call npm publish ./dist/core --tag ${sba_version}
+				"""
 			}
 			stage('Build Components') {
-				echo "npm run buildsqcomponents --sq_version=${sba_version} --sq_tag=${sba_tag} --if-present"
-				bat  "npm run buildsqcomponents --sq_version=${sba_version} --sq_tag=${sba_tag} --if-present"
+				bat """
+				echo ".installsqcomponents:"
+				call cd ./projects/components && npm --no-git-tag-version version ${sba_version} && npm install @sinequa/core@${sba_version} --save-exact && cd ../..
+				echo ".buildsqcomponents:"
+				call ng build components
+				echo ".unpublishsqcomponents:"
+				call npm unpublish @sinequa/components@${sba_version}
+				echo ".publishsqcomponents:"
+				call npm publish ./dist/components --tag ${sba_version}
+				"""
 			}
 			stage('Build Analytics') {
-				echo "npm run buildsqanalytics --sq_version=${sba_version} --sq_tag=${sba_tag}  --if-present"
-				bat  "npm run buildsqanalytics --sq_version=${sba_version} --sq_tag=${sba_tag}  --if-present"
+				bat """
+				echo ".installsqanalytics:"
+				call cd ./projects/analytics && npm --no-git-tag-version version ${sba_version} && npm install @sinequa/components@${sba_version} --save-exact && cd ../..
+				echo ".buildsqanalytics:"
+				call ng build analytics
+				echo ".unpublishsqanalytics:"
+				call npm unpublish @sinequa/analytics@${sba_version}
+				echo ".publishsqanalytics:"
+				call npm publish ./dist/analytics --tag ${sba_version}
+				"""
 			}
 			
 			// get the current branch version
