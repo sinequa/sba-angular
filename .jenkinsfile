@@ -117,40 +117,48 @@ node (params.SBA_NODE) {
 			
 			// validate the build before merge
 			// build sinequa core modules
-			stage('Build Core') {
+			stage('Build Core') {	
 				bat """
 				echo ".installsqcore:"
-				call cd ./projects/core && npm --no-git-tag-version version ${sba_version} && cd ../..
+				cd ./projects/core
+				call npm --no-git-tag-version version ${sba_version}
+				cd ../..
 				echo ".buildsqcore:"
-				call ng build core
+				call npm run buildcore
 				echo ".unpublishsqcore:"
 				call npm unpublish @sinequa/core@${sba_version}
 				echo ".publishsqcore:"
-				call npm publish ./dist/core --tag ${sba_version}
+				call npm publish ./dist/core --tag ${sba_tag}
 				"""
 			}
 			stage('Build Components') {
 				bat """
 				echo ".installsqcomponents:"
-				call cd ./projects/components && npm --no-git-tag-version version ${sba_version} && npm install @sinequa/core@${sba_version} --save-exact && cd ../..
+				cd ./projects/components
+				call npm --no-git-tag-version version ${sba_version}
+				call npm install @sinequa/core@${sba_version} --save-exact
+				cd ../..
 				echo ".buildsqcomponents:"
-				call ng build components
+				call npm run buildcomponents
 				echo ".unpublishsqcomponents:"
 				call npm unpublish @sinequa/components@${sba_version}
 				echo ".publishsqcomponents:"
-				call npm publish ./dist/components --tag ${sba_version}
+				call npm publish ./dist/components --tag ${sba_tag}
 				"""
 			}
 			stage('Build Analytics') {
 				bat """
 				echo ".installsqanalytics:"
-				call cd ./projects/analytics && npm --no-git-tag-version version ${sba_version} && npm install @sinequa/components@${sba_version} --save-exact && cd ../..
+				cd ./projects/analytics
+				call npm --no-git-tag-version version ${sba_version}
+				call npm install @sinequa/components@${sba_version} --save-exact
+				cd ../..
 				echo ".buildsqanalytics:"
-				call ng build analytics
+				call npm run buildanalytics
 				echo ".unpublishsqanalytics:"
 				call npm unpublish @sinequa/analytics@${sba_version}
 				echo ".publishsqanalytics:"
-				call npm publish ./dist/analytics --tag ${sba_version}
+				call npm publish ./dist/analytics --tag ${sba_tag}
 				"""
 			}
 			
