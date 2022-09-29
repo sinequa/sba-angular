@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
 import {ValueItem} from "@sinequa/core/app-utils";
-import {Record} from "@sinequa/core/web-services";
+import {AuditEventType, Record} from "@sinequa/core/web-services";
 import {SearchService} from "@sinequa/components/search";
 
 @Component({
@@ -46,6 +46,13 @@ export class ResultSource {
             this.searchService.search();
         }
         return false;
+    }
+
+    notifyClick() {
+      if(this.url) {
+        const type = this.record[this.urlColumn]? AuditEventType.Click_ResultLink : AuditEventType.Doc_CacheOriginal;
+        this.searchService.notifyOpenOriginalDocument(this.record, undefined, type);
+      }
     }
 
 }

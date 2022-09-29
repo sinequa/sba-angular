@@ -2,4 +2,4 @@
     <a href="#" *ngFor="let s of source" class="path" (click)="select(s)" title="Select this source">{{s.display}}</a>
 </span>
 <span *ngIf="source.length > 0 && url"> - </span>
-<a *ngIf="url" href="{{url}}" target="_blank">{{url}}</a>
+<a *ngIf="url" (click)="notifyClick()" href="{{url}}" target="_blank">{{url}}</a>
