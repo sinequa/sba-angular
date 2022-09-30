@@ -50,8 +50,7 @@ export class ResultSource {
 
     notifyClick() {
       if(this.url) {
-        const type = this.record[this.urlColumn]? AuditEventType.Click_ResultLink : AuditEventType.Doc_CacheOriginal;
-        this.searchService.notifyOpenOriginalDocument(this.record, undefined, type);
+        this.searchService.notifyOpenOriginalDocument(this.record, undefined, AuditEventType.Click_ResultLink);
       }
     }
 
