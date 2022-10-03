@@ -44,9 +44,9 @@ export class PreviewDocument {
 
     private readonly _window: Window;
     private readonly _document: Document;
-    
+
     private previousElement: HTMLElement | null;
-    
+
     constructor(element: ElementRef | Document){
         if (element instanceof ElementRef) {
             this._window = element?.nativeElement?.contentWindow;
@@ -146,11 +146,11 @@ export class PreviewDocument {
      * @param index Index of the entity in that category
      */
     public selectHighlight(categoryId: string, index: number) : void {
-        
+
         this.clearHighlightSelection();
         // current element becomes previous element
         this.previousElement = this.document.getElementById(categoryId + '_' + index);
-        
+
         if (this.previousElement) {
             // highlight new selected element
             this.setHighlightSelection(this.previousElement,true, true);
@@ -293,13 +293,9 @@ export class PreviewDocument {
 
 
     private resizeSvgBackground(rect: Element, tspan: SVGTSpanElement): void {
-        let elt: Element = tspan;
-        while (elt.tagName !== "text") {
-            elt = elt.parentNode as Element;
-            if (elt == null) break;
-        }
-        const text: SVGTextElement = elt as SVGTextElement;
-        const textBoxPixel: ClientRect = text.getBoundingClientRect();
+
+        const text: SVGTSpanElement = tspan;
+        const textBoxPixel: DOMRect = text.getBoundingClientRect();
         const textBoxSVG: SVGRect = text.getBBox();
         if (textBoxPixel.height === 0 || textBoxPixel.width === 0) return;
         const scaleX = textBoxSVG.width / textBoxPixel.width;
