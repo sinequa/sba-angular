@@ -1,5 +1,6 @@
 import {Query, AppService, ExprParser, Expr, ExprValueInitializer} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
+import { Results } from "@sinequa/core/web-services";
 import {SearchService} from "./search.service";
 
 export interface BreadcrumbsItem {
@@ -13,20 +14,20 @@ export interface BreadcrumbsItem {
 /**
  * Description of the Breadcrumbs class - link to {@link SearchService}
  */
-export class Breadcrumbs {
+export class Breadcrumbs<T extends Results = Results> {
     appService: AppService;
-    searchService: SearchService;
+    searchService: SearchService<T>;
     items: BreadcrumbsItem[]; // always starts with the text expression followed by any selects
     advanced: Expr[];
     query: Query; // the associated query. Will be different to the current query if any item other than the last is selected
     fields: Set<string>;
 
-    static create(appService: AppService, searchService: SearchService, query: Query): Breadcrumbs {
-        const breadcrumbs = new Breadcrumbs(appService, searchService, query);
+    static create<T extends Results = Results>(appService: AppService, searchService: SearchService<T>, query: Query): Breadcrumbs<T> {
+        const breadcrumbs = new Breadcrumbs<T>(appService, searchService, query);
         return breadcrumbs.init();
     }
 
-    private constructor(appService: AppService, searchService: SearchService, query: Query) {
+    private constructor(appService: AppService, searchService: SearchService<T>, query: Query) {
         this.appService = appService;
         this.searchService = searchService;
         this.query = query.copy();
@@ -191,7 +192,7 @@ export class Breadcrumbs {
         this.items[this.items.length - 1].active = true;
     }
 
-    private init(): Breadcrumbs {
+    private init(): Breadcrumbs<T> {
         this.initItems();
         return this;
     }

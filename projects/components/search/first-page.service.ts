@@ -45,8 +45,13 @@ export class FirstPageService implements OnDestroy {
             this.loginService.events
                 .pipe(
                     filter(event => event.type === "login-complete"),
-                    tap(_ => this.firstPage = undefined),
-                    switchMap(_ => this.getFirstPage())
+                    switchMap(_ => {
+                        if(this.firstPage) {
+                            this.firstPage = undefined;
+                            return this.getFirstPage();
+                        }
+                        else return of();
+                    })
                 ).subscribe()
         );
     }

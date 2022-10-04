@@ -312,16 +312,19 @@ export class FacetService {
         const success = this.addFilter(facetName, aggregation, items, options);
         if(success) {
             this.events.next({ type: FacetEventType.AddFilter, facet: this.facet(facetName) });
-            return this.searchService.search(undefined, {
-                type: FacetEventType.AddFilter,
-                detail: {
-                    item: <any>this.searchService.query.lastSelect(),
-                    itembox: facetName,
-                    itemcolumn: aggregation.column,
-                    isitemexclude: options.not,
-                    "from-result-id": this.searchService.results?.id
-                }
-            });
+
+            if(this.searchService.isSearchRouteActive()) {
+                return this.searchService.search(undefined, {
+                    type: FacetEventType.AddFilter,
+                    detail: {
+                        item: <any>this.searchService.query.lastSelect(),
+                        itembox: facetName,
+                        itemcolumn: aggregation.column,
+                        isitemexclude: options.not,
+                        "from-result-id": this.searchService.results?.id
+                    }
+                });
+            }
         }
         return Promise.resolve(false);
     }
@@ -422,13 +425,16 @@ export class FacetService {
             this._events.next({type: FacetEventType.ClearFilters, facet: this.facet(name)});
         });
 
-        return this.searchService.search(undefined, {
-                type: FacetEventType.ClearFilters,
-                detail: {
-                    itembox: facetName,
-                    "from-result-id": this.searchService.results?.id
-                }
-            });
+        if(this.searchService.isSearchRouteActive()) {
+            return this.searchService.search(undefined, {
+                    type: FacetEventType.ClearFilters,
+                    detail: {
+                        itembox: facetName,
+                        "from-result-id": this.searchService.results?.id
+                    }
+                });
+        }
+        return Promise.resolve(false);
     }
 
     /**
@@ -506,15 +512,17 @@ export class FacetService {
         if(select) {
             this._events.next({type: FacetEventType.RemoveFilter, facet: this.facet(facetName || "")});
             delete this.searchService.query.queryId; // SBA-154
-            return this.searchService.search(undefined, {
-                type: FacetEventType.RemoveFilter,
-                detail: {
-                    item: {expression: select?.expression, facet: select?.facet},
-                    itembox: facetName,
-                    itemcolumn: aggregation.column,
-                    "from-result-id": !!this.searchService.results ? this.searchService.results.id : null
-                }
-            });
+            if(this.searchService.isSearchRouteActive()) {
+                return this.searchService.search(undefined, {
+                    type: FacetEventType.RemoveFilter,
+                    detail: {
+                        item: {expression: select?.expression, facet: select?.facet},
+                        itembox: facetName,
+                        itemcolumn: aggregation.column,
+                        "from-result-id": !!this.searchService.results ? this.searchService.results.id : null
+                    }
+                });
+            }
         }
         return Promise.resolve(false);
     }

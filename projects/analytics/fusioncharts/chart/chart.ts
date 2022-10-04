@@ -179,10 +179,10 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         this.selectField.update();
         this.selectType.update();
 
-        if(changes['results']) {
+        if(changes.results || changes.defaultColor || changes.filteredColor || changes.selectedColor) {
             this.updateData();
         }
-        if(changes['chart'] || !this.dataSource.chart) {
+        if(changes.chart || !this.dataSource.chart) {
             this.dataSource = {...this.dataSource, chart: this.chart};
         }
     }
