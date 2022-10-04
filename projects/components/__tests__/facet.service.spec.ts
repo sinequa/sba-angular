@@ -37,6 +37,7 @@ describe("FacetService", () => {
 
 		const SearchServiceFactory = () => ({
 			search: () => {},
+      isSearchRouteActive: () => true,
 			query: {
 				replaceSelect: () => {},
 				removeSelect: () => {},
