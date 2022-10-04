@@ -40,6 +40,9 @@ export interface FacetDateParams {
     allowCustomRange?: boolean;
     showCustomRange?: boolean;
     replaceCurrent?: boolean;
+    timelineWidth?: number;
+    timelineHeight?: number;
+    timelineMargin?: {top: number, bottom: number, left: number, right: number};
 }
 
 export interface FacetDateConfig extends FacetConfig<FacetDateParams> {
@@ -66,6 +69,9 @@ export class BsFacetDate
     @Input() allowCustomRange = true; // will allow or not the use of datepickers and timeline for custom range selection
     @Input() showCustomRange = false; // will show/hide datepickers and timeline, once allowed
     @Input() replaceCurrent = true; // if true, the previous "select" is removed first
+    @Input() timelineWidth = 250;
+    @Input() timelineHeight = 150;
+    @Input() timelineMargin = {top: 15, bottom: 20, left: 30, right: 15};
 
     clearFiltersAction: Action;
     items: AggregationItem[] = [];

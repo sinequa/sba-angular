@@ -18,6 +18,7 @@ export interface FacetTreeParams {
     expandedLevel?: number;
     forceMaxHeight?: boolean;
     displayActions?: boolean;
+    alwaysShowSearch?: boolean;
 }
 
 export interface FacetTreeConfig extends FacetConfig<FacetTreeParams> {
@@ -43,6 +44,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
     @Input() forceMaxHeight: boolean = true; // Allow to display a scrollbar automatically on long list items
     @Input() displayActions = false;
     @Input() replaceCurrent = false; // if true, the previous "select" is removed first
+    @Input() alwaysShowSearch = false;
 
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
@@ -188,7 +190,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
                 levelCallback: this.initNodes
             });
             this.originalItems = this.data?.items;
-            this.searchItems.selected = false;
+            this.searchItems.selected = !!this.alwaysShowSearch;
             this.clearSearch();
         }
     }
@@ -228,7 +230,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
             actions.push(this.clearFilters);
         }
 
-        if(this.searchable){
+        if(this.searchable && !this.alwaysShowSearch){
             actions.push(this.searchItems);
         }
 

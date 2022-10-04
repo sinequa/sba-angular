@@ -750,7 +750,7 @@ export interface Answer {
 @Injectable({
     providedIn: "root"
 })
-export class QueryWebService extends HttpService {
+export class QueryWebService<T extends Results = Results> extends HttpService {
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
         public httpClient: SqHttpClient) {
@@ -766,11 +766,11 @@ export class QueryWebService extends HttpService {
      * @param auditEvents Any audit events to store on the server
      * @param queryIntentData Any accompanying query intent data
      */
-    public getResults(query: IQuery, auditEvents?: AuditEvents, queryIntentData?: QueryIntentData): Observable<Results> {
+    public getResults(query: IQuery, auditEvents?: AuditEvents, queryIntentData?: QueryIntentData): Observable<T> {
         if (!query) {
             return throwError({ error: "no query" });
         }
-        const observable = this.httpClient.post<Results>(this.makeUrl(this.endPoint), {
+        const observable = this.httpClient.post<T>(this.makeUrl(this.endPoint), {
             app: this.appName,
             query,
             $auditRecord: auditEvents,
@@ -793,7 +793,7 @@ export class QueryWebService extends HttpService {
      * @param queries The queries to execute
      * @param auditEvents Any audit events to store on the server
      */
-    public getMultipleResults(queries: IQuery[], auditEvents?: AuditEvents): Observable<IMulti<Results>> {
+    public getMultipleResults(queries: IQuery[], auditEvents?: AuditEvents): Observable<IMulti<T>> {
         if (!queries || queries.length === 0) {
             return throwError({ error: "no queries" });
         }
@@ -817,6 +817,6 @@ export class QueryWebService extends HttpService {
                 query
             });
         }
-        return this.httpClient.post<IMulti<Results>>(this.makeUrl("multi"), data);
+        return this.httpClient.post<IMulti<T>>(this.makeUrl("multi"), data);
     }
 }

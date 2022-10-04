@@ -21,6 +21,7 @@ export interface FacetListParams {
     displayActions?: boolean;
     showProgressBar?: boolean;
     replaceCurrent?: boolean;
+    alwaysShowSearch?: boolean;
 }
 
 export interface FacetListConfig extends FacetConfig<FacetListParams> {
@@ -47,6 +48,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     @Input() showProgressBar = false; // Allow to display item count as progress bar
     @Input() acceptNonAggregationItemFilter = true; // when false, filtered items which don't match an existing aggregation item, should not be added to filtered list
     @Input() replaceCurrent = false; // if true, the previous "select" is removed first
+    @Input() alwaysShowSearch = false;
 
     // Aggregation from the Results object
     data$ = new BehaviorSubject<Aggregation | undefined>(undefined)
@@ -204,7 +206,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             this.selected.length = 0;
             this.hiddenSelected.length = 0;
             this.skip = 0;
-            this.searchItems.selected = false;
+            this.searchItems.selected = !!this.alwaysShowSearch;
             this.clearSearch();
             this.data$.next(agg);
         }
@@ -253,7 +255,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             actions.push(this.clearFilters);
         }
 
-        if(this.searchable){
+        if(this.searchable && !this.alwaysShowSearch){
             actions.push(this.searchItems);
         }
 

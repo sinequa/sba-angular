@@ -1,5 +1,4 @@
-import {Directive, Input, Output, ElementRef, OnInit, OnDestroy, EventEmitter} from "@angular/core";
-import {Utils} from "@sinequa/core/base";
+import {Directive, Input, Output, ElementRef, EventEmitter, HostListener} from "@angular/core";
 
 export interface ClickOutsideOptions {
     exclude?: string[];
@@ -8,38 +7,25 @@ export interface ClickOutsideOptions {
 @Directive({
     selector: "[sqClickOutside]"
 })
-export class ClickOutside implements OnInit, OnDestroy {
-    @Input("sqClickOutside") options: ClickOutsideOptions;
+export class ClickOutside {
+    @Input("sqClickOutside") options?: ClickOutsideOptions;
     @Output("sqClickOutside") clickOutside = new EventEmitter<{click: UIEvent}>();
     element: HTMLElement;
+    wasInside: boolean;
 
     constructor(elementRef: ElementRef) {
         this.element = <HTMLElement>elementRef.nativeElement;
     }
 
-    ngOnInit() {
-        document.addEventListener("click", this.clickHandler);
-        if (!this.options) {
-            this.options = { exclude: ['.bs-datepicker'] }; // By default exclude bootstrap date picker
-        }
+    @HostListener('click', ['$event'])
+    click(event: Event) {
+      this.wasInside = true;
     }
 
-    ngOnDestroy() {
-        document.removeEventListener("click", this.clickHandler);
-    }
-
-    private isActive(element: Element): boolean {
-        let active = document["activeElement"];
-        while (active) {
-            if (element === active) {
-                return true;
-            }
-            active = active.parentElement;
-        }
-        return false;
-    }
-
-    clickHandler = (event: MouseEvent) => {
+    @HostListener('document:click', ['$event'])
+    clickHandler(event: MouseEvent) {
+        const _wasInside = this.wasInside;
+        this.wasInside = false;
         if (!event || !event.target) {
             return;
         }
@@ -52,7 +38,7 @@ export class ClickOutside implements OnInit, OnDestroy {
         if (this.element.contains(<HTMLElement>event.target)) {
             return;
         }
-        if (this.options.exclude) {
+        if (this.options?.exclude) {
             let targetRoot = <HTMLElement>event.target;
             while (!!targetRoot.parentElement) {
                 targetRoot = targetRoot.parentElement;
@@ -66,13 +52,8 @@ export class ClickOutside implements OnInit, OnDestroy {
                 }
             }
         }
-        // Call via timeout so we can check whether the click was leading to us taking focus
-        // If we have the focus then we don't call clickOutside
-        Utils.delay()
-            .then(() => {
-                if (!this.isActive(this.element)) {
-                    this.clickOutside.emit({click: event});
-                }
-            });
+        if (!_wasInside) {
+            this.clickOutside.emit({click: event});
+        }
     }
 }

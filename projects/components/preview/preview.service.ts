@@ -107,7 +107,7 @@ export class PreviewService {
         return observable;
     }
 
-    public makeDownloadUrl(url: string): string | undefined {
+    public makeDownloadUrl(url: string | undefined): string | undefined {
         return url ? this.appService.updateUrlForCors(url) : undefined;
     }
 

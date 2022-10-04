@@ -1,5 +1,5 @@
 import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
-import {Router, NavigationStart, NavigationEnd, Params} from "@angular/router";
+import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from "@angular/router";
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from "rxjs";
 import {catchError, map, switchMap} from "rxjs/operators";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
@@ -32,26 +32,26 @@ export const SEARCH_OPTIONS = new InjectionToken<SearchOptions>("SEARCH_OPTIONS"
 @Injectable({
     providedIn: "root"
 })
-export class SearchService implements OnDestroy {
+export class SearchService<T extends Results = Results> implements OnDestroy {
     protected _query: Query | undefined;
     queryStringParams: Params = {};
-    results: Results | undefined;
-    breadcrumbs: Breadcrumbs | undefined;
+    results: T | undefined;
+    breadcrumbs: Breadcrumbs<T> | undefined;
     searchActive: boolean;
 
     protected loginSubscription: Subscription;
     protected routerSubscription: Subscription;
     protected appSubscription: Subscription;
     protected fetchingLoadMore = false;
-    protected _events = new Subject<SearchService.Events>();
+    protected _events = new Subject<SearchService.Events<T>>();
     protected _queryStream = new BehaviorSubject<Query | undefined>(undefined);
-    protected _resultsStream = new BehaviorSubject<Results | undefined>(undefined);
+    protected _resultsStream = new BehaviorSubject<T | undefined>(undefined);
 
     constructor(
         @Optional() @Inject(SEARCH_OPTIONS) protected options: SearchOptions,
         protected router: Router,
         protected appService: AppService,
-        protected queryService: QueryWebService,
+        protected queryService: QueryWebService<T>,
         protected loginService: LoginService,
         protected intlService: IntlService,
         protected formatService: FormatService,
@@ -108,7 +108,7 @@ export class SearchService implements OnDestroy {
         this._resultsStream.complete();
     }
 
-    get events(): Observable<SearchService.Events> {
+    get events(): Observable<SearchService.Events<T>> {
         return this._events;
     }
 
@@ -116,7 +116,7 @@ export class SearchService implements OnDestroy {
         return this._queryStream;
     }
 
-    get resultsStream(): Observable<Results | undefined> {
+    get resultsStream(): Observable<T | undefined> {
         return this._resultsStream.asObservable();
     }
 
@@ -168,20 +168,20 @@ export class SearchService implements OnDestroy {
         this.setQuery(undefined);
     }
 
-    public updateBreadcrumbs(results: Results | undefined, options: SearchService.SetResultsOptions) {
+    public updateBreadcrumbs(results: T | undefined, options: SearchService.SetResultsOptions) {
         if (!results) {
             this.breadcrumbs = undefined;
             return;
         }
         if (!this.breadcrumbs || (!options.resuseBreadcrumbs && !options.advanced)) {
-            this.breadcrumbs = Breadcrumbs.create(this.appService, this, this.query);
+            this.breadcrumbs = Breadcrumbs.create<T>(this.appService, this, this.query);
         }
         else if (options.advanced) {
             this.breadcrumbs.update(this.query);
         }
     }
 
-    private _setResults(results: Results | undefined, options: SearchService.SetResultsOptions = {}) {
+    private _setResults(results: T | undefined, options: SearchService.SetResultsOptions = {}) {
         if (results === this.results) {
             return;
         }
@@ -201,13 +201,13 @@ export class SearchService implements OnDestroy {
         this._resultsStream.next(this.results);
     }
 
-    public setResults(results: Results) {
+    public setResults(results: T) {
         return this._setResults(results);
     }
 
     // TODO: queryintents in their own service ?
 
-    private treatQueryIntents (results: Results | undefined) {
+    private treatQueryIntents (results: T | undefined) {
         if (results && results.queryAnalysis && results.queryIntents) {
             const queryIntents = results.queryIntents;
             for (const intent of queryIntents) {
@@ -396,7 +396,7 @@ export class SearchService implements OnDestroy {
 
     getResults(
         query: Query, auditEvents?: AuditEvents,
-        options: SearchService.GetResultsOptions = {}): Observable<Results> {
+        options: SearchService.GetResultsOptions = {}): Observable<T> {
         if (!this.checkEmptySearch(query)) {
             return throwError("empty search");
         }
@@ -424,7 +424,7 @@ export class SearchService implements OnDestroy {
         );
     }
 
-    getMultipleResults(queries: Query[], auditEvents?: AuditEvents): Observable<IMulti<Results>> {
+    getMultipleResults(queries: Query[], auditEvents?: AuditEvents): Observable<IMulti<T>> {
         if (!this.checkEmptySearch(queries)) {
             return of({results: []});
         }
@@ -460,7 +460,7 @@ export class SearchService implements OnDestroy {
                 audit,
                 navigationOptions: options
             };
-            const extras = {
+            const extras: NavigationExtras = {
                 queryParams,
                 state,
                 skipLocationChange: options.skipLocationChange
@@ -479,7 +479,7 @@ export class SearchService implements OnDestroy {
             // If path and search are both the same as current then force navigation (without adding to history)
             if (Utils.eq(currentPath, path) && Utils.eq(currentSearch, search)) {
                 // We want to force the navigation so that the query will be processed
-                extras.queryParams.$refresh = Utils.now.getTime();
+                extras.queryParams!.$refresh = Utils.now.getTime();
                 // But don't update the browser url
                 extras.skipLocationChange = true;
             }
@@ -686,7 +686,7 @@ export class SearchService implements OnDestroy {
 
         // This event allows customization of behavior when switching tabs (the observable property can be modified to get other results)
         if (navigationOptions.selectTab) {
-            const afterSelectTabEvent: SearchService.AfterSelectTabEvent = {
+            const afterSelectTabEvent: SearchService.AfterSelectTabEvent<T> = {
                 type: "after-select-tab",
                 observable
             };
@@ -1016,14 +1016,14 @@ export module SearchService {
         query: Query;
     }
 
-    export interface BeforeNewResultsEvent extends Event {
+    export interface BeforeNewResultsEvent<T> extends Event {
         type: "before-new-results";
-        results: Results | undefined;
+        results: T | undefined;
     }
 
-    export interface NewResultsEvent extends Event {
+    export interface NewResultsEvent<T> extends Event {
         type: "new-results";
-        results: Results | undefined;
+        results: T | undefined;
     }
 
     export interface MakeQueryIntentDataEvent extends Event {
@@ -1049,9 +1049,9 @@ export module SearchService {
         query: Query;
     }
 
-    export interface AfterSelectTabEvent extends Event {
+    export interface AfterSelectTabEvent<T> extends Event {
         type: "after-select-tab";
-        observable: Observable<Results|undefined>;
+        observable: Observable<T|undefined>;
     }
 
     export interface ClearEvent extends Event {
@@ -1077,17 +1077,17 @@ export module SearchService {
         cancelSearch: boolean;
     }
 
-    export type Events =
+    export type Events<T> =
         NewQueryEvent |
         UpdateQueryEvent |
         MakeQueryEvent |
-        BeforeNewResultsEvent |
-        NewResultsEvent |
+        BeforeNewResultsEvent<T> |
+        NewResultsEvent<T> |
         MakeQueryIntentDataEvent |
         ProcessQueryIntentActionEvent |
         MakeAuditEventEvent |
         BeforeSelectTabEvent |
-        AfterSelectTabEvent |
+        AfterSelectTabEvent<T> |
         ClearEvent |
         OpenOriginalDocument |
         BeforeSearchEvent |
