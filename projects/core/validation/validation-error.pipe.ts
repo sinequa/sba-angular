@@ -19,6 +19,6 @@ export class ValidationErrorPipe extends AbstractIntlPipe {
         super.updateValue(key, params);
         const text = this.validationService.getFirstErrorText(key);
         const info = this.validationService.getFirstErrorInfo(key);
-        this.value = text ? this.intlService.formatMessage(text, {values: info}) : undefined;
+        this.value = text ? this.intlService.formatMessage(text, info) : undefined;
     }
 }
