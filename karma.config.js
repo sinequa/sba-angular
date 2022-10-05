@@ -17,6 +17,7 @@ module.exports = function (config, path = '') {
       require('path').join(__dirname, 'polyfill.js')
     ],
     client: {
+      captureConsole: false,
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     browserConsoleLogOptions: {

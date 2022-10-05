@@ -1,6 +1,5 @@
 import {HttpParams, HttpParameterCodec} from "@angular/common/http";
 import {Observable, Subscription} from "rxjs";
-import moment from "moment";
 import {remove as removeDiacritics} from "diacritics";
 import jsSHA from "jssha";
 import {MapOf} from "./map-of";
@@ -11,6 +10,7 @@ import camelCase from "lodash/camelCase";
 import escape from "lodash/escape";
 import unescape from "lodash/unescape";
 import isEqual from "lodash/isEqual";
+import { format, isValid, parseISO } from "date-fns";
 
 // Because of: https://github.com/angular/angular/issues/18261
 class SqHttpParameterCodec implements HttpParameterCodec {
@@ -68,7 +68,7 @@ export interface ThrottleSettings {
 
 class FrameTask {
     constructor(
-        public callback: (...params) => any,
+        public callback: (...args) => any,
         public params: any[]) {
     }
 
@@ -309,76 +309,76 @@ export class Utils {
 
         return copyElement(source);
 
-        function copyRecurse(source, destination) {
+        function copyRecurse(src, dest) {
             let key;
-            if (Utils.isArray(source)) {
-                for (let i = 0, ii = source.length; i < ii; i++) {
-                    destination.push(copyElement(source[i]));
+            if (Utils.isArray(src)) {
+                for (let i = 0, ii = src.length; i < ii; i++) {
+                    dest.push(copyElement(src[i]));
                 }
-            } else if (Utils.isBlankObject(source)) {
+            } else if (Utils.isBlankObject(src)) {
                 // createMap() fast path --- Safe to avoid hasOwnProperty check because prototype chain is empty
-                for (key in source) {
-                    destination[key] = copyElement(source[key]);
+                for (key in src) {
+                    dest[key] = copyElement(src[key]);
                 }
-            } else if (source && typeof source.hasOwnProperty === 'function') {
+            } else if (src && typeof src.hasOwnProperty === 'function') {
                 // Slow path, which must rely on hasOwnProperty
-                for (key in source) {
-                    if (source.hasOwnProperty(key)) {
-                        destination[key] = copyElement(source[key]);
+                for (key in src) {
+                    if (src.hasOwnProperty(key)) {
+                        dest[key] = copyElement(src[key]);
                     }
                 }
             } else {
                 // Slowest path --- hasOwnProperty can't be called as a method
-                for (key in source) {
-                    if (Object.prototype.hasOwnProperty.call(source, key)) {
-                        destination[key] = copyElement(source[key]);
+                for (key in src) {
+                    if (Object.prototype.hasOwnProperty.call(src, key)) {
+                        dest[key] = copyElement(src[key]);
                     }
                 }
             }
-            return destination;
+            return dest;
         }
 
-        function copyElement(source) {
+        function copyElement(src) {
             // Simple values
-            if (!Utils.isObject(source)) {
-                return source;
+            if (!Utils.isObject(src)) {
+                return src;
             }
 
             // Already copied values
-            const index = stackSource.indexOf(source);
+            const index = stackSource.indexOf(src);
             if (index !== -1) {
                 return stackDest[index];
             }
 
-            if (Utils.isWindow(source)) {
+            if (Utils.isWindow(src)) {
                 throw new Error("Can't copy! Making copies of Window instances is not supported.");
             }
 
             let needsRecurse = false;
-            let destination;
+            let dest;
 
-            if (Utils.isArray(source)) {
-                destination = [];
+            if (Utils.isArray(src)) {
+                dest = [];
                 needsRecurse = true;
-            } else if (Utils.isTypedArray(source)) {
-                destination = new source.constructor(source);
-            } else if (Utils.isDate(source)) {
-                destination = new Date(source.getTime());
-            } else if (Utils.isRegExp(source)) {
-                const matches = source.toString().match(/[^\/]*$/);
-                destination = new RegExp(source.source, matches ? matches[0] : "");
-                destination.lastIndex = source.lastIndex;
-            } else if (Utils.isFunction(source.cloneNode)) {
-                destination = source.cloneNode(true);
+            } else if (Utils.isTypedArray(src)) {
+                dest = new src.constructor(src);
+            } else if (Utils.isDate(src)) {
+                dest = new Date(src.getTime());
+            } else if (Utils.isRegExp(src)) {
+                const matches = src.toString().match(/[^\/]*$/);
+                dest = new RegExp(src.source, matches ? matches[0] : "");
+                dest.lastIndex = src.lastIndex;
+            } else if (Utils.isFunction(src.cloneNode)) {
+                dest = src.cloneNode(true);
             } else {
-                destination = Object.create(Object.getPrototypeOf(source));
+                dest = Object.create(Object.getPrototypeOf(src));
                 needsRecurse = true;
             }
 
-            stackSource.push(source);
-            stackDest.push(destination);
+            stackSource.push(src);
+            stackDest.push(dest);
 
-            return needsRecurse ? copyRecurse(source, destination) : destination;
+            return needsRecurse ? copyRecurse(src, dest) : dest;
         }
     }
 
@@ -499,43 +499,34 @@ export class Utils {
      * @param date The `Date` to convert
      */
     static toSysDateStr(date: Date): string {
-        if (!date)  {
+        // with Typescript, this confition will never occurs
+        if (!date) {
             return "";
         }
-        const m = moment(date);
-        if (Utils.getTime(date) === 0) {
-            return m.format("YYYY-MM-DD");
-        }
-        else {
-            return m.format("YYYY-MM-DD HH:mm:ss");
+        try {
+            if (Utils.getTime(date) === 0) {
+                return format(date, "yyyy-MM-dd");
+            }
+            else {
+                return format(date, "yyyy-MM-dd HH:mm:ss");
+            }
+        } catch {
+            return "Invalid date";
         }
     }
 
     /**
-     * Converts a Sinequa system date string (`dd-mm-yyyy[ hh:mm:ss]`) to a `Date`
+     * Converts a Sinequa system date string (`yyyy-mm-dd[ hh:mm:ss]`) to a `Date`
      * If the string cannot be converted then `undefined` is returned
      *
      * @param date The Sinequa system date string to convert
      */
     static fromSysDateStr(value: string): Date | undefined {
-        const m = moment(value, "YYYY-MM-DD HH:mm:ss");
-        if (m.isValid()) {
-            return m.toDate();
+        const m = parseISO(value)
+        if (isValid(m)) {
+            return m;
         }
         return undefined;
-    }
-
-    private static rxSysDateTime = /^\d{4}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01])(?: (?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d)?$/;
-    // private static rxISO8601 = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
-    // ISO8601 combined date and time
-    private static rxISO8601DateTime = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
-
-    private static isSysDateTime(str: string): boolean {
-        return Utils.rxSysDateTime.test(str);
-    }
-
-    private static isISO8601DateTime(str: string): boolean {
-        return Utils.rxISO8601DateTime.test(str);
     }
 
     /**
@@ -547,12 +538,12 @@ export class Utils {
      */
     static toJson(value: any, options: ToJsonOptions = {pretty: false}): string {
         return JSON.stringify(value,
-            function(key: string, value: any): any  {
+            function(key: string, val: any): any  {
                 if (key && Utils.isDate(this[key])) {
                     const str = Utils.toSysDateStr(this[key]);
                     return str;
                 }
-                return value;
+                return val;
             }, options.pretty ? 2 : 0);
     }
 
@@ -572,17 +563,9 @@ export class Utils {
             return JSON.parse(str, options.reviveDates ?
                 (key, value) => {
                     if (options.reviveDates && typeof value === "string") {
-                        if (Utils.isSysDateTime(value)) {
-                            const m = moment(value, "YYYY-MM-DD HH:mm:ss");
-                            if (m.isValid()) {
-                                return m.toDate();
-                            }
-                        }
-                        else if (Utils.isISO8601DateTime(value)) {
-                            const m = moment(value, moment.ISO_8601);
-                            if (m.isValid()) {
-                                return m.toDate();
-                            }
+                        const m = parseISO(value);
+                        if (isValid(m)) {
+                          return m;
                         }
                     }
                     return value;
@@ -1272,9 +1255,7 @@ export class Utils {
             split = s.split(new RegExp(rxs));
         }
         if (removeEmpty) {
-            split = split.filter((value) => {
-                return !Utils.isEmpty(value);
-            });
+            split = split.filter((value) => !Utils.isEmpty(value));
         }
         return split;
     }
@@ -1639,10 +1620,10 @@ export class Utils {
                     Utils.frameTasks.clear();
                 });
             }
-            const task = Utils.frameTasks.get(callback);
-            if (task) {
+            const tsk = Utils.frameTasks.get(callback);
+            if (tsk) {
                 // Update params
-                task.params = params;
+                tsk.params = params;
             }
             else {
                 // Add new task

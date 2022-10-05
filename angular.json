@@ -108,16 +108,16 @@
               "intl",
               "jssha",
               "lodash",
-              "moment",
               "element-resize-detector",
               "batch-processor",
               "rxjs",
               "@formatjs/intl-relativetimeformat/polyfill",
               "intl-pluralrules",
-              "jstz",
               "atomicjs",
               "fast-text-encoding",
-              "diacritics"
+              "diacritics",
+              "date-fns/locale/_lib/buildFormatLongFn",
+              "@microsoft/teams-js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -254,16 +254,17 @@
               "intl",
               "jssha",
               "lodash",
-              "moment",
               "element-resize-detector",
               "batch-processor",
               "rxjs",
               "@formatjs/intl-relativetimeformat/polyfill",
               "intl-pluralrules",
-              "jstz",
               "atomicjs",
               "fast-text-encoding",
-              "diacritics"
+              "diacritics",
+              "date-fns-tz",
+              "date-fns/locale/_lib/buildFormatLongFn",
+              "@microsoft/teams-js"
             ]
           },
           "configurations": {
@@ -408,13 +409,11 @@
               "intl",
               "jssha",
               "lodash",
-              "moment",
               "element-resize-detector",
               "batch-processor",
               "rxjs",
               "@formatjs/intl-relativetimeformat/polyfill",
               "intl-pluralrules",
-              "jstz",
               "atomicjs",
               "vis-timeline",
               "vis-network",
@@ -428,7 +427,9 @@
               "diacritics",
               "clone-deep",
               "keycharm",
-              "vis-data"
+              "vis-data",
+              "date-fns/locale/_lib/buildFormatLongFn",
+              "@microsoft/teams-js"
             ]
           },
           "configurations": {

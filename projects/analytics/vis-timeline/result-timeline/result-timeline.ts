@@ -1,9 +1,8 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Record, EntityItem} from "@sinequa/core/web-services";
+import { format, parseISO } from "date-fns";
 import {TimelineOptions, DataItem} from "vis-timeline/esnext";
 import { VisTimelineService } from "../vis-timeline.service";
-
-import moment from "moment";
 
 export const defaultOptions : TimelineOptions = {
     minHeight : '150px',
@@ -54,7 +53,7 @@ export class ResultTimeline implements OnChanges {
         events.forEach(event => {
             const data_date = event.display;
             const cooc = data_date.substring(1,data_date.length-1).split(")#(");
-            const date = moment(cooc[1]).toDate();
+            const date = parseISO(cooc[1]);
             //console.log("cooc1:",data_date[i+2]);
             //const pos = event.locations.split(",")[0];
             //console.log(cooc);
@@ -71,13 +70,13 @@ export class ResultTimeline implements OnChanges {
         });
 
         dates.forEach(dateobj => {
-            const date: Date = moment(dateobj.display).toDate();
+            const date: Date = parseISO(dateobj.display);
             //console.log("date:",data_date[i+1]);
             //const pos = dateobj.locations.split(",")[0];
             const year = date.getFullYear();
             const id = this.record.id + "#" + dateobj.display;
             if(year < this.max_year && year > this.min_year && all_dates.indexOf(dateobj.display)===-1 && all_ids.indexOf(id)===-1){
-                this.items.push({id: id, content: moment(date).format('ll'), start: date});
+                this.items.push({id: id, content: format(date, 'PP'), start: date});
                 all_ids.push(id);
             }
         });

@@ -17,6 +17,7 @@ describe('IntlService', () => {
     });
 
     service = TestBed.inject(IntlService)
+    service.init();
   });
 
   it("can load instance", () => {
@@ -33,9 +34,9 @@ describe('IntlService', () => {
 
     // multiples calls to use() method make this test fails
     // refacto in "migration" branch resolves this issue
-    // service.events.subscribe(value => {
-    //   expect(value.locale).toEqual("en-US");
-    // });
+    service.events.subscribe(value => {
+      expect(value.locale).toEqual("en-US");
+    });
 
     service.init();
     expect(init).toHaveBeenCalled();
@@ -56,7 +57,7 @@ describe('IntlService', () => {
 
     // after changing locale, we expect current locale to be "fr"
     service.events.subscribe(value => {
-      expect(value.locale).toEqual("fr");
+      expect(value.locale).toEqual("fr-FR");
     });
 
     // ask to use "fr" locale
@@ -85,11 +86,10 @@ describe('IntlService', () => {
 
     it("should parse DD/MM/YYYY (french)", waitForAsync(() => {
       service.use("fr", false).subscribe(() => {
-        // Moment waits for a MM/DD/YYYY format even when local is not "en-US" !!
-
         expect(service.parseDate("31/12/2022") instanceof Date).toBeTruthy();
 
-        expect(service.parseDate("31-12-2022") instanceof Date).toBeTruthy();
+        // Invalid dates
+        expect(service.parseDate("31-12-2022") instanceof Date).toBeFalsy();
 
         expect(service.parseDate("12/31/2022") instanceof Date).toBeFalsy();
         expect(service.parseDate("12-31-2022") instanceof Date).toBeFalsy();

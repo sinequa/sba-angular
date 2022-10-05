@@ -1,10 +1,10 @@
 import {Injectable, Optional, Inject, OnDestroy, InjectionToken} from "@angular/core";
-import {Subject, Observable, concat, of, throwError} from "rxjs";
-import {map, last} from "rxjs/operators";
-import IntlMessageFormat from "intl-messageformat";
+import {Subject, Observable, of, throwError, from} from "rxjs";
+import {filter, switchMap, tap} from "rxjs/operators";
+import IntlMessageFormat, { Formats } from "intl-messageformat";
 import memoizeFormatConstructor from "intl-format-cache";
 // TODO - check loading of locale data per locale - the ponyfill doesn't seem to work
-import "@formatjs/intl-relativetimeformat/polyfill";
+// import "@formatjs/intl-relativetimeformat/polyfill";
 import "intl-pluralrules";
 import get from "lodash/get";
 import {Utils, MapOf, JsonObject} from "@sinequa/core/base";
@@ -13,7 +13,47 @@ import {Utils, MapOf, JsonObject} from "@sinequa/core/base";
 // load d3 unbundled.
 import {FormatLocaleDefinition, formatDefaultLocale} from "d3-format";
 import {TimeLocaleDefinition, timeFormatDefaultLocale} from "d3-time-format";
-import moment from "moment";
+
+import { isValid, parse, setDefaultOptions, toDate, Locale as fnsLocale, parseISO } from "date-fns";
+import { enUS, fr, de } from 'date-fns/locale';
+
+import buildFormatLongFn from "date-fns/locale/_lib/buildFormatLongFn";
+
+// french and german locales add only one 'y' instead of 'yyyy' as we expected
+// so we customize this part
+// french format long format
+fr.formatLong = {
+    date: buildFormatLongFn({
+        formats: {
+            full: 'EEEE d MMMM yyyy',
+            long: 'd MMMM yyyy',
+            medium: 'd MMM yyyy',
+            short: 'dd/MM/yyyy'
+        },
+        defaultWidth: 'full'
+    }),
+    time: fr.formatLong?.time(),
+    dateTime: fr.formatLong?.dateTime()
+};
+// german format long format
+de.formatLong = {
+    date: buildFormatLongFn({
+        formats: {
+            full: 'EEEE, do MMMM yyyy',
+            // Montag, 7. Januar 2018
+            long: 'do MMMM yyyy',
+            // 7. Januar 2018
+            medium: 'do MMM yyyy',
+            // 7. Jan. 2018
+            short: 'dd.MM.yyyy' // 07.01.2018
+
+        },
+        defaultWidth: 'full'
+    }),
+    time: de.formatLong?.time(),
+    dateTime: de.formatLong?.dateTime()
+};
+
 
 /**
  * @ignore
@@ -97,10 +137,17 @@ export interface LocaleData {
     };
     /**
      * Options pertaining to the `Moment.js` library
+     *
+     * @deprecated 11.8.2 - import your locale from **date-fns/locale** and set it into **customLocale** property.
+     * Otherwise "en-US" locale will be set.
      */
     moment?: { // default to built-in en-us, data is auto set by moment.defineLocale when the locale module is loaded
         locale: string
     };
+    /**
+     * Options pertaining to `date-fns` to inject your custom locale
+     */
+    locale?: fnsLocale;
     /**
      * Options pertaining to the `D3.js` library
      */
@@ -146,11 +193,6 @@ interface NextLang {
     lang1: number;
     lang2: number;
 }
-
-
-// moment needs to be set globally to load moment locales successfully when the locales are bundled in the main rollup bundle
-// see: https://github.com/rollup/rollup/issues/641
-import "./import-moment";
 
 /**
  * Describes the locales configuration object defined by an application and used by the {@link IntlService}
@@ -316,7 +358,7 @@ export class IntlService implements OnDestroy {
     /** The current direction */
     direction: "ltr" | "rtl";
     protected _events: Subject<LocaleChangeEvent>;
-    protected formats: IntlFormats;
+    protected formats: Formats;
 
     constructor(
         @Optional() @Inject(INTL_CONFIG) protected intlConfig: IntlConfig,
@@ -360,7 +402,7 @@ export class IntlService implements OnDestroy {
      * The observable events emitted by this service
      */
     get events(): Observable<LocaleChangeEvent> {
-        return this._events;
+        return this._events.asObservable();
     }
 
     private getInitialLocale(): Locale {
@@ -388,19 +430,14 @@ export class IntlService implements OnDestroy {
     init(): Observable<string> {
         // Set up formats
         this.formats = Utils.merge(DEFAULT_FORMATS, this.intlConfig.formats);
+
         // Load default locale
-        let observable = this.use(this.localesConfig.defaultLocale.name, false);
         const initialLocale = this.getInitialLocale();
-        if (initialLocale !== this.localesConfig.defaultLocale) {
-            // Load initial locale if different to default
-            console.log("Setting initial locale: ", initialLocale.name);
-            observable = concat<string>(observable, this.use(initialLocale.name, false)).pipe(last<string>());
-        }
-        Utils.subscribe(observable,
-            (value) => {
-                console.log("Initial locale set: ", value);
-            });
-        return observable;
+        console.log("Setting initial locale: ", initialLocale.name);
+
+        const obs$ = this.use(initialLocale.name, false);
+        obs$.subscribe(value => console.log("Initial locale set: ", value));
+        return obs$;
     }
 
     private loadData(locale: string): Observable<LocaleData> {
@@ -446,58 +483,52 @@ export class IntlService implements OnDestroy {
             return throwError({error: "unsupported locale"});
         }
 
-        const observable = !!newLocale.data ? of(newLocale.data) : this.loadData(locale);
-        Utils.subscribe<LocaleData>(observable,
-            (data) => {
-                this.currentLocale = newLocale;
+        return from(!!newLocale.data ? of(newLocale.data) : this.loadData(locale))
+            .pipe(
+                filter(_ => this.currentLocale?.name !== newLocale.name ),
+                switchMap(data => {
+                    this.currentLocale = newLocale;
 
-                if (store) {
-                    window.localStorage.setItem("sinequa-locale", this.currentLocale.name);
-                }
-
-                this.direction = this.currentLocale.direction || "ltr";
-
-                if (!this.currentLocale.data) {
-                    this.currentLocale.data = data;
-                }
-
-                // Set moment locale
-                if (this.currentLocale.data.moment) {
-                    // Set (and define if necessary) moment locale (it auto-defines when we are not bundled)
-                    if (moment.locale(this.currentLocale.data.moment.locale) !== this.currentLocale.data.moment.locale) {
-                        console.log(`moment locale not defined: ${this.currentLocale.data.moment.locale} - defaulting to en`);
-                        moment.locale("en");
+                    if (store) {
+                        window.localStorage.setItem("sinequa-locale", this.currentLocale.name);
                     }
-                }
-                else {
-                    moment.locale("en");
-                }
 
-                // Set d3 locale
-                if (this.currentLocale.data.d3) {
-                    formatDefaultLocale(this.currentLocale.data.d3.format);
-                    timeFormatDefaultLocale(this.currentLocale.data.d3.time);
-                }
+                    this.direction = this.currentLocale.direction || "ltr";
 
-                if (this.currentLocale.data.intl && this.currentLocale.data.intl.locale) {
-                    this.intlLocale = this.currentLocale.data.intl.locale;
-                }
-                else {
-                    this.intlLocale = this.localesConfig.defaultLocale.data ? this.localesConfig.defaultLocale.data.intl.locale : "en";
-                }
-                return of(this.intlLocale);
-            });
+                    if (!this.currentLocale.data) {
+                        this.currentLocale.data = data;
+                    }
 
-        const observable2 = observable.pipe(map((value) => {
-            return this.currentLocale.name;
-        }));
+                    // set custom locale if any
+                    if (this.currentLocale.name === "de") {
+                        setDefaultOptions({ locale: de });
+                    }
+                    else if (this.currentLocale.name === "fr") {
+                        setDefaultOptions({ locale: fr });
+                    } else if (this.currentLocale.data.locale) {
+                        setDefaultOptions({ locale: this.currentLocale.data.locale })
+                    } else {
+                        setDefaultOptions({ locale: enUS });
+                    }
 
-        Utils.subscribe(observable2,
-            (name) => {
-                this._events.next({locale: name});
-            });
+                    // Set d3 locale
+                    if (this.currentLocale.data.d3) {
+                        formatDefaultLocale(this.currentLocale.data.d3.format);
+                        timeFormatDefaultLocale(this.currentLocale.data.d3.time);
+                    }
 
-        return observable2;
+                    if (this.currentLocale.data.intl && this.currentLocale.data.intl.locale) {
+                        this.intlLocale = this.currentLocale.data.intl.locale;
+                    }
+                    else {
+                        this.intlLocale = this.localesConfig.defaultLocale.data ? this.localesConfig.defaultLocale.data.intl.locale : "en";
+                    }
+                    return of(this.intlLocale);
+                }),
+                tap(_ => this.currentLocale.name),
+                tap(name => console.log("Setting locale :", name)),
+                tap(name => this._events.next({ locale: name }))
+            );
     }
 
     private getDefaultMessages(): any {
@@ -695,15 +726,14 @@ export class IntlService implements OnDestroy {
     /**
      * Parse a date string in the current locale - eg `04/09/1986`
      *
-     * @param value A date string
+     * @param value A date string (expected format: MM/DD/YYYY)
      * @returns The parse `Date` or `undefined` if the date cannot be parsed
      */
     parseDate(value: string): Date | undefined {
-        const m = moment(value, "L");
-        if (m.isValid()) {
-            return m.toDate();
-        }
-        return undefined;
+        const m = parse(value, 'P', new Date());
+        return isValid(m)
+            ? m
+            : undefined;
     }
 
     private getNamedFormat(type: string, name: string): Intl.DateTimeFormatOptions | Intl.NumberFormatOptions | undefined {
@@ -736,7 +766,7 @@ export class IntlService implements OnDestroy {
      */
     formatDate(value: string | number | Date, options: Intl.DateTimeFormatOptions & { format?: string } = {}): string {
         const {format} = options;
-        const date = value instanceof Date ? value : moment(value).toDate();
+        const date = value instanceof Date ? value : toDate(new Date(value));
         const defaults = (format && this.getNamedFormat("date", format)) || {};
         const filteredOptions = this.filterProps(options, DATE_TIME_FORMAT_OPTIONS, defaults);
         try {
@@ -756,29 +786,33 @@ export class IntlService implements OnDestroy {
      * @param options The options can include a custom format
      */
     formatTime(value: string | number | Date, options: Intl.DateTimeFormatOptions & { format?: string } = {}): string {
-        const {format} = options;
-        const date = value instanceof Date ? value : moment(value).toDate();
-        const defaults = (format && this.getNamedFormat("time", format)) || {};
-        let filteredOptions = this.filterProps(options, DATE_TIME_FORMAT_OPTIONS, defaults);
-        if (!filteredOptions.hour && !filteredOptions.minute && !filteredOptions.second) {
-            // Add default formatting options if hour, minute, or second isn't defined.
-            filteredOptions = Object.assign({},
-                filteredOptions,
-                {
-                    hour: 'numeric',
-                    minute: 'numeric'
-                });
-        }
-        try {
-            return formatters.getDateTimeFormat(this.intlLocale, filteredOptions).format(date);
-        }
-        catch (e) {
-            console.warn("IntlService.formatTime:", e);
+        const { format } = options;
+        const d = typeof(value) === "string" ? isValid(parseISO(value)) ? parseISO(value) : new Date(value) : value;
+        const date = d;
+        // This fix console's warnings when value is incorrect
+        if (isValid(date)) {
+            const defaults = (format && this.getNamedFormat("time", format)) || {};
+            let filteredOptions = this.filterProps(options, DATE_TIME_FORMAT_OPTIONS, defaults);
+            if (!filteredOptions.hour && !filteredOptions.minute && !filteredOptions.second) {
+                // Add default formatting options if hour, minute, or second isn't defined.
+                filteredOptions = Object.assign({},
+                    filteredOptions,
+                    {
+                        hour: 'numeric',
+                        minute: 'numeric'
+                    });
+            }
+            try {
+                return formatters.getDateTimeFormat(this.intlLocale, filteredOptions).format(date);
+            }
+            catch (e) {
+                console.warn("IntlService.formatTime:", e);
+            }
         }
         return String(date);
     }
 
-    private makeRelativeTimeParams(value: Date): { value: number, unit: Intl.RelativeTimeUnit } {
+    private makeRelativeTimeParams(value: Date): { value: number, unit: Intl.RelativeTimeFormatUnit } {
         const diff = value.getTime() - Utils.now.getTime();
         const absDiff = Math.abs(diff);
         if (absDiff < Utils.oneSecond) {
@@ -815,31 +849,38 @@ export class IntlService implements OnDestroy {
      * @param options The options can include a custom format
      */
     formatRelativeTime(
-        value: string | number | Date | undefined, unit?: Intl.RelativeTimeUnit,
+        value: string | number | Date | undefined,
+        unit?: Intl.RelativeTimeFormatUnit,
         options: Intl.RelativeTimeFormatOptions & { format?: string } = {}
     ): string {
         if (value === undefined) {
             return "";
         }
         if (Utils.isString(value)) {
-            value = moment(value).toDate();
+            value = toDate(new Date(value));
         }
-        if (Utils.isDate(value)) {
-            const params =  this.makeRelativeTimeParams(value);
-            value = params.value;
-            unit = params.unit;
-        }
-        const { format } = options;
-        const defaults = (format && this.getNamedFormat("relativeTime", format)) || {};
-        const filteredOptions = this.filterProps(options, RELATIVE_TIME_FORMAT_OPTIONS, defaults);
-        if (!filteredOptions.numeric) {
-            filteredOptions.numeric = "auto"; // default is always - we prefer auto
-        }
-        try {
-            return formatters.getRelativeTimeFormat(this.intlLocale, filteredOptions).format(value, unit);
-        }
-        catch (e) {
-            console.warn("IntlService.formatRelativeTime:", e);
+
+        // This is weird but an "Invalid Date" is a Date object !!
+        if (isValid(value)) {
+            if (Utils.isDate(value)) {
+                const params = this.makeRelativeTimeParams(value);
+                value = params.value;
+                unit = params.unit;
+            }
+            const { format } = options;
+            const defaults = (format && this.getNamedFormat("relativeTime", format)) || {};
+            const filteredOptions = this.filterProps(options, RELATIVE_TIME_FORMAT_OPTIONS, defaults);
+            if (!filteredOptions.numeric) {
+                filteredOptions.numeric = "auto"; // default is always - we prefer auto
+            }
+            try {
+                return formatters.getRelativeTimeFormat(this.intlLocale, filteredOptions).format(value, unit);
+            }
+            catch (e) {
+                console.warn("IntlService.formatRelativeTime:", e);
+            }
+        } else {
+            value = 'NaN';
         }
         return String(value);
     }

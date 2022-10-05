@@ -22,7 +22,7 @@ export function IntlInitializer(intlService: IntlService): () => Promise<string>
  * and an implementation of the ICU Message syntax provided by [FormatJS]{@link https://formatjs.io/}.
  *
  * The module provides mechanisms for the definition and loading of locales which can be extended with library specific
- * locale information. By default, locales contain support for `Moment.js` and `D3.js`.
+ * locale information. By default, locales contain support for `date-fns.js` and `D3.js`.
  *
  * The module can be initialized by importing it using the `forRoot` static method or otherwise providing the
  * {@link LOCALES_CONFIG} injection token

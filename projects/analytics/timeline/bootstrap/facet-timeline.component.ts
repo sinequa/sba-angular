@@ -9,10 +9,10 @@ import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { Action } from '@sinequa/components/action';
 import { TimelineSeries, TimelineDate, TimelineEvent } from './timeline.component';
-import moment from 'moment';
 import { TimelineEventType } from './timeline-legend.component';
 import { timeFormat } from 'd3-time-format';
 import { timeMonth, timeDay, timeHour, timeWeek, timeYear } from 'd3-time';
+import { isValid, parseISO, toDate } from 'date-fns';
 
 export interface TimelineAggregation {
     name?: string;
@@ -176,13 +176,13 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                     parsedexpr = parsedexpr.operands[0];
                 }
                 if(parsedexpr.values){
-                    this.selection = [moment(parsedexpr.values[0]).toDate(), moment(parsedexpr.values[1]).toDate()];
+                    this.selection = [parseISO(parsedexpr.values[0]), parseISO(parsedexpr.values[1])];
                     // Guess a current range based on the selection
                     if(!this.currentRange) {
                         const interval = this.selection[1].getTime() - this.selection[0].getTime();
                         this.currentRange = [ // Selected Interval +10% on each side
-                            moment(this.selection[0].getTime()-interval*0.1).toDate(),
-                            moment(this.selection[1].getTime()+interval*0.1).toDate()
+                            toDate(this.selection[0].getTime()-interval*0.1),
+                            toDate(this.selection[1].getTime()+interval*0.1)
                         ];
                     }
                 }
@@ -308,10 +308,10 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     getRecordsAsEvents(config: TimelineRecords): TimelineEvent[] {
         if (this.results) {
             return this.results.records
-                .filter(r =>  moment(r[config.field]).isValid())
+                .filter(r =>  isValid(parseISO(r[config.field])))
                 .map<TimelineEvent>(r => ({
                         id: r.id,
-                        date: moment(r[config.field]).toDate(),
+                        date: parseISO(r[config.field]),
                         size: !config.size? 6 : typeof config.size === 'function'? config.size(r, r.$selected) : config.size,
                         styles: !config.styles? BsFacetTimelineComponent.defaultRecordStyle(r.$selected) :
                                 typeof config.styles === 'function'? config.styles(r, r.$selected) :
@@ -546,7 +546,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             .map(item => {
                 if(!!item.value && !(item.value instanceof Date)){
                     const val = item.value.toString();
-                    item.value = moment(val.length <= 4? val + "-01" : val).toDate();
+                    item.value = parseISO(val.length <= 4? val + "-01" : val);
                     if(isNaN(item.value.getTime())){
                         item.value = <Date><unknown> undefined; // So it gets filtered out
                     }

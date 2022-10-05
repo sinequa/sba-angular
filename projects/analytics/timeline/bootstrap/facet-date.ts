@@ -24,12 +24,11 @@ import {
     AggregationItem,
     Results,
 } from "@sinequa/core/web-services";
+import { parseISO } from "date-fns";
 import { Subscription } from "rxjs";
 import { debounceTime, filter, map } from "rxjs/operators";
 import { BsFacetTimelineComponent } from "./facet-timeline.component";
 import { TimelineSeries } from "./timeline.component";
-
-import moment from "moment";
 
 export interface FacetDateParams {
     aggregation: string;
@@ -125,8 +124,8 @@ export class BsFacetDate
             this.subscriptions.push(
                 this.searchService.queryStream.subscribe(() => {
                     const value = this.getRangeValue();
-                    const from = !value[0] ? undefined : moment(value[0]).toDate();
-                    const to = !value[1] ? undefined : moment(value[1]).toDate()
+                    const from = !value[0] ? undefined : parseISO(value[0]);
+                    const to = !value[1] ? undefined : parseISO(value[1]);
                     this.dateRangeControl.setValue([from, to], { emitEvent: false });
                     this.selection = !value[0] && !value[1] ? undefined : [from, to];
                 })

@@ -1,13 +1,43 @@
 import { ChangeDetectorRef } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
+import { IntlService, Locale, LocaleData, LocalesConfig, LOCALES_CONFIG } from "@sinequa/core/intl";
+import { DateFnsPipe } from "./date-fns.pipe"
 
-import { AppLocalesConfig } from "@testing/mocks/app.locales.config";
-import { IntlService, LOCALES_CONFIG } from "@sinequa/core/intl";
+const localeDataFR: LocaleData = {
+  intl: {
+    locale: 'fr-FR'
+  },
+  messages: {}
+}
+const localeDataEN: LocaleData = {
+  intl: {
+    locale: 'en-US'
+  },
+  messages: {}
+}
+const localeDataDE: LocaleData = {
+  intl: {
+    locale: 'de-DE'
+  },
+  messages: {}
+}
 
-import { MomentPipe } from "./moment-pipe";
+class AppLocalesConfig implements LocalesConfig {
+  defaultLocale: Locale;
+  locales?: Locale[];
+  constructor(){
+      this.locales = [
+          { name: "en", display: "msg#locale.en", data: localeDataEN },
+          { name: "fr", display: "msg#locale.fr", data: localeDataFR },
+          { name: "de", display: "msg#locale.de", data: localeDataDE },
+      ];
+      this.defaultLocale = this.locales[0];
+  }
+}
 
-describe("MomentPipe", () => {
-  let pipe: MomentPipe;
+describe("DateFnsPipe", () => {
+  let pipe: DateFnsPipe;
+  let service: IntlService;
 
   beforeEach(() => {
 
@@ -19,10 +49,10 @@ describe("MomentPipe", () => {
     });
 
     // first init IntlService to en-US locale (default)
-    const service = TestBed.inject(IntlService);
+    service = TestBed.inject(IntlService);
     service.init();
 
-    pipe = new MomentPipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = new DateFnsPipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
   })
 
   it('transforms "2022-12-31" to ... with i18n', () => {
@@ -30,6 +60,7 @@ describe("MomentPipe", () => {
     const d1 = "2022-12-30";
 
     // Beware, if "format" is set, others options are not processed
+    expect(service.currentLocale.name).toEqual("en");
 
     // format
     expect(pipe.transform(d, { format: "MMMM yyyy" })).toEqual("December 2022");
@@ -75,13 +106,16 @@ describe("MomentPipe", () => {
     expect(pipe.transform(d, { type: 'diff', unit: 'month', reference: d1 })).toEqual('1');
     expect(pipe.transform(d, { type: 'diff', unit: 'months', reference: d1 })).toEqual('1');
 
+    expect(pipe.transform(d, { type: 'diff', unit: "weeks", reference: d1 })).toEqual("4");
+
     const r = "2030-01-01";
     const r1 = "2022-01-01";
     // should returns 8 years between the two dates
     expect(pipe.transform(r, { type: 'diff', unit: 'year', reference: r1 })).toEqual('8');
     expect(pipe.transform(r, { type: 'diff', unit: 'years', reference: r1 })).toEqual('8');
 
-    // not supported "unit" returns an empty string
     expect(pipe.transform(d, { type: 'diff', unit: 'hour', reference: d1 })).toEqual("744");
+    expect(pipe.transform(d, { type: 'diff', unit:  "minutes", reference: d1 })).toEqual("44640");
+    expect(pipe.transform(d, { type: 'diff', unit:  "seconds", reference: d1 })).toEqual("2678400");
   })
 })

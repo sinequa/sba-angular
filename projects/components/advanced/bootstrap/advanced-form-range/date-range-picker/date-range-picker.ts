@@ -4,8 +4,8 @@ import {Subscription} from "rxjs";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
 import {BsDaterangepickerConfig, BsDatepickerDirective, BsDatepickerConfig, BsDaterangepickerDirective} from "ngx-bootstrap/datepicker";
-import moment from "moment";
 import { DatePickerOptions } from '../date-picker/date-picker';
+import { getDefaultOptions, toDate } from "date-fns";
 
 export const DATE_RANGE_PICKER_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -74,9 +74,13 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     }
 
     public get dateFormat(): string {
-        return this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L');
+        const { locale } = getDefaultOptions() as {locale: Locale};
+        return this.options.system
+            ? this.SystemFormat
+            : locale
+                ? locale?.formatLong?.date({ width: 'short' }).toUpperCase()
+                : "MM/DD/YYYY"
     }
-
     setLocale() {
         if (this.fromToPicker?.isOpen) {
             this.fromToPicker.hide();
@@ -113,7 +117,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             maxDate: this.options.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            rangeInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L')
+            rangeInputFormat: this.dateFormat
         };
     }
 
@@ -132,7 +136,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             maxDate: this.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L'),
+            dateInputFormat: this.dateFormat
         };
     }
 
@@ -142,7 +146,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             maxDate: this.options.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L'),
+            dateInputFormat: this.dateFormat
         };
     }
 
@@ -191,8 +195,8 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             if (!value) {
                 value = [undefined, undefined];
             } else {
-                value[0] = !!value[0] ? moment(value[0]).toDate() : value[0];
-                value[1] = !!value[1] ? moment(value[1]).toDate() : value[1];
+                value[0] = !!value[0] ? toDate(value[0]) : value[0];
+                value[1] = !!value[1] ? toDate(value[1]) : value[1];
             }
             if (this.options.closedRange) {
                 this.value = value;
