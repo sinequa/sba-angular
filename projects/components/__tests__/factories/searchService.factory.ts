@@ -5,4 +5,5 @@ export const SearchServiceFactory = () => ({
   isEmptySearchIgnoreSelects: () => {},
   isSearchRouteActive: () => true,
   query: new Query("test"),
+  events: { subscribe: f => f}
 })

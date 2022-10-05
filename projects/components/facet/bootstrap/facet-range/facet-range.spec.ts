@@ -6,6 +6,9 @@ import {NgxSliderModule} from '@angular-slider/ngx-slider';
 import {IntlModule} from '@sinequa/core/intl';
 import {EngineType, EngineTypeModifier, Results, START_CONFIG} from '@sinequa/core/web-services';
 import {MODAL_LOGIN} from '@sinequa/core/login';
+import {MODAL_CONFIRM, MODAL_PROMPT} from '@sinequa/core/modal';
+import {AppService} from '@sinequa/core/app-utils';
+import {UIService} from '@sinequa/components/utils';
 
 import {RouterStub} from '@testing/stubs/router.stub';
 import {AppLocalesConfig} from '@testing/mocks/app.locales.config';
@@ -13,10 +16,6 @@ import {startConfig} from "@testing/mocks/start.config";
 
 import {BsFacetModule} from '../facet.module';
 import {BsFacetRange} from './facet-range';
-import {MODAL_CONFIRM, MODAL_PROMPT} from '@sinequa/core/modal';
-import {AppService} from '@sinequa/core/app-utils';
-import {UIService} from '@sinequa/components/utils';
-import moment from 'moment';
 
 
 describe('BsFacetRange', () => {
@@ -215,8 +214,8 @@ describe('BsFacetRange', () => {
     fixture.detectChanges();
 
     expect(context["parseValue"]).toHaveBeenCalledTimes(2);
-    expect(context.options.floor).toEqual(moment("2010-01-01").toDate().getTime());
-    expect(context.options.ceil).toEqual(moment("2020-12-31").toDate().getTime());
+    expect(context.options.floor).toEqual(1262300400000);
+    expect(context.options.ceil).toEqual(1609369200000);
 
   })
 
@@ -226,15 +225,15 @@ describe('BsFacetRange', () => {
 
     setModifiedAggregation();
 
-    context.min = moment("2010-01-01").toDate();
-    context.max = moment("2020-12-31").toDate();
+    context.min = new Date("2010-01-01");
+    context.max = new Date("2020-12-31");
 
     context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true }});
     fixture.detectChanges();
 
     expect(context["parseValue"]).toHaveBeenCalledTimes(2);
-    expect(context.options.floor).toEqual(moment("2010-01-01").toDate().getTime());
-    expect(context.options.ceil).toEqual(moment("2020-12-31").toDate().getTime());
+    expect(context.options.floor).toEqual(1262300400000);
+    expect(context.options.ceil).toEqual(1609455600000);
 
   })
 
