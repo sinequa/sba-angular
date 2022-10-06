@@ -54,8 +54,9 @@ class AppLocalesConfig implements LocalesConfig {
 
 describe("LabelPipe", () => {
   let pipe: LabelPipe;
+  let service: IntlService;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     const AuthServiceFactory = () => ({});
 
     TestBed.configureTestingModule({
@@ -82,8 +83,11 @@ describe("LabelPipe", () => {
       ]
     });
 
+    service = TestBed.inject(IntlService);
+    service.init();
+
     pipe = new LabelPipe(TestBed.inject(LabelsService), TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
-  })
+  }))
 
   it('transforms an error message ... with i18n (en-US)', () => {
     // This pipe has the same behavior of a Message Pipe !?
@@ -94,7 +98,6 @@ describe("LabelPipe", () => {
   })
 
   it('transforms an error message ... with i18n (french)', waitForAsync(() => {
-    const service = TestBed.inject(IntlService);
     service.use("fr", false).subscribe(_ => {
       expect(pipe.transform("msg#labels.removePublicLabelTitle", true)).toEqual("Supprimer le libellé public");
       expect(pipe.transform("msg#labels.removePublicLabelTitle", false)).toEqual("Supprimer le libellé public");

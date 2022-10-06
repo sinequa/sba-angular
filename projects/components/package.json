@@ -6,7 +6,6 @@
     "@fortawesome/fontawesome-free": "^5.13.0",
     "bootstrap": "^5.1.3",
     "element-resize-detector": "^1.2.1",
-    "moment": "^2.29.4",
     "@angular-slider/ngx-slider": "^2.0.4",
     "ngx-bootstrap": "^8.0.0",
     "@popperjs/core": "^2.10.2"

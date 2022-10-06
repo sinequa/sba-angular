@@ -4,7 +4,7 @@ import {Subscription} from "rxjs";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
 import {BsDatepickerDirective, BsDatepickerConfig} from "ngx-bootstrap/datepicker";
-import moment from "moment";
+import { getDefaultOptions, Locale } from "date-fns";
 
 export const DATE_PICKER_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -52,7 +52,12 @@ export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlVa
     }
 
     public get dateFormat(): string {
-        return this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L');
+        const { locale } = getDefaultOptions() as {locale: Locale};
+        return this.options.system
+            ? this.SystemFormat
+            : locale
+                ? locale?.formatLong?.date({ width: 'short' }).toUpperCase()
+                : "MM/DD/YYYY"
     }
 
     setLocale() {
@@ -82,7 +87,7 @@ export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlVa
             maxDate: this.options.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L')
+            dateInputFormat: this.dateFormat
         };
     }
 

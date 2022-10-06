@@ -1,14 +1,12 @@
-import {Pipe, ChangeDetectorRef} from "@angular/core";
+import {ChangeDetectorRef, Pipe} from "@angular/core";
 import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 import {LabelsService} from "./labels.service";
 
 @Pipe({name: "sqLabel", pure: false})
-export class LabelPipe extends AbstractIntlPipe {
+export class LabelPipe extends AbstractIntlPipe<string, boolean> {
     constructor(
-        protected labelsService: LabelsService,
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
+        protected labelsService: LabelsService, intlService: IntlService, cdr: ChangeDetectorRef) {
+        super(intlService, cdr);
     }
 
     override updateValue(value: string, _public?: boolean): void {

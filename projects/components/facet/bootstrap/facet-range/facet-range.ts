@@ -5,7 +5,7 @@ import {AppService, FormatService, Expr, ExprOperator, ExprBuilder} from "@sineq
 import {IntlService} from "@sinequa/core/intl";
 import {CCColumn, Results, Aggregation} from "@sinequa/core/web-services";
 import {Options, LabelType, ChangeContext} from "@angular-slider/ngx-slider";
-import moment from "moment";
+import { getDay, getTime, getWeek, getWeekYear, isValid, parseISO } from "date-fns";
 import {FacetService} from "../../facet.service";
 import {SearchService} from "@sinequa/components/search";
 import {UIService} from "@sinequa/components/utils";
@@ -112,8 +112,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         if (this.format) {
             if (this.column && AppService.isDate(this.column)) {
                 const date = new Date(value1);
-                const m = moment(date);
-                return this.intlService.formatMessage(this.format, {date: date, time: Utils.getTime(date), weekDay: m.weekday(), week: m.week(), weekYear: m.weekYear()});
+                return this.intlService.formatMessage(this.format, {date: date, time: Utils.getTime(date), weekDay: getDay(date), week: getWeek(date), weekYear: getWeekYear(date)});
             }
             else {
                 return this.intlService.formatMessage(this.format, {value: value1});
@@ -227,8 +226,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
                         date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + adjust);
                     }
                     // Then, round to week number
-                    const m = moment(date);
-                    const week = m.week();
+                    const week = getWeek(date);
                     if (week % multiple !== 0) {
                         date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + (this.roundAdjustment(week, multiple, roundType) * 7));
                     }
@@ -277,7 +275,8 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
                 else if (seconds > 59) {
                     seconds = 59;
                 }
-                dateStr = dateStr.substr(0, secondsSep + 1) + seconds;
+                // seconds must contains 2 digits
+                dateStr = dateStr.substring(0, secondsSep + 1) + String(seconds).padStart(2, "0");
             }
         }
         return dateStr;
@@ -338,9 +337,9 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         if (Utils.testFloat(value)) { // Return as a plain number if it is one
           return Utils.toNumber(value, 0);
         }
-        const date = moment(value); // Try parsing as a date
-        if (date.isValid()) {
-          return date.toDate().getTime();
+        const date = parseISO(value); // Try parsing as a date
+        if (isValid(date)) {
+          return getTime(date);
         }
         // Finally, manage durations and sizes special formats
         if(this.column && AppService.isDate(this.column)) {

@@ -10,7 +10,7 @@ import {Utils} from "@sinequa/core/base";
  * unnecessary processing
  */
 @Pipe({name: "sqAbstractIntlPipe", pure: false})
-export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
+export abstract class AbstractIntlPipe<U, V> implements PipeTransform, OnDestroy {
     protected value: any = "";
     protected lastValue: any;
     protected lastParams: any;
@@ -21,13 +21,13 @@ export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
         protected changeDetectorRef: ChangeDetectorRef) {
     }
 
-    protected updateValue(value: any, params?: any): void {
+    protected updateValue(value: U, params?: V): void {
         this.lastValue = value;
         this.lastParams = params;
         this.changeDetectorRef.markForCheck();
     }
 
-    transform(value: any, params?: any): any {
+    transform(value: U, params?: V): any {
         // if we ask another time for the same key, return the last value
         if (Utils.equals(value, this.lastValue) && Utils.equals(params, this.lastParams)) {
             return this.value;

@@ -7,7 +7,7 @@ import {ValidationService} from "./validation.service";
  * A pipe to display the first error in a `ValidationErrors` map.
  */
 @Pipe({name: "sqValidationError", pure: false})
-export class ValidationErrorPipe extends AbstractIntlPipe {
+export class ValidationErrorPipe extends AbstractIntlPipe<ValidationErrors, any> {
     constructor(
         intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef,
