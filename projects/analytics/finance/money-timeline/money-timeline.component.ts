@@ -11,7 +11,7 @@ import { schemeCategory10 } from "d3-scale-chromatic";
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
-import moment from "moment";
+import { parseISO } from "date-fns";
 
 export interface MoneyDatum {
     value: number;
@@ -229,7 +229,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         return {
             value: parseFloat(val[1]),
             currency: val[0],
-            date: moment(record.modified).toDate(),
+            date: parseISO(record.modified),
             count,
             rawvalue,
             record
@@ -305,7 +305,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Equivalent of former d3.mouse()
      */
      private point(node: SVGElement, event: MouseEvent) {
-      var rect = node.getBoundingClientRect();
+      const rect = node.getBoundingClientRect();
       return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
     }
 

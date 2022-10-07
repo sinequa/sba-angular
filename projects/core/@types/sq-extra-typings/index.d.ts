@@ -104,31 +104,6 @@ declare module "textarea-caret";
 // For importing json (eg i18n message files)
 declare module "*.json";
 
-// For jqwidgets globalization
-declare var Globalize;
-declare module "jqwidgets-framework/jqwidgets/globalization/globalize" {
-    export default Globalize;
-}
-
-declare module "focus-within";
-
-// Not in any standard type definitions yet...
-declare namespace Intl {
-    type RelativeTimeUnit = "year" | "years" | "quarter" | "quarters" | "month" | "months" | "week" | "weeks" |
-        "day" | "days" | "hour" | "hours" | "minute" | "minutes" | "second" | "seconds";
-
-    interface RelativeTimeFormatOptions {
-        localeMatcher?: "lookup" | "best fit";
-        numeric?: "always" | "auto";
-        style?: "long" | "short" | "narrow";
-    }
-
-    class RelativeTimeFormat {
-        constructor(locale?: string, options?: RelativeTimeFormatOptions);
-        format(value: number, unit: RelativeTimeUnit);
-    }
-}
-
 interface Navigator {
     msSaveOrOpenBlob: (Blob: Blob | string, filename: string) => void;
   }

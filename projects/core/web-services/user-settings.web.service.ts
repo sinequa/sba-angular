@@ -5,7 +5,6 @@ import {HttpService} from "./http.service";
 import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils} from "@sinequa/core/base";
 import {AuditEvents} from "./audit.web.service";
-import jstz from "jstz";
 
 /**
  * Minimal built-in user settings. Can be extended in the context of
@@ -55,7 +54,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
         @Inject(START_CONFIG) startConfig: StartConfig,
         private httpClient: SqHttpClient) {
         super(startConfig);
-        this.timezone = jstz.determine().name(); // until momentjs gets this
+        this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     }
 
     ngOnDestroy() {

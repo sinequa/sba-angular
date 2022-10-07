@@ -7,7 +7,7 @@ import {ValidationService} from "./validation.service";
  * A pipe to display the first error in a `ValidationErrors` map.
  */
 @Pipe({name: "sqValidationError", pure: false})
-export class ValidationErrorPipe extends AbstractIntlPipe {
+export class ValidationErrorPipe extends AbstractIntlPipe<ValidationErrors, any> {
     constructor(
         intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef,
@@ -19,6 +19,6 @@ export class ValidationErrorPipe extends AbstractIntlPipe {
         super.updateValue(key, params);
         const text = this.validationService.getFirstErrorText(key);
         const info = this.validationService.getFirstErrorInfo(key);
-        this.value = text ? this.intlService.formatMessage(text, {values: info}) : undefined;
+        this.value = text ? this.intlService.formatMessage(text, info) : undefined;
     }
 }

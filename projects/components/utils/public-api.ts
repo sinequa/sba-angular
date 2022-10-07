@@ -11,6 +11,7 @@ export * from "./pipes/date-pipe";
 export * from "./pipes/expr-pipe";
 export * from "./pipes/memory-size-pipe";
 export * from "./pipes/moment-pipe";
+export * from "./pipes/date-fns.pipe";
 export * from "./pipes/number-pipe";
 export * from "./pipes/relative-time-pipe";
 export * from "./pipes/time-pipe";

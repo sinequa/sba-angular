@@ -1,5 +1,4 @@
 import {LocaleData} from "@sinequa/core/intl";
-import "moment/locale/de";
 import d3Format from "d3-format/locale/de-DE.json";
 import d3Time from "d3-time-format/locale/de-DE.json";
 import {deCore} from "@sinequa/core/messages";

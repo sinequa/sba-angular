@@ -47,10 +47,7 @@ export class BsEditUserSettings implements OnInit {
                 const newLocale = this.form.value['selectedLocale'];
                 this.form.removeControl('selectedLocale');
                 if (!Utils.eqNC(this.model['language'], newLocale)) {
-                    Utils.subscribe(
-                        this.intlService.use(newLocale),
-                        response => console.log('editUserSettings UI language changed.')
-                    );
+                    this.intlService.use(newLocale).subscribe(response => console.log('editUserSettings UI language changed.'))
                 }
 
                 const patch = this.calculatePatch();

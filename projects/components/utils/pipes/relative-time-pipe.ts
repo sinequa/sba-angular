@@ -1,15 +1,12 @@
-import {Pipe, ChangeDetectorRef} from "@angular/core";
-import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
+import {Pipe} from "@angular/core";
+import {AbstractIntlPipe} from "@sinequa/core/intl";
+
+type RelativeTimeParams = { unit: Intl.RelativeTimeFormatUnit } & Intl.RelativeTimeFormatOptions & { format?: string };
 
 @Pipe({name: "sqRelativeTime", pure: false})
-export class RelativeTimePipe extends AbstractIntlPipe {
-    constructor(
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
-    }
+export class RelativeTimePipe extends AbstractIntlPipe<(string | number | Date | undefined), RelativeTimeParams> {
 
-    override updateValue(key: string |number | Date | undefined, params: {unit: Intl.RelativeTimeUnit} & Intl.RelativeTimeFormatOptions & { format?: string }): void {
+    override updateValue(key: string | number | Date | undefined, params: RelativeTimeParams): void {
         super.updateValue(key, params);
         this.value = this.intlService.formatRelativeTime(key, params ? params.unit : undefined, params);
     }

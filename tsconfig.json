@@ -27,7 +27,8 @@
       "projects/core/base/strict-union"
     ],
     "lib": [
-      "es2018",
+      "es2020",
+      "ES2020.Intl",
       "dom"
     ],
     "paths": {

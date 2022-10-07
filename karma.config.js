@@ -17,6 +17,7 @@ module.exports = function (config, path = '') {
       require('path').join(__dirname, 'polyfill.js')
     ],
     client: {
+      captureConsole: false,
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     browserConsoleLogOptions: {
@@ -29,13 +30,13 @@ module.exports = function (config, path = '') {
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },
-    reporters: ['mocha', 'kjhtml'],
+    reporters: ['mocha'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['ChromeHeadless'],
-    singleRun: false,
+    singleRun: true,
     restartOnFileChange: true
   });
 };

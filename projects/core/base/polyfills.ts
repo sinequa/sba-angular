@@ -1,4 +1,4 @@
-import "fast-text-encoding"; // IE 11 / Edge
+// import "fast-text-encoding"; // IE 11 / Edge
 
 // NB the name of the intl polyfill (below) conflicts with @sinequa/core/intl in the module resolution.
 // Output of traceResolution: true gives the following:
@@ -18,9 +18,9 @@ import "intl"; // Safari
 import "intl/locale-data/jsonp/en-US"; // Locale needed for formatjs initialization (new Intl.NumberFormat())
 import "js-polyfills/url";
 import "matchmedia-polyfill";
-import focusWithin from "focus-within"; // IE 11 / Edge - https://github.com/jonathantneal/focus-within
+// import focusWithin from "focus-within"; // IE 11 / Edge - https://github.com/jonathantneal/focus-within
 
-focusWithin(document);
+// focusWithin(document);
 
 // String.trimStart, String.trimEnd
 if (!(<any>String.prototype).trimStart) {
