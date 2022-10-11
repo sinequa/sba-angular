@@ -766,7 +766,11 @@ export class IntlService implements OnDestroy {
      */
     formatDate(value: string | number | Date, options: Intl.DateTimeFormatOptions & { format?: string } = {}): string {
         const {format} = options;
-        const date = value instanceof Date ? value : toDate(new Date(value));
+        const date = value instanceof Date
+            ? value
+            : typeof (value) === "string"
+                ? parseISO(value)
+                : toDate(new Date(value));
         const defaults = (format && this.getNamedFormat("date", format)) || {};
         const filteredOptions = this.filterProps(options, DATE_TIME_FORMAT_OPTIONS, defaults);
         try {
