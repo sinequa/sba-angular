@@ -68,23 +68,6 @@ export class PreviewService {
         return this._events;
     }
 
-    private makeQuery(query: Query): Query {
-        query = Utils.copy(query);
-        delete query.sort;
-        delete query.scope;
-        delete query.tab;
-        delete query.basket;
-        delete query.page;
-        delete query.queryId;
-        if (query.select) {
-            query.select = query.select.filter(value => Utils.eqNC(value.facet, "refine"));
-            if (query.select.length === 0) {
-                delete query.select;
-            }
-        }
-        return query;
-    }
-
     public getPreviewData(id: string, query: Query, audit = true): Observable<PreviewData> {
         let auditEvent: AuditEvent | undefined;
         const record = this.searchService.getRecordFromId(id);
@@ -95,7 +78,7 @@ export class PreviewService {
                 detail: this.getAuditPreviewDetail(id, query, record, resultId)
             };
         }
-        query = this.makeQuery(query);
+        query = query.makeQuery();
         const observable = this.previewWebService.get(id, query, auditEvent);
         Utils.subscribe(observable,
             (previewData) => {
@@ -120,15 +103,10 @@ export class PreviewService {
         this.modalService.open(this.previewModal, { model });
     }
 
-    private getQueryStr(query: Query): string {
-        query = this.makeQuery(query);
-        return query.toJsonForQueryString();
-    }
-
     openNewWindow(record: Record, query: Query): Window | null {
         const params = {
             id: record.id,
-            query: this.getQueryStr(query),
+            query: query.queryStr,
             app: this.appService.appName
         };
 
@@ -152,7 +130,7 @@ export class PreviewService {
         return this.router.navigate([path], {
             queryParams: {
                 id: record.id,
-                query: this.getQueryStr(query)
+                query: query.queryStr
             }
         });
     }
@@ -183,7 +161,7 @@ export class PreviewService {
      * @param query
      */
     fetchPages(containerid: string, query: Query): Observable<Results> {
-        query = this.makeQuery(query);
+        query = query.makeQuery();
         query.groupBy = ""; // If the query web service uses GROUP BY containerid
         query.addSelect(this.exprBuilder.makeExpr("containerid", containerid));
         return this.searchService.getResults(query);

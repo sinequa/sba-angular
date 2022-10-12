@@ -3,6 +3,7 @@ import { Utils } from "@sinequa/core/base";
 import { LinkResult, SponsoredLinksWebService, AuditWebService, AuditEventType, AuditEvent } from "@sinequa/core/web-services";
 import { AppService, Query } from "@sinequa/core/app-utils";
 import {SearchService} from "@sinequa/components/search";
+import {AuthenticationService} from "@sinequa/core/login";
 
 @Component({
     selector: 'sq-sponsored-results',
@@ -30,6 +31,7 @@ export class SponsoredResults implements OnChanges, OnInit {
         private searchService: SearchService,
         private sponsoredResultsService: SponsoredLinksWebService,
         private auditService: AuditWebService,
+        private authenticationService: AuthenticationService,
         private changeDetectorRef: ChangeDetectorRef) {
     }
 
@@ -118,6 +120,12 @@ export class SponsoredResults implements OnChanges, OnInit {
         this.initialize();
     }
 
+    getUrl(link: LinkResult): string {
+        return link.url.indexOf('%PREVIEW_URL%') !== -1
+            ? this.getPreviewUrl(link)
+            : link.url;
+    }
+
     auditLinksDisplay() {
         if (!!this.sponsoredlinks && this.sponsoredlinks.length > 0) {
             const auditEvents: AuditEvent[] = [];
@@ -140,5 +148,21 @@ export class SponsoredResults implements OnChanges, OnInit {
     click(link: LinkResult) {
         this.auditService.notifySponsoredLink(AuditEventType.Link_Click, link,
             this.searchService.results && this.searchService.results.id || "");
+    }
+
+    private getPreviewUrl(link: LinkResult): string {
+        const params = {
+            id: link.url.split('%PREVIEW_URL%')[1],
+            query: this.query.queryStr,
+            app: this.appService.appName
+        };
+
+        if (this.authenticationService.userOverrideActive && this.authenticationService.userOverride) {
+            params["overrideUser"] = this.authenticationService.userOverride.userName;
+            params["overrideDomain"] = this.authenticationService.userOverride.domain;
+        }
+        const httpParams = Utils.makeHttpParams(params);
+
+        return "#/preview?" + httpParams.toString();
     }
 }
