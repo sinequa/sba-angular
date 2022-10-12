@@ -12,6 +12,9 @@ import {Component, Input} from '@angular/core';
     styles: [`
 .sq-tooltip {
     z-index: 10;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 100%;
 }
 
 .sq-tooltip::after {
