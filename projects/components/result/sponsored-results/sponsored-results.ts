@@ -70,7 +70,7 @@ export class SponsoredResults implements OnChanges, OnInit {
                 Utils.subscribe(
                     this.sponsoredResultsService.getLinks(this.linksQuery, this.webService),
                     (results) => {
-                        this.sponsoredlinks = results.links;
+                        this.sponsoredlinks = results.links.map(link => ({...link, url: this.getUrl(link)}));
                         this.auditLinksDisplay();
                         this.changeDetectorRef.markForCheck();
                     },
@@ -120,12 +120,6 @@ export class SponsoredResults implements OnChanges, OnInit {
         this.initialize();
     }
 
-    getUrl(link: LinkResult): string {
-        return link.url.indexOf('%PREVIEW_URL%') !== -1
-            ? this.getPreviewUrl(link)
-            : link.url;
-    }
-
     auditLinksDisplay() {
         if (!!this.sponsoredlinks && this.sponsoredlinks.length > 0) {
             const auditEvents: AuditEvent[] = [];
@@ -150,10 +144,16 @@ export class SponsoredResults implements OnChanges, OnInit {
             this.searchService.results && this.searchService.results.id || "");
     }
 
+    private getUrl(link: LinkResult): string {
+        return link.url.indexOf('%PREVIEW_URL%') !== -1
+            ? this.getPreviewUrl(link)
+            : link.url;
+    }
+
     private getPreviewUrl(link: LinkResult): string {
         const params = {
             id: link.url.split('%PREVIEW_URL%')[1],
-            query: this.query.queryStr,
+            query: this.query.makeQuery().toJsonForQueryString(),
             app: this.appService.appName
         };
 

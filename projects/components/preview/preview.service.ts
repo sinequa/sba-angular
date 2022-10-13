@@ -106,7 +106,7 @@ export class PreviewService {
     openNewWindow(record: Record, query: Query): Window | null {
         const params = {
             id: record.id,
-            query: query.queryStr,
+            query: query.makeQuery().toJsonForQueryString(),
             app: this.appService.appName
         };
 
@@ -130,7 +130,7 @@ export class PreviewService {
         return this.router.navigate([path], {
             queryParams: {
                 id: record.id,
-                query: query.queryStr
+                query: query.makeQuery().toJsonForQueryString()
             }
         });
     }

@@ -384,8 +384,4 @@ export class Query implements IQuery {
         }
         return query;
     }
-
-    get queryStr(): string {
-        return this.makeQuery().toJsonForQueryString();
-    }
 }
