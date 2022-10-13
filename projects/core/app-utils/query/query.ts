@@ -367,21 +367,4 @@ export class Query implements IQuery {
         const str = Utils.toJson(obj);
         return Utils.sha512(str);
     }
-
-    makeQuery(): Query {
-        const query = Utils.copy(this);
-        delete query.sort;
-        delete query.scope;
-        delete query.tab;
-        delete query.basket;
-        delete query.page;
-        delete query.queryId;
-        if (query.select) {
-            query.select = query.select.filter(value => Utils.eqNC(value.facet, "refine"));
-            if (query.select.length === 0) {
-                delete query.select;
-            }
-        }
-        return query;
-    }
 }

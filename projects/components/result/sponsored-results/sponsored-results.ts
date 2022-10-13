@@ -151,10 +151,27 @@ export class SponsoredResults implements OnChanges, OnInit {
     private getPreviewUrl(link: LinkResult): string {
         const params = {
             id: link.url.split('%PREVIEW_URL%')[1],
-            query: this.query.makeQuery().toJsonForQueryString(),
+            query: this.makeQuery(this.query).toJsonForQueryString(),
             app: this.appService.appName
         };
 
         return "#/preview?" + Utils.makeHttpParams(params).toString();
+    }
+
+    private makeQuery(query: Query): Query {
+        query = Utils.copy(query);
+        delete query.sort;
+        delete query.scope;
+        delete query.tab;
+        delete query.basket;
+        delete query.page;
+        delete query.queryId;
+        if (query.select) {
+            query.select = query.select.filter(value => Utils.eqNC(value.facet, "refine"));
+            if (query.select.length === 0) {
+                delete query.select;
+            }
+        }
+        return query;
     }
 }
