@@ -1,7 +1,13 @@
-import { Component, Input, OnChanges, SimpleChanges, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Utils } from "@sinequa/core/base";
-import { LinkResult, SponsoredLinksWebService, AuditWebService, AuditEventType, AuditEvent } from "@sinequa/core/web-services";
-import { AppService, Query } from "@sinequa/core/app-utils";
+import {Component, Input, OnChanges, SimpleChanges, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Utils} from "@sinequa/core/base";
+import {
+    LinkResult,
+    SponsoredLinksWebService,
+    AuditWebService,
+    AuditEventType,
+    AuditEvent
+} from "@sinequa/core/web-services";
+import {AppService, Query} from "@sinequa/core/app-utils";
 import {SearchService} from "@sinequa/components/search";
 
 @Component({
@@ -144,34 +150,7 @@ export class SponsoredResults implements OnChanges, OnInit {
 
     private getUrl(link: LinkResult): string {
         return link.url.indexOf('%PREVIEW_URL%') !== -1
-            ? this.getPreviewUrl(link)
+            ? `#/preview?id=${encodeURIComponent(link.url.split('%PREVIEW_URL%')[1])}&query=${encodeURIComponent(JSON.stringify({"name": this.query.name, "text": this.query.text}))}`
             : link.url;
-    }
-
-    private getPreviewUrl(link: LinkResult): string {
-        const params = {
-            id: link.url.split('%PREVIEW_URL%')[1],
-            query: this.makeQuery(this.query).toJsonForQueryString(),
-            app: this.appService.appName
-        };
-
-        return "#/preview?" + Utils.makeHttpParams(params).toString();
-    }
-
-    private makeQuery(query: Query): Query {
-        query = Utils.copy(query);
-        delete query.sort;
-        delete query.scope;
-        delete query.tab;
-        delete query.basket;
-        delete query.page;
-        delete query.queryId;
-        if (query.select) {
-            query.select = query.select.filter(value => Utils.eqNC(value.facet, "refine"));
-            if (query.select.length === 0) {
-                delete query.select;
-            }
-        }
-        return query;
     }
 }
