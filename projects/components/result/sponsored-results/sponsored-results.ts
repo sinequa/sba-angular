@@ -1,12 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges, OnInit, ChangeDetectorRef} from '@angular/core';
 import {Utils} from "@sinequa/core/base";
-import {
-    LinkResult,
-    SponsoredLinksWebService,
-    AuditWebService,
-    AuditEventType,
-    AuditEvent
-} from "@sinequa/core/web-services";
+import {LinkResult, SponsoredLinksWebService, AuditWebService, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {SearchService} from "@sinequa/components/search";
 
