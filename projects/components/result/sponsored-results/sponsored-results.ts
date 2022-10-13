@@ -144,7 +144,7 @@ export class SponsoredResults implements OnChanges, OnInit {
 
     private getUrl(link: LinkResult): string {
         return link.url.indexOf('%PREVIEW_URL%') !== -1
-            ? `#/preview?id=${encodeURIComponent(link.url.split('%PREVIEW_URL%')[1])}&query=${encodeURIComponent(JSON.stringify({"name": this.query.name, "text": this.query.text}))}`
+            ? `#/preview?id=${encodeURIComponent(link.url.split('%PREVIEW_URL%')[1])}&query=${encodeURIComponent(this.query.toJsonForQueryString())}`
             : link.url;
     }
 }
