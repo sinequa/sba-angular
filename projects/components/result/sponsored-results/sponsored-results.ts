@@ -1,7 +1,7 @@
-import { Component, Input, OnChanges, SimpleChanges, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Utils } from "@sinequa/core/base";
-import { LinkResult, SponsoredLinksWebService, AuditWebService, AuditEventType, AuditEvent } from "@sinequa/core/web-services";
-import { AppService, Query } from "@sinequa/core/app-utils";
+import {Component, Input, OnChanges, SimpleChanges, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Utils} from "@sinequa/core/base";
+import {LinkResult, SponsoredLinksWebService, AuditWebService, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
+import {AppService, Query} from "@sinequa/core/app-utils";
 import {SearchService} from "@sinequa/components/search";
 
 @Component({
@@ -68,7 +68,7 @@ export class SponsoredResults implements OnChanges, OnInit {
                 Utils.subscribe(
                     this.sponsoredResultsService.getLinks(this.linksQuery, this.webService),
                     (results) => {
-                        this.sponsoredlinks = results.links;
+                        this.sponsoredlinks = results.links.map(link => ({...link, url: this.getUrl(link)}));
                         this.auditLinksDisplay();
                         this.changeDetectorRef.markForCheck();
                     },
@@ -140,5 +140,11 @@ export class SponsoredResults implements OnChanges, OnInit {
     click(link: LinkResult) {
         this.auditService.notifySponsoredLink(AuditEventType.Link_Click, link,
             this.searchService.results && this.searchService.results.id || "");
+    }
+
+    private getUrl(link: LinkResult): string {
+        return link.url.indexOf('%PREVIEW_URL%') !== -1
+            ? `#/preview?id=${encodeURIComponent(link.url.split('%PREVIEW_URL%')[1])}&query=${encodeURIComponent(this.query.toJsonForQueryString())}`
+            : link.url;
     }
 }
