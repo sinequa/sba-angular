@@ -13,17 +13,11 @@ export interface ActionButtonsOptions {
 
 @Component({
     selector: "[sq-action-buttons]",
-    templateUrl: "./action-buttons.html",
-    styles: [`
-    :host-context(.dark)
-        button.btn-light {
-            filter: invert(0.76);
-        }
-    `]
+    templateUrl: "./action-buttons.html"
 })
 export class BsActionButtons {
     private _options: ActionButtonsOptions;
-    
+
     @Input("sq-action-buttons")
     set options (opts: ActionButtonsOptions) {
         this._options = opts;
@@ -39,12 +33,12 @@ export class BsActionButtons {
     get styleClass(): string {
         return this._options.style ? `btn-${this._options.style}` : "btn-light";
     }
-    
+
     get itemsVisible(): Action[] {
         // hidden items are not displayed
         return (Array.isArray(this._options.items)) ? this._options.items.filter(item => !item.hidden) : this._options.items.hidden ? [] : [this._options.items];
     }
-    
+
     getActionItemOptions(item: Action): ActionItemOptions {
         return ({...this._options, item, inMenu: false});
     }

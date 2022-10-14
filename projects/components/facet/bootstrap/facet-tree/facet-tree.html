@@ -1,10 +1,10 @@
-<div *ngIf="!isHidden()" class="list-group list-group-flush" [ngClass]="{'scrollable': forceMaxHeight }">
+<div *ngIf="!isHidden()" class="list-group list-group-flush rounded-bottom" [ngClass]="{'scrollable': forceMaxHeight }">
     <div *ngIf="displayActions && actions" class="d-flex pb-2 pe-2">
         <div class="btn-group ms-auto"
             [sq-action-buttons]="{items: actions, size: 'sm'}">
         </div>
     </div>
-    
+
     <div *ngIf="searchItems.selected" class="position-relative" [formGroup]="myGroup">
         <div class="p-1">
             <input class="form-control" sqAutofocus
@@ -13,7 +13,7 @@
         </div>
         <sq-loading-bar [active]="searchActive"></sq-loading-bar>
     </div>
-    
+
     <!-- hidden selected items -->
     <div *ngFor="let item of hiddenSelected"
         class="d-flex flex-row align-items-center list-group-item list-group-item-primary border-0 px-3 py-1 facet-row cursor-pointer"
@@ -23,7 +23,7 @@
         <a href="#" (click)="filterItem(item, $event)"
             [title]="'msg#facet.filterItem' | sqMessage:{'terme':(item.$path | slice:1:-1)}"
             class="text-truncate me-auto">{{item.$path | slice:1:-1}}</a>
-        
+
         <span *ngIf="showCount && item.count" class="ms-2 text-muted small">{{item.count | sqNumber}}</span>
     </div>
 
@@ -37,10 +37,10 @@
     <ng-container *ngFor="let item of items">
 
         <a  class="d-flex flex-row align-items-center list-group-item border-0 ps-1 pe-3 py-1 sq-facet-row"
-            [ngClass]="{'list-group-item-primary':isSelected(item),'list-group-item-success':item.$filtered,'list-group-item-action':!item.$filtered, 'filtered':item.$filtered }" 
-            [title]="(item.$filtered ? 'msg#facet.selectedValue' : 'msg#facet.itemSelect') | sqMessage" 
+            [ngClass]="{'list-group-item-primary':isSelected(item),'list-group-item-success':item.$filtered,'list-group-item-action':!item.$filtered, 'filtered':item.$filtered }"
+            [title]="(item.$filtered ? 'msg#facet.selectedValue' : 'msg#facet.itemSelect') | sqMessage"
             (click)="selectItem(item, $event)" href="#">
-    
+
             <span class="me-auto text-truncate" [ngStyle]="{'margin-left.rem' : item['$level'] - 1}">
 
                 <a *ngIf="item['hasChildren']" class="item-opener" href="#" (click)="open(item, $event)" [title]="(item['$opened'] ? 'msg#facet.closeItem' : 'msg#facet.openItem') | sqMessage">
@@ -49,19 +49,19 @@
                     <span *ngIf="!item['$opening'] && !item['$opened']" class="fas fa-caret-right fa-fw"></span>
                 </a>
                 <span *ngIf="!item['hasChildren']" class="fas fa-fw"></span>
-    
-                <a  href="#" (click)="filterItem(item, $event)" 
+
+                <a  href="#" (click)="filterItem(item, $event)"
                     role="button" [title]="item | sqValue:item.$column"
                     class="text-truncate"> {{item | sqValue:item.$column}}</a>
 
             </span>
-            
+
             <span *ngIf="showCount && item.count" class="ms-2 text-muted small">{{item.count | sqNumber}}</span>
             <span *ngIf="item.$filtered" class="fa-stack cursor-pointer" (click)="filterItem(item, $event)">
                 <i class="ms-2 far fa-minus-square fa-stack-1x icons icon-hover rotate"></i>
                 <i class="ms-2 far fa-check-square fa-stack-1x icons icon-default rotate"></i>
             </span>
-    
+
         </a>
 
         <ng-container *ngIf="item['$opened']">
