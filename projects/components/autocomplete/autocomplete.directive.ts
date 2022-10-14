@@ -124,9 +124,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         this._dropdownSubscription = this.dropdown.clicked.subscribe(item => {
             this.select(item, true);  // An item was selected from the autocomplete => take the value
         });
-
         this._placeholder = this.placeholder;
-        this.inputElement.focus();
+        this.inputElement.focus({preventScroll: true});
         this.start();
     }
 
