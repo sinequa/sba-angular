@@ -68,7 +68,7 @@ export class SponsoredResults implements OnChanges, OnInit {
                 Utils.subscribe(
                     this.sponsoredResultsService.getLinks(this.linksQuery, this.webService),
                     (results) => {
-                        this.sponsoredlinks = results.links.map(link => ({...link, url: this.getUrl(link)}));
+                        this.sponsoredlinks = results?.links?.map(link => ({...link, url: this.getUrl(link)}));
                         this.auditLinksDisplay();
                         this.changeDetectorRef.markForCheck();
                     },
