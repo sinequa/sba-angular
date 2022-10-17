@@ -17,20 +17,20 @@
         <g #yAxis [ngClass]="{clickable: axisClickable}" class="axis"></g>
 
         <!-- Heatmap tiles -->
-        <rect *ngFor="let item of dataFiltered" class="tile" 
+        <rect *ngFor="let item of dataFiltered" class="tile"
             [ngClass]="{clickable: itemsClickable, selected: item.selected}"
-            [attr.x]="x(item.x)" 
+            [attr.x]="x(item.x)"
             [attr.y]="y(item.y)"
-            [attr.width]="x.bandwidth()" 
+            [attr.width]="x.bandwidth()"
             [attr.height]="y.bandwidth()"
-            [attr.fill]="color(item.count)"            
+            [attr.fill]="color(item.count)"
             (mouseover)="onMouseOver(item, $event)"
-            (mouseout)="tooltipItem = undefined"
+            (mouseout)="onMouseOut()"
             (click)="onItemClicked(item)">
         </rect>
-        
+
     </g>
-    
+
     <text class="bottom-legend" [attr.transform]="'translate('+(width-margin.right)+', '+(height-5)+')'">
         {{'msg#heatmap.showing' | sqMessage:{values: {shown: dataFiltered.length, total: data.length} } }}
     </text>
@@ -38,8 +38,9 @@
 </svg>
 
 <!-- Tooltip -->
-<sq-tooltip *ngIf="tooltipItem" class="text-center"
-    [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop" [theme]="theme">
-    <strong>{{tooltipItem.display || tooltipItem.value}}</strong>
-    <div>{{'msg#heatmap.tooltip' | sqMessage:{values: {count: tooltipItem.count} } }}</div>
+<sq-tooltip class="text-center" [manager]="tooltipManager" [theme]="theme">
+  <ng-template let-data>
+    <strong>{{data.display || data.value}}</strong>
+    <div>{{'msg#heatmap.tooltip' | sqMessage:{values: {count: data.count} } }}</div>
+  </ng-template>
 </sq-tooltip>

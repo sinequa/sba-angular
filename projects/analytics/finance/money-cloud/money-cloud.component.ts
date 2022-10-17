@@ -11,6 +11,7 @@ import { schemeCategory10 } from "d3-scale-chromatic";
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
+import { TooltipManager } from "@sinequa/analytics/heatmap";
 
 export interface MoneyCloudDatum {
     value: number;
@@ -64,11 +65,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     yAxis$: d3.Selection<SVGGElement, number, null, undefined>;
 
     // Tooltips
-    tooltipItem: MoneyCloudDatum | undefined;
-    tooltipOrientation: "left" | "right";
-    tooltipTop: number;
-    tooltipRight: number;
-    tooltipLeft: number;
+    tooltipManager = new TooltipManager<MoneyCloudDatum>();
 
     viewInit: boolean;
 
@@ -177,7 +174,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
     updateChart() {
 
-        this.turnoffTooltip();
+        this.tooltipManager.hide();
 
         if(this.results) {
 
@@ -308,7 +305,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
      * Redraw the simple tooltip (vertical line)
      */
     onMousemove() {
-        this.tooltipItem = undefined;
+        this.tooltipManager.delayedHide();
     }
 
     filterDatum(datum: MoneyCloudDatum) {
@@ -326,8 +323,6 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
         if(Utils.isUndefined(x) || Utils.isUndefined(x_inner) || Utils.isUndefined(r) || Utils.isUndefined(y)) return;
 
-        this.tooltipItem = datum;
-
         x += x_inner;
 
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
@@ -336,25 +331,16 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         const scale = actualWidth / this.width;
         const relativeX = x / this.width;
 
+        const top = scale * (this.margin.top + y); // Align tooltip arrow
+
         // Tooltip to the right
         if(relativeX < 0.5) {
-            this.tooltipOrientation = "right";
-            this.tooltipLeft = scale * (this.margin.left + x + r);
+            this.tooltipManager.show(datum, 'right', top, scale * (this.margin.left + x + r));
         }
         // Tooltip to the left
         else {
-            this.tooltipOrientation = "left";
-            this.tooltipRight = actualWidth - scale * (this.margin.left + x - r);
+            this.tooltipManager.show(datum, 'left', top, actualWidth - scale * (this.margin.left + x - r));
         }
-        this.tooltipTop = scale * (this.margin.top + y); // Align tooltip arrow
     }
 
-    /**
-     * Turns off the tooltip
-     */
-    turnoffTooltip = () => {
-        if(this.tooltipItem) {
-            this.tooltipItem = undefined;
-        }
-    }
 }
