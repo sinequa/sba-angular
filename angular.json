@@ -428,6 +428,7 @@
               "clone-deep",
               "keycharm",
               "vis-data",
+              "date-fns-tz",
               "date-fns/locale/_lib/buildFormatLongFn",
               "@microsoft/teams-js"
             ]
