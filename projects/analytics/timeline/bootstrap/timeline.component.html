@@ -73,8 +73,7 @@
   <ng-template let-data>
     <div class="list-group list-group-flush">
         <ng-container *ngFor="let event of data">
-            <ng-container *ngIf="tooltipTpl">
-                <ng-container *ngTemplateOutlet="tooltipTpl; context:{$implicit: event, close: turnoffTooltip}"></ng-container>
+            <ng-container *ngIf="tooltipTpl" [ngTemplateOutlet]="tooltipTpl" [ngTemplateOutletContext]="{$implicit: event, close: turnoffTooltip}">
             </ng-container>
             <div *ngIf="!tooltipTpl" class="list-group-item" style="max-width: 300px;">
                 <span class="small text-muted">{{ event.date | sqDate }}</span>
