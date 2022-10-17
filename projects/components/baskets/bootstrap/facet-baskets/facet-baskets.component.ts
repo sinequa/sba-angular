@@ -8,11 +8,11 @@ import { Action } from '@sinequa/components/action';
   templateUrl: './facet-baskets.component.html',
   styles: [`
 .basket-item .basket-delete{
-    opacity: 0;
+    display: none;
 }
 
 .basket-item:hover .basket-delete{
-    opacity: 1;
+    display: block;
     transition: opacity 0.2s ease-in-out;
 }
   `]

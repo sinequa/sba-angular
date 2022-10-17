@@ -8,11 +8,11 @@ import { Action } from '@sinequa/components/action';
   templateUrl: './facet-saved-queries.html',
   styles: [`
 .saved-query-item .query-delete{
-    opacity: 0;
+    display: none;
 }
 
 .saved-query-item:hover .query-delete{
-    opacity: 1;
+    display: block;
     transition: opacity 0.2s ease-in-out;
 }
   `]
