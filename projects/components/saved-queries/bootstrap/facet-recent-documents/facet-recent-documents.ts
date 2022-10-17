@@ -9,11 +9,11 @@ import { SearchService } from '@sinequa/components/search';
   templateUrl: './facet-recent-documents.html',
   styles: [`
 .recent-document-item .document-delete{
-    opacity: 0;
+    display: none;
 }
 
 .recent-document-item:hover .document-delete{
-    opacity: 1;
+    display: block;
     transition: opacity 0.2s ease-in-out;
 }
   `]

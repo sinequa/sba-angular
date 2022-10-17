@@ -12,11 +12,11 @@ import { Query } from '@sinequa/core/app-utils';
   templateUrl: './facet-recent-queries.html',
   styles: [`
 .recent-query-item .query-delete, .recent-query-item .query-save{
-    opacity: 0;
+    display: none;
 }
 
 .recent-query-item:hover .query-delete, .recent-query-item:hover .query-save{
-    opacity: 1;
+    display: block;
     transition: opacity 0.2s ease-in-out;
 }
   `]
