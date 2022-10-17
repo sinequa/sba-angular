@@ -12,7 +12,7 @@ import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
 import { parseISO } from "date-fns";
-import { TooltipManager } from "@sinequa/analytics/heatmap";
+import { TooltipManager } from "@sinequa/analytics/tooltip";
 
 export interface MoneyDatum {
     value: number;

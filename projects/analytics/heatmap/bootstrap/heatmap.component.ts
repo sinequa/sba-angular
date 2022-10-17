@@ -4,7 +4,7 @@ import { scaleBand, scaleQuantile } from 'd3-scale';
 import { select } from 'd3-selection';
 import { transition } from 'd3-transition';
 import { schemeBlues, schemeReds, schemeGreens, schemeRdBu, schemeSpectral, schemeYlGnBu } from 'd3-scale-chromatic';
-import { TooltipManager } from './tooltip.component';
+import { TooltipManager } from '@sinequa/analytics/tooltip';
 
 export interface HeatmapItem {
     x: string;

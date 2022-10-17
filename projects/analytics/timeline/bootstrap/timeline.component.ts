@@ -2,8 +2,8 @@ import { Component, Input, Output, ElementRef, ViewChild, OnChanges, AfterViewIn
 import { Subscription } from 'rxjs';
 
 import { IntlService } from '@sinequa/core/intl';
-import {Record} from '@sinequa/core/web-services';
-import { TooltipManager } from '@sinequa/analytics/heatmap';
+import { Record } from '@sinequa/core/web-services';
+import { TooltipManager } from '@sinequa/analytics/tooltip';
 import { bisector, extent, max } from 'd3-array';
 import { scaleLinear, scaleUtc } from 'd3-scale';
 import { line, area, curveBasis, curveBasisClosed, curveBasisOpen, curveBumpX, curveBumpY, curveLinear, curveLinearClosed, curveMonotoneX, curveMonotoneY, curveNatural, curveStep, curveStepAfter, curveStepBefore } from 'd3-shape';

@@ -11,7 +11,7 @@ import { schemeCategory10 } from "d3-scale-chromatic";
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
-import { TooltipManager } from "@sinequa/analytics/heatmap";
+import { TooltipManager } from "@sinequa/analytics/tooltip";
 
 export interface MoneyCloudDatum {
     value: number;
