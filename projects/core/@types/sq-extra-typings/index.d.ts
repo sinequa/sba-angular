@@ -101,9 +101,6 @@ interface HTMLElement {
 
 declare module "textarea-caret";
 
-// For importing json (eg i18n message files)
-declare module "*.json";
-
 interface Navigator {
     msSaveOrOpenBlob: (Blob: Blob | string, filename: string) => void;
   }
