@@ -1,4 +1,4 @@
-<div *ngIf="!openedFacet" class="list-group list-group-flush rounded-bottom">
+<div *ngIf="!openedFacet" class="list-group list-group-flush">
     <ng-container *ngFor="let facet of facets">
         <div *ngIf="!facet.$hidden" [ngClass]="facet.className" (click)="openFacet(facet)"
             class="open-facet d-flex flex-row list-group-item border-0 list-group-item-action px-3 py-1 align-items-center"
