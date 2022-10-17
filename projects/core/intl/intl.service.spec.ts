@@ -199,6 +199,10 @@ describe('IntlService', () => {
   })
 
   describe('formatRelativeTime()', () => {
+    beforeEach(() => {
+      jasmine.clock().mockDate(new Date(2022, 9, 1));
+    })
+
     it('should format a relative time in the current locale (en-US)', () => {
       spyOn(console, "warn");
       expect(service.formatRelativeTime("12/31/2022")).toEqual("in 3 months");

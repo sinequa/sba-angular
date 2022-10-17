@@ -10,6 +10,10 @@ describe("MomentPipe", () => {
   let pipe: MomentPipe;
 
   beforeEach(() => {
+    jasmine.clock().mockDate(new Date(2022, 9, 1));
+  })
+
+  beforeEach(() => {
 
     TestBed.configureTestingModule({
       providers: [
