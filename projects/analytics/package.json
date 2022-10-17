@@ -17,10 +17,9 @@
     "uuid": "8.3.2",
     "timsort": "^0.3.0",
     "xss": "^1.0.0",
-    "d3": "^5.15.1",
+    "d3": "^7.6.1",
     "ag-grid-angular": "^25.2.0",
-    "ag-grid-community": "^25.2.0",
-    "moment": "^2.29.4"
+    "ag-grid-community": "^25.2.0"
   },
   "dependencies": {
     "@sinequa/components": "^0.0.1"
