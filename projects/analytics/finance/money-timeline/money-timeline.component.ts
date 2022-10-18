@@ -12,6 +12,7 @@ import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { extent } from 'd3-array';
 import { parseISO } from "date-fns";
+import { TooltipManager } from "@sinequa/analytics/tooltip";
 
 export interface MoneyDatum {
     value: number;
@@ -65,11 +66,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
     // Tooltips
     tooltipX: number | undefined;
-    tooltipItem: MoneyDatum | undefined;
-    tooltipOrientation: "left" | "right";
-    tooltipTop: number;
-    tooltipRight: number;
-    tooltipLeft: number;
+    tooltipManager = new TooltipManager<MoneyDatum>();
 
     viewInit: boolean;
 
@@ -295,18 +292,18 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Redraw the simple tooltip (vertical line)
      */
     onMousemove(event) {
-        if(!this.tooltipItem && this.showTooltip) {
+        if(!this.tooltipManager.isShown && this.showTooltip) {
             this.tooltipX = this.point(this.overlay.nativeElement, event)[0];
         }
-        this.tooltipItem = undefined;
+        this.tooltipManager.delayedHide();
     }
 
     /**
      * Equivalent of former d3.mouse()
      */
-     private point(node: SVGElement, event: MouseEvent) {
-      const rect = node.getBoundingClientRect();
-      return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
+    private point(node: SVGElement, event: MouseEvent) {
+        const rect = node.getBoundingClientRect();
+        return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
     }
 
     /**
@@ -331,9 +328,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Remove the simple tooltip (vertical line)
      */
     onMouseout() {
-        if(!this.tooltipItem) {
-            this.tooltipX = undefined;
-        }
+        this.tooltipX = undefined;
     }
 
     /**
@@ -348,34 +343,29 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
         if(!this.showTooltip || Utils.isUndefined(x) || Utils.isUndefined(r) || Utils.isUndefined(y)) return;
 
-        this.tooltipItem = datum;
-
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
         // convert from the SVG coordinate system to the HTML coordinate system
         const actualWidth = (this.el.nativeElement as HTMLElement).offsetWidth;
         const scale = actualWidth / this.width;
         const relativeX = x / this.width;
 
+        const top = scale * (this.margin.top + y); // Align tooltip arrow
+
         // Tooltip to the right
         if(relativeX < 0.5) {
-            this.tooltipOrientation = "right";
-            this.tooltipLeft = scale * (this.margin.left + x + r);
+            this.tooltipManager.show(datum, "right", top, scale * (this.margin.left + x + r));
         }
         // Tooltip to the left
         else {
-            this.tooltipOrientation = "left";
-            this.tooltipRight = actualWidth - scale * (this.margin.left + x - r);
+            this.tooltipManager.show(datum, "left", top, actualWidth - scale * (this.margin.left + x - r));
         }
-        this.tooltipTop = scale * (this.margin.top + y); // Align tooltip arrow
     }
 
     /**
      * Turns off the tooltip
      */
-    turnoffTooltip = () => {
-        if(this.tooltipItem) {
-            this.tooltipItem = undefined;
-            this.tooltipX = undefined;
-        }
+    turnoffTooltip() {
+        this.tooltipManager.hide();
+        this.tooltipX = undefined;
     }
 }

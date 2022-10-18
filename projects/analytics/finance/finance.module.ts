@@ -3,8 +3,8 @@ import { CommonModule } from "@angular/common";
 
 import { IntlModule } from '@sinequa/core/intl';
 import { UtilsModule } from "@sinequa/components/utils";
+import { BsTooltipComponent } from "@sinequa/analytics/tooltip";
 import { MoneyTimelineComponent } from "./money-timeline/money-timeline.component";
-import { BsHeatmapModule } from "@sinequa/analytics/heatmap";
 import { BsActionModule } from "@sinequa/components/action";
 import { MoneyCloudComponent } from "./money-cloud/money-cloud.component";
 
@@ -15,7 +15,7 @@ import { MoneyCloudComponent } from "./money-cloud/money-cloud.component";
         CommonModule,
         IntlModule,
         UtilsModule,
-        BsHeatmapModule,
+        BsTooltipComponent,
         BsActionModule
     ],
     declarations: [

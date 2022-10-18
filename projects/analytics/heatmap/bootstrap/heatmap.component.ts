@@ -4,6 +4,7 @@ import { scaleBand, scaleQuantile } from 'd3-scale';
 import { select } from 'd3-selection';
 import { transition } from 'd3-transition';
 import { schemeBlues, schemeReds, schemeGreens, schemeRdBu, schemeSpectral, schemeYlGnBu } from 'd3-scale-chromatic';
+import { TooltipManager } from '@sinequa/analytics/tooltip';
 
 export interface HeatmapItem {
     x: string;
@@ -70,11 +71,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     dataFiltered: HeatmapItem[] = [];
 
     // Tooltip
-    tooltipItem?: HeatmapItem;
-    tooltipOrientation: "left" | "right";
-    tooltipTop: number;
-    tooltipRight: number;
-    tooltipLeft: number;
+    tooltipManager = new TooltipManager<HeatmapItem>();
 
     // Misc
     viewInit: boolean;
@@ -170,7 +167,6 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
      * @param event
      */
     onMouseOver(item: HeatmapItem, event: MouseEvent){
-        this.tooltipItem = item;
 
         const x = this.x(item.x) as number;
         const y = this.y(item.y) as number;
@@ -181,17 +177,20 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
         const scale = actualWidth / this.width;
         const relativeX = x / this.width;
 
+        const top = scale * (this.margin.top + y + 0.5*this.y.bandwidth()); // Align tooltip arrow
+
         // Tooltip to the right
         if(relativeX < 0.5) {
-            this.tooltipOrientation = "right";
-            this.tooltipLeft = scale * (this.margin.left + x + this.x.bandwidth() - 3);
+            this.tooltipManager.show(item, 'right', top, scale * (this.margin.left + x + this.x.bandwidth() - 3));
         }
         // Tooltip to the left
         else {
-            this.tooltipOrientation = "left";
-            this.tooltipRight = actualWidth - scale * (this.margin.left + x + 3);
+            this.tooltipManager.show(item, 'left', top, actualWidth - scale * (this.margin.left + x + 3));
         }
-        this.tooltipTop = scale * (this.margin.top + y + 0.5*this.y.bandwidth()); // Align tooltip arrow
+    }
+
+    onMouseOut() {
+        this.tooltipManager.delayedHide();
     }
 
     /**

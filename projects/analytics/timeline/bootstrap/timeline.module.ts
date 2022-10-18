@@ -7,7 +7,7 @@ import {IntlModule} from "@sinequa/core/intl";
 import {UtilsModule} from "@sinequa/components/utils";
 import {BsSelectionModule} from "@sinequa/components/selection";
 import {BsActionModule} from "@sinequa/components/action";
-import {BsHeatmapModule} from "@sinequa/analytics/heatmap";
+import { BsTooltipComponent } from "@sinequa/analytics/tooltip";
 
 import {BsTimelineComponent} from "./timeline.component";
 import {BsFacetTimelineComponent} from "./facet-timeline.component";
@@ -26,7 +26,7 @@ import { CollapseModule } from "@sinequa/components/collapse";
         UtilsModule,
         BsSelectionModule,
         BsActionModule,
-        BsHeatmapModule, // We need the heatmap module for the tooltip component
+        BsTooltipComponent,
         BsAdvancedModule,
         BsFacetModule,
         CollapseModule,

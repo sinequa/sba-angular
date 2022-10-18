@@ -34,18 +34,19 @@
 </svg>
 
 <!-- Tooltip -->
-<sq-tooltip *ngIf="tooltipItem" class="text-center"
-    [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop" [theme]="theme">
-    <strong>{{tooltipItem.record.title}}</strong>
-    <button (click)="onRecordClicked(tooltipItem)" class="btn btn-sm btn-link" [sqTooltip]="'msg#money.inspect' | sqMessage">
+<sq-tooltip class="text-center" [manager]="tooltipManager" [theme]="theme">
+  <ng-template let-data>
+    <strong>{{data.record.title}}</strong>
+    <button (click)="onRecordClicked(data)" class="btn btn-sm btn-link" [sqTooltip]="'msg#money.inspect' | sqMessage">
         <i class="fas fa-search"></i>
     </button>
     <div>
-        "{{tooltipItem.currency}} {{formatService.moneyFormatter(tooltipItem.value)}}"
-        <small>({{tooltipItem.count}} mentions)</small>
-        <button (click)="filterDatum(tooltipItem)" class="btn btn-sm btn-link" [sqTooltip]="'msg#money.filter' | sqMessage">
+        "{{data.currency}} {{formatService.moneyFormatter(data.value)}}"
+        <small>({{data.count}} mentions)</small>
+        <button (click)="filterDatum(data)" class="btn btn-sm btn-link" [sqTooltip]="'msg#money.filter' | sqMessage">
             <i class="fas fa-filter"></i>
         </button>
     </div>
-    <small>{{tooltipItem.date | sqDate}}</small>
+    <small>{{data.date | sqDate}}</small>
+  </ng-template>
 </sq-tooltip>

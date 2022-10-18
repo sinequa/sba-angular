@@ -32,13 +32,14 @@
 </svg>
 
 <!-- Tooltip -->
-<sq-tooltip *ngIf="tooltipItem" class="text-center"
-    [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop" [theme]="theme">
+<sq-tooltip class="text-center" [manager]="tooltipManager" [theme]="theme">
+  <ng-template let-data>
     <div>
-        "{{tooltipItem.category}} {{tooltipItem.currency}} {{formatService.moneyFormatter(tooltipItem.value)}}"
-        <small>({{tooltipItem.count}} mentions)</small>
-        <button (click)="filterDatum(tooltipItem)" class="btn btn-sm btn-link" [sqTooltip]="'msg#money.filter' | sqMessage">
+        "{{data.category}} {{data.currency}} {{formatService.moneyFormatter(data.value)}}"
+        <small>({{data.count}} mentions)</small>
+        <button (click)="filterDatum(data)" class="btn btn-sm btn-link" [sqTooltip]="'msg#money.filter' | sqMessage">
             <i class="fas fa-filter"></i>
         </button>
     </div>
+  </ng-template>
 </sq-tooltip>
