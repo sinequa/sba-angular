@@ -55,8 +55,8 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     optionsPrefs: Options;
 
-    @Output() nodeClicked = new EventEmitter<Node>();
-    @Output() edgeClicked = new EventEmitter<Edge>();
+    @Output() nodeClicked = new EventEmitter<Node|undefined>();
+    @Output() edgeClicked = new EventEmitter<Edge|undefined>();
 
     // Settings form
     form: UntypedFormGroup;
@@ -334,7 +334,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     selectEdge(edge?: Edge) {
         this._selectedEdge = edge;
-        this.edgeClicked.next();
+        this.edgeClicked.next(edge);
     }
 
     ngOnDestroy() {

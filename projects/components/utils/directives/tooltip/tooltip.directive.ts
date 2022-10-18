@@ -14,8 +14,7 @@ import {
 import { ComponentPortal } from "@angular/cdk/portal";
 import { TooltipComponent } from "./tooltip.component";
 import { Utils } from "@sinequa/core/base";
-import { Observable, of, Subscription } from "rxjs";
-import { delay } from "rxjs/operators";
+import { Observable, of, Subscription, delay } from "rxjs";
 
 export type Placement = "top" | "bottom" | "right" | "left";
 

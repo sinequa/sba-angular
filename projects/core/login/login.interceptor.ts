@@ -3,8 +3,7 @@ import {
     HttpInterceptor, HttpRequest, HttpHandler,
     HttpEvent, HttpErrorResponse, HttpParams, HttpResponse
 } from "@angular/common/http";
-import {from, Observable, throwError} from "rxjs";
-import {catchError, map, switchMap} from "rxjs/operators";
+import {from, Observable, throwError, catchError, map, switchMap} from "rxjs";
 import {Utils, SqError, SqErrorCode} from "@sinequa/core/base";
 import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
 import {NotificationsService} from "@sinequa/core/notification";
@@ -159,7 +158,7 @@ export class LoginInterceptor implements HttpInterceptor {
         }
 
         this.notificationsService.enter("network");
-        
+
         const _request = request.clone({
             headers: config.headers,
             params: config.params,

@@ -1,6 +1,5 @@
 import {Injectable, Inject} from "@angular/core";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
+import {Observable, tap} from "rxjs";
 import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
 import {START_CONFIG, StartConfig} from "./start-config.web.service";

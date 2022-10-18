@@ -1,6 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { pluck } from "rxjs/operators";
+import { Observable, map } from "rxjs";
 import { SqHttpClient } from "./http-client";
 import { HttpService } from "./http.service";
 import { IQuery } from "./query/query";
@@ -33,7 +32,7 @@ export class TextChunksWebService extends HttpService {
         private httpClient: SqHttpClient) {
         super(startConfig);
     }
-    
+
     /**
      * Returns text chunks from a given document and at given locations with
      * optional highlights for entities and relevant extracts
@@ -47,7 +46,7 @@ export class TextChunksWebService extends HttpService {
      */
     getTextChunks(id: string, textChunks: TextLocation[], highlights?: string[], query?: IQuery, leftSentencesCount?: number, rightSentencesCount?: number): Observable<TextChunk[]> {
         return this.httpClient.post<{chunks: TextChunk[]}>(
-            this.makeUrl(TextChunksWebService.endpoint), 
+            this.makeUrl(TextChunksWebService.endpoint),
             {
                 app: this.appName,
                 id,
@@ -56,6 +55,6 @@ export class TextChunksWebService extends HttpService {
                 query,
                 leftSentencesCount,
                 rightSentencesCount
-            }).pipe(pluck("chunks"));
+            }).pipe(map(c => c.chunks));
     }
 }

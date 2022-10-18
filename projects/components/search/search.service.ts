@@ -1,7 +1,6 @@
 import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
 import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from "@angular/router";
-import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from "rxjs";
-import {catchError, map, switchMap} from "rxjs/operators";
+import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, catchError, map, switchMap} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch} from "@sinequa/core/web-services";

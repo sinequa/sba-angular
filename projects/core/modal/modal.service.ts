@@ -5,6 +5,7 @@ import {ComponentPortal} from '@angular/cdk/portal';
 import {Utils, Keys} from "@sinequa/core/base";
 import {MessageParams} from "@sinequa/core/intl"; // Dependency to INTL !
 import {ModalRef, IModalRef} from "./modal-ref";
+import { firstValueFrom } from "rxjs";
 
 /** Describes the configuration object that can be passed when opening
  * a modal with the {@link ModalService}.
@@ -361,7 +362,7 @@ export class ModalService {
      */
     open(component: Type<any>, config: ModalConfig = {}): Promise<ModalResult> {
         const modalRef = this.openRef(component, config);
-        return modalRef.afterClosed().toPromise();
+        return firstValueFrom(modalRef.afterClosed());
     }
 
     private createOverlay(config: ModalConfig): OverlayRef {
