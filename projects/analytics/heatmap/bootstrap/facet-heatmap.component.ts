@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
-import {Subject} from 'rxjs';
-import {distinctUntilChanged, filter} from 'rxjs/operators';
+import { Subject, distinctUntilChanged, filter } from 'rxjs';
 
 import {Utils} from '@sinequa/core/base';
 import { AppService } from '@sinequa/core/app-utils';

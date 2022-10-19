@@ -1,6 +1,5 @@
 import {Injectable, Inject, OnDestroy} from "@angular/core";
-import {Observable, Subject} from "rxjs";
-import {map} from "rxjs/operators";
+import {Observable, Subject, map} from "rxjs";
 import {Utils, MapOf, PatternMatcher} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
 import {FormatService} from "./format.service";

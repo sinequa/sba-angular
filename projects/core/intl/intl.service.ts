@@ -1,6 +1,5 @@
 import {Injectable, Optional, Inject, OnDestroy, InjectionToken} from "@angular/core";
-import {Subject, Observable, of, throwError, from} from "rxjs";
-import {filter, switchMap, tap} from "rxjs/operators";
+import {Subject, Observable, of, throwError, from, filter, switchMap, tap} from "rxjs";
 import IntlMessageFormat, { Formats } from "intl-messageformat";
 import memoizeFormatConstructor from "intl-format-cache";
 // TODO - check loading of locale data per locale - the ponyfill doesn't seem to work

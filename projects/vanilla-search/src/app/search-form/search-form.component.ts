@@ -3,14 +3,13 @@ import {UntypedFormBuilder, UntypedFormGroup, UntypedFormControl} from "@angular
 import {SearchService} from '@sinequa/components/search';
 import {LoginService} from '@sinequa/core/login';
 import {AppService} from '@sinequa/core/app-utils';
-import {Subscription} from 'rxjs';
+import {Subscription, take} from 'rxjs';
 import {FEATURES} from '../../config';
 import {ParseResult} from '@sinequa/components/autocomplete';
 import {AutocompleteExtended} from './autocomplete-extended.directive';
 import {UserPreferences} from '@sinequa/components/user-settings';
 import {FirstPageService} from '@sinequa/components/search';
 import {AdvancedService} from '@sinequa/components/advanced';
-import {take} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {VoiceRecognitionService} from '@sinequa/components/utils';
 

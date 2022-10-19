@@ -1,6 +1,5 @@
 import {Injectable, Inject, OnDestroy} from "@angular/core";
-import {Subject, Observable} from "rxjs";
-import {pluck} from "rxjs/operators";
+import {Subject, Observable, map} from "rxjs";
 import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
 import {START_CONFIG, StartConfig} from "./start-config.web.service";
@@ -135,8 +134,8 @@ export class PrincipalWebService extends HttpService implements OnDestroy {
     }
 
     userIds(params?: PrincipalUserIdsParams): Observable<Partial<PrincipalUserInfo[]>> {
-        return this.httpClient.post<Partial<PrincipalUserInfo>>(this.makeUrl("principal/userids"), params).pipe(
-            pluck("principals")
+        return this.httpClient.post<{principals: Partial<PrincipalUserInfo[]>}>(this.makeUrl("principal/userids"), params).pipe(
+            map(r => r.principals)
         );
     }
 

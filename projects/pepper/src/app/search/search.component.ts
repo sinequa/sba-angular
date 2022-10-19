@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { Observable, Subscription, filter, tap } from 'rxjs';
 import { GridsterComponent } from 'angular-gridster2';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
