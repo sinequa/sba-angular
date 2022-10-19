@@ -10,9 +10,8 @@ import {INTL_MODULE_PROVIDERS} from "./module.providers";
 /**
  * An APP_INITIALIZER factory function for initialising the {@link IntlService} before any UI is displayed
  */
-export function IntlInitializer(intlService: IntlService): () => Promise<string> {
-    const init = () => intlService.init().toPromise();
-    return init;
+export function IntlInitializer(intlService: IntlService) {
+    return () => intlService.init();
 }
 
 /**

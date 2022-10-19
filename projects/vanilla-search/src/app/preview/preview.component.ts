@@ -2,8 +2,7 @@ import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, 
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router, NavigationEnd, RouterEvent } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { filter} from 'rxjs/operators';
+import { Subscription, filter } from 'rxjs';
 
 import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, PreviewData, Results } from '@sinequa/core/web-services';

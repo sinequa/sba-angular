@@ -26,7 +26,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
   @Input() showCount: boolean = true;
 
-  @Output() events = new EventEmitter<FacetMultiConfig>();
+  @Output() events = new EventEmitter<FacetMultiConfig|undefined>();
 
   /**
    * A reference to the facet child component
@@ -135,7 +135,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   private getFacetCount(facet: FacetMultiConfig): string {
     const agg = this.results.aggregations.find(agg => Utils.eqNC(agg.name, <string>facet.parameters?.aggregation)); // avoid calling getAggregation() which is costly for trees
     if (!agg?.items) return "";
-    
+
     const max = this.facetService.getAggregationCount(<string>facet.parameters?.aggregation); // configured count (default: 10)
     const count = max < 0 ? agg.items.length : max;
     const aggItemCounter = (!agg.isDistribution || facet?.parameters?.displayEmptyDistributionIntervals)

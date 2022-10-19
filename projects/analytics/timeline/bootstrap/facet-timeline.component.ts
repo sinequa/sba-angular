@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { Observable, of, combineLatest, ReplaySubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, combineLatest, ReplaySubject, map } from 'rxjs';
 import { Results, AggregationItem, Aggregation, CCAggregation, Record, AuditWebService, AuditEventType } from '@sinequa/core/web-services';
 import { AppService, Expr, ExprBuilder } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';

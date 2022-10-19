@@ -25,8 +25,7 @@ import {
     Results,
 } from "@sinequa/core/web-services";
 import { parseISO } from "date-fns";
-import { Subscription } from "rxjs";
-import { debounceTime, filter, map } from "rxjs/operators";
+import { Subscription, debounceTime, filter, map } from "rxjs";
 import { BsFacetTimelineComponent } from "./facet-timeline.component";
 import { TimelineSeries } from "./timeline.component";
 

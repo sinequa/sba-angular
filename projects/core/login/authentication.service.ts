@@ -1,7 +1,6 @@
 ﻿import {Injectable, Inject} from "@angular/core";
 import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from "@angular/common/http";
-import {Observable, timer, of, throwError, Subject} from "rxjs";
-import {share, flatMap, map, catchError, take} from "rxjs/operators";
+import {Observable, timer, of, throwError, Subject, firstValueFrom, share, switchMap, map, catchError, take} from "rxjs";
 import {AuthService} from "ng2-ui-auth";
 import {HttpService, START_CONFIG, StartConfig, AuditWebService} from "@sinequa/core/web-services";
 import {Utils, IRef, MapOf} from "@sinequa/core/base";
@@ -352,7 +351,7 @@ export class AuthenticationService extends HttpService {
             console.error("Unexpected WWW-Authenticate header");
             return Promise.resolve(undefined);
         }
-        return this.jWTService.getToken(credentials).toPromise()
+        return firstValueFrom(this.jWTService.getToken(credentials))
             .then((value) => ({
                     kind: LEGACY_PROCESSED_CREDENTIALS_KIND,
                     userName: credentials.userName,
@@ -402,7 +401,7 @@ export class AuthenticationService extends HttpService {
         // AuthService.authenticate opens a popup. On some platforms (Firefox) this is asynchronous
         // so we add a delay (timer(0)) so the caller can create a promise from the returned observable
         // without yielding
-        const observable = timer(0).pipe(flatMap((value) => {
+        const observable = timer(0).pipe(switchMap((value) => {
             const observable1 = this.authService.authenticate(provider, true).pipe(share());
             Utils.subscribe(observable1,
                 (response) => {

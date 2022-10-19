@@ -4,8 +4,7 @@ import {Utils} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
-import {BehaviorSubject, Observable, of, Subscription} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of, Subscription, catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs';
 import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
 import { FacetConfig } from "../../facet-config";
 
