@@ -1,6 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, map } from "rxjs";
 import { SqHttpClient } from "./http-client";
 import { HttpService } from "./http.service";
 import { Results } from "./query.web.service";

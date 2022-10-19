@@ -1,7 +1,6 @@
 import {Injectable, Inject} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {flatMap} from "rxjs/operators";
+import {Observable, switchMap} from "rxjs";
 import {PopupService} from "ng2-ui-auth";
 import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
@@ -36,7 +35,7 @@ export class AuthenticationPopupService extends PopupService {
                     tokenInCookie: true,
                     loginInPopup: true
                 })
-            }).pipe(flatMap((ret) => {
+            }).pipe(switchMap((ret) => {
                 return super.open(ret.redirectUrl, options, cordova);
             }));
         }

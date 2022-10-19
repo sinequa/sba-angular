@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Observable, of} from "rxjs";
-import {map, flatMap} from "rxjs/operators";
+import {Observable, of, switchMap} from "rxjs";
 import {Utils} from "@sinequa/core/base";
 import {SuggestQueryWebService, SuggestFieldWebService, Suggestion, EngineType} from "@sinequa/core/web-services";
 import {AppService, Query} from "@sinequa/core/app-utils";
@@ -38,9 +37,8 @@ export class SuggestService {
         if (!this.appService.ccquery) {
             return of([]);
         }
-        const observable = this.suggestQueryWebService.get(suggestQuery, text, this.appService.ccquery.name, fields);
-        return observable.pipe(
-            flatMap(suggests => {
+        return this.suggestQueryWebService.get(suggestQuery, text, this.appService.ccquery.name, fields)
+            .pipe(switchMap(suggests => {
                 if (!fields) {
                     if (!suggests) {
                         suggests = [];
@@ -58,11 +56,7 @@ export class SuggestService {
                             }
                         }
                         if (fields.length > 0) {
-                            return this.suggestFieldWebService.get(text, fields, query).pipe(
-                                map((suggests) => {
-                                    suggests.forEach(value => value.display = Utils.toSqlValue(value.display)); // because dates get automatically converted by the interceptor
-                                    return suggests;
-                                }));
+                            return this.suggestFieldWebService.get(text, fields, query);
                         }
                     }
                 }

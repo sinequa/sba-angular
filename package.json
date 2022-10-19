@@ -1,6 +1,6 @@
 {
   "name": "ng-ws",
-  "version": "11.8.2",
+  "version": "11.9.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -75,7 +75,7 @@
     "moment": "^2.29.4",
     "ng2-ui-auth": "^10.0.1",
     "ngx-bootstrap": "^8.0.0",
-    "rxjs": "~6.6.3",
+    "rxjs": "~7.5.0",
     "timsort": "^0.3.0",
     "tslib": "^2.3.1",
     "uuid": "8.3.2",

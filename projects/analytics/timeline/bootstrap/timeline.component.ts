@@ -83,7 +83,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() showTooltip = true;
     @Input() theme: "light" | "dark" = "light";
 
-    @Output() selectionChange = new EventEmitter<(Date|undefined)[]>();
+    @Output() selectionChange = new EventEmitter<(Date|undefined)[]|undefined>();
     @Output() rangeInit = new EventEmitter<Date[]>();
     @Output() rangeChange = new EventEmitter<Date[]>();
 

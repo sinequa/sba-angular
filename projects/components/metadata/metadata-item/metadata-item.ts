@@ -3,8 +3,7 @@ import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {Record, EntityItem, DocumentAccessLists, CCColumn, TextChunksWebService, TextLocation} from "@sinequa/core/web-services";
 import {FacetService} from "@sinequa/components/facet";
-import {Observable, of} from "rxjs";
-import {map} from "rxjs/operators";
+import {Observable, of, map} from "rxjs";
 
 export interface TreeValueItem extends ValueItem {
     parts: ValueItem[];
@@ -106,7 +105,7 @@ export class MetadataItem implements OnChanges {
                 this.valueItems.push({value: value});
             }
         }
-        
+
         const collapsable = (this.isEntity || this.isCsv) && !this.isTree; // Tree columns are multivalues, and therefore isCsv=true
         if (changes.collapseRows || this.collapsed === undefined) {
             this.collapsed = collapsable && this.collapseRows;

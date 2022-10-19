@@ -6,8 +6,7 @@ import {UserSettingsWebService, UserSettings, Suggestion,
 import {IntlService} from "@sinequa/core/intl";
 import {Query, AppService, FormatService, ExprBuilder, Expr} from "@sinequa/core/app-utils";
 import {FieldValue, Utils} from "@sinequa/core/base";
-import {Subject, Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {Subject, Observable, map} from "rxjs";
 import {SearchService, BreadcrumbsItem, Breadcrumbs} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
 import { FacetConfig } from "./facet-config";
