@@ -154,7 +154,7 @@ export class Utils {
                 const src = obj[key];
                 if (deep && Utils.isObject(src)) {
                     if (Utils.isDate(src)) {
-                        dst[key] = new Date(src.valueOf());
+                        dst[key] = new Date(src.getTime());
                     }
                     else if (Utils.isRegExp(src)) {
                         dst[key] = new RegExp(src);
@@ -459,7 +459,7 @@ export class Utils {
         }
         return new Date(ms + new Date(ms).getTimezoneOffset() * 60000); // get date in UTC
     }
-    
+
     /**
      * Converts a Date in UTC to is previous state.
      * The date is returned. If the string cannot be converted then `undefined` is returned

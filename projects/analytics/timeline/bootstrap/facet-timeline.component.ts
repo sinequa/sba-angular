@@ -25,7 +25,7 @@ export interface TimelineAggregation {
 export interface TimelineCombinedAggregations {
     aggregations: TimelineAggregation[];
     maxNMonths: number[]; // Maximum number of months for which to use this aggregation
-    default: TimelineAggregation; // Aggregation to use by default 
+    default: TimelineAggregation; // Aggregation to use by default
     current?: TimelineAggregation; // (this field is overriden by the component when switching aggregation)
 }
 
@@ -56,7 +56,7 @@ export type TimelineEventData = TimelineEvent[] | TimelineRecords | TimelineEven
 export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges {
     @Input() name = 'Timeline';
     @Input() results: Results;
-    
+
     // By default, we show the standard Timeline aggregation and the list of current records
     @Input() timeseries: TimelineData[] = [{aggregation: 'Timeline', primary: true}];
     @Input() events: TimelineEventData[] = [{field: 'modified'}];
@@ -67,7 +67,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     // Date range to filter aggregations (ignored when combined aggregations are recomputed based on zoomed range)
     @Input() minAggregationDate?: Date;
     @Input() maxAggregationDate?: Date;
-    
+
     @Input() zoomable = true;
     @Input() minZoomDays = 1; // Max 1 day scale
     @Input() maxZoomDays = 365 * 100; // Max 100 years scale
@@ -127,7 +127,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                 this.events$[i].next(this.getRecordsAsEvents(this.events[i] as TimelineRecords));
             }
         });
-        
+
         // Clear the current filters
         this.clearFilters = new Action({
             icon: "far fa-minus-square",
@@ -175,13 +175,13 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                     parsedexpr = parsedexpr.operands[0];
                 }
                 if(parsedexpr.values){
-                    this.selection = [new Date(parsedexpr.values[0]), new Date(parsedexpr.values[1])];
+                    this.selection = [moment(parsedexpr.values[0]).toDate(), moment(parsedexpr.values[1]).toDate()];
                     // Guess a current range based on the selection
                     if(!this.currentRange) {
                         const interval = this.selection[1].getTime() - this.selection[0].getTime();
                         this.currentRange = [ // Selected Interval +10% on each side
-                            new Date(this.selection[0].getTime()-interval*0.1),
-                            new Date(this.selection[1].getTime()+interval*0.1)
+                            moment(this.selection[0].getTime()-interval*0.1).toDate(),
+                            moment(this.selection[1].getTime()+interval*0.1).toDate()
                         ];
                     }
                 }
@@ -211,7 +211,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         }
 
         this.updateEvents();
-        
+
     }
 
     /**
@@ -230,7 +230,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             else {
                 let agg = config as TimelineAggregation;
                 if(agg.aggregation === undefined){
-                    
+
                     config = config as TimelineCombinedAggregations;
                     // We want to set the default scale if it hasn't been set before
                     // or if no zoom/selection has been made (so current scale may not be adapted to the new results)
@@ -240,7 +240,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
                     agg = config.current;
                 }
-                
+
                 const range: [Date, Date] | undefined = !!this.minAggregationDate && !!this.maxAggregationDate ?
                     [this.minAggregationDate, this.maxAggregationDate] : undefined;
 
@@ -254,7 +254,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     }
 
     /**
-     * For each event configuration given as an input, 
+     * For each event configuration given as an input,
      * update the data via the list of observables (events$)
      */
     updateEvents() {
@@ -278,9 +278,9 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     /**
      * Get a timeseries aggregation via the getAggregation method.
-     * @param config 
-     * @param subject 
-     * @param range 
+     * @param config
+     * @param subject
+     * @param range
      */
     getTimeseries(config: TimelineAggregation, range?: [Date, Date]): Observable<TimelineSeries> {
         return this.getAggregation(config.aggregation, range).pipe(
@@ -290,8 +290,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     /**
      * Get an aggregation of events via the getAggregation method
-     * @param config 
-     * @param subject 
+     * @param config
+     * @param subject
      */
     getEventAggregation(config: TimelineEventAggregation): Observable<TimelineEvent[]> {
         return this.getAggregation(config.aggregation).pipe(
@@ -302,19 +302,19 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     /**
      * Returns the list of records from the results as a list of TimelineEvent when they have a
      * modified date. The size and styles of the events are determined from the given configuration (TimelineRecords)
-     * @param config 
+     * @param config
      */
     getRecordsAsEvents(config: TimelineRecords): TimelineEvent[] {
         if(this.results) {
             return this.results.records
-                .filter(r => !!Utils.toDate(r[config.field]))
+                .filter(r => moment(r[config.field]).isValid())
                 .map<TimelineEvent>(r => {
                     return {
                         id: r.id,
-                        date: Utils.toDate(r[config.field])!,
+                        date: moment(r[config.field]).toDate(),
                         size: !config.size? 6 : typeof config.size === 'function'? config.size(r, r.$selected) : config.size,
                         styles: !config.styles? BsFacetTimelineComponent.defaultRecordStyle(r.$selected) :
-                                typeof config.styles === 'function'? config.styles(r, r.$selected) : 
+                                typeof config.styles === 'function'? config.styles(r, r.$selected) :
                                 config.styles,
                         display: config.display? config.display(r) : r.title,
                         // Custom property for click action
@@ -329,14 +329,14 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     /**
      * returns an aggregation and its configuration either directly from the facet service of
      * by fetching it from the server.
-     * @param aggregationName 
-     * @param range 
+     * @param aggregationName
+     * @param range
      */
     getAggregation(aggregationName: string, range?: [Date, Date]): Observable<{aggregation: Aggregation, ccaggregation: CCAggregation}> {
-        
+
         const ccaggregation = this.appService.getCCAggregation(aggregationName);
         const aggregation = this.facetService.getAggregation(aggregationName, this.results);
-        
+
         if(aggregation && ccaggregation) {
             return of({aggregation: aggregation, ccaggregation: ccaggregation});
         }
@@ -354,9 +354,9 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     /**
      * Get an aggregation from the server, filtering by range if provided
-     * @param aggregation 
-     * @param ccaggregation 
-     * @param range 
+     * @param aggregation
+     * @param ccaggregation
+     * @param range
      */
     fetchAggregation(aggregation: string, ccaggregation: CCAggregation, range?: [Date, Date]): Observable<Aggregation> {
         const query = Utils.copy(this.searchService.query);
@@ -373,11 +373,11 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     }
 
     /**
-     * Given a combined aggregation configuration and a range, this method searches for the most 
+     * Given a combined aggregation configuration and a range, this method searches for the most
      * adapted aggregation scale (years, months, weeks or days) and updates the data if necessary.
-     * @param config 
-     * @param range 
-     * @param iTimeseries 
+     * @param config
+     * @param range
+     * @param iTimeseries
      */
     updateCombinedAggregation(config: TimelineCombinedAggregations, range: [Date, Date], timeseries$: ReplaySubject<TimelineSeries>) {
         const nmonths = d3.timeMonth.count(range[0], range[1]);
@@ -390,7 +390,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         // Find the aggregation with min maxNMonths with maxNMonths >= nmonths
         let jMin;
         config.maxNMonths.forEach((maxNMonths, j) => {
-            if(maxNMonths >= nmonths && (jMin === undefined || maxNMonths < config.maxNMonths[jMin] || config.maxNMonths[jMin] === -1) 
+            if(maxNMonths >= nmonths && (jMin === undefined || maxNMonths < config.maxNMonths[jMin] || config.maxNMonths[jMin] === -1)
                 || maxNMonths === -1 && jMin === undefined){
                 jMin = j;
             }
@@ -398,7 +398,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
         const bestAggregation = config.aggregations[jMin];
 
-        if(bestAggregation !== config.current 
+        if(bestAggregation !== config.current
             || this.currentRange && (range[0] < this.currentRange[0] || range[1] > this.currentRange[1])) {
 
             config.current = bestAggregation;
@@ -417,7 +417,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      * On selection is triggered when the user selects a range of dates on the timeline.
      * This has the effect of updating the query.select (either remove it or add/replace it)
      * and it updates the search.
-     * @param selection 
+     * @param selection
      */
     onSelectionChange(selection: [Date, Date] | undefined) {
         this.selection = selection;
@@ -429,8 +429,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             this.searchService.query.removeSelect(this.name);
 
             this.timeseries.forEach((config) => {
-                    
-                if((config as TimelineAggregation).aggregation !== undefined 
+
+                if((config as TimelineAggregation).aggregation !== undefined
                 || (config as TimelineCombinedAggregations).default !== undefined) {
 
                     const aggregation = (config as TimelineAggregation).aggregation || (config as TimelineCombinedAggregations).default.aggregation;
@@ -446,7 +446,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                 const expr = this.exprBuilder.concatOrExpr(exprs);
                 this.searchService.query.addSelect(expr, this.name);
                 this.searchService.search(undefined, {type:AuditEventType.Search_Timeline_Usage, detail: { from, to }});
-            }            
+            }
         }
 
         else if(this.searchService.query.findSelect(this.name)) {
@@ -458,7 +458,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     /**
      * On range is triggered when the user zooms in our out on the timeline,
      * which triggers a dynamic update of the combined aggregation timelines.
-     * @param range 
+     * @param range
      */
     onRangeChange(range: [Date, Date]) {
 
@@ -475,8 +475,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     /**
      * When an event is clicked, the event is propagated to the parent, and the tooltip is closed
-     * @param event 
-     * @param closeTooltip 
+     * @param event
+     * @param closeTooltip
      */
     onEventClicked(event: TimelineEvent, closeTooltip: () => void) {
         this.eventClicked.next(event);
@@ -486,13 +486,13 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
 
     // Static utility methods
-    
-    
+
+
     /**
      * Create a time series object from its config, data (aggregation) and configuration (ccaggregation)
-     * @param config 
-     * @param aggregation 
-     * @param ccaggregation 
+     * @param config
+     * @param aggregation
+     * @param ccaggregation
      */
     static createTimeseries(config: TimelineAggregation, aggregation: Aggregation, ccaggregation: CCAggregation, range?: [Date, Date]): TimelineSeries {
         return {
@@ -504,9 +504,9 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     /**
      * Create a list of events from its config, data (aggregation) and configuration (ccaggregation)
-     * @param config 
-     * @param aggregation 
-     * @param ccaggregation 
+     * @param config
+     * @param aggregation
+     * @param ccaggregation
      */
     static createAggregationEvents(config: TimelineEventAggregation, aggregation: Aggregation, ccaggregation: CCAggregation): TimelineEvent[] {
         return !aggregation.items? [] : aggregation.items.map(item => {
@@ -515,8 +515,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                 date: config.getDate(item),
                 size: !config.size? 6 : typeof config.size === 'function'? config.size(item) : config.size,
                 styles: !config.styles? undefined :
-                        typeof config.styles === 'function'? config.styles(item) : 
-                        config.styles,                
+                        typeof config.styles === 'function'? config.styles(item) :
+                        config.styles,
                 display: config.getDisplay(item),
 
                 // Custom params for click action
@@ -532,8 +532,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      * a time series completed with zeros, following the below scheme:
      * Aggregation:  [    # #         # # #   #     # #       # # #    ]
      * Series:       [  0 # # 0     0 # # # 0 # 0 0 # # 0   0 # # # 0  ]
-     * @param items 
-     * @param resolution 
+     * @param items
+     * @param resolution
      */
     static createDatapoints(items: AggregationItem[] | undefined, resolution: string, range?: [Date, Date]): TimelineDate[] {
 
@@ -542,7 +542,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         }
 
         const timeInterval = this.getD3TimeInterval(resolution);
-        
+
         const series: TimelineDate[] = [];
 
         const _items = items
@@ -560,7 +560,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
         _items.forEach((item,i) => {
             const date = item.value as Date;
-            
+
             if(i === 0 || timeInterval.offset(series[series.length-1].date, 1) < date) {
                 series.push({date: timeInterval.offset(date, -1), value: 0});
             }
@@ -568,7 +568,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             series.push({date: date, value: item.count});
 
             if(i === _items.length-1 || timeInterval.offset(date, 1) < _items[i+1].value){
-                series.push({date: timeInterval.offset(date, 1), value: 0});                    
+                series.push({date: timeInterval.offset(date, 1), value: 0});
             }
         });
 
@@ -577,11 +577,11 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         return series;
     }
 
-    
+
     /**
      * Shift the date to the middle of their time bracket (2020 = middle of the year, April = middle of the month, etc.)
-     * @param date 
-     * @param resolution 
+     * @param date
+     * @param resolution
      */
     static shiftDate(date: Date, resolution: string): Date {
         switch(resolution){
