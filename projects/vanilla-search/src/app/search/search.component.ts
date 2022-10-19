@@ -41,6 +41,7 @@ export class SearchComponent implements OnInit {
 
   public results$: Observable<Results | undefined>;
 
+  // Whether the results contain answers/passages data (neural search)
   public hasAnswers: boolean;
   public hasPassages: boolean;
 
