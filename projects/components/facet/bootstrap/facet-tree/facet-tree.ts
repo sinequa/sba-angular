@@ -15,6 +15,7 @@ export interface FacetTreeParams {
     searchable?: boolean;
     allowExclude?: boolean;
     allowOr?: boolean;
+    allowAnd?: boolean;
     expandedLevel?: number;
     forceMaxHeight?: boolean;
     displayActions?: boolean;
