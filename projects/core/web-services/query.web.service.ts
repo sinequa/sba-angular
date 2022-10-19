@@ -716,6 +716,8 @@ export interface Passage {
   id: number;
   location: number[];
   rlocation: number[];
+  /** text of the passage with answer highlighted with <b> tags */
+  highlightedText: string;
 }
 
 /**
@@ -737,8 +739,6 @@ export interface Answer {
     text: string;
     score: number;
     passage: Passage;
-    /** text of the passage with answer highlighted with <b> tags */
-    highlightedAnswer: string;
     /** Record from which this answer was extracted */
     record: Record;
     $liked: undefined | boolean;

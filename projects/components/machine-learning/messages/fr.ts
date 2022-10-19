@@ -1,5 +1,9 @@
 export default {
   "machine-learning": {
-    "mostRelevantPassages": "Passage(s) pertinent(s)"
+    "passages": "Passages",
+    "passagesCollapsed": "J'ai trouvé {passagesNb, number} possibles passages",
+    "answers": "Réponses",
+    "answersCollapsed": "J'ai trouvé {answersNb, number} possibles réponses",
+    "answer": "Réponse"
   }
 }

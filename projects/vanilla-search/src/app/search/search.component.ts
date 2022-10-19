@@ -14,6 +14,7 @@ import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { TopPassage } from '@sinequa/core/web-services/models/top-passage';
 
 @Component({
   selector: 'app-search',
@@ -39,6 +40,9 @@ export class SearchComponent implements OnInit {
   public _showMenu = false;
 
   public results$: Observable<Results | undefined>;
+
+  public hasAnswers: boolean;
+  public hasPassages: boolean;
 
   public readonly facetComponents = {
       ...default_facet_components,
@@ -99,6 +103,8 @@ export class SearchComponent implements OnInit {
             this.openedDoc = undefined;
             this._showFilters = false;
           }
+          this.hasAnswers = !!_?.answers?.answers?.length;
+          this.hasPassages = !!_?.topPassages?.passages?.length;
         })
       );
   }
@@ -278,15 +284,11 @@ export class SearchComponent implements OnInit {
     return !this.showPassagesAction?.hidden && !!this.showPassagesAction?.selected;
   }
 
-  onAnswerOpened(answer: Answer) {
-    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
-    const record = this.searchService.results?.records.find(r => r.id === answer.record.id);
-    this.openMiniPreview(record || answer.record);
+  onPreviewOpened(item: Answer | TopPassage) {
+    this.openMiniPreview(item.record);
   }
 
-  onTopPassageClick(passageRecord: Record) {
-    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
-    const record = this.searchService.results?.records.find(r => r.id === passageRecord.id);
-    this.openMiniPreview(record || passageRecord);
+  onTitleClick(value: {item: Answer | TopPassage, isLink: boolean}) {
+    this.openPreviewIfNoUrl(value.item.record, value.isLink);
   }
 }
