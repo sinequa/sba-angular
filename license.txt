@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2020 SINEQUA and contributors
+Copyright (c) 2022 SINEQUA and contributors
 
 All rights reserved.
 
