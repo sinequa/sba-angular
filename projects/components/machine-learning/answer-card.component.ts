@@ -3,7 +3,7 @@ import { SearchService } from "@sinequa/components/search";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
-import { Answer, AuditEvent, AuditWebService, Results } from "@sinequa/core/web-services";
+import { Answer, AuditWebService, Results } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-answer-card',
@@ -48,18 +48,5 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   onTitleClicked(isLink: boolean) {
     this.titleClicked.next({ item: this.answer, isLink });
-  }
-
-  protected makeAuditEvent(type: string): AuditEvent {
-    return {
-      type,
-      detail: {
-        text: this.searchService.query.text,
-        message: this.answer.text,
-        detail: this.answer.passage?.highlightedText,
-        resultcount: this.answers.length,
-        rank: this.selectedAnswer
-      }
-    }
   }
 }
