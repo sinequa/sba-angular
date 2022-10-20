@@ -79,7 +79,7 @@
             <sq-tabs [results]="results"></sq-tabs>
 
             <!-- Toolbar -->
-            <div class="d-flex" [ngClass]="{'mb-2': hasAnswers || hasPassages}">
+            <div class="d-flex">
                 <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true"></sq-sort-selector>
@@ -92,13 +92,13 @@
             <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
 
             <!-- Answer card -->
-            <sq-facet-card *ngIf="hasAnswers" class="mb-3" #answersFacet>
+            <sq-facet-card *ngIf="hasAnswers" class="mt-3" #answersFacet>
                 <sq-answer-card #facet [results]="results" (previewOpened)="onPreviewOpened($event)"
                     (titleClicked)="onTitleClick($event)" [collapsed]="answersFacet._collapsed"></sq-answer-card>
             </sq-facet-card>
             
             <!-- nth top pasages -->
-            <sq-facet-card *ngIf="hasPassages" class="mb-3" #passagesFacet>
+            <sq-facet-card *ngIf="hasPassages" class="mt-3" #passagesFacet>
                 <sq-top-passages #facet [results]="results" (previewOpened)="onPreviewOpened($event)"
                     (titleClicked)="onTitleClick($event)" [collapsed]="passagesFacet._collapsed"></sq-top-passages>
             </sq-facet-card>
