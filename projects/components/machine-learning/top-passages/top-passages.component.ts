@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { Record, Results } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { TopPassage } from "@sinequa/core/web-services/models/top-passage";
@@ -54,7 +54,7 @@ export class TopPassagesComponent extends AbstractFacet {
     this.currentPassages$.next(this.passages.slice(index, index + 3));
   }
 
-  constructor(public cdr: ChangeDetectorRef) {
+  constructor() {
     super();
   }
 

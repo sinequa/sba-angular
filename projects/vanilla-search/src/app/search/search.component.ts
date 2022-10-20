@@ -98,14 +98,14 @@ export class SearchComponent implements OnInit {
     // consult RxJS documentation for additional functionality like combineLatest, etc.
     this.results$ = this.searchService.resultsStream
       .pipe(
-        tap(_ => {
+        tap(results => {
           this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
           if (!this.showResults) {
             this.openedDoc = undefined;
             this._showFilters = false;
           }
-          this.hasAnswers = !!_?.answers?.answers?.length;
-          this.hasPassages = !!_?.topPassages?.passages?.length;
+          this.hasAnswers = !!results?.answers?.answers?.length;
+          this.hasPassages = !!results?.topPassages?.passages?.length;
         })
       );
   }
