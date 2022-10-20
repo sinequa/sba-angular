@@ -25,8 +25,18 @@
 </ng-template>
 
 <div class="card-body" (click)="openPreview()">
-    <div class="d-flex fw-bold">
+    <div class="fw-bold">
         {{answer.text}}
+        <div *ngIf="showLikeButtons" class="float-end">
+            <button class="btn btn-link" (click)="$event.stopPropagation; likeAnswer()"
+                sqTooltip="This answer is helpful">
+                <i class="far fa-thumbs-up" [ngClass]="{fas: answer.$liked}"></i>
+            </button>
+            <button class="btn btn-link" (click)="$event.stopPropagation; dislikeAnswer()"
+                sqTooltip="This answer is wrong">
+                <i class="far fa-thumbs-down" [ngClass]="{fas: answer.$liked === false}"></i>
+            </button>
+        </div>
     </div>
     <div class="my-3" [innerHTML]="answer.passage?.highlightedText"></div>
     <ng-container *ngIf="answer.record as record">

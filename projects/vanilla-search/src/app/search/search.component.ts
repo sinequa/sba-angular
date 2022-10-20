@@ -14,7 +14,7 @@ import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { TopPassage } from '@sinequa/core/web-services/models/top-passage';
+import { TopPassage } from '@sinequa/core/web-services';
 
 @Component({
   selector: 'app-search',

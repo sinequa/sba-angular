@@ -2,12 +2,12 @@
 	<div class="d-flex flex-grow-1 align-items-center text-truncate">
 		<div class="card-icon primary-icon fas fa-list me-2" aria-hidden="true"></div>
 		<div class="card-title text-truncate mb-0 py-1 me-auto">
-            <span *ngIf="collapsed">
-                {{'msg#machine-learning.passagesCollapsed' | sqMessage:{values: {passagesNb: passages.length} } }}
-            </span>
-            <span *ngIf="!collapsed">
-                {{'msg#machine-learning.passages' | sqMessage }}
-            </span>
+			<span *ngIf="collapsed">
+				{{'msg#machine-learning.passagesCollapsed' | sqMessage:{values: {passagesNb: passages.length} } }}
+			</span>
+			<span *ngIf="!collapsed">
+				{{'msg#machine-learning.passages' | sqMessage }}
+			</span>
 		</div>
 		<div class="card-action d-flex justify-content-center align-items-center mx-2">
 			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+pageNumber-1) % pageNumber"

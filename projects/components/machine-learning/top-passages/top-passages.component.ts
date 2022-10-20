@@ -14,7 +14,7 @@ export interface TopPassageConfig {
   selector: 'sq-top-passages',
   templateUrl: 'top-passages.component.html',
   styles: [`
-.card-body div {
+.card-body > div {
   cursor: pointer;
 }
   `],
