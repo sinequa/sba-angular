@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" [ngClass]="{'striped-card': striped}">
     <div class="card-header cursor-default ps-3 pe-2 py-1">
         <div class="d-flex align-items-center">
             <div class="d-flex align-items-center text-truncate me-auto" [title]="(tooltip || title) | sqMessage">
