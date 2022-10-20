@@ -724,8 +724,6 @@ export interface Passage {
  * A passage returned by ML Passage Ranking model
  */
 export interface MatchingPassage extends Passage {
-  /** text of the passage with matchlocations highlighted with <b> tags */
-  highlightedText: string;
   /** Score of this matching passage */
   score: number;
   /** Front end parameter to store the state of expansion/collapse of this passage */
