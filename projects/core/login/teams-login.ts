@@ -13,7 +13,7 @@ export function TeamsInitializer(authService: AuthenticationService): () => Prom
         }).then(result => {
             console.log("Teams auth token available");
             if(authService) {
-                authService.teamsToken = result;
+                authService.isTeams = true;
             }
         }).catch(error => {
             console.error("Failed to get an auth token for Teams", error);

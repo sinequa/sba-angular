@@ -1,6 +1,6 @@
 import { Record as SQRecord } from "../query.web.service";
 
-export type TopPassageColumnKey = "id" | "url1" | "tittle" | "filename" | "treepath" | "modified" | "docformat" | "fileeext" | "collection" | "authors"
+export type TopPassageColumnKey = "id" | "url1" | "title" | "filename" | "treepath" | "modified" | "docformat" | "fileeext" | "collection" | "authors"
 export type TopPassageColumn = Partial<Record<TopPassageColumnKey, string>>;
 
 export interface TopPassage {
