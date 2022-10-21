@@ -248,4 +248,45 @@ describe('IntlService', () => {
 
   })
 
+  describe('formatText()', () => {
+    it('should format ICU Message', () => {
+      const icu = 'You have {numPhotos, plural, =0 {no photos.} =1 {one photo.} other {# photos.}}';
+      expect(service.formatText(icu, { numPhotos: 1000 })).toEqual('You have 1,000 photos.');
+      expect(service.formatText(icu, { numPhotos: 0 })).toEqual('You have no photos.');
+      expect(service.formatText(icu, { numPhotos: 1 })).toEqual('You have one photo.');
+    });
+
+    it('should format ICU Message (french)', waitForAsync(() => {
+      service.use("fr", false).subscribe(() => {
+        const icu = 'Vous avez {numPhotos, plural, =0 {aucune photos.} =1 {une photo.} other {# photos.}}';
+        expect(service.formatText(icu,{numPhotos: 1000})).toEqual('Vous avez 1 000 photos.');
+        expect(service.formatText(icu,{numPhotos: 0})).toEqual('Vous avez aucune photos.');
+        expect(service.formatText(icu, { numPhotos: 1 })).toEqual('Vous avez une photo.');
+      })
+    }))
+  })
+
+  describe('formatNumber()', () => {
+    it('should format ICU Message', () => {
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
+      const icu = 1000;
+      expect(service.formatNumber(icu)).toEqual('1,000');
+      expect(service.formatNumber(icu, {style: 'currency', currency: 'eur'})).toEqual('€1,000.00');
+      expect(service.formatNumber(icu, {style: 'currency', currency: 'usd'})).toEqual('$1,000.00');
+      expect(service.formatNumber(icu, { style: 'currency', currency: 'gbp' })).toEqual('£1,000.00');
+      expect(service.formatNumber(icu, { style: 'currency', currency: 'jpy' })).toEqual('¥1,000');
+      expect(service.formatNumber(icu, { style: 'currency', currency: 'jpy', currencyDisplay: 'symbol' })).toEqual('¥1,000');
+      expect(service.formatNumber(icu, { style: 'currency', currency: 'jpy', currencyDisplay: 'name' })).toEqual('1,000 Japanese yen');
+      // default fractional digits is 3
+      expect(service.formatNumber(1/3)).toEqual('0.333');
+      expect(service.formatNumber(1/3, {minimumFractionDigits: 3})).toEqual('0.333');
+      expect(service.formatNumber(1 / 3, { minimumFractionDigits: 5 })).toEqual('0.33333');
+      expect(service.formatNumber(1 / 3, { maximumFractionDigits: 2 })).toEqual('0.33');
+      expect(service.formatNumber(1 / 3, { maximumSignificantDigits: 2 })).toEqual('0.33');
+      expect(service.formatNumber(1 / 2, { minimumSignificantDigits: 2 })).toEqual('0.50');
+      expect(service.formatNumber(1_000_000, { useGrouping: false })).toEqual('1000000');
+      expect(service.formatNumber(1_000_000, { useGrouping: true })).toEqual('1,000,000');
+    });
+  })
+
 })
