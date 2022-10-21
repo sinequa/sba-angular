@@ -7,6 +7,7 @@ import {Utils, IRef, MapOf} from "@sinequa/core/base";
 import {SqHttpClient} from "@sinequa/core/web-services";
 import {TokenService} from "./token.service";
 import {JWTService} from "./jwt.service";
+import {authentication} from "@microsoft/teams-js";
 
 interface Authentication {
     csrfToken: string;
@@ -104,7 +105,7 @@ export class AuthenticationService extends HttpService {
      */
     userOverrideFailed: boolean;
 
-    teamsToken?: string;
+    isTeams?: boolean;
 
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
@@ -243,7 +244,7 @@ export class AuthenticationService extends HttpService {
      *
      * @returns new configuration
      */
-    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): {headers: HttpHeaders, params: HttpParams} {
+    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): Promise<{headers: HttpHeaders, params: HttpParams}> {
         this.doAuthentication();
         if (this.authentication) {
             if (this.authentication.headers) {
@@ -261,10 +262,19 @@ export class AuthenticationService extends HttpService {
                 }
             }
         }
-        if(this.teamsToken) {
-            config.headers = config.headers.set("teams-token", this.teamsToken);
+        if(this.isTeams) {
+            return authentication.getAuthToken().then(
+                token => {
+                    config.headers = config.headers.set("teams-token", token);
+                    return config
+                },
+                error => {
+                    console.error("Could not get a token from MS Teams. Proceeding without it...", error);
+                    return config;
+                }
+            );
         }
-        return config;
+        return Promise.resolve(config);
     }
 
     /**
@@ -492,6 +502,9 @@ export class AuthenticationService extends HttpService {
      * @returns An Observable of a boolean value which if `true` indicates that auto-authentication has been initiated.
      */
     autoAuthenticate(): Observable<boolean> {
+        if(this.isTeams) { // If we are in Teams, requests are authenticated with the teams-token header: no need for a CSRF token
+          return of(false);
+        }
         return this.tokenService.getCsrfToken().pipe(
             map((csrfToken) => {
                 // Token can be empty as getCsrfToken suppresses application errors (no cookie or cookie invalid)
@@ -509,7 +522,7 @@ export class AuthenticationService extends HttpService {
                 // We should rarely have an error now as getCsrfToken
                 // suppresses the application-level ones
                 if (this.initiateAutoAuthentication()) {
-                    return throwError(error);
+                    return throwError(() => error);
                 }
                 // Swallow the error and continue with non-auto login process
                 return of(false);
