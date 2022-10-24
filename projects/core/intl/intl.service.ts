@@ -1,6 +1,6 @@
 import {Injectable, Optional, Inject, OnDestroy, InjectionToken} from "@angular/core";
 import {Subject, Observable, of, throwError, from, filter, switchMap, tap} from "rxjs";
-import IntlMessageFormat, { Formats } from "intl-messageformat";
+import {IntlMessageFormat, Formats } from "intl-messageformat";
 import memoizeFormatConstructor from "intl-format-cache";
 // TODO - check loading of locale data per locale - the ponyfill doesn't seem to work
 // import "@formatjs/intl-relativetimeformat/polyfill";
@@ -642,7 +642,7 @@ export class IntlService implements OnDestroy {
         }
         if (message) {
             try {
-                const formatter = formatters.getMessageFormat(message, this.intlLocale, this.formats, {formatters});
+                const formatter = formatters.getMessageFormat(message, this.intlLocale, this.formats);
                 const formattedMessage = formatter.format(values);
                 return formattedMessage;
             }
@@ -895,6 +895,7 @@ export class IntlService implements OnDestroy {
      * @param options The options can include a custom format
      */
     formatNumber(value: any, options: Intl.NumberFormatOptions & { format?: any } = {}): string {
+       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
         const {format} = options;
         const defaults = format && this.getNamedFormat("number", format);
         const filteredOptions = this.filterProps(options, NUMBER_FORMAT_OPTIONS, defaults);

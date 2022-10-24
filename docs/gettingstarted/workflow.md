@@ -15,7 +15,7 @@ Traditionally, any development done in a Sinequa project has to be implemented a
 
 With the SBA framework, the development can take place anywhere, as long as the REST API of the Sinequa server is accessible. This means you can work:
 
-- **Locally**: ie, directly on the Sinequa server (whether it's a physical or virtual server, or just your own computer with Sinequa installed on it). 
+- **Locally**: ie, directly on the Sinequa server (whether it's a physical or virtual server, or just your own computer with Sinequa installed on it).
 - **Remotely**: ie, on any regular workstation that knows nothing of Sinequa, but can access its remote REST API (This is generally the recommended approach).
 
 ### Working locally
@@ -87,7 +87,7 @@ The third step means by definition that the app is not served from the same URL 
     Then modify your `ng serve` command to use your proxy:
 
     ```
-    npm run ng serve <your-app> -- --ssl=true --proxyConfig=<path-to-proxy.json>
+    npm run ng serve <your-app> -- --ssl=true --proxy-config=<path-to-proxy.json>
     ```
 
     The proxy file can have various other options. Read the [online documentation]((https://angular.io/guide/build#proxying-to-a-backend-server)).
