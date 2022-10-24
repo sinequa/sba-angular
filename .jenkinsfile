@@ -32,25 +32,25 @@ anpmrc = ["always-auth=true", "registry=${url}/", "scope=${scope}"]
 node (params.SBA_NODE) {
 	currentBuild.result = "SUCCESS"
 	try {
-	
+
 		// get the source code
 		checkout scm
-		
+
 		// load jenkins functions
 		def rootDir = pwd()
 		def jf = load "${rootDir}/.jenkins_function.groovy"
-		
+
 		stage('Clean') {
-			// delete dependency modules 
+			// delete dependency modules
 			def nmfolder = "node_modules"
 			echo ".Rmdir /s /q ${nmfolder}"
 			bat "if exist ${nmfolder} ( rmdir /s /q ${nmfolder} )"
-			
+
 			// clean the npm cache
 			echo ".Cache clean force"
 			bat "npm cache clean --force"
 		}
-		
+
 		stage('Create user') {
 			// create user for verdaccio
 			bat "npm-cli-login -u ${npm_user} -p ${npm_pass} -e ${npm_mail} -r ${url} -s ${scope} --config-path ${fnpmrc}"
@@ -59,14 +59,14 @@ node (params.SBA_NODE) {
 			// check the connection
 			bat "npm whoami"
 		}
-		
+
 		stage('copyNpmrc') {
 			// copy .npmrc file in sub project folder
 			bat "xcopy ${fnpmrc} .\\projects\\core\\ /Y"
 			bat "xcopy ${fnpmrc} .\\projects\\components\\ /Y"
 			bat "xcopy ${fnpmrc} .\\projects\\analytics\\ /Y"
 		}
-		
+
 		stage('NPM Install') {
 			// get the dependency modules
 			bat "npm i"
@@ -89,10 +89,18 @@ node (params.SBA_NODE) {
 			stage('Build Analytics') {
 				echo "npm run buildanalytics --if-present"
 				bat  "npm run buildanalytics --if-present"
-			}			
+			}
+			stage('Test Core') {
+				echo "npm run test core -- --watch=false"
+				bat  "npm run test core -- --watch=false"
+			}
 			stage('Test Components') {
 				echo "npm run test components -- --watch=false"
 				bat  "npm run test components -- --watch=false"
+			}
+			stage('Test Analytics') {
+				echo "npm run test analytics -- --watch=false"
+				bat  "npm run test analytics -- --watch=false"
 			}
 			stage('Build HelloSearch') {
 				echo "npm run buildhellosearch --if-present"
@@ -114,10 +122,10 @@ node (params.SBA_NODE) {
 			echo "sba_version: ${sba_version}"
 			sba_tag = jf.get_pkg_tag(sba_version)
 			echo "sba_tag: ${sba_tag}"
-			
+
 			// validate the build before merge
 			// build sinequa core modules
-			stage('Build Core') {	
+			stage('Build Core') {
 				bat """
 				echo ".installsqcore:"
 				cd ./projects/core
@@ -161,10 +169,10 @@ node (params.SBA_NODE) {
 				call npm publish ./dist/analytics --tag ${sba_tag}
 				"""
 			}
-			
+
 			// get the current branch version
 			def currentBranch = jf.findBranchNumber()
-			
+
 			// When merging, build a list of apps (param of the job) to be validated
 			// Start a job with the name in the list in parameter
 			// The job must exists before run
@@ -179,7 +187,7 @@ node (params.SBA_NODE) {
 				echo "  app ${j}/${nbapp}: ${applist[i]}"
 				jf.build_app(sba_version, applist[i], currentBranch)
 			}
-		
+
 		}
 
 	} catch (err) {
