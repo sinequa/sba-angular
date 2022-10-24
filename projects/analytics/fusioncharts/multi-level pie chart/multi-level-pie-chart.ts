@@ -8,8 +8,6 @@ import { Subscription } from 'rxjs';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
 import { Utils } from "@sinequa/core/base";
-import { _getFocusedElementPierceShadowDom } from "@angular/cdk/platform";
-
 
 export const defaultMultiLevelChart = {
     "theme": "fusion",
@@ -29,10 +27,6 @@ export interface Category extends AggregationItem, TreeAggregationNode {
     showLabel?: boolean;
     showValue?: boolean;
     category?: Category[];
-}
-
-export interface MultiLevelChartData {
-    category: Category[] | undefined
 }
 
 @Component({
