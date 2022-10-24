@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional, DoCheck, NgZone } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional, DoCheck, NgZone, ElementRef } from "@angular/core";
 import { IntlService } from "@sinequa/core/intl";
 import { Results, Aggregation, AggregationItem, TreeAggregationNode } from '@sinequa/core/web-services';
 import { UIService } from "@sinequa/components/utils";
@@ -8,15 +8,16 @@ import { Subscription } from 'rxjs';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
 import { Utils } from "@sinequa/core/base";
+import { _getFocusedElementPierceShadowDom } from "@angular/cdk/platform";
 
 
 export const defaultMultiLevelChart = {
     "theme": "fusion",
-    "highlightParentPieSlices": true, // prevent child pie slices from getting highlighted, when you hover over the parent slices
-    "highlightChildPieSlices": false, // automatically highlight parent slices when you hover over the child pie slices
+    "highlightParentPieSlices": true, // automatically highlight parent slices when you hover over the child pie slices
+    "highlightChildPieSlices": false, // prevent child pie slices from getting highlighted, when you hover over the parent slices
     "showPlotBorder": true,
-    "piefillalpha": "60",
-    "pieborderthickness": "3"
+    "piefillalpha": 60,
+    "pieborderthickness": 3
 }
 
 export interface Category extends AggregationItem, TreeAggregationNode {
@@ -43,7 +44,6 @@ export interface MultiLevelChartData {
 export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDestroy, DoCheck {
     @Input() results: Results;
     @Input() aggregation: string; // Aggregation name
-    @Input() isTreeAgg: boolean = true;
 
     @Input() data: Category[];
 
@@ -51,7 +51,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     @Input() height: string = '350';
     @Input() showToolTip: boolean = true;
     @Input() plottooltext: string = "$label, $value, $percentValue"; // configure the tooltip text of plots
-    @Input() showLabels: boolean = true; // Show/hide ALL CHART'S plots labels
+    @Input() showLabels: boolean = false; // Show/hide ALL CHART'S plots labels
     @Input() showValues: boolean = false; // Show/hide ALL CHART'S plots value next to labels
     @Input() showPercentValues: boolean = false; // if enabled along with "showValues", values of ALL CHART'S plots will be shown as percentages
     @Input() chart: any = defaultMultiLevelChart;
@@ -71,18 +71,16 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     hasFiltered = () => {
         return this.facetService.hasFiltered(this.getName());
     }
-
     /**
      * A function that returns true the aggregationItem match a selected document
      */
     @Input()
     isSelected = <T extends AggregationItem | TreeAggregationNode>(item: T) => {
-        if (this.aggrData?.isTree) {
+        if (this.isTree()) {
             return this.selectedValues.has((item as TreeAggregationNode).$path!.toLowerCase()) && this.selectedColor;
         }
         return this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase()) && this.selectedColor;
     }
-
     /**
      * Callback used to apply custom operations (sort, filter ...) on a tree nodes
      */
@@ -95,12 +93,16 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     // the fusionchart component without displaying causes strange bugs...
     ready = false;
 
+    // A flag to remove the fusionChart component from the DOM when refreshing the data after a plot click, since it causes
+    // strange multiple execution of the click action
+    isRefreshing = true;
+
     chartObj: any;
     aggrData?: Aggregation;
     dataSource: any = {};
     _data: Category[] | undefined;
+    public readonly type = "multilevelpie";
 
-    private clickedItem: Category | undefined;
     private readonly selectedValues = new Set<string>();
 
     // Actions (displayed in facet menu)
@@ -111,8 +113,6 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     private localeChange: Subscription;
     private selectionChange: Subscription;
 
-    public readonly type = "multilevelpie";
-
     constructor(
         public intlService: IntlService,
         public uiService: UIService,
@@ -120,7 +120,8 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         public selectionService: SelectionService,
         public appService: AppService,
         @Optional() public cardComponent: BsFacetCard,
-        private zone: NgZone
+        private zone: NgZone,
+        private el: ElementRef
     ) {
         super();
 
@@ -173,23 +174,22 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
 
     // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
     ngOnChanges(changes: SimpleChanges) {
-
         if(changes.results || changes.defaultColor || changes.filteredColor || changes.selectedColor) {
             this.updateData();
         }
-        if(changes.chart || !this.dataSource.chart || changes.showLabels
-            || changes.showToolTip || changes.plottooltext || changes.showValues || changes.showPercentValues) {
-                const chart = {
+        if(changes.chart || !this.dataSource.chart || changes.showToolTip || changes.plottooltext
+            || changes.showValues || changes.showPercentValues) {
+                this.chart = {
                     ...this.chart,
                     showToolTip: this.showToolTip,
                     plottooltext: this.plottooltext,
-                    showLabels: this.showLabels,
                     showValues: this.showValues,
                     showPercentValues: this.showPercentValues
                 }
-                this.dataSource = {...this.dataSource, chart: chart};
+                this.dataSource = {...this.dataSource, chart: this.chart};
         }
-       // console.log("ngOnChanges")
+        this.updatePlotsValueDisplay();
+        this.isRefreshing = false
     }
 
     // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
@@ -197,9 +197,12 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         // We check that the parent component (if any) has been expanded at least once so that the fusioncharts
         // gets created when it is visible (otherwise, there can be visual bugs...)
         this.ready = !this.cardComponent?._collapsed;
-       // console.log("ngDoCheck")
     }
 
+
+    /**
+     * Update the chart dataSource
+     */
     updateData() {
         // Retrieve aggregation data
         this.getAggregationData();
@@ -207,12 +210,20 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         // Update the set of selected values (for chart coloring)
         this.updateSelectedValues();
 
-        this._data = this.data || this.aggrData?.items?.map(item => this.convertAggregationItems(item));
+        this._data = this.data || this.aggrData?.items?.map(item => this.convertAggregationItems(item)) || [];
 
         this.dataSource = {
             ...this.dataSource,
             category: this._data
         };
+    }
+
+    /**
+     * Hack to show/hide plots labels since it couldn't be done with native fusionChart attributes without breaking
+     * the component behavior (on click, will not be able to identify the clicked plot because the key === label will be empty)
+     */
+    updatePlotsValueDisplay() {
+        this.el.nativeElement.style.setProperty('--display', this.showLabels ? '' : 'none')
     }
 
     private getAggregationData(): void {
@@ -221,7 +232,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
             this.aggrData = this.facetService.getAggregation(
                 this.aggregation,
                 this.results,
-                !!this.isTree() ? {facetName: this.getName(), levelCallback: this.initNodes} : undefined
+                {facetName: this.getName(), levelCallback: this.initNodes}
             );
         }
     }
@@ -253,7 +264,6 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
      * @param $event
      */
     onInitialized($event) {
-        console.log("initialization of the fusion chart")
         this.chartObj = $event.chart; // saving chart instance
         this.initialized.next(this.chartObj);
     }
@@ -264,22 +274,18 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
      * @param $event
      */
     dataplotClick($event) {
-       // $event.eventObj.stopImmediatePropagation();
-
+        this.isRefreshing = true;
+        const item = this.getItem($event.dataObj.label, this._data);
         this.zone.run(() => { // FusionCharts runs outside Angular zone, so we must re-enter it
-            console.log("plot click")
-            this.clickedItem = undefined;
-            this.getItem($event.dataObj.label, this._data);
-
             if (this.aggrData) { // For standard Aggregation data structure
-                const obj = {...this.clickedItem!, value: this.clickedItem!.originalLabel} // Re-convert clickedItem structure to fit standard AggregationItem
+                const obj = {...item!, value: item!.originalLabel} // Re-convert clickedItem structure to fit standard AggregationItem
                 if (!this.isFiltered(obj)) {
                     this.facetService.addFilterSearch(this.getName(), this.aggrData, obj);
                 } else {
                     this.facetService.removeFilterSearch(this.getName(), this.aggrData, obj);
                 }
             } else { // For custom data structure, just emit the clicked item, behavior should be implemented at parent component level
-                this.onClick.next(this.clickedItem)
+                this.onClick.next(item);
             }
         });
     }
@@ -293,36 +299,44 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     }
 
     private isTree(): boolean {
-        return !!this.isTreeAgg;
+        return !!this.aggrData?.isTree;
     }
 
     /**
      * Get the aggregation item based on its label
      * @param label
      */
-    private getItem(label: string, data: Category[] | undefined, root = '/'): void {
-        let path = root;
-        if (data) {
-            for (const _element of data) {
-                path = path + _element.originalLabel + '/';
-                if (_element.label === label && (this.isTree() ? _element.$path === path : true)) {
-                    this.clickedItem = _element;
-                    break;
-                } else if (_element.category) {
-                    for (const _elem of _element.category) {
-                        this.getItem(label, [_elem], path);
-                        if (this.clickedItem) {
-                            break;
+    getItem(label: string, data: Category[] | undefined): Category | undefined {
+        let item;
+        const isTree = this.isTree()
+
+        function _getItem(label: string, data: Category[] | undefined, root = '/') {
+            let path = root;
+            if (data) {
+                for (const _element of data) {
+                    path = path + _element.originalLabel + '/';
+                    if (_element.label === label && (isTree ? _element.$path === path : true)) {
+                        item = _element;
+                        break;
+                    } else if (_element.category) {
+                        for (const _elem of _element.category) {
+                            _getItem(label, [_elem], path);
+                            if (item) {
+                                break;
+                            }
                         }
                     }
+                    if (item) {
+                        break;
+                    }
+                    const parentIndex = path.lastIndexOf('/', path.lastIndexOf('/') - 1);
+                    path = path.substring(0, parentIndex + 1);
                 }
-                if (this.clickedItem) {
-                    break;
-                }
-                const parentIndex = path.lastIndexOf('/', path.lastIndexOf('/') - 1);
-                path = path.substring(0, parentIndex + 1);
             }
         }
+
+        _getItem(label, data);
+        return item;
     }
 
 

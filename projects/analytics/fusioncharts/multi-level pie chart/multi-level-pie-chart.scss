@@ -1,11 +1,11 @@
 fusioncharts ::ng-deep {
-    // Pie2D and Doughnut2D
+
     g[class$="plots"] path {
         cursor: pointer;
     }
 
-    // Column2D and Bar2D
-    g[class$="plot-group"] rect {
+    g[class$="datalabel"] text {
+        display: var(--display) !important;
         cursor: pointer;
     }
 }
