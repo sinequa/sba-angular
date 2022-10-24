@@ -9,15 +9,26 @@
 </div>
 
 <ng-template #headerTpl>
-    <sq-result-title class="flex-grow-1 flex-basis-0" [record]="record" [originalDocTarget]="originalDocTarget" titleLinkBehavior="open-if-url"></sq-result-title>
+    <sq-result-title class="flex-grow-1 flex-basis-0" [record]="record" [originalDocTarget]="originalDocTarget"
+        titleLinkBehavior="open-if-url"></sq-result-title>
+    <span *ngIf="isNeural && record.modified" class="ms-3 mt-1 fw-light fs-6">
+        {{record.modified | sqDate}}
+    </span>
 </ng-template>
 
 <ng-template #subHeaderTpl>
-    <sq-metadata *ngIf="metadata && metadata.length > 0"
-        [record]="record"
-        [items]="metadata"
-        [showTitles]="true"
-        [showIcons]="true"
-        [clickable]="false">
+    <sq-metadata *ngIf="!isNeural && metadata?.length" [record]="record" [items]="metadata" [showTitles]="true"
+        [showIcons]="true" [clickable]="false">
     </sq-metadata>
+    <div class="d-flex sq-action-buttons mt-3" *ngIf="subActions.length">
+    <ng-container *ngFor="let action of subActions">
+        <ng-container *ngIf="!action.hidden">
+            <div class="btn-group {{action.styles}}" [sq-action-buttons]="{items: [action], style: 'primary btn-square'}">
+            </div>
+            <span class="d-flex fs-6 align-items-center" *ngIf="action.name">{{ action.name | sqMessage }}</span>    
+        </ng-container>
+    </ng-container>
+    </div>
 </ng-template>
+
+<div class="btn-group sq-preview-btn-group" [sq-action-buttons]="{items: zoomActions, style: 'light preview-btn'}"></div>

@@ -42,7 +42,10 @@ export default {
             "minimize": "Réduire",
             "maximize": "Agrandir",
             "toggleExtracts": "Surlignage des extraits pertinents",
+            "extracts": "Extraits Pertinents",
             "toggleEntities": "Surlignage des entités",
+            "entities": "Entités",
+            "passages": "Passages Pertinents",
             "downloadPdf": "Télécharger la version PDF"
         }
     }

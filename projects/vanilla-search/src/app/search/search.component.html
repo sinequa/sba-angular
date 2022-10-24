@@ -152,12 +152,13 @@
                     [metadata]="metadata"
                     [expandModal]="false"
                     [customActions]="previewCustomActions"
+                    [customSubActions]="previewCustomSubActions"
+                    [isNeural]="openedDoc?.matchingpassages?.passages?.length"
                     (recordClosed)="closeDocument()"
                     (previewLoaded)="previewReady($event)">
                 </sq-facet-preview-2>
                 <sq-passage-list [record]="openedDoc" *ngIf="showPassages"></sq-passage-list>
             </sq-facet-card>
-
         </div>
     </div>
 </div>

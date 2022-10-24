@@ -31,7 +31,9 @@ export class SearchComponent implements OnInit {
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
+  public previewCustomSubActions: Action[];
   public showPassagesAction: Action;
+  public expandPreviewNeuralAction: Action;
 
   // Whether the left facet bar is shown
   public _showFilters = this.ui.screenSizeIsEqual('md');
@@ -72,10 +74,25 @@ export class SearchComponent implements OnInit {
       }
     });
 
+    // Expand action when neural search
+    this.expandPreviewNeuralAction = new Action({
+      icon: "fas fa-expand-alt",
+      title: "msg#facet.preview.expandTitle",
+      action: () => {
+        if (this.openedDoc) {
+          this.previewService.openRoute(this.openedDoc, this.searchService.query);
+        }
+      },
+      updater: action => {
+        action.hidden = !this.openedDoc?.matchingpassages?.passages.length;
+      }
+    });
+
     // Display Neural Search passages, when they exist
     this.showPassagesAction = new Action({
       icon: "fas fa-brain",
       title: "Show/hide passages extracted by Neural Search",
+      name: 'msg#facet.preview.passages',
       action: action => {
         action.selected = !action.selected
       },
@@ -84,7 +101,8 @@ export class SearchComponent implements OnInit {
       }
     });
 
-    this.previewCustomActions = [ expandPreviewAction, this.showPassagesAction ];
+    this.previewCustomActions = [expandPreviewAction];
+    this.previewCustomSubActions = [this.showPassagesAction, this.expandPreviewNeuralAction];
   }
 
   /**
@@ -165,6 +183,7 @@ export class SearchComponent implements OnInit {
   openMiniPreview(record: Record) {
     this.openedDoc = record;
     this.showPassagesAction.update();
+    this.expandPreviewNeuralAction.update();
     if(this.ui.screenSizeIsLessOrEqual('md')){
       this._showFilters = false; // Hide filters on small screens if a document gets opened
     }

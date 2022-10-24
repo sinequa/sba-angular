@@ -25,7 +25,9 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() expandModal = true;
   @Input() closable = true;
   @Input() highlightActions = true;
+  @Input() isNeural: boolean;
   @Input() customActions: Action[];
+  @Input() customSubActions: Action[];
   @Input() filters: HighlightFilters;
   @Input() originalDocTarget: string | undefined;
   @Output() recordClosed = new EventEmitter<void>();
@@ -78,6 +80,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     this.toggleEntitiesAction = new Action({
       icon: "fas fa-lightbulb",
       title: "msg#facet.preview.toggleEntities",
+      name: 'msg#facet.preview.entities',
       selected: true,
       action: (action) => {
         action.selected = !action.selected;
@@ -94,6 +97,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     this.toggleExtractsAction = new Action({
         icon: "fas fa-highlighter",
         title: "msg#facet.preview.toggleExtracts",
+        name: 'msg#facet.preview.extracts',
         selected: true,
         action: (action) => {
             action.selected = !action.selected;
@@ -133,23 +137,39 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
 
   override get actions(): Action[] {
     const actions: Action[] = [];
-    if(this.customActions){
-      actions.push(...this.customActions);
+    if (!this.isNeural) {
+      if(this.customActions){
+        actions.push(...this.customActions);
+      }
+      if(this.record.pdfUrl) {
+        actions.push(this.pdfDownloadAction);
+      }
+      if(this.expandModal){
+        actions.push(this.expandModalAction);
+      }
+      if(this.closable){
+        actions.push(this.closeAction);
+      }
     }
-    if(this.record.pdfUrl) {
-      actions.push(this.pdfDownloadAction);
+    return actions;
+  }
+
+  get subActions(): Action[] {
+    const actions: Action[] = [];
+    if (this.highlightActions) {
+      actions.push(this.toggleExtractsAction);
+      actions.push(this.toggleEntitiesAction);
     }
-    if(this.highlightActions) {
-      actions.push(this.toggleExtractsAction, this.toggleEntitiesAction);
+    if (this.customSubActions) {
+      actions.push(...this.customSubActions);
     }
+    return actions;
+  }
+
+  get zoomActions(): Action[] {
+    const actions: Action[] = [];
     this.minimizeAction.update();
     actions.push(this.minimizeAction, this.maximizeAction);
-    if(this.expandModal){
-      actions.push(this.expandModalAction);
-    }
-    if(this.closable){
-      actions.push(this.closeAction);
-    }
     return actions;
   }
 
@@ -165,6 +185,8 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.document = undefined;
       this.loading = true;
       this.pdfDownloadAction.href = this.record.pdfUrl;
+      this.toggleEntitiesAction.selected = true;
+      this.toggleExtractsAction.selected = true;
     }
     if(changes.height || changes.scalingFactor) {
       this._height = this.height;
