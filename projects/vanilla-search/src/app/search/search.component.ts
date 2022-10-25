@@ -33,7 +33,7 @@ export class SearchComponent implements OnInit {
   public previewCustomActions: Action[];
   public previewCustomSubActions: Action[];
   public showPassagesAction: Action;
-  public expandPreviewNeuralAction: Action;
+  public expandPreviewSubAction: Action;
 
   // Whether the left facet bar is shown
   public _showFilters = this.ui.screenSizeIsEqual('md');
@@ -75,9 +75,10 @@ export class SearchComponent implements OnInit {
     });
 
     // Expand action when neural search
-    this.expandPreviewNeuralAction = new Action({
+    this.expandPreviewSubAction = new Action({
       icon: "fas fa-expand-alt",
       title: "msg#facet.preview.expandTitle",
+      styles: "ms-auto btn-expand",
       action: () => {
         if (this.openedDoc) {
           this.previewService.openRoute(this.openedDoc, this.searchService.query);
@@ -102,7 +103,7 @@ export class SearchComponent implements OnInit {
     });
 
     this.previewCustomActions = [expandPreviewAction];
-    this.previewCustomSubActions = [this.showPassagesAction, this.expandPreviewNeuralAction];
+    this.previewCustomSubActions = [this.showPassagesAction, this.expandPreviewSubAction];
   }
 
   /**
@@ -183,7 +184,7 @@ export class SearchComponent implements OnInit {
   openMiniPreview(record: Record) {
     this.openedDoc = record;
     this.showPassagesAction.update();
-    this.expandPreviewNeuralAction.update();
+    this.expandPreviewSubAction.update();
     if(this.ui.screenSizeIsLessOrEqual('md')){
       this._showFilters = false; // Hide filters on small screens if a document gets opened
     }
