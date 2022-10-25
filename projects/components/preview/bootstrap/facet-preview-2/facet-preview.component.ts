@@ -129,6 +129,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
 
   override get actions(): Action[] {
     const actions: Action[] = [];
+    // corner buttons should be hidden in neural mode
     if (!this.isNeural) {
       if(this.customActions){
         actions.push(...this.customActions);
@@ -196,6 +197,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   onPreviewReady(document: PreviewDocument) {
     this.document = document;
 
+    // keep the highlighting according to the button selected status
     const selectedEntities = this.toggleEntitiesAction.selected;
     const selectedExtracts = this.toggleExtractsAction.selected;
     this.highlightEntities(selectedEntities !== undefined ? selectedEntities : false);

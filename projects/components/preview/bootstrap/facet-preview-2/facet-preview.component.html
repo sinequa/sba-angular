@@ -17,8 +17,12 @@
 </ng-template>
 
 <ng-template #subHeaderTpl>
-    <sq-metadata *ngIf="!isNeural && metadata?.length" [record]="record" [items]="metadata" [showTitles]="true"
-        [showIcons]="true" [clickable]="false">
+    <sq-metadata *ngIf="!isNeural && metadata?.length"
+        [record]="record"
+        [items]="metadata"
+        [showTitles]="true"
+        [showIcons]="true"
+        [clickable]="false">
     </sq-metadata>
     <div class="d-flex sq-action-buttons mt-3" *ngIf="subActions.length">
     <ng-container *ngFor="let action of subActions">
