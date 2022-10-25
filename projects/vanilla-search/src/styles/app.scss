@@ -208,7 +208,7 @@ sq-facet-tree {
 }
 
 .sq-passage {
-    &::before {
+    .sq-passage-icon {
         color: var(--bs-primary);
     }
     .sq-passage-text {

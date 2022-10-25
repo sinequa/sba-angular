@@ -4,11 +4,12 @@ import { MatchingPassage, Record } from "@sinequa/core/web-services";
 @Component({
   selector: 'sq-passage-list',
   template: `
-<ol class="list-group list-group-flush list-group-numbered" *ngIf="record.matchingpassages?.passages?.length">
+<ol class="list-group list-group-flush" *ngIf="record.matchingpassages?.passages?.length">
   <li class="list-group-item list-group-item-action sq-passage" #list [id]="'li-'+index" [ngClass]="{expanded: passage.$expanded}"
       *ngFor="let passage of record.matchingpassages?.passages|slice:0:maxPassages; let index = index"
       (click)="expand(passage)">
-      <span class="sq-passage-text" [innerHtml]="passage.highlightedText || passage.text"></span>
+      <div class="sq-passage-icon"></div>
+      <div class="sq-passage-text" [innerHtml]="passage.highlightedText || passage.text"></div>
   </li>
 </ol>
   `,
