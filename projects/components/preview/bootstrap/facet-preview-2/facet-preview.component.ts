@@ -81,16 +81,10 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       icon: "fas fa-lightbulb",
       title: "msg#facet.preview.toggleEntities",
       name: 'msg#facet.preview.entities',
-      selected: true,
+      selected: false,
       action: (action) => {
         action.selected = !action.selected;
-        if(this.data?.highlightsPerCategory) {
-          Object.keys(this.data.highlightsPerCategory)
-            .filter(value => !this.hightlights.includes(value))
-            .forEach(cat =>
-              this.document?.toggleHighlight(cat, action.selected!)
-            );
-        }
+        this.highlightEntities(action.selected);
       }
     });
 
@@ -98,12 +92,10 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
         icon: "fas fa-highlighter",
         title: "msg#facet.preview.toggleExtracts",
         name: 'msg#facet.preview.extracts',
-        selected: true,
+        selected: false,
         action: (action) => {
             action.selected = !action.selected;
-            for(let highlight of this.hightlights) {
-              this.document?.toggleHighlight(highlight, action.selected);
-            }
+            this.highlightExtracts(action.selected);
         }
     });
 
@@ -185,8 +177,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.document = undefined;
       this.loading = true;
       this.pdfDownloadAction.href = this.record.pdfUrl;
-      this.toggleEntitiesAction.selected = true;
-      this.toggleExtractsAction.selected = true;
     }
     if(changes.height || changes.scalingFactor) {
       this._height = this.height;
@@ -205,10 +195,32 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
 
   onPreviewReady(document: PreviewDocument) {
     this.document = document;
+
+    const selectedEntities = this.toggleEntitiesAction.selected;
+    const selectedExtracts = this.toggleExtractsAction.selected;
+    this.highlightEntities(selectedEntities !== undefined ? selectedEntities : false);
+    this.highlightExtracts(selectedExtracts !== undefined ? selectedExtracts : false);
+
     if (this.document && this.filters) {
       this.document.filterHighlights(this.filters);
     }
 
     this.loading = false;
+  }
+
+  private highlightEntities(on: boolean): void {
+    if(this.data?.highlightsPerCategory) {
+      Object.keys(this.data.highlightsPerCategory)
+        .filter(value => !this.hightlights.includes(value))
+        .forEach(cat =>
+          this.document?.toggleHighlight(cat, on!)
+        );
+    }
+  }
+
+  private highlightExtracts(on: boolean): void {
+    for(let highlight of this.hightlights) {
+      this.document?.toggleHighlight(highlight, on);
+    }
   }
 }
