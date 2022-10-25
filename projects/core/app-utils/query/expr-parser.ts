@@ -2227,7 +2227,9 @@ export class ExprParser {
                         continue;
                     }
                 }
-                return "bad operator: " + ch;
+                sbCurrentValue.push(ch);
+                this.current++;
+                continue;
             }
             else if ("\"[{/`".includes(ch)) { // " [ { / `
                 const last: IRef<number> = {value: 0};
