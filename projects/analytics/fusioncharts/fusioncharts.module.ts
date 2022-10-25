@@ -8,6 +8,7 @@ import { UtilsModule } from "@sinequa/components/utils";
 import { FusionChart } from "./chart/chart";
 import { FusionChartsDirective } from "./angular-fusioncharts/fusioncharts.directive";
 import { FusionChartsService, FusionChartsStatic } from "./angular-fusioncharts/fusioncharts.service";
+import { MultiLevelPieChart } from "./multi-level-pie-chart/multi-level-pie-chart";
 
 
 @NgModule({
@@ -19,11 +20,13 @@ import { FusionChartsService, FusionChartsStatic } from "./angular-fusioncharts/
   ],
   declarations: [
     FusionChartsDirective,
-    FusionChart
+    FusionChart,
+    MultiLevelPieChart
   ],
   exports: [
     FusionChartsDirective,
-    FusionChart
+    FusionChart,
+    MultiLevelPieChart
   ]
 })
 export class FusionChartsModule {
