@@ -1,7 +1,6 @@
 import { Inject, Injectable, InjectionToken, OnDestroy, Optional } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable, of, Subscription } from 'rxjs';
-import { filter, switchMap, tap } from "rxjs/operators";
+import { Observable, of, Subscription, filter, switchMap, tap } from 'rxjs';
 
 import { Utils } from "@sinequa/core/base";
 import { LoginService } from "@sinequa/core/login";

@@ -1,10 +1,9 @@
 import {Injectable, Inject} from "@angular/core";
-import {Observable, of} from "rxjs";
+import {Observable, of, map, tap} from "rxjs";
 import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
 import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {IQuery} from "./query/query";
-import {pluck, tap} from "rxjs/operators";
 
 export interface QueryIntentResponse {
     query: string;
@@ -78,7 +77,7 @@ export class QueryIntentWebService extends HttpService {
         return this.httpClient.post<QueryIntentResponse>(
             this.makeUrl(this.endpoint), data)
                 .pipe(
-                    pluck("intents"),
+                    map(r => r.intents),
                     tap(intents => {
                         this.cache.set(text, intents);
                     })

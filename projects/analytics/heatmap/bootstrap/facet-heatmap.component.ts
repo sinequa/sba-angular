@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
-import {Subject} from 'rxjs';
-import {distinctUntilChanged, filter} from 'rxjs/operators';
+import { Subject, distinctUntilChanged, filter } from 'rxjs';
 
 import {Utils} from '@sinequa/core/base';
 import { AppService } from '@sinequa/core/app-utils';
@@ -30,8 +29,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     @Input() fieldsY?: string[];
 
     // Field used for a cooccurrence heatmap (optionally fieldX and fieldY can be used for filtering based on axes)
-    @Input() fieldCooc?: string; 
-    
+    @Input() fieldCooc?: string;
+
     // Graphical settings
     @Input() height = 600; // Height of the SVG viewbox (will adjust to container while preserving aspect ratio)
     @Input() width = 600; // Width of the SVG viewbox (will adjust to container while preserving aspect ratio)
@@ -54,8 +53,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     data?: HeatmapItem[];
 
     // Actions
-    selectFieldX: Action;
-    selectFieldY: Action;
+    selectFieldX?: Action;
+    selectFieldY?: Action;
     clearFilters: Action;
 
     // Settings form
@@ -67,7 +66,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     // A flag to wait for the parent component to actually display this child, since creating
     // the heatmap component without displaying causes strange bugs...
     ready = false;
-    
+
     // HeatmapItem user's click stream
     private _source$ = new Subject<HeatmapItem>();
 
@@ -85,7 +84,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         @Optional() public cardComponent?: BsFacetCard
     ){
         super();
-           
+
         // Clear the current filters
         this.clearFilters = new Action({
             icon: "far fa-minus-square",
@@ -101,7 +100,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
             if(this.highlightSelected) {
                 // Update the selectedItems set
                 this.updateSelectedItems();
-    
+
                 // Update the data
                 if(this.data){
                     this.data.forEach(item => item.selected = this.selectedItems.has(this.fieldCooc ? item.value : item.display));
@@ -109,8 +108,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                 }
             }
         });
-        
-        
+
+
         // prevent multiple subscriptions at one time
         this._source$.pipe(
             filter(() => this.aggregationData !== undefined),
@@ -137,20 +136,20 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
             this.updateData();
         }
     }
-    
+
     ngDoCheck(){
         // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
         // gets created when it is visible (otherwise, there can be visual bugs...)
         this.ready = !this.cardComponent?._collapsed;
     }
-    
+
     ngOnDestroy() {
         // unsubscribe to avoid memory leaks
         this._source$.complete();
         this._source$.unsubscribe();
     }
 
-    
+
     /**
      * Update the actions for selecting the X or Y fields
      */
@@ -252,7 +251,12 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         if(this.facetService.hasFiltered(this._name)){
             actions.push(this.clearFilters);
         }
-        actions.push(this.selectFieldY, this.selectFieldX);
+        if(this.selectFieldY) {
+            actions.push(this.selectFieldY);
+        }
+        if(this.selectFieldX) {
+            actions.push(this.selectFieldX);
+        }
         return actions;
     }
 
@@ -298,7 +302,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     /**
      * Default parsing method for cross-distribution aggregation data
      */
-    @Input() parseCrossDistributionItem: (i:AggregationItem) => HeatmapItem 
+    @Input() parseCrossDistributionItem: (i:AggregationItem) => HeatmapItem
     = value => {
         if(!value.display){
             throw new Error(`Aggregation Item '${value.value}' has no display value`);
@@ -316,11 +320,11 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
             selected: this.selectedItems.has(value.display)
         };
     }
-    
+
     /**
      * Default parsing method for cooccurrence aggregation data
      */
-    @Input() parseCooccurrenceItem: (i:AggregationItem) => HeatmapItem 
+    @Input() parseCooccurrenceItem: (i:AggregationItem) => HeatmapItem
     = value => {
         const val = value.display || value.value.toString();
         const parts = val.substr(1, val.length-2).split(")#(");
@@ -339,7 +343,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
 
     /**
      * Callback when a heatmap time is clicked
-     * @param item 
+     * @param item
      */
     onItemClicked(item: HeatmapItem) {
         this._source$.next(item);
@@ -347,7 +351,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
 
     /**
      * Callback when a value of an axis is clicked
-     * @param item 
+     * @param item
      */
     onAxisClicked(item: {value: string, axis: 'x' | 'y'}){
         this.searchService.addFieldSelect(item.axis === 'x'? this.fieldXPref : this.fieldYPref, item);
@@ -356,7 +360,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
 
     /**
      * Helper method to build the actions for selecting each dimension
-     * @param axis 
+     * @param axis
      */
     selectField(axis: 'x' | 'y'): Action {
         return new Action({
@@ -399,9 +403,9 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                 .filter(r => r.$selected)
                 .forEach(r => {
 
-                    if(this.fieldCooc) {                
+                    if(this.fieldCooc) {
                         if(r[this.fieldCooc]){
-                            r[this.fieldCooc].forEach(v => this.selectedItems.add(v.value));                                
+                            r[this.fieldCooc].forEach(v => this.selectedItems.add(v.value));
                         }
                     }
 
@@ -423,7 +427,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     get fieldXPref(): string {
         return this.prefs.get(this._name+'-field-x') || this.fieldX;
     }
-    
+
     get fieldYPref(): string {
         return this.prefs.get(this._name+'-field-y') || this.fieldY;
     }
@@ -431,7 +435,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     get maxXPref(): number {
         return this.prefs.get(this._name+'-max-x') || this.maxX;
     }
-    
+
     get maxYPref(): number {
         return this.prefs.get(this._name+'-max-y') || this.maxY;
     }
@@ -439,14 +443,14 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     get colorSchemePref(): string {
         return this.prefs.get(this._name+'-color-scheme') || this.colorScheme;
     }
-    
+
     get widthPref(): number {
         if(this.prefs.get(this._name+'-rescale')){
             return ((this.width - this.margin.left - this.margin.right) * this.maxXPref / this.maxX) + this.margin.left + this.margin.right
         }
         return this.width;
     }
-    
+
     get heightPref(): number {
         if(this.prefs.get(this._name+'-rescale')){
             return ((this.height - this.margin.top - this.margin.bottom) * this.maxYPref / this.maxY) + this.margin.top + this.margin.bottom

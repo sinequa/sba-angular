@@ -25,7 +25,7 @@ Notice that this `startConfig` object gets passed to the `WebServiceModule` from
 At this point, you can build and serve your app (from the root of the workspace) with:
 
 ```bash
-npm run ng serve hello-search -- --ssl=true --proxyConfig=./projects/hello-search/src/proxy.conf.json
+npm run ng serve hello-search -- --ssl=true --proxy-config=./projects/hello-search/src/proxy.conf.json
 ```
 
 Please read the [Getting Started]({{site.baseurl}}gettingstarted/dev-setup.html#building-an-app) section if you wonder about the `proxyConfig` argument.

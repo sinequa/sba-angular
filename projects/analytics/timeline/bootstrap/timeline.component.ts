@@ -2,7 +2,8 @@ import { Component, Input, Output, ElementRef, ViewChild, OnChanges, AfterViewIn
 import { Subscription } from 'rxjs';
 
 import { IntlService } from '@sinequa/core/intl';
-import {Record} from '@sinequa/core/web-services';
+import { Record } from '@sinequa/core/web-services';
+import { TooltipManager } from '@sinequa/analytics/tooltip';
 import { bisector, extent, max } from 'd3-array';
 import { scaleLinear, scaleUtc } from 'd3-scale';
 import { line, area, curveBasis, curveBasisClosed, curveBasisOpen, curveBumpX, curveBumpY, curveLinear, curveLinearClosed, curveMonotoneX, curveMonotoneY, curveNatural, curveStep, curveStepAfter, curveStepBefore } from 'd3-shape';
@@ -82,7 +83,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() showTooltip = true;
     @Input() theme: "light" | "dark" = "light";
 
-    @Output() selectionChange = new EventEmitter<(Date|undefined)[]>();
+    @Output() selectionChange = new EventEmitter<(Date|undefined)[]|undefined>();
     @Output() rangeInit = new EventEmitter<Date[]>();
     @Output() rangeChange = new EventEmitter<Date[]>();
 
@@ -118,14 +119,10 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     grips$: d3.Selection<SVGGElement, {type: string}, SVGGElement, undefined>;
 
     // Tooltip
-    tooltipItem: TimelineEvent[] | undefined;
     tooltipX: number | undefined;
     tooltipDatapoints?: (TimelineDate|undefined)[];
-    tooltipOrientation: "left" | "right";
-    tooltipTop: number;
-    tooltipRight: number;
-    tooltipLeft: number;
     bisectDate = bisector<TimelineDate,Date>(d => { return d.date; }).left;
+    tooltipManager = new TooltipManager<TimelineEvent[]>();
 
     // Misc
     viewInit: boolean;
@@ -564,7 +561,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Redraw the simple tooltip (vertical line)
      */
     onMousemove(event) {
-        if(!this.tooltipItem && this.showTooltip) {
+        if(!this.tooltipManager.isShown && this.showTooltip) {
             this.tooltipX = this.point(this.gbrush.nativeElement, event)[0];
             const date = this.xt.invert(this.tooltipX);
             this.tooltipDatapoints = this.data?.map(series => {
@@ -590,7 +587,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Remove the simple tooltip (vertical line)
      */
     onMouseout() {
-        if(!this.tooltipItem) {
+        if(!this.tooltipManager.isShown) {
             this.tooltipX = undefined
         }
     }
@@ -601,17 +598,12 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      */
     onEventClick(event: TimelineEvent[]) {
 
-        if(this.tooltipItem === event) {
+        if(this.tooltipManager.data === event) {
             this.turnoffTooltip();
         }
 
         else {
 
-            if(this.tooltipItem) {
-                this.turnoffTooltip();
-            }
-
-            this.tooltipItem = event;
             this.tooltipX = this.xt(event[0].date);
 
             // Since we use viewBox to auto-adjust the SVG to the container size, we have to
@@ -621,17 +613,16 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             const scale = actualWidth / this.width;
             const relativeX = x / this.width;
 
+            const top = scale * (this.margin.top + 0.3*this.innerHeight); // Align tooltip arrow
+
             // Tooltip to the right
             if(relativeX < 0.5) {
-                this.tooltipOrientation = "right";
-                this.tooltipLeft = scale * x;
+                this.tooltipManager.show(event, 'right', top, scale * x);
             }
             // Tooltip to the left
             else {
-                this.tooltipOrientation = "left";
-                this.tooltipRight = actualWidth - scale * x;
+                this.tooltipManager.show(event, 'left', top, actualWidth - scale * x);
             }
-            this.tooltipTop = scale * (this.margin.top + 0.3*this.innerHeight); // Align tooltip arrow
 
         }
     }
@@ -640,10 +631,8 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Turns off the tooltip
      */
     turnoffTooltip = () => {
-        if(this.tooltipItem) {
-            this.tooltipItem = undefined;
-            this.tooltipX = undefined;
-        }
+        this.tooltipManager.hide();
+        this.tooltipX = undefined;
     }
 
     ngOnDestroy(){
@@ -768,7 +757,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * @param events
      */
     eventSize(events: TimelineEvent[]): number {
-        if(events!==this.tooltipItem) {
+        if(events !== this.tooltipManager.data) {
             return events[0].size || 6;
         }
         else {

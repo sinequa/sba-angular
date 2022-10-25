@@ -2,6 +2,7 @@ export * from "./config/ccapp";
 
 export * from "./query/query";
 export * from "./suggest/suggestion";
+export * from "./models/top-passage";
 
 export * from "./app.web.service";
 export * from "./audit.web.service";

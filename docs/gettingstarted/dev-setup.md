@@ -149,7 +149,7 @@ Complete documentation about the proxy configuration is available in the [Angula
 Now run the following command:
 
 ```bash
-npm run ng serve hello-search -- --proxyConfig=./projects/hello-search/src/proxy.conf.json
+npm run ng serve hello-search -- --proxy-config=./projects/hello-search/src/proxy.conf.json
 ```
 
 Now your app should work!

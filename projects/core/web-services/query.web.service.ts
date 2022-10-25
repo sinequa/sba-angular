@@ -716,14 +716,14 @@ export interface Passage {
   id: number;
   location: number[];
   rlocation: number[];
+  /** text of the passage with answer highlighted with <b> tags */
+  highlightedText: string;
 }
 
 /**
  * A passage returned by ML Passage Ranking model
  */
 export interface MatchingPassage extends Passage {
-  /** text of the passage with matchlocations highlighted with <b> tags */
-  highlightedText: string;
   /** Score of this matching passage */
   score: number;
   /** Front end parameter to store the state of expansion/collapse of this passage */
@@ -737,8 +737,6 @@ export interface Answer {
     text: string;
     score: number;
     passage: Passage;
-    /** text of the passage with answer highlighted with <b> tags */
-    highlightedAnswer: string;
     /** Record from which this answer was extracted */
     record: Record;
     $liked: undefined | boolean;

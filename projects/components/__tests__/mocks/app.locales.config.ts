@@ -1,7 +1,9 @@
 import {Locale, LocaleData, LocalesConfig} from '@sinequa/core/intl';
+import { FormatLocaleDefinition } from 'd3-format';
+import { TimeLocaleDefinition } from 'd3-time-format';
 
-import d3Format from "d3-format/locale/en-US.json";
-import d3Time from "d3-time-format/locale/en-US.json";
+import d3Format from "../../../../node_modules/d3-format/locale/en-US.json";
+import d3Time from "../../../../node_modules/d3-time-format/locale/en-US.json";
 
 const localeDataFR: LocaleData = {
   intl: {
@@ -12,8 +14,8 @@ const localeDataFR: LocaleData = {
   },
   d3: {
     locale: "fr-FR",
-    format: d3Format,
-    time: d3Time
+    format: d3Format as FormatLocaleDefinition,
+    time: d3Time as TimeLocaleDefinition
   },
   messages: {}
 }
@@ -26,8 +28,8 @@ const localeDataEN: LocaleData = {
   },
   d3: {
     locale: "en-US",
-    format: d3Format,
-    time: d3Time
+    format: d3Format as FormatLocaleDefinition,
+    time: d3Time as TimeLocaleDefinition
   },
   messages: {}
 }
@@ -40,8 +42,8 @@ const localeDataDE: LocaleData = {
   },
   d3: {
     locale: "de-DE",
-    format: d3Format,
-    time: d3Time
+    format: d3Format as FormatLocaleDefinition,
+    time: d3Time as TimeLocaleDefinition
   },
   messages: {}
 }

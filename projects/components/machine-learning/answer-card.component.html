@@ -1,28 +1,48 @@
-<div class="card" *ngIf="answers.length">
-  <div class="card-body">
-      <div class="d-flex">
-          <h3 class="me-auto">{{answer.text}}</h3>
+<ng-template #headerTpl>
+    <div class="d-flex flex-grow-1 align-items-center text-truncate">
+        <div class="card-icon primary-icon fas fa-brain me-2" aria-hidden="true"></div>
+        <div class="card-title text-truncate mb-0 py-1 me-auto">
+            <span *ngIf="collapsed">
+                {{'msg#machine-learning.answersCollapsed' | sqMessage:{values: {answersNb: answers.length} } }}
+            </span>
+            <span *ngIf="!collapsed">
+                {{'msg#machine-learning.answers' | sqMessage }}
+            </span>
+        </div>
+        <div class="card-action d-flex justify-content-center align-items-center mx-2">
+            <button class="btn btn-sm btn-link"
+                (click)="selectedAnswer = (selectedAnswer+answers.length-1) % answers.length"
+                *ngIf="answers.length > 1">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            {{'msg#machine-learning.answer' | sqMessage }} {{selectedAnswer+1}}/{{answers.length}}
+            <button class="btn btn-sm btn-link" (click)="selectedAnswer = (selectedAnswer+1) % answers.length"
+                *ngIf="answers.length > 1">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</ng-template>
 
-          <button class="btn btn-link" (click)="likeAnswer()" sqTooltip="This answer is helpful">
-              <i class="far fa-thumbs-up" [ngClass]="{fas: answer.$liked}"></i>
-          </button>
-          <button class="btn btn-link" (click)="dislikeAnswer()" sqTooltip="This answer is wrong">
-              <i class="far fa-thumbs-down" [ngClass]="{fas: answer.$liked === false}"></i>
-          </button>
-      </div>
-      <p [innerHtml]="answer.highlightedAnswer" class="sq-blockquote sq-text-ellipsis" (click)="collapsed = !collapsed"></p>
-      <ng-container *ngIf="answer.record as record">
-          <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="openAnswer()" class="d-block text-truncate"></sq-result-title>
-          <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
-      </ng-container>
-  </div>
-  <div class="d-flex justify-content-center align-items-center small text-muted mb-2">
-      <button class="btn btn-sm btn-link" (click)="selectedAnswer = (selectedAnswer+answers.length-1) % answers.length" *ngIf="answers.length > 1">
-          <i class="fas fa-chevron-left"></i>
-      </button>
-      answer {{selectedAnswer+1}}/{{answers.length}}
-      <button class="btn btn-sm btn-link" (click)="selectedAnswer = (selectedAnswer+1) % answers.length" *ngIf="answers.length > 1">
-          <i class="fas fa-chevron-right"></i>
-      </button>
-  </div>
+<div class="card-body" (click)="openPreview()">
+    <div class="fw-bold">
+        {{answer.text}}
+        <div *ngIf="showLikeButtons" class="float-end">
+            <button class="btn btn-link" (click)="$event.stopPropagation; likeAnswer()"
+                sqTooltip="This answer is helpful">
+                <i class="far fa-thumbs-up" [ngClass]="{fas: answer.$liked}"></i>
+            </button>
+            <button class="btn btn-link" (click)="$event.stopPropagation; dislikeAnswer()"
+                sqTooltip="This answer is wrong">
+                <i class="far fa-thumbs-down" [ngClass]="{fas: answer.$liked === false}"></i>
+            </button>
+        </div>
+    </div>
+    <div class="my-3" [innerHTML]="answer.passage?.highlightedText"></div>
+    <ng-container *ngIf="answer.record as record">
+        <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="onTitleClicked($event)"
+            class="d-block text-truncate"></sq-result-title>
+        <sq-result-source [record]="record" [displayTreepath]="true" (click)="$event.stopPropagation();">
+        </sq-result-source>
+    </ng-container>
 </div>

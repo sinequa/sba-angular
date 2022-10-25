@@ -1,7 +1,6 @@
 ﻿import {Injectable, Inject} from "@angular/core";
 import {START_CONFIG, StartConfig, SqHttpClient, HttpService} from "@sinequa/core/web-services";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {Observable, map} from "rxjs";
 import {Credentials} from "./authentication.service";
 
 /**

@@ -120,15 +120,10 @@ export class PreviewService {
         this.modalService.open(this.previewModal, { model });
     }
 
-    private getQueryStr(query: Query): string {
-        query = this.makeQuery(query);
-        return query.toJsonForQueryString();
-    }
-
     openNewWindow(record: Record, query: Query): Window | null {
         const params = {
             id: record.id,
-            query: this.getQueryStr(query),
+            query: this.makeQuery(query).toJsonForQueryString(),
             app: this.appService.appName
         };
 
@@ -152,7 +147,7 @@ export class PreviewService {
         return this.router.navigate([path], {
             queryParams: {
                 id: record.id,
-                query: this.getQueryStr(query)
+                query: this.makeQuery(query).toJsonForQueryString()
             }
         });
     }

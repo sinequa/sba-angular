@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { default_facet_components, FacetConfig } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
@@ -14,6 +13,7 @@ import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { TopPassage } from '@sinequa/core/web-services';
 
 @Component({
   selector: 'app-search',
@@ -39,6 +39,10 @@ export class SearchComponent implements OnInit {
   public _showMenu = false;
 
   public results$: Observable<Results | undefined>;
+
+  // Whether the results contain answers/passages data (neural search)
+  public hasAnswers: boolean;
+  public hasPassages: boolean;
 
   public readonly facetComponents = {
       ...default_facet_components,
@@ -93,12 +97,14 @@ export class SearchComponent implements OnInit {
     // consult RxJS documentation for additional functionality like combineLatest, etc.
     this.results$ = this.searchService.resultsStream
       .pipe(
-        tap(_ => {
+        tap(results => {
           this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
           if (!this.showResults) {
             this.openedDoc = undefined;
             this._showFilters = false;
           }
+          this.hasAnswers = !!results?.answers?.answers?.length;
+          this.hasPassages = !!results?.topPassages?.passages?.length;
         })
       );
   }
@@ -278,15 +284,11 @@ export class SearchComponent implements OnInit {
     return !this.showPassagesAction?.hidden && !!this.showPassagesAction?.selected;
   }
 
-  onAnswerOpened(answer: Answer) {
-    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
-    const record = this.searchService.results?.records.find(r => r.id === answer.record.id);
-    this.openMiniPreview(record || answer.record);
+  onPreviewOpened(item: Answer | TopPassage) {
+    this.openMiniPreview(item.record);
   }
 
-  onTopPassageClick(passageRecord: Record) {
-    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
-    const record = this.searchService.results?.records.find(r => r.id === passageRecord.id);
-    this.openMiniPreview(record || passageRecord);
+  onTitleClick(value: {item: Answer | TopPassage, isLink: boolean}) {
+    this.openPreviewIfNoUrl(value.item.record, value.isLink);
   }
 }

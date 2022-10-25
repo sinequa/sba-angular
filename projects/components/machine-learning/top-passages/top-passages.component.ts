@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-
 import { Record, Results } from "@sinequa/core/web-services";
+import { AbstractFacet } from '@sinequa/components/facet';
 import { TopPassage } from "@sinequa/core/web-services/models/top-passage";
+import { BehaviorSubject } from "rxjs";
 
 export interface TopPassageConfig {
   showTitle?: boolean;
@@ -12,10 +13,14 @@ export interface TopPassageConfig {
 @Component({
   selector: 'sq-top-passages',
   templateUrl: 'top-passages.component.html',
-  styleUrls: ['top-passages.component.scss'],
+  styles: [`
+.card-body > div {
+  cursor: pointer;
+}
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TopPassagesComponent {
+export class TopPassagesComponent extends AbstractFacet {
   @Input() set results(results: Results) {
     // extract top passages from Results object
     this.passages = results.topPassages?.passages || [];
@@ -25,40 +30,39 @@ export class TopPassagesComponent {
       .forEach(p => p.record = p.columns?.reduce((acc, val) => ({ ...acc, ...(val.treepath ? { treepath: [val.treepath] } : val) })) as Record);
 
     // reset values
-    this.selected = -1;
+    this.currentPage = 0;
+    this.pageNumber = Math.floor(this.passages.length / this.itemsPerPage) + 1;
   }
+  @Input() collapsed: boolean;
 
-  @Input() set config(conf: TopPassageConfig) {
-    this.configuration = { ...this.configuration, ...conf };
-    this.MIN_HEIGHT = this.setMinHeight();
-  }
+  @Output() previewOpened = new EventEmitter<TopPassage>();
+  @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
 
-  @Output() onClick = new EventEmitter<Record>()
-
-  configuration: TopPassageConfig = { showTitle: true, showSource: false, lineClamp: 2 };
-
-  MIN_HEIGHT: number;
-  selected: number;
   passages: TopPassage[];
+  page: number;
+  pageNumber: number;
+  itemsPerPage: number = 3;
+  currentPassages$: BehaviorSubject<TopPassage[]> = new BehaviorSubject<TopPassage[]>([]);
+
+  get currentPage() {
+    return this.page;
+  }
+
+  set currentPage(page: number) {
+    this.page = page;
+    const index = page * this.itemsPerPage;
+    this.currentPassages$.next(this.passages.slice(index, index + 3));
+  }
 
   constructor() {
-    this.MIN_HEIGHT = this.setMinHeight();
+    super();
   }
 
-  expand(index: number) {
-    if (this.selected !== index) {
-      this.selected = index;
-    } else {
-      this.selected = -1;
-    }
+  openPreview(passage: TopPassage) {
+    this.previewOpened.next(passage);
   }
 
-  titleClicked(e: Event, index: number, record: Record) {
-    e.stopImmediatePropagation();
-    this.onClick.emit(record);
-  }
-
-  private setMinHeight(): number {
-    return 24 * (this.configuration.lineClamp === 0 ? 1000 : this.configuration.lineClamp || 1);
+  onTitleClicked(isLink: boolean, passage: TopPassage) {
+    this.titleClicked.next({ item: passage, isLink });
   }
 }

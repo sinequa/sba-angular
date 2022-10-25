@@ -58,10 +58,7 @@ export class Query implements IQuery {
         if (!Utils.isEmpty(this.text)) {
             return true;
         }
-        if (this.findSelect("refine")) {
-            return true;
-        }
-        return false;
+        return !!this.findSelect("refine");
     }
 
     /**
