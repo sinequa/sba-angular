@@ -25,6 +25,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() expandModal = true;
   @Input() closable = true;
   @Input() expandable = true;
+  @Input() downloadablePdf = true;
   @Input() highlightActions = true;
   @Input() customActions: Action[];
   @Input() filters: HighlightFilters;
@@ -157,7 +158,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     // Display Neural Search passages, when they exist
     this.showPassagesAction = new Action({
       icon: "fas fa-brain",
-      title: "Show/hide passages extracted by Neural Search",
+      title: "msg#facet.preview.showPassages",
       name: 'msg#facet.preview.passages',
       action: action => {
         action.selected = !action.selected;
@@ -175,23 +176,20 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
 
   override get actions(): Action[] {
     const actions: Action[] = [];
-    // corner buttons should be hidden in neural mode
-    if (!this.isNeural) {
-      if(this.customActions){
-        actions.push(...this.customActions);
-      }
-      if(this.record.pdfUrl) {
-        actions.push(this.pdfDownloadAction);
-      }
-      if(this.expandModal){
-        actions.push(this.expandModalAction);
-      }
-      if(this.expandable){
-        actions.push(this.expandAction);
-      }
-      if(this.closable){
-        actions.push(this.closeAction);
-      }
+    if (this.customActions) {
+      actions.push(...this.customActions);
+    }
+    if (this.downloadablePdf && this.record.pdfUrl) {
+      actions.push(this.pdfDownloadAction);
+    }
+    if (this.expandModal) {
+      actions.push(this.expandModalAction);
+    }
+    if (this.expandable) {
+      actions.push(this.expandAction);
+    }
+    if (this.closable) {
+      actions.push(this.closeAction);
     }
     return actions;
   }

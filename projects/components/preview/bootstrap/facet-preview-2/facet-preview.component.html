@@ -17,7 +17,7 @@
 </ng-template>
 
 <ng-template #subHeaderTpl>
-    <sq-metadata *ngIf="!isNeural && metadata?.length"
+    <sq-metadata *ngIf="metadata?.length"
         [record]="record"
         [items]="metadata"
         [showTitles]="true"
@@ -29,7 +29,7 @@
         <ng-container *ngIf="!action.hidden">
             <div class="btn-group {{action.styles}}" [sq-action-buttons]="{items: [action], style: 'primary btn-square'}">
             </div>
-            <span class="d-flex fs-6 align-items-center" *ngIf="action.name">{{ action.name | sqMessage }}</span>    
+            <span class="d-flex fs-6 mx-2 align-items-center" *ngIf="action.name">{{ action.name | sqMessage }}</span>    
         </ng-container>
     </ng-container>
     </div>

@@ -148,8 +148,11 @@
                     [record]="openedDoc"
                     [query]="searchService.query"
                     [height]="750"
-                    [metadata]="metadata"
+                    [metadata]="isNeuralPreview ? [] : metadata"
                     [expandModal]="false"
+                    [expandable]="!isNeuralPreview"
+                    [closable]="!isNeuralPreview"
+                    [downloadablePdf]="!isNeuralPreview"
                     [customActions]="previewCustomActions"
                     (recordClosed)="closeDocument()"
                     (previewLoaded)="previewReady($event)">

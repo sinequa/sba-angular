@@ -46,6 +46,7 @@ export default {
             "toggleEntities": "Surlignage des entités",
             "entities": "Entités",
             "passages": "Passages Pertinents",
+            "showPassages": "Montrer/cacher les passages extraits par Neural Search",
             "downloadPdf": "Télécharger la version PDF"
         }
     }

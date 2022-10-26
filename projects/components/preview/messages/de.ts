@@ -44,6 +44,7 @@ export default {
             "toggleEntities": "Schalten Sie die Hervorhebung von Objekten",
             "entities": "Objekten",
             "passages": "Relevante Passagen",
+            "showPassages": "Von Neural Search extrahierte Passagen zeigen/ausblenden",
             "downloadPdf": "PDF-Version herunterladen",
         }
     }
