@@ -10,9 +10,7 @@
             <div class="btn-group me-2" [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}" *ngIf="viewActions && !_collapsed"></div>
             <div class="btn-group" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
         </div>
-        <div class="d-flex mt-1" *ngIf="!_collapsed">
-            <ng-container [ngTemplateOutlet]="facetComponent?.subHeaderTpl || subHeaderTpl"></ng-container>
-        </div>
+        <ng-container [ngTemplateOutlet]="facetComponent?.subHeaderTpl || subHeaderTpl"></ng-container>
     </div>
     <div class="d-flex p-1" *ngIf="!_collapsed && allSecondaryActions.length">
         <div class="btn-group ms-auto" [sq-action-buttons]="{items: allSecondaryActions, style: secondaryButtonsStyle || buttonsStyle, size: secondaryActionsSize || actionsSize, rightAligned: true}"></div>
