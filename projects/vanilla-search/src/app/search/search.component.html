@@ -148,7 +148,7 @@
                     [record]="openedDoc"
                     [query]="searchService.query"
                     [height]="750"
-                    [metadata]="isNeuralPreview ? [] : metadata"
+                    [metadata]="metadata"
                     [expandModal]="false"
                     [expandable]="!isNeuralPreview"
                     [closable]="!isNeuralPreview"
@@ -157,7 +157,6 @@
                     (recordClosed)="closeDocument()"
                     (previewLoaded)="previewReady($event)">
                 </sq-facet-preview-2>
-                <sq-passage-list [record]="openedDoc" *ngIf="facet.hidden"></sq-passage-list>
             </sq-facet-card>
         </div>
     </div>

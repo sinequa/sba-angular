@@ -1,12 +1,18 @@
 <sq-loading-bar [active]="loading"></sq-loading-bar>
-<div class="d-flex flex-column {{iframeClass}}" [ngStyle]="{'height.%': 100}">
-    <sq-preview-document-iframe
-                                [sandbox]="sandbox"
-                                [downloadUrl]="downloadUrl"
-                                [scalingFactor]="scalingFactor"
-                                (onPreviewReady)="onPreviewReady($event)">
-    </sq-preview-document-iframe>
-</div>
+<ng-container *ngIf="!showPassages">
+    <div class="d-flex flex-column {{iframeClass}}" [ngStyle]="{'height.%': 100}">
+        <sq-preview-document-iframe
+                                    [sandbox]="sandbox"
+                                    [downloadUrl]="downloadUrl"
+                                    [scalingFactor]="scalingFactor"
+                                    (onPreviewReady)="onPreviewReady($event)">
+        </sq-preview-document-iframe>
+    
+    </div>
+    <div class="btn-group sq-preview-btn-group" [sq-action-buttons]="{items: zoomActions, style: 'light preview-btn'}"></div>    
+</ng-container>
+
+<sq-passage-list [record]="record" *ngIf="showPassages"></sq-passage-list>
 
 <ng-template #headerTpl>
     <sq-result-title class="flex-grow-1 flex-basis-0" [record]="record" [originalDocTarget]="originalDocTarget"
@@ -29,10 +35,8 @@
         <ng-container *ngIf="!action.hidden">
             <div class="btn-group {{action.styles}}" [sq-action-buttons]="{items: [action], style: 'primary btn-square'}">
             </div>
-            <span class="d-flex fs-6 mx-2 align-items-center" *ngIf="action.name">{{ action.name | sqMessage }}</span>    
+            <span class="d-flex fs-6 mx-2 align-items-center" *ngIf="action.data">{{ action.data | sqMessage }}</span>    
         </ng-container>
     </ng-container>
     </div>
 </ng-template>
-
-<div class="btn-group sq-preview-btn-group" [sq-action-buttons]="{items: zoomActions, style: 'light preview-btn'}"></div>

@@ -33,7 +33,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Output() recordClosed = new EventEmitter<void>();
   @Output() previewLoaded = new EventEmitter<PreviewDocument>();
   @HostBinding('style.height.px') _height: number = this.height;
-  @HostBinding('hidden') hidden: boolean;
 
   private expandAction: Action;
   private closeAction: Action;
@@ -51,6 +50,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   downloadUrl?: SafeResourceUrl;
   loading = false;
   isNeural = false;
+  showPassages = false;
 
   private readonly scaleFactorThreshold = 0.1;
 
@@ -95,7 +95,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     this.toggleEntitiesAction = new Action({
       icon: "fas fa-lightbulb",
       title: "msg#facet.preview.toggleEntities",
-      name: 'msg#facet.preview.entities',
+      data: 'msg#facet.preview.entities',
       selected: false,
       action: (action) => {
         action.selected = !action.selected;
@@ -106,7 +106,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     this.toggleExtractsAction = new Action({
         icon: "fas fa-highlighter",
         title: "msg#facet.preview.toggleExtracts",
-        name: 'msg#facet.preview.extracts',
+        data: 'msg#facet.preview.extracts',
         selected: false,
         action: (action) => {
             action.selected = !action.selected;
@@ -159,15 +159,15 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     this.showPassagesAction = new Action({
       icon: "fas fa-brain",
       title: "msg#facet.preview.showPassages",
-      name: 'msg#facet.preview.passages',
+      data: 'msg#facet.preview.passages',
       action: action => {
         action.selected = !action.selected;
-        this.hidden = action.selected;
+        this.showPassages = action.selected;
       },
       updater: action => {
         action.hidden = !this.record?.matchingpassages?.passages.length;
         if (action.hidden) {
-          this.hidden = false;
+          this.showPassages = false;
         }
       }
     });
