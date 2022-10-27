@@ -1,0 +1,12 @@
+<fusioncharts *ngIf="ready && !isRefreshing"
+    [width]="width"
+    [height]="height"
+    [type]="type"
+    [dataSource]="dataSource"
+    (initialized)="onInitialized($event)"
+    (dataplotClick)="dataplotClick($event)"
+    >
+</fusioncharts>
+
+<!-- Hidden element to avoid glitch when refreshing -->
+<div *ngIf="isRefreshing" [ngStyle]="{width: width + 'px', height: height + 'px'}"></div>

@@ -2,21 +2,27 @@
     <div class="card-header cursor-default ps-3 pe-2 py-1">
         <div class="d-flex align-items-center">
             <div class="d-flex align-items-center text-truncate me-auto" [title]="(tooltip || title) | sqMessage">
-                <div *ngIf="!!icon" class="card-icon {{icon}} me-2" aria-hidden="true"></div>
+                <div *ngIf="icon" class="card-icon {{icon}} me-2" aria-hidden="true"></div>
                 <div *ngIf="title" class="card-title text-truncate mb-0 py-1 me-auto">{{title | sqMessage }}</div>
             </div>
-            <ng-container *ngIf="facetComponent && facetComponent.headerTpl" [ngTemplateOutlet]="facetComponent.headerTpl">
+            <ng-container [ngTemplateOutlet]="facetComponent?.headerTpl || headerTpl">
             </ng-container>
+            <div class="btn-group me-2" [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}" *ngIf="viewActions && !_collapsed"></div>
             <div class="btn-group" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
         </div>
-        <ng-container *ngIf="facetComponent && facetComponent.subHeaderTpl" [ngTemplateOutlet]="facetComponent.subHeaderTpl"></ng-container>
+        <ng-container [ngTemplateOutlet]="facetComponent?.subHeaderTpl || subHeaderTpl"></ng-container>
     </div>
-    <sq-collapse [collapsed]="_collapsed" *ngIf="!_settingsOpened">
+    <div class="d-flex p-1" *ngIf="!_collapsed && allSecondaryActions.length">
+        <div class="btn-group ms-auto" [sq-action-buttons]="{items: allSecondaryActions, style: secondaryButtonsStyle || buttonsStyle, size: secondaryActionsSize || actionsSize, rightAligned: true}"></div>
+    </div>
+    <sq-collapse [collapsed]="_collapsed">
         <ng-template>
-            <ng-content>
-            </ng-content>
+            <ng-container *ngIf="!_settingsOpened && view" [ngTemplateOutlet]="view.template"></ng-container>
+            <ng-content *ngIf="!_settingsOpened && !view"></ng-content>
+            <ng-container *ngIf="_settingsOpened" [ngTemplateOutlet]="facetComponent?.settingsTpl || settingsTpl"></ng-container>
         </ng-template>
     </sq-collapse>
-    <ng-container *ngIf="hasSettings && _settingsOpened" [ngTemplateOutlet]="facetComponent?.settingsTpl"></ng-container>
-    <ng-container class="card-footer" *ngIf="facetComponent && facetComponent.footerTpl" [ngTemplateOutlet]="facetComponent.footerTpl"></ng-container>
+    <div class="card-footer" *ngIf="!_collapsed && (facetComponent?.footerTpl || footerTpl)">
+        <ng-container [ngTemplateOutlet]="facetComponent?.footerTpl || footerTpl"></ng-container>
+    </div>
 </div>

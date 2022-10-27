@@ -18,7 +18,7 @@ Also checkout the official documentation of the [FusionCharts](https://www.fusio
 
 [FusionCharts](https://www.fusioncharts.com/angular2-js-charts?framework=angular2) is a charting library which usage is permitted within the scope of a Sinequa-based project.
 
-This module includes a component which exposes a limited sample of the [FusionChart](https://www.fusioncharts.com/angular2-js-charts?framework=angular2) functionalities. The FusionCharts library includes many rich and configurable charts which are not covered by this component (see [advanced customization](#advanced-customization) below).
+This module includes few components which expose a limited sample of the [FusionChart](https://www.fusioncharts.com/angular2-js-charts?framework=angular2) functionalities. The FusionCharts library includes many rich and configurable charts which are not covered (see [advanced customization](#advanced-customization) below).
 
 ![Chart]({{site.baseurl}}assets/modules/fusioncharts/chart.png){: .d-block .mx-auto }
 
@@ -119,6 +119,129 @@ By default, a FusionCharts theme is used (it can be modified using the above [ch
 - `selectedColor` (default: `#8186d4`): Displays the items that belong to a *selected document* (managed by the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) - see [Selection Module]({{site.baseurl}}/modules/components/selection.html)) in a distinctive color.
 
 ![Custom colors]({{site.baseurl}}assets/modules/fusioncharts/colors.png){: .d-block .mx-auto }
+
+## MultiLevelPieChart Component
+
+The [`sq-multi-level-pie-chart`]({{site.baseurl}}analytics/components/MultiLevelPieChart.html) component displays a special type of chart that allows you to show symmetrical and asymmetrical tree structures in a consolidated pie-like structure. It presents the entire hierarchical data in a single-screen snapshot, which makes it a preferred choice over a tree view.
+
+This chart type belongs to **PowerCharts XT**. Thus, it requires an additional import : 
+
+```ts
+import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
+
+// Import FusionCharts library and chart modules
+import * as FusionCharts from "fusioncharts";
+import * as charts from "fusioncharts/fusioncharts.charts";
+import * as powerCharts from "fusioncharts/fusioncharts.powercharts";
+// Fusion is a light theme, Candy is a dark theme
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
+
+@NgModule({
+  imports: [
+    ...
+    FusionChartsModule.forRoot(FusionCharts, charts, powerCharts, FusionTheme, CandyTheme),
+
+```
+
+Its most basic usage is as follow:
+
+```html
+<sq-facet-card [icon]="'fas fa-chart-pie'" [title]="'Multi level pie'">
+    <sq-multi-level-pie-chart #facet [results]="results" [aggregation]="'Treepath'"></sq-multi-level-pie-chart>
+</sq-facet-card>
+```
+
+Which displays the following 
+
+![Chart]({{site.baseurl}}assets/modules/fusioncharts/multi-level-pie.PNG){: .d-block .mx-auto }
+
+### Custom data
+
+This component has an input `data`, which implements the following interface `Category` :
+
+```ts
+export interface Category extends AggregationItem, TreeAggregationNode {
+    label: string;
+    originalLabel: string;
+    value: number | string;
+    tooltext?: string;
+    color?: string;
+    showLabel?: boolean;
+    showValue?: boolean;
+    category?: Category[];
+}
+```
+⚠️ If provided, the component will plot this custom data and ignore the input `aggregation` even if it is defined.
+
+```html
+<sq-facet-card [icon]="'fas fa-chart-pie'" [title]="'Multi level pie'">
+    <sq-multi-level-pie-chart #facet [results]="results" [data]="data"></sq-multi-level-pie-chart>
+</sq-facet-card>
+```
+
+Since custom data can require some specific processes different than default methods, it is possible to override the following inputs :
+
+```ts
+    /**
+     * A function that returns true this component is already filtering the query
+     */
+    @Input()
+    hasFiltered = () => {
+        return this.facetService.hasFiltered(this.getName());
+    }
+    /**
+     * A function that returns true the aggregationItem match a selected document
+     */
+    @Input()
+    isSelected = <T extends AggregationItem | TreeAggregationNode>(item: T) => {
+        if (this.isTree()) {
+            return this.selectedValues.has((item as TreeAggregationNode).$path!.toLowerCase()) && this.selectedColor;
+        }
+        return this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase()) && this.selectedColor;
+    }
+    /**
+     * Callback used to apply custom operations (sort, filter ...) on a tree nodes
+     */
+    @Input() initNodes = (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) => {}
+```
+
+### Width and Height
+
+Same as the `sq-fusion-chart` component, it accepts `width` and `height` parameters with the following defaults:
+
+- `width = '100%'`
+- `height = '350'` (Note that the input is expected as a `string` and it should NOT contain a suffix like `px`, although `%` works fine).
+
+### Chart options
+
+A `chart` input can also be provided to this component. It must have the same structure as in the [FusionCharts documentation](https://docs.fusioncharts.com/archive/3.15.1-sr.1/chart-attributes/multilevelpie) (this object is always nested within the `dataSource` object).
+
+The default is:
+
+```ts
+export const defaultMultiLevelChart = {
+    "theme": "fusion",
+    "highlightParentPieSlices": true, // automatically highlight parent slices when you hover over the child pie slices
+    "highlightChildPieSlices": false, // prevent child pie slices from getting highlighted, when you hover over the parent slices
+    "showPlotBorder": true,
+    "piefillalpha": 60,
+    "pieborderthickness": 3
+}
+```
+
+Additional useful inputs can be used to customize the component's display : 
+
+   - `showLabels`: (**false** by default) Show/hide ALL plots' label.
+   - `showValues`: (**false** by default) Show/hide ALL plots' value next to labels.
+   - `showPercentValues`: (**false** by default) f enabled along with `showValues`, values of ALL plots will be shown as percentages.
+   - `showToolTip`: (**true** by default).
+   - `plottooltext`: (**"$label, $value, $percentValue"** by default) Configure the tooltip text of plots.
+
+### Colors
+
+The same colors' choice is used, by default, in both `FusionChart` and `MultiLevelPieChart` components.
+
 
 ## Advanced Customization
 
