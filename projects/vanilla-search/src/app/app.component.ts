@@ -9,7 +9,7 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
 import { FEATURES } from '../config';
-import { AuditWebService } from "@sinequa/core/web-services";
+import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 
 @Component({
     selector: "app",
@@ -94,12 +94,12 @@ export class AppComponent extends ComponentWithLogin {
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden') {
                     this.auditWebService.notify({
-                        type: `Navigation.exit`
+                        type: AuditEventType.Navigation_Exit
                     });
                 }
                 if (document.visibilityState === 'visible') {
                     this.auditWebService.notify({
-                        type: `Navigation.return`
+                        type: AuditEventType.Navigation_Return
                     });
                 }
             });

@@ -1,7 +1,7 @@
 import { Component, Input, SimpleChanges, Output, EventEmitter, OnChanges } from '@angular/core';
 import { GridsterItemComponent } from 'angular-gridster2';
 
-import { Results, Record } from '@sinequa/core/web-services';
+import { Results, Record, AuditWebService, AuditEventType } from '@sinequa/core/web-services';
 import { Utils } from '@sinequa/core/base';
 import { ExprBuilder, Query } from '@sinequa/core/app-utils'
 
@@ -12,6 +12,7 @@ import { NetworkProvider, ProviderFactory, oOTBConfig, defaultOptions } from "@s
 import { defaultChart } from '@sinequa/analytics/fusioncharts';
 
 import { DashboardItem, DashboardService } from './dashboard.service';
+import { PreviewService } from '@sinequa/components/preview';
 /**
  * A wrapper component for all widgets in the dashboard.
  * The component is in charge of updating inputs going into each widget.
@@ -79,7 +80,9 @@ export class DashboardItemComponent implements OnChanges {
         public providerFactory: ProviderFactory,
         public searchService: SearchService,
         public dashboardService: DashboardService,
-        public exprBuilder: ExprBuilder) {
+        public exprBuilder: ExprBuilder,
+        public auditService: AuditWebService,
+        private previewService: PreviewService) {
 
         this.closeAction = new Action({
             icon: "fas fa-times",
@@ -291,5 +294,9 @@ export class DashboardItemComponent implements OnChanges {
         if (this.gridsterItemComponent.el.parentElement?.classList.contains('no-scroll')) {
             this.gridsterItemComponent.el.parentElement.classList.remove('no-scroll')
         }
+        this.auditService.notify({
+          type: AuditEventType.Preview_Close,
+          detail: this.previewService.getAuditPreviewDetail(this.record!.id, this.searchService.query, this.record, this.searchService.results?.id)
+        });
     }
 }

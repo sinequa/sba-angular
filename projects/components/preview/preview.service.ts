@@ -196,7 +196,7 @@ export class PreviewService {
             rank: rank,
             collection: collection,
             source: Utils.treeFirstNode(collection),
-            resultid: resultId,
+            "result-id": resultId,
             querylang: queryLanguage,
             text: query.text,
             filename: record?.filename,
