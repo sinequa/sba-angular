@@ -24,7 +24,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() metadata: string[] = [];
   @Input() expandModal = true;
   @Input() closable = true;
-  @Input() expandable = true;
   @Input() downloadablePdf = true;
   @Input() highlightActions = true;
   @Input() customActions: Action[];
@@ -34,16 +33,12 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Output() previewLoaded = new EventEmitter<PreviewDocument>();
   @HostBinding('style.height.px') _height: number = this.height;
 
-  private expandAction: Action;
-  private closeAction: Action;
   private expandModalAction: Action;
   private toggleEntitiesAction: Action;
   private toggleExtractsAction: Action;
   private minimizeAction: Action;
   private maximizeAction: Action;
   private pdfDownloadAction: Action;
-  private expandNeuralAction: Action;
-  private showPassagesAction: Action;
 
   data?: PreviewData;
   document?: PreviewDocument;
@@ -62,24 +57,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   ) {
 
     super();
-
-    this.expandAction = new Action({
-      icon: "fas fa-expand-alt",
-      title: "msg#facet.preview.expandTitle",
-      action: () => {
-        if (this.record) {
-          this.previewService.openRoute(this.record, this.searchService.query);
-        }
-      }
-    });
-
-    this.closeAction = new Action({
-      icon: "fas fa-times",
-      title: "msg#facet.preview.closeTitle",
-      action: () => {
-        this.recordClosed.next();
-      }
-    });
 
     this.expandModalAction = new Action({
       icon: "far fa-window-maximize",
@@ -140,38 +117,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       action: () => this.searchService.notifyOpenOriginalDocument(this.record, undefined, AuditEventType.Doc_CachePdf)
     });
 
-    // Expand action when neural search
-    this.expandNeuralAction = new Action({
-      icon: "fas fa-expand-alt",
-      title: "msg#facet.preview.expandTitle",
-      styles: "ms-auto btn-expand",
-      action: () => {
-        if (this.record) {
-          this.previewService.openRoute(this.record, this.searchService.query);
-        }
-      },
-      updater: action => {
-        action.hidden = !this.record?.matchingpassages?.passages.length;
-      }
-    });
-
-    // Display Neural Search passages, when they exist
-    this.showPassagesAction = new Action({
-      icon: "fas fa-brain",
-      title: "msg#facet.preview.showPassages",
-      data: 'msg#facet.preview.passages',
-      action: action => {
-        action.selected = !action.selected;
-        this.showPassages = action.selected;
-      },
-      updater: action => {
-        action.hidden = !this.record?.matchingpassages?.passages.length;
-        if (action.hidden) {
-          this.showPassages = false;
-        }
-      }
-    });
-
   }
 
   override get actions(): Action[] {
@@ -185,31 +130,10 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     if (this.expandModal) {
       actions.push(this.expandModalAction);
     }
-    if (this.expandable) {
-      actions.push(this.expandAction);
-    }
-    if (this.closable) {
-      actions.push(this.closeAction);
-    }
-    return actions;
-  }
-
-  get subActions(): Action[] {
-    const actions: Action[] = [];
     if (this.highlightActions) {
       actions.push(this.toggleExtractsAction);
       actions.push(this.toggleEntitiesAction);
     }
-    if (this.isNeural) {
-      actions.push(this.showPassagesAction);
-      actions.push(this.expandNeuralAction);
-    }
-    return actions;
-  }
-
-  get zoomActions(): Action[] {
-    const actions: Action[] = [];
-    this.minimizeAction.update();
     actions.push(this.minimizeAction, this.maximizeAction);
     return actions;
   }
@@ -227,8 +151,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.loading = true;
       this.pdfDownloadAction.href = this.record.pdfUrl;
       this.isNeural = !!this.record.matchingpassages?.passages && this.record.matchingpassages.passages.length > 0;
-      this.showPassagesAction.update();
-      this.expandNeuralAction.update();
     }
     if(changes.height || changes.scalingFactor) {
       this._height = this.height;

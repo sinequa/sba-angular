@@ -7,7 +7,7 @@
             </div>
             <ng-container [ngTemplateOutlet]="facetComponent?.headerTpl || headerTpl">
             </ng-container>
-            <div class="btn-group me-2" [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}" *ngIf="viewActions && !_collapsed"></div>
+            <div class="btn-group me-2" [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}" *ngIf="viewActions?.length > 1 && !_collapsed"></div>
             <div class="btn-group" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
         </div>
         <ng-container [ngTemplateOutlet]="facetComponent?.subHeaderTpl || subHeaderTpl"></ng-container>

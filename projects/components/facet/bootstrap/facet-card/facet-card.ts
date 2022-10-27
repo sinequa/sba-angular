@@ -1,5 +1,5 @@
 import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, ChangeDetectorRef, HostListener, ContentChildren, QueryList, TemplateRef} from "@angular/core";
-import {Subscription} from "rxjs";
+import {delay, Subscription} from "rxjs";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
 import {FacetViewDirective} from "../facet-view.directive";
@@ -221,20 +221,30 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
             });
         }
         else if(this.views.length) {
-            this.viewActions = this.views.map(view => new Action({
-                ...view.viewOptions,
-                action: (action, event) => {
-                    view.viewOptions?.action?.(action, event); // If any, execute the view's action function
-                    this.setView(view)
-                },
-                data: view
-            }));
-            const defaultView = this.views.find(v => !!v.default) || this.views.first;
-            this.setView(defaultView); // Select the first view by default
+            this.handleViews();
         }
         else {
             console.warn("No #facet component is defined in this facet card: ", this.title);
         }
+
+        this.views.changes.pipe(delay(0)).subscribe(() => {
+            setTimeout(() => {
+                this.handleViews();
+            })
+        });
+    }
+
+    handleViews() {
+        this.viewActions = this.views.map(view => new Action({
+            ...view.viewOptions,
+            action: (action, event) => {
+                view.viewOptions?.action?.(action, event); // If any, execute the view's action function
+                this.setView(view)
+            },
+            data: view
+        }));
+        const defaultView = this.views.find(v => !!v.default) || this.views.first;
+        this.setView(defaultView); // Select the first view by default
     }
 
     setView(view: FacetViewDirective) {

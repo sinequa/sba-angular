@@ -46,6 +46,8 @@ export default {
             "passages": "Relevante Passagen",
             "showPassages": "Von Neural Search extrahierte Passagen zeigen/ausblenden",
             "downloadPdf": "PDF-Version herunterladen",
+            "viewPreview": "Vorschau",
+            "viewPassages": "Passagen"
         }
     }
 };

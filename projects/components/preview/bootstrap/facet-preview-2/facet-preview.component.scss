@@ -11,21 +11,3 @@
     top: 0;
     bottom: 0;
 }
-
-.sq-preview-btn-group {
-    position: absolute;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .1);
-}
-
-.sq-action-buttons {
-    width: 100%;
-
-    span {
-        width: min-content;
-    }
-    .btn-group {
-        min-width: 48px;
-    }
-}

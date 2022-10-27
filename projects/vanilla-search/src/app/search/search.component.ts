@@ -49,6 +49,9 @@ export class SearchComponent implements OnInit {
       "date": BsFacetDate
   }
 
+  private expandAction: Action;
+  private closeAction: Action;
+
   constructor(
     private previewService: PreviewService,
     private titleService: Title,
@@ -59,7 +62,26 @@ export class SearchComponent implements OnInit {
     public loginService: LoginService,
     public auditService: AuditWebService,
     public ui: UIService,
-  ) { }
+  ) {
+
+    this.expandAction = new Action({
+      icon: "fas fa-expand-alt",
+      title: "msg#facet.preview.expandTitle",
+      action: () => {
+        if (this.openedDoc) {
+          this.previewService.openRoute(this.openedDoc, this.searchService.query);
+        }
+      }
+    });
+
+    this.closeAction = new Action({
+      icon: "fas fa-times",
+      title: "msg#facet.preview.closeTitle",
+      action: () => {
+        this.closeDocument();
+      }
+    });
+  }
 
   /**
    * Initialize the page title
@@ -108,6 +130,13 @@ export class SearchComponent implements OnInit {
    */
   public get metadata(): string[] {
     return this.appService.app?.data?.metadata as string[] || METADATA;
+  }
+
+  /**
+   * Returns the list of actions to display at the top right corner of the preview facet
+   */
+  public get actions(): Action[] {
+    return [this.expandAction, this.closeAction];
   }
 
   /**

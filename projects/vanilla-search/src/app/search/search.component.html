@@ -143,20 +143,39 @@
 
             <!-- Scaled-down preview -->
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
-                [actionsSize]="''">
-                <sq-facet-preview-2 #facet
-                    [record]="openedDoc"
-                    [query]="searchService.query"
-                    [height]="750"
-                    [metadata]="metadata"
-                    [expandModal]="false"
-                    [expandable]="!isNeuralPreview"
-                    [closable]="!isNeuralPreview"
-                    [downloadablePdf]="!isNeuralPreview"
-                    [customActions]="previewCustomActions"
-                    (recordClosed)="closeDocument()"
-                    (previewLoaded)="previewReady($event)">
-                </sq-facet-preview-2>
+                [facetActionsAreSecondary]="true" [actions]="actions">
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-file', text: 'msg#facet.preview.viewPreview'}">
+                    <sq-facet-preview-2 #facet
+                        [record]="openedDoc"
+                        [query]="searchService.query"
+                        [height]="750"
+                        [metadata]="metadata"
+                        [expandModal]="false"
+                        [customActions]="previewCustomActions"
+                        (recordClosed)="closeDocument()"
+                        (previewLoaded)="previewReady($event)">
+                    </sq-facet-preview-2>
+                </ng-template>
+  
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-brain', text: 'msg#facet.preview.viewPassages'}" *ngIf="isNeuralPreview">
+                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                </ng-template>
+
+                <ng-template #headerTpl>
+                    <sq-result-title class="flex-grow-1 flex-basis-0" [record]="openedDoc"
+                        titleLinkBehavior="open-if-url"></sq-result-title>
+                </ng-template>
+
+                <ng-template #subHeaderTpl>
+                    <sq-metadata *ngIf="metadata?.length"
+                        [record]="openedDoc"
+                        [items]="metadata"
+                        [showTitles]="true"
+                        [showIcons]="true"
+                        [clickable]="false">
+                    </sq-metadata>
+                </ng-template>
             </sq-facet-card>
         </div>
     </div>
