@@ -103,6 +103,7 @@ export const enum AuditEventType {
     Doc_CacheOriginal = "Doc_CacheOriginal",
     Doc_Url1 = "Doc_Url1",
     Doc_Url2 = "Doc_Url2",
+    Preview_Close = "Preview_Close",
 
     Click_ResultLink = "Click_ResultLink",
     Click_ResultLink1 = "Click_ResultLink1",
@@ -133,7 +134,10 @@ export const enum AuditEventType {
     RFM_Dislike = "RFM_Dislike",
     RFM_Important = "RFM_Important",
     RFM_ImportantReset = "RFM_ImportantReset",
-    RFM_Ban = "RFM_Ban"
+    RFM_Ban = "RFM_Ban",
+
+    Navigation_Exit = "Navigation_Exit",
+    Navigation_Return = "Navigation_Return"
 }
 
 /**
@@ -281,7 +285,7 @@ export class AuditWebService extends HttpService {
 
         return this.notify(data);
     }
-    
+
     /**
      * It sends an audit event to the Audit Service.
      * @returns An Observable<void>
@@ -295,10 +299,10 @@ export class AuditWebService extends HttpService {
             type: AuditEventType.Search_Login_Success,
             detail
         };
-        
+
         return this.notify(data)
     }
-    
+
     /**
      * Notify the Sinequa server of a set of audit events
      *
