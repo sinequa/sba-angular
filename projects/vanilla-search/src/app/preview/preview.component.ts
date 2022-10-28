@@ -227,7 +227,10 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
           const url = previewData?.documentCachedContentUrl;
           if(this.appService.isNeural() && !this.subpanels.includes("passages")) {
             this.subpanels.unshift("passages");
-            this.subpanel = "passages";
+            // Set subpanel as passages if the search is in neural mode
+            if (this.query?.neuralSearch) {
+              this.subpanel = "passages";
+            }
             this.minimapType = "matchingpassages";
           }
           // Manage splitted documents
