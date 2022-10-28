@@ -125,8 +125,8 @@ export class SponsoredResults implements OnChanges, OnInit {
                 auditEvents.push({
                     type: AuditEventType.Link_Display,
                     detail: {
-                        resultid: this.searchService.results && this.searchService.results.id,
-                        linkid: link.id,
+                        "result-id": this.searchService.results && this.searchService.results.id,
+                        "link-id": link.id,
                         rank: link.rank,
                         title: link.title,
                         url: link.url

@@ -10,7 +10,7 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Answer, AuditWebService, Record, Results } from '@sinequa/core/web-services';
+import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { TopPassage } from '@sinequa/core/web-services';
@@ -192,7 +192,7 @@ export class SearchComponent implements OnInit {
   closeDocument(){
     if(this.openedDoc){
       this.auditService.notify({
-        type: "Preview.close",
+        type: AuditEventType.Preview_Close,
         detail: this.previewService.getAuditPreviewDetail(this.openedDoc.id, this.searchService.query, this.openedDoc, this.searchService.results?.id)
       });
       this.openedDoc = undefined;
