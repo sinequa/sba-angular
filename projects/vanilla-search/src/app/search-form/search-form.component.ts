@@ -228,6 +228,8 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
       // set neural search in the query to know if we are in neural mode
       if (this.appService.isNeural()) {
         this.searchService.query.neuralSearch = this.neuralSearch;
+      } else {
+        delete this.searchService.query.neuralSearch;
       }
 
       /** Trigger the search with the new criteria */
