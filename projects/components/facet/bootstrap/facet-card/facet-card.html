@@ -1,19 +1,19 @@
 <div class="card">
     <div class="card-header cursor-default ps-3 pe-2 py-1">
         <div class="d-flex align-items-center">
-            <div class="d-flex align-items-center text-truncate me-auto" [title]="(tooltip || title) | sqMessage">
+            <div *ngIf="icon || title" class="d-flex align-items-center text-truncate me-auto" [title]="(tooltip || title) | sqMessage">
                 <div *ngIf="icon" class="card-icon {{icon}} me-2" aria-hidden="true"></div>
                 <div *ngIf="title" class="card-title text-truncate mb-0 py-1 me-auto">{{title | sqMessage }}</div>
             </div>
             <ng-container [ngTemplateOutlet]="facetComponent?.headerTpl || headerTpl">
             </ng-container>
-            <div class="btn-group me-2" [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}" *ngIf="viewActions?.length > 1 && !_collapsed"></div>
-            <div class="btn-group" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
+            <div class="btn-group me-auto sq-view-actions" [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}" *ngIf="viewActions?.length > 1 && !_collapsed"></div>
+            <div class="btn-group sq-primary-actions" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
         </div>
         <ng-container [ngTemplateOutlet]="facetComponent?.subHeaderTpl || subHeaderTpl"></ng-container>
-    </div>
-    <div class="d-flex p-1" *ngIf="!_collapsed && allSecondaryActions.length">
-        <div class="btn-group ms-auto" [sq-action-buttons]="{items: allSecondaryActions, style: secondaryButtonsStyle || buttonsStyle, size: secondaryActionsSize || actionsSize, rightAligned: true}"></div>
+        <div class="sq-secondary-actions" *ngIf="!_collapsed && allSecondaryActions.length">
+            <div class="btn-group" [sq-action-buttons]="{items: allSecondaryActions, style: secondaryBtnStyle, size: secondaryActionsSize || actionsSize, rightAligned: true}"></div>
+        </div>
     </div>
     <sq-collapse [collapsed]="_collapsed">
         <ng-template>

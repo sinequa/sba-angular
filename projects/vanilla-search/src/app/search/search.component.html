@@ -150,8 +150,6 @@
                         [record]="openedDoc"
                         [query]="searchService.query"
                         [height]="750"
-                        [metadata]="metadata"
-                        [expandModal]="false"
                         [customActions]="previewCustomActions"
                         (recordClosed)="closeDocument()"
                         (previewLoaded)="previewReady($event)">
@@ -162,12 +160,16 @@
                     <sq-passage-list [record]="openedDoc"></sq-passage-list>
                 </ng-template>
 
-                <ng-template #headerTpl>
+                <ng-template *ngIf="!isNeuralPreview" #headerTpl>
                     <sq-result-title class="flex-grow-1 flex-basis-0" [record]="openedDoc"
                         titleLinkBehavior="open-if-url"></sq-result-title>
                 </ng-template>
 
                 <ng-template #subHeaderTpl>
+                    <div class="text-truncate" *ngIf="isNeuralPreview">
+                        <sq-result-title class="flex-grow-1 flex-basis-0" [record]="openedDoc" 
+                            titleLinkBehavior="open-if-url"></sq-result-title>
+                    </div>
                     <sq-metadata *ngIf="metadata?.length"
                         [record]="openedDoc"
                         [items]="metadata"
