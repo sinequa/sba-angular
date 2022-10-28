@@ -1,8 +1,8 @@
-import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, ChangeDetectorRef, HostListener, ContentChildren, QueryList, TemplateRef} from "@angular/core";
-import {delay, Subscription} from "rxjs";
-import {Action} from "@sinequa/components/action";
-import {AbstractFacet} from "../../abstract-facet";
-import {FacetViewDirective} from "../facet-view.directive";
+import { Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, HostListener, ContentChildren, QueryList, TemplateRef, DoCheck, OnChanges } from "@angular/core";
+import { delay, Subscription } from "rxjs";
+import { Action } from "@sinequa/components/action";
+import { AbstractFacet } from "../../abstract-facet";
+import { FacetViewDirective } from "../facet-view.directive";
 
 @Component({
     selector: "sq-facet-card",
@@ -11,7 +11,7 @@ import {FacetViewDirective} from "../facet-view.directive";
         .cursor-default {cursor: default;}
     `]
 })
-export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
+export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, AfterContentInit {
 
     /**
      * Title of this facet (optional)
@@ -101,25 +101,23 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     /**
      * Event triggered when the facet gets expanded or reduced
      */
-    @Output() facetExpanded = new EventEmitter<"expanded"|"reduced">();
+    @Output() facetExpanded = new EventEmitter<"expanded" | "reduced">();
 
     /**
      * Event triggered when the facet gets expanded or reduced
      */
-    @Output() facetCollapsed = new EventEmitter<"collapsed"|"expanded">();
+    @Output() facetCollapsed = new EventEmitter<"collapsed" | "expanded">();
 
     /**
      * Event triggered when the facet gets expanded or reduced
      */
-    @Output() settingsOpened = new EventEmitter<"opened"|"saved"|"canceled">();
+    @Output() settingsOpened = new EventEmitter<"opened" | "saved" | "canceled">();
 
     /**
      * Reference to the child facet inserted by transclusion (ng-content)
      */
-    @ContentChild("facet", {static: false})
-    public set facetComponent(facet: AbstractFacet | undefined){
-        this._facetComponent = facet || this._facetComponent; // Allows overriding ContentChild (to avoid undefined facet)
-    }
+    @ContentChildren("facet")
+    facetQuery: QueryList<AbstractFacet>;
 
     @ContentChildren(FacetViewDirective)
     views: QueryList<FacetViewDirective>;
@@ -145,15 +143,16 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         return !!this.facetComponent?.isHidden?.()
     }
 
+    allActions: Action[] = [];
+    allSecondaryActions: Action[] = [];
+
     public readonly collapseAction;
     public readonly expandAction;
     public readonly settingsAction;
 
-    private actionChangedSubscription: Subscription;
+    private subs = new Subscription();
 
-    constructor(
-        private changeDetectorRef: ChangeDetectorRef
-    ){
+    constructor() {
 
         this.collapseAction = new Action({
             action: (action, event) => {
@@ -161,7 +160,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
                 event.stopPropagation();
                 this._collapsed = !this._collapsed;
                 this.facetCollapsed.next(this._collapsed ? "collapsed" : "expanded");
-                if(!!this.facetComponent){
+                if (!!this.facetComponent) {
                     this.facetComponent.onCollapse(this._collapsed);
                 }
                 action.update();
@@ -176,7 +175,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
             action: (action) => {
                 this._expanded = !this._expanded;
                 this.facetExpanded.next(this._expanded ? "expanded" : "reduced");
-                if(!!this.facetComponent){
+                if (!!this.facetComponent) {
                     this.facetComponent.onExpand(this._expanded);
                 }
                 action.update();
@@ -190,7 +189,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         this.settingsAction = new Action({
             action: (action) => {
                 this._settingsOpened = !this._settingsOpened;
-                this.settingsOpened.next(this._settingsOpened? "opened" : "saved");
+                this.settingsOpened.next(this._settingsOpened ? "opened" : "saved");
                 this.facetComponent?.onOpenSettings(this._settingsOpened);
                 action.update();
             },
@@ -202,7 +201,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
 
     }
 
-    ngOnInit(){
+    ngOnInit() {
         // Initialize actions
         this._collapsed = this.startCollapsed;
         this._expanded = this.startExpanded;
@@ -211,93 +210,147 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         this.collapseAction.update();
         this.expandAction.update();
         this.settingsAction.update();
+
+        this.updateActions(); // Note that OnInit is called AFTER the 1st OnChanges
     }
 
-    ngAfterContentInit(){
-        if(this.facetComponent) {
-            this.actionChangedSubscription = this.facetComponent.actionsChanged.subscribe((actions) => {
-                this.allActions.forEach(action => action.update());
-                this.changeDetectorRef.markForCheck();
-            });
+    ngOnChanges(): void {
+        // Most Input() of this component potentially have an effect on the actions
+        this.updateActions();
+    }
+
+    // In ngAfterContentInit we have access to the facet content (facet component or views, depending on how the facet-card is used)
+    ngAfterContentInit() {
+        this.updateFacetComponent();
+        if (this.facetComponent) { // A facet component is directly passed to the facet
+            this.subs.add(
+                this.facetComponent.actionsChanged.subscribe((actions) => {
+                    this.updateActions();
+                    this.allActions.forEach(action => action.update());
+                })
+            );
         }
-        else if(this.views.length) {
-            this.handleViews();
+        else if (this.views.length) { // A list of views (containing facet components) is passed to the facet
+            this.updateViews();
         }
         else {
-            console.warn("No #facet component is defined in this facet card: ", this.title);
+            console.warn("No #facet component (or no view) is defined in this facet card: ", this.title);
         }
 
-        this.views.changes.pipe(delay(0)).subscribe(() => {
-            setTimeout(() => {
-                this.handleViews();
-            })
-        });
+        // Catch the #facet component changes (which happens when we switch views)
+        this.subs.add(
+            this.facetQuery.changes.pipe(delay(0))
+                .subscribe(() => this.updateFacetComponent())
+        );
+
+        // Catch a change in the list of views
+        this.subs.add(
+            this.views.changes
+                .subscribe(() => this.updateViews())
+        );
     }
 
-    handleViews() {
-        this.viewActions = this.views.map(view => new Action({
-            ...view.viewOptions,
-            action: (action, event) => {
-                view.viewOptions?.action?.(action, event); // If any, execute the view's action function
-                this.setView(view)
-            },
-            data: view
-        }));
-        const defaultView = this.views.find(v => !!v.default) || this.views.first;
-        this.setView(defaultView); // Select the first view by default
-    }
-
-    setView(view: FacetViewDirective) {
-        this.view = view;
-        this.viewActions.forEach(a => a.selected = a.data === view);
-        this.changeDetectorRef.detectChanges();
-    }
-
-    ngOnDestroy(){
-        if(this.actionChangedSubscription){
-            this.actionChangedSubscription.unsubscribe();
+    ngDoCheck(): void {
+        if (this.actionsChanged()) {
+            this.updateActions();
         }
+    }
+
+    ngOnDestroy() {
+        this.subs.unsubscribe();
+    }
+
+    updateFacetComponent() {
+        this.facetComponent = this.facetQuery.first;
+        this.updateActions();
     }
 
     public get facetComponent(): AbstractFacet | undefined {
         return this._facetComponent;
     }
 
-    public get allActions() : Action[] {
-        if(this.hideActions) return [this.collapseAction]; // Hide other actions if collapsed
-        const  actions = [] as Action[];
-        if(this.actionsFirst) {
+    public set facetComponent(facet: AbstractFacet | undefined) {
+        this._facetComponent = facet || this._facetComponent; // Allows overriding ContentChild (to avoid undefined facet)
+    }
+
+    updateViews() {
+        this.viewActions = this.views.map(view => new Action({
+            ...view.viewOptions,
+            action: (action, event) => {
+                view.viewOptions?.action?.(action, event); // If any, execute the view's action function
+                this.setView(view)
+            },
+            selected: view === this.view,
+            data: view
+        }));
+        // If the view is unset, or if the previously selected view is not found in the new list, set the default view
+        if (!this.view || !this.views.find(v => v === this.view)) {
+            const defaultView = this.views.find(v => !!v.default) || this.views.first;
+            this.setView(defaultView); // Select the first view by default
+        }
+    }
+
+    setView(view: FacetViewDirective) {
+        this.view = view;
+        this._facetComponent = undefined; // The _facetComponent must be set by the view, triggering a facetQuery change
+        this.viewActions.forEach(a => a.selected = a.data === view);
+    }
+
+    updateActions() {
+        this.allActions = this.getActions();
+        this.allSecondaryActions = this.getSecondaryActions();
+    }
+
+    public getActions(): Action[] {
+        if (this.hideActions) return [this.collapseAction]; // Hide other actions if collapsed
+        const actions = [] as Action[];
+        if (this.actionsFirst) {
             actions.push(...this.actions);
         }
-        if(this.facetComponent && !this.facetActionsAreSecondary) actions.push(...this.facetComponent.actions);
-        if(this.hasSettings) actions.push(this.settingsAction);
-        if(this.expandable) actions.push(this.expandAction);
-        if(this.collapsible) actions.push(this.collapseAction);
-        if(!this.actionsFirst) {
+        if (this.facetComponent && !this.facetActionsAreSecondary) actions.push(...this.facetComponent.actions);
+        if (this.settingsTpl) actions.push(this.settingsAction);
+        if (this.expandable) actions.push(this.expandAction);
+        if (this.collapsible) actions.push(this.collapseAction);
+        if (!this.actionsFirst) {
             actions.push(...this.actions);
         }
         return actions;
     }
 
-    public get allSecondaryActions() : Action[] {
-        if(this.hideActions) return [];
-        const  actions = [] as Action[];
-        if(this.actionsFirst) {
+    public getSecondaryActions(): Action[] {
+        if (this.hideActions) return [];
+        const actions = [] as Action[];
+        if (this.actionsFirst) {
             actions.push(...this.secondaryActions);
         }
-        if(this.facetComponent && this.facetActionsAreSecondary) actions.push(...this.facetComponent.actions);
-        if(!this.actionsFirst) {
+        if (this.facetComponent && this.facetActionsAreSecondary) actions.push(...this.facetComponent.actions);
+        if (this.facetComponent?.settingsTpl) actions.push(this.settingsAction);
+        if (!this.actionsFirst) {
             actions.push(...this.secondaryActions);
         }
         return actions;
+    }
+
+    // Manual change detection, to avoid constantly triggering refreshes of the actions
+    _oldActions: Action[] | undefined;
+    protected actionsChanged(): boolean {
+        const actions = this.facetComponent?.actions;
+        if (actions?.length !== this._oldActions?.length) {
+            return true;
+        }
+        else if (actions && this._oldActions) {
+            for (let i = 0; i < actions.length; i++) {
+                if (actions[i] !== this._oldActions[i]) {
+                    return true;
+                }
+            }
+        }
+        this._oldActions = actions;
+        return false;
     }
 
     public get hideActions() {
         return this.hideActionsCollapsed && this._collapsed;
-    }
-
-    public get hasSettings() {
-        return this.facetComponent?.settingsTpl || this.settingsTpl;
     }
 
     @HostListener('window:click', ['$event'])
