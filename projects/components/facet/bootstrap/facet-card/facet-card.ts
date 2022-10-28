@@ -249,7 +249,6 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
 
     setView(view: FacetViewDirective) {
         this.view = view;
-        this._facetComponent = view.facet;
         this.viewActions.forEach(a => a.selected = a.data === view);
         this.changeDetectorRef.detectChanges();
     }

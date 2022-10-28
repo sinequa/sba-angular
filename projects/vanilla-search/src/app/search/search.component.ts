@@ -43,6 +43,7 @@ export class SearchComponent implements OnInit {
   public hasAnswers: boolean;
   public hasPassages: boolean;
   public isNeuralPreview: boolean;
+  public passagesByDefault: boolean;
 
   public readonly facetComponents = {
       ...default_facet_components,
@@ -165,7 +166,8 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  openMiniPreview(record: Record) {
+  openMiniPreview(record: Record, passagesByDefault = false) {
+    this.passagesByDefault = passagesByDefault;
     this.openedDoc = record;
     this.isNeuralPreview = !!this.openedDoc.matchingpassages?.passages && this.openedDoc.matchingpassages.passages.length > 0;
     if(this.ui.screenSizeIsLessOrEqual('md')){
@@ -289,5 +291,17 @@ export class SearchComponent implements OnInit {
 
   onTitleClick(value: {item: Answer | TopPassage, isLink: boolean}) {
     this.openPreviewIfNoUrl(value.item.record, value.isLink);
+  }
+
+  onAnswerOpened(answer: Answer) {
+    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
+    const record = this.searchService.results?.records.find(r => r.id === answer.record.id);
+    this.openMiniPreview(record || answer.record);
+  }
+
+  onTopPassageClick(passage: TopPassage) {
+    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
+    const record = this.searchService.results?.records.find(r => r.id === passage.record.id);
+    this.openMiniPreview(record || passage.record, true);
   }
 }
