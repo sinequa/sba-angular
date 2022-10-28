@@ -8,6 +8,7 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
 import { FEATURES } from '../config';
+import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 
 @Component({
     selector: "app-root",
@@ -33,10 +34,10 @@ export class AppComponent extends ComponentWithLogin {
         recentQueriesService: RecentQueriesService,
         RecentDocumentsService: RecentDocumentsService,
         public selectionService: SelectionService,
-        public appService: AppService
+        public appService: AppService,
+        public auditWebService: AuditWebService
         ){
         super(loginService, cdRef);
-
     }
 
     initDone: boolean = false;
@@ -75,6 +76,19 @@ export class AppComponent extends ComponentWithLogin {
                         }
                         break;
                     }
+                }
+            });
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') {
+                    this.auditWebService.notify({
+                        type: AuditEventType.Navigation_Exit
+                    });
+                }
+                if (document.visibilityState === 'visible') {
+                    this.auditWebService.notify({
+                        type: AuditEventType.Navigation_Return
+                    });
                 }
             });
 

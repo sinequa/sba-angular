@@ -95,7 +95,7 @@ export class NotificationsService implements OnDestroy {
      */
     notifications: Notification[];
     protected _events = new Subject<UpdatedEvent | DataUpdatedEvent>();
-    protected _notificationsStream = new Subject<Notification>();
+    protected _notificationsStream = new Subject<Notification|undefined>();
 
     constructor() {
         this.data = {};
@@ -118,7 +118,7 @@ export class NotificationsService implements OnDestroy {
      * emit each time a notification is added. It will also emit
      * `null` when notifications are deleted.
      */
-    get notificationsStream(): Observable<Notification> {
+    get notificationsStream(): Observable<Notification|undefined> {
         return this._notificationsStream;
     }
 

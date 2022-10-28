@@ -1,6 +1,5 @@
 import {Injectable, Inject} from "@angular/core";
-import {Observable, of} from "rxjs";
-import {map} from "rxjs/operators";
+import {Observable, of, map} from "rxjs";
 import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
 import {START_CONFIG, StartConfig} from "./start-config.web.service";

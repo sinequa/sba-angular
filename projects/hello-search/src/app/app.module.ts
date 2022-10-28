@@ -15,9 +15,8 @@ import {DefaultLocalesConfig} from "@sinequa/core";
 import {AppComponent} from "./app.component";
 import {environment} from "../environments/environment";
 
-export function StartConfigInitializer(startConfigWebService: StartConfigWebService): () => Promise<StartConfig> {
-    const init = () => startConfigWebService.fetchPreLoginAppConfig().toPromise();
-    return init;
+export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
+    return () => startConfigWebService.fetchPreLoginAppConfig();
 }
 
 export const startConfig: StartConfig = {

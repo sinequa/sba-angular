@@ -1,8 +1,7 @@
 import {Injectable, Inject, OnDestroy, Type, InjectionToken, Optional} from "@angular/core";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {BehaviorSubject, Observable, forkJoin, of, throwError} from "rxjs";
-import {flatMap} from "rxjs/operators";
+import {BehaviorSubject, Observable, forkJoin, of, throwError, firstValueFrom, switchMap} from "rxjs";
 import {Utils, SqError, SqErrorCode} from "@sinequa/core/base";
 import {START_CONFIG, StartConfig, CCApp, PrincipalWebService, Principal,
     UserSettingsWebService, UserSettings, AuditWebService} from "@sinequa/core/web-services";
@@ -203,47 +202,35 @@ export class LoginService implements OnDestroy {
             }
         }
 
-        interface ObservableLoginData {
-            app: Observable<CCApp> | undefined;
-            principal: Observable<Principal> | undefined;
-            userSettings: Observable<UserSettings> | undefined;
-        }
-
-        const makeObservables = (): ObservableLoginData => {
-            const observables: ObservableLoginData = {
-                app: undefined,
-                principal: undefined,
-                userSettings: undefined
-            };
-            if (!this.appService.app || (appName && this.appService.app.name !== appName)) {
-                appNeeded = true;
-                observables.app = this.appService.init();
-            }
-            else {
-                observables.app = of(this.appService.app);
-            }
-            let loadUserSettings = false;
-            if (!this.principalService.principal) {
-                loadUserSettings = true;
-                observables.principal = this.principalService.load();
-            }
-            else {
-                observables.principal = of(this.principalService.principal);
-            }
-            if (!this.userSettingsService.userSettings || loadUserSettings) {
-                observables.userSettings = this.userSettingsService.load();
-            }
-            else {
-                observables.userSettings = of(this.userSettingsService.userSettings);
-            }
-            return observables;
-        };
-
         const observable = this.authenticationService.autoAuthenticate()
-            .pipe(flatMap((success) => {
-                const observables = makeObservables();
-                return forkJoin<ObservableLoginData, keyof ObservableLoginData>(observables);
+            .pipe(switchMap(() => {
+                let app: Observable<CCApp>;
+                let userSettings: Observable<UserSettings>;
+                let principal: Observable<Principal>;
+                if (!this.appService.app || (appName && this.appService.app.name !== appName)) {
+                    appNeeded = true;
+                    app = this.appService.init();
+                }
+                else {
+                    app = of(this.appService.app);
+                }
+                let loadUserSettings = false;
+                if (!this.principalService.principal) {
+                    loadUserSettings = true;
+                    principal = this.principalService.load();
+                }
+                else {
+                    principal = of(this.principalService.principal);
+                }
+                if (!this.userSettingsService.userSettings || loadUserSettings) {
+                    userSettings = this.userSettingsService.load();
+                }
+                else {
+                    userSettings = of(this.userSettingsService.userSettings);
+                }
+                return forkJoin({app, principal, userSettings});
             }));
+
         Utils.subscribe(observable,
             (result) => {
                 console.log("loginService.login ok: ", result);
@@ -350,7 +337,7 @@ export class LoginService implements OnDestroy {
                                 this.authenticationService.processedCredentials = value;
                             }
                             if (!this.checkPrincipalPromise) {
-                                this.checkPrincipalPromise = this.principalService.get(false).toPromise();
+                                this.checkPrincipalPromise = firstValueFrom(this.principalService.get(false));
                             }
                             return this.checkPrincipalPromise
                                 .then((principal) => {

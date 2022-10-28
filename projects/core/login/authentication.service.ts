@@ -1,13 +1,13 @@
 ﻿import {Injectable, Inject} from "@angular/core";
 import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from "@angular/common/http";
-import {Observable, timer, of, throwError, Subject} from "rxjs";
-import {share, flatMap, map, catchError, take} from "rxjs/operators";
+import {Observable, timer, of, throwError, Subject, firstValueFrom, share, switchMap, map, catchError, take} from "rxjs";
 import {AuthService} from "ng2-ui-auth";
 import {HttpService, START_CONFIG, StartConfig, AuditWebService} from "@sinequa/core/web-services";
 import {Utils, IRef, MapOf} from "@sinequa/core/base";
 import {SqHttpClient} from "@sinequa/core/web-services";
 import {TokenService} from "./token.service";
 import {JWTService} from "./jwt.service";
+import {authentication} from "@microsoft/teams-js";
 
 interface Authentication {
     csrfToken: string;
@@ -105,7 +105,7 @@ export class AuthenticationService extends HttpService {
      */
     userOverrideFailed: boolean;
 
-    teamsToken?: string;
+    isTeams?: boolean;
 
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
@@ -244,7 +244,7 @@ export class AuthenticationService extends HttpService {
      *
      * @returns new configuration
      */
-    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): {headers: HttpHeaders, params: HttpParams} {
+    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): Promise<{headers: HttpHeaders, params: HttpParams}> {
         this.doAuthentication();
         if (this.authentication) {
             if (this.authentication.headers) {
@@ -262,10 +262,19 @@ export class AuthenticationService extends HttpService {
                 }
             }
         }
-        if(this.teamsToken) {
-            config.headers = config.headers.set("teams-token", this.teamsToken);
+        if(this.isTeams) {
+            return authentication.getAuthToken().then(
+                token => {
+                    config.headers = config.headers.set("teams-token", token);
+                    return config
+                },
+                error => {
+                    console.error("Could not get a token from MS Teams. Proceeding without it...", error);
+                    return config;
+                }
+            );
         }
-        return config;
+        return Promise.resolve(config);
     }
 
     /**
@@ -352,7 +361,7 @@ export class AuthenticationService extends HttpService {
             console.error("Unexpected WWW-Authenticate header");
             return Promise.resolve(undefined);
         }
-        return this.jWTService.getToken(credentials).toPromise()
+        return firstValueFrom(this.jWTService.getToken(credentials))
             .then((value) => ({
                     kind: LEGACY_PROCESSED_CREDENTIALS_KIND,
                     userName: credentials.userName,
@@ -402,7 +411,7 @@ export class AuthenticationService extends HttpService {
         // AuthService.authenticate opens a popup. On some platforms (Firefox) this is asynchronous
         // so we add a delay (timer(0)) so the caller can create a promise from the returned observable
         // without yielding
-        const observable = timer(0).pipe(flatMap((value) => {
+        const observable = timer(0).pipe(switchMap((value) => {
             const observable1 = this.authService.authenticate(provider, true).pipe(share());
             Utils.subscribe(observable1,
                 (response) => {
@@ -493,6 +502,9 @@ export class AuthenticationService extends HttpService {
      * @returns An Observable of a boolean value which if `true` indicates that auto-authentication has been initiated.
      */
     autoAuthenticate(): Observable<boolean> {
+        if(this.isTeams) { // If we are in Teams, requests are authenticated with the teams-token header: no need for a CSRF token
+          return of(false);
+        }
         return this.tokenService.getCsrfToken().pipe(
             map((csrfToken) => {
                 // Token can be empty as getCsrfToken suppresses application errors (no cookie or cookie invalid)
@@ -510,7 +522,7 @@ export class AuthenticationService extends HttpService {
                 // We should rarely have an error now as getCsrfToken
                 // suppresses the application-level ones
                 if (this.initiateAutoAuthentication()) {
-                    return throwError(error);
+                    return throwError(() => error);
                 }
                 // Swallow the error and continue with non-auto login process
                 return of(false);

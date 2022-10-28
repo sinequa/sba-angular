@@ -30,11 +30,11 @@ describe("login interceptor", () => {
         // ...
       ],
       providers: [
-        {provide: START_CONFIG, useValue: {app: "testing_app"}},
-        {provide: HTTP_REQUEST_INITIALIZERS, useValue: {}},
-        {provide: LoginService, deps: [START_CONFIG], useClass: LoginService},
-        {provide: AuthenticationService, deps: [START_CONFIG], useClass: AuthenticationService},
-        {provide: HTTP_INTERCEPTORS, deps: [START_CONFIG, HTTP_REQUEST_INITIALIZERS, NotificationsService, LoginService, AuthenticationService], useClass: LoginInterceptor, multi: true}
+        { provide: START_CONFIG, useValue: { app: "testing_app" } },
+        { provide: HTTP_REQUEST_INITIALIZERS, useValue: {} },
+        { provide: LoginService, deps: [START_CONFIG], useClass: LoginService },
+        { provide: AuthenticationService, deps: [START_CONFIG], useClass: AuthenticationService },
+        { provide: HTTP_INTERCEPTORS, deps: [START_CONFIG, HTTP_REQUEST_INITIALIZERS, NotificationsService, LoginService, AuthenticationService], useClass: LoginInterceptor, multi: true }
       ]
     });
 
@@ -65,7 +65,7 @@ describe("login interceptor", () => {
   })
 
 
-  it('When 401, try to get Credentials or error is rethrow', () => {
+  it('When 401, try to get Credentials or error is rethrow', async () => {
     const login = TestBed.inject(LoginService);
     spyOn(login, "getCredentials").and.returnValue(Promise.resolve());
     // before refacto this method doesn't exists
@@ -74,24 +74,25 @@ describe("login interceptor", () => {
     const message = '401 error';
 
     // Make an HTTP GET request
-    httpClient.get("/data").subscribe(
-      res => fail('should have failed with the 401 error'),
-      (err: HttpErrorResponse) => {
-        expect(err.error).toEqual(message, 'message');
-      }
-    );
+    await httpClient.get("/data")
+      .subscribe({
+        next: res => fail('should have failed with the 401 error'),
+        error: (err: HttpErrorResponse) => {
+          expect(err.error).toEqual(message, 'message');
+        }
+      });
 
     // The following `expectOne()` will match the request's URL.
     const req = httpMock.expectOne("/data");
 
     // Respond with mock error
-    req.flush(message, {status: 401, statusText: 'Unauthorized'});
+    req.flush(message, { status: 401, statusText: 'Unauthorized' });
 
     expect(login.getCredentials).toHaveBeenCalledTimes(1);
     expect((interceptorInstance as LoginInterceptor)["handle401Error"]).toHaveBeenCalledTimes(1);
   });
 
-  it('When an error occurs, error is rethrow', () => {
+  it('When an error occurs, error is rethrow', async () => {
     const login = TestBed.inject(LoginService);
     spyOn(login, "getCredentials").and.returnValue(Promise.resolve());
     // before refacto this method doesn't exists
@@ -100,12 +101,13 @@ describe("login interceptor", () => {
     const message = '403 Forbidden';
 
     // Make an HTTP GET request
-    httpClient.get("/data").subscribe(
-      res => fail('should have failed with the 403 error'),
-      (err: HttpErrorResponse) => {
-        expect(err.error).toEqual(message, 'message');
-      }
-    );
+    await httpClient.get("/data")
+      .subscribe({
+        next: res => fail('should have failed with the 403 error'),
+        error: (err: HttpErrorResponse) => {
+          expect(err.error).toEqual(message, 'message');
+        }
+      });
 
     // The following `expectOne()` will match the request's URL.
     const req = httpMock.expectOne("/data");
@@ -116,10 +118,11 @@ describe("login interceptor", () => {
     expect(login.getCredentials).not.toHaveBeenCalled();
   });
 
-  it("should intercept request", () => {
-    httpClient.get("/data").subscribe(res => {
-      expect(res).toEqual("ok");
-    });
+  it("should intercept request", async () => {
+    await httpClient.get("/data")
+      .subscribe(res => {
+        expect(res).toEqual("ok");
+      });
 
     const req = httpMock.expectOne("/data");
     req.flush("ok");

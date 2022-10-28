@@ -1,7 +1,6 @@
 import {Injectable, Inject} from "@angular/core";
 import {HttpInterceptor, HttpRequest, HttpResponse, HttpHandler, HttpEvent} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
+import {Observable, tap} from "rxjs";
 import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {NotificationsService, Notification, NotificationType} from "./notifications.service";

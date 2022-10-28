@@ -60,9 +60,8 @@ export const startConfig: StartConfig = {
 };
 
 // @sinequa/core config initializer
-export function StartConfigInitializer(startConfigWebService: StartConfigWebService): () => Promise<StartConfig> {
-    const init = () => startConfigWebService.fetchPreLoginAppConfig().toPromise();
-    return init;
+export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
+    return () => startConfigWebService.fetchPreLoginAppConfig();
 }
 
 

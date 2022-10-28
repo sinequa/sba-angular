@@ -5,8 +5,7 @@ import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
 import { UntypedFormControl, UntypedFormGroup } from "@angular/forms";
-import { Observable, of, Subscription } from "rxjs";
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from "rxjs/operators";
+import { Observable, of, Subscription, catchError, debounceTime, distinctUntilChanged, map, switchMap } from "rxjs";
 import { FacetConfig } from "../../facet-config";
 
 export interface FacetTreeParams {
@@ -15,6 +14,7 @@ export interface FacetTreeParams {
     searchable?: boolean;
     allowExclude?: boolean;
     allowOr?: boolean;
+    allowAnd?: boolean;
     expandedLevel?: number;
     forceMaxHeight?: boolean;
     displayActions?: boolean;

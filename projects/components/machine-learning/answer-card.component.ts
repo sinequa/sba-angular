@@ -1,5 +1,6 @@
-import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
+import { AbstractFacet } from '@sinequa/components/facet';
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Answer, AuditEvent, AuditWebService, Results } from "@sinequa/core/web-services";
@@ -7,13 +8,18 @@ import { Answer, AuditEvent, AuditWebService, Results } from "@sinequa/core/web-
 @Component({
   selector: 'sq-answer-card',
   templateUrl: 'answer-card.component.html',
-  styleUrls: ['answer-card.component.scss']
+  styles: [`
+.card-body {
+  cursor: pointer;
+}
+  `]
 })
-export class AnswerCardComponent implements OnChanges, OnInit {
-  @HostBinding('class.sq-collapsed') collapsed: boolean;
-
+export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   @Input() results: Results;
-  @Output() answerOpened = new EventEmitter<Answer>();
+  @Input() collapsed: boolean;
+  @Input() showLikeButtons: boolean;
+  @Output() previewOpened = new EventEmitter<Answer>();
+  @Output() titleClicked = new EventEmitter<{ item: Answer, isLink: boolean }>();
   selectedAnswer: number;
 
   get answers(): Answer[] {
@@ -29,19 +35,20 @@ export class AnswerCardComponent implements OnChanges, OnInit {
     public appService: AppService,
     public auditService: AuditWebService,
     public notificationsService: NotificationsService
-  ) {}
-
-  ngOnInit(): void {
-    this.collapsed = true;
+  ) {
+    super();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedAnswer = 0;
-    this.collapsed = true;
   }
 
-  openAnswer() {
-    this.answerOpened.next(this.answer);
+  openPreview() {
+    this.previewOpened.next(this.answer);
+  }
+
+  onTitleClicked(isLink: boolean) {
+    this.titleClicked.next({ item: this.answer, isLink });
   }
 
   likeAnswer() {
@@ -72,7 +79,7 @@ export class AnswerCardComponent implements OnChanges, OnInit {
       detail: {
           text: this.searchService.query.text,
           message: this.answer.text,
-          detail: this.answer.highlightedAnswer,
+          detail: this.answer.passage.highlightedText,
           resultcount: this.answers.length,
           rank: this.selectedAnswer
       }

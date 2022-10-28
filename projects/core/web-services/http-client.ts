@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpRequest, HttpHandler} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {share, tap} from "rxjs/operators";
+import {Observable, share, tap} from "rxjs";
 import {Utils} from "@sinequa/core/base";
 
 /**

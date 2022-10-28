@@ -7,9 +7,6 @@ import {AbstractFacet} from "../../abstract-facet";
     selector: "sq-facet-card",
     templateUrl: "./facet-card.html",
     styles: [`
-        :host {
-            display: block;
-        }
         .cursor-default {cursor: default;}
     `]
 })

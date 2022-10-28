@@ -1,7 +1,6 @@
 import {Component, OnInit, OnDestroy, Inject} from "@angular/core";
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {debounceTime} from "rxjs/operators";
+import {Subscription, debounceTime} from "rxjs";
 import {MODAL_MODEL, ModalButton, ModalResult} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
 import {UserOverride} from "@sinequa/core/login";

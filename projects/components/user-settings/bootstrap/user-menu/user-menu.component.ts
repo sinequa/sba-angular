@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, Input, OnDestroy, InjectionToken, Inject, Optional } from '@angular/core';
-import { merge, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { merge, Subscription, filter } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { PrincipalWebService, UserSettingsWebService } from '@sinequa/core/web-services';
 import { AuthenticationService, LoginService, UserOverride } from '@sinequa/core/login';

@@ -1,7 +1,6 @@
 import {Injectable, Inject} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {flatMap} from "rxjs/operators";
+import {Observable, switchMap} from "rxjs";
 import {OauthService, SharedService, PopupService, ConfigService} from "ng2-ui-auth";
 import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
@@ -34,7 +33,7 @@ export class AuthenticationOauthService extends OauthService {
                     noUserOverride: true,
                     noAutoAuthentication: true
                 })
-            }).pipe<T>(flatMap<{state: string}, Observable<T>>((ret) => {
+            }).pipe<T>(switchMap<{state: string}, Observable<T>>((ret) => {
                 options.state = ret.state;
                 return super.authenticate(name, userData);
             }));
