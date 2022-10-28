@@ -308,7 +308,7 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
             actions.push(...this.actions);
         }
         if (this.facetComponent && !this.facetActionsAreSecondary) actions.push(...this.facetComponent.actions);
-        if (this.settingsTpl) actions.push(this.settingsAction);
+        if (this.settingsTpl || (this.facetComponent?.settingsTpl && !this.facetActionsAreSecondary)) actions.push(this.settingsAction);
         if (this.expandable) actions.push(this.expandAction);
         if (this.collapsible) actions.push(this.collapseAction);
         if (!this.actionsFirst) {
@@ -323,8 +323,10 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         if (this.actionsFirst) {
             actions.push(...this.secondaryActions);
         }
-        if (this.facetComponent && this.facetActionsAreSecondary) actions.push(...this.facetComponent.actions);
-        if (this.facetComponent?.settingsTpl) actions.push(this.settingsAction);
+        if (this.facetComponent && this.facetActionsAreSecondary) {
+            actions.push(...this.facetComponent.actions);
+            if(this.facetComponent.settingsTpl) actions.push(this.settingsAction);
+        }
         if (!this.actionsFirst) {
             actions.push(...this.secondaryActions);
         }

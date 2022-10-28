@@ -21,19 +21,14 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() sandbox : string | null;
   @Input() height = 500;
   @Input() scalingFactor = 0.6;
-  @Input() metadata: string[] = [];
-  @Input() expandModal = true;
-  @Input() closable = true;
   @Input() downloadablePdf = true;
   @Input() highlightActions = true;
   @Input() customActions: Action[];
   @Input() filters: HighlightFilters;
   @Input() originalDocTarget: string | undefined;
-  @Output() recordClosed = new EventEmitter<void>();
   @Output() previewLoaded = new EventEmitter<PreviewDocument>();
   @HostBinding('style.height.px') _height: number = this.height;
 
-  private expandModalAction: Action;
   private toggleEntitiesAction: Action;
   private toggleExtractsAction: Action;
   private minimizeAction: Action;
@@ -57,17 +52,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   ) {
 
     super();
-
-    this.expandModalAction = new Action({
-      icon: "far fa-window-maximize",
-      title: "msg#facet.preview.expandTitle",
-      action: () => {
-        this.previewService.openModal(this.record, this.query, {
-          displaySimilarDocuments: false,
-          metadata: this.metadata
-        });
-      }
-    });
 
     this.toggleEntitiesAction = new Action({
       icon: "fas fa-lightbulb",
@@ -126,9 +110,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     }
     if (this.downloadablePdf && this.record.pdfUrl) {
       actions.push(this.pdfDownloadAction);
-    }
-    if (this.expandModal) {
-      actions.push(this.expandModalAction);
     }
     if (this.highlightActions) {
       actions.push(this.toggleExtractsAction);
