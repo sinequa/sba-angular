@@ -51,9 +51,6 @@ export class SearchComponent implements OnInit {
       "date": BsFacetDate
   }
 
-  private expandAction: Action;
-  private closeAction: Action;
-
   constructor(
     private previewService: PreviewService,
     private titleService: Title,
@@ -66,7 +63,7 @@ export class SearchComponent implements OnInit {
     public ui: UIService,
   ) {
 
-    this.expandAction = new Action({
+    const expandAction = new Action({
       icon: "fas fa-expand-alt",
       title: "msg#facet.preview.expandTitle",
       action: () => {
@@ -76,7 +73,7 @@ export class SearchComponent implements OnInit {
       }
     });
 
-    this.closeAction = new Action({
+    const closeAction = new Action({
       icon: "fas fa-times",
       title: "msg#facet.preview.closeTitle",
       action: () => {
@@ -84,7 +81,7 @@ export class SearchComponent implements OnInit {
       }
     });
 
-    this.previewCustomActions = [ this.expandAction, this.closeAction ];
+    this.previewCustomActions = [ expandAction, closeAction ];
   }
 
   /**
