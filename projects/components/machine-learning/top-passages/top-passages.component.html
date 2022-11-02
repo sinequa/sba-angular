@@ -14,7 +14,7 @@
 				*ngIf="passages.length > 1">
 				<i class="fas fa-chevron-left"></i>
 			</button>
-			{{'msg#machine-learning.passages' | sqMessage }} {{currentPage+1}}/{{pageNumber}}
+			{{'msg#machine-learning.passages' | sqMessage }} {{currentRange}}/{{passages.length}}
 			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+1) % pageNumber"
 				*ngIf="passages.length > 1">
 				<i class="fas fa-chevron-right"></i>

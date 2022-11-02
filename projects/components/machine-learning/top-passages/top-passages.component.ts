@@ -34,6 +34,7 @@ export class TopPassagesComponent extends AbstractFacet {
     this.pageNumber = Math.floor(this.passages.length / this.itemsPerPage) + 1;
   }
   @Input() collapsed: boolean;
+  @Input() itemsPerPage: number = 3;
 
   @Output() previewOpened = new EventEmitter<TopPassage>();
   @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
@@ -41,7 +42,6 @@ export class TopPassagesComponent extends AbstractFacet {
   passages: TopPassage[];
   page: number;
   pageNumber: number;
-  itemsPerPage: number = 3;
   currentPassages$: BehaviorSubject<TopPassage[]> = new BehaviorSubject<TopPassage[]>([]);
 
   get currentPage() {
@@ -51,7 +51,13 @@ export class TopPassagesComponent extends AbstractFacet {
   set currentPage(page: number) {
     this.page = page;
     const index = page * this.itemsPerPage;
-    this.currentPassages$.next(this.passages.slice(index, index + 3));
+    this.currentPassages$.next(this.passages.slice(index, index + this.itemsPerPage));
+  }
+
+  get currentRange() {
+    const from = this.currentPage * this.itemsPerPage + 1;
+    const to = this.currentPage * this.itemsPerPage + this.itemsPerPage > this.passages.length ? this.passages.length : this.currentPage * this.itemsPerPage + this.itemsPerPage;
+    return from < to ? `${from}-${to}` : String(from);
   }
 
   constructor() {
