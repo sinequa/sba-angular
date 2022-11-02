@@ -27,17 +27,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "@fortawesome/fontawesome-free/scss/regular";
 @import "@fortawesome/fontawesome-free/scss/solid";
 
-// override btn-light and btn-light:hover's background-color as in Boostrap 5 is too lighter
-.btn-light {
-    &.active, &:hover {
-        --bg-color: 226, 230, 234;
-        background-color: rgb(var(--bg-color));
-        border-color: #dae0e5;
-    }
-    &.active:hover {
-        background-color: rgb(var(--bg-color), .6);
-    }
-}
+@import "vis-network/dist/dist/vis-network.min.css";
 
 .btn-link {
   text-decoration: none;
@@ -211,6 +201,10 @@ sq-facet-tree {
     }
 }
 
+sq-facet-list .facet-results-scrollable {
+    max-height: 400px !important;
+}
+
 .sq-passage {
     &::before {
         color: var(--bs-primary);
@@ -231,4 +225,5 @@ sq-facet-tree {
     flex-basis: auto;
 }
 
+@import 'custom';
 @import 'dark-mode';
