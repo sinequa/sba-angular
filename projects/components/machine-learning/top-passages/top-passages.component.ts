@@ -31,7 +31,7 @@ export class TopPassagesComponent extends AbstractFacet {
 
     // reset values
     this.currentPage = 0;
-    this.pageNumber = Math.floor(this.passages.length / this.itemsPerPage) + 1;
+    this.pageNumber = this.itemsPerPage === 1 ? this.passages.length : Math.floor(this.passages.length / this.itemsPerPage) + 1;
   }
   @Input() collapsed: boolean;
   @Input() itemsPerPage: number = 3;
@@ -55,6 +55,10 @@ export class TopPassagesComponent extends AbstractFacet {
   }
 
   get currentRange() {
+    if (this.itemsPerPage === 1) {
+      return this.currentPage + 1;
+    }
+
     const from = this.currentPage * this.itemsPerPage + 1;
     const to = this.currentPage * this.itemsPerPage + this.itemsPerPage > this.passages.length ? this.passages.length : this.currentPage * this.itemsPerPage + this.itemsPerPage;
     return from < to ? `${from}-${to}` : String(from);
