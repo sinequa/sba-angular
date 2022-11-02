@@ -42,6 +42,8 @@ export class SearchComponent implements OnInit {
   // Whether the results contain answers/passages data (neural search)
   public hasAnswers: boolean;
   public hasPassages: boolean;
+
+  // Whether it should display the passages view upon opening (only works for 1st opening, it doesn't refresh if the preview is already opened)
   public passagesByDefault: boolean;
 
   public readonly facetComponents = {
