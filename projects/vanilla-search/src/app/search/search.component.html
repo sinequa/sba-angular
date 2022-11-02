@@ -143,14 +143,13 @@
 
             <!-- Scaled-down preview -->
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
-                [facetActionsAreSecondary]="true" [actions]="actions">
+                [facetActionsAreSecondary]="true" [actions]="previewCustomActions">
 
                 <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-file', text: 'msg#facet.preview.viewPreview'}">
                     <sq-facet-preview-2 #facet
                         [record]="openedDoc"
                         [query]="searchService.query"
                         [height]="750"
-                        [customActions]="previewCustomActions"
                         (recordClosed)="closeDocument()"
                         (previewLoaded)="previewReady($event)">
                     </sq-facet-preview-2>

@@ -81,6 +81,8 @@ export class SearchComponent implements OnInit {
         this.closeDocument();
       }
     });
+
+    this.previewCustomActions = [ this.expandAction, this.closeAction ];
   }
 
   /**
@@ -130,13 +132,6 @@ export class SearchComponent implements OnInit {
    */
   public get metadata(): string[] {
     return this.appService.app?.data?.metadata as string[] || METADATA;
-  }
-
-  /**
-   * Returns the list of actions to display at the top right corner of the preview facet
-   */
-  public get actions(): Action[] {
-    return [this.expandAction, this.closeAction];
   }
 
   /**
