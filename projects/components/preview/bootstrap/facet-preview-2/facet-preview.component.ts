@@ -151,14 +151,8 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   onPreviewReady(document: PreviewDocument) {
     this.document = document;
 
-    if (this.document) {
-      // keep the highlighting according to the button selected status
-      this.highlightEntities(this.toggleEntitiesAction.selected || false);
-      this.highlightExtracts(this.toggleExtractsAction.selected || false);
-
-      if (this.filters) {
-        this.document.filterHighlights(this.filters);
-      }
+    if (this.document && (this.filters || !this.autoEnableToggles)) {
+      this.document.filterHighlights(this.filters || []);
     }
 
     this.loading = false;
