@@ -42,7 +42,6 @@ export class SearchComponent implements OnInit {
   // Whether the results contain answers/passages data (neural search)
   public hasAnswers: boolean;
   public hasPassages: boolean;
-  public isNeuralPreview: boolean;
   public passagesByDefault: boolean;
 
   public readonly facetComponents = {
@@ -169,7 +168,6 @@ export class SearchComponent implements OnInit {
   openMiniPreview(record: Record, passagesByDefault = false) {
     this.passagesByDefault = passagesByDefault;
     this.openedDoc = record;
-    this.isNeuralPreview = !!this.openedDoc.matchingpassages?.passages && this.openedDoc.matchingpassages.passages.length > 0;
     if(this.ui.screenSizeIsLessOrEqual('md')){
       this._showFilters = false; // Hide filters on small screens if a document gets opened
     }

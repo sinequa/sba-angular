@@ -26,6 +26,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() customActions: Action[];
   @Input() filters: HighlightFilters;
   @Input() originalDocTarget: string | undefined;
+  @Input() autoEnableToggles = false;
   @Output() previewLoaded = new EventEmitter<PreviewDocument>();
   @HostBinding('style.height.px') _height: number = this.height;
 
@@ -39,8 +40,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   document?: PreviewDocument;
   downloadUrl?: SafeResourceUrl;
   loading = false;
-  isNeural = false;
-  showPassages = false;
 
   private readonly scaleFactorThreshold = 0.1;
 
@@ -53,52 +52,54 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
 
     super();
 
-    this.toggleEntitiesAction = new Action({
-      icon: "fas fa-lightbulb",
-      title: "msg#facet.preview.toggleEntities",
-      data: 'msg#facet.preview.entities',
-      selected: false,
-      action: (action) => {
-        action.selected = !action.selected;
-        this.highlightEntities(action.selected);
-      }
-    });
-
-    this.toggleExtractsAction = new Action({
-        icon: "fas fa-highlighter",
-        title: "msg#facet.preview.toggleExtracts",
-        data: 'msg#facet.preview.extracts',
-        selected: false,
+    setTimeout(() => {
+      this.toggleEntitiesAction = new Action({
+        icon: "fas fa-lightbulb",
+        title: "msg#facet.preview.toggleEntities",
+        data: 'msg#facet.preview.entities',
+        selected: this.autoEnableToggles,
         action: (action) => {
-            action.selected = !action.selected;
-            this.highlightExtracts(action.selected);
+          action.selected = !action.selected;
+          this.highlightEntities(action.selected);
         }
-    });
+      });
+  
+      this.toggleExtractsAction = new Action({
+          icon: "fas fa-highlighter",
+          title: "msg#facet.preview.toggleExtracts",
+          data: 'msg#facet.preview.extracts',
+          selected: this.autoEnableToggles,
+          action: (action) => {
+              action.selected = !action.selected;
+              this.highlightExtracts(action.selected);
+          }
+      });
 
-    this.maximizeAction = new Action({
-      icon: "fas fa-search-plus",
-      title: "msg#facet.preview.maximize",
-      action: () => {
-        this.scalingFactor = this.scalingFactor + this.scaleFactorThreshold;
-      }
-    });
-
-    this.minimizeAction = new Action({
-      icon: "fas fa-search-minus",
-      title: "msg#facet.preview.minimize",
-      disabled: this.scalingFactor === 0.1,
-      action: () => {
-        this.scalingFactor = Math.round(Math.max(0.1, this.scalingFactor - this.scaleFactorThreshold) * 100) / 100;
-      },
-      updater: (action) => {
-        action.disabled = this.scalingFactor === 0.1;
-      }
-    });
-
-    this.pdfDownloadAction = new Action({
-      icon: "fas fa-file-pdf",
-      title: "msg#facet.preview.downloadPdf",
-      action: () => this.searchService.notifyOpenOriginalDocument(this.record, undefined, AuditEventType.Doc_CachePdf)
+      this.maximizeAction = new Action({
+        icon: "fas fa-search-plus",
+        title: "msg#facet.preview.maximize",
+        action: () => {
+          this.scalingFactor = this.scalingFactor + this.scaleFactorThreshold;
+        }
+      });
+  
+      this.minimizeAction = new Action({
+        icon: "fas fa-search-minus",
+        title: "msg#facet.preview.minimize",
+        disabled: this.scalingFactor === 0.1,
+        action: () => {
+          this.scalingFactor = Math.round(Math.max(0.1, this.scalingFactor - this.scaleFactorThreshold) * 100) / 100;
+        },
+        updater: (action) => {
+          action.disabled = this.scalingFactor === 0.1;
+        }
+      });
+  
+      this.pdfDownloadAction = new Action({
+        icon: "fas fa-file-pdf",
+        title: "msg#facet.preview.downloadPdf",
+        action: () => this.searchService.notifyOpenOriginalDocument(this.record, undefined, AuditEventType.Doc_CachePdf)
+      });
     });
 
   }
@@ -131,7 +132,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.document = undefined;
       this.loading = true;
       this.pdfDownloadAction.href = this.record.pdfUrl;
-      this.isNeural = !!this.record.matchingpassages?.passages && this.record.matchingpassages.passages.length > 0;
     }
     if(changes.height || changes.scalingFactor) {
       this._height = this.height;

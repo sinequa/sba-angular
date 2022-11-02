@@ -156,17 +156,17 @@
                     </sq-facet-preview-2>
                 </ng-template>
   
-                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-brain', text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault" *ngIf="isNeuralPreview">
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-brain', text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault" *ngIf="openedDoc.matchingpassages?.passages?.length">
                     <sq-passage-list [record]="openedDoc"></sq-passage-list>
                 </ng-template>
 
-                <ng-template *ngIf="!isNeuralPreview" #headerTpl>
+                <ng-template *ngIf="!openedDoc.matchingpassages?.passages?.length" #headerTpl>
                     <sq-result-title class="flex-grow-1 flex-basis-0" [record]="openedDoc"
                         titleLinkBehavior="open-if-url"></sq-result-title>
                 </ng-template>
 
                 <ng-template #subHeaderTpl>
-                    <div class="text-truncate" *ngIf="isNeuralPreview">
+                    <div class="text-truncate" *ngIf="openedDoc.matchingpassages?.passages?.length">
                         <sq-result-title class="flex-grow-1 flex-basis-0" [record]="openedDoc" 
                             titleLinkBehavior="open-if-url"></sq-result-title>
                     </div>
