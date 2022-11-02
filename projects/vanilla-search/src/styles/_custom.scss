@@ -1,0 +1,86 @@
+body {
+    background-color: var(--background-color);
+    color: var(--text1);
+  }
+  
+  a {
+    color: var(--text1);
+    &:hover {
+      color: var(--text2);
+    }
+  }
+  
+  
+  /* breadcrumbs */
+  .sq-metadata-item {
+    background-color: transparent !important;
+    border-color: inherit;
+  
+    &:hover {
+      background-color: inherit !important;
+      color: var(--sq-text);
+    }
+  }
+  
+  /* results */
+  .result-list {
+    display: flex;
+    flex-wrap: wrap;
+  
+    p {
+      color: var(--text1) !important;
+    }
+  
+    .record {
+  
+        &:hover {
+            background-color: rgb(0,0,0,0.03);
+        }
+  
+        &.selected {
+            background-color: rgb(0,0,0,0.05);
+        }
+  
+        cursor: pointer;
+  
+        sq-result-title {
+            display: block; // Added to force truncation of long titles with ellipsis
+            max-width: 100%;
+  
+            .record .match-highlight {
+                font-weight: bold;
+                font-style: italic;
+            }
+        }
+  
+        &.list-view {
+            padding: 0.5em 15px;
+            margin: 0 -15px;
+            width: calc(100% + 30px);
+  
+            sq-result-thumbnail {
+                --thumbnail-max-width: 100px;
+                --thumbnail-max-height: 150px;
+                --thumbnail-border-radius: 3px;
+                & img {
+                    max-width: var(--thumbnail-max-width);
+                    max-height: var(--thumbnail-max-height);
+                    border-radius: var(--thumbnail-border-radius);
+                }
+            }
+        }
+  
+        &.tile-view {
+            padding: 0.5em;
+            width: 50%;
+  
+            sq-result-thumbnail img {
+                object-fit: cover;
+                object-position: center;
+                width: 100%;
+                height: 250px;
+                border-radius: 1em;
+            }
+        }
+    }
+  }
