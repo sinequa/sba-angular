@@ -67,4 +67,13 @@ describe("MessagePipe", () => {
         expect(pipe.transform('msg#system.memorySize.bytes', {value: 100})).toEqual("100 o");
       })
   }))
+
+  it('transforms ICU message', () => {
+    const icu = 'txt#Vous avez {numPhotos, plural, =0 {aucune photos.} =1 {une photo.} other {# photos.}} {currentPhoto, number}/{length, number}';
+    expect(pipe.transform(icu, { numPhotos: 1000, currentPhoto: 1, length: 5 })).toEqual('Vous avez 1,000 photos. 1/5');
+
+    const icu2 = 'txt#{items, plural, =1 {passage} other {passages}} {current, number}/{length, number}';
+    expect(pipe.transform(icu2, { items: 1, current: 1, length: 15 })).toEqual('passage 1/15');
+    expect(pipe.transform(icu2, { items: 2, current: 1, length: 15 })).toEqual('passages 1/15');
+  })
 })
