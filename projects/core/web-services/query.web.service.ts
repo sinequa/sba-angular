@@ -651,6 +651,8 @@ export interface Record {
     matchingpassages?: {
       passages: MatchingPassage[];
     }
+
+    $hasPassages?: boolean;
 }
 
 /**

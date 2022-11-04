@@ -162,6 +162,7 @@ export class SearchComponent implements OnInit {
   openMiniPreview(record: Record, passagesByDefault = false) {
     this.passagesByDefault = passagesByDefault;
     this.openedDoc = record;
+    this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
     if(this.ui.screenSizeIsLessOrEqual('md')){
       this._showFilters = false; // Hide filters on small screens if a document gets opened
     }
