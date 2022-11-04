@@ -9,20 +9,6 @@ import { FacetViewDirective } from "../facet-view.directive";
     templateUrl: "./facet-card.html",
     styles: [`
 .cursor-default {cursor: default;}
-
-.sq-secondary-actions {
-    position: absolute;
-    right: 1rem;
-    z-index: 5;
-    margin-top: .5rem;
-    font-size: 1rem;
-    opacity: .5;
-    transition: all 250ms ease;
-
-    &:hover {
-        opacity: 1;
-    }
-}
     `]
 })
 export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, AfterContentInit {
@@ -76,6 +62,13 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     @Input() actionsSize = "sm";
     @Input() viewActionsSize?: string;
     @Input() secondaryActionsSize: string;
+
+    /**
+     * Class applied to the button groups
+     */
+    @Input() actionsClass?: string = "btn-group";
+    @Input() viewActionsClass?: string = "btn-group me-auto";
+    @Input() secondaryActionsClass?: string = "btn-group float-end";
 
     /**
      * Whether the facet can be collapsed (default: true)
@@ -367,11 +360,6 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
 
     public get hideActions() {
         return this.hideActionsCollapsed && this._collapsed;
-    }
-
-    // Used to get the class for the secondary button to apply sq-secondary-btn at the end of it for some styling
-    public get secondaryBtnStyle() {
-        return `${this.secondaryButtonsStyle || this.buttonsStyle || 'light'} sq-secondary-btn`;
     }
 
     @HostListener('window:click', ['$event'])

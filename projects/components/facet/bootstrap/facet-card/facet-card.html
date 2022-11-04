@@ -1,20 +1,43 @@
 <div class="card">
+    <!-- Facet card header -->
     <div class="card-header cursor-default ps-3 pe-2 py-1">
         <div class="d-flex align-items-center">
+            <!-- Facet card icon and title -->
             <div *ngIf="icon || title" class="d-flex align-items-center text-truncate me-auto" [title]="(tooltip || title) | sqMessage">
                 <div *ngIf="icon" class="card-icon {{icon}} me-2" aria-hidden="true"></div>
                 <div *ngIf="title" class="card-title text-truncate mb-0 py-1 me-auto">{{title | sqMessage }}</div>
             </div>
+
+            <!-- Header custom template -->
             <ng-container [ngTemplateOutlet]="facetComponent?.headerTpl || headerTpl">
             </ng-container>
-            <div class="btn-group me-auto sq-view-actions" [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}" *ngIf="viewActions?.length > 1 && !_collapsed"></div>
-            <div class="btn-group sq-primary-actions" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
+
+            <!-- View switching actions -->
+            <div class="sq-view-actions"
+                [ngClass]="viewActionsClass"
+                [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}"
+                *ngIf="!_collapsed && viewActions?.length > 1">
+            </div>
+
+            <!-- Primary actions -->
+            <div class="sq-primary-actions"
+                [ngClass]="actionsClass"
+                [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}">
+            </div>
         </div>
+
+        <!-- Sub Header custom template -->
         <ng-container [ngTemplateOutlet]="facetComponent?.subHeaderTpl || subHeaderTpl"></ng-container>
-        <div class="sq-secondary-actions" *ngIf="!_collapsed && allSecondaryActions.length">
-            <div class="btn-group" [sq-action-buttons]="{items: allSecondaryActions, style: secondaryBtnStyle, size: secondaryActionsSize || actionsSize, rightAligned: true}"></div>
+
+        <!-- Secondary actions -->
+        <div class="sq-secondary-actions"
+            [ngClass]="secondaryActionsClass"
+            [sq-action-buttons]="{items: allSecondaryActions, style: secondaryButtonsStyle || buttonsStyle, size: secondaryActionsSize || actionsSize, rightAligned: true}"
+            *ngIf="!_collapsed && allSecondaryActions.length">
         </div>
     </div>
+
+    <!-- Facet card content -->
     <sq-collapse [collapsed]="_collapsed">
         <ng-template>
             <ng-container *ngIf="!_settingsOpened && view" [ngTemplateOutlet]="view.template"></ng-container>
@@ -22,6 +45,8 @@
             <ng-container *ngIf="_settingsOpened" [ngTemplateOutlet]="facetComponent?.settingsTpl || settingsTpl"></ng-container>
         </ng-template>
     </sq-collapse>
+
+    <!-- Facet card footer -->
     <div class="card-footer" *ngIf="!_collapsed && (facetComponent?.footerTpl || footerTpl)">
         <ng-container [ngTemplateOutlet]="facetComponent?.footerTpl || footerTpl"></ng-container>
     </div>
