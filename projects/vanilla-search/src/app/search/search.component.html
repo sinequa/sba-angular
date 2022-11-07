@@ -141,8 +141,227 @@
         <!-- Right part-->
         <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 70, bottom: 30}">
 
+            <select [(ngModel)]="previewMode" class="form-select mb-2 w-50">
+              <option>legacy</option>
+              <option>variant1</option>
+              <option>variant2</option>
+              <option>variant3</option>
+              <option>variant4</option>
+              <option>variant5</option>
+              <option>variant6</option>
+              <option>variant7</option>
+            </select>
+
             <!-- Scaled-down preview -->
-            <sq-facet-card *ngIf="openedDoc"
+            <sq-facet-card *ngIf="openedDoc && previewMode === 'legacy'"
+                [collapsible]="false"
+                [actions]="previewCustomActionsLegacy"
+                [actionsFirst]="false"
+                actionsSize=""
+                class="mb-3 facet-preview">
+
+                <sq-facet-preview-2 #facet [hidden]="showPassagesActions.selected"
+                    [record]="openedDoc"
+                    [query]="searchService.query"
+                    [height]="750"
+                    (recordClosed)="closeDocument()"
+                    (previewLoaded)="previewReady($event)">
+                </sq-facet-preview-2>
+                <sq-passage-list [record]="openedDoc" *ngIf="showPassagesActions.selected"></sq-passage-list>
+
+
+                <ng-template #headerTpl>
+                  <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url"></sq-result-title>
+                </ng-template>
+
+                <ng-template #subHeaderTpl>
+                    <sq-metadata *ngIf="metadata?.length"
+                        [record]="openedDoc"
+                        [items]="metadata"
+                        [showTitles]="true"
+                        [showIcons]="true"
+                        [clickable]="false">
+                    </sq-metadata>
+                </ng-template>
+            </sq-facet-card>
+
+            <!-- Scaled-down preview -->
+            <sq-facet-card *ngIf="openedDoc && previewMode === 'variant1'"
+                [icon]="openedDoc.$hasPassages? '' : 'fas fa-fw fa-file'"
+                [title]="openedDoc.$hasPassages? '' : 'msg#facet.preview.viewPreview'"
+                [collapsible]="false"
+                [facetActionsAreSecondary]="true"
+                [secondaryActionsClass]="'position-absolute end-0 btn-group-vertical border bg-light rounded mt-2 me-3'"
+                [secondaryButtonsStyle]="'light border-0'"
+                [actions]="previewCustomActions"
+                actionsSize=""
+                class="mb-3 facet-preview">
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-file', text: 'msg#facet.preview.viewPreview'}">
+                    <sq-facet-preview-2 #facet
+                        [record]="openedDoc"
+                        [query]="searchService.query"
+                        [height]="750"
+                        (recordClosed)="closeDocument()"
+                        (previewLoaded)="previewReady($event)">
+                    </sq-facet-preview-2>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-brain', text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault" *ngIf="openedDoc.$hasPassages">
+                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                </ng-template>
+
+                <ng-template #subHeaderTpl>
+                    <div class="fw-bold">{{openedDoc.title}}</div>
+                    <sq-metadata *ngIf="metadata?.length"
+                        [record]="openedDoc"
+                        [items]="metadata"
+                        [showTitles]="true"
+                        [showIcons]="true"
+                        [clickable]="false">
+                    </sq-metadata>
+                </ng-template>
+            </sq-facet-card>
+
+            <!-- Scaled-down preview -->
+            <sq-facet-card *ngIf="openedDoc && previewMode === 'variant2'"
+                [icon]="openedDoc.$hasPassages? '' : 'fas fa-fw fa-file'"
+                [title]="openedDoc.$hasPassages? '' : 'msg#facet.preview.viewPreview'"
+                [collapsible]="false"
+                [facetActionsAreSecondary]="true"
+                [secondaryActionsClass]="'position-absolute end-0 btn-group rounded mt-2 me-3 on-hover'"
+                [secondaryButtonsStyle]="'secondary'"
+                [actions]="previewCustomActions"
+                actionsSize=""
+                class="mb-3 facet-preview">
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-file', text: 'msg#facet.preview.viewPreview'}">
+                    <sq-facet-preview-2 #facet
+                        [record]="openedDoc"
+                        [query]="searchService.query"
+                        [height]="750"
+                        (recordClosed)="closeDocument()"
+                        (previewLoaded)="previewReady($event)">
+                    </sq-facet-preview-2>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-brain', text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault" *ngIf="openedDoc.$hasPassages">
+                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                </ng-template>
+
+                <ng-template #subHeaderTpl>
+                    <sq-result-title class="d-block" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url"></sq-result-title>
+                    <sq-metadata *ngIf="metadata?.length"
+                        [record]="openedDoc"
+                        [items]="metadata"
+                        [showTitles]="true"
+                        [showIcons]="true"
+                        [clickable]="false">
+                    </sq-metadata>
+                </ng-template>
+            </sq-facet-card>
+
+
+            <!-- Scaled-down preview -->
+            <sq-facet-card *ngIf="openedDoc && previewMode === 'variant3'"
+                [collapsible]="false"
+                [facetActionsAreSecondary]="true"
+                [actions]="previewCustomActions"
+                [viewButtonsStyle]="'outline-secondary'"
+                actionsSize=""
+                class="mb-3 facet-preview">
+
+                <ng-template #subHeaderTpl>
+                  <span class="d-inline-block pt-2 text-truncate mw-100 fw-bold">{{openedDoc.title}}</span>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-file', text: 'msg#facet.preview.viewPreview'}">
+                    <sq-facet-preview-2 #facet
+                        [record]="openedDoc"
+                        [query]="searchService.query"
+                        [height]="750"
+                        (recordClosed)="closeDocument()"
+                        (previewLoaded)="previewReady($event)">
+                    </sq-facet-preview-2>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-brain', text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault" *ngIf="openedDoc.$hasPassages">
+                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-list', text: 'Metadata'}">
+                    <div class="card-body">
+                      <sq-result-title class="d-block text-truncate" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url"></sq-result-title>
+
+                      <sq-metadata
+                          [record]="openedDoc"
+                          [items]="metadata"
+                          [showTitles]="true"
+                          [showIcons]="true"
+                          [clickable]="false">
+                      </sq-metadata>
+
+                      <div class="mt-2">Relevant extracts</div>
+                      <ul class="text-muted">
+                        <ng-container *ngFor="let extract of openedDoc.extracts; let i = index">
+                          <li *ngIf="i % 3 === 0">{{extract}}</li>
+                        </ng-container>
+                      </ul>
+                    </div>
+                </ng-template>
+            </sq-facet-card>
+
+
+            <!-- Scaled-down preview -->
+            <sq-facet-card *ngIf="openedDoc && previewMode === 'variant4'"
+                [collapsible]="false"
+                [facetActionsAreSecondary]="true"
+                [secondaryActionsClass]="'position-absolute end-0 btn-group-vertical border bg-light rounded mt-2 me-3 on-hover'"
+                [secondaryButtonsStyle]="'light border-0'"
+                [actions]="previewCustomActions"
+                actionsSize=""
+                class="mb-3 facet-preview">
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-file', text: 'msg#facet.preview.viewPreview'}">
+                    <sq-facet-preview-2 #facet
+                        [record]="openedDoc"
+                        [query]="searchService.query"
+                        [height]="750"
+                        (recordClosed)="closeDocument()"
+                        (previewLoaded)="previewReady($event)">
+                    </sq-facet-preview-2>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-brain', text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault" *ngIf="openedDoc.$hasPassages">
+                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                </ng-template>
+
+                <ng-template #subHeaderTpl>
+                    <sq-result-title class="d-block" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url"></sq-result-title>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-list', text: 'Metadata'}">
+                    <div class="card-body">
+                      <sq-metadata
+                          [record]="openedDoc"
+                          [items]="metadata"
+                          [showTitles]="true"
+                          [showIcons]="true"
+                          [clickable]="false">
+                      </sq-metadata>
+
+                      <div class="mt-2">Relevant extracts</div>
+                      <ul class="text-muted">
+                        <ng-container *ngFor="let extract of openedDoc.extracts; let i = index">
+                          <li *ngIf="i % 3 === 0">{{extract}}</li>
+                        </ng-container>
+                      </ul>
+                    </div>
+                </ng-template>
+            </sq-facet-card>
+
+            <!-- Scaled-down preview -->
+            <sq-facet-card *ngIf="openedDoc && previewMode === 'variant5'"
                 [collapsible]="false"
                 [facetActionsAreSecondary]="true"
                 [secondaryActionsClass]="'position-absolute end-0 btn-group-vertical mt-2 me-3 outside-if-space'"
@@ -188,6 +407,109 @@
                         </ul>
                     </div>
                 </ng-template>
+            </sq-facet-card>
+
+            <!-- Scaled-down preview -->
+            <sq-facet-card *ngIf="openedDoc && previewMode === 'variant6'"
+                [collapsible]="false"
+                [facetActionsAreSecondary]="true"
+                [secondaryButtonsStyle]="'secondary'"
+                [viewActionsClass]="'btn-group text-nowrap order-2'"
+                [viewButtonsStyle]="'outline-secondary'"
+                [actions]="previewCustomActions"
+                actionsSize=""
+                class="mb-3 facet-preview variant6">
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-file', text: 'msg#facet.preview.viewPreview'}">
+                    <sq-facet-preview-2 #facet
+                        [record]="openedDoc"
+                        [query]="searchService.query"
+                        [height]="750"
+                        (recordClosed)="closeDocument()"
+                        (previewLoaded)="previewReady($event)">
+                    </sq-facet-preview-2>
+                </ng-template>
+
+                <ng-template #headerTpl>
+                  <span class="flex-grow-1 text-truncate fw-bold">{{openedDoc.title}}</span>
+                  <div class="w-100 order-1"></div>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-brain', text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault" *ngIf="openedDoc.$hasPassages">
+                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-list', text: 'Metadata'}">
+                    <div class="card-body">
+                        <sq-metadata
+                            [record]="openedDoc"
+                            [items]="metadata"
+                            [showTitles]="true"
+                            [showIcons]="true"
+                            [clickable]="false">
+                        </sq-metadata>
+                        <div class="mt-2">Relevant extracts</div>
+                        <ul>
+                            <ng-container *ngFor="let extract of openedDoc.extracts; let i = index">
+                                <li *ngIf="i % 3 === 0">{{extract}}</li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </ng-template>
+            </sq-facet-card>
+
+
+            <!-- Scaled-down preview -->
+            <sq-facet-card *ngIf="openedDoc && previewMode === 'variant7'"
+                [collapsible]="false"
+                [facetActionsAreSecondary]="true"
+                [secondaryActionsClass]="'position-absolute end-0 btn-group-vertical mt-2 me-3 outside-if-space'"
+                [secondaryButtonsStyle]="'secondary'"
+                [viewActionsClass]="'btn-group text-nowrap mx-2'"
+                [viewButtonsStyle]="'outline-secondary'"
+                [actions]="previewCustomActions"
+                actionsSize=""
+                class="mb-3 facet-preview">
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-file', text: 'msg#facet.preview.viewPreview'}">
+                    <sq-facet-preview-2 #facet
+                        [record]="openedDoc"
+                        [query]="searchService.query"
+                        [height]="750"
+                        (recordClosed)="closeDocument()"
+                        (previewLoaded)="previewReady($event)">
+                    </sq-facet-preview-2>
+                </ng-template>
+
+                <ng-template #headerTpl>
+                  <span class="flex-grow-1 text-truncate fw-bold">{{openedDoc.title}}</span>
+                </ng-template>
+
+                <ng-template #subHeaderTpl>
+
+                  <sq-metadata
+                      [record]="openedDoc"
+                      [items]="metadata"
+                      [showTitles]="true"
+                      [showIcons]="true"
+                      [clickable]="false">
+                  </sq-metadata>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-brain', text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault" *ngIf="openedDoc.$hasPassages">
+                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                </ng-template>
+
+
+                <ng-template [sqFacetView]="{icon: 'fas fa-fw fa-list', text: 'Passages'}">
+                  <div class="card-body">
+                      <ul>
+                          <ng-container *ngFor="let extract of openedDoc.extracts; let i = index">
+                              <li *ngIf="i % 3 === 0">{{extract}}</li>
+                          </ng-container>
+                      </ul>
+                  </div>
+              </ng-template>
             </sq-facet-card>
         </div>
     </div>
