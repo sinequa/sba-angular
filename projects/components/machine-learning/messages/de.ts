@@ -1,5 +1,6 @@
 export default {
   "machine-learning": {
+    "passage": "Passage",
     "passages": "Passagen",
     "passagesCollapsed": "Ich habe {passagesNb, number} mögliche Passagen gefunden",
     "answers": "Antworten",
