@@ -225,7 +225,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         previewData => {
           this.previewData = previewData;
           const url = previewData?.documentCachedContentUrl;
-          if(this.appService.isNeural() && !this.subpanels.includes("passages")) {
+          if(previewData.highlightsPerCategory['matchingpassages']?.values.length && !this.subpanels.includes("passages")) {
             this.subpanels.unshift("passages");
             this.subpanel = "passages";
             this.minimapType = "matchingpassages";
