@@ -12,13 +12,6 @@
             <ng-container [ngTemplateOutlet]="facetComponent?.headerTpl || headerTpl">
             </ng-container>
 
-            <!-- View switching actions -->
-            <div class="sq-view-actions"
-                [ngClass]="viewActionsClass"
-                [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}"
-                *ngIf="!_collapsed && viewActions?.length > 1">
-            </div>
-
             <!-- Primary actions -->
             <div class="sq-primary-actions"
                 [ngClass]="actionsClass"
@@ -28,6 +21,13 @@
 
         <!-- Sub Header custom template -->
         <ng-container [ngTemplateOutlet]="facetComponent?.subHeaderTpl || subHeaderTpl"></ng-container>
+
+        <!-- View switching actions -->
+        <div class="sq-view-actions"
+            [ngClass]="viewActionsClass"
+            [sq-action-buttons]="{items: viewActions, style: viewButtonsStyle || buttonsStyle, size: viewActionsSize || actionsSize, rightAligned: true}"
+            *ngIf="!_collapsed && viewActionsAreSecondary && viewActions?.length > 1">
+        </div>
 
         <!-- Secondary actions -->
         <div class="sq-secondary-actions"
