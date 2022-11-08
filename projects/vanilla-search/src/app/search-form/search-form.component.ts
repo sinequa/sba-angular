@@ -227,8 +227,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
 
       if (!this.neuralSearch) {
         this.searchService.query.neuralSearch = false;
-      }
-      else {
+      } else {
         delete this.searchService.query.neuralSearch;
       }
 
