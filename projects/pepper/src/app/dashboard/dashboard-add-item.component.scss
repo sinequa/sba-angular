@@ -1,8 +1,6 @@
 sq-modal ::ng-deep {
     .modal-dialog {
-        max-width: none;
-        display: table;
-        min-width: 500px;
+        max-width: fit-content;
     }
     // Increase icon size
     sq-action-item-content > span > i {
@@ -10,7 +8,7 @@ sq-modal ::ng-deep {
         display: block;
         color: #7f939b;
     }
-    button {
+    .modal-footer button {
         margin: 0.5em;
         width: 126px;
     }
