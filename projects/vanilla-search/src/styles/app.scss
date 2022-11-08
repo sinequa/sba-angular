@@ -59,6 +59,10 @@ $action-menu-breakpoint: sm;
 @import "../../../components/metadata/metadata.scss";
 @import "../../../components/advanced/bootstrap/advanced.scss";
 
+// Sinequa global theme
+@import "../../../components/theme/sinequa-theme";
+@import "../../../components/theme/components/vanilla";
+
 $secondary-color: #6c757d;
 
 html {

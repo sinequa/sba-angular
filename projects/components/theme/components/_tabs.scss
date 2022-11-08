@@ -1,0 +1,65 @@
+sq-tabs {
+  .nav-tabs {
+    --bs-nav-tabs-border-width: 0;
+    --bs-nav-tabs-border-radius: .3rem;
+    --bs-nav-link-font-weight: 600;
+    --bs-nav-link-color: #{$black};
+    --bs-nav-link-hover-color: #{$black};
+    --bs-nav-tabs-link-active-color: var(--sq-text, #{$black});
+    --bs-nav-tabs-link-active-bg: var(--brand, #{$blue-focus});
+
+    background-color: var(--sq-tabs-bg);
+    border-radius: .3rem;
+    padding: .2rem;
+    box-shadow: 0 0 .4rem rgba(0, 0, 0, .1);
+    justify-content: space-between;
+
+    .nav-item {
+      display: block;
+    }
+
+    .nav-link {
+      border-bottom-left-radius: var(--bs-nav-tabs-border-radius);
+      border-bottom-right-radius: var(--bs-nav-tabs-border-radius);
+
+      &.active {
+        box-shadow: 0 0 .4rem rgba(0, 0, 0, .1);
+      }
+
+      &.active:hover {
+        background-color: var(--brand-200, $blue-focus);
+      }
+
+      &:hover {
+        background-color: var(--brand-100, $blue-focus);
+      }
+    }
+  }
+}
+
+/**
+  Dark mode
+  */
+.dark {
+  --sq-tabs-bg: transparent;
+
+  sq-tabs {
+
+    .nav-link {
+      &:hover {
+        background-color: $dark-background-hover;
+      }
+
+      &.active {
+        background-color: $dark-background-highlight !important;
+      }
+    }
+  }
+}
+
+/**
+  Variables
+  */
+:root {
+  --sq-tabs-bg: #{$white};
+}
