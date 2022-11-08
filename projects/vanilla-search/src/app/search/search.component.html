@@ -4,7 +4,7 @@
         <div class="container-xl">
 
             <!-- Application logo -->
-            <a [routerLink]="['/home']" title="Home">
+            <a [routerLink]="['/home']" title="Home" *ngIf="!showFilters">
                 <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
                 <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
                 <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
@@ -35,7 +35,7 @@
                 <sq-user-menu></sq-user-menu>
             </ul>
 
-            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete"></sq-feedback-menu>
+            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && !showFilters && !showMenu"></sq-feedback-menu>
 
         </div>
     </nav>
