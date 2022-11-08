@@ -1,6 +1,6 @@
 export default {
   "machine-learning": {
-    "passage": "Passage",
+    "passage": "{items, plural, =1 {Passage} other {Passages}} {current}/{length, number}",
     "passages": "Passages",
     "passagesCollapsed": "J'ai trouvé {passagesNb, number} passages possibles",
     "answers": "Réponses",
