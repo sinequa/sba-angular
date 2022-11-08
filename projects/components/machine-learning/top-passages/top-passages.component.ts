@@ -69,7 +69,7 @@ export class TopPassagesComponent extends AbstractFacet {
   pageNumber: number;
   currentPassages$: BehaviorSubject<TopPassage[]> = new BehaviorSubject<TopPassage[]>([]);
   selected: number;
-  
+
   // Used to know if we should display the expand chevron
   MIN_HEIGHT: number;
 
@@ -102,8 +102,7 @@ export class TopPassagesComponent extends AbstractFacet {
 
   constructor(private sanitizer: DomSanitizer) {
     super();
-
-    this.MIN_HEIGHT = this.setMinHeight();
+    this.setMinHeight();
   }
 
   // Expand one passage's text
@@ -125,8 +124,9 @@ export class TopPassagesComponent extends AbstractFacet {
     this.titleClicked.next({ item: passage, isLink });
   }
 
-  // Calculation of a line height
-  private setMinHeight(): number {
-    return 24 * (this.lineNumber === 0 ? 1000 : this.lineNumber || 1);
+  // Calculation of the height for the display of the expand icon
+  private setMinHeight() {
+    const lineHeight = window.getComputedStyle(document.body).getPropertyValue('line-height') || '24';
+    this.MIN_HEIGHT = parseFloat(lineHeight) * (this.lineNumber === 0 ? 1000 : this.lineNumber || 1);
   }
 }
