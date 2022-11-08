@@ -14,7 +14,7 @@
 				*ngIf="passages.length > 1">
 				<i class="fas fa-chevron-left"></i>
 			</button>
-			{{(itemsPerPage === 1 ? 'msg#machine-learning.passage' : 'msg#machine-learning.passages') | sqMessage }} {{currentRange}}/{{passages.length}}
+			{{'msg#machine-learning.passage' | sqMessage:{items: itemsPerPage, current: currentRange, length: passages.length} }}
 			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+1) % pageNumber"
 				*ngIf="passages.length > 1">
 				<i class="fas fa-chevron-right"></i>
@@ -25,8 +25,16 @@
 
 <div class="card-body">
 	<div *ngFor="let passage of currentPassages$ | async" (click)="openPreview(passage)">
-		<sq-result-title [record]="passage.record" titleLinkBehavior="action"
+		<sq-result-title *ngIf="passage.record" [record]="passage.record" titleLinkBehavior="action"
 			(titleClicked)="onTitleClicked($event, passage)" class="d-block text-truncate"></sq-result-title>
-		<div class="my-2" [innerHTML]="passage.highlightedText"></div>
+		<div class="d-flex my-2">
+			<div class="sq-text-ellipsis" #psg [ngClass]="{'expanded': selected === passage.id}"
+				[innerHTML]="passage.highlightedText"></div>
+			<i class="fas btn-toggle ms-2" [attr.data-height]="MIN_HEIGHT" [ngClass]="{
+						'fa-chevron-down': selected !== passage.id,
+						'fa-chevron-up': selected === passage.id ,
+						'btn-toggle--hidden': psg.scrollHeight <= MIN_HEIGHT }"
+						(click)="$event.stopPropagation(); expand(passage)"></i>
+		</div>
 	</div>
 </div>
