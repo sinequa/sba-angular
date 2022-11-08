@@ -68,7 +68,7 @@ export class SearchComponent implements OnInit {
   ) {
 
     const expandAction = new Action({
-      icon: "fas fa-expand-alt",
+      icon: "fas fa-fw fa-expand-alt",
       title: "msg#facet.preview.expandTitle",
       action: () => {
         if (this.openedDoc) {
@@ -78,7 +78,7 @@ export class SearchComponent implements OnInit {
     });
 
     const closeAction = new Action({
-      icon: "fas fa-times",
+      icon: "fas fa-fw fa-times",
       title: "msg#facet.preview.closeTitle",
       action: () => {
         this.closeDocument();

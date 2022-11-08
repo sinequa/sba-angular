@@ -187,21 +187,18 @@ sq-facet-card.facet-preview {
             font-size: 0.9em;
         }
     }
-    &.variant6 .card-header > div:first-child {
-      flex-wrap: wrap;
-    }
 
     .sq-secondary-actions.position-absolute {
         z-index: 5;
     }
 
     @media (pointer:fine) {
-        .sq-secondary-actions.on-hover {
+        .sq-secondary-actions.on-preview-hover {
             opacity: 0;
             transition: opacity 250ms ease;
         }
         .card:hover {
-            .sq-secondary-actions.on-hover {
+            .sq-secondary-actions.on-preview-hover {
                 opacity: 1;
             }
         }

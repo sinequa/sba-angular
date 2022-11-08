@@ -50,6 +50,11 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     @Input() facetActionsAreSecondary = false;
 
     /**
+     * Whether the actions for switching between views are to be treated as secondary
+     */
+    @Input() viewActionsAreSecondary = false;
+
+    /**
      * Bootstrap theme name (light, dark...)
      */
     @Input() buttonsStyle?: string;
@@ -67,7 +72,7 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
      * Class applied to the button groups
      */
     @Input() actionsClass?: string = "btn-group";
-    @Input() viewActionsClass?: string = "btn-group me-auto";
+    @Input() viewActionsClass?: string = "btn-group";
     @Input() secondaryActionsClass?: string = "btn-group float-end";
 
     /**
@@ -295,6 +300,9 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
             const defaultView = this.views.find(v => !!v.default) || this.views.first;
             this.setView(defaultView); // Select the first view by default
         }
+        if(!this.viewActionsAreSecondary) {
+            this.updateActions(); // Refresh the actions if they include the view actions
+        }
     }
 
     setView(view: FacetViewDirective) {
@@ -313,6 +321,9 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         const actions = [] as Action[];
         if (this.actionsFirst) {
             actions.push(...this.actions);
+        }
+        if (!this.viewActionsAreSecondary && this.viewActions?.length > 1) {
+            actions.push(...this.viewActions);
         }
         if (this.facetComponent && !this.facetActionsAreSecondary) actions.push(...this.facetComponent.actions);
         if (this.settingsTpl || (this.facetComponent?.settingsTpl && !this.facetActionsAreSecondary)) actions.push(this.settingsAction);
