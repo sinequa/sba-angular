@@ -25,7 +25,7 @@
 
 <div class="card-body">
 	<div *ngFor="let passage of currentPassages$ | async" (click)="openPreview(passage)">
-		<sq-result-title [record]="passage.record" titleLinkBehavior="action"
+		<sq-result-title *ngIf="passage.record" [record]="passage.record" titleLinkBehavior="action"
 			(titleClicked)="onTitleClicked($event, passage)" class="d-block text-truncate"></sq-result-title>
 		<div class="d-flex my-2">
 			<div class="sq-text-ellipsis" #psg [ngClass]="{'expanded': selected === passage.id}"
