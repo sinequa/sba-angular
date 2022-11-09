@@ -9,6 +9,6 @@ export interface TopPassage {
     score: number;
     text: string;
     columns: Partial<Record<TopPassageColumnKey, unknown>>[];
-    record: SQRecord;
     recordId: string;
+    $record: SQRecord | undefined;
 }

@@ -4,6 +4,7 @@ import { AbstractFacet } from '@sinequa/components/facet';
 import { TopPassage } from "@sinequa/core/web-services/models/top-passage";
 import { BehaviorSubject } from "rxjs";
 import { DomSanitizer } from "@angular/platform-browser";
+import { SearchService } from "@sinequa/components/search";
 
 @Component({
   selector: 'sq-top-passages',
@@ -46,8 +47,8 @@ export class TopPassagesComponent extends AbstractFacet {
     this.passages = results.topPassages?.passages || [];
     // converts columns items to sinequa Record only if record is undefined
     this.passages
-      .filter(p => p.record === undefined)
-      .forEach(p => p.record = p.columns?.reduce((acc, val) => ({ ...acc, ...(val.treepath ? { treepath: [val.treepath] } : val) })) as Record);
+      .filter(p => p.recordId === undefined)
+      .forEach(p => p.$record = p.columns?.reduce((acc, val) => ({ ...acc, ...(val.treepath ? { treepath: [val.treepath] } : val) })) as Record);
 
     // reset values
     this.currentPage = 0;
@@ -80,7 +81,25 @@ export class TopPassagesComponent extends AbstractFacet {
   set currentPage(page: number) {
     this.page = page;
     const index = page * this.itemsPerPage;
-    this.currentPassages$.next(this.passages.slice(index, index + this.itemsPerPage));
+    const passages = this.passages.slice(index, index + this.itemsPerPage);
+    const passagesWithoutRecords = passages.filter(p => !p.$record);
+    if (!passagesWithoutRecords) {
+      this.currentPassages$.next(passages);
+    } else {
+      // Get the records of the passages without it
+      this.searchService.getRecords(passagesWithoutRecords.map(p => p.recordId))
+      .subscribe((records) => {
+        if (records) {
+          passagesWithoutRecords.map(passage => {
+            passage.$record = (records as Record[]).find(record => record.id === passage?.recordId);
+            return passage;
+          });
+          this.currentPassages$.next(passagesWithoutRecords);
+        } else {
+          this.currentPassages$.next(this.passages.slice(index, index + this.itemsPerPage));
+        }
+      })
+    }    
   }
 
   // Get the range of passages displayed to display in the pagination
@@ -100,7 +119,8 @@ export class TopPassagesComponent extends AbstractFacet {
     return this.sanitizer.bypassSecurityTrustStyle(`--line-clamp: ${this.lineNumber}`);
   }
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer,
+              private searchService: SearchService) {
     super();
     this.setMinHeight();
   }

@@ -3,7 +3,7 @@ import { SearchService } from "@sinequa/components/search";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
-import { Answer, AuditEvent, AuditWebService, Results } from "@sinequa/core/web-services";
+import { Answer, AuditEvent, AuditWebService, Results, Record } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-answer-card',
@@ -27,7 +27,20 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   }
 
   get answer(): Answer {
-    return this.answers[this.selectedAnswer];
+    const answer = this.answers[this.selectedAnswer];
+    if (answer.$record) {
+      return answer;
+    } else {
+      // Get the missing record
+      this.searchService.getRecords([answer.recordId])
+      .subscribe((records) => {
+        if (records) {
+          answer.$record = (records as Record[])[0];
+        } 
+        return answer;
+      });
+    }
+    return answer;
   }
 
   constructor(

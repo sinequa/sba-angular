@@ -285,10 +285,14 @@ export class SearchComponent implements OnInit {
   }
 
   onPreviewOpened(item: Answer | TopPassage) {
-    this.openMiniPreview(item.record);
+    if (item.$record) {
+      this.openMiniPreview(item.$record);
+    }
   }
 
   onTitleClick(value: {item: Answer | TopPassage, isLink: boolean}) {
-    this.openPreviewIfNoUrl(value.item.record, value.isLink);
+    if (value.item.$record) {
+      this.openPreviewIfNoUrl(value.item.$record, value.isLink);
+    }
   }
 }

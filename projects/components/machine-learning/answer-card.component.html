@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="my-3" [innerHTML]="answer.passage?.highlightedText"></div>
-    <ng-container *ngIf="answer.record as record">
+    <ng-container *ngIf="answer.$record as record">
         <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="onTitleClicked($event)"
             class="d-block text-truncate"></sq-result-title>
         <sq-result-source [record]="record" [displayTreepath]="true" (click)="$event.stopPropagation();">

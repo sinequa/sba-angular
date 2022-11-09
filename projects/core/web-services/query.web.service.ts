@@ -738,8 +738,8 @@ export interface Answer {
     score: number;
     passage: Passage;
     /** Record from which this answer was extracted */
-    record: Record;
     recordId: string;
+    $record: Record | undefined;
     $liked: undefined | boolean;
 }
 
