@@ -10,4 +10,5 @@ export interface TopPassage {
     text: string;
     columns: Partial<Record<TopPassageColumnKey, unknown>>[];
     record: SQRecord;
+    recordId: string;
 }

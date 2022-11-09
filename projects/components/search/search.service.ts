@@ -195,6 +195,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             if (this.results.attributes && this.results.attributes.queryid) {
                 this.query.queryId = this.results.attributes.queryid;
             }
+            this._setRecord(this.results?.topPassages?.passages || [], this.results?.answers?.answers || []);
         }
         this._events.next({type: "new-results", results: this.results});
         this._resultsStream.next(this.results);
@@ -202,6 +203,17 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
     public setResults(results: T) {
         return this._setResults(results);
+    }
+
+    // Set the record field for items having a recordId parameter but no record
+    private _setRecord(...items: any[]) {
+        if (!items) return;
+
+        items.forEach(item => item.map((i: any) => {
+            if (!i.recordId || !!i.record) return i;
+            i.record = this.results?.records.find(r => r.id === i.recordId);
+            return i;
+        }));
     }
 
     // TODO: queryintents in their own service ?

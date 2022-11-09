@@ -739,6 +739,7 @@ export interface Answer {
     passage: Passage;
     /** Record from which this answer was extracted */
     record: Record;
+    recordId: string;
     $liked: undefined | boolean;
 }
 
