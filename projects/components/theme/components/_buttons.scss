@@ -54,9 +54,10 @@ All buttons styling (except btn-link)
   }
 
   /**
-  Primary
+  Buttons
    */
-  &.btn-primary {
+  &.btn-primary,
+  &.btn-secondary {
     --bs-btn-color: #{$white};
     --bs-btn-bg: var(--primary, #{$blue-1});
     --bs-btn-border-color: transparent;
@@ -74,9 +75,11 @@ All buttons styling (except btn-link)
   }
 
   /**
-  Secondary
+  Outline
    */
-  &.btn-secondary {
+   &.btn-outline,
+   &.btn-outline-primary,
+   &.btn-outline-secondary {
     --bs-btn-color: var(--primary, #{$blue-1});
     --bs-btn-bg: transparent;
     --bs-btn-border-color: var(--primary, #{$blue-1});
@@ -94,39 +97,6 @@ All buttons styling (except btn-link)
     --bs-btn-active-border-color: var(--primary-400, #{$darker-blue});
 
     box-shadow: none;
-  }
-
-  /**
-  Outlined
-   */
-  &.btn-outline,
-  &.btn-outline-primary {
-    --bs-btn-color: #{$white};
-    --bs-btn-bg: transparent;
-    --bs-btn-border-color: #{$white};
-    // hover
-    --bs-btn-hover-color: var(--primary-400, #{$blue-hover});
-    --bs-btn-hover-bg: transparent;
-    --bs-btn-hover-border-color: var(--primary-400, #{$blue-hover});
-    // disabled
-    --bs-btn-disabled-color: #{$white};
-    --bs-btn-disabled-bg: transparent;
-    --bs-btn-disabled-border-color: #{$white};
-    --bs-btn-disabled-opacity: .5;
-    // active
-    --bs-btn-active-color: #{$white};
-    --bs-btn-active-bg: var(--primary-200, #{$blue-selection});
-    --bs-btn-active-border-color: #{$white};
-
-    box-shadow: none;
-  }
-
-  &.btn-outline-secondary {
-    // hover
-    --bs-btn-hover-color: var(--secondary-400, #{$blue-hover});
-    --bs-btn-hover-border-color: var(--secondary-400, #{$blue-hover});
-    // active
-    --bs-btn-active-bg: var(--secondary-200, #{$blue-selection});
   }
 
   /**
