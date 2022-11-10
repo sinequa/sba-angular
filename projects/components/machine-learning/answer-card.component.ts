@@ -21,26 +21,10 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   @Output() previewOpened = new EventEmitter<Answer>();
   @Output() titleClicked = new EventEmitter<{ item: Answer, isLink: boolean }>();
   selectedAnswer: number;
+  answer: Answer;
 
   get answers(): Answer[] {
     return this.results?.answers?.answers || [];
-  }
-
-  get answer(): Answer {
-    const answer = this.answers[this.selectedAnswer];
-    if (answer.$record) {
-      return answer;
-    } else {
-      // Get the missing record
-      this.searchService.getRecords([answer.recordId], 'answers')
-      .subscribe((records) => {
-        if (records) {
-          answer.$record = (records as Record[])[0];
-        } 
-        return answer;
-      });
-    }
-    return answer;
   }
 
   constructor(
@@ -54,6 +38,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedAnswer = 0;
+    this.setAnswer();
   }
 
   openPreview() {
@@ -62,6 +47,19 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   onTitleClicked(isLink: boolean) {
     this.titleClicked.next({ item: this.answer, isLink });
+  }
+
+  setAnswer() {
+    this.answer = this.answers[this.selectedAnswer];
+    if (!this.answer.$record) {
+      // Get the missing record
+      this.searchService.getRecords([this.answer.recordId], 'answers')
+      .subscribe((records) => {
+        if (records) {
+          this.answer.$record = (records as Record[])[0];
+        }
+      });
+    }
   }
 
   likeAnswer() {
