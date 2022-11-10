@@ -94,7 +94,6 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
       this.auditService.notify(this.makeAuditEvent(type, answer))
         .subscribe(() => this.notificationsService.success("Thank you for your feedback!"));
     }
-    this.answer$= of(answer);
   }
 
   protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
