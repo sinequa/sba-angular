@@ -10,6 +10,7 @@ import camelCase from "lodash/camelCase";
 import escape from "lodash/escape";
 import unescape from "lodash/unescape";
 import isEqual from "lodash/isEqual";
+import uniq from "lodash/uniq";
 import { format, isValid, parseISO } from "date-fns";
 
 // Because of: https://github.com/angular/angular/issues/18261
@@ -2007,10 +2008,8 @@ export class Utils {
 
     /**
      * Returns the input list without any duplicates
-     * 
-     * To use like : array.filter(Utils.uniq)
      */
-    static uniq(value, index, self) {
-        return self.indexOf(value) === index;
+    static unique(array: any[]) {
+        return uniq(array);
     }
 }

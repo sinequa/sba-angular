@@ -26,20 +26,20 @@
 
 <div class="card-body" (click)="openPreview()">
     <div class="fw-bold">
-        {{answer.text}}
+        {{answer?.text}}
         <div *ngIf="showLikeButtons" class="float-end">
             <button class="btn btn-link" (click)="$event.stopPropagation; likeAnswer()"
                 sqTooltip="This answer is helpful">
-                <i class="far fa-thumbs-up" [ngClass]="{fas: answer.$liked}"></i>
+                <i class="far fa-thumbs-up" [ngClass]="{fas: answer?.$liked}"></i>
             </button>
             <button class="btn btn-link" (click)="$event.stopPropagation; dislikeAnswer()"
                 sqTooltip="This answer is wrong">
-                <i class="far fa-thumbs-down" [ngClass]="{fas: answer.$liked === false}"></i>
+                <i class="far fa-thumbs-down" [ngClass]="{fas: answer?.$liked === false}"></i>
             </button>
         </div>
     </div>
-    <div class="my-3" [innerHTML]="answer.passage?.highlightedText"></div>
-    <ng-container *ngIf="answer.$record as record">
+    <div class="my-3" [innerHTML]="answer?.passage?.highlightedText"></div>
+    <ng-container *ngIf="answer?.$record as record">
         <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="onTitleClicked($event)"
             class="d-block text-truncate"></sq-result-title>
         <sq-result-source [record]="record" [displayTreepath]="true" (click)="$event.stopPropagation();">

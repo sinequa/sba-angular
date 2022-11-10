@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from "@angular/core";
-import { Record, Results } from "@sinequa/core/web-services";
+import { Record, Results, TopPassage } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
-import { TopPassage } from "@sinequa/core/web-services/models/top-passage";
 import { BehaviorSubject } from "rxjs";
 import { DomSanitizer } from "@angular/platform-browser";
 import { SearchService } from "@sinequa/components/search";
@@ -45,10 +44,6 @@ export class TopPassagesComponent extends AbstractFacet {
   @Input() set results(results: Results) {
     // extract top passages from Results object
     this.passages = results.topPassages?.passages || [];
-    // converts columns items to sinequa Record only if record is undefined
-    this.passages
-      .filter(p => p.recordId === undefined)
-      .forEach(p => p.$record = p.columns?.reduce((acc, val) => ({ ...acc, ...(val.treepath ? { treepath: [val.treepath] } : val) })) as Record);
 
     // reset values
     this.currentPage = 0;
@@ -87,7 +82,7 @@ export class TopPassagesComponent extends AbstractFacet {
       this.currentPassages$.next(passages);
     } else {
       // Get the records of the passages without it
-      this.searchService.getRecords(passagesWithoutRecords.map(p => p.recordId), 'passages')
+      this.searchService.getRecords(passagesWithoutRecords.map(p => p.recordId))
       .subscribe((records) => {
         if (records) {
           passagesWithoutRecords.map(passage => {
