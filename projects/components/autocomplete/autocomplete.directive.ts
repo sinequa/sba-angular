@@ -15,6 +15,7 @@ export interface AutocompleteItem {
     normalized?: string;
     category: string;
     label?: string;
+    rank?: number;
 }
 
 /**
