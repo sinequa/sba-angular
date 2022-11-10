@@ -87,7 +87,7 @@ export class TopPassagesComponent extends AbstractFacet {
       this.currentPassages$.next(passages);
     } else {
       // Get the records of the passages without it
-      this.searchService.getRecords(passagesWithoutRecords.map(p => p.recordId))
+      this.searchService.getRecords(passagesWithoutRecords.map(p => p.recordId), 'passages')
       .subscribe((records) => {
         if (records) {
           passagesWithoutRecords.map(passage => {

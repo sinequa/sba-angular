@@ -959,7 +959,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return !beforeSearch.cancel;
     }
 
-    getRecords(ids: string[]): Observable<T | Record[]> {
+    getRecords(ids: string[], facet?: string): Observable<T | Record[]> {
         const uniqIds = Utils.uniq(ids);
         const records = this.results?.records.filter(r => !!uniqIds.find(id => Utils.eq(r.id, id))) || [];
 
@@ -967,11 +967,10 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         if (records.length === uniqIds.length) return of(records);
 
         // building query to get missing records
-        const missingIds = uniqIds.filter(id => !records.find(r => Utils.eq(r.id, id)));
         const query = this.makeQuery();
-        missingIds
+        uniqIds.filter(id => !records.find(r => Utils.eq(r.id, id)))
             .map(id => this.exprBuilder.makeExpr('id', id))
-            .forEach(expr => query.addSelect(expr));
+            .forEach(expr => query.addSelect(expr, facet));
 
         return new Observable(obs => {
             this.queryService.getResults(query)
@@ -980,6 +979,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     obs.complete();
                 }, () => {
                     obs.next(records);
+                    obs.complete();
                 });
         });
     }

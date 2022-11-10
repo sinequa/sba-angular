@@ -32,7 +32,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
       return answer;
     } else {
       // Get the missing record
-      this.searchService.getRecords([answer.recordId])
+      this.searchService.getRecords([answer.recordId], 'answers')
       .subscribe((records) => {
         if (records) {
           answer.$record = (records as Record[])[0];
