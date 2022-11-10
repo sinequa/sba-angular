@@ -75,26 +75,15 @@ export class TopPassagesComponent extends AbstractFacet {
 
   set currentPage(page: number) {
     this.page = page;
+    
+    // Get the records of the passages without it
     const index = page * this.itemsPerPage;
     const passages = this.passages.slice(index, index + this.itemsPerPage);
-    const passagesWithoutRecords = passages.filter(p => !p.$record);
-    if (!passagesWithoutRecords.length) {
-      this.currentPassages$.next(passages);
-    } else {
-      // Get the records of the passages without it
-      this.searchService.getRecords(passagesWithoutRecords.map(p => p.recordId))
+    this.searchService.getRecords(passages.filter(p => !p.$record).map(p => p.recordId))
       .subscribe((records) => {
-        if (records) {
-          passagesWithoutRecords.map(passage => {
-            passage.$record = records.find(record => record.id === passage?.recordId);
-            return passage;
-          });
-          this.currentPassages$.next(passagesWithoutRecords);
-        } else {
-          this.currentPassages$.next(passages);
-        }
-      })
-    }    
+        passages.map(passage => passage.$record = passage.$record || records.find(record => record.id === passage?.recordId));
+        this.currentPassages$.next(passages);
+      });
   }
 
   // Get the range of passages displayed to display in the pagination

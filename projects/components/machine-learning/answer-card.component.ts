@@ -29,10 +29,6 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     return this.results?.answers?.answers || [];
   }
 
-  get answer(): Answer | undefined {
-    return this.answer$.getValue();
-  }
-
   constructor(
     public searchService: SearchService,
     public appService: AppService,
@@ -47,12 +43,22 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     this.setAnswer();
   }
 
-  openPreview() {
-    this.previewOpened.next(this.answer$.getValue() as Answer);
+  openPreview(answer: Answer) {
+    this.previewOpened.next(answer);
   }
 
-  onTitleClicked(isLink: boolean) {
-    this.titleClicked.next({ item: this.answer$.getValue() as Answer, isLink });
+  onTitleClicked(isLink: boolean, answer: Answer) {
+    this.titleClicked.next({ item: answer, isLink });
+  }
+
+  previous() {
+    this.selectedAnswer = (this.selectedAnswer+this.answers.length-1) % this.answers.length;
+    this.setAnswer();
+  }
+
+  next() {
+    this.selectedAnswer = (this.selectedAnswer+1) % this.answers.length;
+    this.setAnswer();
   }
 
   setAnswer() {
@@ -71,37 +77,36 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     }
   }
 
-  likeAnswer() {
-    this.setLiked(true);
+  likeAnswer(answer: Answer) {
+    this.setLiked(answer, true);
   }
 
-  dislikeAnswer() {
-    this.setLiked(false);
+  dislikeAnswer(answer: Answer) {
+    this.setLiked(answer, false);
   }
 
-  setLiked(liked: boolean) {
-    const answer = this.answer$.getValue() as Answer;
+  setLiked(answer: Answer, liked: boolean) {
     const type = liked? "Answer_Liked" : "Answer_Disliked";
     if(answer.$liked === liked) {
       answer.$liked = undefined;
-      this.auditService.notify(this.makeAuditEvent(type+"_Cancelled"))
+      this.auditService.notify(this.makeAuditEvent(type+"_Cancelled", answer))
         .subscribe();
     }
     else {
       answer.$liked = liked;
-      this.auditService.notify(this.makeAuditEvent(type))
+      this.auditService.notify(this.makeAuditEvent(type, answer))
         .subscribe(() => this.notificationsService.success("Thank you for your feedback!"));
     }
     this.answer$.next(answer);
   }
 
-  protected makeAuditEvent(type: string): AuditEvent {
+  protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
     return {
       type,
       detail: {
           text: this.searchService.query.text,
-          message: (this.answer$.getValue() as Answer).text,
-          detail: (this.answer$.getValue() as Answer).passage.highlightedText,
+          message: answer.text,
+          detail: answer.passage.highlightedText,
           resultcount: this.answers.length,
           rank: this.selectedAnswer
       }
