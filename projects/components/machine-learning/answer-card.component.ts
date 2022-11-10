@@ -4,6 +4,7 @@ import { AbstractFacet } from '@sinequa/components/facet';
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Answer, AuditEvent, AuditWebService, Results } from "@sinequa/core/web-services";
+import { map, Observable, of } from "rxjs";
 
 @Component({
   selector: 'sq-answer-card',
@@ -22,12 +23,10 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   @Output() titleClicked = new EventEmitter<{ item: Answer, isLink: boolean }>();
   selectedAnswer: number;
 
+  answer$: Observable<Answer>;
+
   get answers(): Answer[] {
     return this.results?.answers?.answers || [];
-  }
-
-  get answer(): Answer {
-    return this.answers[this.selectedAnswer];
   }
 
   constructor(
@@ -41,45 +40,69 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedAnswer = 0;
+    this.setAnswer();
   }
 
-  openPreview() {
-    this.previewOpened.next(this.answer);
+  openPreview(answer: Answer) {
+    this.previewOpened.next(answer);
   }
 
-  onTitleClicked(isLink: boolean) {
-    this.titleClicked.next({ item: this.answer, isLink });
+  onTitleClicked(isLink: boolean, answer: Answer) {
+    this.titleClicked.next({ item: answer, isLink });
   }
 
-  likeAnswer() {
-    this.setLiked(true);
+  previous() {
+    this.selectedAnswer = (this.selectedAnswer+this.answers.length-1) % this.answers.length;
+    this.setAnswer();
   }
 
-  dislikeAnswer() {
-    this.setLiked(false);
+  next() {
+    this.selectedAnswer = (this.selectedAnswer+1) % this.answers.length;
+    this.setAnswer();
   }
 
-  setLiked(liked: boolean) {
+  setAnswer() {
+    const answer = this.answers[this.selectedAnswer];
+    if (!!answer.$record) {
+      this.answer$ = of(answer);
+    } else {
+      // Get the missing record
+      this.answer$ = this.searchService.getRecords([answer.recordId]).pipe(map(records => {
+        answer.$record = records[0];
+        return answer;
+     }));
+    }
+  }
+
+  likeAnswer(answer: Answer) {
+    this.setLiked(answer, true);
+  }
+
+  dislikeAnswer(answer: Answer) {
+    this.setLiked(answer, false);
+  }
+
+  setLiked(answer: Answer, liked: boolean) {
     const type = liked? "Answer_Liked" : "Answer_Disliked";
-    if(this.answer.$liked === liked) {
-      this.answer.$liked = undefined;
-      this.auditService.notify(this.makeAuditEvent(type+"_Cancelled"))
+    if(answer.$liked === liked) {
+      answer.$liked = undefined;
+      this.auditService.notify(this.makeAuditEvent(type+"_Cancelled", answer))
         .subscribe();
     }
     else {
-      this.answer.$liked = liked;
-      this.auditService.notify(this.makeAuditEvent(type))
+      answer.$liked = liked;
+      this.auditService.notify(this.makeAuditEvent(type, answer))
         .subscribe(() => this.notificationsService.success("Thank you for your feedback!"));
     }
   }
 
-  protected makeAuditEvent(type: string): AuditEvent {
+  protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
     return {
       type,
       detail: {
           text: this.searchService.query.text,
-          message: this.answer.text,
-          detail: this.answer.passage.highlightedText,
+          message: answer.text,
+          detail: answer.passage.highlightedText,
           resultcount: this.answers.length,
           rank: this.selectedAnswer
       }

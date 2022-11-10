@@ -10,6 +10,7 @@ import camelCase from "lodash/camelCase";
 import escape from "lodash/escape";
 import unescape from "lodash/unescape";
 import isEqual from "lodash/isEqual";
+import uniq from "lodash/uniq";
 import { format, isValid, parseISO } from "date-fns";
 
 // Because of: https://github.com/angular/angular/issues/18261
@@ -2003,5 +2004,12 @@ export class Utils {
             }
         }
         return total;
+    }
+
+    /**
+     * Returns the input list without any duplicates
+     */
+    static unique(array: any[]) {
+        return uniq(array);
     }
 }

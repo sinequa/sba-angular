@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from "@angular/core";
-import { Record, Results } from "@sinequa/core/web-services";
+import { Results, TopPassage } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
-import { TopPassage } from "@sinequa/core/web-services/models/top-passage";
 import { BehaviorSubject } from "rxjs";
 import { DomSanitizer } from "@angular/platform-browser";
+import { SearchService } from "@sinequa/components/search";
 
 @Component({
   selector: 'sq-top-passages',
@@ -44,10 +44,6 @@ export class TopPassagesComponent extends AbstractFacet {
   @Input() set results(results: Results) {
     // extract top passages from Results object
     this.passages = results.topPassages?.passages || [];
-    // converts columns items to sinequa Record only if record is undefined
-    this.passages
-      .filter(p => p.record === undefined)
-      .forEach(p => p.record = p.columns?.reduce((acc, val) => ({ ...acc, ...(val.treepath ? { treepath: [val.treepath] } : val) })) as Record);
 
     // reset values
     this.currentPage = 0;
@@ -79,8 +75,15 @@ export class TopPassagesComponent extends AbstractFacet {
 
   set currentPage(page: number) {
     this.page = page;
+    
+    // Get the records of the passages without it
     const index = page * this.itemsPerPage;
-    this.currentPassages$.next(this.passages.slice(index, index + this.itemsPerPage));
+    const passages = this.passages.slice(index, index + this.itemsPerPage);
+    this.searchService.getRecords(passages.filter(p => !p.$record).map(p => p.recordId))
+      .subscribe((records) => {
+        passages.map(passage => passage.$record = passage.$record || records.find(record => record.id === passage?.recordId));
+        this.currentPassages$.next(passages);
+      });
   }
 
   // Get the range of passages displayed to display in the pagination
@@ -100,7 +103,8 @@ export class TopPassagesComponent extends AbstractFacet {
     return this.sanitizer.bypassSecurityTrustStyle(`--line-clamp: ${this.lineNumber}`);
   }
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer,
+              private searchService: SearchService) {
     super();
     this.setMinHeight();
   }
