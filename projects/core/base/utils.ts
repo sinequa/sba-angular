@@ -2007,12 +2007,10 @@ export class Utils {
 
     /**
      * Returns the input list without any duplicates
+     * 
+     * To use like : array.filter(Utils.uniq)
      */
-    static uniq(array: any[]): any[] {
-        const uniqList: any[] = [];
-        array.forEach(elt => {
-            if (!uniqList.find(item => item === elt)) uniqList.push(elt);
-        });
-        return uniqList;
+    static uniq(value, index, self) {
+        return self.indexOf(value) === index;
     }
 }
