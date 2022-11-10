@@ -2004,4 +2004,15 @@ export class Utils {
         }
         return total;
     }
+
+    /**
+     * Returns the input list without any duplicates
+     */
+    static uniq(array: any[]): any[] {
+        const uniqList: any[] = [];
+        array.forEach(elt => {
+            if (!uniqList.find(item => item === elt)) uniqList.push(elt);
+        });
+        return uniqList;
+    }
 }

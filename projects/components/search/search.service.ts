@@ -960,10 +960,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     }
 
     getRecords(ids: string[]): Observable<T | Record[]> {
-        const uniqIds: string[] = [];
-        ids.forEach(id => {
-            if (!uniqIds.find(i => i === id)) uniqIds.push(id);
-        })
+        const uniqIds = Utils.uniq(ids);
         const records = this.results?.records.filter(r => !!uniqIds.find(id => Utils.eq(r.id, id))) || [];
 
         // if all records found
