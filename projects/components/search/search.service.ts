@@ -973,7 +973,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         });
 
         // if all records found, return them
-        if (records.filter(r => !!r.record).length === ids.length) return of(records.map(r => r.record as Record));
+        if (records.filter(r => r.record).length === ids.length) return of(records.map(r => r.record as Record));
 
         // building query to get missing records
         const query = this.makeQuery(this.query);

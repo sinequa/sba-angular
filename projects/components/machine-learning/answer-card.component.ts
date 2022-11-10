@@ -3,8 +3,8 @@ import { SearchService } from "@sinequa/components/search";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
-import { Answer, AuditEvent, AuditWebService, Results, Record } from "@sinequa/core/web-services";
-import { BehaviorSubject } from "rxjs";
+import { Answer, AuditEvent, AuditWebService, Results } from "@sinequa/core/web-services";
+import { map, Observable, of } from "rxjs";
 
 @Component({
   selector: 'sq-answer-card',
@@ -23,7 +23,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   @Output() titleClicked = new EventEmitter<{ item: Answer, isLink: boolean }>();
   selectedAnswer: number;
 
-  answer$ = new BehaviorSubject<Answer | undefined>(undefined);
+  answer$: Observable<Answer>;
 
   get answers(): Answer[] {
     return this.results?.answers?.answers || [];
@@ -64,16 +64,13 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   setAnswer() {
     const answer = this.answers[this.selectedAnswer];
     if (!!answer.$record) {
-      this.answer$.next(answer);
+      this.answer$ = of(answer);
     } else {
       // Get the missing record
-      this.searchService.getRecords([answer.recordId])
-      .subscribe((records) => {
-        if (records) {
-          answer.$record = (records as Record[])[0];
-        }
-        this.answer$.next(answer);
-      });
+      this.answer$ = this.searchService.getRecords([answer.recordId]).pipe(map(records => {
+        answer.$record = records[0];
+        return answer;
+     }));
     }
   }
 
@@ -97,7 +94,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
       this.auditService.notify(this.makeAuditEvent(type, answer))
         .subscribe(() => this.notificationsService.success("Thank you for your feedback!"));
     }
-    this.answer$.next(answer);
+    this.answer$= of(answer);
   }
 
   protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
