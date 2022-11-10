@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from "@angular/core";
-import { Record, Results, TopPassage } from "@sinequa/core/web-services";
+import { Results, TopPassage } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { BehaviorSubject } from "rxjs";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -78,7 +78,7 @@ export class TopPassagesComponent extends AbstractFacet {
     const index = page * this.itemsPerPage;
     const passages = this.passages.slice(index, index + this.itemsPerPage);
     const passagesWithoutRecords = passages.filter(p => !p.$record);
-    if (!passagesWithoutRecords) {
+    if (!passagesWithoutRecords.length) {
       this.currentPassages$.next(passages);
     } else {
       // Get the records of the passages without it
@@ -86,12 +86,12 @@ export class TopPassagesComponent extends AbstractFacet {
       .subscribe((records) => {
         if (records) {
           passagesWithoutRecords.map(passage => {
-            passage.$record = (records as Record[]).find(record => record.id === passage?.recordId);
+            passage.$record = records.find(record => record.id === passage?.recordId);
             return passage;
           });
           this.currentPassages$.next(passagesWithoutRecords);
         } else {
-          this.currentPassages$.next(this.passages.slice(index, index + this.itemsPerPage));
+          this.currentPassages$.next(passages);
         }
       })
     }    
