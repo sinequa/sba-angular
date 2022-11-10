@@ -976,7 +976,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         if (records.filter(r => !!r.record).length === ids.length) return of(records.map(r => r.record as Record));
 
         // building query to get missing records
-        const query = this.makeQuery();
+        const query = this.makeQuery(this.query);
+        query.globalRelevance = 0;
+        query.aggregations = [];
         query.addSelect(
             this.exprBuilder.makeListExpr('id', records.filter(r => !r.record).map(r => r.id))
         );
