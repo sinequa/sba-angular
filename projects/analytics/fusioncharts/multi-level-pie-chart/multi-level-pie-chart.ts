@@ -193,7 +193,6 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         this.ready = !this.cardComponent?._collapsed;
     }
 
-
     /**
      * Update the chart dataSource
      */
@@ -269,7 +268,8 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
      */
     dataplotClick($event) {
         this.isRefreshing = true;
-        const item = this.getItem($event.dataObj.label, this._data);
+        const label = this.showValues ? $event.dataObj.label.substring(0, $event.dataObj.label.lastIndexOf(',')) : $event.dataObj.label;
+        const item = this.getItem(label, this._data);
         this.zone.run(() => { // FusionCharts runs outside Angular zone, so we must re-enter it
             if (this.aggrData) { // For standard Aggregation data structure
                 const obj = {...item!, value: item!.originalLabel} // Re-convert clickedItem structure to fit standard AggregationItem

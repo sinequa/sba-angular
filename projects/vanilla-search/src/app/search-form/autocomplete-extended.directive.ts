@@ -76,6 +76,7 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
             map((suggests) => suggests
                 .flat()
                 .sort((a,b) => (b['score'] || 0) - (a['score'] || 0)) // autocomplete items returned by searchData still have their "score" attribute, which is consistent across categories
+                .map((item, index) => ({...item, rank: index}))
             )
         );
 
@@ -89,7 +90,15 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
      * @param submit
      */
     protected override select(item: AutocompleteItem, submit?: boolean) {
-        this.audit.notify({type: AuditEventType.Search_AutoComplete, detail:{display: item.display, category: item.category }})
+        this.audit.notify({
+            type: AuditEventType.Search_AutoComplete,
+            detail: {
+                  "query-text": this.getInputValue(),
+                  display: item.display,
+                  category: item.category,
+                  rank: item.rank
+              }
+          })
 
         if(item.category === "recent-document"){
             this.previewService.openRoute(item['data'], this.searchService.makeQuery());
