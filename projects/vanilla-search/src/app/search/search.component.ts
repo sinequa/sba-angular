@@ -46,10 +46,6 @@ export class SearchComponent implements OnInit {
   // Whether it should display the passages view upon opening (only works for 1st opening, it doesn't refresh if the preview is already opened)
   public passagesByDefault: boolean;
 
-  previewMode = 'legacy';
-  public previewCustomActionsLegacy: Action[];
-  showPassagesActions: Action;
-
   public readonly facetComponents = {
       ...default_facet_components,
       "date": BsFacetDate
@@ -86,15 +82,6 @@ export class SearchComponent implements OnInit {
     });
 
     this.previewCustomActions = [ expandAction, closeAction ];
-
-    this.showPassagesActions = new Action({
-      icon: 'fas fa-brain',
-      title: "Show Passages",
-      selected: false,
-      action: a => a.selected = !a.selected
-    })
-
-    this.previewCustomActionsLegacy = [this.showPassagesActions, expandAction, closeAction];
   }
 
   /**
