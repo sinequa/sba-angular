@@ -176,10 +176,33 @@ sq-sponsored-results {
 // Facets
 sq-facet-card.facet-preview {
     .card-header {
-        .sq-metadata {
+        sq-metadata {
             color: $secondary-color;
             font-size: 0.9em;
         }
+    }
+
+    .sq-secondary-actions.position-absolute {
+        z-index: 5;
+    }
+
+    @media (pointer:fine) {
+        .sq-secondary-actions.on-preview-hover {
+            opacity: 0;
+            transition: opacity 250ms ease;
+        }
+        .card:hover {
+            .sq-secondary-actions.on-preview-hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    @media (min-width: 1720px) {
+      .sq-secondary-actions.outside-if-space {
+        right: -4rem !important;
+      }
+
     }
 }
 
@@ -210,7 +233,7 @@ sq-facet-list .facet-results-scrollable {
 }
 
 .sq-passage {
-    &::before {
+    .sq-passage-icon {
         color: var(--bs-primary);
     }
     .sq-passage-text {

@@ -96,7 +96,7 @@
                 <sq-answer-card #facet [results]="results" (previewOpened)="onPreviewOpened($event)"
                     (titleClicked)="onTitleClick($event)" [collapsed]="answersFacet._collapsed"></sq-answer-card>
             </sq-facet-card>
-            
+
             <!-- nth top pasages -->
             <sq-facet-card *ngIf="hasPassages" class="mt-3" [startCollapsed]="passagesFacet._collapsed" #passagesFacet>
                 <sq-top-passages #facet [results]="results" (previewOpened)="onPreviewOpened($event)"
@@ -141,23 +141,46 @@
         <!-- Right part-->
         <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 70, bottom: 30}">
 
-            <!-- Scaled-down preview -->
-            <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
-                [actionsSize]="''">
-                <sq-facet-preview-2 #facet
-                    [hidden]="showPassages"
-                    [record]="openedDoc"
-                    [query]="searchService.query"
-                    [height]="750"
-                    [metadata]="metadata"
-                    [expandModal]="false"
-                    [customActions]="previewCustomActions"
-                    (recordClosed)="closeDocument()"
-                    (previewLoaded)="previewReady($event)">
-                </sq-facet-preview-2>
-                <sq-passage-list [record]="openedDoc" *ngIf="showPassages"></sq-passage-list>
-            </sq-facet-card>
+            <sq-facet-card *ngIf="openedDoc"
+                [collapsible]="false"
+                [facetActionsAreSecondary]="true"
+                [viewActionsAreSecondary]="true"
+                secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-2 me-3 bg-light rounded shadow on-preview-hover"
+                viewActionsClass="d-block btn-group mt-2"
+                viewButtonsStyle="outline-primary"
+                [actions]="previewCustomActions"
+                actionsSize=""
+                class="mb-3 facet-preview">
 
+                <ng-template #headerTpl>
+                    <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url"></sq-result-title>
+                </ng-template>
+
+                <ng-template #subHeaderTpl>
+                    <sq-metadata
+                        [record]="openedDoc"
+                        [items]="metadata"
+                        [showTitles]="true"
+                        [showIcons]="true"
+                        [clickable]="false">
+                    </sq-metadata>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
+                    <sq-facet-preview-2 #facet
+                        [record]="openedDoc"
+                        [query]="searchService.query"
+                        [height]="750"
+                        (recordClosed)="closeDocument()"
+                        (previewLoaded)="previewReady($event)">
+                    </sq-facet-preview-2>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault">
+                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                </ng-template>
+
+            </sq-facet-card>
         </div>
     </div>
 </div>

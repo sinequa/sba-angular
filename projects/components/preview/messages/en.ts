@@ -42,8 +42,14 @@ export default {
             "minimize": "Zoom out",
             "maximize": "Zoom in",
             "toggleExtracts": "Toggle relevant extracts highlighting",
+            "extracts": "Relevant Extracts",
             "toggleEntities": "Toggle entities highlighting",
-            "downloadPdf": "Download PDF version"
+            "entities": "Entities",
+            "passages": "Relevant Passages",
+            "showPassages": "Show/hide passages extracted by Neural Search",
+            "downloadPdf": "Download PDF version",
+            "viewPreview": "Preview",
+            "viewPassages": "Passages"
         }
     }
 };

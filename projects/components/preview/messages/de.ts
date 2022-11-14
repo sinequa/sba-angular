@@ -40,8 +40,14 @@ export default {
             "minimize": "Rauszoomen",
             "maximize": "hineinzoomen",
             "toggleExtracts": "Schalten Sie die Hervorhebung relevanter Auszüge um",
+            "extracts": "Relevante Auszüge",
             "toggleEntities": "Schalten Sie die Hervorhebung von Objekten",
+            "entities": "Objekten",
+            "passages": "Relevante Passagen",
+            "showPassages": "Von Neural Search extrahierte Passagen zeigen/ausblenden",
             "downloadPdf": "PDF-Version herunterladen",
+            "viewPreview": "Vorschau",
+            "viewPassages": "Passagen"
         }
     }
 };
