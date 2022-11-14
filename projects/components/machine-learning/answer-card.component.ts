@@ -13,6 +13,10 @@ import { map, Observable, of } from "rxjs";
 .card-body {
   cursor: pointer;
 }
+
+.passage-text {
+  font-size: 0.9em;
+}
   `]
 })
 export class AnswerCardComponent extends AbstractFacet implements OnChanges {
