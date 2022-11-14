@@ -89,6 +89,10 @@ Error message
   .form-select {
     border: 0;
   }
+  
+  input + button {
+    z-index: 9 !important;
+  }
 
   .d-flex {
 

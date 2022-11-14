@@ -77,7 +77,7 @@ All buttons styling (except btn-link)
   /**
   Outline
    */
-   &.btn-outline,
+   &.btn-outline-light,
    &.btn-outline-primary,
    &.btn-outline-secondary {
     --bs-btn-color: var(--primary, #{$blue-1});
@@ -97,6 +97,22 @@ All buttons styling (except btn-link)
     --bs-btn-active-border-color: var(--primary-400, #{$darker-blue});
 
     box-shadow: none;
+  }
+
+  &.btn-outline-light {
+    --bs-btn-color: #{$white};
+    --bs-btn-border-color: #{$white};
+    // hover
+    --bs-btn-hover-color: var(--primary-400, #{$blue-hover});
+    --bs-btn-hover-border-color: var(--primary-400, #{$blue-hover});
+    // disabled
+    --bs-btn-disabled-color: #{$white};
+    --bs-btn-disabled-border-color: #{$white};
+    --bs-btn-disabled-opacity: .5;
+    // active
+    --bs-btn-active-color: #{$white};
+    --bs-btn-active-bg: var(--primary-200, #{$blue-selection});
+    --bs-btn-active-border-color: #{$white};
   }
 
   /**

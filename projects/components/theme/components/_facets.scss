@@ -27,8 +27,7 @@ sq-facet-card {
       font-size: 1rem;
     }
 
-    sq-result-title,
-    .btn {
+    sq-result-title {
       font-weight: 600;
       font-size: 1.15rem;
     }
@@ -65,6 +64,11 @@ sq-facet-card {
         background-color: var(--brand-400, #{$darker-blue});
         opacity: .6;
       }
+    }
+
+    .btn-outline-primary {
+      --bs-btn-hover-bg: var(--brand-400, #{$darker-blue}) !important;
+      --bs-btn-hover-border-color: var(--brand-400, #{$darker-blue}) !important;
     }
   }
 
@@ -178,4 +182,8 @@ sq-facet-date {
       opacity: .6;
     }
   }
+
+
+
 }
+
