@@ -3,10 +3,11 @@ import { SafeResourceUrl } from "@angular/platform-browser";
 import { Query } from '@sinequa/core/app-utils';
 import { Record, PreviewData, AuditEventType } from "@sinequa/core/web-services";
 import { PreviewService } from "../../preview.service";
-import { PreviewDocument, HighlightFilters } from "../../preview-document";
+import { PreviewDocument } from "../../preview-document";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 import { SearchService } from "@sinequa/components/search";
+import { UserPreferences } from "@sinequa/components/user-settings";
 
 @Component({
   selector: 'sq-facet-preview-2',
@@ -21,19 +22,17 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() sandbox : string | null;
   @Input() height = 500;
   @Input() scalingFactor = 0.6;
-  @Input() metadata: string[] = [];
-  @Input() expandModal = true;
-  @Input() closable = true;
+  @Input() downloadablePdf = true;
   @Input() highlightActions = true;
-  @Input() customActions: Action[];
-  @Input() filters: HighlightFilters;
-  @Input() originalDocTarget: string | undefined;
-  @Output() recordClosed = new EventEmitter<void>();
+  @Input() highlightEntities = false;
+  @Input() highlightExtracts = false;
+  /** List of highlights to be shown when turning "extracts" on (should be a subset of allExtracts) */
+  @Input() extracts = ["matchlocations", "extractslocations", "matchingpassages"];
+  /** List of highlights returned by the server considered as "extracts" (but not necessarily displayed), all the others being considered "entities" */
+  @Input() allExtracts = ["matchlocations", "extractslocations", "matchingpassages"];
   @Output() previewLoaded = new EventEmitter<PreviewDocument>();
   @HostBinding('style.height.px') _height: number = this.height;
 
-  private closeAction: Action;
-  private expandModalAction: Action;
   private toggleEntitiesAction: Action;
   private toggleExtractsAction: Action;
   private minimizeAction: Action;
@@ -47,64 +46,38 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
 
   private readonly scaleFactorThreshold = 0.1;
 
-  hightlights = ["matchlocations", "extractslocations", "matchingpassages"];
-
   constructor(
-      private previewService: PreviewService,
-      private searchService: SearchService
+    public previewService: PreviewService,
+    public searchService: SearchService,
+    public prefs: UserPreferences
   ) {
 
     super();
 
-    this.closeAction = new Action({
-      icon: "fas fa-times",
-      title: "msg#facet.preview.closeTitle",
-      action: () => {
-        this.recordClosed.next();
-      }
-    });
-
-    this.expandModalAction = new Action({
-      icon: "far fa-window-maximize",
-      title: "msg#facet.preview.expandTitle",
-      action: () => {
-        this.previewService.openModal(this.record, this.query, {
-          displaySimilarDocuments: false,
-          metadata: this.metadata
-        });
-      }
-    });
-
     this.toggleEntitiesAction = new Action({
-      icon: "fas fa-lightbulb",
+      icon: "fas fa-fw fa-lightbulb",
       title: "msg#facet.preview.toggleEntities",
-      selected: true,
+      data: 'msg#facet.preview.entities',
       action: (action) => {
         action.selected = !action.selected;
-        if(this.data?.highlightsPerCategory) {
-          Object.keys(this.data.highlightsPerCategory)
-            .filter(value => !this.hightlights.includes(value))
-            .forEach(cat =>
-              this.document?.toggleHighlight(cat, action.selected!)
-            );
-        }
+        this.highlightEntitiesPref = action.selected;
+        this.updateHighlights();
       }
     });
 
     this.toggleExtractsAction = new Action({
-        icon: "fas fa-highlighter",
-        title: "msg#facet.preview.toggleExtracts",
-        selected: true,
-        action: (action) => {
-            action.selected = !action.selected;
-            for(let highlight of this.hightlights) {
-              this.document?.toggleHighlight(highlight, action.selected);
-            }
-        }
+      icon: "fas fa-fw fa-highlighter",
+      title: "msg#facet.preview.toggleExtracts",
+      data: 'msg#facet.preview.extracts',
+      action: (action) => {
+        action.selected = !action.selected;
+        this.highlightExtractsPref = action.selected;
+        this.updateHighlights();
+      }
     });
 
     this.maximizeAction = new Action({
-      icon: "fas fa-search-plus",
+      icon: "fas fa-fw fa-search-plus",
       title: "msg#facet.preview.maximize",
       action: () => {
         this.scalingFactor = this.scalingFactor + this.scaleFactorThreshold;
@@ -112,7 +85,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     });
 
     this.minimizeAction = new Action({
-      icon: "fas fa-search-minus",
+      icon: "fas fa-fw fa-search-minus",
       title: "msg#facet.preview.minimize",
       disabled: this.scalingFactor === 0.1,
       action: () => {
@@ -124,31 +97,24 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     });
 
     this.pdfDownloadAction = new Action({
-      icon: "fas fa-file-pdf",
+      icon: "fas fa-fw fa-file-pdf",
       title: "msg#facet.preview.downloadPdf",
       action: () => this.searchService.notifyOpenOriginalDocument(this.record, undefined, AuditEventType.Doc_CachePdf)
-    })
+    });
 
   }
 
   override get actions(): Action[] {
     const actions: Action[] = [];
-    if(this.customActions){
-      actions.push(...this.customActions);
-    }
-    if(this.record.pdfUrl) {
-      actions.push(this.pdfDownloadAction);
-    }
-    if(this.highlightActions) {
-      actions.push(this.toggleExtractsAction, this.toggleEntitiesAction);
-    }
-    this.minimizeAction.update();
-    actions.push(this.minimizeAction, this.maximizeAction);
-    if(this.expandModal){
-      actions.push(this.expandModalAction);
-    }
-    if(this.closable){
-      actions.push(this.closeAction);
+    if (this.document) {  // Wait for the document to be loaded before showing the actions
+      if (this.downloadablePdf && this.record.pdfUrl) {
+        actions.push(this.pdfDownloadAction);
+      }
+      if (this.highlightActions) {
+        actions.push(this.toggleExtractsAction);
+        actions.push(this.toggleEntitiesAction);
+      }
+      actions.push(this.minimizeAction, this.maximizeAction);
     }
     return actions;
   }
@@ -169,9 +135,8 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     if(changes.height || changes.scalingFactor) {
       this._height = this.height;
     }
-    if(changes.filters && this.filters) {
-      this.document?.filterHighlights(this.filters);
-    }
+    this.toggleEntitiesAction.selected = this.highlightEntitiesPref;
+    this.toggleExtractsAction.selected = this.highlightExtractsPref;
   }
 
   ngAfterViewChecked() {
@@ -181,12 +146,43 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     }
   }
 
+  // Manage user preferences for entity/extract highlighting
+
+  get highlightEntitiesPref(): boolean {
+    return this.prefs.get("mini-preview-highlight-entities") ?? this.highlightEntities;
+  }
+
+  set highlightEntitiesPref(pref: boolean) {
+    this.prefs.set("mini-preview-highlight-entities", pref);
+  }
+
+  get highlightExtractsPref(): boolean {
+    return this.prefs.get("mini-preview-highlight-extracts") ?? this.highlightExtracts;
+  }
+
+  set highlightExtractsPref(pref: boolean) {
+    this.prefs.set("mini-preview-highlight-extracts", pref);
+  }
+
   onPreviewReady(document: PreviewDocument) {
     this.document = document;
-    if (this.document && this.filters) {
-      this.document.filterHighlights(this.filters);
-    }
-
+    this.updateHighlights();
     this.loading = false;
   }
+
+  updateHighlights() {
+    if (this.document && this.data) {
+      // The highlights to apply on the document are derived from the list of highlights applied
+      // by the server, filtered out by the user preferences
+      const filters = Object.keys(this.data.highlightsPerCategory)
+        .filter(highlight => {
+          // Either a highlight is part of the "extracts", or it is part of the "entities"
+          const isExtract = this.allExtracts.includes(highlight);
+          return ( isExtract && this.highlightExtractsPref && this.extracts.includes(highlight))
+              || (!isExtract && this.highlightEntitiesPref);
+        });
+      this.document.filterHighlights(filters);
+    }
+  }
+
 }

@@ -25,6 +25,7 @@ import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
 import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 import { LoadComponentModule } from "@sinequa/core/load-component";
 import { FacetConfig } from "../facet-config";
+import { FacetViewDirective } from "./facet-view.directive";
 
 @NgModule({
     imports: [
@@ -44,7 +45,7 @@ import { FacetConfig } from "../facet-config";
         LoadComponentModule
     ],
     declarations: [
-        BsFacetCard, BsFacetList, BsFacetTree,
+        BsFacetCard, FacetViewDirective, BsFacetList, BsFacetTree,
         BsFacetFilters,
         BsRefine,
         BsFacetRange, BsMySearch, BsFacetBar,
@@ -52,7 +53,7 @@ import { FacetConfig } from "../facet-config";
         BsFacetTagCloud
     ],
     exports: [
-        BsFacetCard, BsFacetList, BsFacetTree,
+        BsFacetCard, FacetViewDirective, BsFacetList, BsFacetTree,
         BsFacetFilters,
         BsRefine,
         BsFacetRange, BsMySearch, BsFacetBar,
