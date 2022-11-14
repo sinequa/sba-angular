@@ -107,14 +107,16 @@
             [record]="record"
             [query]="query"
             [scalingFactor]="0.8"
-            [expandModal]="false"
-            [closable]="false"
-            [height]="innerheight"
-            (recordClosed)="close()">
+            [height]="innerheight">
         </sq-facet-preview-2>
         <div *ngIf="error" class="text-white bg-warning">
             Could not retrieve document preview for {{config.recordId}}
         </div>
+
+        <ng-template #headerTpl>
+            <sq-result-title class="flex-grow-1 flex-basis-0" [record]="record"
+                titleLinkBehavior="open-if-url"></sq-result-title>
+        </ng-template>
     </ng-container>
 
 </sq-facet-card>

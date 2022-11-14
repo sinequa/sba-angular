@@ -183,7 +183,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     if(!this.isClickAction(event)){
       if(!this.isOpened(record)) {
         const item = this.dashboardService.addWidget(PREVIEW_WIDGET);
-        item.closable = false; // closable = false, as the underlying component already exposes a "close" action
         item.recordId = record.id;
         item.queryStr = this.searchService.query.toJsonForQueryString();
       }

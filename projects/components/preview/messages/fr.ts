@@ -42,8 +42,14 @@ export default {
             "minimize": "Réduire",
             "maximize": "Agrandir",
             "toggleExtracts": "Surlignage des extraits pertinents",
+            "extracts": "Extraits Pertinents",
             "toggleEntities": "Surlignage des entités",
-            "downloadPdf": "Télécharger la version PDF"
+            "entities": "Entités",
+            "passages": "Passages Pertinents",
+            "showPassages": "Montrer/cacher les passages extraits par Neural Search",
+            "downloadPdf": "Télécharger la version PDF",
+            "viewPreview": "Aperçu",
+            "viewPassages": "Passages"
         }
     }
 };

@@ -1,23 +1,10 @@
 <sq-loading-bar [active]="loading"></sq-loading-bar>
 <div class="d-flex flex-column {{iframeClass}}" [ngStyle]="{'height.%': 100}">
     <sq-preview-document-iframe
-                                [sandbox]="sandbox"
-                                [downloadUrl]="downloadUrl"
-                                [scalingFactor]="scalingFactor"
-                                (onPreviewReady)="onPreviewReady($event)">
+        [sandbox]="sandbox"
+        [downloadUrl]="downloadUrl"
+        [scalingFactor]="scalingFactor"
+        (onPreviewReady)="onPreviewReady($event)">
     </sq-preview-document-iframe>
+
 </div>
-
-<ng-template #headerTpl>
-    <sq-result-title class="flex-grow-1 flex-basis-0" [record]="record" [originalDocTarget]="originalDocTarget" titleLinkBehavior="open-if-url"></sq-result-title>
-</ng-template>
-
-<ng-template #subHeaderTpl>
-    <sq-metadata *ngIf="metadata && metadata.length > 0"
-        [record]="record"
-        [items]="metadata"
-        [showTitles]="true"
-        [showIcons]="true"
-        [clickable]="false">
-    </sq-metadata>
-</ng-template>

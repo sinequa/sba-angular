@@ -9,3 +9,4 @@ export * from "./facet-refine/facet-refine";
 export * from "./facet-tree/facet-tree";
 export * from "./facet-multi/facet-multi.component";
 export * from "./facet-tag-cloud/facet-tag-cloud";
+export * from "./facet-view.directive";

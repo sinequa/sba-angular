@@ -1,20 +1,38 @@
+.sq-passage div {
+  display: table-cell;
+}
+
+.list-group {
+  padding: .8rem 1.5rem;
+}
+
 .list-group-item {
   cursor: pointer;
 
-  max-height: 2.7rem;
+  max-height: 6.2rem;
   line-height: 1.8rem;
   font-weight: 300;
   transition: max-height .3s ease-in;
   overflow: hidden;
   margin-bottom: 0;
   white-space: break-spaces;
+  padding: .4rem 0;
+
+  .sq-passage-icon {
+    width: 1.25rem;
+
+    &::before {
+      font-size: medium;
+      font-weight: bold;
+      content: "+ ";
+    }
+  }
 
   &.expanded {
     max-height: var(--maximum);
-  }
-}
 
-.list-group-item::before {
-  font-size: medium;
-  font-weight: bold;
+    .sq-passage-icon::before {
+      content: "- ";
+    }
+  }
 }
