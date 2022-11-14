@@ -8,7 +8,6 @@ import {IQuery} from "./query/query";
 import {AuditEvents} from "./audit.web.service";
 import {CCColumn, SpellingCorrectionMode} from "./config/ccapp";
 
-import { TopPassage } from "./models/top-passage";
 /**
  * Describes the results of a call to the query web service
  */
@@ -740,8 +739,18 @@ export interface Answer {
     score: number;
     passage: Passage;
     /** Record from which this answer was extracted */
-    record: Record;
+    recordId: string;
+    $record: Record | undefined;
     $liked: undefined | boolean;
+}
+
+export interface TopPassage {
+    id: number;
+    index: string;
+    score: number;
+    text: string;
+    recordId: string;
+    $record?: Record;
 }
 
 /**
