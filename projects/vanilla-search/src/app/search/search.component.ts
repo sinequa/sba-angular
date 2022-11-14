@@ -302,16 +302,4 @@ export class SearchComponent implements OnInit {
       this.openPreviewIfNoUrl(value.item.$record, value.isLink);
     }
   }
-
-  onAnswerOpened(answer: Answer) {
-    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
-    const record = this.searchService.results?.records.find(r => r.id === answer.record.id);
-    this.openMiniPreview(record || answer.record);
-  }
-
-  onTopPassageClick(passage: TopPassage) {
-    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
-    const record = this.searchService.results?.records.find(r => r.id === passage.record.id);
-    this.openMiniPreview(record || passage.record, true);
-  }
 }
