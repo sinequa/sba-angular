@@ -36,23 +36,3 @@ sq-tabs {
     }
   }
 }
-
-/**
-  Dark mode
-  */
-.dark {
-  --sq-tabs-bg: transparent;
-
-  sq-tabs {
-
-    .nav-link {
-      &:hover {
-        background-color: $dark-background-hover;
-      }
-
-      &.active {
-        background-color: $dark-background-highlight !important;
-      }
-    }
-  }
-}

@@ -154,26 +154,3 @@ sq-facet-date {
     --bs-btn-padding-y: .25rem !important;
   }
 }
-
-/**
-  Dark mode
- */
-.dark sq-facet-card .card-header {
-  .btn-light {
-
-    &:hover,
-    &.active {
-      background-color: var(--brand-400, #{$dark-secondary});
-      border-color: var(--brand-400, #{$dark-secondary});
-      color: $black;
-    }
-
-    &.active:hover {
-      background-color: var(--brand-400, #{$dark-secondary});
-      opacity: .6;
-    }
-  }
-
-
-
-}

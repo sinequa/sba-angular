@@ -55,34 +55,3 @@ sq-facet-tree {
     }
   }
 }
-
-/**
-  Dark mode
-  */
-.dark {
-
-  sq-facet-list,
-  sq-facet-tree {
-    .list-group-item:not(.list-group-item-primary, .list-group-item-success) {
-      a {
-        color: $white !important;
-      }
-
-      &:hover {
-        background-color: $blue-selection;
-
-        a {
-          color: $white !important;
-        }
-      }
-
-      &:active {
-        background-color: $blue-1;
-
-        a {
-          color: $white !important;
-        }
-      }
-    }
-  }
-}

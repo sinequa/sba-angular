@@ -10,10 +10,3 @@ sq-result-source span {
     font-weight: 300;
     font-size: 1rem;
 }
-
-/**
-  Dark mode
- */
-.dark {
-    --sq-result-source-color: #{$dark-link};
-}
