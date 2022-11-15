@@ -7,13 +7,14 @@ import { Action } from '@sinequa/components/action';
   selector: 'sq-facet-baskets',
   templateUrl: './facet-baskets.component.html',
   styles: [`
-.basket-item .basket-delete{
+.basket-item .basket-delete,
+.basket-item:hover .basket-count {
     display: none;
 }
 
-.basket-item:hover .basket-delete{
+.basket-item:hover .basket-delete,
+.basket-item .basket-count {
     display: block;
-    transition: opacity 0.2s ease-in-out;
 }
   `]
 })

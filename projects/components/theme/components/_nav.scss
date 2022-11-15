@@ -5,11 +5,11 @@ nav {
         background-color: var(--brand);
 
         .nav-link {
-            color: var(--sq-text, --bs-nav-link-color);
+            color: var(--sq-text, var(--bs-nav-link-color));
 
             &:hover,
             &:focus {
-                color: var(--sq-text-hover, --bs-nav-link-hover-color);
+                color: var(--sq-text-hover, var(--bs-nav-link-hover-color));
             }
         }
     }

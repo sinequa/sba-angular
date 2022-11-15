@@ -7,13 +7,14 @@ import { Action } from '@sinequa/components/action';
   selector: 'sq-facet-saved-queries',
   templateUrl: './facet-saved-queries.html',
   styles: [`
-.saved-query-item .query-delete{
+.saved-query-item .query-delete,
+.saved-query-item:hover .query-text {
     display: none;
 }
 
-.saved-query-item:hover .query-delete{
+.saved-query-item:hover .query-delete,
+.saved-query-item .query-text {
     display: block;
-    transition: opacity 0.2s ease-in-out;
 }
   `]
 })

@@ -11,13 +11,16 @@ import { Query } from '@sinequa/core/app-utils';
   selector: 'sq-facet-recent-queries',
   templateUrl: './facet-recent-queries.html',
   styles: [`
-.recent-query-item .query-delete, .recent-query-item .query-save{
+.recent-query-item .query-delete,
+.recent-query-item .query-save,
+.recent-query-item:hover .query-date {
     display: none;
 }
 
-.recent-query-item:hover .query-delete, .recent-query-item:hover .query-save{
+.recent-query-item:hover .query-delete,
+.recent-query-item:hover .query-save,
+.recent-query-item .query-date {
     display: block;
-    transition: opacity 0.2s ease-in-out;
 }
   `]
 })
