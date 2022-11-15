@@ -41,6 +41,10 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedAnswer = 0;
     this.setAnswer();
+    const answers = changes.results?.currentValue?.answers?.answers;
+    if (answers?.length) {
+      this.notifyAnswerDisplay(answers);
+    }
   }
 
   openPreview(answer: Answer) {
@@ -52,12 +56,12 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   }
 
   previous() {
-    this.selectedAnswer = (this.selectedAnswer+this.answers.length-1) % this.answers.length;
+    this.selectedAnswer = (this.selectedAnswer + this.answers.length - 1) % this.answers.length;
     this.setAnswer();
   }
 
   next() {
-    this.selectedAnswer = (this.selectedAnswer+1) % this.answers.length;
+    this.selectedAnswer = (this.selectedAnswer + 1) % this.answers.length;
     this.setAnswer();
   }
 
@@ -70,7 +74,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
       this.answer$ = this.searchService.getRecords([answer.recordId]).pipe(map(records => {
         answer.$record = records[0];
         return answer;
-     }));
+      }));
     }
   }
 
@@ -82,11 +86,11 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     this.setLiked(answer, false);
   }
 
-  setLiked(answer: Answer, liked: boolean) {
-    const type = liked? "Answer_Liked" : "Answer_Disliked";
-    if(answer.$liked === liked) {
+  private setLiked(answer: Answer, liked: boolean) {
+    const type = liked ? "Answer_Liked" : "Answer_Disliked";
+    if (answer.$liked === liked) {
       answer.$liked = undefined;
-      this.auditService.notify(this.makeAuditEvent(type+"_Cancelled", answer))
+      this.auditService.notify(this.makeAuditEvent(type + "_Cancelled", answer))
         .subscribe();
     }
     else {
@@ -96,15 +100,26 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     }
   }
 
+  private notifyAnswerDisplay(answers: Answer[]) {
+    // const auditEvent: AuditEvent = {
+    //   type: 'Answer_Display',
+    //   detail: {
+
+    //   }
+    // };
+    // this.auditService.notify(auditEvent)
+    //   .subscribe();
+  }
+
   protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
     return {
       type,
       detail: {
-          text: this.searchService.query.text,
-          message: answer.text,
-          detail: answer.passage.highlightedText,
-          resultcount: this.answers.length,
-          rank: this.selectedAnswer
+        text: this.searchService.query.text,
+        message: answer.text,
+        detail: answer.passage.highlightedText,
+        resultcount: this.answers.length,
+        rank: this.selectedAnswer
       }
     }
   }
