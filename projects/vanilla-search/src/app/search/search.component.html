@@ -92,13 +92,13 @@
             <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
 
             <!-- Answer card -->
-            <sq-facet-card *ngIf="hasAnswers" class="mt-3" [startCollapsed]="answersFacet._collapsed" #answersFacet>
+            <sq-facet-card *ngIf="hasAnswers" class="mt-3" #answersFacet>
                 <sq-answer-card #facet [results]="results" (previewOpened)="onPreviewOpened($event)"
                     (titleClicked)="onTitleClick($event)" [collapsed]="answersFacet._collapsed"></sq-answer-card>
             </sq-facet-card>
 
             <!-- nth top pasages -->
-            <sq-facet-card *ngIf="hasPassages" class="mt-3" [startCollapsed]="passagesFacet._collapsed" #passagesFacet>
+            <sq-facet-card *ngIf="hasPassages" class="mt-3" #passagesFacet>
                 <sq-top-passages #facet [results]="results" (previewOpened)="onPreviewOpened($event)"
                     (titleClicked)="onTitleClick($event)" [collapsed]="passagesFacet._collapsed"></sq-top-passages>
             </sq-facet-card>
