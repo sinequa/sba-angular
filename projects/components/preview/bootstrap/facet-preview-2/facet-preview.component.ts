@@ -9,6 +9,8 @@ import { Action } from '@sinequa/components/action';
 import { SearchService } from "@sinequa/components/search";
 import { UserPreferences } from "@sinequa/components/user-settings";
 
+const DEFAULT_EXTRACTS = ["matchlocations", "extractslocations", "matchingpassages"];
+
 @Component({
   selector: 'sq-facet-preview-2',
   templateUrl: './facet-preview.component.html',
@@ -27,9 +29,9 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() highlightEntities = false;
   @Input() highlightExtracts = false;
   /** List of highlights to be shown when turning "extracts" on (should be a subset of allExtracts) */
-  @Input() extracts = ["matchlocations", "extractslocations", "matchingpassages"];
+  @Input() extracts = DEFAULT_EXTRACTS;
   /** List of highlights returned by the server considered as "extracts" (but not necessarily displayed), all the others being considered "entities" */
-  @Input() allExtracts = ["matchlocations", "extractslocations", "matchingpassages"];
+  @Input() allExtracts = DEFAULT_EXTRACTS;
   @Output() previewLoaded = new EventEmitter<PreviewDocument>();
   @HostBinding('style.height.px') _height: number = this.height;
 
@@ -177,8 +179,10 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       const filters = Object.keys(this.data.highlightsPerCategory)
         .filter(highlight => {
           // Either a highlight is part of the "extracts", or it is part of the "entities"
-          const isExtract = this.allExtracts.includes(highlight);
-          return ( isExtract && this.highlightExtractsPref && this.extracts.includes(highlight))
+          const allExtracts = this.allExtracts || DEFAULT_EXTRACTS;
+          const extracts = this.extracts || DEFAULT_EXTRACTS;
+          const isExtract = allExtracts.includes(highlight);
+          return ( isExtract && this.highlightExtractsPref && extracts.includes(highlight))
               || (!isExtract && this.highlightEntitiesPref);
         });
       this.document.filterHighlights(filters);

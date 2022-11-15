@@ -980,7 +980,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         query.globalRelevance = 0;
         query.aggregations = [];
         query.addSelect(
-            this.exprBuilder.makeListExpr('id', records.filter(r => !r.record).map(r => r.id))
+            this.exprBuilder.makeOrExpr('id', records.filter(r => !r.record).map(r => r.id))
         );
 
         return this.queryService.getResults(query)
