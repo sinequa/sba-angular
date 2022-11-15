@@ -171,12 +171,12 @@
                         [record]="openedDoc"
                         [query]="searchService.query"
                         [height]="750"
-                        (recordClosed)="closeDocument()"
                         (previewLoaded)="previewReady($event)">
                     </sq-facet-preview-2>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault">
+                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault"
+                    *ngIf="openedDoc.$hasPassages">
                     <sq-passage-list [record]="openedDoc"></sq-passage-list>
                 </ng-template>
 
