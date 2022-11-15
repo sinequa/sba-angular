@@ -17,6 +17,7 @@ sq-facet-card {
 
   .card-header {
     --bs-card-border-width: 0;
+    font-weight: 600;
     padding: .4rem .8rem .4rem 1.5rem !important;
 
     .card-icon.primary-icon {
@@ -28,13 +29,7 @@ sq-facet-card {
     }
 
     sq-result-title {
-      font-weight: 600;
       font-size: 1.15rem;
-    }
-
-    .sq-view-actions .btn {
-      font-size: 1rem;
-      font-weight: 400;
     }
 
     .btn {
@@ -182,4 +177,3 @@ sq-facet-date {
 
 
 }
-
