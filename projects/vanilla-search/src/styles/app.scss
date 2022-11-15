@@ -210,6 +210,14 @@ sq-facet-card {
   display: block;
 }
 
+sq-facet-card .striped-card .list-group-item {
+    --bs-list-group-bg: #f6f6f6;
+
+    &:nth-child(even) {
+        --bs-list-group-bg: #fbfbfb;
+    }
+}
+
 sq-feedback-menu {
     button.btn{
         border-radius: 50%;
