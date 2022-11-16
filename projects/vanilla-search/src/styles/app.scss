@@ -209,7 +209,7 @@ sq-facet-card {
   display: block;
 }
 
-sq-facet-card.striped .list-group-item {
+sq-facet-card.striped .list-group-item:not(.unstriped) {
     --bs-list-group-bg: #fbfbfb;
 
     &:nth-child(even) {

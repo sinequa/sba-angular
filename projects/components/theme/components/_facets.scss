@@ -5,7 +5,7 @@ sq-facet-card {
     box-shadow: $sq-box-shadow;
   }
 
-  &.striped .list-group-item {
+  &.striped .list-group-item:not(.unstriped) {
     --bs-list-group-bg: #{$facet-white-1} !important;
 
     &:nth-child(even) {
@@ -16,7 +16,7 @@ sq-facet-card {
   .card-header {
     --bs-card-border-width: 0;
     font-weight: 600;
-    padding: .4rem .8rem .4rem 1.5rem !important;
+    padding: .4rem .8rem .4rem 1.25rem !important;
 
     .card-icon.primary-icon {
       color: var(--primary, #{$blue-1});
@@ -74,7 +74,7 @@ sq-facet-card {
     .list-group-item:not(.sq-passage) {
       --bs-list-group-border-width: 0;
       --bs-list-group-color: #{$body-text-grey-1};
-      padding: .4rem 1.5rem !important;
+      padding: .4rem 1.25rem !important;
     }
 
     .list-group-item-primary,
