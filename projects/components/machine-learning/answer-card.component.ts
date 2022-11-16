@@ -47,7 +47,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     this.setAnswer();
     const answers = changes.results?.currentValue?.answers?.answers;
     if (answers?.length) {
-      this.notifyAnswerDisplay(answers[0]);
+      this.notifyAnswerDisplay(answers);
     }
   }
 
@@ -104,21 +104,23 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     }
   }
 
-  private notifyAnswerDisplay(answer: Answer) {
-    const auditEvent: AuditEvent = {
-      type: 'Answer_Display',
-      detail: {
-        text: this.searchService.query.text,
-        message: answer.text,
-        recordId: answer.recordId,
-        passageId: answer.passage.id,
-        afScore: answer["af.score"],
-        rmScore: answer["rm.score"]
-      }
-    };
-    console.log('auditEvent', auditEvent, JSON.stringify(auditEvent));
-    // this.auditService.notify(auditEvent)
-    //   .subscribe();
+  private notifyAnswerDisplay(answers: Answer[]) {
+    answers.forEach((answer, index) => {
+      const auditEvent: AuditEvent = {
+        type: 'Answer_Display',
+        detail: {
+          text: this.searchService.query.text,
+          answerText: answer.text,
+          recordId: answer.recordId,
+          passageId: answer.passage.id,
+          afScore: answer["af.score"],
+          rmScore: answer["rm.score"],
+          answerRank: index
+        }
+      };
+      this.auditService.notify(auditEvent)
+        .subscribe();
+    });
   }
 
   protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
