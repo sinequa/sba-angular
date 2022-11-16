@@ -9,7 +9,7 @@ import {Record} from "@sinequa/core/web-services";
 p, ul {
     margin: 0;
     color: #676767;
-    font-size: 0.9em;
+    font-size: 0.875em;
 }
 .extracts-text {
     word-break: break-word;

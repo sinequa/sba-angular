@@ -12,7 +12,7 @@ import {SearchService} from "../../search.service";
 export class BsSortSelector implements OnChanges {
     @Input() results: Results;  // Needed to detect Changes
     @Input() rightAligned: boolean;
-    @Input() style: string;
+    @Input() style: string = '';
     @Input() size: string;
     sortAction: Action | undefined;
 

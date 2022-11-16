@@ -1,0 +1,10 @@
+.badge {
+    font-size: 1rem;
+    line-height: 1.35rem;
+    font-weight: 400;
+
+    &:not(.sq-small-badge) {
+        --bs-badge-padding-x: 1.45rem;
+        --bs-badge-padding-y: 0.35rem;
+    }
+}
