@@ -32,8 +32,7 @@
                                 [title]="'msg#recentDocuments.recentDocuments'" 
                                 [collapsible]="false"
                                 [icon]="'fas fa-file-alt'"
-                                [striped]="true"
-                                class="{{ facetSizing(i, homeFacets.length) }} mb-3">
+                                class="{{ facetSizing(i, homeFacets.length) }} mb-3 striped">
                     <sq-facet-recent-documents #facet [maxDocuments]="5"></sq-facet-recent-documents>
                 </sq-facet-card>
 
@@ -42,8 +41,7 @@
                                 [title]="'msg#facet.recentQueries.title'" 
                                 [collapsible]="false"
                                 [icon]="'fas fa-history'"
-                                [striped]="true"
-                                class="{{ facetSizing(i, homeFacets.length) }} mb-3">
+                                class="{{ facetSizing(i, homeFacets.length) }} mb-3 striped">
                     <sq-facet-recent-queries #facet [maxQueries]="5"></sq-facet-recent-queries>
                 </sq-facet-card>
 
@@ -52,8 +50,7 @@
                                 [title]="'msg#savedQueries.savedQueries'" 
                                 [collapsible]="false"
                                 [icon]="'fas fa-save'"
-                                [striped]="true"
-                                class="{{ facetSizing(i, homeFacets.length) }} mb-3">
+                                class="{{ facetSizing(i, homeFacets.length) }} mb-3 striped">
                     <sq-facet-saved-queries #facet [maxQueries]="5"></sq-facet-saved-queries>
                 </sq-facet-card>
 
@@ -62,8 +59,7 @@
                                 [title]="'msg#baskets.baskets'" 
                                 [collapsible]="false"
                                 [icon]="'fas fa-inbox'"
-                                [striped]="true"
-                                class="{{ facetSizing(i, homeFacets.length) }} mb-3">
+                                class="{{ facetSizing(i, homeFacets.length) }} mb-3 striped">
                     <sq-facet-baskets #facet [maxBaskets]="5"></sq-facet-baskets>
                 </sq-facet-card>
 

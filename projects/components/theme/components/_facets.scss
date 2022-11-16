@@ -3,15 +3,13 @@ sq-facet-card {
     --bs-card-border-width: 0;
     border-radius: var(--bs-card-inner-border-radius);
     box-shadow: $sq-box-shadow;
+  }
 
-    &.striped-card {
-      .list-group-item {
-        --bs-list-group-bg: #{$facet-white-1};
+  &.striped .list-group-item {
+    --bs-list-group-bg: #{$facet-white-1} !important;
 
-        &:nth-child(even) {
-          --bs-list-group-bg: #{$facet-white-2};
-        }
-      }
+    &:nth-child(even) {
+      --bs-list-group-bg: #{$facet-white-2} !important;
     }
   }
 

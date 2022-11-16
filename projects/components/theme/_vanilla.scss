@@ -1,5 +1,13 @@
 @import "sinequa-theme";
 
 .main {
-    margin-top: 85px !important;
+    margin-top: 6rem !important;
+}
+
+sq-feedback-menu button.btn {
+    border-radius: inherit !important;
+}
+
+.sq-toolbar {
+    margin: 0.625rem 0;
 }

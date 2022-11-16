@@ -20,7 +20,7 @@ import { SearchService } from "@sinequa/components/search";
   -webkit-line-clamp: var(--line-clamp, 3);
   -webkit-box-orient: vertical;
   white-space: normal;
-  font-size: 0.9em;
+  font-size: 0.875em;
 
   &.expanded {
     --line-clamp: 0;

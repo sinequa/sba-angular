@@ -121,7 +121,7 @@ app-search nav {
 
 sq-tabs {
     .nav-item .count {
-        font-size: 0.9em;
+        font-size: 0.875em;
         color: $secondary-color;
     }
 }
@@ -168,7 +168,7 @@ sq-sponsored-results {
     }
     .sq-sponsored-link-view-summary {
         color: $secondary-color;
-        font-size: 0.9em;
+        font-size: 0.875em;
     }
 }
 
@@ -177,7 +177,7 @@ sq-facet-card.facet-preview {
     .card-header {
         sq-metadata {
             color: $secondary-color;
-            font-size: 0.9em;
+            font-size: 0.875em;
         }
     }
 
@@ -209,11 +209,11 @@ sq-facet-card {
   display: block;
 }
 
-sq-facet-card .striped-card .list-group-item {
-    --bs-list-group-bg: #f6f6f6;
+sq-facet-card.striped .list-group-item {
+    --bs-list-group-bg: #fbfbfb;
 
     &:nth-child(even) {
-        --bs-list-group-bg: #fbfbfb;
+        --bs-list-group-bg: #f6f6f6;
     }
 }
 

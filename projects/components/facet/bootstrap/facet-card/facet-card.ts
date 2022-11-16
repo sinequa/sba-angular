@@ -111,11 +111,6 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     @Input() startSettingsOpened: boolean = false;
 
     /**
-     * Whether the list-group items have a striped background
-     */
-    @Input() striped: boolean = false;
-
-    /**
      * Event triggered when the facet gets expanded or reduced
      */
     @Output() facetExpanded = new EventEmitter<"expanded" | "reduced">();

@@ -15,7 +15,7 @@ import { map, Observable, of } from "rxjs";
 }
 
 .passage-text {
-  font-size: 0.9em;
+  font-size: 0.875em;
 }
   `]
 })

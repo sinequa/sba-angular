@@ -180,6 +180,24 @@ Input with prepend/append icons
   padding-left: .1rem;
 }
 
+/**
+Header search input 
+ */
+nav .input-group {
+  .form-control {
+    padding: 0;
+  }
+
+  input {
+    border-radius: 0.375rem;
+  }
+
+  .btn {
+    --bs-btn-padding-y: .5rem;
+    --bs-btn-padding-x: .8rem !important;
+  }
+}
+
 // remove padding from sq-dropdown-form's div containing the input already having one
 .sq-dropdown-form .form-control {
   padding: 0;
