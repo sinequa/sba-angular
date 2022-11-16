@@ -7,6 +7,7 @@ $dark-background: #1c1e21;
 $dark-background-highlight: rgb(255,255,255,0.15);
 $dark-background-hover: rgb(255,255,255,0.08);
 $dark-borders: #777373;
+$dark-link: #9bccff;
 
 body.dark {
 
@@ -16,7 +17,7 @@ body.dark {
     // Bootstrap components dark mode
 
     a:not(.btn):not(.badge) {
-        color: #9bccff;
+        color: $dark-link;
     }
 
     .btn-link {
@@ -28,13 +29,13 @@ body.dark {
     }
 
     .card {
-        background-color: $dark-background;
-        border-color: $dark-borders;
+        --bs-card-bg: #{$dark-background};
+        --bs-card-border-color: #{$dark-borders};
         box-shadow: 0px 3px 9px 2px $dark-background-highlight;
 
         .card-header {
-            background-color: $dark-background-highlight;
-            border-color: $dark-borders;
+            --bs-card-cap-bg: #{$dark-background-highlight};
+            --bs-card-border-color: #{$dark-borders};
         }
     }
 
@@ -155,6 +156,10 @@ body.dark {
         .btn:not(.btn-primary):not(.btn-secondary) {
             color: $dark-color;
         }
+    }
+
+    .passages-toggle {
+        color: $dark-color;
     }
 
     app-search-form {

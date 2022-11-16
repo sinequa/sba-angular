@@ -8,13 +8,14 @@ import { SearchService } from '@sinequa/components/search';
   selector: 'sq-facet-recent-documents',
   templateUrl: './facet-recent-documents.html',
   styles: [`
-.recent-document-item .document-delete{
-    opacity: 0;
+.recent-document-item .document-delete,
+.recent-document-item:hover .document-date {
+    display: none;
 }
 
-.recent-document-item:hover .document-delete{
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out;
+.recent-document-item:hover .document-delete,
+.recent-document-item .document-date {
+    display: block;
 }
   `]
 })

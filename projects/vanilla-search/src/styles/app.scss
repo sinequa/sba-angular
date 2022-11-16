@@ -27,17 +27,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "@fortawesome/fontawesome-free/scss/regular";
 @import "@fortawesome/fontawesome-free/scss/solid";
 
-// override btn-light and btn-light:hover's background-color as in Boostrap 5 is too lighter
-.btn-light {
-    &.active, &:hover {
-        --bg-color: 226, 230, 234;
-        background-color: rgb(var(--bg-color));
-        border-color: #dae0e5;
-    }
-    &.active:hover {
-        background-color: rgb(var(--bg-color), .6);
-    }
-}
+@import "vis-network/dist/dist/vis-network.min.css";
 
 .btn-link {
   text-decoration: none;
@@ -68,6 +58,9 @@ $action-menu-breakpoint: sm;
 @import "../../../components/notification/bootstrap/notification.scss";
 @import "../../../components/metadata/metadata.scss";
 @import "../../../components/advanced/bootstrap/advanced.scss";
+
+// Sinequa global theme
+@import "../../../components/theme/vanilla";
 
 $secondary-color: #6c757d;
 
@@ -128,7 +121,7 @@ app-search nav {
 
 sq-tabs {
     .nav-item .count {
-        font-size: 0.9em;
+        font-size: 0.875em;
         color: $secondary-color;
     }
 }
@@ -175,7 +168,7 @@ sq-sponsored-results {
     }
     .sq-sponsored-link-view-summary {
         color: $secondary-color;
-        font-size: 0.9em;
+        font-size: 0.875em;
     }
 }
 
@@ -184,7 +177,7 @@ sq-facet-card.facet-preview {
     .card-header {
         sq-metadata {
             color: $secondary-color;
-            font-size: 0.9em;
+            font-size: 0.875em;
         }
     }
 
@@ -216,6 +209,14 @@ sq-facet-card {
   display: block;
 }
 
+sq-facet-card.striped .list-group-item:not(.unstriped) {
+    --bs-list-group-bg: #fbfbfb;
+
+    &:nth-child(even) {
+        --bs-list-group-bg: #f6f6f6;
+    }
+}
+
 sq-feedback-menu {
     button.btn{
         border-radius: 50%;
@@ -232,6 +233,10 @@ sq-facet-tree {
     .list-group.list-group-flush.scrollable {
         max-height: calc(75vh - 250px);
     }
+}
+
+sq-facet-list .facet-results-scrollable {
+    max-height: 400px !important;
 }
 
 .sq-passage {

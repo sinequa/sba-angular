@@ -8,7 +8,7 @@
         <i *ngIf="enableSave" class="query-save ms-2 far fa-save" [title]="'msg#recentQueries.save' | sqMessage" (click)="saveQuery(query, $event)"></i>
         <i *ngIf="enableDelete"class="query-delete ms-2 fas fa-times" [title]="'msg#recentQueries.delete' | sqMessage" (click)="deleteQuery(query, $event)"></i>
     </a>
-    <div *ngIf="recentQueriesService.recentqueries.length === 0" class="list-group-item text-center text-muted fst-italic small py-5">
+    <div *ngIf="recentQueriesService.recentqueries.length === 0" class="list-group-item text-center text-muted fst-italic small unstriped py-5">
         {{ 'msg#recentQueries.noRecentQuery' | sqMessage }}
     </div>
 </div>

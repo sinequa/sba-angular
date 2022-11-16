@@ -1,0 +1,67 @@
+.form-check-input[type=checkbox] {
+  border: $sq-border;
+  transition: $sq-transition;
+
+  &:focus {
+    outline: $sq-focus-outline;
+  }
+
+  &:hover {
+    border-color: $grey-5;
+  }
+
+  &:checked {
+    background-color: var(--primary, $blue-1);
+    border-color: var(--primary, $blue-1);
+
+    &:hover {
+      background-color: var(--primary-400, $darker-blue);
+      border-color: var(--primary-400, $darker-blue);
+    }
+
+  }
+
+  &.was-validated:valid {
+    border-color: $success-1;
+
+    &:hover {
+      border-color: $darker-green;
+    }
+
+    &:checked {
+      background-color: $success-1;
+
+      &:hover {
+        background-color: $darker-green;
+      }
+    }
+  }
+
+  &.was-validated:invalid {
+    border-color: $error-1;
+
+    &:hover {
+      border-color: $darker-red;
+    }
+
+    &:checked {
+      background-color: $error-1;
+
+      &:hover {
+        background-color: $darker-red;
+      }
+    }
+  }
+
+  &:disabled {
+    border-color: $grey-3;
+    background-color: $grey-3;
+
+    &:hover {
+      border-color: $grey-3;
+      background-color: $grey-3;
+    }
+
+    opacity: 1;
+  }
+}
