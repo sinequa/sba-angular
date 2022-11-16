@@ -1,4 +1,4 @@
-<ul class="sq-sponsored-links-list" *ngIf="!!sponsoredlinks" >
+<ul class="sq-sponsored-links-list" *ngIf="!!sponsoredlinks && sponsoredlinks.length" >
     <li *ngFor="let link of sponsoredlinks" class="sponsored-item" >
         <div class="sq-sponsored-link-view">
             <div *ngIf="link.thumbnail" class="sq-sponsored-link-view-thumbnail">

@@ -1,0 +1,12 @@
+sq-result-title .sq-result-title {
+    color: $blue-1;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+sq-result-source a,
+sq-result-source span {
+    color: var(--sq-result-source-color) !important;
+    font-weight: 300;
+    font-size: 1rem;
+}

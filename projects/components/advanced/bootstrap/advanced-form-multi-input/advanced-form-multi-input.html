@@ -1,5 +1,6 @@
-<div class="d-inline">
-    <label>{{label | sqMessage}}</label>
+<!--<div class="d-inline">-->
+<div class="mb-3">
+    <label class="form-label">{{label | sqMessage}}</label>
     <section class="sq-dropdown-form">
         <div class="form-control d-flex flex-wrap gap-1 align-items-baseline"
             sqAdvancedFormValidation
@@ -7,7 +8,7 @@
             [validationForm]="form">
             <span
                 *ngFor="let item of items"
-                class="badge rounded-pill bg-secondary me-1 cursor-default" [ngClass]="item.category">
+                class="badge rounded-pill bg-secondary ms-1 cursor-default" [ngClass]="item.category">
                 {{ item.display }}
                 <span class="fas fa-times-circle ms-1 clickable" (click)="removeItem(item)"></span>
             </span>

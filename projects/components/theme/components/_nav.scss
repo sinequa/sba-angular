@@ -1,0 +1,20 @@
+nav {
+    box-shadow: 1px 3px 4px 0px rgb(var(--brand), .2);
+
+    &.navbar {
+        @include media-breakpoint-up(sm) {
+            --bs-navbar-padding-y: 1.25rem;
+        }
+
+        background-color: var(--brand, #{$white}) !important;
+
+        .nav-link {
+            color: var(--sq-text, var(--bs-nav-link-color));
+
+            &:hover,
+            &:focus {
+                color: var(--sq-text-hover, var(--bs-nav-link-hover-color));
+            }
+        }
+    }
+}
