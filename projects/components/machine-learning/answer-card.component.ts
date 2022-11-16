@@ -43,7 +43,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     this.setAnswer();
     const answers = changes.results?.currentValue?.answers?.answers;
     if (answers?.length) {
-      this.notifyAnswerDisplay(answers);
+      this.notifyAnswerDisplay(answers[0]);
     }
   }
 
@@ -100,13 +100,19 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     }
   }
 
-  private notifyAnswerDisplay(answers: Answer[]) {
-    // const auditEvent: AuditEvent = {
-    //   type: 'Answer_Display',
-    //   detail: {
-
-    //   }
-    // };
+  private notifyAnswerDisplay(answer: Answer) {
+    const auditEvent: AuditEvent = {
+      type: 'Answer_Display',
+      detail: {
+        text: this.searchService.query.text,
+        message: answer.text,
+        recordId: answer.recordId,
+        passageId: answer.passage.id,
+        afScore: answer["af.score"],
+        rmScore: answer["rm.score"]
+      }
+    };
+    console.log('auditEvent', auditEvent, JSON.stringify(auditEvent));
     // this.auditService.notify(auditEvent)
     //   .subscribe();
   }
