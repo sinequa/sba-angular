@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
-import { default_facet_components, FacetConfig } from '@sinequa/components/facet';
+import { BsFacetCard, default_facet_components, FacetConfig } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
@@ -43,6 +43,7 @@ export class SearchComponent implements OnInit {
   // Whether the results contain answers/passages data (neural search)
   public hasAnswers: boolean;
   public hasPassages: boolean;
+  public passageId: number;
 
   isEmpty = Utils.isEmpty;
 
@@ -51,12 +52,13 @@ export class SearchComponent implements OnInit {
       "date": BsFacetDate
   }
 
+  @ViewChild("previewFacet") previewFacet: BsFacetCard;
+
   constructor(
     private previewService: PreviewService,
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
-    private cdr: ChangeDetectorRef,
     public searchService: SearchService,
     public selectionService: SelectionService,
     public loginService: LoginService,
@@ -164,7 +166,10 @@ export class SearchComponent implements OnInit {
     this.openedDoc = record;
     this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
     if (passageId) {
-      this.openedDoc.$passageId = passageId;
+      this.passageId = passageId;
+      if (this.previewFacet) {
+        this.previewFacet.setViewById('passages');
+      }
     }
     if (this.ui.screenSizeIsLessOrEqual('md')) {
       this._showFilters = false; // Hide filters on small screens if a document gets opened
@@ -282,8 +287,6 @@ export class SearchComponent implements OnInit {
   }
 
   onPreviewOpened(item: TopPassage) {
-    this.openedDoc = undefined;
-    this.cdr.detectChanges();
     if (item.$record) {
       this.openMiniPreview(item.$record, item.id);
     }

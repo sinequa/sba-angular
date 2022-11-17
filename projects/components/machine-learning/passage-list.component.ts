@@ -20,14 +20,15 @@ export class PassageListComponent implements OnChanges, AfterViewInit {
 
   @Input() record: Record;
   @Input() maxPassages?: number;
+  @Input() passageId?: number;
 
   @ViewChildren("list", ) viewChildren!: QueryList<ElementRef>;
 
   ngOnChanges(changes: SimpleChanges): void {
     const passages = this.record.matchingpassages?.passages;
     // invalidate all $expanded property except for the first passage
-    passages?.forEach((p, index) => p.$expanded = !Utils.isEmpty(this.record.$passageId)
-      ? p.id === this.record.$passageId : index === 0);
+    passages?.forEach((p, index) => p.$expanded = !Utils.isEmpty(this.passageId)
+      ? p.id === this.passageId : index === 0);
   }
 
   ngAfterViewInit(): void {

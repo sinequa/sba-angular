@@ -150,7 +150,7 @@
                 viewButtonsStyle="outline-primary"
                 [actions]="previewCustomActions"
                 actionsSize=""
-                class="mb-3 facet-preview">
+                class="mb-3 facet-preview" #previewFacet>
 
                 <ng-template #headerTpl>
                     <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url"></sq-result-title>
@@ -175,9 +175,9 @@
                     </sq-facet-preview-2>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="!isEmpty(openedDoc.$passageId)"
+                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="!isEmpty(passageId)" [id]="'passages'"
                     *ngIf="openedDoc.$hasPassages">
-                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                    <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
                 </ng-template>
 
             </sq-facet-card>

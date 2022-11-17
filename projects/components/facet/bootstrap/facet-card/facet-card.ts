@@ -311,6 +311,13 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         this.viewActions.forEach(a => a.selected = a.data === view);
     }
 
+    setViewById(id: string) {
+        const view = this.views.find(view => view.id === id);
+        if (view) {
+            this.setView(view);
+        }
+    }
+
     updateActions() {
         this.allActions = this.getActions();
         this.allSecondaryActions = this.getSecondaryActions();
