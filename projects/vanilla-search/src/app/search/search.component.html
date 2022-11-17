@@ -99,7 +99,7 @@
 
             <!-- nth top pasages -->
             <sq-facet-card *ngIf="hasPassages" class="mt-3" #passagesFacet>
-                <sq-top-passages #facet [results]="results" (previewOpened)="onPreviewOpened($event)"
+                <sq-top-passages #facet [results]="results" (previewOpened)="openMiniPreview($event.$record, $event.id)"
                     (titleClicked)="onTitleClick($event)" [collapsed]="passagesFacet._collapsed"></sq-top-passages>
             </sq-facet-card>
 

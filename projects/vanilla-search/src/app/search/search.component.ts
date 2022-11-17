@@ -284,12 +284,6 @@ export class SearchComponent implements OnInit {
     return document.body.classList.contains("dark");
   }
 
-  onPreviewOpened(item: TopPassage) {
-    if (item.$record) {
-      this.openMiniPreview(item.$record, item.id);
-    }
-  }
-
   onTitleClick(value: {item: Answer | TopPassage, isLink: boolean}) {
     if (value.item.$record) {
       this.openPreviewIfNoUrl(value.item.$record, value.isLink);
