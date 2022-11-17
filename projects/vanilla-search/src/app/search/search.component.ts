@@ -42,7 +42,7 @@ export class SearchComponent implements OnInit {
   // Whether the results contain answers/passages data (neural search)
   public hasAnswers: boolean;
   public hasPassages: boolean;
-  public passageId: number;
+  public passageId?: string;
 
   public readonly facetComponents = {
       ...default_facet_components,
@@ -163,8 +163,8 @@ export class SearchComponent implements OnInit {
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
     this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
-    if (passageId?.toString()) {
-      this.passageId = passageId;
+    this.passageId = passageId?.toString();
+    if (this.passageId) {
       if (this.previewFacet && this.passagesList) {
         this.previewFacet.setView(this.passagesList);
       }
