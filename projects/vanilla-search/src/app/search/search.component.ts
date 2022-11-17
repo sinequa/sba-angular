@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
@@ -10,6 +10,7 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
+import { Utils } from '@sinequa/core/base';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
@@ -43,8 +44,7 @@ export class SearchComponent implements OnInit {
   public hasAnswers: boolean;
   public hasPassages: boolean;
 
-  // Whether it should display the passages view upon opening (only works for 1st opening, it doesn't refresh if the preview is already opened)
-  public passagesByDefault: boolean;
+  isEmpty = Utils.isEmpty;
 
   public readonly facetComponents = {
       ...default_facet_components,
@@ -56,6 +56,7 @@ export class SearchComponent implements OnInit {
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
+    private cdr: ChangeDetectorRef,
     public searchService: SearchService,
     public selectionService: SelectionService,
     public loginService: LoginService,
@@ -159,11 +160,13 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  openMiniPreview(record: Record, passagesByDefault = false) {
-    this.passagesByDefault = passagesByDefault;
+  openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
     this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
-    if(this.ui.screenSizeIsLessOrEqual('md')){
+    if (passageId) {
+      this.openedDoc.$passageId = passageId;
+    }
+    if (this.ui.screenSizeIsLessOrEqual('md')) {
       this._showFilters = false; // Hide filters on small screens if a document gets opened
     }
   }
@@ -278,9 +281,11 @@ export class SearchComponent implements OnInit {
     return document.body.classList.contains("dark");
   }
 
-  onPreviewOpened(item: Answer | TopPassage) {
+  onPreviewOpened(item: TopPassage) {
+    this.openedDoc = undefined;
+    this.cdr.detectChanges();
     if (item.$record) {
-      this.openMiniPreview(item.$record);
+      this.openMiniPreview(item.$record, item.id);
     }
   }
 

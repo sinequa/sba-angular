@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from "@angular/core";
 import { MatchingPassage, Record } from "@sinequa/core/web-services";
+import { Utils } from "@sinequa/core/base";
 
 @Component({
   selector: 'sq-passage-list',
@@ -25,7 +26,8 @@ export class PassageListComponent implements OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
     const passages = this.record.matchingpassages?.passages;
     // invalidate all $expanded property except for the first passage
-    passages?.forEach((p,index) => p.$expanded = index === 0);
+    passages?.forEach((p, index) => p.$expanded = !Utils.isEmpty(this.record.$passageId)
+      ? p.id === this.record.$passageId : index === 0);
   }
 
   ngAfterViewInit(): void {

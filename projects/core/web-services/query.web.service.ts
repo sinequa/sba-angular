@@ -650,6 +650,10 @@ export interface Record {
     matchingpassages?: {
       passages: MatchingPassage[];
     }
+    /**
+     * Passage ID to select by default in the mini preview if clicked on one
+     */
+    $passageId: number;
 
     $hasPassages?: boolean;
 }
