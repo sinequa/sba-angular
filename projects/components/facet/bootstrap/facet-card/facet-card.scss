@@ -1,0 +1,20 @@
+.sq-secondary-actions.position-absolute {
+  z-index: 5;
+}
+
+@media (pointer:fine) {
+  .sq-secondary-actions.on-hover {
+    opacity: 0;
+    transition: opacity 250ms ease;
+  }
+
+  .card:hover {
+    .sq-secondary-actions.on-hover {
+      opacity: 1;
+    }
+  }
+}
+
+.cursor-default {
+  cursor: default;
+}

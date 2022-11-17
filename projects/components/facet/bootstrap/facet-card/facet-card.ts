@@ -7,9 +7,7 @@ import { FacetViewDirective } from "../facet-view.directive";
 @Component({
     selector: "sq-facet-card",
     templateUrl: "./facet-card.html",
-    styles: [`
-.cursor-default {cursor: default;}
-    `]
+    styleUrls: ['./facet-card.scss']
 })
 export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, AfterContentInit {
 
