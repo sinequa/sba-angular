@@ -742,6 +742,8 @@ export interface Answer {
     recordId: string;
     $record: Record | undefined;
     $liked: undefined | boolean;
+    "af.score": number;
+    "rm.score": number;
 }
 
 export interface TopPassage {
