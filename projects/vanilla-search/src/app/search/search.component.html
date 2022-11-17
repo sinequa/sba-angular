@@ -175,8 +175,8 @@
                     </sq-facet-preview-2>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="!isEmpty(passageId)" [id]="'passages'"
-                    *ngIf="openedDoc.$hasPassages">
+                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="passageId?.toString()"
+                    *ngIf="openedDoc.$hasPassages" #passagesList>
                     <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
                 </ng-template>
 

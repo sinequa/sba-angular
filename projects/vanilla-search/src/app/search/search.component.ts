@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
-import { BsFacetCard, default_facet_components, FacetConfig } from '@sinequa/components/facet';
+import { BsFacetCard, default_facet_components, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
@@ -10,7 +10,6 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Utils } from '@sinequa/core/base';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
@@ -45,14 +44,13 @@ export class SearchComponent implements OnInit {
   public hasPassages: boolean;
   public passageId: number;
 
-  isEmpty = Utils.isEmpty;
-
   public readonly facetComponents = {
       ...default_facet_components,
       "date": BsFacetDate
   }
 
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
+  @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
   constructor(
     private previewService: PreviewService,
@@ -165,10 +163,10 @@ export class SearchComponent implements OnInit {
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
     this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
-    if (passageId) {
+    if (passageId?.toString()) {
       this.passageId = passageId;
-      if (this.previewFacet) {
-        this.previewFacet.setViewById('passages');
+      if (this.previewFacet && this.passagesList) {
+        this.previewFacet.setView(this.passagesList);
       }
     }
     if (this.ui.screenSizeIsLessOrEqual('md')) {

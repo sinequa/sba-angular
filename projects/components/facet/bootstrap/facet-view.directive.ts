@@ -5,7 +5,6 @@ import { IAction } from "@sinequa/components/action";
 export class FacetViewDirective {
   @Input("sqFacetView") viewOptions?: IAction;
   @Input() default?: boolean;
-  @Input() id?: string;
 
   constructor(
     public readonly template: TemplateRef<any>
