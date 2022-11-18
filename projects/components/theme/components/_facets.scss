@@ -1,5 +1,8 @@
 sq-facet-card {
   .card {
+    --bs-card-cap-bg: var(--brand-300, #{$blue-focus});
+    --bs-card-cap-color: var(--sq-text, #{$body-text-grey-1});
+    --bs-link-color: var(--text1, #{$body-text-grey-1});
     --bs-card-border-width: 0;
     border-radius: var(--bs-card-inner-border-radius);
     box-shadow: $sq-box-shadow;

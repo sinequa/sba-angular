@@ -11,3 +11,12 @@ sq-feedback-menu button.btn {
 .sq-toolbar {
     margin: 0.625rem 0;
 }
+
+.list-group {
+    --bs-list-group-bg: #{$list-group-bg};
+    --bs-list-group-action-active-bg: #{$blue-selection};
+}
+
+.navbar.navbar-light.bg-light {
+    background-color: var(--brand, #{$white});
+}

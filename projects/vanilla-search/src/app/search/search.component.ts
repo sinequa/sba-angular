@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
-import { default_facet_components, FacetConfig } from '@sinequa/components/facet';
+import { BsFacetCard, default_facet_components, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
@@ -42,14 +42,15 @@ export class SearchComponent implements OnInit {
   // Whether the results contain answers/passages data (neural search)
   public hasAnswers: boolean;
   public hasPassages: boolean;
-
-  // Whether it should display the passages view upon opening (only works for 1st opening, it doesn't refresh if the preview is already opened)
-  public passagesByDefault: boolean;
+  public passageId?: string;
 
   public readonly facetComponents = {
       ...default_facet_components,
       "date": BsFacetDate
   }
+
+  @ViewChild("previewFacet") previewFacet: BsFacetCard;
+  @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
   constructor(
     private previewService: PreviewService,
@@ -159,11 +160,16 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  openMiniPreview(record: Record, passagesByDefault = false) {
-    this.passagesByDefault = passagesByDefault;
+  openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
     this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
-    if(this.ui.screenSizeIsLessOrEqual('md')){
+    this.passageId = passageId?.toString();
+    if (this.passageId) {
+      if (this.previewFacet && this.passagesList) {
+        this.previewFacet.setView(this.passagesList);
+      }
+    }
+    if (this.ui.screenSizeIsLessOrEqual('md')) {
       this._showFilters = false; // Hide filters on small screens if a document gets opened
     }
   }
@@ -276,12 +282,6 @@ export class SearchComponent implements OnInit {
    */
   isDark(): boolean {
     return document.body.classList.contains("dark");
-  }
-
-  onPreviewOpened(item: Answer | TopPassage) {
-    if (item.$record) {
-      this.openMiniPreview(item.$record);
-    }
   }
 
   onTitleClick(value: {item: Answer | TopPassage, isLink: boolean}) {

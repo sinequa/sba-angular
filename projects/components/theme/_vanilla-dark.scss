@@ -1,4 +1,18 @@
 .dark {
+    @import "sinequa-theme";
+
+    .main {
+        margin-top: 6rem !important;
+    }
+
+    sq-feedback-menu button.btn {
+        border-radius: inherit !important;
+    }
+
+    .sq-toolbar {
+        margin: 0.625rem 0;
+    }
+
     --sq-result-source-color: #{$dark-link};
     --sq-tabs-bg: transparent;
 
@@ -26,6 +40,11 @@
                 color: var(--primary-200, #{$blue-hover}) !important;
             }
         }
+    }
+
+    sq-facet-card .card,
+    .card {
+        --bs-card-cap-color: #{$white};
     }
 
     // Dropdown
@@ -60,7 +79,7 @@
     }
 
     // Tabs
-    sq-tabs {
+    sq-tabs .nav-tabs {
         .nav-link {
             &:hover {
                 background-color: $dark-background-hover;

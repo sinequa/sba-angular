@@ -93,13 +93,13 @@
 
             <!-- Answer card -->
             <sq-facet-card *ngIf="hasAnswers" class="mt-3" #answersFacet>
-                <sq-answer-card #facet [results]="results" (previewOpened)="onPreviewOpened($event)"
+                <sq-answer-card #facet [results]="results" (previewOpened)="openMiniPreview($event.$record)"
                     (titleClicked)="onTitleClick($event)" [collapsed]="answersFacet._collapsed"></sq-answer-card>
             </sq-facet-card>
 
             <!-- nth top pasages -->
             <sq-facet-card *ngIf="hasPassages" class="mt-3" #passagesFacet>
-                <sq-top-passages #facet [results]="results" (previewOpened)="onPreviewOpened($event)"
+                <sq-top-passages #facet [results]="results" (previewOpened)="openMiniPreview($event.$record, $event.id)"
                     (titleClicked)="onTitleClick($event)" [collapsed]="passagesFacet._collapsed"></sq-top-passages>
             </sq-facet-card>
 
@@ -145,12 +145,12 @@
                 [collapsible]="false"
                 [facetActionsAreSecondary]="true"
                 [viewActionsAreSecondary]="true"
-                secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-2 me-3 bg-light rounded shadow on-preview-hover"
+                secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-2 me-3 bg-light rounded shadow on-hover"
                 viewActionsClass="d-block btn-group mt-2"
                 viewButtonsStyle="outline-primary"
                 [actions]="previewCustomActions"
                 actionsSize=""
-                class="mb-3 facet-preview">
+                class="mb-3 facet-preview" #previewFacet>
 
                 <ng-template #headerTpl>
                     <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url"></sq-result-title>
@@ -175,9 +175,9 @@
                     </sq-facet-preview-2>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="passagesByDefault"
-                    *ngIf="openedDoc.$hasPassages">
-                    <sq-passage-list [record]="openedDoc"></sq-passage-list>
+                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="!!passageId"
+                    *ngIf="openedDoc.$hasPassages" #passagesList>
+                    <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
                 </ng-template>
 
             </sq-facet-card>
