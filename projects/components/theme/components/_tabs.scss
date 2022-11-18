@@ -7,6 +7,7 @@ sq-tabs {
     --bs-nav-link-hover-color: #{$black};
     --bs-nav-tabs-link-active-color: var(--sq-text, #{$black});
     --bs-nav-tabs-link-active-bg: var(--brand, #{$blue-focus});
+    --sq-nav-tabs-link-active-bg: var(--bs-nav-tabs-link-active-bg);
 
     background-color: var(--sq-tabs-bg);
     border-radius: .3rem;
