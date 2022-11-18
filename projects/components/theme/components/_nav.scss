@@ -1,12 +1,11 @@
 nav {
-    box-shadow: 1px 3px 4px 0px rgb(var(--brand), .2);
 
     &.navbar {
         @include media-breakpoint-up(sm) {
             --bs-navbar-padding-y: 1.25rem;
         }
 
-        background-color: var(--brand, #{$white}) !important;
+        background-color: var(--brand, #{$white});
 
         .nav-link {
             color: var(--sq-text, var(--bs-nav-link-color));
