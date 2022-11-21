@@ -1,7 +1,7 @@
 <div *ngIf="!openedFacet" class="list-group list-group-flush">
     <ng-container *ngFor="let facet of facets">
         <div *ngIf="!facet.$hidden" [ngClass]="facet.className" (click)="openFacet(facet)"
-            class="open-facet d-flex flex-row list-group-item border-0 list-group-item-action px-3 py-2 align-items-center"
+            class="open-facet d-flex flex-row list-group-item border-0 list-group-item-action align-items-center"
             [ngClass]="{'list-group-item-success':facet.$hasFiltered, 'disabled':!facet.$hasData }">
             <span class="flex-grow-1">{{ facet.title | sqMessage }}</span>
             <span class="fa-stack icons-group" sqTooltip="{{ 'msg#facet.filters.clear' | sqMessage }}" (click)="clearFacetFilters(facet, $event)" *ngIf="facet.$hasFiltered">
