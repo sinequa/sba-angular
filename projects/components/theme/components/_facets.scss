@@ -77,7 +77,6 @@ sq-facet-card {
     .list-group-item:not(.sq-passage) {
       --bs-list-group-border-width: 0;
       --bs-list-group-color: #{$body-text-grey-1};
-      padding: .4rem 1.25rem !important;
     }
 
     .list-group-item-primary,
@@ -134,10 +133,6 @@ sq-facet-card {
       --bs-btn-padding-y: .8rem !important;
       --bs-btn-padding-x: 1rem !important;
     }
-  }
-
-  .sq-secondary-actions {
-    margin-top: 1rem !important;
   }
 }
 

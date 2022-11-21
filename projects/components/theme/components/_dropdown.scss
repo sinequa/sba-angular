@@ -8,6 +8,9 @@
   margin-top: .3rem !important;
   box-shadow: 0 0 .9rem rgba(0, 0, 0, .1);
   min-width: 100%;
+  inset: initial !important;
+  transform: initial !important;
+  right: 0 !important;
 
   .dropdown-item {
     &:hover {
