@@ -86,15 +86,6 @@ sq-facet-card {
     }
   }
 
-  sq-facet-tree .list-group .list-group-item,
-  sq-facet-saved-queries .list-group .list-group-item:not(.text-muted),
-  sq-facet-recent-queries .list-group .list-group-item:not(.text-muted),
-  sq-facet-recent-documents .list-group .list-group-item:not(.text-muted),
-  sq-facet-baskets .list-group .list-group-item:not(.text-muted),
-  sq-facet-multi .list-group .list-group-item {
-    padding: .4rem 1.25rem !important;
-  }
-
   /**
   List elements
    */
