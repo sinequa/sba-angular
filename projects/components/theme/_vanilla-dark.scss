@@ -16,6 +16,11 @@
     --sq-result-source-color: #{$dark-link};
     --sq-tabs-bg: transparent;
 
+    // Nav
+    nav.navbar {
+        background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+    }
+
     // Advanced search
     .advanced-search .card-header {
         --bs-card-cap-bg: transparent !important;

@@ -36,7 +36,7 @@
 <ng-template #itemsTpl let-items="items">
     <ng-container *ngFor="let item of items">
 
-        <a  class="d-flex flex-row align-items-center list-group-item border-0 ps-1 pe-3 py-1 sq-facet-row"
+        <a  class="d-flex flex-row align-items-center list-group-item border-0 px-3 py-1 sq-facet-row"
             [ngClass]="{'list-group-item-primary':isSelected(item),'list-group-item-success':item.$filtered,'list-group-item-action':!item.$filtered, 'filtered':item.$filtered }" 
             [title]="(item.$filtered ? 'msg#facet.selectedValue' : 'msg#facet.itemSelect') | sqMessage" 
             (click)="selectItem(item, $event)" href="#">
