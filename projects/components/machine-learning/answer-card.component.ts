@@ -12,6 +12,10 @@ import { map, Observable, of } from "rxjs";
   styles: [`
 .card-body {
   cursor: pointer;
+
+  &:hover {
+    background-color: rgb(0,0,0,0.03);
+  }
 }
 
 .passage-text {

@@ -24,7 +24,7 @@
 </ng-template>
 
 <div class="card-body">
-	<div *ngFor="let passage of currentPassages$ | async" (click)="openPreview(passage)">
+	<div *ngFor="let passage of currentPassages$ | async" (click)="openPreview(passage)" class="passage">
 		<sq-result-title *ngIf="passage.$record" [record]="passage.$record" titleLinkBehavior="action"
 			(titleClicked)="onTitleClicked($event, passage)" class="d-block text-truncate"></sq-result-title>
 		<div class="d-flex my-2">
