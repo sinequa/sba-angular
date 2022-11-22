@@ -51,7 +51,7 @@ export default {
             "viewPreview": "Aperçu",
             "viewPassages": "Passages",
             "documentPreview": "Aperçu de document",
-            "documentPreviewTitle": "Ceci est l'aperçu du document",
+            "documentPreviewTitle": "Ceci est l'aperçu de document",
             "documentPreviewDescription": "Cliquez sur l'un des résultats de votre recherche pour avoir un aperçu du document ici."
         }
     }
