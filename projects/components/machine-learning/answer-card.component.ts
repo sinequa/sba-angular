@@ -109,8 +109,8 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   }
 
   private notifyAnswerDisplay(answers: Answer[]) {
-    answers.forEach((answer, index) => {
-      const auditEvent: AuditEvent = {
+    const auditEvents: AuditEvent[] = answers.map((answer: Answer, index) => {
+      return {
         type: 'Answer_Display',
         detail: {
           text: this.searchService.query.text,
@@ -121,10 +121,10 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
           rmScore: answer["rm.score"],
           answerRank: index
         }
-      };
-      this.auditService.notify(auditEvent)
-        .subscribe();
+      }
     });
+    this.auditService.notify(auditEvents)
+      .subscribe();
   }
 
   protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
