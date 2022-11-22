@@ -54,3 +54,18 @@
     margin-bottom: .5rem;
     padding: 0 0.3rem;
 }
+
+// The default view in the mini preview when nothing is selected
+.no-record {
+    height: 750px;
+    text-align: center;
+    padding-top: 20%;
+
+    img {
+        width: 10rem;
+    }
+    p {
+        max-width: 50%;
+        margin: auto;
+    }
+}
