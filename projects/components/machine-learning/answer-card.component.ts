@@ -51,7 +51,8 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     this.setAnswer();
     const answers = changes.results?.currentValue?.answers?.answers;
     if (answers?.length) {
-      this.notifyAnswerDisplay(answers);
+      this.notifyAnswerResult(answers);
+      this.notifyAnswerDisplay(answers[0]);
     }
   }
 
@@ -66,11 +67,13 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   previous() {
     this.selectedAnswer = (this.selectedAnswer + this.answers.length - 1) % this.answers.length;
     this.setAnswer();
+    this.notifyAnswerDisplay(this.answers[this.selectedAnswer]);
   }
 
   next() {
     this.selectedAnswer = (this.selectedAnswer + 1) % this.answers.length;
     this.setAnswer();
+    this.notifyAnswerDisplay(this.answers[this.selectedAnswer]);
   }
 
   setAnswer() {
@@ -108,23 +111,33 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     }
   }
 
-  private notifyAnswerDisplay(answers: Answer[]) {
-    const auditEvents: AuditEvent[] = answers.map((answer: Answer, index) => {
-      return {
-        type: 'Answer_Display',
-        detail: {
-          text: this.searchService.query.text,
-          answerText: answer.text,
-          recordId: answer.recordId,
-          passageId: answer.passage.id,
-          afScore: answer["af.score"],
-          rmScore: answer["rm.score"],
-          answerRank: index
-        }
-      }
-    });
+
+  private notifyAnswerDisplay(answer: Answer) {
+    const auditEvent: AuditEvent = this.makeAnswerAuditEvent('Answer_Display', answer);
+    this.auditService.notify(auditEvent)
+      .subscribe();
+  }
+
+  private notifyAnswerResult(answers: Answer[]) {
+    const auditEvents: AuditEvent[] = answers
+      .map((answer: Answer, index) => this.makeAnswerAuditEvent('Answer_Result', answer, index));
     this.auditService.notify(auditEvents)
       .subscribe();
+  }
+
+  private makeAnswerAuditEvent(type: string, answer: Answer, index?: number): AuditEvent {
+    return {
+      type,
+      detail: {
+        text: this.searchService.query.text,
+        answerText: answer.text,
+        recordId: answer.recordId,
+        passageId: answer.passage.id,
+        afScore: answer["af.score"],
+        rmScore: answer["rm.score"],
+        answerRank: index
+      }
+    };
   }
 
   protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
