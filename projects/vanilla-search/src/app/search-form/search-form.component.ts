@@ -376,11 +376,6 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
 
   toggleNeuralSearch() {
     this.neuralSearch = !this.neuralSearch;
-
-    // Don't trigger the search if we are on the home page
-    if (!this.router.url.startsWith('/home')) {
-      this.search();
-    }
   }
 
   scrollRight() {
