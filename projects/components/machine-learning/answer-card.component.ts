@@ -52,32 +52,32 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     const answers = changes.results?.currentValue?.answers?.answers;
     if (answers?.length) {
       this.notifyAnswerResult(answers);
-      this.notifyAnswerDisplay(answers[0]);
     }
   }
 
   openPreview(answer: Answer) {
+    this.notifyAnswerClick(answer);
     this.previewOpened.next(answer);
   }
 
   onTitleClicked(isLink: boolean, answer: Answer) {
+    this.notifyAnswerClick(answer);
     this.titleClicked.next({ item: answer, isLink });
   }
 
   previous() {
     this.selectedAnswer = (this.selectedAnswer + this.answers.length - 1) % this.answers.length;
     this.setAnswer();
-    this.notifyAnswerDisplay(this.answers[this.selectedAnswer]);
   }
 
   next() {
     this.selectedAnswer = (this.selectedAnswer + 1) % this.answers.length;
     this.setAnswer();
-    this.notifyAnswerDisplay(this.answers[this.selectedAnswer]);
   }
 
   setAnswer() {
     const answer = this.answers[this.selectedAnswer];
+    this.notifyAnswerDisplay(answer);
     if (!!answer.$record) {
       this.answer$ = of(answer);
     } else {
@@ -111,21 +111,26 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     }
   }
 
+  private notifyAnswerClick(answer: Answer) {
+    const auditEvent: AuditEvent = this.makeAuditEvent('Answer_Click', answer);
+    this.auditService.notify(auditEvent)
+      .subscribe();
+  }
 
   private notifyAnswerDisplay(answer: Answer) {
-    const auditEvent: AuditEvent = this.makeAnswerAuditEvent('Answer_Display', answer);
+    const auditEvent: AuditEvent = this.makeAuditEvent('Answer_Display', answer);
     this.auditService.notify(auditEvent)
       .subscribe();
   }
 
   private notifyAnswerResult(answers: Answer[]) {
     const auditEvents: AuditEvent[] = answers
-      .map((answer: Answer, index) => this.makeAnswerAuditEvent('Answer_Result', answer, index));
+      .map((answer: Answer, index) => this.makeAuditEvent('Answer_Result', answer, index));
     this.auditService.notify(auditEvents)
       .subscribe();
   }
 
-  private makeAnswerAuditEvent(type: string, answer: Answer, index?: number): AuditEvent {
+  private makeAuditEvent(type: string, answer: Answer, index?: number): AuditEvent {
     return {
       type,
       detail: {
@@ -138,18 +143,5 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
         answerRank: index
       }
     };
-  }
-
-  protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
-    return {
-      type,
-      detail: {
-        text: this.searchService.query.text,
-        message: answer.text,
-        detail: answer.passage.highlightedText,
-        resultcount: this.answers.length,
-        rank: this.selectedAnswer
-      }
-    }
   }
 }
