@@ -142,19 +142,10 @@
         <!-- Right part-->
         <!-- sqSticky to update if you change the header sizing -->
         <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 96, bottom: 30}">
-        
+
             <!-- Without selected document -->
-            <sq-facet-card *ngIf="!openedDoc" [collapsible]="false" [facetActionsAreSecondary]="true"
-                [viewActionsAreSecondary]="true"
-                secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-light rounded shadow on-hover"
-                viewActionsClass="d-block btn-group mt-2" viewButtonsStyle="outline-primary" actionsSize=""
-                class="mb-3 facet-preview" #previewFacet>
-        
-                <ng-template #headerTpl>
-                    <span >{{'msg#facet.preview.documentPreview' | sqMessage}}</span>
-                </ng-template>
-        
-        
+            <sq-facet-card *ngIf="!openedDoc" [collapsible]="false" title="msg#facet.preview.documentPreview"
+                class="mb-3 facet-preview">
                 <div class="no-record">
                     <img
                         src="https://images.vexels.com/media/users/3/131734/isolated/preview/05d86a9b63d1930d6298b27081ddc345-photo-preview-frame-icon.png">
@@ -162,31 +153,31 @@
                     <p>{{'msg#facet.preview.documentPreviewDescription' | sqMessage}}</p>
                 </div>
             </sq-facet-card>
-        
+
             <!-- With selected document -->
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" [facetActionsAreSecondary]="true"
                 [viewActionsAreSecondary]="true"
                 secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-light rounded shadow on-hover"
                 viewActionsClass="d-block btn-group mt-2" viewButtonsStyle="outline-primary" [actions]="previewCustomActions"
                 actionsSize="" class="mb-3 facet-preview" #previewFacet>
-        
+
                 <ng-template #headerTpl>
                     <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url">
                     </sq-result-title>
                 </ng-template>
-        
+
                 <ng-template #subHeaderTpl>
-                    <sq-metadata [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true" [tabular]="false"
-                        [clickable]="false">
+                    <sq-metadata [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
+                        [tabular]="false" [clickable]="false">
                     </sq-metadata>
                 </ng-template>
-        
+
                 <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
                     <sq-facet-preview-2 #facet [record]="openedDoc" [query]="searchService.query" [height]="750"
                         (previewLoaded)="previewReady($event)">
                     </sq-facet-preview-2>
                 </ng-template>
-        
+
                 <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="!!passageId"
                     *ngIf="openedDoc.$hasPassages" #passagesList>
                     <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>

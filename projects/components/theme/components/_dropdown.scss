@@ -5,9 +5,13 @@
   --bs-dropdown-link-active-bg: #{$blue-1};
   --bs-dropdown-border-width: .1rem;
   --bs-dropdown-border-color: #{$grey-1};
-  margin-top: .3rem !important;
+  top: .3rem !important;
   box-shadow: 0 0 .9rem rgba(0, 0, 0, .1);
   min-width: 100%;
+
+  &.sq-scroll-menu {
+    top: .3rem !important;
+  }
 
   .dropdown-item {
     &:hover {
