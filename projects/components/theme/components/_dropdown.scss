@@ -14,10 +14,6 @@
   }
 
   .dropdown-item {
-    &:hover {
-      --bs-dropdown-link-active-bg: #{$darker-blue};
-    }
-
     .link {
       --bs-dropdown-link-color: #{$blue-1};
       --bs-body-font-weight: 600;
