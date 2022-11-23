@@ -3,7 +3,7 @@ import { SearchService } from "@sinequa/components/search";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
-import { Answer, AuditEvent, AuditWebService, Results } from "@sinequa/core/web-services";
+import { Answer, AuditEvent, AuditEventType, AuditWebService, Results } from "@sinequa/core/web-services";
 import { map, Observable, of } from "rxjs";
 
 @Component({
@@ -98,7 +98,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   }
 
   private setLiked(answer: Answer, liked: boolean) {
-    const type = liked ? "Answer_Liked" : "Answer_Disliked";
+    const type = liked ? AuditEventType.Answer_Liked : AuditEventType.Answer_Disliked;
     if (answer.$liked === liked) {
       answer.$liked = undefined;
       this.auditService.notify(this.makeAuditEvent(type + "_Cancelled", answer))
@@ -112,20 +112,20 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   }
 
   private notifyAnswerClick(answer: Answer) {
-    const auditEvent: AuditEvent = this.makeAuditEvent('Answer_Click', answer);
+    const auditEvent: AuditEvent = this.makeAuditEvent(AuditEventType.Answer_Click, answer);
     this.auditService.notify(auditEvent)
       .subscribe();
   }
 
   private notifyAnswerDisplay(answer: Answer) {
-    const auditEvent: AuditEvent = this.makeAuditEvent('Answer_Display', answer);
+    const auditEvent: AuditEvent = this.makeAuditEvent(AuditEventType.Answer_Display, answer);
     this.auditService.notify(auditEvent)
       .subscribe();
   }
 
   private notifyAnswerResult(answers: Answer[]) {
     const auditEvents: AuditEvent[] = answers
-      .map((answer: Answer, index) => this.makeAuditEvent('Answer_Result', answer, index));
+      .map((answer: Answer, index) => this.makeAuditEvent(AuditEventType.Answer_Result, answer, index));
     this.auditService.notify(auditEvents)
       .subscribe();
   }

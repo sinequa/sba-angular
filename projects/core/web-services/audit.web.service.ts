@@ -137,7 +137,13 @@ export const enum AuditEventType {
     RFM_Ban = "RFM_Ban",
 
     Navigation_Exit = "Navigation_Exit",
-    Navigation_Return = "Navigation_Return"
+    Navigation_Return = "Navigation_Return",
+
+    Answer_Display = "Answer_Display",
+    Answer_Click = "Answer_Click",
+    Answer_Result = "Answer_Result",
+    Answer_Liked = "Answer_Liked",
+    Answer_Disliked = "Answer_Disliked"
 }
 
 /**
