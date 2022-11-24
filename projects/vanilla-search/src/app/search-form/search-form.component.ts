@@ -10,7 +10,7 @@ import {AutocompleteExtended} from './autocomplete-extended.directive';
 import {UserPreferences} from '@sinequa/components/user-settings';
 import {FirstPageService} from '@sinequa/components/search';
 import {AdvancedService} from '@sinequa/components/advanced';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {VoiceRecognitionService} from '@sinequa/components/utils';
 
 @Component({
@@ -72,8 +72,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
     public prefs: UserPreferences,
     public firstPageService: FirstPageService,
     public advancedService: AdvancedService,
-    public route: ActivatedRoute,
-    private router: Router) {
+    public route: ActivatedRoute) {
 
     this.voiceService.init();
 
@@ -376,11 +375,6 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
 
   toggleNeuralSearch() {
     this.neuralSearch = !this.neuralSearch;
-
-    // Don't trigger the search if we are on the home page
-    if (!this.router.url.startsWith('/home')) {
-      this.search();
-    }
   }
 
   scrollRight() {
