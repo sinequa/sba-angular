@@ -49,7 +49,8 @@
     <div class="row" *ngIf="results$ | async; let results">
 
         <!-- Left facet bar -->
-        <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 70, bottom: 80}">
+        <!-- sqSticky to update if you change the header sizing -->
+        <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 96, bottom: 80}">
             <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" class="mb-3">
                 <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
             </sq-facet-card>
@@ -139,38 +140,39 @@
         </div>
 
         <!-- Right part-->
-        <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 70, bottom: 30}">
+        <!-- sqSticky to update if you change the header sizing -->
+        <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 96, bottom: 30}">
 
-            <sq-facet-card *ngIf="openedDoc"
-                [collapsible]="false"
-                [facetActionsAreSecondary]="true"
+            <!-- Without selected document -->
+            <sq-facet-card *ngIf="!openedDoc" [collapsible]="false" title="msg#facet.preview.documentPreview"
+                class="mb-3 facet-preview">
+                <div class="no-record">
+                    <img src="assets/sinequa-empty-preview.png" class="mb-3">
+                    <p class="fw-bold">{{'msg#facet.preview.documentPreviewTitle' | sqMessage}}</p>
+                    <p>{{'msg#facet.preview.documentPreviewDescription' | sqMessage}}</p>
+                </div>
+            </sq-facet-card>
+
+            <!-- With selected document -->
+            <sq-facet-card *ngIf="openedDoc" [collapsible]="false" [facetActionsAreSecondary]="true"
                 [viewActionsAreSecondary]="true"
                 secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-light rounded shadow on-hover"
-                viewActionsClass="d-block btn-group mt-2"
-                viewButtonsStyle="outline-primary"
-                [actions]="previewCustomActions"
-                actionsSize=""
-                class="mb-3 facet-preview" #previewFacet>
+                viewActionsClass="d-block btn-group mt-2" viewButtonsStyle="outline-primary" [actions]="previewCustomActions"
+                actionsSize="" class="mb-3 facet-preview" #previewFacet>
 
                 <ng-template #headerTpl>
-                    <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url"></sq-result-title>
+                    <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url">
+                    </sq-result-title>
                 </ng-template>
 
                 <ng-template #subHeaderTpl>
-                    <sq-metadata
-                        [record]="openedDoc"
-                        [items]="metadata"
-                        [showTitles]="true"
-                        [showIcons]="true"
-                        [clickable]="false">
+                    <sq-metadata [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
+                        [tabular]="false" [clickable]="false">
                     </sq-metadata>
                 </ng-template>
 
                 <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
-                    <sq-facet-preview-2 #facet
-                        [record]="openedDoc"
-                        [query]="searchService.query"
-                        [height]="750"
+                    <sq-facet-preview-2 #facet [record]="openedDoc" [query]="searchService.query" [height]="750"
                         (previewLoaded)="previewReady($event)">
                     </sq-facet-preview-2>
                 </ng-template>
@@ -179,7 +181,6 @@
                     *ngIf="openedDoc.$hasPassages" #passagesList>
                     <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
                 </ng-template>
-
             </sq-facet-card>
         </div>
     </div>

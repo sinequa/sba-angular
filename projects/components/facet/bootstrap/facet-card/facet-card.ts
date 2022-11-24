@@ -244,7 +244,7 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
             this.updateViews();
         }
         else {
-            console.warn("No #facet component (or no view) is defined in this facet card: ", this.title);
+            console.info("No #facet component (or no view) is defined in this facet card: ", this.title);
         }
 
         // Catch the #facet component changes (which happens when we switch views)

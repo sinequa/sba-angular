@@ -82,6 +82,20 @@ a {
     min-height: 100vh;
 }
 
+// thin scrollbar
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    &:hover {
+        background-color: #b6b6b6;
+    }
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #f3f3f3;
+  }
+
 // large screens (> sm)
 @include media-breakpoint-up(sm) {
 

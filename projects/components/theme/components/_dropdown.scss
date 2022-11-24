@@ -5,18 +5,15 @@
   --bs-dropdown-link-active-bg: #{$blue-1};
   --bs-dropdown-border-width: .1rem;
   --bs-dropdown-border-color: #{$grey-1};
-  margin-top: .3rem !important;
+  top: .3rem !important;
   box-shadow: 0 0 .9rem rgba(0, 0, 0, .1);
   min-width: 100%;
-  inset: initial !important;
-  transform: initial !important;
-  right: 0 !important;
+
+  &.sq-scroll-menu {
+    top: .3rem !important;
+  }
 
   .dropdown-item {
-    &:hover {
-      --bs-dropdown-link-active-bg: #{$darker-blue};
-    }
-
     .link {
       --bs-dropdown-link-color: #{$blue-1};
       --bs-body-font-weight: 600;
@@ -32,6 +29,10 @@
   sq-action-item-content i {
     margin-right: 0.4rem !important;
   }
+
+  .dropdown-menu {
+    box-shadow: none;
+  }
 }
 
 sq-facet-list,
@@ -46,14 +47,6 @@ sq-facet-tree {
 
       a {
         color: $black !important;
-      }
-    }
-
-    &:active {
-      background-color: $blue-1;
-
-      a {
-        color: $white !important;
       }
     }
   }

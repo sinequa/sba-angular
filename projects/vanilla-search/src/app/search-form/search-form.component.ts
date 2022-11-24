@@ -375,7 +375,6 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
 
   toggleNeuralSearch() {
     this.neuralSearch = !this.neuralSearch;
-    this.search();
   }
 
   scrollRight() {
