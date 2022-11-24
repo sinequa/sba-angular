@@ -125,7 +125,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   private notifyAnswerResult(answers: Answer[]) {
     const auditEvents: AuditEvent[] = answers
-      .map((answer: Answer, index) => this.makeAuditEvent(AuditEventType.Answer_Result, answer));
+      .map((answer: Answer) => this.makeAuditEvent(AuditEventType.Answer_Result, answer));
     this.auditService.notify(auditEvents)
       .subscribe();
   }

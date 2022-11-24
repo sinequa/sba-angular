@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from "@angular/core";
-import { Results, TopPassage } from "@sinequa/core/web-services";
+import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { BehaviorSubject } from "rxjs";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -46,13 +46,14 @@ export class TopPassagesComponent extends AbstractFacet {
 
   set currentPage(page: number) {
     this.page = page;
-    
+
     // Get the records of the passages without it
     const index = page * this.itemsPerPage;
     const passages = this.passages.slice(index, index + this.itemsPerPage);
     this.searchService.getRecords(passages.filter(p => !p.$record).map(p => p.recordId))
       .subscribe((records) => {
         passages.map(passage => passage.$record = passage.$record || records.find(record => record.id === passage?.recordId));
+        this.notifyTopPassagesDisplay(passages);
         this.currentPassages$.next(passages);
       });
   }
@@ -75,6 +76,7 @@ export class TopPassagesComponent extends AbstractFacet {
   }
 
   constructor(private sanitizer: DomSanitizer,
+              private auditService: AuditWebService,
               private searchService: SearchService) {
     super();
     this.setMinHeight();
@@ -91,11 +93,13 @@ export class TopPassagesComponent extends AbstractFacet {
 
   // Open the mini preview on text click
   openPreview(passage: TopPassage) {
+    this.notifyTopPassagesClick(passage);
     this.previewOpened.next(passage);
   }
 
   // Open the big preview on title click
   onTitleClicked(isLink: boolean, passage: TopPassage) {
+    this.notifyTopPassagesClick(passage);
     this.titleClicked.next({ item: passage, isLink });
   }
 
@@ -103,5 +107,32 @@ export class TopPassagesComponent extends AbstractFacet {
   private setMinHeight() {
     const lineHeight = window.getComputedStyle(document.body).getPropertyValue('line-height') || '24';
     this.MIN_HEIGHT = parseFloat(lineHeight) * (this.lineNumber === 0 ? 1000 : this.lineNumber || 1);
+  }
+
+  private notifyTopPassagesClick(passage: TopPassage) {
+    const auditEvent: AuditEvent = this.makeAuditEvent(AuditEventType.TopPassages_Click, passage);
+    this.auditService.notify(auditEvent)
+      .subscribe();
+  }
+
+  private notifyTopPassagesDisplay(passages: TopPassage[]) {
+      const auditEvents: AuditEvent[] = passages
+      .map((passage: TopPassage) => this.makeAuditEvent(AuditEventType.TopPassages_Display, passage));
+    this.auditService.notify(auditEvents)
+      .subscribe();
+  }
+
+  private makeAuditEvent(type: string, passage: TopPassage): AuditEvent {
+    const rank = this.passages.indexOf(passage);
+    return {
+      type,
+      detail: {
+        text: this.searchService.query.text,
+        "record.id": passage.recordId,
+        "passage.id": passage.id,
+        score: passage.score,
+        rank
+      }
+    };
   }
 }

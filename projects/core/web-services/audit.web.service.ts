@@ -143,7 +143,10 @@ export const enum AuditEventType {
     Answer_Click = "Answer_Click",
     Answer_Result = "Answer_Result",
     Answer_Liked = "Answer_Liked",
-    Answer_Disliked = "Answer_Disliked"
+    Answer_Disliked = "Answer_Disliked",
+
+    TopPassages_Display = "TopPassages_Display",
+    TopPassages_Click = "TopPassages_Click"
 }
 
 /**
