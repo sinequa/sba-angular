@@ -613,7 +613,8 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     type: AuditEventType.Search_Text,
                     detail: {
                         text: this.query.text,
-                        scope: this.query.scope
+                        scope: this.query.scope,
+                        "neural.search": this.appService.isNeural() && this.query.neuralSearch !== false
                     }
                 });
             }
@@ -754,7 +755,8 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 detail: {
                     text: this.query.text,
                     scope: this.query.scope,
-                    language: this.intlService.currentLocale.name
+                    language: this.intlService.currentLocale.name,
+                    "neural.search": this.appService.isNeural() && this.query.neuralSearch !== false
                 }
             }));
     }
@@ -934,6 +936,11 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         const querylang = this.results?.queryAnalysis?.queryLanguage
             || this.query?.questionLanguage
             || this.appService?.ccquery?.questionLanguage;
+        let score: number | undefined;
+        if (type === AuditEventType.Click_ResultLink) {
+            const passages = record?.matchingpassages?.passages;
+            score = passages && passages.length ? passages[0].score : undefined;
+        }
         this.auditService.notifyDocument(
             type,
             record,
@@ -941,6 +948,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             {
                 text: this.query.text,
                 querylang,
+                score
             },
             {
                 queryhash: results ? results.rfmQueryHash : undefined,
@@ -961,7 +969,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
     /**
      * Get the records according to a list of ID
-     * 
+     *
      * They are first searched on the result records, and we make a query for those we cannot find
      */
     getRecords(ids: string[]): Observable<Record[]> {
