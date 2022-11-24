@@ -241,7 +241,7 @@ The [`sq-scroller`]({{site.baseurl}}components/components/BsScroller.html) compo
 
 Results comes from [`SearchService.ResultsStream`]({{site.baseurl}}components/injectables/SearchService.html) and requires no mandatory input.
 
-We are using the [`Observer API`](https://https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to do this.
+We are using the [`Observer API`](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to do this.
 
 ```html
 <sq-scroller></sq-scroller>

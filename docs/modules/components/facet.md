@@ -23,7 +23,7 @@ The Facet module is also documented in the [tutorial]({{site.baseurl}}tutorial/f
 This modules provides:
 
 - [`FacetService`]({{site.baseurl}}components/injectables/FacetService.html): A service to manage data for the facet components and modify the search criteria (via the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html)).
-- [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) and [`AbstractFacet`]({{site.baseurl}}components/classes/AbstractFacet.html): A flexible API for creating custom facets.
+- [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) and [`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html): A flexible API for creating custom facets.
 - A list of diverse facet components using the above facet API. These components are generally styled with the Bootstrap library, and their class names start with `Bs`.
 
 ## Import
@@ -50,12 +50,12 @@ const messages = Utils.merge({}, ..., enFacet, appMessages);
 
 ## Facet Card API
 
-The facet card API is based on a generic **container** component, [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html), and an **abstract facet** component for the content of the facets ([`AbstractFacet`]({{site.baseurl}}components/classes/AbstractFacet.html)):
+The facet card API is based on a generic **container** component, [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html), and an **abstract facet** component for the content of the facets ([`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html)):
 
 - The container displays the frame, icon, title, action buttons *around* the facet.
-- The content can be any Angular template displayed *within* the facet. If the content extends [`AbstractFacet`]({{site.baseurl}}components/classes/AbstractFacet.html), the container will automatically detect its dynamic list of actions (and other features) and display them.
+- The content can be any Angular template displayed *within* the facet. If the content extends [`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html), the container will automatically detect its dynamic list of actions (and other features) and display them.
 
-For example, the [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component extends [`AbstractFacet`]({{site.baseurl}}components/classes/AbstractFacet.html). The component implements the `get actions()` method to provide a list of actions, which are dynamically displayed when you select facet items within the facet.
+For example, the [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component extends [`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html). The component implements the `get actions()` method to provide a list of actions, which are dynamically displayed when you select facet items within the facet.
 
 ![Facet card and content]({{site.baseurl}}assets/modules/facet/facet-api.png){: .d-block .mx-auto width="350px"}
 
@@ -65,7 +65,7 @@ For example, the [`sq-facet-list`]({{site.baseurl}}components/components/BsFacet
 </sq-facet-card>
 ```
 
-Notice the list of **actions** returned by `get actions()` in [`BsFacetList`](https://github.com/sinequa/sba-angular/blob/master/projects/components/facet/bootstrap/facet-list/facet-list.ts) (a method of [`AbstractFacet`]({{site.baseurl}}components/classes/AbstractFacet.html)):
+Notice the list of **actions** returned by `get actions()` in [`BsFacetList`](https://github.com/sinequa/sba-angular/blob/master/projects/components/facet/bootstrap/facet-list/facet-list.ts) (a method of [`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html)):
 
 ```ts
 get actions(): Action[] {
