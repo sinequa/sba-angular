@@ -111,15 +111,13 @@ export class TopPassagesComponent extends AbstractFacet {
 
   private notifyTopPassagesClick(passage: TopPassage) {
     const auditEvent: AuditEvent = this.makeAuditEvent(AuditEventType.TopPassages_Click, passage);
-    this.auditService.notify(auditEvent)
-      .subscribe();
+    this.auditService.notify(auditEvent);
   }
 
   private notifyTopPassagesDisplay(passages: TopPassage[]) {
       const auditEvents: AuditEvent[] = passages
       .map((passage: TopPassage) => this.makeAuditEvent(AuditEventType.TopPassages_Display, passage));
-    this.auditService.notify(auditEvents)
-      .subscribe();
+    this.auditService.notify(auditEvents);
   }
 
   private makeAuditEvent(type: string, passage: TopPassage): AuditEvent {

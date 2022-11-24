@@ -614,7 +614,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     detail: {
                         text: this.query.text,
                         scope: this.query.scope,
-                        "neural.search": this.query.neuralSearch === true
+                        "neural.search": this.appService.isNeural() && this.query.neuralSearch !== false
                     }
                 });
             }

@@ -101,8 +101,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     const type = liked ? AuditEventType.Answer_Liked : AuditEventType.Answer_Disliked;
     if (answer.$liked === liked) {
       answer.$liked = undefined;
-      this.auditService.notify(this.makeAuditEvent(type + "_Cancelled", answer))
-        .subscribe();
+      this.auditService.notify(this.makeAuditEvent(type + "_Cancelled", answer));
     }
     else {
       answer.$liked = liked;
@@ -113,15 +112,13 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   private notifyAnswer(type: AuditEventType, answer: Answer) {
     const auditEvent: AuditEvent = this.makeAuditEvent(type, answer);
-    this.auditService.notify(auditEvent)
-      .subscribe();
+    this.auditService.notify(auditEvent);
   }
 
   private notifyAnswerResult(answers: Answer[]) {
     const auditEvents: AuditEvent[] = answers
       .map((answer: Answer) => this.makeAuditEvent(AuditEventType.Answer_Result, answer));
-    this.auditService.notify(auditEvents)
-      .subscribe();
+    this.auditService.notify(auditEvents);
   }
 
   private makeAuditEvent(type: string, answer: Answer): AuditEvent {
