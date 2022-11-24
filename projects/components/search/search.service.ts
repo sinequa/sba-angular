@@ -936,6 +936,11 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         const querylang = this.results?.queryAnalysis?.queryLanguage
             || this.query?.questionLanguage
             || this.appService?.ccquery?.questionLanguage;
+        let score: number | undefined;
+        if (type === AuditEventType.Click_ResultLink) {
+            const passages = record?.matchingpassages?.passages;
+            score = passages && passages.length ? passages[0].score : undefined;
+        }
         this.auditService.notifyDocument(
             type,
             record,
@@ -943,6 +948,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             {
                 text: this.query.text,
                 querylang,
+                score
             },
             {
                 queryhash: results ? results.rfmQueryHash : undefined,

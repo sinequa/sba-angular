@@ -125,22 +125,23 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   private notifyAnswerResult(answers: Answer[]) {
     const auditEvents: AuditEvent[] = answers
-      .map((answer: Answer, index) => this.makeAuditEvent(AuditEventType.Answer_Result, answer, index));
+      .map((answer: Answer, index) => this.makeAuditEvent(AuditEventType.Answer_Result, answer));
     this.auditService.notify(auditEvents)
       .subscribe();
   }
 
-  private makeAuditEvent(type: string, answer: Answer, index?: number): AuditEvent {
+  private makeAuditEvent(type: string, answer: Answer): AuditEvent {
+    const rank = this.answers.indexOf(answer);
     return {
       type,
       detail: {
         text: this.searchService.query.text,
-        answerText: answer.text,
-        recordId: answer.recordId,
-        passageId: answer.passage.id,
-        afScore: answer["af.score"],
-        rmScore: answer["rm.score"],
-        answerRank: index
+        "answer.text": answer.text,
+        "record.id": answer.recordId,
+        "passage.id": answer.passage.id,
+        "af.score": answer["af.score"],
+        "rm.score": answer["rm.score"],
+        rank
       }
     };
   }
