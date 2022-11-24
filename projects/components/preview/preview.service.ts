@@ -191,16 +191,19 @@ export class PreviewService {
         const collectionColumn = record?.collection;
         const collection = !!collectionColumn ? collectionColumn[0] : Utils.split(id, "|")[0];
         const rank = !!record ? record.rank : this.rank || 0;
+        const passages = record?.matchingpassages?.passages;
+        const score = passages && passages.length ? passages[0].score : undefined;
         return {
             "doc-id": id,
-            rank: rank,
-            collection: collection,
+            rank,
+            collection,
             source: Utils.treeFirstNode(collection),
             "result-id": resultId,
             querylang: queryLanguage,
             text: query.text,
             filename: record?.filename,
             fileext: record?.fileext,
+            score
         }
     }
 
