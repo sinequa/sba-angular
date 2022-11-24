@@ -56,12 +56,12 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   }
 
   openPreview(answer: Answer) {
-    this.notifyAnswerClick(answer);
+    this.notifyAnswer(AuditEventType.Answer_Click, answer);
     this.previewOpened.next(answer);
   }
 
   onTitleClicked(isLink: boolean, answer: Answer) {
-    this.notifyAnswerClick(answer);
+    this.notifyAnswer(AuditEventType.Answer_Click, answer);
     this.titleClicked.next({ item: answer, isLink });
   }
 
@@ -77,7 +77,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   setAnswer() {
     const answer = this.answers[this.selectedAnswer];
-    this.notifyAnswerDisplay(answer);
+    this.notifyAnswer(AuditEventType.Answer_Display, answer);
     if (!!answer.$record) {
       this.answer$ = of(answer);
     } else {
@@ -111,14 +111,8 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     }
   }
 
-  private notifyAnswerClick(answer: Answer) {
-    const auditEvent: AuditEvent = this.makeAuditEvent(AuditEventType.Answer_Click, answer);
-    this.auditService.notify(auditEvent)
-      .subscribe();
-  }
-
-  private notifyAnswerDisplay(answer: Answer) {
-    const auditEvent: AuditEvent = this.makeAuditEvent(AuditEventType.Answer_Display, answer);
+  private notifyAnswer(type: AuditEventType, answer: Answer) {
+    const auditEvent: AuditEvent = this.makeAuditEvent(type, answer);
     this.auditService.notify(auditEvent)
       .subscribe();
   }
