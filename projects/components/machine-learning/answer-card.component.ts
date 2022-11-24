@@ -3,7 +3,7 @@ import { SearchService } from "@sinequa/components/search";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
-import { Answer, AuditEvent, AuditWebService, Results } from "@sinequa/core/web-services";
+import { Answer, AuditEvent, AuditEventType, AuditWebService, Results } from "@sinequa/core/web-services";
 import { map, Observable, of } from "rxjs";
 
 @Component({
@@ -51,15 +51,17 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     this.setAnswer();
     const answers = changes.results?.currentValue?.answers?.answers;
     if (answers?.length) {
-      this.notifyAnswerDisplay(answers);
+      this.notifyAnswerResult(answers);
     }
   }
 
   openPreview(answer: Answer) {
+    this.notifyAnswer(AuditEventType.Answer_Click, answer);
     this.previewOpened.next(answer);
   }
 
   onTitleClicked(isLink: boolean, answer: Answer) {
+    this.notifyAnswer(AuditEventType.Answer_Click, answer);
     this.titleClicked.next({ item: answer, isLink });
   }
 
@@ -75,6 +77,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   setAnswer() {
     const answer = this.answers[this.selectedAnswer];
+    this.notifyAnswer(AuditEventType.Answer_Display, answer);
     if (!!answer.$record) {
       this.answer$ = of(answer);
     } else {
@@ -95,11 +98,10 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   }
 
   private setLiked(answer: Answer, liked: boolean) {
-    const type = liked ? "Answer_Liked" : "Answer_Disliked";
+    const type = liked ? AuditEventType.Answer_Liked : AuditEventType.Answer_Disliked;
     if (answer.$liked === liked) {
       answer.$liked = undefined;
-      this.auditService.notify(this.makeAuditEvent(type + "_Cancelled", answer))
-        .subscribe();
+      this.auditService.notify(this.makeAuditEvent(type + "_Cancelled", answer));
     }
     else {
       answer.$liked = liked;
@@ -108,35 +110,30 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     }
   }
 
-  private notifyAnswerDisplay(answers: Answer[]) {
-    const auditEvents: AuditEvent[] = answers.map((answer: Answer, index) => {
-      return {
-        type: 'Answer_Display',
-        detail: {
-          text: this.searchService.query.text,
-          answerText: answer.text,
-          recordId: answer.recordId,
-          passageId: answer.passage.id,
-          afScore: answer["af.score"],
-          rmScore: answer["rm.score"],
-          answerRank: index
-        }
-      }
-    });
-    this.auditService.notify(auditEvents)
-      .subscribe();
+  private notifyAnswer(type: AuditEventType, answer: Answer) {
+    const auditEvent: AuditEvent = this.makeAuditEvent(type, answer);
+    this.auditService.notify(auditEvent);
   }
 
-  protected makeAuditEvent(type: string, answer: Answer): AuditEvent {
+  private notifyAnswerResult(answers: Answer[]) {
+    const auditEvents: AuditEvent[] = answers
+      .map((answer: Answer) => this.makeAuditEvent(AuditEventType.Answer_Result, answer));
+    this.auditService.notify(auditEvents);
+  }
+
+  private makeAuditEvent(type: string, answer: Answer): AuditEvent {
+    const rank = this.answers.indexOf(answer);
     return {
       type,
       detail: {
         text: this.searchService.query.text,
-        message: answer.text,
-        detail: answer.passage.highlightedText,
-        resultcount: this.answers.length,
-        rank: this.selectedAnswer
+        "answer.text": answer.text,
+        "record.id": answer.recordId,
+        "passage.id": answer.passage.id,
+        "af.score": answer["af.score"],
+        "rm.score": answer["rm.score"],
+        rank
       }
-    }
+    };
   }
 }
