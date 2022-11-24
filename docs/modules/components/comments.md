@@ -54,7 +54,7 @@ This component has one important dependency: the [Marked](https://marked.js.org/
 
 ## Comments component
 
-The [`sq-comments`]({{site.baseurl}}components/components/CommentsComponents.html) component displays a list of comments and replies attached to a specific document. This component can be displayed anywere as long as a document id is provided.
+The [`sq-comments`]({{site.baseurl}}components/components/CommentsComponent.html) component displays a list of comments and replies attached to a specific document. This component can be displayed anywere as long as a document id is provided.
 
 The component requires one mandatory input: `docid` (string), the id of the document to which the thread of comments is attached.
 
@@ -62,7 +62,7 @@ The component requires one mandatory input: `docid` (string), the id of the docu
 <sq-comments [docid]="record.id"></sq-comment>
 ```
 
-The component uses a service ([`CommentsWebService`]({{site.baseurl}}components/injectables/CommentsService.html)) to retrieve the list of [`Comment`]({{site.baseurl}}components/interfaces/Comment.html) objects from the server (as well as all the other actions: create, edit, delete and like comments).
+The component uses a service ([`CommentsWebService`]({{site.baseurl}}components/injectables/CommentsWebService.html)) to retrieve the list of [`Comment`]({{site.baseurl}}components/miscellaneous/typealiases.html#Comment) objects from the server (as well as all the other actions: create, edit, delete and like comments).
 
 ## Server-side configuration
 

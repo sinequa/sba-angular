@@ -154,7 +154,7 @@ It is also possible to customize the display by passing a template by transclusi
 
 ### Slide List component
 
-The [`sq-slide-list`]({{site.baseurl}}components/modules/SlideListComponent.html) component displays a tiled view of PowerPoint slides:
+The [`sq-slide-list`]({{site.baseurl}}components/components/SlideListComponent.html) component displays a tiled view of PowerPoint slides:
 
 ![Slide list]({{site.baseurl}}assets/modules/slide-builder/slide-list.png)
 

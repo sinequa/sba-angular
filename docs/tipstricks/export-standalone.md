@@ -133,7 +133,7 @@ Your components will generally have dependencies other than the JavaScript libra
 
 ### Login
 
-In order to use the Sinequa API, you need to be logged in. This means that at least one of your components will need to call `loginService.login()`. Your component can typically extend the [`ComponentWithLogin`]({{site.baseurl}}core/classes/ComponentWithLogin.html) class from [`@sinequa/core/login`]({{site.baseurl}}modules/core/login.html) to make this automatic.
+In order to use the Sinequa API, you need to be logged in. This means that at least one of your components will need to call `loginService.login()`. Your component can typically extend the [`ComponentWithLogin`]({{site.baseurl}}core/components/ComponentWithLogin.html) class from [`@sinequa/core/login`]({{site.baseurl}}modules/core/login.html) to make this automatic.
 
 ### CORS
 

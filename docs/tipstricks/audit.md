@@ -94,7 +94,7 @@ this.auditWebService.notify({
 
 It is often required to add some custom data to a standard event (or even to *all* standard events). One solution to that problem would be to modify (or override) the existing services ([`SearchService`]({{site.baseurl}}components/injectables/SearchService.html), [`FacetService`]({{site.baseurl}}components/injectables/FacetService.html), etc.), to add the missing data. But this approach is cumbersome and requires more maintenance.
 
-A better alternative is to *intercept* audit events globally (just before they are sent to the server) and modify them all in this centralized location. This can be achieved by extending the standard [`AuditInterceptor`]({{site.baseurl}}core/injectables/AuditInterceptor.html) and overriding the `updateAuditRecord()` method.
+A better alternative is to *intercept* audit events globally (just before they are sent to the server) and modify them all in this centralized location. This can be achieved by extending the standard [`AuditInterceptor`]({{site.baseurl}}core/interceptors/AuditInterceptor.html) and overriding the `updateAuditRecord()` method.
 
 [HTTP interceptors](https://angular.io/api/common/http/HttpInterceptor) are a standard way to manipulate HTTP requests and responses globally in Angular. Sinequa includes an interceptor dedicated to audit events. It is provided by default in application samples, such as [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), in the `app.module.ts` file:
 

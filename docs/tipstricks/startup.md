@@ -176,7 +176,7 @@ These breakpoints must be injected in the list of **providers** (they are used e
 
 The selection options ([`SelectionOptions`]({{site.baseurl}}components/interfaces/SelectionOptions.html)) allow to customize the behavior of the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html), which keeps track of the documents selected by the user via checkboxes (aka selectors).
 
-The options are detailed in the [documentation]({{site.baseurl}}modules/components/selection.html) of the [`SelectionModule`]({{site.baseurl}}components/modules/SelectionModule.html).
+The options are detailed in the [documentation]({{site.baseurl}}modules/components/selection.html) of the [`SelectionModule`]({{site.baseurl}}components/modules/BsSelectionModule.html).
 
 These options must be injected in the list of **providers**:
 

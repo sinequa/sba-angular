@@ -17,7 +17,7 @@ Please checkout the [reference documentation]({{site.baseurl}}components/modules
 The `Modal` module is divised into two parts:
 
 1. The generic part in `@sinequa\core` provides service, and components declartion for the creation of popup modals,
-2. The components in `@sinequa\components` provides overrides for the components in `@sinequa\core` for styling, for Bootstrap ([BsModalModule]({{site.baseurl}}components/modules/BsModalModule.html)) and Material ([MdModalModule]({{site.baseurl}}components/modules/MdModalModule.html)).
+2. The components in `@sinequa\components` provides overrides for the components in `@sinequa\core` for styling, for Bootstrap ([BsModalModule]({{site.baseurl}}components/modules/BsModalModule.html)).
 
 This documentation page focuses on the Bootstrap flavor components of `Modal`.
 
