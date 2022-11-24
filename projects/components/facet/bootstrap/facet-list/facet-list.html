@@ -16,7 +16,7 @@
 
     <!-- filtered items -->
     <div  *ngFor="let item of filtered"
-        class="d-flex flex-row align-items-center list-group-item list-group-item-action list-group-item-success text-truncate border-0 px-3 py-1 sq-facet-row cursor-pointer"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-action list-group-item-success text-truncate border-0 sq-facet-row cursor-pointer"
         [ngClass]="{'list-group-item-success': !item.$excluded, 'list-group-item-secondary': item.$excluded}"
         [title]="'msg#facet.selectedValue' | sqMessage"
         (click)="filterItem(item, $event)">
@@ -33,7 +33,7 @@
 
     <!-- hidden selected items -->
     <div  *ngFor="let item of hiddenSelected"
-        class="d-flex flex-row align-items-center list-group-item list-group-item-primary text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-primary text-truncate border-0 facet-row cursor-pointer"
         [title]="'msg#facet.itemUnselect' | sqMessage"
         (click)="selectItem(item, $event)">
 
@@ -46,7 +46,7 @@
 
     <!--- suggestions items -->
     <div *ngFor="let suggest of suggestions$ | async"
-        class="d-flex flex-row align-items-center list-group-item list-group-item-action text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-action text-truncate border-0 facet-row cursor-pointer"
         [ngClass]="{'list-group-item-primary': isSelected(suggest)}"
         (click)="selectItem(suggest, $event)">
         
@@ -63,7 +63,7 @@
     <div *ngIf="!hasSuggestions()" class="facet-results-scrollable">
         <!--- aggregation items without filtered -->
         <div *ngFor="let item of items$ | async"
-            class="position-relative list-group-item list-group-item-action border-0 px-3 py-1 facet-row cursor-pointer"
+            class="position-relative list-group-item list-group-item-action border-0 facet-row cursor-pointer"
             [ngClass]="{ 'list-group-item-primary': isSelected(item) }"
             [title]="(isSelected(item) ? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage"
             (click)="selectItem(item, $event)">
@@ -78,7 +78,7 @@
             </div>
         </div>
 
-        <a *ngIf="hasMore" class="d-block border-0 px-3 py-1 text-center" (click)="loadMore($event)" href="#">
+        <a *ngIf="hasMore" class="d-block border-0 text-center" (click)="loadMore($event)" href="#">
             <span *ngIf="loadingMore" class="fas fa-sync fa-fw fa-spin"></span>
             <small *ngIf="!loadingMore">{{'msg#facet.loadMore' | sqMessage}}</small>
         </a>

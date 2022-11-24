@@ -70,7 +70,7 @@ The [`PreviewService`]({{site.baseurl}}components/injectables/PreviewService.htm
 
 - `openModal(record: Record, query: Query, model: any)`
 
-    This method uses the [`ModalService`]({{site.baseurl}}core/injectables/ModalService.html) to open a popup dialog with the preview. The component displayed by this modal is by default [`sq-preview-popup`](components/components/BsPreviewPopup.html), but it can be replaced by your own custom component by adding it in to your providers in `app.module.ts`:
+    This method uses the [`ModalService`]({{site.baseurl}}core/injectables/ModalService.html) to open a popup dialog with the preview. The component displayed by this modal is by default [`sq-preview-popup`]({{site.baseurl}}components/components/BsPreviewPopup.html), but it can be replaced by your own custom component by adding it in to your providers in `app.module.ts`:
 
     ```ts
     providers: [

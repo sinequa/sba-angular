@@ -165,12 +165,12 @@ The `LabelsService` provides here some methods that you may need:
 
 The `LabelsModule` comes with a set of components :
 
-- The [`LabelsMenu` component]({{site.baseurl}}components/components/LabelsMenu.html) is used to display dropdown menu
+- The [`LabelsMenu` component]({{site.baseurl}}components/components/BsLabelsMenuComponent.html) is used to display dropdown menu
   that manages public and private labels.  
   
   You can see this menu in the navigation bar. 
 
-  ![Labels menu in navigation bar]({{site.baseurl}}assets/modules/labels/navbar-menu-labels.png)
+  ![Labels menu in navigation bar]({{site.baseurl}}assets/modules/labels/navbar-menu-labels.PNG)
   {: .d-block .mx-auto }
   *Labels menu in navigation bar*
   {: .text-center }
@@ -188,7 +188,7 @@ The `LabelsModule` comes with a set of components :
   the assigned labels of a document.  
   Note the background color used to distinguish public and private labels.  
 
-  ![Labels]({{site.baseurl}}assets/modules/labels/displayed-labels-of-document.png)
+  ![Labels]({{site.baseurl}}assets/modules/labels/displayed-labels-of-document.PNG)
   {: .d-block .mx-auto }
   *Display labels of a document*
   {: .text-center }
@@ -215,7 +215,7 @@ The `LabelsModule` comes with a set of components :
    - Radio button: The type of label you want to manage. Note that it **depends on the configuration of sinequa instance**.
    - Autocomplete input: List of labels you want to manage.
   
-  ![Labels]({{site.baseurl}}assets/modules/labels/single-document-labels-edit.png){: .d-block .mx-auto }
+  ![Labels]({{site.baseurl}}assets/modules/labels/single-document-labels-edit.PNG){: .d-block .mx-auto }
 
   Each modal component uses the `MODAL_MODEL` injection token. The object needs to be
 
@@ -240,13 +240,12 @@ The `LabelsModule` comes with a set of components :
    - `radioButtons`: Properties of the modal buttons .
 
 
-- The [`BsLabelsAutocomplete` component]({{site.baseurl}}components/components/BsLabelsAutocomplete.html) is the main building block of the `Modals components`.  
-  Actually, it is an input element, hosting the `sqAutocompleteLabels` directive, and linked to a container to display selected labels.
+- The [`BsLabelsAutocomplete` component]({{site.baseurl}}components/components/BsLabelsAutocompleteComponent.html) is the main building block of the `Modals components`.  
+  Actually, it is an input element, hosting the `sqAutocompleteLabels` directive.
 
   Example:
 
   ```html
-  <sq-labels-items [public]="public" #labelsItemsContainer></sq-labels-items>
   <input type="text"
       class="input-autocomplete flex-grow-1"
       name="labelName"
@@ -256,7 +255,6 @@ The `LabelsModule` comes with a set of components :
       [public]="public"
       [placeholder]="'msg#labels.selectLabel' | sqMessage"
       [dropdown]="dropdown"
-      [labelsItemsContainer]="labelsItemsContainer"
       [allowNewLabels]="allowNewLabels"
       [allowManagePublicLabels]="allowManagePublicLabels"
       (keydown)="keydown($event)"
@@ -265,7 +263,7 @@ The `LabelsModule` comes with a set of components :
       [disabled]="disableAutocomplete"
       [off]="disableAutocomplete"
       [class.disabled]="disableAutocomplete"
-      [initLabels]="initLabels">
+      [labelsItems]="labelsItems">
   ```  
 
   The inputs of the component are:
@@ -274,12 +272,9 @@ The `LabelsModule` comes with a set of components :
    - `disableAutocomplete`: Turns off the autocomplete input.
    - `allowNewLabels`: Whether considering the selection of a **not** existing label among the suggestions.
    - `allowManagePublicLabels`: Here it means the user right to allow adding new labels.
-   - `initLabels`: Initial labels to be displayed in the container.  
+   - `labelsItems`: Initial labels to be displayed in the container.  
 
   The component also emits a `labelsUpdate` event used to synchronize the list of selected labels and their type in the parent component.
-
-- The [`BsLabelsItems` component]({{site.baseurl}}components/components/BsLabelsItems.html) is the container used to display
-  selected labels onto the autocomplete input.  
 
   The component takes as input `public` (Whether the labels are public) and emits `itemRemoved` event each time a label is getting removed from the list.
 
@@ -288,7 +283,7 @@ The `LabelsModule` comes with a set of components :
 The [`LabelsAutocomplete`]({{site.baseurl}}components/directives/LabelsAutocomplete.html) provides the `sqAutocompleteLabels` directive. It extends and overrides the main [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive.  
 Thus, the suggestions are fetched and displayed also in case of empty input. This feature **requires** the `labelsAutoSuggestWildcard` to be configured in the sinequa server.
 
-![Labels]({{site.baseurl}}assets/modules/labels/wildcard-config.png){: .d-block .mx-auto }
+![Labels]({{site.baseurl}}assets/modules/labels/wildcard-config.PNG){: .d-block .mx-auto }
 
 In addition to that, the selection of items is being possible on `blur` event. As a result, on blur, the value of the input is checked against the existing suggestions and then added to the list if it matches.
 

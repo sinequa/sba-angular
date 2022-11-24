@@ -47,7 +47,10 @@ export default {
             "showPassages": "Von Neural Search extrahierte Passagen zeigen/ausblenden",
             "downloadPdf": "PDF-Version herunterladen",
             "viewPreview": "Vorschau",
-            "viewPassages": "Passagen"
+            "viewPassages": "Passagen",
+            "documentPreview": "Dokumentvorschau",
+            "documentPreviewTitle": "Dies ist die Dokumentenvorschau",
+            "documentPreviewDescription": "Klicken Sie auf eines Ihrer Suchergebnisse, um das Dokument hier in der Vorschau anzuzeigen."
         }
     }
 };

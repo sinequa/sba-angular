@@ -7,7 +7,7 @@ nav_order: 8
 
 # User Settings Features
 
-[`User Settings`]({{site.baseurl}}modules/core/user-settings.html) allow you to store and retrieve user-specific data on the Sinequa server. Multiple features are based on User Settings:
+[`User Settings`]({{site.baseurl}}modules/components/user-settings.html) allow you to store and retrieve user-specific data on the Sinequa server. Multiple features are based on User Settings:
 
 - Saved Queries (Save a particular query to reuse it later)
 - Recent Queries (Indifferently save all latest queries)
@@ -15,7 +15,7 @@ nav_order: 8
 - Baskets (Save documents to named "baskets")
 - Alerts (Subscribe to an email alert for a particular query)
 
-These features come packaged in modules. The first 3 are packaged in the [Saved Queries module]({{site.baseurl}}modules/components/saved-queries.html), the baskets in the [Baskets module]({{site.baseurl}}modules/components/baskets.html) and the alerts in the [Alerts module]({{site.baseurl}}modules/components/alerts.html).
+These features come packaged in modules. The first 3 are packaged in the [Saved Queries module]({{site.baseurl}}components/modules/BsSavedQueriesModule.html), the baskets in the [Baskets module]({{site.baseurl}}components/modules/BsBasketsModule.html) and the alerts in the [Alerts module]({{site.baseurl}}components/modules/BsAlertsModule.html).
 
 Additionally the [User Settings module]({{site.baseurl}}modules/components/user-settings.html) provide a `UserPreferences` utility to easily store key-values data for the current user on the server (this can be useful for UI settings for example).
 

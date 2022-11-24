@@ -10,7 +10,7 @@ nav_order: 10
 
 ## Reference documentation
 
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/SelectionModule.html) auto-generated from source code.
+Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsSelectionModule.html) auto-generated from source code.
 
 ## Features
 

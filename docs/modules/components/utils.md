@@ -299,28 +299,6 @@ Example:
 
 {% endraw %}
 
-#### Load directive
-
-The [`sqLoad` directive]({{site.baseurl}}components/directives/Load.html) is a syntactic sugar that helps to manage
-the behavior of your component when the loading of the component or that of its children sub-component finishes.
-When the loading finish event occurs, the directive emits an event that can be caught by the callback passing to the directive.
-
-One of the usage examples of this directive is in the preview of vanilla-search.
-A callback is used to wait for the loading of a document preview.
-
-Example:
-{% raw %}
-
-```html
-<iframe #documentFrame
-  [src]="downloadUrl"
-  (sqLoad)="onPreviewDocLoad($event.event)"
->
-</iframe>
-```
-
-{% endraw %}
-
 #### ScrollIntoView directive
 
 The [`sqScrollIntoView` directive]({{site.baseurl}}components/directives/ScrollIntoView.html) is a syntactic sugar that helps to make sure a dynamically rendered child component of the current commponent to be in the visible area of the window.

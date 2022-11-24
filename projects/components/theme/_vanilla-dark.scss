@@ -1,6 +1,4 @@
-.dark {
-    @import "sinequa-theme";
-
+.sinequa.dark, .dark {
     .main {
         margin-top: 6rem !important;
     }
@@ -32,6 +30,10 @@
         color: #6c757d !important;
     }
 
+    .btn-link:hover {
+        color: $white !important;
+    }
+
     .modal-content {
         .btn:not(.btn-primary):not(.btn-secondary) {
             color: var(--primary, #{$blue-1}) !important;
@@ -40,6 +42,30 @@
                 color: var(--primary-200, #{$blue-hover}) !important;
             }
         }
+    }
+
+    // Facet header buttons
+    sq-facet-card .card-header .btn-light {
+        &:hover {
+            background-color: #d3d4d5;
+            border-color: #d3d4d5;
+            color: $black;
+        }
+
+        &.active {
+            background-color: #c6c7c8;
+            border-color: #babbbc;
+            color: $black;
+        }
+    }
+
+    .sq-view-actions .btn-outline-primary {
+        --bs-btn-hover-bg: #{$grey-6} !important;
+        --bs-btn-hover-border-color: #{$grey-6} !important;
+        --bs-btn-color: #{$white};
+        --bs-btn-border-color: #{$grey-6};
+        --bs-btn-active-bg: #{$grey-6} !important;
+        --bs-btn-active-border-color: #{$grey-6} !important;
     }
 
     sq-facet-card .card,

@@ -8,37 +8,7 @@ import { SearchService } from "@sinequa/components/search";
 @Component({
   selector: 'sq-top-passages',
   templateUrl: 'top-passages.component.html',
-  styles: [`
-.card-body > div {
-  cursor: pointer;
-}
-
-.sq-text-ellipsis {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: var(--line-clamp, 3);
-  -webkit-box-orient: vertical;
-  white-space: normal;
-  font-size: 0.875em;
-
-  &.expanded {
-    --line-clamp: 0;
-  }
-}
-
-.btn-toggle {
-  position: relative;
-  top: .2rem;
-  opacity: 1;
-  width: 4%;
-  color: rgba(0,0,0,.5);
-
-  &--hidden {
-    opacity: 0;
-  }
-}
-  `],
+  styleUrls: ['./top-passages.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopPassagesComponent extends AbstractFacet {

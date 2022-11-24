@@ -101,7 +101,7 @@ The [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComp
 
 ## Heatmap results view
 
-The heatmap results view ([`sq-results-heatmap-view`]({{site.baseurl}}analytics/components/BsResultsHeatmapView.html)) is based directly on the [`sq-facet-heatmap`]({{site.baseurl}}components/components/BsFacetHeatmapComponent.html) component (by inheritance). The differences are the following:
+The heatmap results view ([`sq-results-heatmap-view`]({{site.baseurl}}analytics/components/BsResultsHeatmapView.html)) is based directly on the [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html) component (by inheritance). The differences are the following:
 
 - To use this component it is required to import the [`BsResultsViewModule`]({{site.baseurl}}components/modules/BsResultsViewModule.html) module in your `app.module.ts` and inject a list of results views and a default one via the `forRoot()` method.
 - Since the view is not wrapped inside a [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) component, the list of actions is displayed above the view, including a button to toggle the settings panel.

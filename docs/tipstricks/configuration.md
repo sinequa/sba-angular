@@ -16,7 +16,7 @@ There are essentially two ways of doing this in the SBA framework:
 
 ## Source-code configuration
 
-The first one is not specific to Sinequa: You can simply store your settings in a global TypeScript file that you can import anywhere in your app. An example of this is available in [Vanilla Search]({{site.baseurl}}module/vanilla-search/vanilla-search.html) with the `src/config.ts` file. You can use this file to store any data you need, and then import this data from a component or service.
+The first one is not specific to Sinequa: You can simply store your settings in a global TypeScript file that you can import anywhere in your app. An example of this is available in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) with the `src/config.ts` file. You can use this file to store any data you need, and then import this data from a component or service.
 
 `src/config.ts`:
 
@@ -84,7 +84,7 @@ import { AppService } from '@sinequa/core/app-utils';
 
 ## Combining both approaches
 
-In [Vanilla Search]({{site.baseurl}}module/vanilla-search/vanilla-search.html) both approaches are used. By default, the `src/config.ts` file is used, but if configuration is passed through the `AppService` as above, then it takes precedence.
+In [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) both approaches are used. By default, the `src/config.ts` file is used, but if configuration is passed through the `AppService` as above, then it takes precedence.
 
 For example, the Home component has the following logic for listing the active *features* (resulting in specific facets on the home page):
 

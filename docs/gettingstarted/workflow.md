@@ -90,7 +90,7 @@ The third step means by definition that the app is not served from the same URL 
     npm run ng serve <your-app> -- --ssl=true --proxy-config=<path-to-proxy.json>
     ```
 
-    The proxy file can have various other options. Read the [online documentation]((https://angular.io/guide/build#proxying-to-a-backend-server)).
+    The proxy file can have various other options. Read the [online documentation](https://angular.io/guide/build#proxying-to-a-backend-server).
 
 - Alternatively, configure the Sinequa Webapp to allow cross-origin requests (In the configuration of your *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests*, write `http://localhost:4200` or just `*`). As mentioned in [Deploying an app on another server](dev-setup.html#deploying-an-app-on-another-server), the Sinequa API must be accessible over HTTPS. This does not resolve all CORS issues (in particular if you are working on the document preview).
 
