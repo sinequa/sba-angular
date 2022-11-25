@@ -1,5 +1,5 @@
 @import "../facet-base.scss";
 
 .list-group-item.disabled {
-    color: lightgrey;
+    opacity: 0.5;
 }
