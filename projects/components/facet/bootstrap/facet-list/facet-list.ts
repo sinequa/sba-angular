@@ -10,6 +10,7 @@ import { FacetConfig } from "../../facet-config";
 
 export interface FacetListParams {
     aggregation: string;
+    showCheckbox?: boolean;
     showCount?: boolean;
     searchable?: boolean;
     allowExclude?: boolean;
@@ -37,6 +38,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
+    @Input() showCheckbox: boolean = true;
     @Input() showCount: boolean = true; // Show the number of occurrences
     @Input() searchable: boolean = true; // Allow to search for items in the facet
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
@@ -105,6 +107,12 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         this.searchQuery = this.myGroup.get("searchQuery") as UntypedFormControl;
         this.subscriptions["suggest"] = this.suggest$(this.searchQuery.valueChanges)
             .subscribe(values => {
+                // Update the "selected" status of new suggestion items
+                for(const i of values) {
+                  if(this.isSelected(i)) {
+                    i.$selected = true;
+                  }
+                }
                 this.suggestions$.next(values);
                 // Refresh hiddenSelected list when the list of items is updated
                 this.refreshHiddenSelected();
@@ -373,8 +381,10 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             const index = this.facetService.findAggregationItemIndex(this.selected, item);
             if (index === -1) {
                 this.selected.push(item);
+                item.$selected = true;
             } else {
                 this.selected.splice(index, 1);
+                delete item.$selected;
             }
             this.refreshHiddenSelected();
         }

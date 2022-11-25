@@ -5,7 +5,6 @@
   --bs-dropdown-link-active-bg: #{$blue-1};
   --bs-dropdown-border-width: .1rem;
   --bs-dropdown-border-color: #{$grey-1};
-  top: .3rem !important;
   box-shadow: 0 0 .9rem rgba(0, 0, 0, .1);
   min-width: 100%;
 
@@ -32,22 +31,5 @@
 
   .dropdown-menu {
     box-shadow: none;
-  }
-}
-
-sq-facet-list,
-sq-facet-tree {
-  .list-group-item {
-    a {
-      color: $black !important;
-    }
-
-    &:hover {
-      background-color: $blue-selection;
-
-      a {
-        color: $black !important;
-      }
-    }
   }
 }

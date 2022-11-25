@@ -79,28 +79,6 @@ sq-facet-card {
       --bs-list-group-color: #{$body-text-grey-1};
     }
 
-    .list-group-item-primary,
-    .list-group-item-primary.list-group-item-action:hover,
-    .list-group-item-primary.list-group-item-action:focus {
-      background-color: var(--bs-list-group-action-active-bg, #{$blue-selection});
-    }
-  }
-
-  /**
-  List elements
-   */
-  sq-facet-tree {
-    a {
-      --bs-link-color: #{$body-text-grey-1};
-      --bs-link-hover-color: #{$body-text-grey-1};
-      color: $body-text-grey-1;
-      text-decoration: none;
-
-      // the text on the right side (elements nb, ...)
-      span.small {
-        font-weight: 300;
-      }
-    }
   }
 
   /**
@@ -132,6 +110,26 @@ sq-facet-card {
     &.preview-btn {
       --bs-btn-padding-y: .8rem !important;
       --bs-btn-padding-x: 1rem !important;
+    }
+  }
+}
+
+/**
+List elements
+*/
+sq-facet-tree ,
+sq-facet-list {
+  .list-group-item {
+    a {
+      --bs-link-color: #{$body-text-grey-1};
+      --bs-link-hover-color: #{$body-text-grey-1};
+      color: $body-text-grey-1;
+      text-decoration: none;
+    }
+
+    // the text on the right side (elements nb, ...)
+    span.small {
+      font-weight: 300;
     }
   }
 }
