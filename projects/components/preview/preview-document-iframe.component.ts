@@ -73,9 +73,9 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     // page could change when location.href change or when user click on a tab (sheet case)
     // when URL a string is sent otherwise a PreviewDocument
     @Output() pageChange = new EventEmitter<string | PreviewDocument>();
-    @ViewChild('documentFrame', {static: true, read: ElementRef}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
-    @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
-    @ContentChild('minimap', {read: ElementRef, static: false}) minimap: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
+    @ViewChild('documentFrame', { static: true, read: ElementRef }) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
+    @ContentChild('tooltip', { read: ElementRef, static: false }) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
+    @ContentChild('minimap', { read: ElementRef, static: false }) minimap: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     // Must be undefined by default, because if a default value is set,
     // if we set it to undefined in the future, this new (undefined) value
@@ -87,7 +87,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
     constructor(
         private cdr: ChangeDetectorRef) {
-            this.previewDocLoadHandler = this.onPreviewDocLoad.bind(this);
+        this.previewDocLoadHandler = this.onPreviewDocLoad.bind(this);
     }
 
     public onPreviewDocLoad() {
@@ -107,20 +107,21 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         //   background. That needs to be done now that the iFrame is loaded.
         try {
             this.previewDocument.setSvgBackgroundPositionAndSize();
+
             /* To catch tab's sheet changes
-            * Sheet structure:
-            * <iframe #preview>
-            *      #document
-            *          ...
-            *          <frameset>
-            *              <iframe name="frSheet"> // current sheet displayed
-            *              <iframe name="frTabs">  // contains all sheet's tabs
-            *          </frameset>
-            *          ...
-            * </iframe>
-            */
+             * Sheet structure:
+             * <iframe #preview>
+             *      #document
+             *          ...
+             *          <frameset>
+             *              <iframe name="frSheet"> // current sheet displayed
+             *              <iframe name="frTabs">  // contains all sheet's tabs
+             *          </frameset>
+             *          ...
+             * </iframe>
+             */
             const sheetFrame = this.documentFrame.nativeElement.contentDocument.getElementsByName("frSheet");
-            if(sheetFrame.length > 0) {
+            if (sheetFrame.length > 0) {
                 sheetFrame[0].removeEventListener("load", () => {});
                 sheetFrame[0].addEventListener("load", () => {
                     this.previewDocument = new PreviewDocument(this.documentFrame);
@@ -130,7 +131,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
             }
 
             if (this.tooltip)
-            this.addTooltip(this.previewDocument);
+                this.addTooltip(this.previewDocument);
 
             if (this.minimap) {
                 this.previewDocument.insertComponent(this.minimap.nativeElement);
