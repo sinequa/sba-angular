@@ -1,5 +1,4 @@
-import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy } from "@angular/core";
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, AfterViewInit, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy, SimpleChanges } from "@angular/core";
 import { Utils } from "@sinequa/core/base";
 import { PreviewDocument } from "./preview-document";
 
@@ -29,7 +28,7 @@ import { PreviewDocument } from "./preview-document";
                 <iframe #documentFrame
                     loading="lazy"
                     [attr.sandbox]="_sandbox"
-                    [src]="sanitizedUrlSrc"
+                    src=""
                     [style.--factor]="scalingFactor"
                     [ngStyle]="{'-ms-zoom': scalingFactor, '-moz-transform': 'scale(var(--factor))', '-o-transform': 'scale(var(--factor))', '-webkit-transform': 'scale(var(--factor))'}">
                 </iframe>`,
@@ -69,7 +68,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @Input() downloadUrl: string;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
-    
+
     // page could change when location.href change or when user click on a tab (sheet case)
     // when URL a string is sent otherwise a PreviewDocument
     @Output() pageChange = new EventEmitter<string | PreviewDocument>();
@@ -77,65 +76,63 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
     @ContentChild('minimap', {read: ElementRef, static: false}) minimap: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
-    public sanitizedUrlSrc: SafeResourceUrl;
-    // Must be undefined by default, because if a default value is set, 
-    // if we set it to undefined in the future, this new (undefined) value 
+    // Must be undefined by default, because if a default value is set,
+    // if we set it to undefined in the future, this new (undefined) value
     // is not used by the iFrame as if it used the previous value
     public _sandbox: string | null | undefined;
-    
+
     private previewDocument: PreviewDocument;
     readonly previewDocLoadHandler;
 
     constructor(
-        private cdr: ChangeDetectorRef,
-        private sanitizer: DomSanitizer) {
+        private cdr: ChangeDetectorRef) {
             this.previewDocLoadHandler = this.onPreviewDocLoad.bind(this);
     }
 
     public onPreviewDocLoad() {
-        
+
         if(this.downloadUrl === undefined) return;
         // previewDocument must be created here when document is fully loaded
         // because in case of sheet, PreviewDocument constructor change.
         this.previewDocument = new PreviewDocument(this.documentFrame);
-        
+
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
         //   background. That needs to be done now that the iFrame is loaded.
         try {
             this.previewDocument.setSvgBackgroundPositionAndSize();
-            /* To catch tab's sheet changes
-            * Sheet structure:
-            * <iframe #preview>
-            *      #document
-            *          ...
-            *          <frameset>
-            *              <iframe name="frSheet"> // current sheet displayed
-            *              <iframe name="frTabs">  // contains all sheet's tabs
-            *          </frameset>
-            *          ...
-            * </iframe>
-            */ 
-            const sheetFrame = this.documentFrame.nativeElement.contentDocument.getElementsByName("frSheet");
-            if(sheetFrame.length > 0) {
-                sheetFrame[0].removeEventListener("load", () => {});
-                sheetFrame[0].addEventListener("load", () => {
-                    this.previewDocument = new PreviewDocument(this.documentFrame);
-                    this.pageChange.next(this.previewDocument);
-                    this.cdr.markForCheck();
-                }, true);
-            }
+        } catch (error) {
+            console.error(error);
+        }
+
+        /* To catch tab's sheet changes
+         * Sheet structure:
+         * <iframe #preview>
+         *      #document
+         *          ...
+         *          <frameset>
+         *              <iframe name="frSheet"> // current sheet displayed
+         *              <iframe name="frTabs">  // contains all sheet's tabs
+         *          </frameset>
+         *          ...
+         * </iframe>
+         */
+        const sheetFrame = this.documentFrame.nativeElement.contentDocument.getElementsByName("frSheet");
+        if(sheetFrame.length > 0) {
+            sheetFrame[0].removeEventListener("load", () => {});
+            sheetFrame[0].addEventListener("load", () => {
+                this.previewDocument = new PreviewDocument(this.documentFrame);
+                this.pageChange.next(this.previewDocument);
+                this.cdr.markForCheck();
+            }, true);
+        }
 
             if (this.tooltip)
             this.addTooltip(this.previewDocument);
 
-            if (this.minimap) {
-                this.previewDocument.insertComponent(this.minimap.nativeElement);
-            }
-
-        } catch (error) {
-            console.warn(error);
+        if (this.minimap) {
+            this.previewDocument.insertComponent(this.minimap.nativeElement);
         }
 
         // Let upstream component know document is now ready
@@ -160,18 +157,16 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
             return;
         }
 
-        this.resetContent();
-        if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
+        if (this.downloadUrl) {
             // set sandbox attribute only when downloadUrl is defined, so iframe is created without sandbox attribute
             // if sandbox is null, keep sandbox attribute to undefined
             // otherwise put sanbox value in the sanbox attribute or default sandbox value
             this._sandbox = (this.sandbox === null) ? undefined : Utils.isString(this.sandbox) ? this.sandbox : this.defaultSandbox;
-            this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
+            this.documentFrame.nativeElement.contentWindow.location.replace(this.downloadUrl);
         }
     }
 
     ngAfterViewInit() {
-        this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
             this.previewDocument = new PreviewDocument(this.documentFrame);
             this.pageChange.next(newURL);
@@ -214,9 +209,5 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         });
 
         attachUnload();
-    }
-
-    resetContent() {
-        this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
     }
 }
