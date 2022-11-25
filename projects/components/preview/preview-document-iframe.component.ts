@@ -1,5 +1,4 @@
 import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy } from "@angular/core";
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Utils } from "@sinequa/core/base";
 import { PreviewDocument } from "./preview-document";
 
@@ -28,7 +27,7 @@ import { PreviewDocument } from "./preview-document";
     template: `
                 <iframe #documentFrame
                     [attr.sandbox]="_sandbox"
-                    [src]="sanitizedUrlSrc"
+                    src=""
                     [style.--factor]="scalingFactor"
                     [ngStyle]="{'-ms-zoom': scalingFactor, '-moz-transform': 'scale(var(--factor))', '-o-transform': 'scale(var(--factor))', '-webkit-transform': 'scale(var(--factor))'}">
                 </iframe>`,
@@ -68,35 +67,33 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @Input() downloadUrl: string;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
-    
+
     // page could change when location.href change or when user click on a tab (sheet case)
     // when URL a string is sent otherwise a PreviewDocument
     @Output() pageChange = new EventEmitter<string | PreviewDocument>();
     @ViewChild('documentFrame', {static: true}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
-    public sanitizedUrlSrc: SafeResourceUrl;
-    // Must be undefined by default, because if a default value is set, 
-    // if we set it to undefined in the future, this new (undefined) value 
+    // Must be undefined by default, because if a default value is set,
+    // if we set it to undefined in the future, this new (undefined) value
     // is not used by the iFrame as if it used the previous value
     public _sandbox: string | null | undefined;
-    
+
     private previewDocument: PreviewDocument;
     readonly previewDocLoadHandler;
 
     constructor(
-        private cdr: ChangeDetectorRef,
-        private sanitizer: DomSanitizer) {
+        private cdr: ChangeDetectorRef) {
             this.previewDocLoadHandler = this.onPreviewDocLoad.bind(this);
     }
 
     public onPreviewDocLoad() {
-        
+
         if(this.downloadUrl === undefined) return;
         // previewDocument must be created here when document is fully loaded
         // because in case of sheet, PreviewDocument constructor change.
         this.previewDocument = new PreviewDocument(this.documentFrame);
-        
+
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
@@ -118,7 +115,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
          *          </frameset>
          *          ...
          * </iframe>
-         */ 
+         */
         const sheetFrame = this.documentFrame.nativeElement.contentDocument.getElementsByName("frSheet");
         if(sheetFrame.length > 0) {
             sheetFrame[0].removeEventListener("load", () => {});
@@ -154,18 +151,16 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
             return;
         }
 
-        this.resetContent();
-        if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
+        if (this.downloadUrl) {
             // set sandbox attribute only when downloadUrl is defined, so iframe is created without sandbox attribute
             // if sandbox is null, keep sandbox attribute to undefined
             // otherwise put sanbox value in the sanbox attribute or default sandbox value
             this._sandbox = (this.sandbox === null) ? undefined : Utils.isString(this.sandbox) ? this.sandbox : this.defaultSandbox;
-            this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
+            this.documentFrame.nativeElement.contentWindow.location.replace(this.downloadUrl);
         }
     }
 
     ngAfterViewInit() {
-        this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
             this.previewDocument = new PreviewDocument(this.documentFrame);
             this.pageChange.next(newURL);
@@ -208,9 +203,5 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         });
 
         attachUnload();
-    }
-
-    resetContent() {
-        this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
     }
 }
