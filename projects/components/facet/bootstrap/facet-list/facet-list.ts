@@ -107,6 +107,12 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         this.searchQuery = this.myGroup.get("searchQuery") as UntypedFormControl;
         this.subscriptions["suggest"] = this.suggest$(this.searchQuery.valueChanges)
             .subscribe(values => {
+                // Update the "selected" status of new suggestion items
+                for(const i of values) {
+                  if(this.isSelected(i)) {
+                    i.$selected = true;
+                  }
+                }
                 this.suggestions$.next(values);
                 // Refresh hiddenSelected list when the list of items is updated
                 this.refreshHiddenSelected();
@@ -375,8 +381,10 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             const index = this.facetService.findAggregationItemIndex(this.selected, item);
             if (index === -1) {
                 this.selected.push(item);
+                item.$selected = true;
             } else {
                 this.selected.splice(index, 1);
+                delete item.$selected;
             }
             this.refreshHiddenSelected();
         }
