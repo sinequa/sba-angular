@@ -86,7 +86,7 @@ describe('BsFacetList', () => {
         // - 11 rows
         // - no selected rows
         const DOM = fixture.nativeElement;
-        expect(DOM.querySelectorAll(".facet-row").length).toEqual(11);
+        expect(DOM.querySelectorAll(".list-group-item").length).toEqual(11);
         expect(DOM.querySelectorAll(".list-group-item-primary").length).toEqual(0);
 
         // Components expectations
@@ -123,7 +123,7 @@ describe('BsFacetList', () => {
         fixture.detectChanges();
 
         // user's click on 4th row
-        const el: HTMLElement | null = fixture.nativeElement.querySelectorAll("div.facet-row")[4];
+        const el: HTMLElement | null = fixture.nativeElement.querySelectorAll("div.list-group-item")[4];
         el?.click();
 
         fixture.detectChanges();
@@ -132,10 +132,10 @@ describe('BsFacetList', () => {
         // - 4th row is selected
         // - only 1 row selected
         // - selected row's title has changed from "select" to "unselect"
-        const selectedElements = fixture.nativeElement.querySelectorAll(".list-group-item-primary");
+        const selectedElements = fixture.nativeElement.querySelectorAll(".sq-selected");
 
         expect(selectedElements.length).toEqual(1);
-        expect(el?.classList).toContain("list-group-item-primary");
+        expect(el?.classList).toContain("sq-selected");
         expect(el?.title).toEqual("msg#facet.itemUnselect");
 
         // Component expectations

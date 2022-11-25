@@ -1,32 +1,5 @@
-.open-facet {
-    cursor: pointer;
-}
+@import "../facet-base.scss";
 
 .list-group-item.disabled {
     opacity: 0.5;
-}
-
-.icons-group {
-    cursor: pointer;
-
-    .icons {
-        transition: opacity .3s, transform .3s;
-
-        &.icon-hover {
-        transform: rotate(-180deg);
-        opacity: 0;
-        }
-    }
-
-    &:hover {
-        .icon-default {
-        transform: rotate(180deg);
-        opacity: 0;
-        }
-
-        .icon-hover {
-        transform: rotate(0deg);
-        opacity: 1;
-        }
-    }
 }
