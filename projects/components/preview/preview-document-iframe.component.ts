@@ -53,7 +53,7 @@ iframe {
     -moz-transform-origin: 0 0;
     -o-transform-origin: 0 0;
     -webkit-transform-origin: 0 0;
-    
+
     transition: opacity 0.2s ease-in-out;
 }
 
@@ -69,7 +69,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @Input() downloadUrl: string;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
-    
+
     // page could change when location.href change or when user click on a tab (sheet case)
     // when URL a string is sent otherwise a PreviewDocument
     @Output() pageChange = new EventEmitter<string | PreviewDocument>();
@@ -77,11 +77,11 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
     @ContentChild('minimap', {read: ElementRef, static: false}) minimap: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
-    // Must be undefined by default, because if a default value is set, 
-    // if we set it to undefined in the future, this new (undefined) value 
+    // Must be undefined by default, because if a default value is set,
+    // if we set it to undefined in the future, this new (undefined) value
     // is not used by the iFrame as if it used the previous value
     public _sandbox: string | null | undefined;
-    
+
     private previewDocument: PreviewDocument;
     readonly previewDocLoadHandler;
 
@@ -91,16 +91,16 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     }
 
     public onPreviewDocLoad() {
-        
+
         if (this.downloadUrl === undefined) return;
-        
+
         // if document loaded in less than 2s, set opacity to 100%
         this.documentFrame.nativeElement.style.opacity = "1";
 
         // previewDocument must be created here when document is fully loaded
         // because in case of sheet, PreviewDocument constructor change.
         this.previewDocument = new PreviewDocument(this.documentFrame);
-        
+
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
@@ -118,7 +118,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
             *          </frameset>
             *          ...
             * </iframe>
-            */ 
+            */
             const sheetFrame = this.documentFrame.nativeElement.contentDocument.getElementsByName("frSheet");
             if(sheetFrame.length > 0) {
                 sheetFrame[0].removeEventListener("load", () => {});
@@ -164,18 +164,18 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
         // remove "virtually" the current IFrame's document
         this.documentFrame.nativeElement.style.opacity = "0";
-        if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
+        if (this.downloadUrl) {
             // set sandbox attribute only when downloadUrl is defined, so iframe is created without sandbox attribute
             // if sandbox is null, keep sandbox attribute to undefined
             // otherwise put sanbox value in the sanbox attribute or default sandbox value
             this._sandbox = (this.sandbox === null) ? undefined : Utils.isString(this.sandbox) ? this.sandbox : this.defaultSandbox;
-            this.documentFrame.nativeElement.src = this.downloadUrl;
-            
+            this.documentFrame.nativeElement.contentWindow.location.replace(this.downloadUrl);
+
             // wait 2s before to set opacity to 100%
             setTimeout(() => {
                 this.documentFrame.nativeElement.style.opacity = "1";
             }, 2000);
-        }        
+        }
     }
 
     ngAfterViewInit() {
