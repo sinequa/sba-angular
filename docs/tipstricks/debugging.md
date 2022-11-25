@@ -7,7 +7,7 @@ nav_order: 1
 
 # Debugging your SBA
 
-SBA run the in the browser, on the client side. When you develop your app, you will frequently have runtime errors, which typically result in the app freezing or not responding as expected. It is very useful to know how to use your browser's "Inspector" to find out what is going wrong.
+SBA run in the browser, on the client side. When you develop your app, you will frequently have runtime errors, which typically result in the app freezing or not responding as expected. It is very useful to know how to use your browser's "Inspector" to find out what is going wrong.
 
 Modern browsers all have an inspector tool that you can open with F12, or right-clicking on your app and selecting "Inspect". Inspectors are typically divided in tabs, each providing various features, such as:
 

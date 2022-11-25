@@ -86,7 +86,7 @@ describe('BsFacetList', () => {
         // - 11 rows
         // - no selected rows
         const DOM = fixture.nativeElement;
-        expect(DOM.querySelectorAll(".facet-row").length).toEqual(11);
+        expect(DOM.querySelectorAll(".list-group-item").length).toEqual(11);
         expect(DOM.querySelectorAll(".list-group-item-primary").length).toEqual(0);
 
         // Components expectations
@@ -123,7 +123,7 @@ describe('BsFacetList', () => {
         fixture.detectChanges();
 
         // user's click on 4th row
-        const el: HTMLElement | null = fixture.nativeElement.querySelectorAll("div.facet-row")[4];
+        const el: HTMLElement | null = fixture.nativeElement.querySelectorAll("div.list-group-item")[4];
         el?.click();
 
         fixture.detectChanges();

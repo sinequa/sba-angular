@@ -10,6 +10,7 @@ import { FacetConfig } from "../../facet-config";
 
 export interface FacetListParams {
     aggregation: string;
+    showCheckbox?: boolean;
     showCount?: boolean;
     searchable?: boolean;
     allowExclude?: boolean;
@@ -37,6 +38,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
+    @Input() showCheckbox: boolean = true;
     @Input() showCount: boolean = true; // Show the number of occurrences
     @Input() searchable: boolean = true; // Allow to search for items in the facet
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
