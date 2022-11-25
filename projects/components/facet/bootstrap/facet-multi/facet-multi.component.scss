@@ -2,6 +2,10 @@
     cursor: pointer;
 }
 
+.list-group-item.disabled {
+    opacity: 0.5;
+}
+
 .icons-group {
     cursor: pointer;
 
