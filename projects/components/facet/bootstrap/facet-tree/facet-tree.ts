@@ -10,6 +10,7 @@ import { FacetConfig } from "../../facet-config";
 
 export interface FacetTreeParams {
     aggregation: string;
+    showCheckbox?: boolean;
     showCount?: boolean;
     searchable?: boolean;
     allowExclude?: boolean;
@@ -19,6 +20,7 @@ export interface FacetTreeParams {
     forceMaxHeight?: boolean;
     displayActions?: boolean;
     alwaysShowSearch?: boolean;
+    indentFactor?: number;
 }
 
 export interface FacetTreeConfig extends FacetConfig<FacetTreeParams> {
@@ -35,6 +37,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
+    @Input() showCheckbox: boolean = true;
     @Input() showCount: boolean = true; // Show the number of occurrences
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
@@ -45,6 +48,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
     @Input() displayActions = false;
     @Input() replaceCurrent = false; // if true, the previous "select" is removed first
     @Input() alwaysShowSearch = false;
+    @Input() indentFactor = 0.5;
 
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
@@ -307,6 +311,9 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
                 this.selected.set(item.$path!, item);
             }
             this.refreshHiddenSelected();
+        }
+        else {
+            this.filterItem(item, event);
         }
         return false;
     }

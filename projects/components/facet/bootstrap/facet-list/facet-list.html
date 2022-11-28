@@ -16,60 +16,65 @@
 
     <!-- filtered items -->
     <div  *ngFor="let item of filtered"
-        class="d-flex flex-row align-items-center list-group-item list-group-item-action list-group-item-success text-truncate border-0 sq-facet-row cursor-pointer"
-        [ngClass]="{'list-group-item-success': !item.$excluded, 'list-group-item-secondary': item.$excluded}"
+        class="d-flex flex-row list-group-item list-group-item-action text-truncate sq-filtered"
+        [ngClass]="{'sq-excluded': item.$excluded}"
         [title]="'msg#facet.selectedValue' | sqMessage"
         (click)="filterItem(item, $event)">
+
+        <input type="checkbox" class="form-check-input me-2" [checked]="true" disabled *ngIf="showCheckbox">
 
         <a href="#" class="text-truncate me-auto">{{item | sqValue:item.$column}}</a>
 
         <span *ngIf="showCount && item.count" class="ms-2 text-muted small">{{item.count | sqNumber}}</span>
-        <span class="fa-stack cursor-pointer">
-            <i class="ms-2 far fa-minus-square fa-stack-1x icons icon-hover rotate"></i>
-            <i class="ms-2 far fa-check-square fa-stack-1x icons icon-default rotate"></i>
-        </span>
-
     </div>
 
     <!-- hidden selected items -->
     <div  *ngFor="let item of hiddenSelected"
-        class="d-flex flex-row align-items-center list-group-item list-group-item-primary text-truncate border-0 facet-row cursor-pointer"
+        class="d-flex flex-row list-group-item text-truncate sq-selected"
         [title]="'msg#facet.itemUnselect' | sqMessage"
         (click)="selectItem(item, $event)">
+
+        <input type="checkbox" class="form-check-input me-2" [checked]="true" *ngIf="showCheckbox">
 
         <a  href="#" (click)="filterItem(item, $event)"
             [title]="'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)}"
             class="text-truncate me-auto">{{item | sqValue:item.$column}}</a>
-        
+
         <span *ngIf="showCount && item.count" class="ms-2 text-muted small">{{item.count | sqNumber}}</span>
     </div>
 
     <!--- suggestions items -->
     <div *ngFor="let suggest of suggestions$ | async"
-        class="d-flex flex-row align-items-center list-group-item list-group-item-action text-truncate border-0 facet-row cursor-pointer"
-        [ngClass]="{'list-group-item-primary': isSelected(suggest)}"
+        class="d-flex flex-row list-group-item list-group-item-action text-truncate"
+        [ngClass]="{'sq-selected': suggest.$selected}"
+        [title]="(suggest.$selected? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage"
         (click)="selectItem(suggest, $event)">
-        
+
+        <input type="checkbox" class="form-check-input me-2" [checked]="suggest.$selected" (change)="selectItem(suggest,$event)" (click)="$event.stopPropagation()" *ngIf="showCheckbox">
+
         <a  href="#" (click)="filterItem(suggest, $event)"
-            role="button" 
+            role="button"
             title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(suggest | sqValue:suggest.$column)} }}"
-            class="text-truncate me-auto">{{suggest | sqValue:suggest.$column}}</a>                
+            class="text-truncate me-auto">{{suggest | sqValue:suggest.$column}}</a>
 
         <span *ngIf="showCount && suggest.count" class="ms-2 text-muted small" style="z-index: 1;">{{suggest.count | sqNumber}}</span>
-    
+
     </div>
     <span *ngIf="noResults" class="d-block text-center text-muted small py-1"><i>{{'msg#facet.searchNoResult' | sqMessage}}</i></span>
 
     <div *ngIf="!hasSuggestions()" class="facet-results-scrollable">
         <!--- aggregation items without filtered -->
         <div *ngFor="let item of items$ | async"
-            class="position-relative list-group-item list-group-item-action border-0 facet-row cursor-pointer"
-            [ngClass]="{ 'list-group-item-primary': isSelected(item) }"
-            [title]="(isSelected(item) ? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage"
+            class="position-relative list-group-item list-group-item-action"
+            [ngClass]="{'sq-selected': item.$selected}"
+            [title]="(item.$selected? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage"
             (click)="selectItem(item, $event)">
 
             <div *ngIf="showProgressBar && resultsLength > 1" class="position-absolute progress-bar progress-color" [style.--count]="getPercent(item.count)"></div>
-            <div class="d-flex justify-content-between align-items-baseline">
+            <div class="d-flex justify-content-between">
+
+                <input type="checkbox" class="form-check-input me-2" [checked]="item.$selected" (change)="selectItem(item,$event)" (click)="$event.stopPropagation()" *ngIf="showCheckbox">
+
                 <a  href="#" (click)="filterItem(item, $event)" style="z-index: 1;"
                     [title]="'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)}"
                     class="text-truncate me-auto">{{item | sqValue:item.$column}}</a>
