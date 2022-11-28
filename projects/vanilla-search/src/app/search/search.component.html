@@ -1,42 +1,50 @@
 <div class="nav-wrapper">
     <!-- Navbar with app icon, search form, and menus -->
     <nav class="navbar navbar-expand-sm" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
-        <div class="container-xl">
+        <div class="container-xl flex-nowrap">
 
-            <!-- Application logo -->
-            <a [routerLink]="['/home']" title="Home" *ngIf="ui.screenSizeIsGreaterOrEqual('sm') || !showFilters">
-                <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
-                <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
-                <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
-                <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
-            </a>
+                <div class="col-sm-1 col-lg-3 col-xl-2" *ngIf="showLogo">
+                    <!-- Application logo -->
+                    <a [routerLink]="['/home']" title="Home">
+                        <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
+                        <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
+                        <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
+                        <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
+                    </a>
+                </div>
 
-            <!-- Button to toggle the visibility of facets on small screens -->
-            <button *ngIf="ui.screenSizeIsLessOrEqual('md')" class="ms-2 btn btn-lg btn-light btn-link" title="{{ 'msg#search.showFilters' | sqMessage }}"
-                (click)="toggleFilters()">
-                <i class="fas fa-filter text-muted"></i>
-            </button>
+                <!-- Button to toggle the visibility of facets on small screens -->
+                <button *ngIf="showFilterToggle" class="ms-2 btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showFilters' | sqMessage }}"
+                    (click)="toggleFilters()">
+                    <i class="fas fa-filter text-muted"></i>
+                </button>
 
-            <!-- Search form -->
-            <app-search-form class="flex-grow-1 flex-basis-0 mx-3" *ngIf="showForm"></app-search-form>
+                <!-- Search form -->
+                <div class="col-sm-5" *ngIf="showForm">
+                    <app-search-form class="w-100"></app-search-form>
+                </div>
 
-            <!-- User menu which visibility can be toggled with a button on small screens -->
-            <button *ngIf="ui.screenSizeIsLess('sm') && !showFilters" class="btn btn-lg btn-light btn-link" title="{{ 'msg#search.showMenu' | sqMessage }}"
-                (click)="toggleMenu()">
-                <i class="fas fa-bars text-muted"></i>
-            </button>
-            <ul class="navbar-nav navbar-right" *ngIf="showMenu" [ngClass]="{'full-width': ui.screenSizeIsLess('sm')}">
-                <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
-                    <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
-                    <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
-                    <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
-                    <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
-                </ng-container>
-                <sq-user-menu></sq-user-menu>
-            </ul>
+                <!-- User menu which visibility can be toggled with a button on small screens -->
+                <div class="col-sm-4 col-xl-5 d-flex justify-content-end" *ngIf="showMenu">
+                    <ul class="navbar-nav navbar-right mw-100">
+                        <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
+                            <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
+                            <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
+                            <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
+                            <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
+                        </ng-container>
+                        <sq-user-menu [display]="'fullName'"></sq-user-menu>
+                    </ul>
 
-            <!-- Non mobile feedback button -->
-            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('sm')"></sq-feedback-menu>
+                    <!-- Non mobile feedback button -->
+                    <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
+                </div>
+
+                <button *ngIf="!showForm" class="btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showMenu' | sqMessage }}"
+                    (click)="toggleMenu()">
+                    <i class="fas fa-bars text-muted"></i>
+                </button>
+
         </div>
     </nav>
 
