@@ -117,8 +117,10 @@ body.dark {
     }
 
     ul.dropdown-menu {
-        background: #1c1e21;
-        border-color: $dark-borders;
+        --bs-dropdown-bg: #1c1e21;
+        --bs-dropdown-border-color: #{$dark-borders};
+        background: var(--bs-dropdown-bg);
+        border-color: var(--bs-dropdown-border-color);
 
         a {
             color: #f8f9fa;
