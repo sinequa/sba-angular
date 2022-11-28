@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef, Input, OnDestroy, InjectionToken, Inject, Optional } from '@angular/core';
+import { Component, ChangeDetectorRef, Input, OnDestroy, InjectionToken, Inject, Optional, OnChanges, SimpleChanges } from '@angular/core';
 import { merge, Subscription, filter } from 'rxjs';
 import { Action } from '@sinequa/components/action';
-import { PrincipalWebService, UserSettingsWebService } from '@sinequa/core/web-services';
+import { Principal, PrincipalWebService, UserSettingsWebService } from '@sinequa/core/web-services';
 import { AuthenticationService, LoginService, UserOverride } from '@sinequa/core/login';
 import { IntlService, Locale } from '@sinequa/core/intl';
 import { Utils } from '@sinequa/core/base';
@@ -38,7 +38,7 @@ export type HelpFolderOptions = {
   selector: 'sq-user-menu',
   templateUrl: './user-menu.component.html'
 })
-export class BsUserMenuComponent implements OnInit, OnDestroy {
+export class BsUserMenuComponent implements OnChanges, OnDestroy {
 
   @Input() icon: string = "fas fa-user";
   @Input() autoAdjust: boolean = true;
@@ -47,6 +47,8 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   @Input() size: string;
   @Input() enableDarkMode = true;
   @Input() showCredits = true;
+  @Input() display: keyof Principal = 'fullName';
+  @Input() showText = false;
 
   menu: Action;
 
@@ -227,7 +229,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     this.subscriptions$ = combine$.subscribe(event => this.updateMenu());
   }
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges): void {
     this.updateMenu();
   }
 
@@ -239,29 +241,27 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   }
 
   updateMenu() {
-    this.menu = new Action({
-        icon: this.icon,
-        text: this.loginService.complete && this.principalService.principal ? this.principalService.principal.name || "msg#userMenu.user" : "msg#userMenu.user",
-        children: this.concatMenus([
-          this.getLoginActions(),
-          this.getUIActions(),
-          this.getHelpActions(),
-          this.getCreditActions()
-        ])
-    });
-  }
-
-  concatMenus(menus: Action[][]): Action[] {
-    const menu = [] as Action[];
-    for(let i=0; i<menus.length; i++) {
-      if(menus[i].length > 0) {
-        if(menu.length > 0) {
-          menu.push(this.sep);
-        }
-        menu.push(...menus[i]);
+    let title = '';
+    if(this.loginService.complete) {
+      title = "msg#userMenu.user";
+      if(this.principalService.principal) {
+        title = this.principalService.principal[this.display] as string || this.principalService.principal.name || title;
       }
     }
-    return menu;
+    this.menu = new Action({
+        icon: this.icon,
+        title,
+        headerGroup: true,
+        children: [
+          ...this.getLoginActions(), this.sep,
+          ...this.getUIActions(), this.sep,
+          ...this.getHelpActions(), this.sep,
+          ...this.getCreditActions()
+        ]
+    });
+    if(this.showText) {
+      this.menu.text = title;
+    }
   }
 
   getLoginActions(): Action[] {
