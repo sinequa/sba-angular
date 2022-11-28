@@ -250,7 +250,7 @@ export class SearchComponent implements OnInit {
    * Controls visibility of menu (small screen sizes)
    */
   get showMenu(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('sm') || (this._showMenu && !this._showFilters);
+    return this.ui.screenSizeIsGreaterOrEqual('sm') || this._showMenu;
   }
 
   /**
@@ -274,7 +274,21 @@ export class SearchComponent implements OnInit {
    * On small screens only show the search form when the facets are displayed
    */
   get showForm(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('sm') || this.showFilters;
+    return this.ui.screenSizeIsGreaterOrEqual('sm') || this._showFilters;
+  }
+
+  /**
+   * On small screens, show the logo unless the filters or menu are displayed
+   */
+  get showLogo(): boolean {
+    return this.ui.screenSizeIsGreaterOrEqual('sm') || !(this._showFilters || this._showMenu)
+  }
+
+  /**
+   * On medium screens, show the filter toggle, unless on mobile the menu is displayed
+   */
+  get showFilterToggle(): boolean {
+    return this.ui.screenSizeIsLess('lg') && (this.ui.screenSizeIsGreaterOrEqual('sm') || !this._showMenu);
   }
 
   /**

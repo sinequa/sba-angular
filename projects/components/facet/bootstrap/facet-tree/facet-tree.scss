@@ -14,3 +14,8 @@ a.filtered, a.filtered:hover {
     color: inherit;
     cursor: inherit;
 }
+
+.list-group-item {
+  // Reduce the default padding as facet-trees are already shifted to the right by the caret sign
+  padding-left: 0.5rem;
+}
