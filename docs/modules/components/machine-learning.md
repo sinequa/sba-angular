@@ -16,6 +16,12 @@ Please checkout the [reference documentation]({{site.baseurl}}components/modules
 
 This module introduces the Neural Search components displaying Answers and Passages extracted from the documents according to your search.
 
+## Prerequisites
+
+The SBA framework requires some configuration on the Sinequa server in order to have access to Neural Search features. Note that it comes within the usual query API and not an additional one, so there is nothing to change there.
+
+On the server, your application needs to be linked to a query web service with Neural Search enabled. To do so, you need to have an index with `Neural Search configuration` set, you can then link a query web service to this index and enable Neural Search in the `Search Settings` tab, you then can use it for your SBA application's query.
+
 ## Import
 
 ```typescript
