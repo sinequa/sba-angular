@@ -9,7 +9,6 @@ The SBA documentation website is based on [Github Pages](https://pages.github.co
 - Download and Install a Ruby+Devkit version from [RubyInstaller Downloads](https://rubyinstaller.org/downloads/). Use default options for installation.
 - Run the ridk install step on the last stage of the installation wizard. This is needed for installing gems with native extensions. You can find additional information regarding this in the RubyInstaller Documentation.
 - Open a new terminal in your repository, run `cd ./docs` and run `bundle install`: This should install Jekyll and other dependencies.
-- In the `docs/_config.yml` file, replace `remote_theme: pmarsceill/just-the-docs` by `theme: just-the-docs` (**do not commit that change!** it is only meant for working locally, but will break the site if pushed to Github).
 - Run `bundle exec jekyll serve` and navigate to http://localhost:4000
 - Now you can edit the markdown files in `docs/` and its subdirectories and the website should update automatically.
 
