@@ -14,6 +14,24 @@ Bootstrap provides a global set of styles and utilities that are used across the
 
 These styles can be customized, via SASS and CSS variables. The Sinequa Theme uses this approach by setting variables like `--bs-btn-color` to redefine the color, border, padding, and many other properties of standard Bootstrap components.
 
+## Previews
+
+### Homepage
+
+Without the theme:
+![Homepage without the theme]({{site.baseurl}}assets/modules/theme/theme-1.png){: .d-block .mx-auto width="100%"}
+
+With the theme:
+![Homepage with the theme]({{site.baseurl}}assets/modules/theme/theme-2.png){: .d-block .mx-auto width="100%"}
+
+### Results page
+
+Without the theme:
+![Results without the theme]({{site.baseurl}}assets/modules/theme/theme-3.png){: .d-block .mx-auto width="100%"}
+
+With the theme:
+![Results with the theme]({{site.baseurl}}assets/modules/theme/theme-4.png){: .d-block .mx-auto width="100%"}
+
 ## Importing/removing the theme
 
 In your `app.scss`, you can add or remove these imports after the one for Bootstrap:
