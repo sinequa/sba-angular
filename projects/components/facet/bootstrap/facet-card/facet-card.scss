@@ -18,3 +18,12 @@
 .cursor-default {
   cursor: default;
 }
+
+.card {
+  ::ng-deep {
+    .list-group.list-group-flush {
+      border-bottom-left-radius: calc(var(--bs-card-inner-border-radius, .375rem) - 1px);
+      border-bottom-right-radius: calc(var(--bs-card-inner-border-radius, .375rem) - 1px);
+    }
+  }
+}
