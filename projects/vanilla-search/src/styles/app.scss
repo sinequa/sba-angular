@@ -63,7 +63,7 @@ $action-menu-breakpoint: sm;
 @import "../../../components/theme/vanilla";
 @import "../../../components/theme/vanilla-dark";
 
-$secondary-color: #6c757d;
+$secondary-color: #515960;
 
 html {
     height: 100%;
@@ -143,7 +143,7 @@ sq-tabs {
 
 sq-results-counter {
     color: $secondary-color;
-    font-size: 0.85em;
+    font-size: 0.875em;
 }
 
 sq-sort-selector button.btn {
@@ -151,7 +151,7 @@ sq-sort-selector button.btn {
     margin: -3px 0;
     color: $secondary-color;
     background-color: inherit;
-    font-size: 0.85em;
+    font-size: 0.875em;
     border: none;
 
     & > div {
@@ -169,6 +169,13 @@ sq-result-title {
         font-weight: bold;
         font-style: italic;
     }
+}
+
+sq-result-extracts {
+  p {
+      color: $secondary-color;
+      font-size: 0.875em;
+  }
 }
 
 sq-result-thumbnail img {

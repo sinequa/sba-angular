@@ -1,7 +1,9 @@
-sq-result-title .sq-result-title {
-    color: $blue-1;
-    font-size: 1rem;
-    font-weight: 600;
+sq-result-title {
+    font-size: 1rem !important; // This !important is necessary to override the default font-size defined in the component
+    .sq-result-title {
+        color: $blue-1;
+        font-weight: 600;
+    }
 }
 
 sq-result-source a,

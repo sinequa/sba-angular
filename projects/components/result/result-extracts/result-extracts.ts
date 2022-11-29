@@ -8,8 +8,6 @@ import {Record} from "@sinequa/core/web-services";
     styles: [`
 p, ul {
     margin: 0;
-    color: #676767;
-    font-size: 0.875em;
 }
 .extracts-text {
     word-break: break-word;
