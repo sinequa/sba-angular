@@ -1,22 +1,22 @@
 ---
 layout: default
-title: New theme
+title: Sinequa Theme
 parent: Components
 grand_parent: Modules
 nav_order: 21
 ---
 
-# New theme
+# Sinequa Theme
 
-The update 11.9.0 has introduced into Vanilla a new theme to make it more modern. It doesn't _disrupt_ the previous design but it adds some improvements to make it look better such as better colors and paddings.
+An additional theme is available to make Vanilla more modern with improvements such as better colors and paddings. All files related to this new theme are packaged inside `@sinequa/components/theme`.
 
-All files related to this new theme are packaged inside `@sinequa/components/theme`.
+Bootstrap provides a global set of styles and utilities that are used across the SBA framework. Our components and applications often use classes like `.card`, `.list-group` or `.navbar` which give them Bootstrap's "look & feel".
 
-It is still directly linked to Bootstrap's styling since most of the modified properties are its CSS variables, like `--bs-btn-color` for the font color of the buttons.
+These styles can be customized, via SASS and CSS variables. The Sinequa Theme uses this approach by setting variables like `--bs-btn-color` to redefine the color, border, padding, and many other properties of standard Bootstrap components.
 
 ## Importing/removing the theme
 
-In your `app.scss`, you can add or remove this import:
+In your `app.scss`, you can add or remove these imports after the one for Bootstrap:
 
 ```scss
 @import "../../../components/theme/vanilla";

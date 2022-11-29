@@ -42,7 +42,7 @@ const messages = Utils.merge({}, ..., enML, appMessages);
 
 ## API usage
 
-This module exports the [`Answer`]({{site.baseurl}}components/components/AnswerCardComponent.html), [`Top Passages`]({{site.baseurl}}components/components/TopPassagesComponent.html) and [`Passage List`]({{site.baseurl}}components/components/PassageListComponent.html) components that are responsible for displaying the Neural Search data from your query.
+This module exports the [`AnswerCardComponent`]({{site.baseurl}}components/components/AnswerCardComponent.html), [`TopPassagesComponent`]({{site.baseurl}}components/components/TopPassagesComponent.html) and [`PassageListComponent`]({{site.baseurl}}components/components/PassageListComponent.html) components that are responsible for displaying the Neural Search data from your query.
 
 ### Answer Component
 
