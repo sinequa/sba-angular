@@ -3,47 +3,47 @@
     <nav class="navbar navbar-expand-sm" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
         <div class="container-xl flex-nowrap">
 
-                <div class="col-sm-1 col-lg-3 col-xl-2" *ngIf="showLogo">
-                    <!-- Application logo -->
-                    <a [routerLink]="['/home']" title="Home">
-                        <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
-                        <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
-                        <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
-                        <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
-                    </a>
-                </div>
+            <div class="col-lg-3 col-xl-2" *ngIf="showLogo">
+                <!-- Application logo -->
+                <a [routerLink]="['/home']" title="Home">
+                    <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('sm')">
+                    <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('sm')">
+                    <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('sm')">
+                    <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('sm')">
+                </a>
+            </div>
 
-                <!-- Button to toggle the visibility of facets on small screens -->
-                <button *ngIf="showFilterToggle" class="ms-2 btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showFilters' | sqMessage }}"
-                    (click)="toggleFilters()">
-                    <i class="fas fa-filter text-muted"></i>
-                </button>
+            <!-- Button to toggle the visibility of facets on small screens -->
+            <button *ngIf="showFilterToggle" class="btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showFilters' | sqMessage }}"
+                (click)="toggleFilters()">
+                <i class="fas fa-filter text-muted"></i>
+            </button>
 
-                <!-- Search form -->
-                <div class="col-sm-5" *ngIf="showForm">
-                    <app-search-form class="w-100"></app-search-form>
-                </div>
+            <!-- Search form -->
+            <div class="col-sm-5 ps-1 pe-2" *ngIf="showForm">
+                <app-search-form class="w-100"></app-search-form>
+            </div>
 
-                <!-- User menu which visibility can be toggled with a button on small screens -->
-                <div class="col-sm-4 col-xl-5 d-flex justify-content-end" *ngIf="showMenu">
-                    <ul class="navbar-nav navbar-right mw-100">
-                        <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
-                            <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
-                            <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
-                            <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
-                            <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
-                        </ng-container>
-                        <sq-user-menu [display]="'fullName'"></sq-user-menu>
-                    </ul>
+            <!-- User menu which visibility can be toggled with a button on small screens -->
+            <div class="col-sm-4 col-xl-5 d-flex justify-content-end" *ngIf="showMenu">
+                <ul class="navbar-nav navbar-right mw-100">
+                    <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
+                        <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
+                        <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
+                        <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
+                        <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
+                    </ng-container>
+                    <sq-user-menu [display]="'fullName'"></sq-user-menu>
+                </ul>
 
-                    <!-- Non mobile feedback button -->
-                    <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
-                </div>
+                <!-- Non mobile feedback button -->
+                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
+            </div>
 
-                <button *ngIf="!showForm" class="btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showMenu' | sqMessage }}"
-                    (click)="toggleMenu()">
-                    <i class="fas fa-bars text-muted"></i>
-                </button>
+            <button *ngIf="!showForm" class="btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showMenu' | sqMessage }}"
+                (click)="toggleMenu()">
+                <i class="fas fa-bars text-muted"></i>
+            </button>
 
         </div>
     </nav>
@@ -153,7 +153,7 @@
 
             <!-- Without selected document -->
             <sq-facet-card *ngIf="!openedDoc" [collapsible]="false" title="msg#facet.preview.documentPreview"
-                class="mb-3 facet-preview">
+                class="mb-3">
                 <div class="no-record">
                     <img src="assets/sinequa-empty-preview.png" class="mb-3">
                     <p class="fw-bold">{{'msg#facet.preview.documentPreviewTitle' | sqMessage}}</p>
