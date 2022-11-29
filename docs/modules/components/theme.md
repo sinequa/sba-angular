@@ -8,7 +8,7 @@ nav_order: 21
 
 # New theme
 
-Update 11.9.0 has introduced into Vanilla a new theme to make it more modern. It doesn't _disrupt_ the previous design but it adds some improvements to make it look better such as better colors and paddings.
+The update 11.9.0 has introduced into Vanilla a new theme to make it more modern. It doesn't _disrupt_ the previous design but it adds some improvements to make it look better such as better colors and paddings.
 
 All files related to this new theme are packaged inside `@sinequa/components/theme`.
 
@@ -27,6 +27,6 @@ Although they're in two different files, it's recommended to import both standar
 
 ## Customize which component theme to import
 
-The theme modifications are split in many components SCSS files you can find under `components/theme/components` so you can import them independently.
+The theme modifications are split in many SCSS files per components you can find under `components/theme/components` so you can import them independently.
 
 Note that some global Vanilla styling is done inside `components/theme/_vanilla.scss` that you may want to keep if you edit the files you wish to import.
