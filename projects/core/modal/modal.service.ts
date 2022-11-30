@@ -328,6 +328,7 @@ export class ModalService {
         }
         if(modalConfig.height) {
           overlayRef.hostElement.style.setProperty("--modal-height", modalConfig.height);
+          overlayRef.hostElement.classList.add("sq-modal-fixed-height");
         }
         if (modalConfig.closeOnBackdropClick) {
             // NB backdropClick will not fire if pointer-events are enabled on modal-host
