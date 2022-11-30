@@ -27,6 +27,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   @Input() results: Results;
   @Input() collapsed: boolean;
   @Input() showLikeButtons: boolean;
+  @Input() hideDate: boolean = false;
   @Output() previewOpened = new EventEmitter<Answer>();
   @Output() titleClicked = new EventEmitter<{ item: Answer, isLink: boolean }>();
   selectedAnswer: number;
