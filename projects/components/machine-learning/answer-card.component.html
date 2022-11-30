@@ -35,7 +35,7 @@
             </button>
         </div>
     </div>
-    <div class="my-3" [innerHTML]="answer.passage?.highlightedText"></div>
+    <div class="my-3 passage-text" [innerHTML]="answer.passage?.highlightedText"></div>
     <ng-container *ngIf="answer.$record as record">
         <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="onTitleClicked($event, answer)"
             class="d-block text-truncate"></sq-result-title>
