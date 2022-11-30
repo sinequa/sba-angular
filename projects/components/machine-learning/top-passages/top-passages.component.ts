@@ -22,6 +22,7 @@ export class TopPassagesComponent extends AbstractFacet {
   }
   @Input() collapsed: boolean;
   @Input() hideDate: boolean = false;
+  @Input() dateFormat: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'short', day: 'numeric'};
 
   // Number of passages per page
   @Input() itemsPerPage = 3;

@@ -27,7 +27,6 @@ import {TooltipDirective} from "./directives/tooltip/tooltip.directive";
 
 // UI Service
 import {SCREEN_SIZE_RULES} from "./ui.service";
-import { DateFnsPipe } from "./public-api";
 
 export const defaultScreenSizeRules = {
     xxl: "(min-width: 1920px)",
@@ -46,13 +45,13 @@ export const defaultScreenSizeRules = {
     ],
     declarations: [
         DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
-        Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
-        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, DateFnsPipe
+        Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective, 
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
     ],
     exports: [
         DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
-        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, DateFnsPipe
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
     ],
     providers: [
         {
