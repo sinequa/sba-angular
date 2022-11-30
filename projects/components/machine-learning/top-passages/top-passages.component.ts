@@ -21,6 +21,7 @@ export class TopPassagesComponent extends AbstractFacet {
     this.pageNumber = this.itemsPerPage === 1 ? this.passages.length : Math.floor(this.passages.length / this.itemsPerPage) + 1;
   }
   @Input() collapsed: boolean;
+  @Input() hideDate: boolean = false;
 
   // Number of passages per page
   @Input() itemsPerPage = 3;
