@@ -29,7 +29,7 @@
 			(titleClicked)="onTitleClicked($event, passage)" class="d-block text-truncate"></sq-result-title>
 		<div class="d-flex my-2">
 			<div class="sq-text-ellipsis" #psg [ngClass]="{'expanded': selected === passage.id}">
-				<span *ngIf="passage.$record?.modified && !hideDate">{{passage.$record.modified | sqDate:dateFormat }} - </span>
+				<span *ngIf="passage.$record?.modified && !hideDate" class="extracts-date">{{passage.$record.modified | sqDate:dateFormat }} - </span>
 				<span [innerHTML]="passage.highlightedText"></span>
 			</div>
 			<i class="fas btn-toggle ms-2 passages-toggle" [ngClass]="{

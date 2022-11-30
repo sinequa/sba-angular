@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="my-3 passage-text">
-        <span *ngIf="answer.$record?.modified && !hideDate">{{answer.$record.modified | sqDate:dateFormat }} - </span>
+        <span *ngIf="answer.$record?.modified && !hideDate" class="extracts-date">{{answer.$record.modified | sqDate:dateFormat }} - </span>
         <span [innerHTML]="answer.passage?.highlightedText"></span>
     </div>
     <ng-container *ngIf="answer.$record as record">
