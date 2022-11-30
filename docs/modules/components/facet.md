@@ -50,6 +50,8 @@ const messages = Utils.merge({}, ..., enFacet, appMessages);
 
 ## Facet Card API
 
+### Standard usage
+
 The facet card API is based on a generic **container** component, [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html), and an **abstract facet** component for the content of the facets ([`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html)):
 
 - The container displays the frame, icon, title, action buttons *around* the facet.
@@ -89,6 +91,130 @@ get actions(): Action[] {
 The API is very flexible and allows for very different types of facets:
 
 ![Custom Facets]({{site.baseurl}}assets/modules/facet/facets.png)
+
+### Multiple views
+
+It is possible to inject multiple views inside the same facet card. Views need to be wrapped inside an `ng-template` augmented with the `sqFacetView` directive.
+
+For example, one might want to display an aggregation viewed as a facet list OR as a chart.
+
+```html
+<sq-facet-card [title]="'Geography'" [icon]="'fas fa-globe-americas'">
+
+    <!-- List view -->
+    <ng-template [sqFacetView]="{icon: 'fas fa-list', title: 'List view'}">
+        <sq-facet-list #facet [results]="results" [aggregation]="'Geo'"></sq-facet-list>
+    </ng-template>
+
+    <!-- Chart view -->
+    <ng-template [sqFacetView]="{icon: 'fas fa-chart-bar', title: 'Chart view'}">
+        <sq-fusion-chart #facet [results]="results" [aggregation]="'Geo'"></sq-fusion-chart>
+    </ng-template>
+
+</sq-facet-card>
+```
+
+The template above results in the following display:
+
+![Multiple views]({{site.baseurl}}assets/modules/facet/views.png){: .d-block .mx-auto}
+
+Adding/removing views is as easy as modifying the list of `ng-template`s injected into the facet card. The `[sqFacetView]` input is an `Action` object that is used to display the buttons to toggle between views.
+
+### Template customization
+
+It is possible to inject `ng-template`s to customize specific parts of the facet card:
+
+- The header template (`#headerTpl`)
+- The "sub-header" template (`#subHeaderTpl`)
+- The footer template (`#footerTpl`)
+- The settings template (`#settingsTpl`)
+
+```html
+<sq-facet-card actionsClass="ms-auto">
+
+    <sq-facet-list #facet [results]="results" [aggregation]="'Geo'"></sq-facet-list>
+
+    <ng-template #headerTpl><i>Custom header</i></ng-template>
+    <ng-template #subHeaderTpl><i>Custom sub-header</i></ng-template>
+    <ng-template #footerTpl><i>Custom footer</i></ng-template>
+    <ng-template #settingsTpl><i>Custom settings</i></ng-template>
+
+</sq-facet-card>
+```
+
+This results in the following view (notice the settings button in the top right, which displays the settings template):
+
+![Custom templates]({{site.baseurl}}assets/modules/facet/templates.png)
+
+Note that these templates can be injected in 2 different ways:
+
+- Either injected by the parent, as in the example above
+- Or defined in the child component's template (in the example above, it would be the `sq-facet-list` component). The child component (which extends `AbstractFacet`) can thus customize its display, when embedded in a facet card, without requiring the parent to do anything.
+
+### Custom actions display
+
+By default all actions are displayed in the facet card's top-right corner. These actions may come from different places:
+
+- the `[actions]` input of the facet card
+- the `get actions()` method of the child component (`AbstractFacet`)
+- the different views injected in the facet
+- specific options of the facet card, like `[collapsible]="true"`
+
+For complex components, the number of buttons can grow quickly and become overwhelming or confusing. For this reason it is possible to split these actions into 3 separate groups, each with their own set of options:
+
+- Primary actions (displayed in the top-right corner)
+- Secondary actions (displayed under the primary actions)
+- View actions to toggle between views (displayed in the bottom-left corner)
+
+Secondary actions can be defined in two ways:
+
+- The `[secondaryActions]` input of the facet card.
+- Taken from the child component (`AbstractFacet`), via the `[facetActionsAreSecondary]="true"` option of the facet card.
+
+View actions are displayed separately with the `[viewActionsAreSecondary]="true"` option of the facet card.
+
+A complete example is the display of the preview:
+
+```html
+<!-- With selected document -->
+<sq-facet-card class="mb-3 facet-preview"
+    [actions]="previewCustomActions"
+    actionsSize=""
+
+    [facetActionsAreSecondary]="true"
+    secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-light rounded shadow on-hover"
+
+    [viewActionsAreSecondary]="true"
+    viewActionsClass="d-block btn-group mt-2"
+    viewButtonsStyle="outline-primary">
+
+    <ng-template #headerTpl>
+        <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url">
+        </sq-result-title>
+    </ng-template>
+
+    <ng-template #subHeaderTpl>
+        <sq-metadata [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
+            [tabular]="false" [clickable]="false">
+        </sq-metadata>
+    </ng-template>
+
+    <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
+        <sq-facet-preview-2 #facet [record]="openedDoc" [query]="searchService.query" [height]="750"
+            (previewLoaded)="previewReady($event)">
+        </sq-facet-preview-2>
+    </ng-template>
+
+    <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="!!passageId"
+        *ngIf="openedDoc.$hasPassages" #passagesList>
+        <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
+    </ng-template>
+</sq-facet-card>
+```
+
+This results in the following view (notice the custom positioning of the secondary actions made possible by the `[secondaryActionsClass]` input):
+
+![Custom actions]({{site.baseurl}}assets/modules/facet/actions.png)
 
 ## Facet containers
 

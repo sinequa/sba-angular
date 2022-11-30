@@ -176,14 +176,14 @@ The minimap is inserted by transclusion:
 
 ### Preview Facet
 
-The [`sq-preview-facet-2`]({{site.baseurl}}components/components/BsFacetPreviewComponent2.html) displays a scaled-down preview in a facet (See [Facet Module](facet.html)). The header of the facet displays the record's metadata (with a [`sq-metadata`]({{site.baseurl}}components/components/Metadata.html) component).
+The [`sq-preview-facet-2`]({{site.baseurl}}components/components/BsFacetPreviewComponent2.html) displays a scaled-down preview in a facet card (See [Facet Module](facet.html)).
 
 ![Preview facet]({{site.baseurl}}assets/modules/preview/facet.png){: .d-block .mx-auto width="400px" }
 
 The component requires at least a [`record`]({{site.baseurl}}core/interfaces/Record.html) and a [`query`]({{site.baseurl}}core/classes/Query.html) as inputs (they are necessary to download the [`PreviewData`]({{site.baseurl}}core/interfaces/PreviewData.html)).
 
 ```html
-<sq-facet-card>
+<sq-facet-card [title]="record.title">
     <sq-facet-preview-2 #facet
         [record]="record"
         [query]="searchService.query">
@@ -191,7 +191,21 @@ The component requires at least a [`record`]({{site.baseurl}}core/interfaces/Rec
 </sq-facet-card>
 ```
 
-This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)'s [Search component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search).
+The component also has the following optional input parameters:
+
+- `sandbox`: See [above](#document-iframe)
+- `height` (default: `500`): Height in pixels of the preview
+- `scalingFactor` (default: `0.6`): see [above](#document-iframe)
+- `downloadablePdf` (default: `true`): if a document has a PDF version stored in Sinequa, an action is displayed to download this version.
+- `highlightActions` (default: `true`): display actions for toggling the highlight of extracts and entities in the document
+- `highlightEntities` (default: `false`): whether or not to highlight the entities by default (the choice of the user is then memorized)
+- `highlightExtracts` (default: `false`): whether or not to highlight the entities by default (the choice of the user is then memorized)
+- `allExtracts` (default: `["matchlocations", "extractslocations", "matchingpassages"]`): Defines which highlights are considered as "extracts" (any other highlight provided by the server will be considered as an "entity")
+- `extracts` (default: `["matchlocations", "extractslocations", "matchingpassages"]`): subset of `allExtracts` that will actually be highlighted when toggling the "highlight extracts" button (the remaining ones will be ignored)
+
+This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)'s [Search component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search). It is enriched with custom templates and alternative views (for example, the preview actions are displayed above the iframe):
+
+![Preview facet]({{site.baseurl}}assets/modules/facet/actions.png){: .d-block .mx-auto }
 
 ### Extract Panel
 
