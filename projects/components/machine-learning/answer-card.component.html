@@ -35,7 +35,10 @@
             </button>
         </div>
     </div>
-    <div class="my-3 passage-text" [innerHTML]="answer.passage?.highlightedText"></div>
+    <div class="my-3 passage-text">
+        <span *ngIf="answer.$record?.modified && !hideDate" class="extracts-date">{{answer.$record.modified | sqDate:dateFormat }} - </span>
+        <span [innerHTML]="answer.passage?.highlightedText"></span>
+    </div>
     <ng-container *ngIf="answer.$record as record">
         <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="onTitleClicked($event, answer)"
             class="d-block text-truncate"></sq-result-title>
