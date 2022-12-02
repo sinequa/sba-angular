@@ -1,0 +1,16 @@
+nav {
+    box-shadow: 1px 3px 4px 0px rgb(var(--brand), .2);
+
+    &.navbar {
+        background-color: var(--brand);
+
+        .nav-link {
+            color: var(--sq-text, --bs-nav-link-color);
+
+            &:hover,
+            &:focus {
+                color: var(--sq-text-hover, --bs-nav-link-hover-color);
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+@import "../../styles/variables";
+
+.navbar {
+  background-color: $white;
+  height: $navbar-height;
+  position: sticky;
+  width: 100%;
+  top: 0;
+  box-shadow: 0 0 .4rem rgba(0, 0, 0, .1);
+  padding-left: .7rem;
+
+  nav {
+    height: 100%;
+    width: 100%;
+  }
+
+  img {
+    width: 10rem;
+    margin: 1rem 1rem 1rem 5rem;
+  }
+
+  .row {
+    --bs-gutter-x: 0;
+    height: 100%;
+  }
+
+  :not(.form-control) > .btn {
+    margin: .35rem 0
+  }
+}

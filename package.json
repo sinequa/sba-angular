@@ -6,6 +6,7 @@
     "start": "ng serve",
     "start:vanilla": "ng serve vanilla-search --ssl=true --proxy-config=./projects/vanilla-search/src/proxy.conf.json",
     "start:pepper": "ng serve pepper --ssl=true --proxy-config=./projects/pepper/src/proxy.conf.json",
+    "start:designsystem": "ng serve design-system --ssl=true",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -16,7 +17,8 @@
     "buildhellosearch": "ng build hello-search --configuration production",
     "buildvanilla": "ng build vanilla-search --configuration production",
     "buildpepper": "ng build pepper --configuration production",
-    "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildanalytics && npm run buildvanilla && npm run buildpepper",
+    "builddesignsystem": "ng build design-system --configuration production",
+    "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildanalytics && npm run buildvanilla && npm run buildpepper && npm run builddesignsystem",
     "makedoc-core": "cd projects/core && node ../../scripts/makedoc.js -d ../../docs/core -p ../../tsconfig.build.json -n \"Core\"",
     "makedoc-components": "cd projects/components && node ../../scripts/makedoc.js -d ../../docs/components -p ../../tsconfig.build.json -n \"Components\"",
     "makedoc-analytics": "cd projects/analytics && node ../../scripts/makedoc.js -d ../../docs/analytics -p ../../tsconfig.build.json -n \"Analytics\""

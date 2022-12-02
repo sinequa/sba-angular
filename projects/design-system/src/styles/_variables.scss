@@ -1,0 +1,62 @@
+/**
+COLORS
+ */
+$bg-color: #E5E5E5;
+$blue-1-rgb: 12, 117, 255;
+$blue-1: #0c75ff;
+$blue-hover: #0f65d7;
+$blue-selection: #eef7ff;
+$blue-focus: #ddecff;
+
+$white: #fff;
+$white-2: #F1F1F1;
+$grey-1: #d3d3d3;
+$grey-2: #c4c4c4;
+$grey-3: #bcbcbc;
+$grey-4: #a4a4a4;
+$grey-5: #9a9a9a;
+$grey-6: #6c6c6c;
+$black: #000;
+
+// darker colors
+$darker-blue: #1458b1;
+$darker-green: #428245;
+$darker-red: #ae2c2c;
+
+$body-text-grey-1: #4a4a4a;
+
+$info-1: #5bc0de;
+$info-2: #c8e7f2;
+
+$success-1: #52a756;
+$success-2: #c6e2c7;
+
+$error-1: #dd3938;
+
+$warning-1: #f5e1c6;
+$warning-2: #f0ad4e;
+
+$facet-white-1: #f6f6f6;
+$facet-white-2: #fbfbfb;
+
+/**
+  Dark mode
+  */
+$dark-color: #f8f9fa;
+$dark-secondary: #c9c0c0;
+$dark-background: #1c1e21;
+$dark-background-highlight: rgb(255, 255, 255, 0.15);
+$dark-background-hover: rgb(255, 255, 255, 0.08);
+$dark-borders: #777373;
+$dark-link: #9bccff;
+
+
+/**
+ VARIABLES
+  */
+$sq-transition: all 250ms ease;
+$sq-focus-outline: .4rem solid var(--primary-100, #{$blue-focus});
+$sq-border: .1rem solid $grey-1;
+$sq-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .1);
+$navbar-height: 5.5rem;
+$sq-input-padding: .8rem;

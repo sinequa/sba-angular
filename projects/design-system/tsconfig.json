@@ -1,0 +1,29 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": "..",
+        "paths": {
+            "@sinequa/core": ["../core"],
+            "@sinequa/core/*": ["../core/*"],
+            "@sinequa/components": ["../components"],
+            "@sinequa/components/*": ["../components/*"],
+            "@sinequa/analytics": ["../analytics"],
+            "@sinequa/analytics/*": ["../analytics/*"]
+        }
+    },
+    "files": [
+        "src/main.ts",
+        "src/polyfills.ts"
+    ],
+    "include": [
+        "**/*.ts",
+        "src/environments/environment.ts"
+    ],
+    "exclude": [
+        "e2e",
+        "src/environments/*",
+        "**/*.spec.ts",
+        "src/test.ts"
+    ]
+}

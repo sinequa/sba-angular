@@ -1,0 +1,17 @@
+<div class="my-3">
+    <label for="global-font-size" class="form-label">Global font size:</label>
+    <input type="number" placeholder="Type something" id="global-font-size" [(ngModel)]="fontSize"
+           class="form-control" (ngModelChange)="changedFontSize()"/>
+</div>
+
+<h6>Basic inputs</h6>
+<ul>
+    <li *ngFor="let item of inputs" (click)="onClick(item)" [class.active]="item.selected"
+        [class.disabled]="!item.enabled">{{item.name}}</li>
+</ul>
+
+<h6>Components <span class="fas {{showDisabled ? 'fa-eye' : 'fa-eye-slash'}}" (click)="showDisabled=!showDisabled"></span></h6>
+<ul>
+    <li *ngFor="let item of getComponents" (click)="onClick(item)" [class.active]="item.selected"
+        [class.disabled]="!item.enabled">{{item.name}}</li>
+</ul>

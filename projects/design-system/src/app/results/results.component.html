@@ -1,0 +1,19 @@
+<!-- List of documents (for loop) -->
+<div *ngFor="let record of results.records" class="record d-flex">
+    <!--     [ngClass]="{'selected': record.$selected || record === openedDoc}">-->
+    <div class="flex-grow-1">
+        <div class="d-flex align-items-center">
+            <sq-result-selector [record]="record" class="ms-1"></sq-result-selector>
+            <sq-result-title [record]="record"></sq-result-title>
+        </div>
+        <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
+        <sq-result-extracts [record]="record"></sq-result-extracts>
+        <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
+
+        <sq-labels [record]="record" [public]="true"></sq-labels>
+        <sq-labels [record]="record" [public]="false"></sq-labels>
+    </div>
+    <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"
+                         class="align-self-center ms-3">
+    </sq-result-thumbnail>
+</div>

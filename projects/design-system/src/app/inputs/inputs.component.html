@@ -1,0 +1,220 @@
+<h1>Inputs</h1>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <p>As for the buttons, the inputs are based on Bootstrap's classes that we overwrite.</p>
+    </div>
+    <div class="col-12">
+        <h3>Text input</h3>
+        <p>Only the input is required and it needs the <code>.form-control</code> class applied.</p>
+        <p>You can optionally add a label which needs the <code>.form-label</code> class, and within it you can add a
+            span with the <code>.info</code> class for a greyer text.</p>
+        <p>If you need an error message to be displayed in case of invalid input, you can add right after the input a
+            div with the <code>.invalid-feedback</code> class and containing the desired text within it.</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="my-input" class="form-label">Some label <span class="info">(Optional)</span></label>
+                        <input type="text" class="form-control" placeholder="Placeholder..." [disabled]="disabledInput"
+                            id="my-input" #textInput [ngClass]="{'was-validated': validInput || invalidInput}" />
+                        <div class="invalid-feedback" [style.display]="invalidInput ? 'block': 'none'">
+                            Error description...
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="input-disabled"
+                                [(ngModel)]="disabledInput">
+                            <label for="input-disabled">Disable</label>
+                        </div>
+                        <div class="mt-2 form-check">
+                            <input type="checkbox" class="form-check-input" id="input-valid" [(ngModel)]="validInput"
+                                (ngModelChange)="textInput.setCustomValidity(''); invalidInput = validInput ? false : invalidInput">
+                            <label for="input-valid">Valid</label>
+                        </div>
+                        <div class="mt-2 form-check">
+                            <input type="checkbox" class="form-check-input" id="input-invalid"
+                                [(ngModel)]="invalidInput"
+                                (ngModelChange)="textInput.setCustomValidity(invalidInput ? 'Invalid field' : ''); validInput = invalidInput ? false : validInput;">
+                            <label for="input-invalid">Invalid</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- <pre><code [highlight]="codeInput"></code></pre> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-4">
+        <h3>Input with icon</h3>
+        <p>If you have a <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:has#browser_compatibility"
+                target="_blank">compatible recent browser</a>, it should work just fine using the basic
+            Bootstrap classes, otherwise you will need to add the <code>.input-icon</code> class with the
+            <code>.input-group</code>
+            one.
+        </p>
+        <p>The same applies to the input styling in case of disabled/valid/invalid status where it will work with no
+            changes only for the compatible browsers, otherwise the <code>.input-group</code> div will require the
+            classes <code>.disabled</code>, <code>.valid</code> and <code>.invalid</code>.</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-6 col-lg-4">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-check-circle"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Type something..." #inputIcon
+                                [disabled]="disabledInputIcon"
+                                [ngClass]="{'was-validated': validInputIcon || invalidInputIcon}">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-times-circle"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="input-group my-1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-arrow-circle-right"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Type something...">
+                        </div>
+                        <div class="input-group my-1">
+                            <input type="text" class="form-control" placeholder="Type something...">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-8">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="input-icon-disabled"
+                                [(ngModel)]="disabledInputIcon">
+                            <label for="input-icon-disabled">Disable</label>
+                        </div>
+                        <div class="mt-2 form-check">
+                            <input type="checkbox" class="form-check-input" id="input-icon-valid"
+                                [(ngModel)]="validInputIcon"
+                                (ngModelChange)="inputIcon.setCustomValidity(''); invalidInputIcon = validInputIcon ? false : invalidInputIcon">
+                            <label for="input-icon-valid">Valid</label>
+                        </div>
+                        <div class="mt-2 form-check">
+                            <input type="checkbox" class="form-check-input" id="input-icon-invalid"
+                                [(ngModel)]="invalidInputIcon"
+                                (ngModelChange)="inputIcon.setCustomValidity(invalidInputIcon ? 'Invalid field' : ''); validInputIcon = invalidInputIcon ? false : validInputIcon;">
+                            <label for="input-icon-invalid">Invalid</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- <pre><code [highlight]="codeInputIcon"></code></pre> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-4">
+        <h3>Textarea</h3>
+        <p>The textarea works exactly as the text input, just apply it the <code>.form-control</code> class, and you can
+            optionally add the label and the error message.</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4">
+                        <textarea class="form-control" #taInput [disabled]="disabledTA" placeholder="Placeholder..."
+                            [ngClass]="{'was-validated': validTA || invalidTA}"></textarea>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="ta-disabled" [(ngModel)]="disabledTA">
+                            <label for="ta-disabled">Disable</label>
+                        </div>
+                        <div class="mt-2 form-check">
+                            <input type="checkbox" class="form-check-input" id="ta-valid" [(ngModel)]="validTA"
+                                (ngModelChange)="taInput.setCustomValidity(''); invalidTA = validTA ? false : invalidTA">
+                            <label for="ta-valid">Valid</label>
+                        </div>
+                        <div class="mt-2 form-check">
+                            <input type="checkbox" class="form-check-input" id="ta-invalid" [(ngModel)]="invalidTA"
+                                (ngModelChange)="taInput.setCustomValidity(invalidTA ? 'Invalid field' : ''); validTA = invalidTA ? false : validTA;">
+                            <label for="ta-invalid">Invalid</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- <pre><code [highlight]="codeTA"></code></pre> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-4">
+        <h3>Checkbox / Radio button</h3>
+        <p>The checkbox and the radio button require to be included in a div with the <code>.form-check</code> class,
+            and to themselves have <code>.form-check-input</code>.</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" [disabled]="disabledCB" id="my-checkbox"
+                                #cbInput [ngClass]="{'was-validated': validCB || invalidCB}">
+                            <label for="my-checkbox">Some label</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" [disabled]="disabledCB" id="my-radio" #myRadio
+                                [ngClass]="{'was-validated': validCB || invalidCB}">
+                            <label for="my-radio">Some label</label>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="cb-disabled" [(ngModel)]="disabledCB">
+                            <label for="cb-disabled">Disable</label>
+                        </div>
+                        <div class="mt-2 form-check">
+                            <input type="checkbox" class="form-check-input" id="cb-valid" [(ngModel)]="validCB"
+                                (ngModelChange)="cbInput.setCustomValidity(''); myRadio.setCustomValidity(''); invalidCB = validCB ? false : invalidCB">
+                            <label for="cb-valid">Valid</label>
+                        </div>
+                        <div class="mt-2 form-check">
+                            <input type="checkbox" class="form-check-input" id="cb-invalid" [(ngModel)]="invalidCB"
+                                (ngModelChange)="cbInput.setCustomValidity(invalidCB ? 'Invalid field' : ''); myRadio.setCustomValidity(invalidCB ? 'Invalid field' : ''); validCB = invalidCB ? false : validCB;">
+                            <label for="cb-invalid">Invalid</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- <pre><code [highlight]="codeCB"></code></pre> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-4">
+        <h3>Badges</h3>
+        <p>The badges use Bootstrap's <code>.badge</code> class, for which you can choose the color using the usual
+            classes like <code>.bg-primary</code>, <code>.bg-secondary</code> and others. Note that custom coloring is
+            already defined in SBA (see metadata.scss file).</p>
+        <p>For a smaller badge, you can add the <code>.sq-small-badge</code> class.</p>
+        <div class="card">
+            <div class="card-header">
+                <span class="badge rounded-pill bg-primary me-2">
+                    Badge
+                    <span class="fas fa-times-circle ms-1"></span>
+                </span>
+                <span class="badge rounded-pill bg-primary sq-small-badge">
+                    Small badge
+                </span>
+            </div>
+            <div class="card-body">
+                <!-- <pre><code [highlight]="codeBadge"></code></pre> -->
+            </div>
+        </div>
+    </div>
+</div>

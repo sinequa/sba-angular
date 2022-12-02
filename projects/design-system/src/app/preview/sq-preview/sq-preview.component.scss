@@ -1,0 +1,33 @@
+/**
+
+**/
+
+:host {
+    display: block;
+    overflow: hidden;
+}
+
+.sq-app-loading {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.sq-preview-btn-group {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .1);
+}
+
+.sq-action-buttons {
+    * {
+        margin-right: .8rem;
+    }
+    span {
+        width: min-content;
+    }
+}
