@@ -135,7 +135,7 @@
                 }
               ],
               "outputPath": "dist/hello-search",
-              "optimization": true,
+              "buildOptimizer": true,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -152,15 +152,34 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
+            },
+            "development": {
+              "outputPath": "dist-debug/hello-search",
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "hello-search:build"
+            "browserTarget": "hello-search:build:development",
+            "ssl": true,
+            "proxyConfig": "projects/hello-search/src/proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -181,6 +200,7 @@
             "polyfills": "projects/hello-search/src/polyfills.ts",
             "tsConfig": "projects/hello-search/tsconfig.spec.json",
             "karmaConfig": "projects/hello-search/karma.conf.js",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/hello-search/src/favicon.ico",
               "projects/hello-search/src/assets"
@@ -196,18 +216,6 @@
               "projects/hello-search/**/*.ts",
               "projects/hello-search/**/*.html"
             ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/hello-search/e2e/protractor.conf.js",
-            "devServerTarget": "hello-search:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "hello-search:serve:production"
-            }
           }
         }
       }
@@ -351,18 +359,6 @@
               "projects/vanilla-search/**/*.ts",
               "projects/vanilla-search/**/*.html"
             ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/vanilla-search/e2e/protractor.conf.js",
-            "devServerTarget": "vanilla-search:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "vanilla-search:serve:production"
-            }
           }
         }
       }
@@ -517,18 +513,6 @@
               "projects/pepper/**/*.ts",
               "projects/pepper/**/*.html"
             ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/pepper/e2e/protractor.conf.js",
-            "devServerTarget": "pepper:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "pepper:serve:production"
-            }
           }
         }
       }
