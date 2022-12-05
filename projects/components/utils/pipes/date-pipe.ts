@@ -1,13 +1,8 @@
-import {Pipe, ChangeDetectorRef} from "@angular/core";
-import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
+import {Pipe} from "@angular/core";
+import {AbstractIntlPipe} from "@sinequa/core/intl";
 
 @Pipe({name: "sqDate", pure: false})
-export class DatePipe extends AbstractIntlPipe<(Number | Date | string), Intl.DateTimeFormatOptions> {
-    constructor(
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
-    }
+export class DatePipe extends AbstractIntlPipe<(Number | Date | string), Intl.DateTimeFormatOptions>{
 
     override updateValue(key: number | Date | string, params: Intl.DateTimeFormatOptions): void {
         super.updateValue(key, params);

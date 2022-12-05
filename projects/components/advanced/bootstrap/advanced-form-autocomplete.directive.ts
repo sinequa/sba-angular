@@ -1,7 +1,5 @@
-import { Directive, Input, ElementRef, HostListener, Output, EventEmitter, OnInit } from "@angular/core";
-import { Autocomplete, SuggestService, AutocompleteItem, AutocompleteState } from "@sinequa/components/autocomplete";
-import { UIService } from "@sinequa/components/utils";
-import { AppService } from "@sinequa/core/app-utils";
+import { Directive, Input, HostListener, Output, EventEmitter, OnInit } from "@angular/core";
+import { Autocomplete, AutocompleteItem, AutocompleteState } from "@sinequa/components/autocomplete";
 import { Observable } from 'rxjs';
 
 @Directive({
@@ -9,16 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
     @Output() UpdateItem = new EventEmitter<AutocompleteItem | undefined>();
-    @Input() field : string;
-
-    constructor(
-        elementRef: ElementRef,
-        suggestService: SuggestService,
-        appService: AppService,
-        uiService: UIService
-    ) {
-        super(elementRef, suggestService, appService, uiService);
-    }
+    @Input() field: string;
 
     /**
      * The ngOnInit() method from the original directive is overriden

@@ -1,8 +1,6 @@
-import { Injectable, Inject } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
-import { SqHttpClient } from "./http-client";
 import { HttpService } from "./http.service";
-import { START_CONFIG, StartConfig } from "./start-config.web.service";
 import { Record } from "./query.web.service";
 
 /**
@@ -12,11 +10,6 @@ import { Record } from "./query.web.service";
   providedIn: "root"
 })
 export class SimilarDocumentsWebService extends HttpService {
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Gets an array of documents (records) similar to the passed document

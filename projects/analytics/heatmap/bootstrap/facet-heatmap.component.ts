@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional, OnDestroy, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Subject, distinctUntilChanged, filter } from 'rxjs';
 
@@ -73,16 +73,15 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     // A flag to check if the data is currently loading or not
     loading = false;
 
-    constructor(
-        public appService: AppService,
-        public searchService: SearchService,
-        public facetService: FacetService,
-        public selectionService: SelectionService,
-        public formBuilder: UntypedFormBuilder,
-        public cdRef: ChangeDetectorRef,
-        public prefs: UserPreferences,
-        @Optional() public cardComponent?: BsFacetCard
-    ){
+    protected readonly appService = inject(AppService);
+    protected readonly searchService = inject(SearchService);
+    protected readonly facetService = inject(FacetService);
+    protected readonly selectionService = inject(SelectionService);
+    protected readonly formBuilder = inject(UntypedFormBuilder);
+    protected readonly cdRef = inject(ChangeDetectorRef);
+    protected readonly prefs = inject(UserPreferences);
+
+    constructor( @Optional() public cardComponent?: BsFacetCard){
         super();
 
         // Clear the current filters
@@ -372,8 +371,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                 action.icon = "sq-icon-"+(axis === 'x'? this.fieldXPref : this.fieldYPref);
                 action.children = ((axis === 'x'? this.fieldsX : this.fieldsY) || [])
                     .filter(f => f !== (axis === 'x'? this.fieldXPref : this.fieldYPref))
-                    .map(f => {
-                        return new Action({
+                    .map(f => new Action({
                             name: f,
                             text: this.appService.getPluralLabel(f),
                             icon: "sq-icon-"+f,
@@ -382,8 +380,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                                 this.updateActions();
                                 this.updateData();
                             }
-                        });
-                    });
+                        }));
             }
         });
     }
