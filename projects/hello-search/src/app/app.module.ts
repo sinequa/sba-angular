@@ -11,7 +11,7 @@ import {ModalModule} from "@sinequa/core/modal";
 import {NotificationsInterceptor} from "@sinequa/core/notification";
 import {AuditInterceptor} from "@sinequa/core/app-utils";
 
-import {DefaultLocalesConfig} from "@sinequa/core";
+import {DefaultLocalesConfig} from "@sinequa/core/default-locales-config";
 import {AppComponent} from "./app.component";
 import {environment} from "../environments/environment";
 
