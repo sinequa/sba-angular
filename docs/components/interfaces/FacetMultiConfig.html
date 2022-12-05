@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -312,7 +313,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   @Input() facetComponents: MapOf&lt;Type&lt;any&gt;&gt; &#x3D; default_facet_components;
   @Input() showCount: boolean &#x3D; true;
 
-  @Output() events &#x3D; new EventEmitter&lt;FacetMultiConfig&gt;();
+  @Output() events &#x3D; new EventEmitter&lt;FacetMultiConfig|undefined&gt;();
 
   /**
    * A reference to the facet child component
@@ -421,7 +422,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   private getFacetCount(facet: FacetMultiConfig): string {
     const agg &#x3D; this.results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, &lt;string&gt;facet.parameters?.aggregation)); // avoid calling getAggregation() which is costly for trees
     if (!agg?.items) return &quot;&quot;;
-    
+
     const max &#x3D; this.facetService.getAggregationCount(&lt;string&gt;facet.parameters?.aggregation); // configured count (default: 10)
     const count &#x3D; max &lt; 0 ? agg.items.length : max;
     const aggItemCounter &#x3D; (!agg.isDistribution || facet?.parameters?.displayEmptyDistributionIntervals)
@@ -487,6 +488,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 </code></pre>
     </div>
 </div>
+
 
 
 

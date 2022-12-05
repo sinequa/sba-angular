@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -420,6 +421,12 @@ export interface ActionItemOptions {
 @Component({
     selector: &quot;[sq-action-item]&quot;,
     templateUrl: &quot;./action-item.html&quot;,
+    styles: [&#x60;
+    :host-context(.dark)
+        button.btn-light {
+            filter: invert(0.76);
+        }
+    &#x60;],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsActionItem implements OnInit, AfterViewInit {
@@ -574,6 +581,7 @@ export class BsActionItem implements OnInit, AfterViewInit {
 </code></pre>
     </div>
 </div>
+
 
 
 

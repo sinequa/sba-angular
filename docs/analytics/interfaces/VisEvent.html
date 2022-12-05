@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -301,7 +302,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, ContentChild, TemplateRef } from &#x27;@angular/core&#x27;;
-import { FormGroup, FormControl, FormBuilder } from &#x27;@angular/forms&#x27;;
+import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder } from &#x27;@angular/forms&#x27;;
 import { Subscription, combineLatest } from &#x27;rxjs&#x27;;
 
 import { Results } from &#x27;@sinequa/core/web-services&#x27;;
@@ -312,8 +313,9 @@ import { AbstractFacet } from &#x27;@sinequa/components/facet&#x27;;
 import { Action } from &#x27;@sinequa/components/action&#x27;;
 import { SearchService } from &#x27;@sinequa/components/search&#x27;;
 
-import { Options, VisNetworkService } from &#x27;ngx-vis&#x27;;
-import { DataSet } from &quot;vis-data/peer/esm/vis-data&quot;;
+import { VisNetworkService } from &#x27;./vis-network.service&#x27;;
+import { Options } from &#x27;vis-network/esnext&#x27;;
+import { DataSet } from &#x27;vis-data/esnext&#x27;;
 
 import { Node, Edge, NetworkDataset, NetworkProvider, NetworkContext } from &#x27;./network-models&#x27;;
 import { IntlService } from &#x27;@sinequa/core/intl&#x27;;
@@ -356,11 +358,11 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     optionsPrefs: Options;
 
-    @Output() nodeClicked &#x3D; new EventEmitter&lt;Node&gt;();
-    @Output() edgeClicked &#x3D; new EventEmitter&lt;Edge&gt;();
+    @Output() nodeClicked &#x3D; new EventEmitter&lt;Node|undefined&gt;();
+    @Output() edgeClicked &#x3D; new EventEmitter&lt;Edge|undefined&gt;();
 
     // Settings form
-    form: FormGroup;
+    form: UntypedFormGroup;
 
     // State
     _networkInitialized: boolean;
@@ -385,7 +387,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         public searchService: SearchService,
         public appService: AppService,
         public intlService: IntlService,
-        public formBuilder: FormBuilder,
+        public formBuilder: UntypedFormBuilder,
         public prefs: UserPreferences,
         public exprBuilder: ExprBuilder
     ) {
@@ -635,7 +637,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     selectEdge(edge?: Edge) {
         this._selectedEdge &#x3D; edge;
-        this.edgeClicked.next();
+        this.edgeClicked.next(edge);
     }
 
     ngOnDestroy() {
@@ -679,11 +681,11 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
      */
     override onOpenSettings(opened: boolean){
         if(opened) {
-            const springLengthControl &#x3D; new FormControl(this.springLengthPref);
-            const springConstantControl &#x3D; new FormControl(this.springConstantPref);
-            const dampingControl &#x3D; new FormControl(this.dampingPref);
-            const repulsionControl &#x3D; new FormControl(this.repulsionPref);
-            const gravityControl &#x3D; new FormControl(this.gravityPref);
+            const springLengthControl &#x3D; new UntypedFormControl(this.springLengthPref);
+            const springConstantControl &#x3D; new UntypedFormControl(this.springConstantPref);
+            const dampingControl &#x3D; new UntypedFormControl(this.dampingPref);
+            const repulsionControl &#x3D; new UntypedFormControl(this.repulsionPref);
+            const gravityControl &#x3D; new UntypedFormControl(this.gravityPref);
 
             this.form &#x3D; this.formBuilder.group({
                 springLength: springLengthControl,
@@ -753,6 +755,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 </code></pre>
     </div>
 </div>
+
 
 
 

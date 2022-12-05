@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -451,7 +452,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &quot;@angular/core&quot;;
 import {
-    FormControl,
+    UntypedFormControl,
     ValidatorFn,
     AsyncValidatorFn,
     Validators,
@@ -544,7 +545,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query &#x3D; this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value &#x3D; this.getValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -561,7 +562,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query &#x3D; this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value &#x3D; this.getRangeValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -578,7 +579,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query &#x3D; this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value &#x3D; this.getValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -595,7 +596,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query &#x3D; this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value &#x3D; this.getValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -612,7 +613,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query &#x3D; this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value &#x3D; this.getBooleanValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -1041,8 +1042,8 @@ export class AdvancedService {
         value: AdvancedValue | ValueItem | ValueItem[],
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
-    ): FormControl {
-        return new FormControl(
+    ): UntypedFormControl {
+        return new UntypedFormControl(
             {
                 value,
                 disabled: false,
@@ -1123,6 +1124,7 @@ export class AdvancedService {
 </code></pre>
     </div>
 </div>
+
 
 
 

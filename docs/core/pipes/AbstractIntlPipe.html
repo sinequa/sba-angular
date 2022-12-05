@@ -40,6 +40,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Pipes</li>
   <li >AbstractIntlPipe</li>
@@ -144,7 +145,7 @@ unnecessary processing</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>transform(value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, params?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>transform(value: U, params?: V)</code>
                 </td>
             </tr>
 
@@ -175,7 +176,7 @@ unnecessary processing</p>
                                 <tr>
                                     <td>value</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>U</code>
                                     </td>
 
                                     <td>
@@ -187,7 +188,7 @@ unnecessary processing</p>
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>V</code>
                                     </td>
 
                                     <td>
@@ -230,7 +231,7 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
  * unnecessary processing
  */
 @Pipe({name: &quot;sqAbstractIntlPipe&quot;, pure: false})
-export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
+export abstract class AbstractIntlPipe&lt;U, V&gt; implements PipeTransform, OnDestroy {
     protected value: any &#x3D; &quot;&quot;;
     protected lastValue: any;
     protected lastParams: any;
@@ -241,13 +242,13 @@ export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
         protected changeDetectorRef: ChangeDetectorRef) {
     }
 
-    protected updateValue(value: any, params?: any): void {
+    protected updateValue(value: U, params?: V): void {
         this.lastValue &#x3D; value;
         this.lastParams &#x3D; params;
         this.changeDetectorRef.markForCheck();
     }
 
-    transform(value: any, params?: any): any {
+    transform(value: U, params?: V): any {
         // if we ask another time for the same key, return the last value
         if (Utils.equals(value, this.lastValue) &amp;&amp; Utils.equals(params, this.lastParams)) {
             return this.value;
@@ -280,6 +281,7 @@ export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
     </div>
 
 </div>
+
 
 
 

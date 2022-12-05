@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >DownloadWebService</li>
@@ -219,10 +220,11 @@ export class DownloadWebService {
                 const header &#x3D; response.headers.get(&#x27;content-disposition&#x27;);
                 const fileName &#x3D; header ? header.split(&#x27;filename&#x3D;&#x27;)[1].replace(&#x27;&quot;&#x27;, &#x27;&#x27;).replace(&#x27;&quot;&#x27;, &#x27;&#x27;) : &quot;&quot;;
 
+                if (response.body &#x3D;&#x3D;&#x3D; null) return response;
                 if (window.navigator &amp;&amp; window.navigator.msSaveOrOpenBlob) {
                     // For IE
                     window.navigator.msSaveOrOpenBlob(response.body, fileName);
-                } else {
+                } else  {
                     const link &#x3D; document.createElement(&#x27;a&#x27;);
                     document.body.appendChild(link);
                     const blobUrl &#x3D; window.URL.createObjectURL(response.body);
@@ -243,6 +245,7 @@ export class DownloadWebService {
     </div>
 
 </div>
+
 
 
 

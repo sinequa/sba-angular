@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -222,9 +223,9 @@ export class PreviewDocument {
 
     private readonly _window: Window;
     private readonly _document: Document;
-    
+
     private previousElement: HTMLElement | null;
-    
+
     constructor(element: ElementRef | Document){
         if (element instanceof ElementRef) {
             this._window &#x3D; element?.nativeElement?.contentWindow;
@@ -324,11 +325,11 @@ export class PreviewDocument {
      * @param index Index of the entity in that category
      */
     public selectHighlight(categoryId: string, index: number) : void {
-        
+
         this.clearHighlightSelection();
         // current element becomes previous element
         this.previousElement &#x3D; this.document.getElementById(categoryId + &#x27;_&#x27; + index);
-        
+
         if (this.previousElement) {
             // highlight new selected element
             this.setHighlightSelection(this.previousElement,true, true);
@@ -471,13 +472,9 @@ export class PreviewDocument {
 
 
     private resizeSvgBackground(rect: Element, tspan: SVGTSpanElement): void {
-        let elt: Element &#x3D; tspan;
-        while (elt.tagName !&#x3D;&#x3D; &quot;text&quot;) {
-            elt &#x3D; elt.parentNode as Element;
-            if (elt &#x3D;&#x3D; null) break;
-        }
-        const text: SVGTextElement &#x3D; elt as SVGTextElement;
-        const textBoxPixel: ClientRect &#x3D; text.getBoundingClientRect();
+
+        const text: SVGTSpanElement &#x3D; tspan;
+        const textBoxPixel: DOMRect &#x3D; text.getBoundingClientRect();
         const textBoxSVG: SVGRect &#x3D; text.getBBox();
         if (textBoxPixel.height &#x3D;&#x3D;&#x3D; 0 || textBoxPixel.width &#x3D;&#x3D;&#x3D; 0) return;
         const scaleX &#x3D; textBoxSVG.width / textBoxPixel.width;
@@ -569,6 +566,7 @@ export class PreviewDocument {
 </code></pre>
     </div>
 </div>
+
 
 
 

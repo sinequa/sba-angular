@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -146,7 +147,7 @@
     SimpleChanges,
     ChangeDetectorRef,
 } from &quot;@angular/core&quot;;
-import { FormBuilder, FormControl, FormGroup } from &quot;@angular/forms&quot;;
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from &quot;@angular/forms&quot;;
 import { Action } from &quot;@sinequa/components/action&quot;;
 import { AdvancedService } from &quot;@sinequa/components/advanced&quot;;
 import { AbstractFacet, FacetConfig, FacetService } from &quot;@sinequa/components/facet&quot;;
@@ -163,13 +164,13 @@ import {
     AggregationItem,
     Results,
 } from &quot;@sinequa/core/web-services&quot;;
-import { Subscription } from &quot;rxjs&quot;;
-import { debounceTime, filter, map } from &quot;rxjs/operators&quot;;
-import { BsFacetTimelineComponent, TimelineSeries } from &quot;.&quot;;
-import moment from &quot;moment&quot;;
+import { parseISO } from &quot;date-fns&quot;;
+import { Subscription, debounceTime, filter, map } from &quot;rxjs&quot;;
+import { BsFacetTimelineComponent } from &quot;./facet-timeline.component&quot;;
+import { TimelineSeries } from &quot;./timeline.component&quot;;
 
 export interface FacetDateParams {
-    aggregation: string
+    aggregation: string;
     showCount?: boolean;
     timelineAggregation?: string;
     displayEmptyDistributionIntervals?: boolean;
@@ -177,6 +178,9 @@ export interface FacetDateParams {
     allowCustomRange?: boolean;
     showCustomRange?: boolean;
     replaceCurrent?: boolean;
+    timelineWidth?: number;
+    timelineHeight?: number;
+    timelineMargin?: {top: number, bottom: number, left: number, right: number};
 }
 
 export interface FacetDateConfig extends FacetConfig&lt;FacetDateParams&gt; {
@@ -203,12 +207,15 @@ export class BsFacetDate
     @Input() allowCustomRange &#x3D; true; // will allow or not the use of datepickers and timeline for custom range selection
     @Input() showCustomRange &#x3D; false; // will show/hide datepickers and timeline, once allowed
     @Input() replaceCurrent &#x3D; true; // if true, the previous &quot;select&quot; is removed first
+    @Input() timelineWidth &#x3D; 250;
+    @Input() timelineHeight &#x3D; 150;
+    @Input() timelineMargin &#x3D; {top: 15, bottom: 20, left: 30, right: 15};
 
     clearFiltersAction: Action;
     items: AggregationItem[] &#x3D; [];
 
-    form: FormGroup;
-    dateRangeControl: FormControl;
+    form: UntypedFormGroup;
+    dateRangeControl: UntypedFormControl;
 
     timeSeries: TimelineSeries[] &#x3D; [];
     selection: (Date | undefined)[] | undefined;
@@ -220,7 +227,7 @@ export class BsFacetDate
 
     constructor(
         protected facetService: FacetService,
-        protected formBuilder: FormBuilder,
+        protected formBuilder: UntypedFormBuilder,
         protected exprBuilder: ExprBuilder,
         protected searchService: SearchService,
         protected advancedService: AdvancedService,
@@ -240,7 +247,7 @@ export class BsFacetDate
 
     ngOnInit() {
         if (this.allowCustomRange) {
-            this.dateRangeControl &#x3D; new FormControl(
+            this.dateRangeControl &#x3D; new UntypedFormControl(
                 [undefined, undefined],
                 [
                     this.advancedService.validators.range(this.field),
@@ -256,8 +263,8 @@ export class BsFacetDate
             this.subscriptions.push(
                 this.searchService.queryStream.subscribe(() &#x3D;&gt; {
                     const value &#x3D; this.getRangeValue();
-                    const from &#x3D; !value[0] ? undefined : moment(value[0]).toDate();
-                    const to &#x3D; !value[1] ? undefined : moment(value[1]).toDate()
+                    const from &#x3D; !value[0] ? undefined : parseISO(value[0]);
+                    const to &#x3D; !value[1] ? undefined : parseISO(value[1]);
                     this.dateRangeControl.setValue([from, to], { emitEvent: false });
                     this.selection &#x3D; !value[0] &amp;&amp; !value[1] ? undefined : [from, to];
                 })
@@ -459,6 +466,7 @@ export class BsFacetDate
 </code></pre>
     </div>
 </div>
+
 
 
 
