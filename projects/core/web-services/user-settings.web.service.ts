@@ -1,8 +1,6 @@
-import {Injectable, Inject, OnDestroy} from "@angular/core";
+import {Injectable, OnDestroy} from "@angular/core";
 import {Subject, Observable} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils} from "@sinequa/core/base";
 import {AuditEvents} from "./audit.web.service";
 
@@ -50,10 +48,8 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
     reviver: (us: UserSettings) => void;
     private _events = new Subject<UserSettingsChangedEvent>();
 
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
+    constructor() {
+        super();
         this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     }
 

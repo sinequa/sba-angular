@@ -16,10 +16,12 @@ describe("ExprPipe", () => {
       providers: [
         { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
         IntlService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        ExprPipe
+      ]
     });
 
-    pipe = new ExprPipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(ExprPipe);
   })
 
   it('should transforms a string expression to it\' string representation', () => {

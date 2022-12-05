@@ -1,4 +1,4 @@
-import {Directive, Input, Output, ElementRef, HostListener, OnInit, EventEmitter, OnDestroy, OnChanges, SimpleChanges, HostBinding} from "@angular/core";
+import {Directive, Input, Output, ElementRef, HostListener, OnInit, EventEmitter, OnDestroy, OnChanges, SimpleChanges, HostBinding, inject} from "@angular/core";
 import {Observable, Subscription} from "rxjs";
 import {Utils, Keys} from "@sinequa/core/base";
 import {AppService} from "@sinequa/core/app-utils";
@@ -106,14 +106,14 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 
 
     // Initialization
+    protected readonly elementRef = inject(ElementRef);
+    protected readonly suggestService = inject(SuggestService);
+    protected readonly appService = inject(AppService);
+    protected readonly uiService = inject(UIService);
 
-    constructor(
-        elementRef: ElementRef,
-        protected suggestService: SuggestService,
-        protected appService: AppService,
-        protected uiService: UIService){
+    constructor(){
 
-        this.inputElement = elementRef.nativeElement;
+        this.inputElement = this.elementRef.nativeElement;
     }
 
 

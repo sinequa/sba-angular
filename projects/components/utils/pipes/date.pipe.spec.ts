@@ -15,10 +15,12 @@ describe("DatePipe", () => {
       providers: [
         { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
         IntlService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        DatePipe,
+      ]
     });
 
-    pipe = new DatePipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(DatePipe);
   })
 
   it('transforms "2022-12-31" to ... with i18n', () => {

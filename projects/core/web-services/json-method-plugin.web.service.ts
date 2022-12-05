@@ -1,8 +1,6 @@
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, throwError} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils} from "@sinequa/core/base";
 
 /**
@@ -12,12 +10,6 @@ import {Utils} from "@sinequa/core/base";
   providedIn: "root"
 })
 export class JsonMethodPluginService extends HttpService{
-  constructor(
-    public httpClient: SqHttpClient,
-    @Inject(START_CONFIG) startConfig: StartConfig
-    ) {
-      super(startConfig);
-  }
 
   /**
    * Call a JsonMethod plugin using an HTTP POST

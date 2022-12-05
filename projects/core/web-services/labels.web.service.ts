@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable, map} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
 import {IQuery} from "./query/query";
@@ -31,11 +29,8 @@ export interface LabelsRights {
 })
 export class LabelsWebService extends HttpService {
 
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient,
-        private intlService: IntlService) {
-        super(startConfig);
+    constructor(private intlService: IntlService) {
+        super();
     }
 
     /**
@@ -58,9 +53,7 @@ export class LabelsWebService extends HttpService {
             })
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("labelsService.list failure - error: ", error);
             });
@@ -77,9 +70,7 @@ export class LabelsWebService extends HttpService {
         prefix: string,
         _public: boolean): Observable<string[]> {
         return this.list(prefix, _public)
-            .pipe(map((value) => {
-                return value.labels;
-            }));
+            .pipe(map((value) => value.labels));
     }
 
     /**
@@ -140,9 +131,7 @@ export class LabelsWebService extends HttpService {
             }
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("labelsService.add failure - error: ", error);
             });
@@ -185,9 +174,7 @@ export class LabelsWebService extends HttpService {
             }
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("labelsService.remove failure - error: ", error);
             });
@@ -220,9 +207,7 @@ export class LabelsWebService extends HttpService {
             }
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("labelsService.rename failure - error: ", error);
             });
@@ -251,9 +236,7 @@ export class LabelsWebService extends HttpService {
             }
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("labelsService.delete failure - error: ", error);
             });
@@ -286,9 +269,7 @@ export class LabelsWebService extends HttpService {
             }
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("labelsService.bulkAdd failure - error: ", error);
             });
@@ -321,9 +302,7 @@ export class LabelsWebService extends HttpService {
             }
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("labelsService.bulkRemove failure - error: ", error);
             });

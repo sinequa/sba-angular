@@ -1,15 +1,13 @@
-import {ChangeDetectorRef, Pipe} from "@angular/core";
-import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
+import {inject, Pipe} from "@angular/core";
+import {AbstractIntlPipe} from "@sinequa/core/intl";
 import {FormatService, ValueItem} from "@sinequa/core/app-utils";
 import {CCColumn} from "@sinequa/core/web-services";
 import {Utils, FieldValue} from "@sinequa/core/base";
 
 @Pipe({name: "sqValue", pure: false})
 export class ValuePipe extends AbstractIntlPipe<(ValueItem | FieldValue), CCColumn> {
-    constructor(
-        protected formatService: FormatService, intlService: IntlService, cdr: ChangeDetectorRef) {
-        super(intlService, cdr);
-    }
+
+    protected readonly formatService: FormatService = inject(FormatService);
 
     override updateValue(key: ValueItem | FieldValue, params: CCColumn): void {
         super.updateValue(key, params);

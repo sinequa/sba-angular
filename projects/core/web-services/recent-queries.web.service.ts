@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils} from "@sinequa/core/base";
 import {IQuery} from "./query/query";
 
@@ -25,12 +23,6 @@ export class RecentQueries {
 })
 export class RecentQueriesWebService extends HttpService {
     recentQueries: RecentQueries;
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     load(): Observable<RecentQueries> {
         const observable = this.httpClient.get<RecentQueries>(this.makeUrl("recentqueries"), {

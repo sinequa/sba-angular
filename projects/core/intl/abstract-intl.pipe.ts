@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform, OnDestroy, ChangeDetectorRef} from "@angular/core";
+import {Pipe, PipeTransform, OnDestroy, ChangeDetectorRef, inject} from "@angular/core";
 import {Subscription} from "rxjs";
 import {IntlService} from "./intl.service";
 import {Utils} from "@sinequa/core/base";
@@ -16,10 +16,8 @@ export abstract class AbstractIntlPipe<U, V> implements PipeTransform, OnDestroy
     protected lastParams: any;
     protected localeChange: Subscription;
 
-    constructor(
-        protected intlService: IntlService,
-        protected changeDetectorRef: ChangeDetectorRef) {
-    }
+    protected readonly intlService: IntlService = inject(IntlService);
+    protected readonly changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
 
     protected updateValue(value: U, params?: V): void {
         this.lastValue = value;
