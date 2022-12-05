@@ -1,18 +1,5 @@
 {
     "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "baseUrl": ".",
-        "rootDir": "..",
-        "paths": {
-            "@sinequa/core": ["../core"],
-            "@sinequa/core/*": ["../core/*"],
-            "@sinequa/components": ["../components"],
-            "@sinequa/components/*": ["../components/*"],
-            "@sinequa/analytics": ["../analytics"],
-            "@sinequa/analytics/*": ["../analytics/*"],
-            "@sinequa/vanilla/*": ["../vanilla-search/src/*"]
-        }
-    },
     "files": [
         "src/main.ts",
         "src/polyfills.ts"

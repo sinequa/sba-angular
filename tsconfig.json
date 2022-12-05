@@ -39,6 +39,7 @@
       "@sinequa/components/*": ["projects/components/*"],
       "@sinequa/analytics": ["projects/analytics"],
       "@sinequa/analytics/*": ["projects/analytics/*"],
+      "@sinequa/vanilla/*": ["projects/vanilla-search/src/*"],
       "@testing/*": ["projects/components/__tests__/*"]
     }
   },
