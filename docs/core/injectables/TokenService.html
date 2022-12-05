@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >TokenService</li>
@@ -126,7 +127,7 @@ can be called before the authentication process has completed</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">login/token.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">login/token.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -201,8 +202,8 @@ can be called before the authentication process has completed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">login/token.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">login/token.service.ts:46</a></div>
                 </td>
             </tr>
 
@@ -241,8 +242,8 @@ This method is called by <a href="../injectables/AuthenticationService.html#logo
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">login/token.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">login/token.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -472,8 +473,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
 import {START_CONFIG, StartConfig, SqHttpClient, HttpService} from &quot;@sinequa/core/web-services&quot;;
-import {Observable} from &quot;rxjs&quot;;
-import {map} from &quot;rxjs/operators&quot;;
+import {Observable, map} from &quot;rxjs&quot;;
 
 /**
  * A service to manage JWT and CSRF tokens. The methods of this service
@@ -530,6 +530,7 @@ export class TokenService extends HttpService {
     </div>
 
 </div>
+
 
 
 

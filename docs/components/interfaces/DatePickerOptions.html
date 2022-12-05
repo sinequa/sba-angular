@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -284,7 +285,7 @@ import {Subscription} from &quot;rxjs&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
 import {BsDatepickerDirective, BsDatepickerConfig} from &quot;ngx-bootstrap/datepicker&quot;;
-import moment from &quot;moment&quot;;
+import { getDefaultOptions, Locale } from &quot;date-fns&quot;;
 
 export const DATE_PICKER_VALUE_ACCESSOR: any &#x3D; {
     provide: NG_VALUE_ACCESSOR,
@@ -332,7 +333,12 @@ export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlVa
     }
 
     public get dateFormat(): string {
-        return this.options.system ? this.SystemFormat : moment.localeData().longDateFormat(&#x27;L&#x27;);
+        const { locale } &#x3D; getDefaultOptions() as {locale: Locale};
+        return this.options.system
+            ? this.SystemFormat
+            : locale
+                ? locale?.formatLong?.date({ width: &#x27;short&#x27; }).toUpperCase()
+                : &quot;MM/DD/YYYY&quot;
     }
 
     setLocale() {
@@ -362,7 +368,7 @@ export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlVa
             maxDate: this.options.maxDate,
             containerClass:&#x27;theme-default&#x27;,
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat(&#x27;L&#x27;)
+            dateInputFormat: this.dateFormat
         };
     }
 
@@ -401,6 +407,7 @@ export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlVa
 </code></pre>
     </div>
 </div>
+
 
 
 

@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >SqHttpClient</li>
@@ -118,7 +119,7 @@ to prevent multiple subscribers from causing multiple requests to be issued and 
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">web-services/http-client.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">web-services/http-client.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -183,8 +184,8 @@ to prevent multiple subscribers from causing multiple requests to be issued and 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">web-services/http-client.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">web-services/http-client.ts:46</a></div>
                 </td>
             </tr>
 
@@ -279,8 +280,7 @@ An observable from the cache is returned if the incoming request is identical to
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &quot;@angular/core&quot;;
 import {HttpClient, HttpRequest, HttpHandler} from &quot;@angular/common/http&quot;;
-import {Observable} from &quot;rxjs&quot;;
-import {share, tap} from &quot;rxjs/operators&quot;;
+import {Observable, share, tap} from &quot;rxjs&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 
 /**
@@ -339,6 +339,7 @@ export class SqHttpClient extends HttpClient {
     </div>
 
 </div>
+
 
 
 

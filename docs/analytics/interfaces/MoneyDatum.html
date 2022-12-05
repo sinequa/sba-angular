@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -340,8 +341,13 @@ import { ExprBuilder } from &quot;@sinequa/core/app-utils&quot;;
 import { Utils } from &quot;@sinequa/core/base&quot;;
 import { Results, Record } from &quot;@sinequa/core/web-services&quot;;
 import { FormatService } from &quot;@sinequa/core/app-utils&quot;;
-
-import * as d3 from &#x27;d3&#x27;;
+import { scaleUtc, scaleLog, scaleOrdinal } from &quot;d3-scale&quot;;
+import { schemeCategory10 } from &quot;d3-scale-chromatic&quot;;
+import { select } from &#x27;d3-selection&#x27;;
+import { axisBottom, axisLeft } from &#x27;d3-axis&#x27;;
+import { extent } from &#x27;d3-array&#x27;;
+import { parseISO } from &quot;date-fns&quot;;
+import { TooltipManager } from &quot;@sinequa/analytics/tooltip&quot;;
 
 export interface MoneyDatum {
     value: number;
@@ -385,24 +391,20 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     c: d3.ScaleOrdinal&lt;string, string&gt;;
 
     // Elements
-    @ViewChild(&quot;overlay&quot;) overlay: ElementRef;
-    @ViewChild(&quot;xAxis&quot;) gx: ElementRef;
-    @ViewChild(&quot;yAxis&quot;) gy: ElementRef;
+    @ViewChild(&quot;overlay&quot;) overlay: ElementRef&lt;SVGRectElement&gt;;
+    @ViewChild(&quot;xAxis&quot;) gx: ElementRef&lt;SVGGElement&gt;;
+    @ViewChild(&quot;yAxis&quot;) gy: ElementRef&lt;SVGGElement&gt;;
 
     // Selections
     xAxis$: d3.Selection&lt;SVGGElement, Date, null, undefined&gt;;
     yAxis$: d3.Selection&lt;SVGGElement, number, null, undefined&gt;;
-    
+
     // Tooltips
     tooltipX: number | undefined;
-    tooltipItem: MoneyDatum | undefined;
-    tooltipOrientation: &quot;left&quot; | &quot;right&quot;;
-    tooltipTop: number;
-    tooltipRight: number;
-    tooltipLeft: number;
+    tooltipManager &#x3D; new TooltipManager&lt;MoneyDatum&gt;();
 
     viewInit: boolean;
-    
+
     clearFilters: Action;
 
     constructor(
@@ -444,22 +446,22 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     ngOnChanges(changes: SimpleChanges) {
 
         if(!this.x) {
-            
+
             // Scales
-            this.x &#x3D; d3.scaleUtc()
+            this.x &#x3D; scaleUtc()
                 .range([0, this.innerWidth]);
 
-            this.y &#x3D; d3.scaleLog()
+            this.y &#x3D; scaleLog()
                 .range([this.innerHeight, 0]);
 
-            this.r &#x3D; d3.scaleLog()
+            this.r &#x3D; scaleLog()
                 .range([4, 10]);
 
-            this.c &#x3D; d3.scaleOrdinal&lt;string&gt;()
-                .range(d3.schemeCategory10);
-                
+            this.c &#x3D; scaleOrdinal&lt;string&gt;()
+                .range(schemeCategory10);
+
         }
-        
+
         // Resize handling
 
         if(changes[&quot;height&quot;]) {
@@ -482,19 +484,19 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     }
 
     ngAfterViewInit() {
-        
-        // Get native elements
-        this.xAxis$ &#x3D; d3.select(this.gx.nativeElement);
-        this.yAxis$ &#x3D; d3.select(this.gy.nativeElement);
 
-        d3.select(this.overlay.nativeElement)        
-            .on(&quot;mousemove&quot;, () &#x3D;&gt; this.onMousemove())
+        // Get native elements
+        this.xAxis$ &#x3D; select(this.gx.nativeElement);
+        this.yAxis$ &#x3D; select(this.gy.nativeElement);
+
+        select(this.overlay.nativeElement)
+            .on(&quot;mousemove&quot;, e &#x3D;&gt; this.onMousemove(e))
             .on(&quot;mouseout&quot;, () &#x3D;&gt; this.onMouseout());
-        
+
         this.viewInit &#x3D; true;
 
         this.updateChart();
-        
+
         // This is necessary to prevent &quot;Expression has changed after check&quot; errors
         // caused by calling updateChart inside ngAfterViewInit().
         // Unfortunately this is necessary because we need the DOM to be rendered in order fill the DOM
@@ -510,7 +512,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         this.turnoffTooltip();
 
         if(this.results) {
-            
+
             this.updateData();
 
             // Update scales
@@ -526,7 +528,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Computes the data displayed in the chart in function of the raw data provided as input
      */
     updateData() {
-        
+
         // Extract number of occurrences from the aggregation
         const counts &#x3D; new Map&lt;string,number&gt;();
         this.results.aggregations
@@ -559,7 +561,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         return {
             value: parseFloat(val[1]),
             currency: val[0],
-            date: new Date(record.modified),
+            date: parseISO(record.modified),
             count,
             rawvalue,
             record
@@ -572,9 +574,9 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     updateScales() {
 
         if(this.data.length) {
-            const xExtent &#x3D; d3.extent&lt;MoneyDatum, Date&gt;(this.data, d &#x3D;&gt; d.date);
-            const yExtent &#x3D; d3.extent&lt;MoneyDatum, number&gt;(this.data, d &#x3D;&gt; d.value);
-            const rExtent &#x3D; d3.extent&lt;MoneyDatum, number&gt;(this.data, d &#x3D;&gt; d.count);
+            const xExtent &#x3D; extent&lt;MoneyDatum, Date&gt;(this.data, d &#x3D;&gt; d.date);
+            const yExtent &#x3D; extent&lt;MoneyDatum, number&gt;(this.data, d &#x3D;&gt; d.value);
+            const rExtent &#x3D; extent&lt;MoneyDatum, number&gt;(this.data, d &#x3D;&gt; d.count);
 
             if(!xExtent[0] || !xExtent[1] || !yExtent[0] || !yExtent[1] || !rExtent[0] || !rExtent[1]) {
                 return;
@@ -587,7 +589,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         }
 
     }
-    
+
     /**
      * Update the x and y axes
      */
@@ -600,7 +602,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Draws the X axis
      */
      protected drawXAxis() {
-        const xAxis &#x3D; d3.axisBottom(this.x)
+        const xAxis &#x3D; axisBottom(this.x)
             .ticks(5);
         this.xAxis$.call(xAxis);
         //this.xAxis$.selectAll(&quot;.domain&quot;).remove(); // Remove the axis line
@@ -613,22 +615,31 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         const yAxisTicks &#x3D; this.y.ticks(5)
             .filter(tick &#x3D;&gt; Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
 
-        const yAxis &#x3D; d3.axisLeft&lt;number&gt;(this.y)
+        const yAxis &#x3D; axisLeft&lt;number&gt;(this.y)
             .tickValues(yAxisTicks)
             .tickFormat(this.formatService.moneyFormatter); //https://github.com/d3/d3-format
         this.yAxis$.call(yAxis);
         //this.yAxis$.selectAll(&quot;.domain&quot;).remove(); // Remove the axis line
     }
 
-    
+
     /**
      * Redraw the simple tooltip (vertical line)
      */
-    onMousemove() {
-        if(!this.tooltipItem &amp;&amp; this.showTooltip) {
-            this.tooltipX &#x3D; d3.mouse(this.overlay.nativeElement)[0];
+    onMousemove(event) {
+        if(!this.tooltipManager.isShown &amp;&amp; this.showTooltip) {
+            this.tooltipX &#x3D; this.point(this.overlay.nativeElement, event)[0];
         }
-        this.tooltipItem &#x3D; undefined;
+        this.tooltipManager.delayedHide();
+    }
+
+    /**
+     * Equivalent of former d3.mouse()
+     */
+    private point(node: SVGRectElement, event: MouseEvent) {
+        var point &#x3D; new DOMPoint(event.clientX, event.clientY);
+        point &#x3D; point.matrixTransform(node.getScreenCTM()?.inverse());
+        return [point.x, point.y];
     }
 
     /**
@@ -641,7 +652,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
     /**
      * Filter the search results with the clicked amount of money
-     * @param datum 
+     * @param datum
      */
     filterDatum(datum: MoneyDatum) {
         const expr &#x3D; this.exprBuilder.makeExpr(this.moneyColumn, datum.rawvalue, &#x60;${datum.currency} ${this.formatService.moneyFormatter(datum.value)}&#x60;)
@@ -653,14 +664,12 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Remove the simple tooltip (vertical line)
      */
     onMouseout() {
-        if(!this.tooltipItem) {
-            this.tooltipX &#x3D; undefined;
-        }
+        this.tooltipX &#x3D; undefined;
     }
 
     /**
      * Compute the tooltip position when an amount of money is hovered
-     * @param datum 
+     * @param datum
      */
     onMouseEnterDatum(datum: MoneyDatum) {
 
@@ -670,39 +679,36 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
         if(!this.showTooltip || Utils.isUndefined(x) || Utils.isUndefined(r) || Utils.isUndefined(y)) return;
 
-        this.tooltipItem &#x3D; datum;
-
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
         // convert from the SVG coordinate system to the HTML coordinate system
         const actualWidth &#x3D; (this.el.nativeElement as HTMLElement).offsetWidth;
         const scale &#x3D; actualWidth / this.width;
         const relativeX &#x3D; x / this.width;
 
+        const top &#x3D; scale * (this.margin.top + y); // Align tooltip arrow
+
         // Tooltip to the right
         if(relativeX &lt; 0.5) {
-            this.tooltipOrientation &#x3D; &quot;right&quot;;
-            this.tooltipLeft &#x3D; scale * (this.margin.left + x + r);
+            this.tooltipManager.show(datum, &quot;right&quot;, top, scale * (this.margin.left + x + r));
         }
         // Tooltip to the left
         else {
-            this.tooltipOrientation &#x3D; &quot;left&quot;;
-            this.tooltipRight &#x3D; actualWidth - scale * (this.margin.left + x - r);
+            this.tooltipManager.show(datum, &quot;left&quot;, top, actualWidth - scale * (this.margin.left + x - r));
         }
-        this.tooltipTop &#x3D; scale * (this.margin.top + y); // Align tooltip arrow
     }
-    
+
     /**
      * Turns off the tooltip
      */
-    turnoffTooltip &#x3D; () &#x3D;&gt; {
-        if(this.tooltipItem) {
-            this.tooltipItem &#x3D; undefined;
-            this.tooltipX &#x3D; undefined;
-        }
+    turnoffTooltip() {
+        this.tooltipManager.hide();
+        this.tooltipX &#x3D; undefined;
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
+
 
 
 

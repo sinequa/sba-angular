@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -2685,7 +2686,9 @@ export class ExprParser {
                         continue;
                     }
                 }
-                return &quot;bad operator: &quot; + ch;
+                sbCurrentValue.push(ch);
+                this.current++;
+                continue;
             }
             else if (&quot;\&quot;[{/&#x60;&quot;.includes(ch)) { // &quot; [ { / &#x60;
                 const last: IRef&lt;number&gt; &#x3D; {value: 0};
@@ -3087,6 +3090,7 @@ export class ExprParser {
 </code></pre>
     </div>
 </div>
+
 
 
 

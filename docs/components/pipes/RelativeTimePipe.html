@@ -40,6 +40,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Pipes</li>
   <li >RelativeTimePipe</li>
@@ -99,15 +100,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateValue(key: string | number | Date | undefined, params)</code>
+                    <code>updateValue(key: string | number | Date | undefined, params: <a href="../undefineds/RelativeTimeParams.html" target="_self">RelativeTimeParams</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">utils/pipes/relative-time-pipe.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="9"
+                            class="link-to-prism">utils/pipes/relative-time-pipe.ts:9</a></div>
                 </td>
             </tr>
 
@@ -142,6 +143,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
+                                                <code><a href="../miscellaneous/typealiases.html#RelativeTimeParams" target="_self" >RelativeTimeParams</a></code>
                                     </td>
 
                                     <td>
@@ -172,18 +174,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe, ChangeDetectorRef} from &quot;@angular/core&quot;;
-import {AbstractIntlPipe, IntlService} from &quot;@sinequa/core/intl&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe} from &quot;@angular/core&quot;;
+import {AbstractIntlPipe} from &quot;@sinequa/core/intl&quot;;
+
+type RelativeTimeParams &#x3D; { unit: Intl.RelativeTimeFormatUnit } &amp; Intl.RelativeTimeFormatOptions &amp; { format?: string };
 
 @Pipe({name: &quot;sqRelativeTime&quot;, pure: false})
-export class RelativeTimePipe extends AbstractIntlPipe {
-    constructor(
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
-    }
+export class RelativeTimePipe extends AbstractIntlPipe&lt;(string | number | Date | undefined), RelativeTimeParams&gt; {
 
-    override updateValue(key: string |number | Date | undefined, params: {unit: Intl.RelativeTimeUnit} &amp; Intl.RelativeTimeFormatOptions &amp; { format?: string }): void {
+    override updateValue(key: string | number | Date | undefined, params: RelativeTimeParams): void {
         super.updateValue(key, params);
         this.value &#x3D; this.intlService.formatRelativeTime(key, params ? params.unit : undefined, params);
     }
@@ -191,6 +190,7 @@ export class RelativeTimePipe extends AbstractIntlPipe {
     </div>
 
 </div>
+
 
 
 

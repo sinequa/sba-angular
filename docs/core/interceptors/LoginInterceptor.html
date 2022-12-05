@@ -38,6 +38,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interceptors</li>
   <li >LoginInterceptor</li>
@@ -113,7 +114,7 @@ the Sinequa administration console.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">login/login.interceptor.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">login/login.interceptor.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -224,8 +225,8 @@ the Sinequa administration console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">login/login.interceptor.ts:128</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">login/login.interceptor.ts:127</a></div>
                 </td>
             </tr>
 
@@ -312,10 +313,9 @@ sent:</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken, Optional} from &quot;@angular/core&quot;;
 import {
     HttpInterceptor, HttpRequest, HttpHandler,
-    HttpEvent, HttpErrorResponse, HttpParams, HttpResponse
+    HttpEvent, HttpErrorResponse, HttpParams, HttpResponse, HttpHeaders
 } from &quot;@angular/common/http&quot;;
-import {from, Observable, throwError} from &quot;rxjs&quot;;
-import {catchError, map, switchMap} from &quot;rxjs/operators&quot;;
+import {from, Observable, throwError, catchError, map, switchMap} from &quot;rxjs&quot;;
 import {Utils, SqError, SqErrorCode} from &quot;@sinequa/core/base&quot;;
 import {START_CONFIG, StartConfig} from &quot;@sinequa/core/web-services&quot;;
 import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
@@ -339,14 +339,14 @@ type Options &#x3D; {noAutoAuthentication: boolean, noUserOverride: boolean, had
 export class LoginInterceptor implements HttpInterceptor {
 
     constructor(
-        @Inject(START_CONFIG) private startConfig: StartConfig,
-        @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) private requestInitializers: HttpRequestInitializer[],
-        private notificationsService: NotificationsService,
-        private loginService: LoginService,
-        private authService: AuthenticationService
+        @Inject(START_CONFIG) protected startConfig: StartConfig,
+        @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) protected requestInitializers: HttpRequestInitializer[],
+        protected notificationsService: NotificationsService,
+        protected loginService: LoginService,
+        protected authService: AuthenticationService
     ) {}
 
-    private processRequestInitializers(request: HttpRequest&lt;any&gt;) {
+    protected processRequestInitializers(request: HttpRequest&lt;any&gt;) {
         if (this.requestInitializers) {
             for (const requestInitializer of this.requestInitializers) {
                 if (!requestInitializer(request)) {
@@ -356,16 +356,16 @@ export class LoginInterceptor implements HttpInterceptor {
         }
     }
 
-    private isJsonable(obj): boolean {
+    protected isJsonable(obj): boolean {
         return (Utils.isObject(obj) || Utils.isArray(obj)) &amp;&amp; !Utils.isArrayBuffer(obj) &amp;&amp; !Utils.isBlob(obj) &amp;&amp;
             !Utils.isString(obj) &amp;&amp; !(obj instanceof HttpParams);
     }
 
-    private shouldIntercept(url: string): boolean {
+    protected shouldIntercept(url: string): boolean {
         return Utils.startsWith(url, this.startConfig.apiPath!);
     }
 
-    private notifyError(error: any) {
+    protected notifyError(error: any) {
         let message;
         const title &#x3D; &quot;msg#error.serverError&quot;;
         if (error instanceof HttpErrorResponse) {
@@ -412,7 +412,7 @@ export class LoginInterceptor implements HttpInterceptor {
         this.notificationsService.error(message, undefined, title);
     }
 
-    private getCredentials(response: HttpErrorResponse, acceptCurrent: boolean): Promise&lt;void&gt; {
+    protected getCredentials(response: HttpErrorResponse, acceptCurrent: boolean): Promise&lt;void&gt; {
         return this.loginService.getCredentials(response, acceptCurrent)
             .catch((error) &#x3D;&gt; {
                 if (SqError.is(error, SqErrorCode.processedCredentialsError)) {
@@ -456,8 +456,6 @@ export class LoginInterceptor implements HttpInterceptor {
         config.params &#x3D; config.params.delete(&quot;noUserOverride&quot;);
         config.params &#x3D; config.params.delete(&quot;noNotify&quot;);
 
-        config &#x3D; this.authService.addAuthentication(config);
-
         if (this.authService.userOverrideActive &amp;&amp; !options.noUserOverride) {
             options.userOverrideActive &#x3D; true;
             config.headers &#x3D; this.authService.addUserOverride(config);
@@ -470,7 +468,14 @@ export class LoginInterceptor implements HttpInterceptor {
         }
 
         this.notificationsService.enter(&quot;network&quot;);
-        
+
+        return from(this.authService.addAuthentication(config)).pipe(
+            switchMap(config &#x3D;&gt; this.handleRequest(request, config, next, options, noNotify))
+        );
+
+    }
+
+    protected handleRequest(request: HttpRequest&lt;any&gt;, config: {headers: HttpHeaders, params: HttpParams}, next: HttpHandler, options: Options, noNotify: boolean) {
         const _request &#x3D; request.clone({
             headers: config.headers,
             params: config.params,
@@ -489,7 +494,7 @@ export class LoginInterceptor implements HttpInterceptor {
                 if (!noNotify) {
                     this.notifyError(error);
                 }
-                return throwError(error);
+                return throwError(() &#x3D;&gt; error);
             }),
             map((event) &#x3D;&gt; {
                 if (event instanceof HttpResponse) {
@@ -501,7 +506,7 @@ export class LoginInterceptor implements HttpInterceptor {
         );
     }
 
-    private handle401Error(err: HttpErrorResponse, req: HttpRequest&lt;any&gt;, next: HttpHandler, options: Options, caught: Observable&lt;HttpEvent&lt;any&gt;&gt;): Observable&lt;HttpEvent&lt;any&gt;&gt; {
+    protected handle401Error(err: HttpErrorResponse, req: HttpRequest&lt;any&gt;, next: HttpHandler, options: Options, caught: Observable&lt;HttpEvent&lt;any&gt;&gt;): Observable&lt;HttpEvent&lt;any&gt;&gt; {
         if (!options.noAutoAuthentication) {
           if (options.userOverrideActive) {
             if (this.authService.userOverrideActive) {
@@ -509,24 +514,23 @@ export class LoginInterceptor implements HttpInterceptor {
               this.authService.userOverrideFailed &#x3D; true;
               this.notificationsService.error(&quot;msg#error.userOverrideFailure&quot;);
             }
-            return throwError(err);
+            return throwError(() &#x3D;&gt; err);
           }
 
           return from(this.getCredentials(err, !options.hadCredentials)).pipe(
-            switchMap(_ &#x3D;&gt; {
-              const { headers } &#x3D; this.authService.addAuthentication(req);
-              return next.handle(req.clone({ headers }));
-            }),
-            catchError((error) &#x3D;&gt; throwError(error))
+            switchMap(() &#x3D;&gt; this.authService.addAuthentication(req)),
+            switchMap(config &#x3D;&gt; next.handle(req.clone({ headers: config.headers }))),
+            catchError((error) &#x3D;&gt; throwError(() &#x3D;&gt; error))
           );
         }
 
-        return throwError(err);
+        return throwError(() &#x3D;&gt; err);
     }
 }
 </code></pre>
     </div>
 </div>
+
 
 
 

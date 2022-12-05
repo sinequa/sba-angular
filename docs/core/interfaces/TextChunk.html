@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -279,8 +280,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable } from &quot;@angular/core&quot;;
-import { Observable } from &quot;rxjs&quot;;
-import { pluck } from &quot;rxjs/operators&quot;;
+import { Observable, map } from &quot;rxjs&quot;;
 import { SqHttpClient } from &quot;./http-client&quot;;
 import { HttpService } from &quot;./http.service&quot;;
 import { IQuery } from &quot;./query/query&quot;;
@@ -313,7 +313,7 @@ export class TextChunksWebService extends HttpService {
         private httpClient: SqHttpClient) {
         super(startConfig);
     }
-    
+
     /**
      * Returns text chunks from a given document and at given locations with
      * optional highlights for entities and relevant extracts
@@ -327,7 +327,7 @@ export class TextChunksWebService extends HttpService {
      */
     getTextChunks(id: string, textChunks: TextLocation[], highlights?: string[], query?: IQuery, leftSentencesCount?: number, rightSentencesCount?: number): Observable&lt;TextChunk[]&gt; {
         return this.httpClient.post&lt;{chunks: TextChunk[]}&gt;(
-            this.makeUrl(TextChunksWebService.endpoint), 
+            this.makeUrl(TextChunksWebService.endpoint),
             {
                 app: this.appName,
                 id,
@@ -336,11 +336,13 @@ export class TextChunksWebService extends HttpService {
                 query,
                 leftSentencesCount,
                 rightSentencesCount
-            }).pipe(pluck(&quot;chunks&quot;));
+            }).pipe(map(c &#x3D;&gt; c.chunks));
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
+
 
 
 

@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -143,13 +144,13 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
 import {FacetService} from &quot;../../facet.service&quot;;
 import {Action} from &quot;@sinequa/components/action&quot;;
 import {AbstractFacet} from &quot;../../abstract-facet&quot;;
-import {BehaviorSubject, Observable, of, Subscription} from &#x27;rxjs&#x27;;
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from &#x27;rxjs/operators&#x27;;
-import {FormControl, FormGroup} from &#x27;@angular/forms&#x27;;
+import {BehaviorSubject, Observable, of, Subscription, catchError, debounceTime, distinctUntilChanged, map, switchMap} from &#x27;rxjs&#x27;;
+import {UntypedFormControl, UntypedFormGroup} from &#x27;@angular/forms&#x27;;
 import { FacetConfig } from &quot;../../facet-config&quot;;
 
 export interface FacetListParams {
     aggregation: string;
+    showCheckbox?: boolean;
     showCount?: boolean;
     searchable?: boolean;
     allowExclude?: boolean;
@@ -160,6 +161,7 @@ export interface FacetListParams {
     displayActions?: boolean;
     showProgressBar?: boolean;
     replaceCurrent?: boolean;
+    alwaysShowSearch?: boolean;
 }
 
 export interface FacetListConfig extends FacetConfig&lt;FacetListParams&gt; {
@@ -176,6 +178,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
+    @Input() showCheckbox: boolean &#x3D; true;
     @Input() showCount: boolean &#x3D; true; // Show the number of occurrences
     @Input() searchable: boolean &#x3D; true; // Allow to search for items in the facet
     @Input() allowExclude: boolean &#x3D; true; // Allow to exclude selected items
@@ -186,6 +189,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     @Input() showProgressBar &#x3D; false; // Allow to display item count as progress bar
     @Input() acceptNonAggregationItemFilter &#x3D; true; // when false, filtered items which don&#x27;t match an existing aggregation item, should not be added to filtered list
     @Input() replaceCurrent &#x3D; false; // if true, the previous &quot;select&quot; is removed first
+    @Input() alwaysShowSearch &#x3D; false;
 
     // Aggregation from the Results object
     data$ &#x3D; new BehaviorSubject&lt;Aggregation | undefined&gt;(undefined)
@@ -196,8 +200,8 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     filtering: boolean &#x3D; false;
 
     // Search
-    myGroup: FormGroup;
-    searchQuery: FormControl; // ngModel for textarea
+    myGroup: UntypedFormGroup;
+    searchQuery: UntypedFormControl; // ngModel for textarea
     suggestDelay &#x3D; 200;
     noResults &#x3D; false;
     searchActive &#x3D; false;
@@ -236,13 +240,19 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         private changeDetectorRef: ChangeDetectorRef) {
         super();
 
-        this.myGroup &#x3D; new FormGroup({
-            searchQuery: new FormControl()
+        this.myGroup &#x3D; new UntypedFormGroup({
+            searchQuery: new UntypedFormControl()
         });
 
-        this.searchQuery &#x3D; this.myGroup.get(&quot;searchQuery&quot;) as FormControl;
+        this.searchQuery &#x3D; this.myGroup.get(&quot;searchQuery&quot;) as UntypedFormControl;
         this.subscriptions[&quot;suggest&quot;] &#x3D; this.suggest$(this.searchQuery.valueChanges)
             .subscribe(values &#x3D;&gt; {
+                // Update the &quot;selected&quot; status of new suggestion items
+                for(const i of values) {
+                  if(this.isSelected(i)) {
+                    i.$selected &#x3D; true;
+                  }
+                }
                 this.suggestions$.next(values);
                 // Refresh hiddenSelected list when the list of items is updated
                 this.refreshHiddenSelected();
@@ -343,7 +353,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             this.selected.length &#x3D; 0;
             this.hiddenSelected.length &#x3D; 0;
             this.skip &#x3D; 0;
-            this.searchItems.selected &#x3D; false;
+            this.searchItems.selected &#x3D; !!this.alwaysShowSearch;
             this.clearSearch();
             this.data$.next(agg);
         }
@@ -392,7 +402,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             actions.push(this.clearFilters);
         }
 
-        if(this.searchable){
+        if(this.searchable &amp;&amp; !this.alwaysShowSearch){
             actions.push(this.searchItems);
         }
 
@@ -511,8 +521,10 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             const index &#x3D; this.facetService.findAggregationItemIndex(this.selected, item);
             if (index &#x3D;&#x3D;&#x3D; -1) {
                 this.selected.push(item);
+                item.$selected &#x3D; true;
             } else {
                 this.selected.splice(index, 1);
+                delete item.$selected;
             }
             this.refreshHiddenSelected();
         }
@@ -621,6 +633,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
 </code></pre>
     </div>
 </div>
+
 
 
 

@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -156,9 +157,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe, ChangeDetectorRef} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe} from &quot;@angular/core&quot;;
 import {AbstractIntlPipe} from &quot;./abstract-intl.pipe&quot;;
-import {IntlService} from &quot;./intl.service&quot;;
 import {Utils, MapOf} from &quot;@sinequa/core/base&quot;;
 
 /**
@@ -176,14 +176,9 @@ export interface MessageParams {
  * [IntlService.formatMessage]{@link IntlService#formatMessage}
  */
 @Pipe({name: &quot;sqMessage&quot;, pure: false})
-export class MessagePipe extends AbstractIntlPipe {
-    constructor(
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
-    }
+export class MessagePipe extends AbstractIntlPipe&lt;any, Record&lt;string, any&gt;&gt; {
 
-    protected override updateValue(value: any, params: MessageParams): void {
+    protected override updateValue(value: any, params: Record&lt;string, any&gt;): void {
         if (!Utils.isEmpty(value)) {
             // coerce to string (eg sys date strings get converted to dates so if this happens to a title we will break otherwise)
             value &#x3D; value + &quot;&quot;;
@@ -203,6 +198,7 @@ export class MessagePipe extends AbstractIntlPipe {
 </code></pre>
     </div>
 </div>
+
 
 
 

@@ -72,6 +72,7 @@
     </p>
     <p class="comment">
                     <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
     </p>
 
 
@@ -103,11 +104,12 @@
 
             <tr>
                 <td class="col-md-3">template</td>
-                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;ol class&#x3D;&quot;list-group list-group-flush list-group-numbered&quot; *ngIf&#x3D;&quot;record.matchingpassages?.passages?.length&quot;&gt;
-  &lt;li class&#x3D;&quot;list-group-item list-group-item-action sq-passage&quot; [ngClass]&#x3D;&quot;{expanded: passage.$expanded}&quot;
-      *ngFor&#x3D;&quot;let passage of record.matchingpassages?.passages|slice:0:maxPassages&quot;
+                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;ol class&#x3D;&quot;list-group list-group-flush&quot; *ngIf&#x3D;&quot;record.matchingpassages?.passages?.length&quot;&gt;
+  &lt;li class&#x3D;&quot;list-group-item list-group-item-action sq-passage&quot; #list [id]&#x3D;&quot;&#x27;li-&#x27;+index&quot; [ngClass]&#x3D;&quot;{expanded: passage.$expanded}&quot;
+      *ngFor&#x3D;&quot;let passage of record.matchingpassages?.passages|slice:0:maxPassages; let index &#x3D; index&quot;
       (click)&#x3D;&quot;expand(passage)&quot;&gt;
-      &lt;span class&#x3D;&quot;sq-passage-text&quot; [innerHtml]&#x3D;&quot;passage.highlightedText || passage.text&quot;&gt;&lt;/span&gt;
+      &lt;div class&#x3D;&quot;sq-passage-icon&quot;&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;sq-passage-text&quot; [innerHtml]&#x3D;&quot;passage.highlightedText || passage.text&quot;&gt;&lt;/div&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 </code></pre></td>
@@ -129,6 +131,20 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#viewChildren" >viewChildren</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -140,6 +156,9 @@
                         <ul class="index-list">
                             <li>
                                 <a href="#expand" >expand</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
                             </li>
                             <li>
                                 <a href="#ngOnChanges" >ngOnChanges</a>
@@ -158,6 +177,9 @@
                         <ul class="index-list">
                             <li>
                                 <a href="#maxPassages" >maxPassages</a>
+                            </li>
+                            <li>
+                                <a href="#passageId" >passageId</a>
                             </li>
                             <li>
                                 <a href="#record" >record</a>
@@ -192,7 +214,28 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">machine-learning/passage-list.component.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">machine-learning/passage-list.component.ts:21</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="passageId"></a>
+                        <b>passageId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">machine-learning/passage-list.component.ts:22</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -213,7 +256,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">machine-learning/passage-list.component.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">machine-learning/passage-list.component.ts:20</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -247,8 +290,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">machine-learning/passage-list.component.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">machine-learning/passage-list.component.ts:38</a></div>
                 </td>
             </tr>
 
@@ -300,6 +343,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">machine-learning/passage-list.component.ts:33</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="ngOnChanges"></a>
                     <span class="name">
                         <span ><b>ngOnChanges</b></span>
@@ -316,8 +396,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">machine-learning/passage-list.component.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">machine-learning/passage-list.component.ts:26</a></div>
                 </td>
             </tr>
 
@@ -366,41 +446,101 @@
         </tbody>
     </table>
 </section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="viewChildren"></a>
+                    <span class="name">
+                        <span ><b>viewChildren</b></span>
+                        <a href="#viewChildren"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>QueryList&lt;ElementRef&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChildren(&#x27;list&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">machine-learning/passage-list.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
 
 </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, SimpleChanges } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AfterViewInit, Component, ElementRef, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from &quot;@angular/core&quot;;
 import { MatchingPassage, Record } from &quot;@sinequa/core/web-services&quot;;
 
 @Component({
   selector: &#x27;sq-passage-list&#x27;,
   template: &#x60;
-&lt;ol class&#x3D;&quot;list-group list-group-flush list-group-numbered&quot; *ngIf&#x3D;&quot;record.matchingpassages?.passages?.length&quot;&gt;
-  &lt;li class&#x3D;&quot;list-group-item list-group-item-action sq-passage&quot; [ngClass]&#x3D;&quot;{expanded: passage.$expanded}&quot;
-      *ngFor&#x3D;&quot;let passage of record.matchingpassages?.passages|slice:0:maxPassages&quot;
+&lt;ol class&#x3D;&quot;list-group list-group-flush&quot; *ngIf&#x3D;&quot;record.matchingpassages?.passages?.length&quot;&gt;
+  &lt;li class&#x3D;&quot;list-group-item list-group-item-action sq-passage&quot; #list [id]&#x3D;&quot;&#x27;li-&#x27;+index&quot; [ngClass]&#x3D;&quot;{expanded: passage.$expanded}&quot;
+      *ngFor&#x3D;&quot;let passage of record.matchingpassages?.passages|slice:0:maxPassages; let index &#x3D; index&quot;
       (click)&#x3D;&quot;expand(passage)&quot;&gt;
-      &lt;span class&#x3D;&quot;sq-passage-text&quot; [innerHtml]&#x3D;&quot;passage.highlightedText || passage.text&quot;&gt;&lt;/span&gt;
+      &lt;div class&#x3D;&quot;sq-passage-icon&quot;&gt;&lt;/div&gt;
+      &lt;div class&#x3D;&quot;sq-passage-text&quot; [innerHtml]&#x3D;&quot;passage.highlightedText || passage.text&quot;&gt;&lt;/div&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
   &#x60;,
   styleUrls: [&#x27;passage-list.component.scss&#x27;]
 })
-export class PassageListComponent implements OnChanges {
+export class PassageListComponent implements OnChanges, AfterViewInit {
+
   @Input() record: Record;
   @Input() maxPassages?: number;
+  @Input() passageId?: string;
+
+  @ViewChildren(&quot;list&quot;, ) viewChildren!: QueryList&lt;ElementRef&gt;;
 
   ngOnChanges(changes: SimpleChanges): void {
     const passages &#x3D; this.record.matchingpassages?.passages;
     // invalidate all $expanded property except for the first passage
-    passages?.forEach((p,index) &#x3D;&gt; p.$expanded &#x3D; index &#x3D;&#x3D;&#x3D; 0);
+    passages?.forEach((p, index) &#x3D;&gt; p.$expanded &#x3D; this.passageId
+      ? p.id &#x3D;&#x3D;&#x3D; Number(this.passageId) : index &#x3D;&#x3D;&#x3D; 0);
+  }
+
+  ngAfterViewInit(): void {
+    this.setMaximumHeight();
+    this.viewChildren.changes.subscribe(r &#x3D;&gt; this.setMaximumHeight());
   }
 
   expand(passage: MatchingPassage) {
     const state &#x3D; !passage.$expanded;
     this.record.matchingpassages?.passages.forEach(p &#x3D;&gt; p.$expanded &#x3D; false);
     passage.$expanded &#x3D; state;
+  }
+
+  /**
+   * For each element in the viewChildren array, set the maximum height of the
+   * element to the element&#x27;s scrollHeight in &#x27;px&#x27;
+   */
+  private setMaximumHeight() {
+    this.viewChildren.forEach(el &#x3D;&gt; el.nativeElement.style.setProperty(&#x27;--maximum&#x27;, el.nativeElement.scrollHeight + &#x27;px&#x27;));
   }
 }
 </code></pre>
@@ -411,27 +551,44 @@ export class PassageListComponent implements OnChanges {
                 <p class="comment">
                     <code>passage-list.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">.list-group-item {
+                <pre class="line-numbers"><code class="language-scss">.sq-passage div {
+  display: table-cell;
+}
+
+.list-group {
+  padding: .8rem 1.5rem;
+}
+
+.list-group-item {
   cursor: pointer;
 
-  max-height: 2.7rem;
+  max-height: 6.2rem;
   line-height: 1.8rem;
   font-weight: 300;
   transition: max-height .3s ease-in;
   overflow: hidden;
   margin-bottom: 0;
   white-space: break-spaces;
+  padding: .4rem 0;
+
+  .sq-passage-icon {
+    width: 1.25rem;
+
+    &amp;::before {
+      font-size: medium;
+      font-weight: bold;
+      content: &quot;+ &quot;;
+    }
+  }
 
   &amp;.expanded {
-    max-height: 30rem;
-  }
-}
+    max-height: var(--maximum);
 
-.list-group-item::before {
-  font-size: medium;
-  font-weight: bold;
-}
-</code></pre>
+    .sq-passage-icon::before {
+      content: &quot;- &quot;;
+    }
+  }
+}</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -459,12 +616,14 @@ export class PassageListComponent implements OnChanges {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ol class="list-group list-group-flush list-group-numbered" *ngIf="record.matchingpassages?.passages?.length">  <li class="list-group-item list-group-item-action sq-passage" [ngClass]="{expanded: passage.$expanded}"      *ngFor="let passage of record.matchingpassages?.passages|slice:0:maxPassages"      (click)="expand(passage)">      <span class="sq-passage-text" [innerHtml]="passage.highlightedText || passage.text"></span>  </li></ol></div>'
-    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'AnswerCardComponent', 'selector': 'sq-answer-card'},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertMessageComponent', 'selector': 'sq-alert-message'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTagCloud', 'selector': 'sq-facet-tag-cloud'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewMinimapComponent', 'selector': 'sq-preview-minimap'},{'name': 'BsPreviewPageFormComponent', 'selector': 'sq-preview-page-form'},{'name': 'BsPreviewPagesPanelComponent', 'selector': 'sq-preview-pages-panel'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsThemeToggleComponent', 'selector': 'sq-theme-toggle'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'CommentsComponent', 'selector': 'sq-comments'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PassageListComponent', 'selector': 'sq-passage-list'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SlideBuilderComponent', 'selector': 'sq-slide-builder'},{'name': 'SlideListComponent', 'selector': 'sq-slide-list'},{'name': 'SlideTileComponent', 'selector': 'sq-slide-tile'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'TopPassagesComponent', 'selector': 'sq-top-passages'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
-    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'AutocompleteFieldSearch', 'selector': '[sqAutocompleteFieldSearch]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sqAdvancedFormAutocomplete]'},{'name': 'BsAdvancedFormAutocompleteMultiInput', 'selector': '[sqAdvancedFormAutocompleteMultiInput]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sqAdvancedFormValidation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'},{'name': 'TooltipDirective', 'selector': '[sqTooltip]'}];
+        var COMPONENT_TEMPLATE = '<div><ol class="list-group list-group-flush" *ngIf="record.matchingpassages?.passages?.length">  <li class="list-group-item list-group-item-action sq-passage" #list [id]="\'li-\'+index" [ngClass]="{expanded: passage.$expanded}"      *ngFor="let passage of record.matchingpassages?.passages|slice:0:maxPassages; let index = index"      (click)="expand(passage)">      <div class="sq-passage-icon"></div>      <div class="sq-passage-text" [innerHtml]="passage.highlightedText || passage.text"></div>  </li></ol></div>'
+    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'AnswerCardComponent', 'selector': 'sq-answer-card'},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertMessageComponent', 'selector': 'sq-alert-message'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTagCloud', 'selector': 'sq-facet-tag-cloud'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewMinimapComponent', 'selector': 'sq-preview-minimap'},{'name': 'BsPreviewPageFormComponent', 'selector': 'sq-preview-page-form'},{'name': 'BsPreviewPagesPanelComponent', 'selector': 'sq-preview-pages-panel'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScopeComponent', 'selector': 'sq-scope'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsThemeToggleComponent', 'selector': 'sq-theme-toggle'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'CommentsComponent', 'selector': 'sq-comments'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PassageListComponent', 'selector': 'sq-passage-list'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SlideBuilderComponent', 'selector': 'sq-slide-builder'},{'name': 'SlideListComponent', 'selector': 'sq-slide-list'},{'name': 'SlideTileComponent', 'selector': 'sq-slide-tile'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'TopPassagesComponent', 'selector': 'sq-top-passages'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'AutocompleteFieldSearch', 'selector': '[sqAutocompleteFieldSearch]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sqAdvancedFormAutocomplete]'},{'name': 'BsAdvancedFormAutocompleteMultiInput', 'selector': '[sqAdvancedFormAutocompleteMultiInput]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sqAdvancedFormValidation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'FacetViewDirective', 'selector': 'ng-template [sqFacetView]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'},{'name': 'TooltipDirective', 'selector': '[sqTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'PassageListComponent'};
 </script>
 <script src="../js/tree.js"></script>
+
+
 
 
 

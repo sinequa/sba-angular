@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -407,7 +408,7 @@ export class RecentQueriesService implements OnDestroy {
     private patchRecentQueries(auditEvents?: AuditEvents) {
         // Do not forget to revert back the date conversion done when fetched
         const recentQueries &#x3D; this.recentqueries.map(query &#x3D;&gt; ({...query, date: Utils.fromDate(query.date)}));
-        
+
         return this.userSettingsService.patch({recentQueries}, auditEvents)
             .subscribe(
                 next &#x3D;&gt; {
@@ -451,6 +452,7 @@ export class RecentQueriesService implements OnDestroy {
 </code></pre>
     </div>
 </div>
+
 
 
 

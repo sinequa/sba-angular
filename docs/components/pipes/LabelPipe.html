@@ -40,6 +40,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Pipes</li>
   <li >LabelPipe</li>
@@ -106,8 +107,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">labels/label.pipe.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">labels/label.pipe.ts:12</a></div>
                 </td>
             </tr>
 
@@ -173,17 +174,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe, ChangeDetectorRef} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {ChangeDetectorRef, Pipe} from &quot;@angular/core&quot;;
 import {AbstractIntlPipe, IntlService} from &quot;@sinequa/core/intl&quot;;
 import {LabelsService} from &quot;./labels.service&quot;;
 
 @Pipe({name: &quot;sqLabel&quot;, pure: false})
-export class LabelPipe extends AbstractIntlPipe {
+export class LabelPipe extends AbstractIntlPipe&lt;string, boolean&gt; {
     constructor(
-        protected labelsService: LabelsService,
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
+        protected labelsService: LabelsService, intlService: IntlService, cdr: ChangeDetectorRef) {
+        super(intlService, cdr);
     }
 
     override updateValue(value: string, _public?: boolean): void {
@@ -196,6 +195,7 @@ export class LabelPipe extends AbstractIntlPipe {
     </div>
 
 </div>
+
 
 
 

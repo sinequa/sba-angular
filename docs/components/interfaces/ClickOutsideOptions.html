@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -143,8 +144,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, Input, Output, ElementRef, OnInit, OnDestroy, EventEmitter} from &quot;@angular/core&quot;;
-import {Utils} from &quot;@sinequa/core/base&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, Input, Output, ElementRef, EventEmitter, HostListener} from &quot;@angular/core&quot;;
 
 export interface ClickOutsideOptions {
     exclude?: string[];
@@ -153,38 +153,25 @@ export interface ClickOutsideOptions {
 @Directive({
     selector: &quot;[sqClickOutside]&quot;
 })
-export class ClickOutside implements OnInit, OnDestroy {
-    @Input(&quot;sqClickOutside&quot;) options: ClickOutsideOptions;
+export class ClickOutside {
+    @Input(&quot;sqClickOutside&quot;) options?: ClickOutsideOptions;
     @Output(&quot;sqClickOutside&quot;) clickOutside &#x3D; new EventEmitter&lt;{click: UIEvent}&gt;();
     element: HTMLElement;
+    wasInside: boolean;
 
     constructor(elementRef: ElementRef) {
         this.element &#x3D; &lt;HTMLElement&gt;elementRef.nativeElement;
     }
 
-    ngOnInit() {
-        document.addEventListener(&quot;click&quot;, this.clickHandler);
-        if (!this.options) {
-            this.options &#x3D; { exclude: [&#x27;.bs-datepicker&#x27;] }; // By default exclude bootstrap date picker
-        }
+    @HostListener(&#x27;click&#x27;, [&#x27;$event&#x27;])
+    click(event: Event) {
+      this.wasInside &#x3D; true;
     }
 
-    ngOnDestroy() {
-        document.removeEventListener(&quot;click&quot;, this.clickHandler);
-    }
-
-    private isActive(element: Element): boolean {
-        let active &#x3D; document[&quot;activeElement&quot;];
-        while (active) {
-            if (element &#x3D;&#x3D;&#x3D; active) {
-                return true;
-            }
-            active &#x3D; active.parentElement;
-        }
-        return false;
-    }
-
-    clickHandler &#x3D; (event: MouseEvent) &#x3D;&gt; {
+    @HostListener(&#x27;document:click&#x27;, [&#x27;$event&#x27;])
+    clickHandler(event: MouseEvent) {
+        const _wasInside &#x3D; this.wasInside;
+        this.wasInside &#x3D; false;
         if (!event || !event.target) {
             return;
         }
@@ -197,7 +184,7 @@ export class ClickOutside implements OnInit, OnDestroy {
         if (this.element.contains(&lt;HTMLElement&gt;event.target)) {
             return;
         }
-        if (this.options.exclude) {
+        if (this.options?.exclude) {
             let targetRoot &#x3D; &lt;HTMLElement&gt;event.target;
             while (!!targetRoot.parentElement) {
                 targetRoot &#x3D; targetRoot.parentElement;
@@ -211,18 +198,15 @@ export class ClickOutside implements OnInit, OnDestroy {
                 }
             }
         }
-        // Call via timeout so we can check whether the click was leading to us taking focus
-        // If we have the focus then we don&#x27;t call clickOutside
-        Utils.delay()
-            .then(() &#x3D;&gt; {
-                if (!this.isActive(this.element)) {
-                    this.clickOutside.emit({click: event});
-                }
-            });
+        if (!_wasInside) {
+            this.clickOutside.emit({click: event});
+        }
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
+
 
 
 

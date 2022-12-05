@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -339,6 +340,7 @@ export const enum AuditEventType {
     Doc_CacheOriginal &#x3D; &quot;Doc_CacheOriginal&quot;,
     Doc_Url1 &#x3D; &quot;Doc_Url1&quot;,
     Doc_Url2 &#x3D; &quot;Doc_Url2&quot;,
+    Preview_Close &#x3D; &quot;Preview_Close&quot;,
 
     Click_ResultLink &#x3D; &quot;Click_ResultLink&quot;,
     Click_ResultLink1 &#x3D; &quot;Click_ResultLink1&quot;,
@@ -369,7 +371,19 @@ export const enum AuditEventType {
     RFM_Dislike &#x3D; &quot;RFM_Dislike&quot;,
     RFM_Important &#x3D; &quot;RFM_Important&quot;,
     RFM_ImportantReset &#x3D; &quot;RFM_ImportantReset&quot;,
-    RFM_Ban &#x3D; &quot;RFM_Ban&quot;
+    RFM_Ban &#x3D; &quot;RFM_Ban&quot;,
+
+    Navigation_Exit &#x3D; &quot;Navigation_Exit&quot;,
+    Navigation_Return &#x3D; &quot;Navigation_Return&quot;,
+
+    Answer_Display &#x3D; &quot;Answer_Display&quot;,
+    Answer_Click &#x3D; &quot;Answer_Click&quot;,
+    Answer_Result &#x3D; &quot;Answer_Result&quot;,
+    Answer_Liked &#x3D; &quot;Answer_Liked&quot;,
+    Answer_Disliked &#x3D; &quot;Answer_Disliked&quot;,
+
+    TopPassages_Display &#x3D; &quot;TopPassages_Display&quot;,
+    TopPassages_Click &#x3D; &quot;TopPassages_Click&quot;
 }
 
 /**
@@ -517,7 +531,7 @@ export class AuditWebService extends HttpService {
 
         return this.notify(data);
     }
-    
+
     /**
      * It sends an audit event to the Audit Service.
      * @returns An Observable&lt;void&gt;
@@ -531,10 +545,10 @@ export class AuditWebService extends HttpService {
             type: AuditEventType.Search_Login_Success,
             detail
         };
-        
+
         return this.notify(data)
     }
-    
+
     /**
      * Notify the Sinequa server of a set of audit events
      *
@@ -558,9 +572,11 @@ export class AuditWebService extends HttpService {
             });
         return observable;
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
+
 
 
 

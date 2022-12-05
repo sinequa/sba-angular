@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >PrincipalWebService</li>
@@ -154,7 +155,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">web-services/principal.web.service.ts:87</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">web-services/principal.web.service.ts:86</a></div>
                             </td>
                         </tr>
 
@@ -229,8 +230,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">web-services/principal.web.service.ts:149</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">web-services/principal.web.service.ts:148</a></div>
                 </td>
             </tr>
 
@@ -307,8 +308,8 @@ for this request</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">web-services/principal.web.service.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">web-services/principal.web.service.ts:126</a></div>
                 </td>
             </tr>
 
@@ -384,8 +385,8 @@ for this request</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="162"
-                            class="link-to-prism">web-services/principal.web.service.ts:162</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">web-services/principal.web.service.ts:161</a></div>
                 </td>
             </tr>
 
@@ -424,8 +425,8 @@ principal member</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">web-services/principal.web.service.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">web-services/principal.web.service.ts:94</a></div>
                 </td>
             </tr>
 
@@ -461,8 +462,8 @@ principal member</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">web-services/principal.web.service.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="132"
+                            class="link-to-prism">web-services/principal.web.service.ts:132</a></div>
                 </td>
             </tr>
 
@@ -530,8 +531,8 @@ principal member</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="137"
-                            class="link-to-prism">web-services/principal.web.service.ts:137</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">web-services/principal.web.service.ts:136</a></div>
                 </td>
             </tr>
 
@@ -766,7 +767,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">web-services/principal.web.service.ts:102</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">web-services/principal.web.service.ts:101</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -799,7 +800,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">web-services/principal.web.service.ts:109</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">web-services/principal.web.service.ts:108</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -821,7 +822,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">web-services/principal.web.service.ts:116</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">web-services/principal.web.service.ts:115</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -871,8 +872,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, OnDestroy} from &quot;@angular/core&quot;;
-import {Subject, Observable} from &quot;rxjs&quot;;
-import {pluck} from &quot;rxjs/operators&quot;;
+import {Subject, Observable, map} from &quot;rxjs&quot;;
 import {SqHttpClient} from &quot;./http-client&quot;;
 import {HttpService} from &quot;./http.service&quot;;
 import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
@@ -1007,8 +1007,8 @@ export class PrincipalWebService extends HttpService implements OnDestroy {
     }
 
     userIds(params?: PrincipalUserIdsParams): Observable&lt;Partial&lt;PrincipalUserInfo[]&gt;&gt; {
-        return this.httpClient.post&lt;Partial&lt;PrincipalUserInfo&gt;&gt;(this.makeUrl(&quot;principal/userids&quot;), params).pipe(
-            pluck(&quot;principals&quot;)
+        return this.httpClient.post&lt;{principals: Partial&lt;PrincipalUserInfo[]&gt;}&gt;(this.makeUrl(&quot;principal/userids&quot;), params).pipe(
+            map(r &#x3D;&gt; r.principals)
         );
     }
 
@@ -1048,6 +1048,7 @@ export class PrincipalWebService extends HttpService implements OnDestroy {
     </div>
 
 </div>
+
 
 
 

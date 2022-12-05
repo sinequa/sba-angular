@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -177,9 +178,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from &quot;@angular/core&quot;;
-import {Router, NavigationStart, NavigationEnd, Params} from &quot;@angular/router&quot;;
-import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from &quot;rxjs&quot;;
-import {catchError, map, switchMap} from &quot;rxjs/operators&quot;;
+import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from &quot;@angular/router&quot;;
+import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, catchError, map, switchMap} from &quot;rxjs&quot;;
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch} from &quot;@sinequa/core/web-services&quot;;
@@ -210,26 +210,26 @@ export const SEARCH_OPTIONS &#x3D; new InjectionToken&lt;SearchOptions&gt;(&quot
 @Injectable({
     providedIn: &quot;root&quot;
 })
-export class SearchService implements OnDestroy {
+export class SearchService&lt;T extends Results &#x3D; Results&gt; implements OnDestroy {
     protected _query: Query | undefined;
     queryStringParams: Params &#x3D; {};
-    results: Results | undefined;
-    breadcrumbs: Breadcrumbs | undefined;
+    results: T | undefined;
+    breadcrumbs: Breadcrumbs&lt;T&gt; | undefined;
     searchActive: boolean;
 
     protected loginSubscription: Subscription;
     protected routerSubscription: Subscription;
     protected appSubscription: Subscription;
     protected fetchingLoadMore &#x3D; false;
-    protected _events &#x3D; new Subject&lt;SearchService.Events&gt;();
+    protected _events &#x3D; new Subject&lt;SearchService.Events&lt;T&gt;&gt;();
     protected _queryStream &#x3D; new BehaviorSubject&lt;Query | undefined&gt;(undefined);
-    protected _resultsStream &#x3D; new BehaviorSubject&lt;Results | undefined&gt;(undefined);
+    protected _resultsStream &#x3D; new BehaviorSubject&lt;T | undefined&gt;(undefined);
 
     constructor(
         @Optional() @Inject(SEARCH_OPTIONS) protected options: SearchOptions,
         protected router: Router,
         protected appService: AppService,
-        protected queryService: QueryWebService,
+        protected queryService: QueryWebService&lt;T&gt;,
         protected loginService: LoginService,
         protected intlService: IntlService,
         protected formatService: FormatService,
@@ -286,7 +286,7 @@ export class SearchService implements OnDestroy {
         this._resultsStream.complete();
     }
 
-    get events(): Observable&lt;SearchService.Events&gt; {
+    get events(): Observable&lt;SearchService.Events&lt;T&gt;&gt; {
         return this._events;
     }
 
@@ -294,7 +294,7 @@ export class SearchService implements OnDestroy {
         return this._queryStream;
     }
 
-    get resultsStream(): Observable&lt;Results | undefined&gt; {
+    get resultsStream(): Observable&lt;T | undefined&gt; {
         return this._resultsStream.asObservable();
     }
 
@@ -346,20 +346,20 @@ export class SearchService implements OnDestroy {
         this.setQuery(undefined);
     }
 
-    public updateBreadcrumbs(results: Results | undefined, options: SearchService.SetResultsOptions) {
+    public updateBreadcrumbs(results: T | undefined, options: SearchService.SetResultsOptions) {
         if (!results) {
             this.breadcrumbs &#x3D; undefined;
             return;
         }
         if (!this.breadcrumbs || (!options.resuseBreadcrumbs &amp;&amp; !options.advanced)) {
-            this.breadcrumbs &#x3D; Breadcrumbs.create(this.appService, this, this.query);
+            this.breadcrumbs &#x3D; Breadcrumbs.create&lt;T&gt;(this.appService, this, this.query);
         }
         else if (options.advanced) {
             this.breadcrumbs.update(this.query);
         }
     }
 
-    private _setResults(results: Results | undefined, options: SearchService.SetResultsOptions &#x3D; {}) {
+    private _setResults(results: T | undefined, options: SearchService.SetResultsOptions &#x3D; {}) {
         if (results &#x3D;&#x3D;&#x3D; this.results) {
             return;
         }
@@ -379,13 +379,13 @@ export class SearchService implements OnDestroy {
         this._resultsStream.next(this.results);
     }
 
-    public setResults(results: Results) {
+    public setResults(results: T) {
         return this._setResults(results);
     }
 
     // TODO: queryintents in their own service ?
 
-    private treatQueryIntents (results: Results | undefined) {
+    private treatQueryIntents (results: T | undefined) {
         if (results &amp;&amp; results.queryAnalysis &amp;&amp; results.queryIntents) {
             const queryIntents &#x3D; results.queryIntents;
             for (const intent of queryIntents) {
@@ -574,7 +574,7 @@ export class SearchService implements OnDestroy {
 
     getResults(
         query: Query, auditEvents?: AuditEvents,
-        options: SearchService.GetResultsOptions &#x3D; {}): Observable&lt;Results&gt; {
+        options: SearchService.GetResultsOptions &#x3D; {}): Observable&lt;T&gt; {
         if (!this.checkEmptySearch(query)) {
             return throwError(&quot;empty search&quot;);
         }
@@ -602,7 +602,7 @@ export class SearchService implements OnDestroy {
         );
     }
 
-    getMultipleResults(queries: Query[], auditEvents?: AuditEvents): Observable&lt;IMulti&lt;Results&gt;&gt; {
+    getMultipleResults(queries: Query[], auditEvents?: AuditEvents): Observable&lt;IMulti&lt;T&gt;&gt; {
         if (!this.checkEmptySearch(queries)) {
             return of({results: []});
         }
@@ -638,7 +638,7 @@ export class SearchService implements OnDestroy {
                 audit,
                 navigationOptions: options
             };
-            const extras &#x3D; {
+            const extras: NavigationExtras &#x3D; {
                 queryParams,
                 state,
                 skipLocationChange: options.skipLocationChange
@@ -657,7 +657,7 @@ export class SearchService implements OnDestroy {
             // If path and search are both the same as current then force navigation (without adding to history)
             if (Utils.eq(currentPath, path) &amp;&amp; Utils.eq(currentSearch, search)) {
                 // We want to force the navigation so that the query will be processed
-                extras.queryParams.$refresh &#x3D; Utils.now.getTime();
+                extras.queryParams!.$refresh &#x3D; Utils.now.getTime();
                 // But don&#x27;t update the browser url
                 extras.skipLocationChange &#x3D; true;
             }
@@ -792,7 +792,8 @@ export class SearchService implements OnDestroy {
                     type: AuditEventType.Search_Text,
                     detail: {
                         text: this.query.text,
-                        scope: this.query.scope
+                        scope: this.query.scope,
+                        &quot;neural.search&quot;: this.appService.isNeural() &amp;&amp; this.query.neuralSearch !&#x3D;&#x3D; false
                     }
                 });
             }
@@ -864,7 +865,7 @@ export class SearchService implements OnDestroy {
 
         // This event allows customization of behavior when switching tabs (the observable property can be modified to get other results)
         if (navigationOptions.selectTab) {
-            const afterSelectTabEvent: SearchService.AfterSelectTabEvent &#x3D; {
+            const afterSelectTabEvent: SearchService.AfterSelectTabEvent&lt;T&gt; &#x3D; {
                 type: &quot;after-select-tab&quot;,
                 observable
             };
@@ -933,7 +934,8 @@ export class SearchService implements OnDestroy {
                 detail: {
                     text: this.query.text,
                     scope: this.query.scope,
-                    language: this.intlService.currentLocale.name
+                    language: this.intlService.currentLocale.name,
+                    &quot;neural.search&quot;: this.appService.isNeural() &amp;&amp; this.query.neuralSearch !&#x3D;&#x3D; false
                 }
             }));
     }
@@ -983,13 +985,13 @@ export class SearchService implements OnDestroy {
                 })
 
                 this.getResults(this.query, auditEvents)
-                .subscribe(results &#x3D;&gt; {
-                    if(this.results &amp;&amp; results) {
-                        this.results.records &#x3D; [...this.results?.records || [], ...results.records] || [];
-                        this._resultsStream.next(this.results);
-                    }
-                    this.fetchingLoadMore &#x3D; false;
-                });
+                    .subscribe(results &#x3D;&gt; {
+                        if(this.results &amp;&amp; results) {
+                            this.results.records &#x3D; [...this.results?.records || [], ...results.records] || [];
+                            this._resultsStream.next(this.results);
+                        }
+                        this.fetchingLoadMore &#x3D; false;
+                    });
             }
         }
     }
@@ -1113,6 +1115,11 @@ export class SearchService implements OnDestroy {
         const querylang &#x3D; this.results?.queryAnalysis?.queryLanguage
             || this.query?.questionLanguage
             || this.appService?.ccquery?.questionLanguage;
+        let score: number | undefined;
+        if (type &#x3D;&#x3D;&#x3D; AuditEventType.Click_ResultLink) {
+            const passages &#x3D; record?.matchingpassages?.passages;
+            score &#x3D; passages &amp;&amp; passages.length ? passages[0].score : undefined;
+        }
         this.auditService.notifyDocument(
             type,
             record,
@@ -1120,6 +1127,7 @@ export class SearchService implements OnDestroy {
             {
                 text: this.query.text,
                 querylang,
+                score
             },
             {
                 queryhash: results ? results.rfmQueryHash : undefined,
@@ -1136,6 +1144,33 @@ export class SearchService implements OnDestroy {
             cancelReasons.splice(0, 0, ...beforeSearch.cancelReasons);
         }
         return !beforeSearch.cancel;
+    }
+
+    /**
+     * Get the records according to a list of ID
+     *
+     * They are first searched on the result records, and we make a query for those we cannot find
+     */
+    getRecords(ids: string[]): Observable&lt;Record[]&gt; {
+        const records &#x3D; ids.map(id &#x3D;&gt; {
+            return {
+                id,
+                record: this.results?.records.find(r &#x3D;&gt; Utils.eq(r.id, id))
+            }
+        });
+
+        // if all records found, return them
+        if (records.filter(r &#x3D;&gt; r.record).length &#x3D;&#x3D;&#x3D; ids.length) return of(records.map(r &#x3D;&gt; r.record as Record));
+
+        // building query to get missing records
+        const query &#x3D; this.query.copy();
+        query.globalRelevance &#x3D; 0;
+        query.addSelect(
+            this.exprBuilder.makeOrExpr(&#x27;id&#x27;, records.filter(r &#x3D;&gt; !r.record).map(r &#x3D;&gt; r.id))
+        );
+
+        return this.queryService.getResults(query)
+                .pipe(map(res &#x3D;&gt; records.map(r &#x3D;&gt; r.record as Record || res.records.find(rec &#x3D;&gt; rec.id &#x3D;&#x3D;&#x3D; r.id))));
     }
 }
 
@@ -1194,14 +1229,14 @@ export module SearchService {
         query: Query;
     }
 
-    export interface BeforeNewResultsEvent extends Event {
+    export interface BeforeNewResultsEvent&lt;T&gt; extends Event {
         type: &quot;before-new-results&quot;;
-        results: Results | undefined;
+        results: T | undefined;
     }
 
-    export interface NewResultsEvent extends Event {
+    export interface NewResultsEvent&lt;T&gt; extends Event {
         type: &quot;new-results&quot;;
-        results: Results | undefined;
+        results: T | undefined;
     }
 
     export interface MakeQueryIntentDataEvent extends Event {
@@ -1227,9 +1262,9 @@ export module SearchService {
         query: Query;
     }
 
-    export interface AfterSelectTabEvent extends Event {
+    export interface AfterSelectTabEvent&lt;T&gt; extends Event {
         type: &quot;after-select-tab&quot;;
-        observable: Observable&lt;Results|undefined&gt;;
+        observable: Observable&lt;T|undefined&gt;;
     }
 
     export interface ClearEvent extends Event {
@@ -1255,17 +1290,17 @@ export module SearchService {
         cancelSearch: boolean;
     }
 
-    export type Events &#x3D;
+    export type Events&lt;T&gt; &#x3D;
         NewQueryEvent |
         UpdateQueryEvent |
         MakeQueryEvent |
-        BeforeNewResultsEvent |
-        NewResultsEvent |
+        BeforeNewResultsEvent&lt;T&gt; |
+        NewResultsEvent&lt;T&gt; |
         MakeQueryIntentDataEvent |
         ProcessQueryIntentActionEvent |
         MakeAuditEventEvent |
         BeforeSelectTabEvent |
-        AfterSelectTabEvent |
+        AfterSelectTabEvent&lt;T&gt; |
         ClearEvent |
         OpenOriginalDocument |
         BeforeSearchEvent |
@@ -1276,6 +1311,7 @@ export module SearchService {
 </code></pre>
     </div>
 </div>
+
 
 
 
