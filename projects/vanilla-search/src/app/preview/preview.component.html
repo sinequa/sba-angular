@@ -1,155 +1,130 @@
-<div class="d-flex flex-row align-items-stretch m-0 h-100">
+<div class="nav-wrapper">
+    <nav class="navbar navbar-expand-sm d-flex justify-content-between"
+        [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
+        <!-- Application logo -->
+        <a [routerLink]="['/home']" title="Home">
+            <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" *ngIf="!isDark()">
+            <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" *ngIf="isDark()">
+        </a>
+
+        <div>
+            <!-- PDF version link -->
+            <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-lg btn-primary me-2 btn-preview-pdf"
+                [sqTooltip]="'msg#preview.downloadPdf' | sqMessage" (click)="notifyPdf()"
+                *ngIf="previewData?.record?.pdfUrl">
+                <i class="fas fa-file-pdf"></i>
+            </a>
+
+            <!-- Back button (go back to /search route) -->
+            <button class="btn btn-primary btn-preview-close" [sqTooltip]="'msg#preview.back' | sqMessage"
+                (click)="back()" *ngIf="showBackButton">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </nav>
+</div>
+
+<div class="row preview-content d-flex flex-row align-items-stretch">
 
     <!-- Left panel (navigation, extracts and entities) -->
-    <div class="d-flex flex-column align-items-stretch border-right p-0"
-        [ngClass]="{'col-sm-5 col-md-4 col-lg-3': !collapsedPanel}"
-        *ngIf="ui.screenSizeIsGreater('xs')">
+    <div class="side-menu d-flex flex-column h-100 justify-content-between col-sm-5 col-md-4 col-lg-3"
+        *ngIf="!isPanelCollapsed">
 
-        <!-- Navigation buttons/links (template below) -->
-        <ng-container *ngTemplateOutlet="nav"></ng-container>
+        <!-- Navigation between the active sub panels -->
+        <sq-tabs [customtabs]="tabs" [showCounts]="false" [selectedCustomTab]="subpanel" class="mb-2"
+            (events)="openPanel($event)">
+        </sq-tabs>
 
-        <ng-container *ngIf="!collapsedPanel" [ngSwitch]="subpanel">
-            <div class="border-top border-bottom p-2">
-                <!-- Search form allowing the search preview -->
-                <sq-preview-search-form *ngIf="previewSearchable" [query]="query" (searchText)="searchText($event)"></sq-preview-search-form>
+        <div class="card overflow-y-scroll">
+            <!-- <div class="card h-100 overflow-y-scroll"> -->
+            <ng-container *ngIf="!collapsedPanel" [ngSwitch]="subpanel">
+                <div class="pt-4 px-4">
+                    <!-- Search form allowing the search preview -->
+                    <sq-preview-search-form *ngIf="previewSearchable" [query]="query" (searchText)="searchText($event)">
+                    </sq-preview-search-form>
 
-                <!-- Page form allowing to go to an arbitrary page number (when the document is splitted)-->
-                <sq-preview-page-form [pageNumber]="previewData?.record?.$page" (gotopage)="gotoPage($event)"></sq-preview-page-form>
+                    <!-- Page form allowing to go to an arbitrary page number (when the document is splitted)-->
+                    <sq-preview-page-form [pageNumber]="previewData?.record?.$page" (gotopage)="gotoPage($event)">
+                    </sq-preview-page-form>
 
-                <!-- Navigation between the active sub panels -->
-                <ul class="nav nav-pills justify-content-center mb-1">
-                    <li class="nav-item" *ngFor="let panel of subpanels">
-                        <a class="nav-link" href="#" [ngClass]="{active: subpanel === panel}" (click)="openPanel(panel)">
-                            {{ ('msg#preview.'+panel) | sqMessage }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                </div>
 
-            <ng-container *ngSwitchCase="'extracts'">
+                <ng-container *ngSwitchCase="'extracts'">
 
-                <!-- Expanded panel different subpanels available -->
-                <!-- Extracts/Pages panel -->
-                <sq-preview-extracts-panel *ngIf="!pagesResults"
-                    class="d-flex flex-column flex-grow-1"
-                    [previewData]="previewData"
-                    [downloadUrl]="currentUrl"
-                    [previewDocument]="previewDocument">
+                    <!-- Expanded panel different subpanels available -->
+                    <!-- Extracts/Pages panel -->
+                    <sq-preview-extracts-panel *ngIf="!pagesResults" class="d-flex flex-column flex-grow-1"
+                        [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument">
+                    </sq-preview-extracts-panel>
+
+                    <sq-preview-pages-panel *ngIf="pagesResults" class="d-flex flex-column flex-grow-1"
+                        [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults"
+                        (gotopage)="gotoPage($event)">
+                    </sq-preview-pages-panel>
+
+                </ng-container>
+
+                <!-- Neural Search preview passages -->
+                <sq-preview-extracts-panel *ngSwitchCase="'passages'" class="d-flex flex-column flex-grow-1"
+                    [downloadUrl]="currentUrl" [previewData]="previewData" [previewDocument]="previewDocument"
+                    type="matchingpassages">
                 </sq-preview-extracts-panel>
 
-                <sq-preview-pages-panel *ngIf="pagesResults"
-                    class="overflow-auto"
-                    [previewData]="previewData"
-                    [previewDocument]="previewDocument"
-                    [pages]="pagesResults"
-                    (gotopage)="gotoPage($event)">
-                </sq-preview-pages-panel>
+                <!-- Entities panel -->
+                <div class="overflow-y-scroll px-2">
+                    <sq-preview-entity-panel *ngSwitchCase="'entities'" [previewData]="previewData"
+                        [previewDocument]="previewDocument" [startUnchecked]="entitiesStartUnchecked"
+                        (facetChecked)="entitiesChecked($event)">
+                    </sq-preview-entity-panel>
+                </div>
+
+                <!-- Legacy preview highlights -->
+                <sq-preview-highlights *ngSwitchCase="'highlights'" class="d-flex flex-column flex-grow-1 my-2"
+                    [previewData]="previewData" [previewDocument]="previewDocument">
+                </sq-preview-highlights>
 
             </ng-container>
-
-            <!-- Neural Search preview passages -->
-            <sq-preview-extracts-panel *ngSwitchCase="'passages'"
-                class="d-flex flex-column flex-grow-1"
-                [downloadUrl]="currentUrl"
-                [previewData]="previewData"
-                [previewDocument]="previewDocument"
-                type="matchingpassages">
-            </sq-preview-extracts-panel>
-
-            <!-- Entities panel -->
-            <sq-preview-entity-panel *ngSwitchCase="'entities'"
-                class="overflow-auto px-2"
-                [previewData]="previewData"
-                [previewDocument]="previewDocument"
-                [startUnchecked]="entitiesStartUnchecked"
-                (facetChecked)="entitiesChecked($event)">
-            </sq-preview-entity-panel>
-
-            <!-- Legacy preview highlights -->
-            <sq-preview-highlights *ngSwitchCase="'highlights'"
-                class="overflow-auto my-2"
-                [previewData]="previewData"
-                [previewDocument]="previewDocument">
-            </sq-preview-highlights>
-
-        </ng-container>
+        </div>
 
     </div>
 
     <!-- Right panel (iframe with preview HTML) -->
-    <div class="d-flex flex-shrink-1 flex-grow-1 flex-column preview-bg">
-        <div *ngIf="previewData" class="p-2">
-            <h1>{{ previewData?.record.title }}</h1>
-            <!-- Link to the original document -->
-            <a *ngIf="getOriginalDocUrl() as url"
-              [sqTooltip]="'msg#preview.original' | sqMessage"
-              target="_blank"
-              href="{{url}}"
-              (click)="notifyOriginalDoc()">
-              {{url}}
-            </a>
-        </div>
-        <sq-loading-bar [active]="loading"></sq-loading-bar>
-        <div class="flex-grow-1 flex-shrink-1 overflow-hidden">
-            <sq-preview-document-iframe
-                [scalingFactor]="scaleFactor"
-                [downloadUrl]="downloadUrl"
-                [sandbox]="sandbox"
-                (onPreviewReady)="onPreviewReady($event)"
-                (pageChange)="onPreviewPageChange($event)">
+    <sq-facet-card [collapsible]="false" class="preview" [secondaryActions]="secondaryActions"
+        secondaryActionsClass="position-absolute end-0 btn-group mt-4 me-3 bg-light rounded shadow on-hover">
+        <ng-template #headerTpl>
+            <!-- Toggles the left panel collapsed/expanded state -->
+            <button class="btn btn-primary float-left btn-collapse" [sqTooltip]="'msg#preview.expand' | sqMessage"
+                (click)="collapsedPanel = !collapsedPanel">
+                <i class="fas {{collapsedPanel ? 'fa-arrow-right' : 'fa-arrow-left'}}"></i>
+            </button>
+            <div class="ps-3 mb-0">
+                <div class="mb-1">{{previewData?.record.title}}</div>
+                <!-- Link to the original document -->
+                <a *ngIf="getOriginalDocUrl() as url" [sqTooltip]="'msg#preview.original' | sqMessage" target="_blank"
+                    href="{{url}}" (click)="notifyOriginalDoc()">
+                    {{url}}
+                </a>
+            </div>
+        </ng-template>
+
+        <div class="h-100">
+            <sq-loading-bar [active]="loading"></sq-loading-bar>
+            <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" [sandbox]="sandbox"
+                (onPreviewReady)="onPreviewReady($event)" (pageChange)="onPreviewPageChange($event)">
 
                 <!-- Tooltip injected in the preview -->
-                <sq-preview-tooltip #tooltip
-                    [previewDocument]="previewDocument"
-                    [previewData]="previewData"
-                    [entityActions]="tooltipEntityActions"
-                    [selectedTextActions]="tooltipTextActions"
+                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData"
+                    [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions"
                     [scalingFactor]="scaleFactor">
                 </sq-preview-tooltip>
 
-                <sq-preview-minimap #minimap
-                    [previewDocument]="previewDocument"
-                    [previewData]="previewData"
+                <sq-preview-minimap #minimap [previewDocument]="previewDocument" [previewData]="previewData"
                     [type]="minimapType">
                 </sq-preview-minimap>
 
             </sq-preview-document-iframe>
         </div>
-    </div>
+
+    </sq-facet-card>
 
 </div>
-
-<ng-template #nav>
-    <div class="align-self-stretch d-flex justify-content-between align-items-center p-1" [ngClass]="{'flex-column flex-grow-1': collapsedPanel}">
-        <div [ngClass]="{'btn-group': !collapsedPanel, 'btn-group-vertical':collapsedPanel}">
-
-            <!-- Toggles the left panel collapsed/expanded state -->
-            <button class="btn btn-lg btn-primary" [placement]="leftPanelTooltipPlacement()" [sqTooltip]="'msg#preview.expand' | sqMessage" (click)="collapsedPanel = !collapsedPanel">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Back button (go back to /search route) -->
-            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" [sqTooltip]="'msg#preview.back' | sqMessage" (click)="back()" *ngIf="showBackButton">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-
-            <!-- Home page link -->
-            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" [sqTooltip]="'msg#preview.home' | sqMessage" *ngIf="homeRoute">
-                <i class="fas fa-home"></i>
-            </a>
-
-            <!-- PDF version link -->
-            <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" [sqTooltip]="'msg#preview.downloadPdf' | sqMessage" (click)="notifyPdf()" *ngIf="previewData?.record?.pdfUrl">
-                <i class="fas fa-file-pdf"></i>
-            </a>
-
-            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" [sqTooltip]="'msg#facet.preview.minimize' | sqMessage" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
-                <i class="fas fa-search-minus"></i>
-            </button>
-            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" [sqTooltip]="'msg#facet.preview.maximize' | sqMessage" (click)="increaseScaleFactor()">
-                <i class="fas fa-search-plus"></i>
-            </button>
-        </div>
-        <img id="logo" src="{{ isDark() ? 'assets/sinequa-logo-dark-sm.png' : 'assets/sinequa-logo-light-sm.png'}}" alt="Sinequa logo" title="Sinequa">
-    </div>
-</ng-template>

@@ -1,12 +1,51 @@
+nav {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  box-shadow: 0 0 1.25rem 0 rgba(0, 0, 0, .15);
+
+  img {
+    height: 2.5rem;
+  }
+}
+
+.btn-collapse,
+.btn-preview-close,
+.btn-preview-pdf {
+  --bs-btn-padding-x: .85rem !important;
+  --bs-btn-padding-y: 0.55rem !important;
+  max-height: 2.5rem;
+  font-size: .8rem;
+}
+
+.preview {
+  --bs-card-height: 100%;
+  flex: 1;
+
+  .card {
+    height: 100% !important;
+  }
+}
+
+.preview-content {
+  --bs-gutter-x: 0;
+  --bs-gutter-y: 0;
+  padding: 1.25rem 2.5rem;
+  height: calc(100% - 5rem);
+  background-color: #efefef;
+}
+
+.side-menu {
+  padding-right: 1.25rem;
+
+  .card {
+    flex: 1;
+  }
+}
+
 .overflow-y-scroll {
-    overflow-y: auto;
+  overflow-y: auto;
 }
 
-.preview-bg {
-    background-color: #efefef;
-}
-
-:host-context(.dark)
-.preview-bg {
+:host-context(.dark) .preview-content {
   background-color: black;
 }

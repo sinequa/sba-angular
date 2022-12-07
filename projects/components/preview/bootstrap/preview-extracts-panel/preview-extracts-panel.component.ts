@@ -74,7 +74,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
     this.buildSortAction();
 
     this.loading = false;
-    this.currentIndex = -1;
+    this.currentIndex = this.extracts.length ? 0 : -1;
     this.cdr.detectChanges();
   }
 
@@ -84,6 +84,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   buildSortAction(){
     this.sortAction = new Action({
+      icon: 'fas fa-sort-amount-down',
       title: "msg#sortSelector.sortByTitle",
       messageParams: {values: {text: "msg#preview.relevanceSortHighlightButtonText"}},
       text:  "msg#preview.relevanceSortHighlightButtonText",

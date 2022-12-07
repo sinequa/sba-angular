@@ -10,6 +10,30 @@
 
 .active {
     background-color: #f8f9fa;
+    color: black;
+}
+
+.list-group {
+    --bs-list-group-border-width: 0;
+
+    .list-group-item {
+        border-radius: .3rem;
+    }
+}
+
+hr {
+    margin: 0;
+    width: calc(100% - 2rem);
+    margin: auto;
+}
+
+.extracts-counter {
+    display: table;
+
+    span {
+        display: table-cell;
+        vertical-align: middle;
+    }
 }
 
 :host-context(.dark) {

@@ -22,6 +22,11 @@ export class BsTabs implements OnChanges {
     @Input() customtabs: Tab[];
 
     /**
+     * Custom tab to select by default
+     */
+    @Input() selectedCustomTab: string;
+
+    /**
      * Associate icon to a tab name ({tab1 : 'icon class 1', tab2 : ...})
      */
     @Input() iconMap: {[key: string]: string} = {};
@@ -45,6 +50,10 @@ export class BsTabs implements OnChanges {
             this.currentTab = this.searchService.getCurrentTab();
             this.searchtabs = this.results.tabs;
         }
+        else if (!!this.selectedCustomTab) {
+            this.currentTab = this.customtabs.find(tab => tab.name === this.selectedCustomTab);
+            this.searchtabs = undefined;
+        }
         else {
             this.currentTab = undefined;
             this.searchtabs = undefined;
@@ -52,7 +61,7 @@ export class BsTabs implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!!changes["results"]) {
+        if (!!changes["results"] || !!changes["customtabs"] || !!changes["selectedCustomTab"]) {
             this.update();
         }
     }

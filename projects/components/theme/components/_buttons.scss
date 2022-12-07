@@ -45,7 +45,7 @@ All buttons styling (except btn-link)
   box-shadow: none;
 
   &:not(.no-shadow) {
-    box-shadow: $sq-box-shadow;
+    box-shadow: $sq-btn-box-shadow;
   }
 
   //focus
