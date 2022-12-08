@@ -3,10 +3,15 @@
 @import "bootstrap/scss/_mixins";
 
 nav {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
   box-shadow: 0 0 1.25rem 0 rgba(0, 0, 0, .15);
   z-index: 99;
+
+  @include media-breakpoint-up(lg) {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 
   img {
     height: 2.5rem;
