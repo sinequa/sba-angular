@@ -1,23 +1,30 @@
 <div class="nav-wrapper">
     <nav class="navbar navbar-expand-sm d-flex justify-content-between"
         [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
-        <!-- Application logo -->
-        <a [routerLink]="['/home']" title="Home">
-            <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" *ngIf="!isDark()">
-            <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" *ngIf="isDark()">
-        </a>
+        <div class="d-flex flex-row">
+            <!-- Left panel expand button (mobile/tablet only) -->
+            <button class="btn btn-link btn-preview d-block d-lg-none expand-icon pt-0 me-1"
+                [sqTooltip]="'msg#preview.expand' | sqMessage" (click)="collapsedPanel = !collapsedPanel">
+                <i class="fas {{collapsedPanel ? 'fa-bars' : 'fa-times'}}"></i>
+            </button>
+            <!-- Application logo -->
+            <a [routerLink]="['/home']" title="Home">
+                <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" *ngIf="!isDark()">
+                <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" *ngIf="isDark()">
+            </a>
+        </div>
 
         <div>
             <!-- PDF version link -->
-            <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-lg btn-primary me-2 btn-preview-pdf"
+            <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-lg btn-primary me-2 btn-preview"
                 [sqTooltip]="'msg#preview.downloadPdf' | sqMessage" (click)="notifyPdf()"
                 *ngIf="previewData?.record?.pdfUrl">
                 <i class="fas fa-file-pdf"></i>
             </a>
 
             <!-- Back button (go back to /search route) -->
-            <button class="btn btn-primary btn-preview-close" [sqTooltip]="'msg#preview.back' | sqMessage"
-                (click)="back()" *ngIf="showBackButton">
+            <button class="btn btn-primary btn-preview" [sqTooltip]="'msg#preview.back' | sqMessage" (click)="back()"
+                *ngIf="showBackButton">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -27,11 +34,11 @@
 <div class="row preview-content d-flex flex-row align-items-stretch">
 
     <!-- Left panel (navigation, extracts and entities) -->
-    <div class="side-menu d-flex flex-column h-100 justify-content-between col-sm-5 col-md-4 col-lg-3"
-        *ngIf="!isPanelCollapsed">
+    <div class="side-menu d-flex flex-column h-100 justify-content-between col-xs-12 col-sm-6 col-md-5 col-lg-3"
+        *ngIf="!collapsedPanel">
 
         <!-- Navigation between the active sub panels -->
-        <sq-tabs [customtabs]="tabs" [showCounts]="false" [selectedCustomTab]="subpanel" class="mb-2"
+        <sq-tabs [customtabs]="tabs" [showCounts]="false" [selectedCustomTab]="subpanel" class="mb-lg-2"
             (events)="openPanel($event)">
         </sq-tabs>
 
@@ -90,14 +97,15 @@
 
     <!-- Right panel (iframe with preview HTML) -->
     <sq-facet-card [collapsible]="false" class="preview" [secondaryActions]="secondaryActions"
+        [ngClass]="{'d-none d-sm-block col-sm-6 col-md-7 col-lg-9': !collapsedPanel}"
         secondaryActionsClass="position-absolute end-0 btn-group mt-4 me-3 bg-light rounded shadow on-hover">
         <ng-template #headerTpl>
             <!-- Toggles the left panel collapsed/expanded state -->
-            <button class="btn btn-primary float-left btn-collapse" [sqTooltip]="'msg#preview.expand' | sqMessage"
-                (click)="collapsedPanel = !collapsedPanel">
+            <button class="btn btn-primary my-2 btn-preview d-none d-lg-block"
+                [sqTooltip]="'msg#preview.expand' | sqMessage" (click)="collapsedPanel = !collapsedPanel">
                 <i class="fas {{collapsedPanel ? 'fa-arrow-right' : 'fa-arrow-left'}}"></i>
             </button>
-            <div class="ps-3 mb-0">
+            <div class="ps-3 my-2 mb-0 text-truncate">
                 <div class="mb-1">{{previewData?.record.title}}</div>
                 <!-- Link to the original document -->
                 <a *ngIf="getOriginalDocUrl() as url" [sqTooltip]="'msg#preview.original' | sqMessage" target="_blank"

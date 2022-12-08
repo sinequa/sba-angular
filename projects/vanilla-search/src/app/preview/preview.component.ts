@@ -63,7 +63,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   previewDocument?: PreviewDocument;
 
   // State of the preview
-  collapsedPanel = false;
+  collapsedPanel = true;
   homeRoute = "/home";
   showBackButton = true;
   subpanels = ["extracts", "entities"];
@@ -93,10 +93,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   private readonly scaleFactorThreshold = 0.2;
   scaleFactor = 1.0;
-
-  get isPanelCollapsed() {
-    return this.collapsedPanel || this.ui.screenSizeIsLessOrEqual('xs');
-  }
 
   constructor(
     @Optional() @Inject(PREVIEW_CONFIG) previewConfig: PreviewConfig,

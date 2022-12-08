@@ -45,7 +45,7 @@ sq-facet-card {
       --bs-btn-disabled-color: #{$body-text-grey-1} !important;
       --bs-btn-disabled-bg: transparent !important;
       --bs-btn-disabled-border-color: transparent !important;
-      margin: 0 !important;
+      margin: 0;
     }
 
     .btn-light {

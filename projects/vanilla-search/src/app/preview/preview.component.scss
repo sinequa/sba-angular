@@ -1,16 +1,19 @@
+@import "bootstrap/scss/_functions";
+@import "bootstrap/scss/_variables";
+@import "bootstrap/scss/_mixins";
+
 nav {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
   box-shadow: 0 0 1.25rem 0 rgba(0, 0, 0, .15);
+  z-index: 99;
 
   img {
     height: 2.5rem;
   }
 }
 
-.btn-collapse,
-.btn-preview-close,
-.btn-preview-pdf {
+.btn-preview {
   --bs-btn-padding-x: .85rem !important;
   --bs-btn-padding-y: 0.55rem !important;
   max-height: 2.5rem;
@@ -29,13 +32,32 @@ nav {
 .preview-content {
   --bs-gutter-x: 0;
   --bs-gutter-y: 0;
-  padding: 1.25rem 2.5rem;
+  padding: 0;
   height: calc(100% - 5rem);
   background-color: #efefef;
+
+  @include media-breakpoint-up(lg) {
+    padding: 1.25rem 2.5rem;
+  }
 }
 
 .side-menu {
-  padding-right: 1.25rem;
+  padding-right: 0;
+  background-color: white;
+  z-index: 9;
+  -webkit-animation: slide 0.5s forwards;
+  -webkit-animation-delay: 2s;
+  animation: slide 0.5s forwards;
+  animation-delay: 2s;
+
+  @include media-breakpoint-up(lg) {
+    padding-right: 1.25rem;
+    background-color: transparent;
+  }
+
+  sq-tabs {
+    z-index: 20;
+  }
 
   .card {
     flex: 1;
@@ -44,6 +66,15 @@ nav {
 
 .overflow-y-scroll {
   overflow-y: auto;
+}
+
+.expand-icon {
+  font-size: x-large;
+  color: #4a4a4a;
+
+  i {
+    width: 1.3rem;
+  }
 }
 
 :host-context(.dark) .preview-content {

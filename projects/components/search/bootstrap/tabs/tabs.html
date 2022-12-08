@@ -1,7 +1,7 @@
-<ul *ngIf="!!searchtabs || !!customtabs" class="nav nav-tabs d-flex mb-1">
+<ul *ngIf="!!searchtabs || !!customtabs" class="nav nav-tabs d-flex">
     <ng-container *ngIf="!!searchtabs">
         <li *ngFor="let tab of searchtabs" class="nav-item text-center">
-            <a href="#" class="nav-link" [ngClass]="{'active' : tab == currentTab, 'disabled': tab.count == 0}" (click)="selectTab(tab)">
+            <a href="#" class="nav-link" [ngClass]="{'active' : tab === currentTab, 'disabled': tab.count == 0}" (click)="selectTab(tab)">
                 <i [ngClass]="iconMap[tab.name]"></i>
                 {{(tab.display || tab.name) | sqMessage}}
                 <span class="count" *ngIf="showCounts">({{tab.count | sqNumber}})</span>
@@ -10,7 +10,7 @@
     </ng-container>
     <ng-container *ngIf="!!customtabs">
         <li *ngFor="let tab of customtabs" class="nav-item text-center">
-            <a href="#" class="nav-link" [ngClass]="{'active' : tab == currentTab, 'disabled': tab.count == 0}" (click)="selectTab(tab, false)">
+            <a href="#" class="nav-link" [ngClass]="{'active' : tab === currentTab, 'disabled': tab.count == 0}" (click)="selectTab(tab, false)">
                 <i [ngClass]="iconMap[tab.name]"></i>
                 {{(tab.display || tab.name) | sqMessage}}
                 <span class="count" *ngIf="showCounts && tab.count >= 0">({{tab.count | sqNumber}})</span>
