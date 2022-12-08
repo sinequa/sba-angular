@@ -129,7 +129,7 @@ In our `QueryIntentService` let's add a method that looks for the "people" inten
         // If none, we want to stop displaying the infocard, if any
         else if(people.length === 0) {
             this.person = undefined;
-            this.personData.next();
+            this.personData.next(undefined);
         }
     }
 ```
