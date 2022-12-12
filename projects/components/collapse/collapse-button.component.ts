@@ -19,15 +19,12 @@ export function collapseButtonAnimations(timings: number | string): AnimationTri
     animations: collapseButtonAnimations(".15s ease-in-out")
 })
 export class CollapseButton {
-    @Input() collapsed: boolean;
+    @Input() collapsed = true;
     @Input() icon: string;
     @Input() text: string;
-    @Output() state: EventEmitter<boolean>;
-
-    constructor() {
-        this.state = new EventEmitter<boolean>();
-        this.collapsed = true;
-    }
+    @Input() collapsedTitle = 'msg#collapseButton.expand';
+    @Input() expandedTitle = 'msg#collapseButton.collapse';
+    @Output() state = new EventEmitter<boolean>();
 
     toggleCollapsed() {
         this.collapsed = !this.collapsed;

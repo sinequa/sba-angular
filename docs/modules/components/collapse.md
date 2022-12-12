@@ -93,14 +93,12 @@ The [`Collapse`]({{site.baseurl}}components/components/Collapse.html) component 
 You can manage the variable/property that is used as input of this property as you like.
 You can change it using an HTML button like in the above example or with any other HTML components.
 
-`@sinequa/components/collapse` also includes two syntactic sugar components - [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html) and [`sq-collapse-link`]({{site.baseurl}}components/components/CollapseLink.html) - to help you quickly create input components to toggle the `collapsed` property. By default, these components display a chevron icon (as in the image above), but the icon and text can be customized via the `icon` and `text` inputs respectively.
+`@sinequa/components/collapse` also includes a syntactic sugar component - [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html) - to help you quickly create input components to toggle the `collapsed` property. By default, these components display a chevron icon (as in the image above), but the icon and text can be customized via the `icon`, `text`, `collapsedTitle` and `expandedTitle` inputs respectively.
 
 Example 2: Usage of the [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html)
 
 ```html
-{% raw %}<a href="#" (click)="collapsed = !collapsed">
-    <sq-collapse-button [collapsed]="collapsed" [text]="collapsed ? 'Expand' : 'Collapse'"></sq-collapse-button>
-</a>
+{% raw %}<sq-collapse-button (state)="collapsed = $event" text="Toggle view"></sq-collapse-button>
 
 <sq-collapse [collapsed]="collapsed">
     <ng-template>
