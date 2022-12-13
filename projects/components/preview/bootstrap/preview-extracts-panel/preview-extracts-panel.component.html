@@ -11,7 +11,7 @@
     </div>
 
     <ng-template #extractsTpl>
-        <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="64" class="h-100 list-group">
+        <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="64" class="h-100 mb-4 list-group">
             <div *cdkVirtualFor="let extract of extracts; let i = index" class="px-2 px-lg-4">
                 <a href="#" class="my-2 list-group-item list-group-item-action"
                     [ngClass]="{'active': i === currentIndex}" (click)="scrollExtract(extract, i)">
@@ -22,7 +22,7 @@
         </cdk-virtual-scroll-viewport>
     </ng-template>
 
-    <div class="d-flex justify-content-between p-4" *ngIf="extracts?.length > 0">
+    <div class="d-flex justify-content-between p-4 pt-0" *ngIf="showPagination && extracts?.length > 0">
         <button class="btn btn-primary" (click)="previousExtract()" [disabled]="currentIndex < 1">
             <div class="d-flex align-items-center"><i class="fas fa-arrow-left"></i>
                 <span class="d-none d-md-block ms-md-2">{{ 'msg#preview.previousDocument' | sqMessage}}</span>
