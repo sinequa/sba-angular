@@ -33,6 +33,7 @@ input.input-autocomplete {
   &.is-valid,
   &.is-invalid {
     background-image: none;
+    padding-right: calc(1.5rem - 0.75rem);
   }
 
   &:disabled {
