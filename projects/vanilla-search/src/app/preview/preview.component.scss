@@ -2,21 +2,7 @@
 @import "bootstrap/scss/_variables";
 @import "bootstrap/scss/_mixins";
 
-nav {
-  padding-left: .5rem;
-  padding-right: .5rem;
-  box-shadow: 0 0 1.25rem 0 rgba(0, 0, 0, .15);
-  z-index: 99;
-
-  @include media-breakpoint-up(lg) {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-
-  img {
-    height: 2.5rem;
-  }
-}
+@import "../../../../components/theme/bootstrap-variables";
 
 .btn-preview {
   --bs-btn-padding-x: .85rem !important;
@@ -25,25 +11,39 @@ nav {
   font-size: .8rem;
 }
 
+nav {
+  padding-left: .5rem;
+  padding-right: .5rem;
+  box-shadow: 0 0 1.25rem 0 rgba(0, 0, 0, .15);
+  z-index: 99;
+}
+
+.preview-container {
+  height: calc(100% - 3.5rem);
+  width: 100%;
+
+  @include media-breakpoint-up(sm) {
+    height: calc(100% - 4.5rem);
+  }
+
+  @include media-breakpoint-up(lg) {
+    height: 100%;
+  }
+}
+
 .preview {
-  --bs-card-height: 100%;
   flex: 1;
 
-  .card {
-    height: 100% !important;
+  @include media-breakpoint-up(lg) {
+    padding: 1.25rem 2.5rem 1.25rem 1.25rem;
   }
 }
 
 .preview-content {
   --bs-gutter-x: 0;
   --bs-gutter-y: 0;
-  padding: 0;
-  height: calc(100% - 5rem);
+  height: 100%;
   background-color: #efefef;
-
-  @include media-breakpoint-up(lg) {
-    padding: 1.25rem 2.5rem;
-  }
 }
 
 .side-menu {
@@ -54,10 +54,14 @@ nav {
   -webkit-animation-delay: 2s;
   animation: slide 0.5s forwards;
   animation-delay: 2s;
+  flex-direction: column;
 
-  @include media-breakpoint-up(lg) {
-    padding-right: 1.25rem;
-    background-color: transparent;
+  .side-menu-header {
+    &.collapsed {
+      @include media-breakpoint-up(lg) {
+        flex-direction: column;
+      }
+    }
   }
 
   sq-tabs {
@@ -69,19 +73,20 @@ nav {
   }
 }
 
+nav img,
+.side-menu img {
+  height: 2.5rem;
+}
+
 .overflow-y-scroll {
   overflow-y: auto;
 }
 
-.expand-icon {
-  font-size: x-large;
-  color: #4a4a4a;
-
-  i {
-    width: 1.3rem;
+:host-context(.dark) {
+  .preview-content {
+    background-color: black;
   }
-}
-
-:host-context(.dark) .preview-content {
-  background-color: black;
+  .side-menu {
+    background-color: #1c1e21;
+  }
 }

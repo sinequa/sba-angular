@@ -121,4 +121,18 @@
     sq-scope button {
         filter: none !important;
     }
+
+    // Extracts list
+    sq-preview-extracts-panel {
+        .list-group-item {
+            &:active {
+                background-color: $dark-background-hover !important;
+            }
+
+            &.active {
+                background-color: $dark-background-highlight !important;
+                color: #9bccff !important;
+            }
+        }
+    }
 }

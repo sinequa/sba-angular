@@ -89,7 +89,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   // Zoom actions
   private minimizeAction: Action;
   private maximizeAction: Action;
-  secondaryActions: Action[] = [];
+  actions: Action[] = [];
 
   private readonly scaleFactorThreshold = 0.2;
   scaleFactor = 1.0;
@@ -185,7 +185,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       }
     });
 
-    this.secondaryActions.push(this.minimizeAction, this.maximizeAction);
+    this.actions.push(this.minimizeAction, this.maximizeAction);
 
     titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle"));
 

@@ -12,7 +12,7 @@
 
     <ng-template #extractsTpl>
         <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="64" class="h-100 list-group">
-            <div *cdkVirtualFor="let extract of extracts; let i = index" class="ps-2 pe-2">
+            <div *cdkVirtualFor="let extract of extracts; let i = index" class="px-2 px-lg-4">
                 <a href="#" class="my-2 list-group-item list-group-item-action"
                     [ngClass]="{'active': i === currentIndex}" (click)="scrollExtract(extract, i)">
                     <p class="m-0" [innerHTML]="extract.text"></p>
