@@ -38,10 +38,10 @@
 <ng-template #itemsTpl let-items="items">
     <ng-container *ngFor="let item of items">
 
-        <a  class="d-flex flex-row align-items-center list-group-item list-group-item-action"
+        <div class="d-flex flex-row align-items-center list-group-item list-group-item-action"
             [ngClass]="{'sq-filtered':item.$filtered, 'sq-selected': isSelected(item)}"
             [title]="(item.$filtered ? 'msg#facet.selectedValue' : 'msg#facet.itemSelect') | sqMessage"
-            (click)="selectItem(item, $event)" href="#">
+            (click)="selectItem(item, $event)">
 
             <span class="me-auto text-truncate" [ngStyle]="{'margin-left.rem' : indentFactor * (item['$level'] - 1)}">
 
@@ -65,7 +65,7 @@
 
             <span *ngIf="showCount && item.count" class="ms-2 text-muted small">{{item.count | sqNumber}}</span>
 
-        </a>
+        </div>
 
         <ng-container *ngIf="item['$opened']">
 
