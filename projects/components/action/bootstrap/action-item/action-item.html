@@ -1,32 +1,40 @@
-<!-- dropdown button -->
 <ng-container *ngIf="isDropdownButton">
-    <button *ngIf="hasAction" class="btn {{styleClass}} {{sizeClass}} {{options.item.disabled ? 'disabled' : ''}}" type="button" (click)="click($event)" sqTooltip="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
-        <sq-action-item-content [item]="options.item" [text]="itemText"></sq-action-item-content>
+    <!-- dropdown button -->
+    <button *ngIf="hasAction" class="btn {{styleClass}} {{sizeClass}} {{item.disabled ? 'disabled' : ''}}" type="button" (click)="click($event)" sqTooltip="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams"
+        sq-action-item-content [item]="item" [text]="itemText">
     </button>
-    <ng-container *ngIf="options.item.flattenable && options.item.children?.length === 1; then flattened else unflattened"></ng-container>
+
+    <!-- action flatenable or not -->
+    <ng-container *ngIf="!hasAction && (item.flattenable && item.children?.length === 1); then flattened else unflattened"></ng-container>
     <ng-template #flattened>
-        <div *ngIf="!hasAction" class="btn {{styleClass}} {{sizeClass}}">
-            <sq-action-item-content *ngIf="!hasAction" [item]="options.item" [text]="itemText"></sq-action-item-content>
+        <!-- flattened -->
+        <div class="btn {{styleClass}} {{sizeClass}}"
+            sq-action-item-content [item]="item" [text]="itemText">
         </div>
     </ng-template>
     <ng-template #unflattened>
-        <button class="btn {{styleClass}} dropdown-toggle {{sizeClass}}" type="button" data-bs-toggle="dropdown" sqTooltip="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams" (touchstart)="touchstart()" (mousedown)="mousedown()" (focusin)="focusin()">
-            <sq-action-item-content *ngIf="!hasAction" [item]="options.item" [text]="itemText"></sq-action-item-content>
+        <!-- unflattened -->
+        <button class="btn {{styleClass}} dropdown-toggle {{sizeClass}}" type="button" data-bs-toggle="dropdown"
+            sqTooltip="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams"
+            (touchstart)="touchstart()" (mousedown)="mousedown()" (focusin)="focusin()"
+            sq-action-item-content [item]="item" [text]="itemText">
         </button>
         <ul *ngIf="showDropdown" [sq-dropdown-menu]="dropdownMenuOptions"></ul>
     </ng-template>
 </ng-container>
+
 <!-- button -->
-<sq-action-item-content *ngIf="isButton" [item]="options.item" [text]="itemText"></sq-action-item-content>
-<!-- dropdown list item -->
+<sq-action-item-content *ngIf="isButton" [item]="item" [text]="itemText"></sq-action-item-content>
+
 <ng-container *ngIf="isDropdownListItem">
-    <a href="javascript:void(0)" (click)="click($event)" [ngClass]="{'nav-link': options.inMenu, 'dropdown-item': !options.inMenu, 'disabled': options.item.disabled}" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" title="{{itemTitle | sqMessage:itemMessageParams}}" aria-haspopup="true" aria-expanded="false" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
-        <sq-action-item-content [item]="options.item" [text]="itemText"></sq-action-item-content>
+    <!-- dropdown list item -->
+    <a href="javascript:void(0)" (click)="click($event)" [ngClass]="{'nav-link': options.inMenu, 'dropdown-item': !options.inMenu, 'disabled': options.item.disabled}" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" title="{{itemTitle | sqMessage:itemMessageParams}}" aria-haspopup="true" aria-expanded="false" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams"
+    sq-action-item-content [item]="item" [text]="itemText">
     </a>
     <ul [sq-dropdown-menu]="dropdownMenuOptions"></ul>
 </ng-container>
 
 <!-- list item -->
-<a *ngIf="isListItem" href="javascript:void(0)" class="{{options.inMenu ? 'nav-link' : 'dropdown-item'}} {{options.item.disabled ? 'disabled' : ''}}" role="button" (click)="click($event)" title="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
-    <sq-action-item-content [item]="options.item" [text]="itemText"></sq-action-item-content>
+<a *ngIf="isListItem" href="javascript:void(0)" class="{{options.inMenu ? 'nav-link' : 'dropdown-item'}} {{item.disabled ? 'disabled' : ''}}" role="button" (click)="click($event)" title="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams"
+    sq-action-item-content [item]="item" [text]="itemText">
 </a>
