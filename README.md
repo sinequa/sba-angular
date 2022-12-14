@@ -34,7 +34,7 @@
 5. Build Vanilla-Search and test it on our demo server (Sinequa account required):
 
     ```bash
-    npm run ng serve vanilla-search -- --ssl=true --proxyConfig=./projects/vanilla-search/src/proxy.conf.json
+    npm run ng serve vanilla-search -- --ssl=true --proxy-config=./projects/vanilla-search/src/proxy.conf.json
     ```
 
 Read our [Getting Started](https://sinequa.github.io/sba-angular/gettingstarted/gettingstarted.html) chapter and complete our [Tutorial](https://sinequa.github.io/sba-angular/tutorial/tutorial.html) to go further.
