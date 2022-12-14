@@ -4,13 +4,6 @@
 
 @import "../../../../components/theme/bootstrap-variables";
 
-.btn-preview {
-  --bs-btn-padding-x: .85rem !important;
-  --bs-btn-padding-y: 0.55rem !important;
-  max-height: 2.5rem;
-  font-size: .8rem;
-}
-
 nav {
   padding-left: .5rem;
   padding-right: .5rem;
@@ -76,6 +69,8 @@ nav {
 nav img,
 .side-menu img {
   height: 2.5rem;
+  display: block;
+  margin: auto;
 }
 
 .overflow-y-scroll {

@@ -3,25 +3,25 @@
         [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
         <div class="d-flex flex-row">
             <!-- Left panel expand button (mobile/tablet only) -->
-            <button class="btn btn-link btn-preview"
+            <button class="btn btn-link btn-lg"
                 [sqTooltip]="'msg#preview.expand' | sqMessage" (click)="collapsedPanel = !collapsedPanel">
                 <i class="fas fa-bars"></i>
             </button>
             <!-- Application logo -->
-            <a [routerLink]="['/home']" title="Home">
+            <a [routerLink]="['/home']" title="Home" class="d-flex">
                 <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" *ngIf="!isDark()">
                 <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" *ngIf="isDark()">
             </a>
         </div>
         <div>
             <!-- PDF version link -->
-            <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-lg btn-primary me-2 btn-preview"
+            <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-link btn-lg me-2"
                 [sqTooltip]="'msg#preview.downloadPdf' | sqMessage" (click)="notifyPdf()"
                 *ngIf="previewData?.record?.pdfUrl">
                 <i class="fas fa-file-pdf"></i>
             </a>
             <!-- Back button (go back to /search route) -->
-            <button class="btn btn-link btn-preview" [sqTooltip]="'msg#preview.back' | sqMessage" (click)="back()"
+            <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.back' | sqMessage" (click)="back()"
                 *ngIf="showBackButton">
                 <i class="fas fa-arrow-left"></i>
             </button>
@@ -43,7 +43,7 @@
                 </ng-container>
 
                 <!-- Toggles the left panel collapsed/expanded state -->
-                <button class="btn btn-link btn-preview my-1" [sqTooltip]="'msg#preview.expand' | sqMessage"
+                <button class="btn btn-link btn-lg my-1" [sqTooltip]="'msg#preview.expand' | sqMessage"
                     (click)="collapsedPanel = !collapsedPanel">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -53,14 +53,14 @@
                 <div>
                     <!-- PDF version link -->
                     <a [href]="previewData?.record?.pdfUrl" target="_blank"
-                        class="btn btn-lg btn-primary me-2 btn-preview"
+                        class="btn btn-link btn-lg me-2"
                         [sqTooltip]="'msg#preview.downloadPdf' | sqMessage" (click)="notifyPdf()"
                         *ngIf="previewData?.record?.pdfUrl">
                         <i class="fas fa-file-pdf"></i>
                     </a>
 
                     <!-- Back button (go back to /search route) -->
-                    <button class="btn btn-link btn-preview" [sqTooltip]="'msg#preview.back' | sqMessage"
+                    <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.back' | sqMessage"
                         (click)="back()" *ngIf="showBackButton">
                         <i class="fas fa-arrow-left"></i>
                     </button>
@@ -163,7 +163,7 @@
     </div>
 
     <ng-template #logo>
-        <a [routerLink]="['/home']" title="Home">
+        <a [routerLink]="['/home']" title="Home" class="d-flex">
             <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo"
                 *ngIf="(!collapsedPanel || ui.screenSizeIsLess('lg')) && !isDark()">
             <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo"
