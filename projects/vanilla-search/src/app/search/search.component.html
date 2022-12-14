@@ -25,7 +25,7 @@
             </div>
 
             <!-- User menu which visibility can be toggled with a button on small screens -->
-            <div class="col-sm-4 col-xl-5 d-flex justify-content-end" *ngIf="showMenu">
+            <div class="col-sm-4 col-xl-5 d-flex justify-content-end flex-grow-1 flex-shrink-1 w-100" *ngIf="showMenu">
                 <ul class="navbar-nav navbar-right mw-100">
                     <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
                         <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
