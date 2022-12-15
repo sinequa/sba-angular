@@ -2,11 +2,17 @@
     <nav class="navbar navbar-expand-sm d-flex justify-content-between py-2 py-sm-3"
         [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
         <div class="d-flex flex-row">
-            <!-- Left panel expand button (mobile/tablet only) -->
-            <button class="btn btn-link btn-lg"
-                [sqTooltip]="'msg#preview.expand' | sqMessage" (click)="collapsedPanel = !collapsedPanel">
-                <i class="fas fa-bars"></i>
+            <!-- Back button (go back to /search route) -->
+            <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.back' | sqMessage" (click)="back()"
+                *ngIf="showBackButton">
+                <i class="fas fa-arrow-left"></i>
             </button>
+            <!-- PDF version link -->
+            <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-link btn-lg me-2"
+                [sqTooltip]="'msg#preview.downloadPdf' | sqMessage" (click)="notifyPdf()"
+                *ngIf="previewData?.record?.pdfUrl">
+                <i class="fas fa-file-pdf"></i>
+            </a>
             <!-- Application logo -->
             <a [routerLink]="['/home']" title="Home" class="d-flex">
                 <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" *ngIf="!isDark()">
@@ -14,16 +20,10 @@
             </a>
         </div>
         <div>
-            <!-- PDF version link -->
-            <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-link btn-lg me-2"
-                [sqTooltip]="'msg#preview.downloadPdf' | sqMessage" (click)="notifyPdf()"
-                *ngIf="previewData?.record?.pdfUrl">
-                <i class="fas fa-file-pdf"></i>
-            </a>
-            <!-- Back button (go back to /search route) -->
-            <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.back' | sqMessage" (click)="back()"
-                *ngIf="showBackButton">
-                <i class="fas fa-arrow-left"></i>
+            <!-- Left panel expand button (mobile/tablet only) -->
+            <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.expand' | sqMessage"
+                (click)="collapsedPanel = !collapsedPanel">
+                <i class="fas {{collapsedPanel ? 'fa-bars' : 'fa-times'}}"></i>
             </button>
         </div>
     </nav>
@@ -34,7 +34,8 @@
     <div class="row preview-content d-flex">
 
         <!-- Left panel (navigation, extracts and entities) -->
-        <div class="side-menu d-flex justify-content-between" *ngIf="ui.screenSizeIsGreaterOrEqual('lg') || !collapsedPanel"
+        <div class="side-menu d-flex justify-content-between"
+            *ngIf="ui.screenSizeIsGreaterOrEqual('lg') || !collapsedPanel"
             [ngClass]="{'col-xs-12 col-sm-6 col-md-5 col-lg-3': !collapsedPanel, 'w-auto': collapsedPanel}">
             <div class="side-menu-header d-flex justify-content-between px-2 px-lg-4 pt-2 pt-lg-4"
                 *ngIf="ui.screenSizeIsGreaterOrEqual('lg')" [ngClass]="{'collapsed': collapsedPanel}">
@@ -42,29 +43,29 @@
                 <ng-container *ngIf="(!collapsedPanel || !ui.screenSizeIsGreaterOrEqual('lg')) else logo">
                 </ng-container>
 
-                <!-- Toggles the left panel collapsed/expanded state -->
-                <button class="btn btn-link btn-lg my-1" [sqTooltip]="'msg#preview.expand' | sqMessage"
-                    (click)="collapsedPanel = !collapsedPanel">
-                    <i class="fas fa-bars"></i>
-                </button>
-
-                <ng-container *ngIf="(collapsedPanel && ui.screenSizeIsGreaterOrEqual('lg')) else logo"></ng-container>
-
                 <div>
+                    <!-- Back button (go back to /search route) -->
+                    <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.back' | sqMessage"
+                        (click)="back()" *ngIf="showBackButton" [ngClass]="{'mt-2': collapsedPanel}">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+
                     <!-- PDF version link -->
-                    <a [href]="previewData?.record?.pdfUrl" target="_blank"
-                        class="btn btn-link btn-lg me-2"
+                    <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-link btn-lg my-1"
                         [sqTooltip]="'msg#preview.downloadPdf' | sqMessage" (click)="notifyPdf()"
                         *ngIf="previewData?.record?.pdfUrl">
                         <i class="fas fa-file-pdf"></i>
                     </a>
-
-                    <!-- Back button (go back to /search route) -->
-                    <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.back' | sqMessage"
-                        (click)="back()" *ngIf="showBackButton">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
                 </div>
+
+                <ng-container *ngIf="(collapsedPanel && ui.screenSizeIsGreaterOrEqual('lg')) else logo"></ng-container>
+
+                <!-- Toggles the left panel collapsed/expanded state -->
+                <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.expand' | sqMessage"
+                    (click)="collapsedPanel = !collapsedPanel">
+                    <i class="fas {{collapsedPanel ? 'fa-bars' : 'fa-times'}}"></i>
+                </button>
+
             </div>
 
             <div class="card shadow-none overflow-y-scroll">
@@ -130,7 +131,7 @@
             [ngClass]="{'d-none d-sm-block col-sm-6 col-md-7 col-lg-9': !collapsedPanel}">
             <ng-template #headerTpl>
                 <div class="text-truncate flex-grow-1 py-2">
-                    <div>{{previewData?.record.title}}</div>
+                    <div class="preview-title text-truncate">{{previewData?.record.title}}</div>
                     <!-- Link to the original document -->
                     <a *ngIf="getOriginalDocUrl() as url" [sqTooltip]="'msg#preview.original' | sqMessage"
                         target="_blank" href="{{url}}" (click)="notifyOriginalDoc()" class="mt-1">

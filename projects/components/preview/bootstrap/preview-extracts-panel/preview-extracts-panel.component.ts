@@ -20,7 +20,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() downloadUrl: string;
   @Input() type = "extractslocations";
   @Input() style: "light" | "dark" = "light";
-  @Input() showPagination = false;
+  @Input() showPagination = true;
   @ViewChild("scrollViewport") cdkScrollViewport: CdkVirtualScrollViewport;
 
   sortAction: Action;

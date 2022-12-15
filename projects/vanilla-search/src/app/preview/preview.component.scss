@@ -77,6 +77,10 @@ nav img,
   overflow-y: auto;
 }
 
+.preview-title {
+  font-size: 1.25rem;
+}
+
 :host-context(.dark) {
   .preview-content {
     background-color: black;
