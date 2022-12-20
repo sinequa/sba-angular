@@ -1,6 +1,6 @@
-import {Component, Input, Output, OnChanges, SimpleChanges, EventEmitter} from "@angular/core";
-import {Results, Tab} from "@sinequa/core/web-services";
-import {SearchService} from "../../search.service";
+import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter } from "@angular/core";
+import { Results, Tab } from "@sinequa/core/web-services";
+import { SearchService } from "../../search.service";
 
 @Component({
     selector: "sq-tabs",
@@ -22,14 +22,14 @@ export class BsTabs implements OnChanges {
     @Input() customtabs: Tab[];
 
     /**
-     * Custom tab to select by default
+     * Tab name to select by default
      */
-    @Input() selectedCustomTab: string;
+    @Input() selectedTab: string;
 
     /**
      * Associate icon to a tab name ({tab1 : 'icon class 1', tab2 : ...})
      */
-    @Input() iconMap: {[key: string]: string} = {};
+    @Input() iconMap: { [key: string]: string } = {};
 
     @Input() showCounts = true;
 
@@ -47,11 +47,15 @@ export class BsTabs implements OnChanges {
 
     update() {
         if (this.results && this.results.tabs) {
-            this.currentTab = this.searchService.getCurrentTab();
             this.searchtabs = this.results.tabs;
+            if (!!this.selectedTab) {
+                this.currentTab = this.searchtabs.find(tab => tab.name === this.selectedTab);
+            } else {
+                this.currentTab = this.searchService.getCurrentTab();
+            }
         }
-        else if (!!this.selectedCustomTab) {
-            this.currentTab = this.customtabs.find(tab => tab.name === this.selectedCustomTab);
+        else if (this.customtabs && this.customtabs.length && !!this.selectedTab) {
+            this.currentTab = this.customtabs.find(tab => tab.name === this.selectedTab);
             this.searchtabs = undefined;
         }
         else {
@@ -61,14 +65,14 @@ export class BsTabs implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!!changes["results"] || !!changes["customtabs"] || !!changes["selectedCustomTab"]) {
+        if (!!changes["results"] || !!changes["customtabs"] || !!changes["selectedTab"]) {
             this.update();
         }
     }
 
     selectTab(tab: Tab, search = true) {
         if (tab !== this.currentTab) {
-            if(search){
+            if (search) {
                 this.searchService.selectTab(tab); // the currentTab will be updated in update()
             } else {
                 this.currentTab = tab;
