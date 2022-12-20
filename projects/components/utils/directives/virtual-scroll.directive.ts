@@ -7,9 +7,9 @@ import { Directive, Input, OnChanges, EventEmitter, Output, SimpleChanges, HostL
  * It takes the whole list in which to scroll in input, and emits the paginated one triggered on the scrolling
  */
 @Directive({
-    selector: "[sqInfiniteScroll]"
+    selector: "[sqVirtualScroll]"
 })
-export class InfiniteScrollDirective implements OnChanges, AfterViewInit {
+export class VirtualScrollDirective implements OnChanges, AfterViewInit {
     /**
      * The list to be scrolled
      */
@@ -56,7 +56,7 @@ export class InfiniteScrollDirective implements OnChanges, AfterViewInit {
     onScrollTriggered(event: Event): void {
         const target = event.target as HTMLElement;
         const isStart = target.scrollTop === 0;
-        const isEnd = target.scrollTop + target.clientHeight === target.scrollHeight;
+        const isEnd = target.scrollHeight - Math.ceil(target.scrollTop) <= target.clientHeight;
         const isFirstPart = this.indexTo - this.itemsNumber < this.itemsNumber;
         const isLastPart = this.indexTo + this.itemsNumber >= this.list.length;
 
@@ -111,6 +111,7 @@ export class InfiniteScrollDirective implements OnChanges, AfterViewInit {
 
     ngAfterViewInit(): void {
         // Add spacers at the top and bottom of the list which prevent strange behavior when doing some forced scrolling
+        // like if we force scroll to an element, it is set at the top and if no spacer is here it will think we have scrolled top and go to the previous page
         this.elementRef.nativeElement.insertAdjacentHTML('afterbegin', '<div id="infinite-scroll-top-spacing" class="d-none" style="height:1rem">&nbsp;</div>');
         this.elementRef.nativeElement.insertAdjacentHTML('beforeend', '<div id="infinite-scroll-bottom-spacing" class="d-block" style="height:1rem">&nbsp;</div>');
     }

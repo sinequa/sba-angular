@@ -11,7 +11,7 @@
     </div>
 
     <ng-template #extractsTpl>
-        <div class="overflow-auto mb-4 list-group" id="extracts-list" sqInfiniteScroll [list]="extracts"
+        <div class="overflow-auto mb-4 list-group" id="extracts-list" sqVirtualScroll [list]="extracts"
             idParameter="relevanceIndex" idPrefix="extract" [itemsNumber]="extractsNumber"
             [scrollIndex]="scrollIndex" (newList)="displayedExtracts = $event">
             <div *ngFor="let extract of displayedExtracts" class="px-2 px-lg-4"
