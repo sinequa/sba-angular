@@ -5,8 +5,9 @@ import { Utils } from '@sinequa/core/base';
 import { SearchService } from '@sinequa/components/search';
 import { VisNetworkService } from './vis-network.service';
 import { DataSet } from 'vis-data/esnext';
-import { AppService, ExprBuilder } from '@sinequa/core/app-utils';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
+import { FacetService } from '@sinequa/components/facet';
 
 // TYPES (configuration)
 
@@ -122,8 +123,9 @@ export interface NetworkContext {
     searchService: SearchService;
     networkService: VisNetworkService;
     appService: AppService;
+    facetService: FacetService;
     intlService: IntlService;
-    exprBuilder: ExprBuilder;
+    query?: Query;
     /** Interactions */
     select(node?: Node, edge?: Edge): void;
 }

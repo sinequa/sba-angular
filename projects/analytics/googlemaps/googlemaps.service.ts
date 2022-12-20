@@ -2,7 +2,7 @@ import { InjectionToken } from "@angular/core";
 import { Inject, Optional } from "@angular/core";
 import { Injectable } from "@angular/core";
 import { Loader } from "@googlemaps/js-api-loader"
-import { ExprBuilder } from "@sinequa/core/app-utils";
+import { Filter } from "@sinequa/core/web-services";
 import { BehaviorSubject, from } from "rxjs";
 
 export const GOOGLE_MAPS_API_KEY = new InjectionToken<string>("GOOGLE_MAPS_API_KEY");
@@ -16,7 +16,6 @@ export class GoogleMapsService {
   DEG_RAD = 180.0 / Math.PI;
 
   constructor(
-    public exprBuilder: ExprBuilder,
     @Optional() @Inject(GOOGLE_MAPS_API_KEY) apiKey: string | undefined,
   ){
     const loader = new Loader({
@@ -28,17 +27,18 @@ export class GoogleMapsService {
     ).subscribe(this.ready);
   }
 
-  makeExpr(bounds: google.maps.LatLngBounds, latitude: string, longitude: string) {
-    const minLat = bounds.getSouthWest().lat();
-    const maxLat = bounds.getNorthEast().lat();
-    const minLng = bounds.getSouthWest().lng();
-    const maxLng = bounds.getNorthEast().lng();
-    return this.exprBuilder.concatAndExpr([
-      this.exprBuilder.makeNumericalExpr(latitude, '>=', minLat),
-      this.exprBuilder.makeNumericalExpr(latitude, '<=', maxLat),
-      this.exprBuilder.makeNumericalExpr(longitude, '>=', minLng),
-      this.exprBuilder.makeNumericalExpr(longitude, '<=', maxLng)
-    ]);
+  makeFilter(bounds: google.maps.LatLngBounds, latitude: string, longitude: string, facetName: string): Filter {
+    const sw = bounds.getSouthWest();
+    const ne = bounds.getNorthEast();
+    return {
+      operator: 'and',
+      display: "Map Selection",
+      facetName,
+      filters: [
+        {field: latitude, operator: 'between', start: sw.lat(), end: ne.lat()},
+        {field: longitude, operator: 'between', start: sw.lng(), end: ne.lng()}
+      ]
+    };
   }
 
 

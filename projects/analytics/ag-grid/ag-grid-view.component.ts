@@ -64,10 +64,10 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     defaultColDef: ColDef = {
         resizable: true
     }
-    
+
     /** Actual column definitions (derived from this.columns) */
     colDefs: ColDef[] = [];
-    
+
     /** ag-grid API for the grid and the column model */
     gridApi: GridApi | null | undefined;
     gridColumnApi: ColumnApi | null | undefined;
@@ -77,12 +77,12 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
 
     // Flags to manage the state of filters and sorts
     _filterInput = false;
-    
+
     /** Custom components */
     frameworkComponents = {
         facet: FacetWrapperComponent
     };
-    
+
     /** List of action buttons displayed in the toolbar */
     gridActions: Action[];
     /** Action button allowing to toggle each column's visibility */
@@ -236,19 +236,19 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * For each column of the grid, look for an active filter in the query
      * and create a filter model that the grid can understand.
      * Finally, set the filter model via the grid API.
-     * @param query 
+     * @param query
      */
     updateFilterState(query: Query) {
         let model = {};
         for(let col of this.colDefs) {
-            const select = query.findSelect("grid-filter-"+col.field);
-            if(col.field && select) {
+            const filter = query.findFilter(f => f.facetName === "grid-filter-"+col.field);
+            if(col.field && filter) {
                 if(col.filter === "facet") { // Sinequa facets
                     model[col.field] = {facetActive: true}; // Lets us tell ag-grid that a custom filter is active this column
                 }
                 else { // AG Grid filters
                     const filterType = col.filter ==="agNumberColumnFilter"? "number" : col.filter ==="agDateColumnFilter"? "date" : "text";
-                    model[col.field] = SqDatasource.exprToModel(filterType, col.field, select.expression);
+                    model[col.field] = SqDatasource.filterToModel(filterType, col.field, filter);
                 }
             }
         }
@@ -259,7 +259,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * If the query has a custom orderby clause, create
      * a sort model that the grid can understand and apply
      * that model via the grid column API.
-     * @param query 
+     * @param query
      */
     updateSortState(query: Query) {
         const model: ApplyColumnStateParams = {};
@@ -385,13 +385,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             // In global search mode, the new query & results will update the filter model
             this.datasource?.destroy?.();
             delete this.searchService.query.orderBy;
-            if(this.searchService.query.select?.length) {
-                for(let i=this.searchService.query.select.length; i--; i>=0) {
-                    if(this.searchService.query.select[i].facet.startsWith("grid-filter-")) {
-                        this.searchService.query.removeSelect(i);
-                    }
-                }
-            }
+            this.searchService.query.removeFilter(f => !!f.facetName?.startsWith("grid-filter-"));
             this.searchService.search();
         }
         else {
@@ -451,7 +445,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             this.uiService.copyToClipboard(data);
         }
     }
-    
+
     /** Download the data as a CSV file */
     downloadCsv() {
         this.gridApi?.exportDataAsCsv(this.getExportParams());
@@ -463,7 +457,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     autoResize() {
         this.gridColumnApi?.autoSizeAllColumns();
     }
-    
+
     /**
      * Called when the user toggles the "format content" checkbox
      */
@@ -490,7 +484,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * Callback function called when data in the grid changes
      */
     onRowDataChanged(event: RowDataChangedEvent) {
-        
+
     }
 
     /**
@@ -532,7 +526,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * Callback triggered on every user key input. It is useful to capture
      * the fact that onFilterChanged is about to be called after some
      * user input.
-     * @param event 
+     * @param event
      */
      onFilterModified(event: FilterModifiedEvent) {
         if(!this._filterInput) {
@@ -545,7 +539,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
 
     /**
      * Notify the datasource that filter have changed
-     * @param event 
+     * @param event
      */
     onFilterChanged(event: FilterChangedEvent) {
         // The _filterInput flag allows us to only respond to actual user input and ignore programmatic changes
@@ -565,7 +559,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
 
     /**
      * Update selection when new rows are inserted in the table
-     * @param event 
+     * @param event
      */
     onModelUpdated(event: ModelUpdatedEvent) {
         this.gridApi?.forEachNode(node => {

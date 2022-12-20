@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Observable, of, combineLatest, ReplaySubject, map } from 'rxjs';
-import { Results, AggregationItem, Aggregation, CCAggregation, Record, AuditWebService, AuditEventType } from '@sinequa/core/web-services';
-import { AppService, Expr, ExprBuilder } from '@sinequa/core/app-utils';
+import { Results, AggregationItem, Aggregation, CCAggregation, Record, AuditWebService, BetweenFilter, Filter } from '@sinequa/core/web-services';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { AbstractFacet, FacetService } from '@sinequa/components/facet';
 import { SearchService } from '@sinequa/components/search';
@@ -56,6 +56,7 @@ export type TimelineEventData = TimelineEvent[] | TimelineRecords | TimelineEven
 export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges {
     @Input() name = 'Timeline';
     @Input() results: Results;
+    @Input() query?: Query;
 
     // By default, we show the standard Timeline aggregation and the list of current records
     @Input() timeseries: TimelineData[] = [{aggregation: 'Timeline', primary: true}];
@@ -114,7 +115,6 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         public searchService: SearchService,
         public appService: AppService,
         public selectionService: SelectionService,
-        public exprBuilder: ExprBuilder,
         public cdRef: ChangeDetectorRef,
         public audit: AuditWebService
     ){
@@ -134,8 +134,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             title: "msg#facet.clearSelects",
             action: () => {
                 this.selection = undefined;
-                this.searchService.query.removeSelect(this.name);
-                this.searchService.search();
+                this.facetService.clearFiltersSearch(this.name, true, this.query);
             }
         });
 
@@ -165,30 +164,25 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         }
 
         // Retrieve the current active selection for this timeline (if any)
-        const select = this.searchService.query.findSelect(this.name);
+        const query = this.query || this.searchService.query;
+        const filter = query.findFilter(f => f.facetName === this.name && f.operator === 'between') as BetweenFilter;
 
         // Update the selection if it is not already set (which is the case on a page refresh)
-        if(select && !this.selection) {
-            let parsedexpr = this.appService.parseExpr(select.expression) as Expr;
-            if(!Utils.isString(parsedexpr)){
-                while(!parsedexpr.isLeaf){ // The select might over multiple fields (modified between [...] AND created between [...])
-                    parsedexpr = parsedexpr.operands[0];
-                }
-                if(parsedexpr.values){
-                    this.selection = [parseISO(parsedexpr.values[0]), parseISO(parsedexpr.values[1])];
-                    // Guess a current range based on the selection
-                    if(!this.currentRange) {
-                        const interval = this.selection[1].getTime() - this.selection[0].getTime();
-                        this.currentRange = [ // Selected Interval +10% on each side
-                            toDate(this.selection[0].getTime()-interval*0.1),
-                            toDate(this.selection[1].getTime()+interval*0.1)
-                        ];
-                    }
-                }
+        if(filter && !this.selection) {
+            const from = Utils.isString(filter.start)? parseISO(filter.start) : Utils.isDate(filter.start)? filter.start : new Date(filter.start);
+            const to = Utils.isString(filter.end)? parseISO(filter.end) : Utils.isDate(filter.end)? filter.end : new Date(filter.end);
+            this.selection = [from, to];
+            // Guess a current range based on the selection
+            if(!this.currentRange) {
+                const interval = from.getTime() - to.getTime();
+                this.currentRange = [ // Selected Interval +10% on each side
+                    toDate(from.getTime()-interval*0.1),
+                    toDate(to.getTime()+interval*0.1)
+                ];
             }
         }
         // If no active selection we remove the selection from the timeline, along with the current zoomed range
-        else if(!select) {
+        else if(!filter) {
             this.selection = undefined; // If no select, it was possibly removed by the user, we need to update our selection
             this.currentRange = undefined; // current range is set by zoom events, we want to reset it only if there are no select (ie. no user interaction)
         }
@@ -357,12 +351,12 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      * @param range
      */
     fetchAggregation(aggregation: string, ccaggregation: CCAggregation, range?: [Date, Date]): Observable<Aggregation> {
-        const query = Utils.copy(this.searchService.query);
+        const query = (this.query || this.searchService.query).copy();
         query.action = "aggregate";
         query.aggregations = [aggregation];
 
         if(range){
-            query.addSelect(`${ccaggregation.column}:[${this.formatDayRequest(range[0])}..${this.formatDayRequest(range[1])}]`);
+            query.addFilter({field: ccaggregation.column, operator: 'between', start: range[0], end: range[1]});
         }
 
         return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
@@ -423,8 +417,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             const from = this.formatDayRequest(selection[0]);
             const to = this.formatDayRequest(selection[1]);
 
-            const exprs: string[] = [];
-            this.searchService.query.removeSelect(this.name);
+            const filters: Filter[] = [];
 
             this.timeseries.forEach((config) => {
 
@@ -434,22 +427,24 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                     const aggregation = (config as TimelineAggregation).aggregation || (config as TimelineCombinedAggregations).default.aggregation;
                     const ccaggregation = this.appService.getCCAggregation(aggregation);
                     if(ccaggregation) {
-                        exprs.push(this.exprBuilder.makeRangeExpr(ccaggregation.column, from, to));
+                        filters.push({field: ccaggregation.column, operator: 'between', start: from, end: to});
                     }
                 }
 
             });
 
-            if(exprs.length > 0) {
-                const expr = this.exprBuilder.concatOrExpr(exprs);
-                this.searchService.query.addSelect(expr, this.name);
-                this.searchService.search(undefined, {type:AuditEventType.Search_Timeline_Usage, detail: { from, to }});
+            if(filters.length > 0) {
+                let filter = filters[0];
+                if(filters.length > 1) {
+                    filter = {operator: 'or', filters};
+                }
+                filter.facetName = this.name;
+                this.facetService.applyFilterSearch(filter, this.query, true);
             }
         }
 
-        else if(this.searchService.query.findSelect(this.name)) {
-            this.searchService.query.removeSelect(this.name);
-            this.searchService.search();
+        else if(this.facetService.hasFiltered(this.name, this.query)) {
+            this.facetService.clearFiltersSearch(this.name, true, this.query);
         }
     }
 

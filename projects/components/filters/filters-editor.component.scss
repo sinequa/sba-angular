@@ -1,0 +1,30 @@
+
+.sq-grip {
+  cursor: grab;
+}
+a {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+div:hover > a {
+  opacity: 1;
+}
+:host ::ng-deep .dropdown-toggle::after {
+  font-size: 0.875rem;
+}
+.sq-filter-operator ::ng-deep .dropdown-menu {
+  min-width: 0;
+}
+.sq-expr-container::before {
+  border: 3px solid black;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.sq-expr-container.cdk-drop-list-dragging sq-filters-editor:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

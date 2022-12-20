@@ -4,11 +4,6 @@ export default {
         "alreadySelected": "Déjà sélectionné"
     },
 
-    "breadcrumbs": {
-        "emptySearch": "<recherche vide>",
-        "itemRemove": "Supprimer"
-    },
-
     "didYouMean": {
         "dymonlyBeforeCorrected": "Essayez avec cette orthographe : ",
         "dymonlyAfterCorrected": "",

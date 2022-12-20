@@ -1,7 +1,7 @@
 <div class="nav-wrapper">
     <!-- Navbar with app icon, search form, and menus -->
     <nav class="navbar navbar-expand-sm" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
-        <div class="container-xl flex-nowrap">
+        <div class="container-lg flex-nowrap">
 
             <div class="col-lg-3 col-xl-2" *ngIf="showLogo">
                 <!-- Application logo -->
@@ -20,8 +20,8 @@
             </button>
 
             <!-- Search form -->
-            <div class="col-sm-5 ps-1 pe-2" *ngIf="showForm">
-                <app-search-form class="w-100"></app-search-form>
+            <div class="col-sm-5 ps-1 pe-2 align-self-baseline" *ngIf="showForm">
+                <app-search-form #searchForm></app-search-form>
             </div>
 
             <!-- User menu which visibility can be toggled with a button on small screens -->
@@ -53,26 +53,8 @@
 </div>
 
 <!-- Main interface -->
-<div class="container-xl main" *ngIf="loginService.complete">
+<div class="container-lg main" *ngIf="loginService.complete">
     <div class="row" *ngIf="results$ | async; let results">
-
-        <!-- Left facet bar -->
-        <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 96, bottom: 80}">
-            <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" class="mb-3">
-                <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
-            </sq-facet-card>
-            <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" class="mb-3">
-                <sq-facet-multi
-                    #facet
-                    [results]="results"
-                    [facets]="facets"
-                    [facetComponents]="facetComponents"
-                    (events)="facetChanged($event)"
-                >
-                </sq-facet-multi>
-            </sq-facet-card>
-        </div>
 
         <!-- Result selection toolbar -->
         <div class="card-action-bar rounded text-white bg-primary position-fixed w-auto" *ngIf="ui.screenSizeIsGreater('sm')">
@@ -82,14 +64,26 @@
         </div>
 
         <!-- Results -->
-        <div class="col-lg-5" [ngClass]="{'col-md-7': !showFilters, 'col-md-8': showFilters}" *ngIf="showResults">
+        <div class="col-md-6" *ngIf="showResults">
 
             <!-- Tabs -->
             <sq-tabs [results]="results"></sq-tabs>
 
             <!-- Toolbar -->
             <div class="d-flex sq-toolbar">
-                <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
+                <div class="flex-grow-1 small">
+                  <a href="#" class="" (click)="editFilters()" sqTooltip="Click to edit Filters">
+                    <sq-filters *ngIf="searchService.query.filters"
+                      [query]="searchService.query"
+                      [filter]="searchService.query.filters"
+                      [showField]="false"
+                      [allowRemove]="false">
+                    </sq-filters>
+                    <span *ngIf="!searchService.query.filters">
+                      Narrow your search down with filters...
+                    </span>
+                  </a>
+                </div>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true"></sq-sort-selector>
             </div>
@@ -149,7 +143,7 @@
 
         <!-- Right part-->
         <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 96, bottom: 30}">
+        <div class="col-md-6" [sqSticky]="{top: 96, bottom: 30}">
 
             <!-- Without selected document -->
             <sq-facet-card *ngIf="!openedDoc" [collapsible]="false" [title]="'msg#facet.preview.documentPreview'"

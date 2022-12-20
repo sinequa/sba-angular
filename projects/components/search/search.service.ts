@@ -3,13 +3,12 @@ import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from "
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, catchError, map, switchMap} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch} from "@sinequa/core/web-services";
-import {AppService, FormatService, ValueItem, Query, ExprParser, Expr, ExprBuilder} from "@sinequa/core/app-utils";
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter} from "@sinequa/core/web-services";
+import {AppService, FormatService, ValueItem, Query} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
 import {IntlService} from "@sinequa/core/intl";
 import {Utils} from "@sinequa/core/base";
-import {Breadcrumbs, BreadcrumbsItem} from './breadcrumbs';
 
 export interface SearchOptions {
     /** Name of routes for which we want the search service to work (incl. storing the query in the URL) */
@@ -35,7 +34,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     protected _query: Query | undefined;
     queryStringParams: Params = {};
     results: T | undefined;
-    breadcrumbs: Breadcrumbs<T> | undefined;
     searchActive: boolean;
 
     protected loginSubscription: Subscription;
@@ -56,7 +54,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         protected formatService: FormatService,
         protected auditService: AuditWebService,
         protected notificationsService: NotificationsService,
-        protected exprBuilder: ExprBuilder,
         protected queryIntentWebService: QueryIntentWebService) {
 
         if (!this.options) {
@@ -66,7 +63,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         }
 
         this.results = undefined;
-        this.breadcrumbs = undefined;
 
         this.loginSubscription = this.loginService.events.subscribe(
             (value) => {
@@ -167,27 +163,13 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         this.setQuery(undefined);
     }
 
-    public updateBreadcrumbs(results: T | undefined, options: SearchService.SetResultsOptions) {
-        if (!results) {
-            this.breadcrumbs = undefined;
-            return;
-        }
-        if (!this.breadcrumbs || (!options.resuseBreadcrumbs && !options.advanced)) {
-            this.breadcrumbs = Breadcrumbs.create<T>(this.appService, this, this.query);
-        }
-        else if (options.advanced) {
-            this.breadcrumbs.update(this.query);
-        }
-    }
-
-    private _setResults(results: T | undefined, options: SearchService.SetResultsOptions = {}) {
+    private _setResults(results: T | undefined) {
         if (results === this.results) {
             return;
         }
         this._events.next({type: "before-new-results", results});
         this.results = results;
         this.treatQueryIntents(results);
-        this.updateBreadcrumbs(results, options);
         if (this.results) {
             if (this.results.tab) {
                 this.query.tab = this.results.tab;
@@ -283,43 +265,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return event;
     }
 
-    selectBreadcrumbsItem(item: BreadcrumbsItem) {
-        if (this.breadcrumbs) {
-            const query = this.breadcrumbs.selectItem(item);
-            if (query) {
-                this.setQuery(query, false);
-                this.search({reuseBreadcrumbs: true}); // audit?
-            }
-        }
-    }
-
-    removeBreadcrumbsItem(item: BreadcrumbsItem) {
-        if (this.breadcrumbs) {
-            const next = this.breadcrumbs.removeItem(item);
-            if (this.isEmptySearch(this.breadcrumbs.query)) {
-                this.clear();
-                return;
-            }
-            if (next) {
-                this.selectBreadcrumbsItem(next);
-            }
-        }
-    }
-
-    removeSelect(index: number) {
-        if (this.breadcrumbs) {
-            const item = this.breadcrumbs.items[index + 1];
-            this.removeBreadcrumbsItem(item);
-        }
-    }
-
-    removeText() {
-        if (this.breadcrumbs) {
-            const item = this.breadcrumbs.items[0];
-            this.removeBreadcrumbsItem(item);
-        }
-    }
-
     clear(navigate = true, path?: string) {
         this.clearQuery();
         path = path || this.options.homeRoute;
@@ -371,6 +316,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             }
             // Test no facet selection
             if (query.select && query.select.length > 0) {
+                return false;
+            }
+            if (query.filters) {
                 return false;
             }
             return true;
@@ -570,58 +518,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         this.options.deactivateRouting = !value;
     }
 
-    protected makeAuditEventFromCurrentQuery(): AuditEvent | undefined {
-        const lastSelect = this.query.lastSelect();
-        if (lastSelect) {
-            const lastExpr = this.appService.parseExpr(lastSelect.expression);
-            if (lastExpr instanceof Expr) {
-                if (lastExpr.field === "refine") {
-                    return this.makeAuditEvent({
-                        type: AuditEventType.Search_Refine,
-                        detail: {
-                            querytext: lastExpr.value,
-                            itembox: lastSelect.facet,
-                            fromresultid: !!this.results ? this.results.id : null
-                        }
-                    });
-                }
-                else {
-                    return this.makeAuditEvent({
-                        type: AuditEventType.Search_Select_Item,
-                        detail: {
-                            item: lastSelect as any,
-                            itembox: lastSelect.facet,
-                            itemcolumn: lastExpr.field,
-                            isitemexclude: lastExpr.not,
-                            fromresultid: !!this.results ? this.results.id : null
-                        }
-                    });
-                }
-            }
-        }
-        else {
-            if (this.query.basket) {
-                return this.makeAuditEvent({
-                    type: AuditEventType.Basket_Open,
-                    detail: {
-                        basket: this.query.basket
-                    }
-                });
-            }
-            else {
-                return this.makeAuditEvent({
-                    type: AuditEventType.Search_Text,
-                    detail: {
-                        querytext: this.query.text,
-                        scope: this.query.scope,
-                        neuralsearch: this.appService.isNeural() && this.query.neuralSearch !== false
-                    }
-                });
-            }
-        }
-        return undefined;
-    }
-
     protected handleNavigation(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents) {
         if (!this.loginService.complete) {
             return
@@ -648,15 +544,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         const pathName = navigationOptions.path ? navigationOptions.path : Utils.makeURL(this.router.url).pathname;
         if(navigationOptions.skipSearch || this.isSkipSearchRoute(pathName)) {
             return
-        }
-
-        if (!audit) {
-            // Note: typically called on application startup when there's no history state (ie. we don't know where the search comes from)
-            audit = this.makeAuditEventFromCurrentQuery();
-            if (audit?.type === AuditEventType.Search_Text) {
-                delete navigationOptions.queryIntents;
-                delete navigationOptions.queryAnalysis;
-            }
         }
 
         let obs = of(false);
@@ -698,9 +585,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         observable.subscribe(results => {
             if(results) {
                 navigationOptions = navigationOptions || {};
-                this._setResults(results, {
-                    resuseBreadcrumbs: navigationOptions.reuseBreadcrumbs,
-                });
+                this._setResults(results);
             }
         });
     }
@@ -761,20 +646,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             }));
     }
 
-    searchRefine(text: string): Promise<boolean> {
-        // add "refine" name to facet value is mandatory as it's used in preview's query
-        this.query.addSelect(this.exprBuilder.makeRefineExpr(text), "refine");
-        return this.search(undefined,
-            this.makeAuditEvent({
-                type: AuditEventType.Search_Refine,
-                detail: {
-                    querytext: text,
-                    itembox: "refine",
-                    fromresultid: !!this.results ? this.results.id : null
-                }
-            }));
-    }
-
     gotoPage(page: number): Promise<boolean> {
         this.query.page = page;
         return this.navigate(undefined, this.makeAuditEvent({
@@ -825,16 +696,8 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return (page < this.pageCount);
     }
 
-    didYouMean(text: string, context: "search" | "refine", kind: DidYouMeanKind): Promise<boolean> {
-        if (context === "search") {
-            this.query.text = text;
-        }
-        else {
-            const refineSelect = this.query.findSelect("refine");
-            if (refineSelect) {
-                refineSelect.expression = "refine:" + ExprParser.escape(text);
-            }
-        }
+    didYouMean(text: string, kind: DidYouMeanKind): Promise<boolean> {
+        this.query.text = text;
         this.query.spellingCorrectionMode = "dymonly";
         return this.navigate(undefined, this.makeAuditEvent({
             type: kind === DidYouMeanKind.Original ? AuditEventType.Search_DidYouMean_Original : AuditEventType.Search_DidYouMean_Correction,
@@ -859,37 +722,26 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     }
 
     addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddSelectOptions): boolean {
+        if(Utils.isArray(items) && items.length === 1) {
+            items = items[0];
+        }
         if (items && (!Utils.isArray(items) || items.length > 0)) {
-            let expr = this.exprBuilder.makeFieldExpr(field, items, options?.and);
-            if (options?.not) {
-                expr = this.exprBuilder.makeNotExpr(expr);
+            let filter: Filter;
+            if(!Utils.isArray(items)) {
+              filter = {field, value: items.value as string|number|Date|boolean, display: items.display};
+              if(options?.not) filter.operator = 'neq';
             }
-            this.query.addSelect(expr, options?.facetName);
+            else {
+              const operator = options?.not? 'not' : options?.and? 'and' : 'or';
+              filter = {operator, filters: items.map(item => ({field, value: item.value as string|number|Date|boolean, display: item.display}))}
+            }
+            if(options?.facetName) {
+              filter.facetName = options.facetName;
+            }
+            this.query.addFilter(filter);
             return true;
         }
         return false;
-    }
-
-
-    get lastRefineText(): string {
-        if (this.breadcrumbs) {
-            const refineExpr = this.breadcrumbs.findSelect("refine");
-            if (refineExpr) {
-                return ExprParser.unescape(refineExpr.toString(false));
-            }
-        }
-        return "";
-    }
-
-    get hasRelevance(): boolean {
-        if (!this.breadcrumbs) {
-            return false;
-        }
-        if (this.breadcrumbs.textExpr?.hasRelevance) {
-            return true;
-        }
-        const refineExpr = this.breadcrumbs.findSelect("refine");
-        return refineExpr?.hasRelevance || false;
     }
 
     selectTab(arg: string | Tab, options: SearchService.NavigationOptions = {}): Promise<boolean> {
@@ -986,9 +838,11 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         // building query to get missing records
         const query = this.query.copy();
         query.globalRelevance = 0;
-        query.addSelect(
-            this.exprBuilder.makeOrExpr('id', records.filter(r => !r.record).map(r => r.id))
-        );
+        query.addFilter({
+          operator: 'or',
+          filters: records.filter(r => !r.record)
+            .map(r => ({field: 'id', value: r.id}))
+        });
 
         return this.queryService.getResults(query)
                 .pipe(map(res => records.map(r => r.record as Record || res.records.find(rec => rec.id === r.id))));
@@ -1002,11 +856,6 @@ export module SearchService {
         searchInactive?: boolean;   // default "false"
     }
 
-    export interface SetResultsOptions {
-        resuseBreadcrumbs?: boolean;
-        advanced?: boolean;
-    }
-
     export interface AddSelectOptions {
         not?: boolean;      // default "false"
         and?: boolean;      // default "false"
@@ -1015,7 +864,6 @@ export module SearchService {
 
     export interface NavigationOptions {
         path?: string; // absolute path, current path used if not specified
-        reuseBreadcrumbs?: boolean;
         selectTab?: boolean;
         analyzeQueryText?: boolean;
         queryIntents?: QueryIntent[];

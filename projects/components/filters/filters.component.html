@@ -1,0 +1,73 @@
+<ng-container *ngIf="filter">
+  <!-- Display the field (if it exists) -->
+  <span *ngIf="showField && field">{{field | sqMessage}}</span>
+
+  <!-- Filter is an expression (with AND/OR/NOT) -->
+  <ng-container *ngIf="exprFilter">
+    <!-- Display an equality operator if this expression is attached to a field -->
+    <span class="sq-filter-operator" *ngIf="showOperator && showField && field">{{'msg#filters.operator.'+operator | sqMessage}}</span>
+    <!-- Use the display value if it exists -->
+    <span class="sq-filter-value" *ngIf="filter.display">{{filter.display | sqMessage}}</span>
+    <!-- Or else build the display by listing the child filters -->
+    <span *ngIf="!filter.display">
+      <ng-container *ngFor="let c of exprFilter?.filters; let first = first">
+        <!-- Display AND/OR/NOT before each value -->
+        <span class="sq-filter-operator" *ngIf="exprFilter?.operator === 'not' || !first"> {{'msg#filters.operator.'+exprFilter?.operator | sqMessage}} </span>
+        <sq-filters
+          [query]="query"
+          [filter]="c"
+          [showField]="showField && !field"
+          [showOperator]="showOperator && !field"
+          [allowRemove]="allowRemove"
+          (filterEdit)="filterEdit.next(query)">
+        </sq-filters>
+      </ng-container>
+    </span>
+  </ng-container>
+
+  <!-- Filter is a direct value -->
+  <ng-container *ngIf="valueFilter as value">
+    <span class="sq-filter-operator" *ngIf="showOperator && (showField || operator !== 'eq')">{{'msg#filters.operator.'+operator | sqMessage}}</span>
+    <span class="sq-filter-value">{{(value.display || value.value) | sqValue}}</span>
+  </ng-container>
+
+  <ng-container *ngIf="betweenFilter as value">
+    <span class="sq-filter-operator" *ngIf="showOperator">{{'msg#filters.operator.between' | sqMessage}} </span>
+    <span *ngIf="value.display">{{value.display | sqMessage}}</span>
+    <span *ngIf="!value.display">
+      <span class="sq-filter-value">{{ value.start | sqValue}}</span>
+      <span>{{'msg#filters.operator.and' | sqMessage}}</span>
+      <span class="sq-filter-value">{{ value.end | sqValue}}</span>
+    </span>
+  </ng-container>
+
+  <ng-container *ngIf="inFilter as value">
+    <span class="sq-filter-operator" *ngIf="showOperator">{{'msg#filters.operator.in' | sqMessage}} </span>
+    <span *ngIf="value.display">{{value.display | sqMessage}}</span>
+    <span *ngIf="!value.display">
+      <span>[</span>
+      <ng-container *ngFor="let v of value.values; let last=last">
+        <span class="sq-filter-value">{{ v | sqValue}}</span>
+        <span *ngIf="!last">, </span>
+      </ng-container>
+      <span>]</span>
+    </span>
+  </ng-container>
+
+  <ng-container *ngIf="nullFilter as value">
+    <span *ngIf="value.display">{{value.display | sqMessage}}</span>
+    <span *ngIf="!value.display">
+      <span *ngIf="showOperator" class="sq-filter-operator">{{'msg#filters.operator.null' | sqMessage}} </span>
+      <span *ngIf="value.not" class="sq-filter-value">{{'msg#filters.operator.not' | sqMessage}}</span>
+      <span class="sq-filter-value">NULL</span>
+    </span>
+  </ng-container>
+
+  <!-- Remove this filter -->
+  <a href="#" (click)="remove()"
+    class="ms-2 text-reset"
+    [title]="'msg#filters.remove' | sqMessage:{value: filter?.display || valueFilter?.value || field}"
+    *ngIf="allowRemove && (valueFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
+    <i class="fas fa-times-circle"></i>
+  </a>
+</ng-container>

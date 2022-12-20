@@ -5,9 +5,9 @@
         </div>
     </div>
 
-    <div *ngIf="searchItems.selected" class="position-relative" [formGroup]="myGroup">
+    <div *ngIf="searchItems.selected" [formGroup]="myGroup">
         <div class="p-1">
-            <input class="form-control" sqAutofocus
+            <input class="form-control"
                 formControlName="searchQuery"
                 [placeholder]="'msg#facet.searchPlaceholder' | sqMessage">
         </div>

@@ -1,11 +1,13 @@
-<div *ngIf="!isHidden()" class="list-group list-group-flush m-1">
-    <div *ngIf="displayActions && actions" class="btn-group ms-auto pb-1"
-        [sq-action-buttons]="{items: actions, size: 'sm'}">
+<div [hidden]="isHidden()" class="list-group list-group-flush pb-1">
+    <div *ngIf="displayActions && actions" class="d-flex pb-2 pe-2">
+        <div class="btn-group ms-auto"
+            [sq-action-buttons]="{items: actions, size: 'sm'}">
+        </div>
     </div>
 
-    <div *ngIf="searchItems.selected" class="position-relative" [formGroup]="myGroup">
+    <div *ngIf="searchItems.selected" [formGroup]="myGroup">
         <div class="p-1">
-            <input class="form-control" sqAutofocus
+            <input class="form-control"
                 formControlName="searchQuery"
                 [placeholder]="'msg#facet.searchPlaceholder' | sqMessage">
         </div>

@@ -359,7 +359,6 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     protected getInputPosition(): number {
         // Come back before trailing spaces so the preceding value is still seen as the input value
-        // (needed for ExprParser to stop autocomplete being cancelled on entering trailing spaces)
         const position = this.uiService.getCaret(this.inputElement).start;
         const length = Utils.len(Utils.trimEnd(this.getInputValue()));
         return Math.min(position, length);

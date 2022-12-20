@@ -1764,6 +1764,80 @@ export class Utils {
     }
 
     /**
+     * Escape a string so that the characters in it are not processed by the fielded search expression parser.
+     * Single occurrences of the backslash character are replaced by two backslashes and backquote characters
+     * are prefixed by a backslash. Finally, the string is enclosed in backquotes.
+     *
+     * For example: `` a\`\b `` => `` a\\\`\\b ``
+     */
+    // \ => \\
+    // ` => \`
+    // then surround with ``
+    public static escapeExpr(value: string | undefined): string {
+        if (!value) {
+            return "``";
+        }
+        value = String(value); // make sure we have a string
+        if (value.search(/[\\`]/) === -1) {
+            return "`" + value + "`";
+        }
+        const sb: string[] = ["`"];
+        for (let i = 0, ic = value.length; i < ic; i++) {
+            const ch = value[i];
+            if (ch === "\\" || ch === "`") {
+                sb.push("\\");
+            }
+            sb.push(ch);
+        }
+        sb.push("`");
+        return sb.join("");
+    }
+
+    private static isExprEscaped(value: string | undefined): boolean {
+        return !!value && value.length >= 2 && value[0] === "`" && value[value.length - 1] === "`";
+    }
+
+    /**
+     * Perform the reverse operation to [Utils.escape]{@link Utils#escape}
+     */
+    // remove surrounding ``
+    // \\ => \
+    // \` => `
+    public static unescapeExpr(value: string): string {
+        if (!Utils.isExprEscaped(value)) {
+            return value;
+        }
+        const sb: string[] = [];
+        for (let i = 1, ic = value.length - 1; i < ic; i++) {
+            let ch = value[i];
+            if (ch === "\\") {
+                if (i >= ic - 1) { // we end with a \ => drop it
+                    continue;
+                }
+                ch = value[++i];
+            }
+            sb.push(ch);
+        }
+        return sb.join("");
+    }
+
+    /**
+     * @ignore
+     */
+    public static unescapeExprList(values: string[]): string[] {
+        if (!values) {
+            return values;
+        }
+        const values1: string[] = [];
+        for (let _i = 0, _a = values; _i < _a.length; _i++) {
+            const value = _a[_i];
+            values1.push(Utils.unescapeExpr(value));
+        }
+        return values1;
+    }
+
+
+    /**
      * Move an element in an array
      *
      * @param array The array containing the element to move

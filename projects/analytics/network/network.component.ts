@@ -3,10 +3,10 @@ import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder } from '@angul
 import { Subscription, combineLatest } from 'rxjs';
 
 import { Results } from '@sinequa/core/web-services';
-import { AppService, ExprBuilder } from '@sinequa/core/app-utils';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { UserPreferences } from '@sinequa/components/user-settings';
-import { AbstractFacet } from '@sinequa/components/facet';
+import { AbstractFacet, FacetService } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
 
@@ -47,6 +47,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     /** Input results - used to produce a OnChange event when  */
     @Input() results: Results;
+    @Input() query?: Query;
 
     @Input() providers: NetworkProvider[];
 
@@ -82,11 +83,11 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     constructor(
         public networkService: VisNetworkService,
         public searchService: SearchService,
+        public facetService: FacetService,
         public appService: AppService,
         public intlService: IntlService,
         public formBuilder: UntypedFormBuilder,
-        public prefs: UserPreferences,
-        public exprBuilder: ExprBuilder
+        public prefs: UserPreferences
     ) {
         super();
 
@@ -115,8 +116,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             icon: "far fa-minus-square",
             title: "msg#facet.clearSelects",
             action: () => {
-                this.searchService.query.removeSelect(this.name);
-                this.searchService.search();
+                this.facetService.clearFiltersSearch(this.name, true, this.query);
             }
         });
 
@@ -124,11 +124,12 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             name: this.name,
             nodes: new DataSet<Node>(),
             edges: new DataSet<Edge>(),
-            searchService: searchService,
-            appService: appService,
-            networkService: networkService,
-            intlService: intlService,
-            exprBuilder: exprBuilder,
+            searchService,
+            facetService,
+            appService,
+            networkService,
+            intlService,
+            query: this.query,
             select: (node?: Node, edge?: Edge) => this.select(node, edge),
         };
     }
@@ -217,7 +218,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         this._actions = [];
 
         // Clear the active filters
-        if(this.searchService.breadcrumbs && !!this.searchService.breadcrumbs.findSelect(this.name)) {
+        if(this.facetService.hasFiltered(this.name, this.query)) {
             this._actions.push(this.clearFilters);
         }
 

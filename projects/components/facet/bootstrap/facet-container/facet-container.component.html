@@ -1,0 +1,57 @@
+<sq-collapse #buttonList [collapsed]="!!openedFacet">
+  <ng-template>
+    <div class="small fw-bold mb-2">{{ 'msg#facet.container.help' | sqMessage }}</div>
+    <button *ngFor="let facet of facetList"
+      class="me-2 mb-1 btn btn-sm position-relative"
+      [ngClass]="{
+        'btn-outline-secondary': !facet.filters && openedFacet !== facet.config,
+        'btn-secondary': facet.filters && openedFacet !== facet.config,
+        'me-3': facet.filters
+      }"
+      type="button"
+      (click)="open(facet.config)"
+      [title]="(facet.config.title || '') | sqMessage">
+      <span *ngIf="facet.config.icon" [ngClass]="facet.config.icon"></span>
+      <span class="ms-1">{{facet.config.title | sqMessage}}</span>
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="facet.filters">
+        {{facet.filters}}
+      </span>
+    </button>
+  </ng-template>
+</sq-collapse>
+
+<sq-collapse [collapsed]="!openedFacet">
+  <ng-template>
+    <div class="d-flex align-items-center">
+      <ng-container *ngIf="searchService.results">
+        <span class="small fw-bold me-2">{{ 'msg#facet.container.filterFor' | sqMessage }}</span>
+        <div class="form-check form-check-inline py-2 my-0" [sqTooltip]="'msg#facet.container.currentTitle' | sqMessage">
+          <input class="form-check-input" type="radio" id="currentResultsMode" value="current" [(ngModel)]="resultsMode">
+          <label class="form-check-label small fw-bold" for="currentResultsMode">{{ 'msg#facet.container.current' | sqMessage }}</label>
+        </div>
+        <div class="form-check form-check-inline py-2 my-0" [sqTooltip]="'msg#facet.container.allTitle' | sqMessage">
+          <input class="form-check-input" type="radio" id="allDataMode" value="all" [(ngModel)]="resultsMode">
+          <label class="form-check-label small fw-bold" for="allDataMode">{{ 'msg#facet.container.all' | sqMessage }}</label>
+        </div>
+      </ng-container>
+      <div class="ms-auto btn-group" [sq-action-buttons]="{items: facetActions, rightAligned: true}"></div>
+    </div>
+    <div class="facet-container">
+      <ng-container *ngIf="openedFacet && facetInputs"
+        [sqLoadComponent]="{component: facetComponents[openedFacet.type], inputs: facetInputs}"
+        (sqLoadComponent)="onLoadComponent($event)">
+      </ng-container>
+    </div>
+    <div *ngIf="!facetInputs" class="d-flex flex-column align-items-center">
+      <div class="spinner-border my-5" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div *ngIf="isFacetEmpty" class="d-flex flex-column align-items-center">
+      <div class="my-5 text-muted small">
+        <i>{{ 'msg#facet.container.noData' | sqMessage }}</i>
+      </div>
+    </div>
+  </ng-template>
+</sq-collapse>
+

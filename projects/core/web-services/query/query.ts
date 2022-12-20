@@ -16,6 +16,59 @@ export interface Select {
     facet: string;
 }
 
+
+/**
+ * Filters
+ */
+
+export interface BaseFilter {
+  field: string;
+  facetName?: string;
+  display?: string;
+}
+
+export interface BooleanFilter extends BaseFilter {
+  operator?: 'eq' | 'neq';
+  value: boolean | number | Date | string;
+}
+
+export interface NumericalFilter extends BaseFilter {
+  operator: 'gt' | 'gte' | 'lt' | 'lte';
+  value: number | Date | string;
+}
+
+export interface StringFilter extends BaseFilter {
+  operator: 'like' | 'contains' | 'regex'
+  value: string;
+}
+
+export type ValueFilter = BooleanFilter | NumericalFilter | StringFilter;
+
+export interface BetweenFilter extends BaseFilter {
+  operator: 'between';
+  start: string | number | Date;
+  end: string | number | Date;
+}
+
+export interface InFilter extends BaseFilter {
+  operator: 'in';
+  values: string[];
+}
+
+export interface NullFilter extends BaseFilter {
+  operator: 'null';
+  not?: boolean;
+}
+
+export interface ExprFilter extends Omit<BaseFilter, 'field'> {
+  operator: 'and' | 'or' | 'not';
+  filters: Filter[];
+}
+
+export type Filter = ValueFilter | BetweenFilter | InFilter  | NullFilter | ExprFilter;
+
+
+
 /**
  * Defines the object used to request the children of a tree node in an aggregation
  */
@@ -66,6 +119,10 @@ export interface IQuery {
      * `aggregate` - Processes the objects specified in the `aggregations` member. This is used to provide pagination of aggregation values
      */
     action?: "" | "search" | "open" | "aggregate";
+    /**
+     * Specifies conditions applied by the user to filter their search results
+     */
+    filters?: Filter;
     /**
      * Specifies selection-based filtering for this query, typically from UI facets
      */

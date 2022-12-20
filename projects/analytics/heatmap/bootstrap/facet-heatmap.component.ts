@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angul
 import { Subject, distinctUntilChanged, filter, Subscription } from 'rxjs';
 
 import {Utils} from '@sinequa/core/base';
-import { AppService } from '@sinequa/core/app-utils';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { AbstractFacet, BsFacetCard, FacetService } from '@sinequa/components/facet';
 import { Results, ListAggregation, AggregationItem } from '@sinequa/core/web-services';
 import { SearchService } from '@sinequa/components/search';
@@ -19,6 +19,7 @@ import {HeatmapItem} from './heatmap.component';
 })
 export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, OnDestroy {
     @Input() results: Results;
+    @Input() query?: Query;
     @Input() aggregation= "Heatmap";
     @Input() name?: string;
 
@@ -83,7 +84,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     protected readonly cdRef = inject(ChangeDetectorRef);
     protected readonly prefs = inject(UserPreferences);
 
-    constructor( @Optional() public cardComponent?: BsFacetCard){
+    constructor(@Optional() public cardComponent?: BsFacetCard){
         super();
 
         this.subs.add(this.cardComponent?.facetCollapsed.subscribe(value => {
@@ -95,8 +96,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
             icon: "far fa-minus-square",
             title: "msg#facet.clearSelects",
             action: () => {
-                this.searchService.query.removeSelect(this._name);
-                this.searchService.search();
+                this.facetService.clearFiltersSearch(this._name, true, this.query);
             }
         });
 
@@ -121,7 +121,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                 distinctUntilChanged((prev, curr) => prev.value === curr.value),
             )
             .subscribe(item => {
-                this.facetService.addFilterSearch(this._name, this.aggregationData!, item, {forceAdd: true});
+                this.facetService.addFilterSearch(this._name, this.aggregationData!, item, {forceAdd: true}, this.query, this._name);
             })
         );
 
@@ -269,7 +269,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         if(!this.appService.getCCAggregation(this.aggregation)) {
             throw new Error(`Aggregation ${this.aggregation} does not exist in the Query web service configuration`);
         }
-        const query = Utils.copy(this.searchService.query);
+        const query = (this.query || this.searchService.query).copy();
         query.action = "aggregate";
         query.aggregations = [this.aggregation];
         if(!this.fieldCooc) {

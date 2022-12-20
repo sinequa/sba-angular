@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {IntlService} from "@sinequa/core/intl";
 import {Utils, FieldValue} from "@sinequa/core/base";
-import {AppServiceHelpers} from "./app-service-helpers";
 import {CCColumn} from "@sinequa/core/web-services";
 import {format} from "d3-format";
+import { AppService } from "./app.service";
 
 /**
  * Describes a value item object that includes a {@link FieldValue} and an optional display value
@@ -108,12 +108,12 @@ export class FormatService {
 
     /** Similar to bigNumberFormatter, but replaces "G" by "B" (as in "$42B") */
     moneyFormatter = s => this.bigNumberFormatter(s).replace(/G/, "B");
-    
+
     /**
      * Format an amount of money (typically extracted by a Sinequa Text-mining agent)
      * USD 42069 => USD 42K
-     * @param value 
-     * @returns 
+     * @param value
+     * @returns
      */
     formatMoney(value: string): string {
         let [currency, val] = value.split(" ");
@@ -143,7 +143,7 @@ export class FormatService {
                         return this.formatMoney(value);
                     }
                     else if(Utils.isArray(value)) {
-                        return value.map(v => 
+                        return value.map(v =>
                             this.formatMoney(Utils.isString(v)? v : v.value)
                         ).join(', ');
                     }
@@ -165,11 +165,11 @@ export class FormatService {
                 return this.intlService.formatNumber(value);
             }
         }
-        if (column && AppServiceHelpers.isDate(column) && Utils.isString(value)) {
+        if (column && AppService.isDate(column) && Utils.isString(value)) {
             value = Utils.fromSysDateStr(value) || value;
         }
         if (Utils.isDate(value)) {
-            if (column && !AppServiceHelpers.isDate(column)) { // ES-7785
+            if (column && !AppService.isDate(column)) { // ES-7785
                 value = Utils.toSysDateStr(value);
             }
             else {
@@ -301,8 +301,8 @@ export class FormatService {
     /**
      * Display a raw value without applying any formatting
      * (besides the native toString() method for non-string values)
-     * @param value 
-     * @returns 
+     * @param value
+     * @returns
      */
     formatRaw(value: ValueItem | FieldValue): string {
         let [val] = this.getValueAndDisplay(value);

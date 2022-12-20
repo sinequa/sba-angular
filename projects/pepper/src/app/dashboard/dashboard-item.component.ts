@@ -3,7 +3,7 @@ import { GridsterItemComponent } from 'angular-gridster2';
 
 import { Results, Record, AuditWebService, AuditEventType } from '@sinequa/core/web-services';
 import { Utils } from '@sinequa/core/base';
-import { ExprBuilder, Query } from '@sinequa/core/app-utils'
+import { Query } from '@sinequa/core/app-utils'
 
 import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
@@ -80,7 +80,6 @@ export class DashboardItemComponent implements OnChanges {
         public providerFactory: ProviderFactory,
         public searchService: SearchService,
         public dashboardService: DashboardService,
-        public exprBuilder: ExprBuilder,
         public auditService: AuditWebService,
         private previewService: PreviewService) {
 
@@ -138,7 +137,7 @@ export class DashboardItemComponent implements OnChanges {
             }
             if(!this.record) {
                 // Try to retrieve the record from a dedicated query
-                this.query.addSelect(this.exprBuilder.makeExpr('id', this.config.recordId));
+                this.query.addFilter({field: 'id', value: this.config.recordId});
                 this.searchService.getResults(this.query, undefined, {searchInactive: true}).subscribe(
                     results => {
                         this.record = results.records[0];

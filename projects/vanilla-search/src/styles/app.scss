@@ -141,6 +141,15 @@ sq-tabs {
     }
 }
 
+sq-filters, sq-filters-editor {
+  .sq-filter-operator {
+    color: $secondary-color;
+  }
+  .sq-filter-value {
+    font-weight: bold;
+  }
+}
+
 sq-results-counter {
     color: $secondary-color;
     font-size: 0.875em;
@@ -224,12 +233,6 @@ sq-feedback-menu {
     }
     .dropdown-toggle::after{
         display: none;
-    }
-}
-
-sq-facet-tree {
-    .list-group.list-group-flush.scrollable {
-        max-height: calc(75vh - 250px);
     }
 }
 

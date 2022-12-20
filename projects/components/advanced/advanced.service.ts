@@ -13,16 +13,13 @@ import { Utils } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
 import {
     AppService,
-    Expr,
-    ExprOperator,
     FormatService,
     Query,
     advancedFacetPrefix,
-    ExprBuilder,
     ValueItem,
 } from "@sinequa/core/app-utils";
 import { ValidationService } from "@sinequa/core/validation";
-import { CCColumn } from "@sinequa/core/web-services";
+import { CCColumn, Filter, ValueFilter } from "@sinequa/core/web-services";
 
 /**
  * Defines the possible basic types of an advanced value
@@ -79,7 +76,6 @@ export class AdvancedService {
         public searchService: SearchService,
         public validationService: ValidationService,
         public formatService: FormatService,
-        public exprBuilder: ExprBuilder
     ) {}
 
     /**
@@ -194,12 +190,27 @@ export class AdvancedService {
         field: string,
         query = this.searchService.query
     ): ValueItem | ValueItem[] | undefined {
-        const expr = this.getAdvancedExpr(field, query);
-        if (expr) {
-            const value = this.getValueFromExpr(expr);
-            return this.formatValueItems(field, value);
+        const filter = this.getAdvancedFilter(field, query);
+        if (filter) {
+            let value: ValueItem | ValueItem[] = this.extractValues(filter);
+            if(value.length > 0) {
+                if(value.length === 1) {
+                    value = value[0];
+                }
+                return this.formatValueItems(field, value);
+            }
         }
         return undefined;
+    }
+
+    extractValues(filter: Filter): ValueItem[] {
+        if(filter.operator === 'and' || filter.operator === 'or' || filter.operator === 'not') {
+            return filter.filters.map(f => this.extractValues(f)).flat();
+        }
+        else if(typeof (filter as ValueFilter).value !== 'undefined') {
+            return [{value: (filter as ValueFilter).value, display: filter.display}];
+        }
+        return [];
     }
 
     /**
@@ -211,10 +222,9 @@ export class AdvancedService {
         field: string,
         query = this.searchService.query
     ): boolean | undefined {
-        const expr = this.getAdvancedExpr(field, query);
-        if (expr) {
-            const value = this.getValueFromExpr(expr) as ValueItem;
-            return this.formatAdvancedValue(field, value.value as boolean) as boolean;
+        const filter = this.getAdvancedFilter(field, query);
+        if (typeof (filter as ValueFilter)?.value !== 'undefined') {
+            return this.formatAdvancedValue(field, (filter as ValueFilter).value) as boolean;
         }
         return undefined;
     }
@@ -228,80 +238,28 @@ export class AdvancedService {
         field: string,
         query = this.searchService.query
     ): AdvancedValue {
-        const expr = this.getAdvancedExpr(field, query);
-        if (expr) {
-            const value = this.getValueFromExpr(expr);
-            if (Utils.isArray(value)) {
-                return value.map((e) =>
-                    this.formatAdvancedValue(
-                        field,
-                        e.value as string | Date | number
-                    )
-                ) as AdvancedValue;
-            } else {
-                const _value = this.formatAdvancedValue(
-                    field,
-                    value.value as string | Date | number
-                ) as BaseAdvancedValue;
-                if (expr.operator === ExprOperator.gte) {
-                    return [_value, undefined];
-                } else if (expr.operator === ExprOperator.lte) {
-                    return [undefined, _value];
-                }
+        const filter = this.getAdvancedFilter(field, query);
+        if (filter) {
+            if (filter.operator === 'between') {
+                return [filter.start, filter.end].map(value => this.formatAdvancedValue(field, value)) as AdvancedValue;
+            } else if(filter.operator === 'gte' || filter.operator === 'lte'){
+                const _value = this.formatAdvancedValue(field, filter.value) as BaseAdvancedValue;
+                return filter.operator === 'gte'? [_value, undefined] : [undefined, _value];
             }
         }
         return [undefined, undefined];
     }
 
     /**
-     * Return the select expression of an advanced filter
+     * Return the filter of an advanced filter
      * @param field
      * @param query Query where to fetch advanced values, if omitted, use searchService.query
      */
-    protected getAdvancedExpr(
+    protected getAdvancedFilter(
         field: string,
         query = this.searchService.query
-    ): Expr | undefined {
-        let expr: Expr | string;
-        const expression = query.findSelect(advancedFacetPrefix + field)
-            ?.expression;
-        if (expression) {
-            expr = this.appService.parseExpr(expression);
-            if (expr instanceof Expr) {
-                return expr;
-            }
-        }
-        return undefined;
-    }
-
-    /**
-     * Extract values from an expression
-     * @param expr
-     */
-    protected getValueFromExpr(expr: Expr): ValueItem | ValueItem[] {
-        let value: ValueItem | ValueItem[] | undefined;
-        if (Utils.isString(expr.value) && expr.value.indexOf("[") > -1) {
-            value = JSON.parse(expr.value.replace(/`/g, '"')).map((e) => ({
-                value: e.value!,
-                display: !!e.display ? e.display : e.value,
-            }));
-        } else if (expr.operands?.length > 0) {
-            value = expr.operands.map((e) => ({
-                value: e.value!,
-                display: !!e.display ? e.display : e.value,
-            }));
-        }
-        if (!value) {
-            if (expr.values && expr.values.length > 1) {
-                value = expr.values.map((e) => ({ value: e, display: e }));
-            } else {
-                value = {
-                    value: expr.value!,
-                    display: !!expr.display ? expr.display : expr.value,
-                };
-            }
-        }
-        return value;
+    ): Filter | undefined {
+        return query.findFilter(f => f.facetName === advancedFacetPrefix + field);
     }
 
     /**
@@ -318,17 +276,24 @@ export class AdvancedService {
         query?: Query,
         combineWithAnd?: boolean
     ) {
-        let expr;
+        let filter: Filter | undefined;
         if (value !== undefined) {
             const _value = this.asValueItems(value, field);
-            if (combineWithAnd) {
-                expr = this.exprBuilder.makeAndExpr(field, _value);
-            } else {
-                expr = this.exprBuilder.makeOrExpr(field, _value);
+            const operator = combineWithAnd? 'and':'or';
+            filter = {
+                operator,
+                filters: _value.map(v => {
+                    if(Array.isArray(v.value)) { // Not sure this case can actually ever happen, but just in case...
+                        return {operator: 'and', display: v.display, filters: v.value.map(fieldValue => ({
+                            field, value: Utils.isString(fieldValue)? fieldValue : fieldValue.value, display: Utils.isString(fieldValue)? undefined : fieldValue.display
+                        }))};
+                    }
+                    return {field, value: v.value, display: v.display};
+                })
             }
         }
-        // When expr is not defined, this simply removes the selection
-        this.setAdvancedSelect(field, expr, query);
+        // When filter is not defined, this simply removes the selection
+        this.setAdvancedSelect(field, filter, query);
     }
 
     /**
@@ -345,12 +310,13 @@ export class AdvancedService {
         allowFalsy: boolean = false,
         query?: Query
     ) {
-        let expr;
-        if (value === true || (value === false && allowFalsy)) {
-            expr = this.exprBuilder.makeBooleanExpr(field, value);
+        let filter: Filter | undefined;
+        if (value === true || (value === false || allowFalsy)) {
+            value = !!value;
+            filter = {field, value};
         }
-        // When expr is not defined, this simply removes the selection
-        this.setAdvancedSelect(field, expr, query);
+        // When filter is not defined, this simply removes the selection
+        this.setAdvancedSelect(field, filter, query);
     }
 
     /**
@@ -364,19 +330,19 @@ export class AdvancedService {
     public setNumericalSelect(
         field: string,
         value: string | Date | number | ValueItem | undefined,
-        operator: ">" | ">=" | "<" | "<=" | "=" | "<>",
+        operator: "gt" | "gte" | "lt" | "lte" | "eq" | "neq",
         query?: Query
     ) {
-        let expr;
+        let filter: Filter | undefined;
         if (value !== undefined) {
             if (this._isValueItem(value)) {
                 value = value.value as string | Date | number;
             }
             value = this.parse(value, field);
-            expr = this.exprBuilder.makeNumericalExpr(field, operator, value);
+            filter = {field, operator, value};
         }
-        // When expr is not defined, this simply removes the selection
-        this.setAdvancedSelect(field, expr, query);
+        // When filter is not defined, this simply removes the selection
+        this.setAdvancedSelect(field, filter, query);
     }
 
     /**
@@ -391,36 +357,38 @@ export class AdvancedService {
         range: (string | Date | number)[] | undefined,
         query?: Query
     ) {
-        let expr: string | undefined;
+        let filter: Filter | undefined;
         if (range && range.length === 2) {
             const from = this.parse(range[0] || undefined, field);
             const to = this.parse(range[1] || undefined, field);
             if (from && to) {
-                expr = this.exprBuilder.makeRangeExpr(field, from, to);
+                filter = {field, operator: 'between', start: from, end: to};
             } else if (from) {
-                expr = this.exprBuilder.makeNumericalExpr(field, ">=", from);
+                filter = {field, operator: 'gte', value: from};
             } else if (to) {
-                expr = this.exprBuilder.makeNumericalExpr(field, "<=", to);
+                filter = {field, operator: 'lte', value: to};
             }
         }
-        // When expr is not defined, this simply removes the selection
-        this.setAdvancedSelect(field, expr, query);
+        // When filter is not defined, this simply removes the selection
+        this.setAdvancedSelect(field, filter, query);
     }
 
     /**
-     * Sets a select for a given field and expression on the query (defaults to searchService.query)
+     * Sets a select for a given field and filter on the query (defaults to searchService.query)
      * @param query Query where to fetch advanced values, if omitted, use searchService.query
      * @param field
-     * @param expr
+     * @param filter
      */
     protected setAdvancedSelect(
         field: string,
-        expr: string | undefined,
+        filter: Filter | undefined,
         query = this.searchService.query
     ) {
-        query.removeSelect(advancedFacetPrefix + field);
-        if (expr) {
-            query.addSelect(expr, advancedFacetPrefix + field);
+        const facetName = advancedFacetPrefix + field;
+        query.removeFilter(f => f.facetName === facetName);
+        if (filter) {
+            filter.facetName = facetName;
+            query.addFilter(filter);
         }
     }
 
@@ -437,7 +405,7 @@ export class AdvancedService {
         query: Query = this.searchService.query
     ): void {
         if (field) {
-            query.removeSelect(advancedFacetPrefix + field);
+            query.removeFilter(f => f.facetName === advancedFacetPrefix + field);
             this.searchService.setQuery(query, false);
             if (search) {
                 this.searchService.search();

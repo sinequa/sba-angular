@@ -15,7 +15,6 @@ import {BsAutocompleteModule} from "@sinequa/components/autocomplete";  // neede
 import {FacetState, ALL_FACETS, DEFAULT_FACETS} from "../facet.service";
 import {BsRefine} from "./facet-refine/facet-refine";
 import {BsFacetBar} from "./facet-bar/facet-bar";
-import {BsMySearch} from "./facet-mysearch/facet-mysearch";
 import {BsFacetRange} from "./facet-range/facet-range";
 import {BsFacetCard} from "./facet-card/facet-card";
 import {BsFacetList} from "./facet-list/facet-list";
@@ -26,6 +25,7 @@ import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 import { LoadComponentModule } from "@sinequa/core/load-component";
 import { FacetConfig } from "../facet-config";
 import { FacetViewDirective } from "./facet-view.directive";
+import { FacetContainerComponent } from "./facet-container/facet-container.component";
 
 @NgModule({
     imports: [
@@ -48,21 +48,23 @@ import { FacetViewDirective } from "./facet-view.directive";
         BsFacetCard, FacetViewDirective, BsFacetList, BsFacetTree,
         BsFacetFilters,
         BsRefine,
-        BsFacetRange, BsMySearch, BsFacetBar,
+        BsFacetRange, BsFacetBar,
         BsFacetMultiComponent,
-        BsFacetTagCloud
+        BsFacetTagCloud,
+        FacetContainerComponent
     ],
     exports: [
         BsFacetCard, FacetViewDirective, BsFacetList, BsFacetTree,
         BsFacetFilters,
         BsRefine,
-        BsFacetRange, BsMySearch, BsFacetBar,
+        BsFacetRange, BsFacetBar,
         BsFacetMultiComponent,
-        BsFacetTagCloud
+        BsFacetTagCloud,
+        FacetContainerComponent
     ],
 })
 export class BsFacetModule {
-    public static forRoot<T>(allFacets?: FacetConfig<T>[], defaultFacets?: FacetState[]): ModuleWithProviders<BsFacetModule> {
+    public static forRoot<T extends {}>(allFacets?: FacetConfig<T>[], defaultFacets?: FacetState[]): ModuleWithProviders<BsFacetModule> {
         return {
             ngModule: BsFacetModule,
             providers: [

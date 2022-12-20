@@ -1,9 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
-import { AbstractFacet } from "@sinequa/components/facet";
-import { SearchService } from "@sinequa/components/search";
+import { AbstractFacet, FacetService } from "@sinequa/components/facet";
 import { SelectionService } from "@sinequa/components/selection";
-import { ExprBuilder, FormatService, ValueItem } from "@sinequa/core/app-utils";
+import { FormatService, Query, ValueItem } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { AggregationItem, Results } from "@sinequa/core/web-services";
 import { scaleBand, scaleLog, scaleOrdinal, scaleLinear } from "d3-scale";
@@ -31,6 +30,8 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     @Input() name = "money-cloud"
 
     @Input() results: Results;
+    @Input() query?: Query;
+
     /** The "money-value" column stores an entity in the form "(KEYWORD)#(<CURRENCY> <NUMERAL>)", for example "(DEAL)#(USD 69420)" */
     @Input() moneyValueColumn = "value_amount";
     /** The "Money-Value" aggregation must be computed over the money-value column */
@@ -74,8 +75,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     constructor(
         private el: ElementRef,
         protected cdRef: ChangeDetectorRef,
-        public searchService: SearchService,
-        public exprBuilder: ExprBuilder,
+        public facetService: FacetService,
         public selectionService: SelectionService,
         public formatService: FormatService
     ){
@@ -86,8 +86,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
             icon: "far fa-minus-square",
             title: "msg#facet.clearSelects",
             action: () => {
-                this.searchService.query.removeSelect(this.name, true);
-                this.searchService.search();
+                this.facetService.clearFiltersSearch(this.name, true, this.query);
             }
         });
 
@@ -96,7 +95,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.searchService.query.findSelect(this.name)){
+        if(this.facetService.hasFiltered(this.name, this.query)){
             actions.push(this.clearFilters);
         }
         return actions;
@@ -309,9 +308,8 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     }
 
     filterDatum(datum: MoneyCloudDatum) {
-        const expr = this.exprBuilder.makeExpr(this.moneyValueColumn, datum.rawvalue)
-        this.searchService.query.addSelect(expr, this.name);
-        this.searchService.search();
+        const filter = {field: this.moneyValueColumn, value: datum.rawvalue, facetName: this.name};
+        this.facetService.applyFilterSearch(filter, this.query);
     }
 
     onMouseEnterDatum(datum: MoneyCloudDatum) {

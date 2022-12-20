@@ -1,16 +1,14 @@
 import {Component, Input, OnChanges, SimpleChanges, AfterViewInit, OnDestroy, ViewChild, ElementRef, EventEmitter} from "@angular/core";
 import {Subscription} from "rxjs";
 import {Utils} from "@sinequa/core/base";
-import {AppService, FormatService, Expr, ExprOperator, ExprBuilder} from "@sinequa/core/app-utils";
+import {AppService, FormatService, Query} from "@sinequa/core/app-utils";
 import {IntlService} from "@sinequa/core/intl";
 import {CCColumn, Results, Aggregation} from "@sinequa/core/web-services";
 import {Options, LabelType, ChangeContext} from "@angular-slider/ngx-slider";
 import { getDay, getTime, getWeek, getWeekYear, isValid, parseISO } from "date-fns";
 import {FacetService} from "../../facet.service";
-import {SearchService} from "@sinequa/components/search";
 import {UIService} from "@sinequa/components/utils";
 import {AbstractFacet} from "../../abstract-facet";
-import {AdvancedService} from "@sinequa/components/advanced";
 import { Action } from '@sinequa/components/action';
 import { FacetConfig } from "../../facet-config";
 
@@ -54,6 +52,7 @@ export interface FacetRangeConfig extends FacetConfig<FacetRangeParams> {
 export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnChanges, AfterViewInit, OnDestroy {
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
+    @Input() query?: Query;
     @Input() aggregation: string;
     @Input() min : string | number | Date;
     @Input() max : string | number | Date;
@@ -84,12 +83,9 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
     constructor(
         private facetService: FacetService,
         protected appService: AppService,
-        protected searchService: SearchService,
         protected formatService: FormatService,
         protected intlService: IntlService,
-        protected uiService: UIService,
-        protected advancedService: AdvancedService,
-        protected exprBuilder: ExprBuilder) {
+        protected uiService: UIService) {
 
         super();
 
@@ -467,12 +463,9 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
     ngOnChanges(changes: SimpleChanges) {
         if (!this.initDone) {
             this.initDone = true;
-            this.localeChange = Utils.subscribe(this.intlService.events,
-                (value) => {
-                    this.manualRefresh.emit();
-                });
+            this.localeChange = Utils.subscribe(this.intlService.events, () => this.manualRefresh.emit());
         }
-        if (!!changes["results"]) {
+        if (changes.results) {
             this.data = this.facetService.getAggregation(this.aggregation, this.results);
             this.column = this.data && this.appService.getColumn(this.data.column);
             this.init();
@@ -500,35 +493,14 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         this.rangeSelected = this.value !== this.startValue || this.highValue !== this.startHighValue;
     }
 
-    getRange(): number[] | undefined[] {
+    getRange(): (number|undefined)[] {
         if (this.column) {
-            let expr: Expr | string;
-            let value;
-            const expression = this.searchService.query?.findSelect(this.column.name)?.expression;
-            if (expression) {
-                expr = this.appService.parseExpr(expression);
-                if (expr instanceof Expr) {
-                    if (expr.values && expr.values.length > 1) {
-                        value = expr.values;
-                    } else {
-                        value = expr.value;
-                    }
-                    if (!Utils.isArray(value)) {
-                        if (expr.operator === ExprOperator.gte) {
-                            value = [value, undefined];
-                        } else if (expr.operator === ExprOperator.lte) {
-                            value = [undefined, value];
-                        }
-                    }
-                    value =  value.map(
-                        (val) => val ? this.advancedService.castAdvancedValue(val, this.column) : val
-                    );
-                    if (AppService.isDate(this.column)) {
-                        value =  value.map(
-                            (val) => val ? new Date(val).getTime() : val
-                        );
-                    }
-                    return value;
+            const filter = this.facetService.findFilter(this.facetName, this.query);
+            if (filter) {
+                switch(filter.operator) {
+                    case 'between': return [this.parseValue(filter.start), this.parseValue(filter.end)];
+                    case 'gte': return [this.parseValue(filter.value), undefined];
+                    case 'lte': return [undefined, this.parseValue(filter.value)];
                 }
             }
         }
@@ -536,37 +508,22 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
     }
 
     setRange(from: number | undefined, to: number | undefined) {
-        let valFrom;
-        let valTo;
-        let expression: string | undefined;
-        if (this.column) {
-            valFrom = AppService.isDate(this.column) && Utils.isNumber(from) ? new Date(from) : from;
-            valTo = AppService.isDate(this.column) && Utils.isNumber(to) ? new Date(to) : to;
-            if (!!valFrom && !!valTo) {
-                expression = this.exprBuilder.makeRangeExpr(this.column.name, valFrom, valTo);
-            } else if (!!valFrom) {
-                expression = this.exprBuilder.makeNumericalExpr(this.column.name, '>=', valFrom);
-            } else if (!!valTo) {
-                expression = this.exprBuilder.makeNumericalExpr(this.column.name, '<=', valTo);
-            }
-            this.searchService.query?.removeSelect(this.column.name);
-            if (expression) {
-                this.searchService.query?.addSelect(
-                    expression,
-                    this.column.name
-                );
+        if (this.column && this.data) {
+            const valFrom = AppService.isDate(this.column) && Utils.isNumber(from) ? new Date(from) : from;
+            const valTo = AppService.isDate(this.column) && Utils.isNumber(to) ? new Date(to) : to;
+            const filter = this.facetService.makeRangeFilter(this.data.column, valFrom, valTo, this.facetName);
+            if(filter) {
+                this.facetService.applyFilterSearch(filter, this.query, true);
             }
         }
     }
 
     applyRange() {
         this.setRange(this.roundNearest(this.value), this.roundNearest(this.highValue));
-        this.searchService.search();
     }
 
     clearRange() {
-        this.setRange(undefined, undefined);
-        this.searchService.search();
+        this.facetService.clearFiltersSearch(this.facetName, true, this.query);
     }
 
     override get actions(): Action[] {
@@ -578,5 +535,9 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
           actions.push(this.clearFiltersAction);
         }
         return actions;
+    }
+
+    get facetName() {
+      return this.name || this.aggregation;
     }
 }

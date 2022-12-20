@@ -14,6 +14,7 @@ import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sineq
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { TopPassage } from '@sinequa/core/web-services';
+import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
   selector: 'app-search',
@@ -49,6 +50,7 @@ export class SearchComponent implements OnInit {
       "date": BsFacetDate
   }
 
+  @ViewChild("searchForm") searchForm: AppSearchFormComponent;
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
@@ -105,6 +107,12 @@ export class SearchComponent implements OnInit {
           this.hasPassages = !!results?.topPassages?.passages?.length;
         })
       );
+  }
+
+  editFilters() {
+    // setTimeout is need to come after the "click outside" event that collapses the search form
+    setTimeout(() => this.searchForm.searchForm.expand());
+    return false;
   }
 
   /**

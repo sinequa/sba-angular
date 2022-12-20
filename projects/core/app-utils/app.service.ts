@@ -6,8 +6,6 @@ import {FormatService} from "./format.service";
 import {AppWebService, AuditEvents, START_CONFIG, StartConfig,
     CCApp, CCQuery, CCLabels, CCAutocomplete, CCColumn, CCIndex, CCWebService, CCConfig, CCList, CCAggregation,
     EngineType, EngineTypeModifier, MINIMUM_COMPATIBLE_SERVER_API_VERSION} from "@sinequa/core/web-services";
-import {ExprParser, ExprParserOptions, Expr} from "./query/expr-parser";
-import {AppServiceHelpers} from "./app-service-helpers";
 
 /**
  * A base event from which all events that can be issued by the {@link AppService} are derived
@@ -142,81 +140,100 @@ export class AppService implements OnDestroy {
         };
     }
 
-    /**
-     * Return `true` if a `column` is a string
-     */
     static isString(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isString(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.string) {
+            return true;
+        }
+        if (column.eType === EngineType.csv && (column.eTypeModifier & EngineTypeModifier.x) === EngineTypeModifier.x) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a csv
-     */
     static isCsv(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isCsv(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.csv && (column.eTypeModifier & EngineTypeModifier.x) !== EngineTypeModifier.x) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a tree
-     */
     static isTree(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isTree(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.csv && (column.eTypeModifier & EngineTypeModifier.t) === EngineTypeModifier.t) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is an entity
-     */
     static isEntity(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isEntity(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.csv && (column.eTypeModifier & (EngineTypeModifier.e | EngineTypeModifier.l)) === (EngineTypeModifier.e | EngineTypeModifier.l)) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a boolean
-     */
     static isBoolean(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isBoolean(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.bool) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a date
-     */
     static isDate(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isDate(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.date || column.eType === EngineType.dateTime || column.eType === EngineType.time) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a double
-     */
     static isDouble(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isDouble(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.double || column.eType === EngineType.float) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is an integer
-     */
     static isInteger(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isInteger(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.integer || column.eType === EngineType.unsigned) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a number (integer or double)
-     */
     static isNumber(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isNumber(column);
+        return AppService.isInteger(column) || AppService.isDouble(column);
     }
 
-    /**
-     * Return `true` if a `column` is a scalar
-     */
     static isScalar(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isScalar(column);
+        return AppService.isNumber(column) || AppService.isDate(column) || AppService.isBoolean(column);
     }
 
-    /**
-     * Return `true` if a `column` is sortable
-     */
     static isSortable(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isSortable(column);
+        return AppService.isString(column) || AppService.isScalar(column) ||
+            (AppService.isCsv(column) && !!column && ((column.eTypeModifier & EngineTypeModifier.l) === EngineTypeModifier.l));
     }
 
     constructor(
@@ -744,36 +761,6 @@ export class AppService implements OnDestroy {
     }
 
     /**
-     * Parse a fielded search expression
-     *
-     * @param text The expression
-     * @param options Options for the parsing
-     * @return The parsed {@link Expr} or an error message
-     */
-    parseExpr(text: string, options?: ExprParserOptions): Expr | string {
-        return ExprParser.parse(text, {appService: this, formatService: this.formatService, intlService: this.intlService}, options);
-    }
-
-    /**
-     * Escape a value for fielded search if necessary. `Date` objects are converted to
-     * Sinequa system date strings and non-scalars fields are escaped
-     * @param field The value's field
-     * @param value The value
-     */
-    escapeFieldValue(field: string, value: string | number | Date | boolean | undefined): string {
-        if (Utils.isDate(value)) {
-            return Utils.toSysDateStr(value);
-        }
-        value = value + "";
-        const column = this.getColumn(field);
-        if (column && !AppService.isScalar(column)) {
-            // escaoe columns that might contain search operators in them (treating negative numbers as an ignorable edge case)
-            return ExprParser.escape(value);
-        }
-        return value;
-    }
-
-    /**
      * Get the label of a column. The plural label is returned for csv-type columns.
      *
      * @param name The name of the column which can be an alias
@@ -782,7 +769,9 @@ export class AppService implements OnDestroy {
     getLabel(name: string, _default?: string): string {
         const column = this.getColumn(name);
         if (column) {
-            const label = AppService.isCsv(column) ? column.labelPlural : column.label;
+            // Note: In case user has only configured one label, try to use it rather than reverting to the field name
+            const label = AppService.isCsv(column) ?
+                (column.labelPlural || column.label) : (column.label || column.labelPlural);
             if (label) {
                 return label;
             }

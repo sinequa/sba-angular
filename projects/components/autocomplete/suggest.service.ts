@@ -5,6 +5,12 @@ import {SuggestQueryWebService, SuggestFieldWebService, Suggestion, EngineType} 
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {AutocompleteItem} from './autocomplete.directive';
 
+export interface ScoredAutocompleteItem<T, Tcat extends string> extends AutocompleteItem {
+  score: number;
+  data: T;
+  category: Tcat;
+}
+
 @Injectable({
     providedIn: "root"
 })
@@ -72,18 +78,18 @@ export class SuggestService {
      * @param primaryText A function that returns the primary text input given the object
      * @param secondaryText An (optional) function that returns a list of secondary text inputs given the object
      */
-    public async searchData<T>(
-        category: string,
+    public async searchData<T, Tcat extends string>(
+        category: Tcat,
         query: string,
         data: T[],
         primaryText: (obj:T) => string,
         secondaryText?: (obj:T) => string[],
-        label?: string) : Promise<AutocompleteItem[]> {
+        label?: string) : Promise<ScoredAutocompleteItem<T, Tcat>[]> {
 
         return data
             .map(obj => SuggestService.findMatch(primaryText(obj), query,
                 !!secondaryText ? secondaryText(obj) : [], obj)) // Look for matches in all saved queries
-            .filter(item => !!item) // Keep only the matches
+            .filter((item): item is { display: string; displayHtml: string; score: number; data: T; } => !!item) // Keep only the matches
             .sort((a,b) => b!.score - a!.score) // Sort by decreasing score
             .map(item => {
                 item = item!;
@@ -107,7 +113,7 @@ export class SuggestService {
      * @param secondaryText Secondary fields to search input, with less importance than the primary field
      * @param data A data object to be included in the match object (for convenience mostly)
      */
-    public static findMatch(text: string, query: string, secondaryText?: string[], data?: any): {display: string, displayHtml: string, score: number, data?:any} | undefined {
+    public static findMatch<T>(text: string, query: string, secondaryText: string[]|undefined, data: T): {display: string, displayHtml: string, score: number, data:T} | undefined {
 
         if(!text || !query){
             return undefined;
@@ -146,7 +152,7 @@ export class SuggestService {
         // Secondary text
         if(secondaryText) {
             secondaryText
-                .map(t => this.findMatch(t, query)) // Search each secondary text for matches
+                .map(t => this.findMatch(t, query, undefined, undefined)) // Search each secondary text for matches
                 .filter(item => !!item) // Keep only the matches
                 .sort((a,b) => b!.score - a!.score) // Sort by decreasing score
                 .forEach(match => {
@@ -160,8 +166,8 @@ export class SuggestService {
             return {
                 display: text,
                 displayHtml: html,
-                score: score,
-                data: data
+                score,
+                data
             };
         }
         return undefined;
