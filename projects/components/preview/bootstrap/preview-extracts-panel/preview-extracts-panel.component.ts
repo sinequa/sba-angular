@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { PreviewData } from '@sinequa/core/web-services';
 import { Action } from "@sinequa/components/action";
@@ -20,12 +19,22 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() downloadUrl: string;
   @Input() type = "extractslocations";
   @Input() style: "light" | "dark" = "light";
-  @Input() showPagination = true;
-  @ViewChild("scrollViewport") cdkScrollViewport: CdkVirtualScrollViewport;
 
-  sortAction: Action;
+  /**
+   * Whether the extracts pagination should be displayed at the footer of the side menu
+   */
+  @Input() showPagination = true;
+
+  /**
+   * The number of items per page
+   */
+  @Input() extractsNumber: number = 10;
+
   extracts: Extract[] = [];
+  displayedExtracts: Extract[] = [];
+  sortAction: Action;
   currentIndex = -1;
+  scrollIndex: number;
   loading = false;
 
   constructor(
@@ -75,7 +84,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
     this.buildSortAction();
 
     this.loading = false;
-    this.currentIndex = this.extracts.length ? 0 : -1;
+    this.currentIndex = this.extracts.length ? this.extracts[0].relevanceIndex : -1;
     this.cdr.detectChanges();
   }
 
@@ -139,7 +148,8 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   previousExtract() {
     this.currentIndex--;
-    this.scrollTo();
+    this.scrollIndex = this.currentIndex;
+    this.scrollExtract(this.extracts[this.currentIndex]);
   }
 
   /**
@@ -147,12 +157,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   nextExtract() {
     this.currentIndex++;
-    this.scrollTo();
-  }
-
-  private scrollTo() {
-    this.cdkScrollViewport.scrollToIndex(this.currentIndex);
-    const extract = this.extracts[this.currentIndex];
-    this.scrollExtract(extract);
+    this.scrollIndex = this.currentIndex;
+    this.scrollExtract(this.extracts[this.currentIndex]);
   }
 }

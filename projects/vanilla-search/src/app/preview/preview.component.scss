@@ -73,8 +73,10 @@ nav img,
   margin: auto;
 }
 
-.overflow-y-scroll {
+.flex-scroll {
+  flex: 1 1 auto;
   overflow-y: auto;
+  height: 0;
 }
 
 .preview-title {

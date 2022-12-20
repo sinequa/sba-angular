@@ -34,7 +34,7 @@
     <div class="row preview-content d-flex">
 
         <!-- Left panel (navigation, extracts and entities) -->
-        <div class="side-menu d-flex justify-content-between"
+        <div class="side-menu h-100 d-flex flex-column justify-content-between"
             *ngIf="ui.screenSizeIsGreaterOrEqual('lg') || !collapsedPanel"
             [ngClass]="{'col-xs-12 col-sm-6 col-md-5 col-lg-3': !collapsedPanel, 'w-auto': collapsedPanel}">
             <div class="side-menu-header d-flex justify-content-between px-2 px-lg-4 pt-2 pt-lg-4"
@@ -45,8 +45,8 @@
 
                 <div>
                     <!-- Back button (go back to /search route) -->
-                    <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.back' | sqMessage"
-                        (click)="back()" *ngIf="showBackButton" [ngClass]="{'mt-2': collapsedPanel}">
+                    <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.back' | sqMessage" (click)="back()"
+                        *ngIf="showBackButton" [ngClass]="{'mt-2': collapsedPanel}">
                         <i class="fas fa-arrow-left"></i>
                     </button>
 
@@ -68,7 +68,7 @@
 
             </div>
 
-            <div class="card shadow-none overflow-y-scroll">
+            <div class="flex-grow-1 d-flex flex-column">
                 <ng-container *ngIf="!collapsedPanel" [ngSwitch]="subpanel">
                     <div class="pt-2 pt-lg-4 px-2 px-lg-4">
                         <!-- Search form allowing the search preview -->
@@ -84,18 +84,19 @@
 
                     <!-- Navigation between the active sub panels -->
                     <sq-tabs [customtabs]="tabs" [showCounts]="false" [selectedCustomTab]="subpanel"
-                        class="mb-2 mb-lg-3 pt-2 pt-lg-4 px-2 px-lg-4" (events)="openPanel($event)">
+                        class="d-block mb-2 mb-lg-3 pt-2 pt-lg-4 px-2 px-lg-4" (events)="openPanel($event)">
                     </sq-tabs>
 
                     <ng-container *ngSwitchCase="'extracts'">
 
                         <!-- Expanded panel different subpanels available -->
                         <!-- Extracts/Pages panel -->
-                        <sq-preview-extracts-panel *ngIf="!pagesResults" class="d-flex flex-column flex-grow-1"
-                            [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument">
+                        <sq-preview-extracts-panel *ngIf="!pagesResults" class="flex-scroll"
+                            [extractsNumber]="10" [previewData]="previewData" [downloadUrl]="currentUrl"
+                            [previewDocument]="previewDocument">
                         </sq-preview-extracts-panel>
 
-                        <sq-preview-pages-panel *ngIf="pagesResults" class="d-flex flex-column flex-grow-1"
+                        <sq-preview-pages-panel *ngIf="pagesResults" class="flex-scroll"
                             [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults"
                             (gotopage)="gotoPage($event)">
                         </sq-preview-pages-panel>
@@ -103,23 +104,27 @@
                     </ng-container>
 
                     <!-- Neural Search preview passages -->
-                    <sq-preview-extracts-panel *ngSwitchCase="'passages'" class="d-flex flex-column flex-grow-1"
-                        [downloadUrl]="currentUrl" [previewData]="previewData" [previewDocument]="previewDocument"
-                        type="matchingpassages">
-                    </sq-preview-extracts-panel>
+                    <ng-container *ngSwitchCase="'passages'">
+                        <sq-preview-extracts-panel class="flex-scroll" [downloadUrl]="currentUrl"
+                            [previewData]="previewData" [previewDocument]="previewDocument" [extractsNumber]="10"
+                            type="matchingpassages">
+                        </sq-preview-extracts-panel>
+                    </ng-container>
 
                     <!-- Entities panel -->
-                    <div class="overflow-y-scroll px-2">
-                        <sq-preview-entity-panel *ngSwitchCase="'entities'" [previewData]="previewData"
+                    <ng-container *ngSwitchCase="'entities'">
+                        <sq-preview-entity-panel class="flex-scroll px-2" [previewData]="previewData"
                             [previewDocument]="previewDocument" [startUnchecked]="entitiesStartUnchecked"
                             (facetChecked)="entitiesChecked($event)">
                         </sq-preview-entity-panel>
-                    </div>
+                    </ng-container>
 
                     <!-- Legacy preview highlights -->
-                    <sq-preview-highlights *ngSwitchCase="'highlights'" class="d-flex flex-column flex-grow-1 my-2"
-                        [previewData]="previewData" [previewDocument]="previewDocument">
-                    </sq-preview-highlights>
+                    <ng-container *ngSwitchCase="'highlights'">
+                        <sq-preview-highlights class="d-flex flex-column flex-grow-1 my-2" [previewData]="previewData"
+                            [previewDocument]="previewDocument">
+                        </sq-preview-highlights>
+                    </ng-container>
 
                 </ng-container>
             </div>
