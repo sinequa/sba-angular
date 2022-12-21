@@ -17,6 +17,7 @@ import { format } from 'd3-format';
 export interface TimelineDate {
     date: Date;
     value: number;
+    displayedDate?: Date;
 }
 
 export interface TimelineSeries {
@@ -36,6 +37,11 @@ export interface TimelineEvent {
     sizeOpened?: number;
     styles?: {[key:string]: any};
     record?: Record;
+}
+
+export interface DataPoint {
+    date: Date;
+    values: ({ name: string; value: number; } | undefined)[]
 }
 
 export const curveTypes = {
@@ -87,7 +93,8 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Output() rangeInit = new EventEmitter<Date[]>();
     @Output() rangeChange = new EventEmitter<Date[]>();
 
-    @ContentChild("tooltipTpl", {static: false}) tooltipTpl: TemplateRef<any>;
+    @ContentChild("eventTooltipTpl", {static: false}) eventTooltipTpl: TemplateRef<any>;
+    @ContentChild("dataPointTooltipTpl", {static: false}) dataPointTooltipTpl: TemplateRef<any>;
 
     // Data
     groupedEvents: TimelineEvent[][] = [];
@@ -120,9 +127,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     // Tooltip
     tooltipX: number | undefined;
-    tooltipDatapoints?: (TimelineDate|undefined)[];
     bisectDate = bisector<TimelineDate,Date>(d => { return d.date; }).left;
-    tooltipManager = new TooltipManager<TimelineEvent[]>();
+    eventsTooltipManager = new TooltipManager<TimelineEvent[]>();
+    dataPointsTooltipManager = new TooltipManager<DataPoint[]>();
 
     // Misc
     viewInit: boolean;
@@ -251,7 +258,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             .on("mousemove", e => this.onMousemove(e))
             .on("mouseout", () => this.onMouseout());
 
-        // Add 2 "grips" to the brush goup, on each side of the rectangle
+        // Add 2 "grips" to the brush group, on each side of the rectangle
         // Grips are inserted programmatically to appear on top the brush selection
         this.grips$ = this.brush$.selectAll<SVGGElement, {type: string}>(".grip")
             .data([{type: "w"}, {type: "e"}])
@@ -561,17 +568,37 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Redraw the simple tooltip (vertical line)
      */
     onMousemove(event) {
-        if(!this.tooltipManager.isShown && this.showTooltip) {
+        if(!this.eventsTooltipManager.isShown && this.showTooltip) {
             this.tooltipX = this.point(this.gbrush.nativeElement, event)[0];
             const date = this.xt.invert(this.tooltipX);
-            this.tooltipDatapoints = this.data?.map(series => {
-              if(!series.showDatapoints) return;
-              const i = this.bisectDate(series.dates, date);
-              const d0 = series.dates[i - 1];
-              const d1 = series.dates[i];
-              if(!d0 || !d1) return;
-              return date.getTime() - d0.date.getTime() > d1.date.getTime() - date.getTime() ? d1 : d0;
-            });
+
+            const points = this.data?.map(series => {
+                                      if(!series.showDatapoints) return;
+                                      const i = this.bisectDate(series.dates, date);
+                                      const d0 = series.dates[i - 1];
+                                      const d1 = series.dates[i];
+                                      if(!d0 || !d1) return;
+                                      return date.getTime() - d0.date.getTime() > d1.date.getTime() - date.getTime() ? {...d1, name: series.name} : {...d0, name: series.name};
+                                  }).filter(p => !!p) || [];
+
+            const {orientation, top, dx} = this.tooltipCoordinates();
+
+            const groupBy = (array, property) => array.reduce((grouped, element) => ({
+              ...grouped,
+              [element[property]]: [...(grouped[element[property]] || []), element]
+            }), {})
+
+            const groupedByDate = groupBy(points.filter(pt => !pt?.displayedDate), 'date');
+            const groupedByDisplayedDate = groupBy(points.filter(pt => !!pt?.displayedDate), 'displayedDate');
+
+            const data = Array.from(new Set(Object.keys(groupedByDate).concat(Object.keys(groupedByDisplayedDate))))
+                              .map((_date) => ({date: _date, values: (groupedByDate[_date] || []).concat((groupedByDisplayedDate[_date] || []))}));
+
+            if (data.length > 0) {
+              this.dataPointsTooltipManager.show(data as any as DataPoint[], orientation, top, dx);
+            } else {
+              this.dataPointsTooltipManager.hide();
+            }
         }
     }
 
@@ -588,8 +615,11 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Remove the simple tooltip (vertical line)
      */
     onMouseout() {
-        if(!this.tooltipManager.isShown) {
+        if(!this.eventsTooltipManager.isShown) {
             this.tooltipX = undefined
+        }
+        if (this.dataPointsTooltipManager.isShown) {
+            this.dataPointsTooltipManager.hide()
         }
     }
 
@@ -599,32 +629,28 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      */
     onEventClick(event: TimelineEvent[]) {
 
-        if(this.tooltipManager.data === event) {
+        if(this.eventsTooltipManager.data === event) {
             this.turnoffTooltip();
-        }
-
-        else {
-
+        } else {
             this.tooltipX = this.xt(event[0].date);
+            const {orientation, top, dx} = this.tooltipCoordinates();
+            this.eventsTooltipManager.show(event, orientation, top, dx);
+        }
+    }
 
-            // Since we use viewBox to auto-adjust the SVG to the container size, we have to
-            // convert from the SVG coordinate system to the HTML coordinate system
-            const x = this.margin.left + this.tooltipX!;
-            const actualWidth = (this.el.nativeElement as HTMLElement).offsetWidth;
-            const scale = actualWidth / this.width;
-            const relativeX = x / this.width;
+    private tooltipCoordinates(): {orientation: "right" | "left", top: number, dx: number} {
+        // Since we use viewBox to auto-adjust the SVG to the container size, we have to
+        // convert from the SVG coordinate system to the HTML coordinate system
+        const x = this.margin.left + this.tooltipX!;
+        const actualWidth = (this.el.nativeElement as HTMLElement).offsetWidth;
+        const scale = actualWidth / this.width;
+        const relativeX = x / this.width;
+        const top = scale * (this.margin.top + 0.3*this.innerHeight); // Align tooltip arrow
 
-            const top = scale * (this.margin.top + 0.3*this.innerHeight); // Align tooltip arrow
-
-            // Tooltip to the right
-            if(relativeX < 0.5) {
-                this.tooltipManager.show(event, 'right', top, scale * x);
-            }
-            // Tooltip to the left
-            else {
-                this.tooltipManager.show(event, 'left', top, actualWidth - scale * x);
-            }
-
+        if (relativeX < 0.5) {
+            return {orientation: 'right', top, dx: scale * x};
+        } else {
+            return {orientation: 'left', top, dx: actualWidth - scale * x}
         }
     }
 
@@ -632,7 +658,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Turns off the tooltip
      */
     turnoffTooltip = () => {
-        this.tooltipManager.hide();
+        this.eventsTooltipManager.hide();
         this.tooltipX = undefined;
     }
 
@@ -758,7 +784,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * @param events
      */
     eventSize(events: TimelineEvent[]): number {
-        if(events !== this.tooltipManager.data) {
+        if(events !== this.eventsTooltipManager.data) {
             return events[0].size || 6;
         }
         else {

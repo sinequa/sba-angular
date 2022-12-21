@@ -40,6 +40,11 @@
     fill: darkgrey;
 }
 
+.data-point-text {
+    font-size: 10px;
+    color: darkgrey;
+}
+
 .brush ::ng-deep {
 
     .selection {
@@ -63,7 +68,7 @@
 }
 
 .events {
-    
+
     .event {
         fill: #7c7c7c;
         opacity: 0.6;

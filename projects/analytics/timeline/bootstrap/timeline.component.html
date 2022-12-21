@@ -38,13 +38,6 @@
                 [attr.text-anchor]="tooltipX < innerWidth*0.75 ? 'start' : 'end'" class="tooltip-text">
                 {{ xt.invert(tooltipX) | sqDate }}
             </text>
-            <ng-container *ngFor="let point of tooltipDatapoints; let i=index">
-                <ng-container *ngIf="point">
-                    <circle r="5" [attr.cx]="xt(point.date)" [attr.cy]="y(point.value)" class="line" [ngStyle]="data![i].lineStyles"></circle>
-                    <text *ngIf="y(point.value) as yMarker" [attr.x]="xt(point.date)" [attr.y]="yMarker > innerHeight*.25? yMarker - 8 : yMarker + 15"
-                      text-anchor="middle" class="tooltip-text">{{point.value}}</text>
-                </ng-container>
-            </ng-container>
         </g>
 
         <!-- X Axis (built in the controler) -->
@@ -68,14 +61,32 @@
 
 </svg>
 
-<!-- Tooltip -->
-<sq-tooltip [manager]="tooltipManager" [theme]="theme">
+<!-- data point Tooltip -->
+<sq-tooltip [manager]="dataPointsTooltipManager" [theme]="theme">
+  <ng-template let-data>
+    <div class="list-group list-group-flush">
+        <ng-container *ngFor="let point of data">
+            <ng-container *ngIf="dataPointTooltipTpl" [ngTemplateOutlet]="dataPointTooltipTpl" [ngTemplateOutletContext]="{$implicit: point}">
+            </ng-container>
+            <div *ngIf="!dataPointTooltipTpl" class="list-group-item" style="max-width: 350px;">
+                <span class="data-point-text text-decoration-underline">{{ point.date | sqDate }}</span>
+                <ng-container *ngFor="let val of point.values">
+                    <div class="data-point-text">{{ val.name }} : {{ val.value }}</div>
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+  </ng-template>
+</sq-tooltip>
+
+<!-- Event Tooltip -->
+<sq-tooltip [manager]="eventsTooltipManager" [theme]="theme">
   <ng-template let-data>
     <div class="list-group list-group-flush">
         <ng-container *ngFor="let event of data">
-            <ng-container *ngIf="tooltipTpl" [ngTemplateOutlet]="tooltipTpl" [ngTemplateOutletContext]="{$implicit: event, close: turnoffTooltip}">
+            <ng-container *ngIf="eventTooltipTpl" [ngTemplateOutlet]="eventTooltipTpl" [ngTemplateOutletContext]="{$implicit: event, close: turnoffTooltip}">
             </ng-container>
-            <div *ngIf="!tooltipTpl" class="list-group-item" style="max-width: 300px;">
+            <div *ngIf="!eventTooltipTpl" class="list-group-item" style="max-width: 300px;">
                 <span class="small text-muted">{{ event.date | sqDate }}</span>
                 <div class="text-truncate">{{ event.display }}</div>
             </div>

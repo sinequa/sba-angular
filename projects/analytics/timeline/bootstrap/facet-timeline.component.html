@@ -18,7 +18,7 @@
     (rangeInit)="onRangeChange($event)"
     (rangeChange)="onRangeChange($event)">
 
-    <ng-template #tooltipTpl let-event let-close="close">
+    <ng-template #eventTooltipTpl let-event let-close="close">
         <a href="#" (click)="onEventClicked(event, close)"
             class="tooltip-item list-group-item list-group-item-action">
             <span class="small text-muted">{{ event.date | sqDate }}</span>
