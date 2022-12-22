@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef, Input, OnDestroy, InjectionToken, Inject, Optional, OnChanges, SimpleChanges } from '@angular/core';
 import { merge, Subscription, filter } from 'rxjs';
-import { Action } from '@sinequa/components/action';
+import { Action, ActionSeparator } from '@sinequa/components/action';
 import { Principal, PrincipalWebService, UserSettingsWebService } from '@sinequa/core/web-services';
 import { AuthenticationService, LoginService, UserOverride } from '@sinequa/core/login';
 import { IntlService, Locale } from '@sinequa/core/intl';
@@ -51,8 +51,6 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   @Input() showText = false;
 
   menu: Action;
-
-  sep = new Action({separator: true});
 
   // User actions
   loginAction: Action;
@@ -107,7 +105,6 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     // Logout
     this.logoutAction = new Action({
       text: "msg#userMenu.logout",
-      title: "msg#userMenu.logout",
       action: () => {
         this.loginService.logout();
         this.changeDetectorRef.markForCheck();
@@ -117,7 +114,6 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     // Override a user's identity
     this.overrideAction = new Action({
       text: "msg#userMenu.overrideUser",
-      title: "msg#userMenu.overrideUser",
       action: () => {
         let userOverride = this.authenticationService.userOverride ?
           Utils.copy<UserOverride>(this.authenticationService.userOverride) : undefined;
@@ -140,7 +136,6 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     // Cancel user override
     this.revertOverrideAction = new Action({
       text: "msg#userMenu.revertUserOverride",
-      title: "msg#userMenu.revertUserOverride",
       action: () => {
         this.loginService.overrideUser(undefined);
         this.changeDetectorRef.markForCheck();
@@ -150,18 +145,15 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     // Link to the admin
     this.adminAction = new Action({
       text: "msg#userMenu.administration",
-      title: "msg#userMenu.administration",
       href: this.appService.adminUrl
     });
 
     // Language menu
     this.languageAction = new Action({
       text: "msg#userMenu.language",
-      title: "msg#userMenu.language",
       children: this.intlService.locales.map(locale =>
         new Action({
           text: locale.display,   // "French"
-          title: locale.display,   // "French"
           data: locale,   // French locale
           selected: locale === this.intlService.currentLocale, // Whether French is the current locale
           iconAfter: "sq-image sq-flag-" + locale.name,
@@ -178,7 +170,6 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
 
     this.resetUserSettings = new Action({
       text: "msg#userMenu.resetUserSettings.menu",
-      title: "msg#userMenu.resetUserSettings.menu",
       action: () => {
         this.modalService.confirm({
           title: "msg#userMenu.resetUserSettings.modalTitle",
@@ -253,9 +244,9 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
         title,
         headerGroup: true,
         children: [
-          ...this.getLoginActions(), this.sep,
-          ...this.getUIActions(), this.sep,
-          ...this.getHelpActions(), this.sep,
+          ...this.getLoginActions(), ActionSeparator,
+          ...this.getUIActions(), ActionSeparator,
+          ...this.getHelpActions(),
           ...this.getCreditActions()
         ]
     });
@@ -326,7 +317,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
         ...options,
       };
       this.helpAction.href = this.appService.helpUrl(this.getHelpIndexUrl(name, helpFolderOptions));
-      return [this.helpAction];
+      return [this.helpAction, ActionSeparator];
     }
 
     return [];
