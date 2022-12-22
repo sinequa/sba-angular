@@ -1,11 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional, DoCheck, NgZone } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, NgZone, Optional, DoCheck } from "@angular/core";
 import { IntlService } from "@sinequa/core/intl";
 import { Results, Aggregation, AggregationItem } from '@sinequa/core/web-services';
 import { UIService } from "@sinequa/components/utils";
 import { FacetService, AbstractFacet, BsFacetCard } from "@sinequa/components/facet";
 import { Action } from '@sinequa/components/action';
 import { Utils } from '@sinequa/core/base';
-import { Subscription } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
 
@@ -63,8 +63,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     private readonly selectType: Action;
 
     // Subscriptions
-    private localeChange: Subscription;
-    private selectionChange: Subscription;
+    subs: Subscription = new Subscription();
 
     constructor(
         public intlService: IntlService,
@@ -76,6 +75,10 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         private zone: NgZone
     ) {
         super();
+
+        this.subs.add(this.cardComponent?.facetCollapsed.subscribe(value => {
+            this.ready = value === "expanded" ? true : false
+        }));
 
         // Clear the current filters
         this.clearFilters = new Action({
@@ -126,18 +129,14 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
             }
         });
 
-        this.localeChange = this.intlService.events.subscribe(event => {
-            this.updateData();
-        });
-        this.selectionChange = this.selectionService.events.subscribe(event => {
-            this.updateData();
-        });
+        this.subs.add(merge(this.intlService.events, this.selectionService.events)
+            .subscribe(_ => this.updateData())
+        );
     }
 
     // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
     ngOnDestroy() {
-        this.localeChange.unsubscribe();
-        this.selectionChange.unsubscribe();
+        this.subs.unsubscribe();
     }
 
 
@@ -214,6 +213,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
             };
          })
         };
+        this.cardComponent.updateActions();
     }
 
     override isHidden(): boolean {

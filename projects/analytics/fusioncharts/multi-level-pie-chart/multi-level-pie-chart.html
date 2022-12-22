@@ -1,4 +1,6 @@
 <fusioncharts *ngIf="ready && !isRefreshing"
+    class="d-block overflow-hidden rounded"
+    [ngStyle]="{height: height+'px'}"
     [width]="width"
     [height]="height"
     [type]="type"
