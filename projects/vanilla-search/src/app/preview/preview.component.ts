@@ -63,7 +63,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   previewDocument?: PreviewDocument;
 
   // State of the preview
-  collapsedPanel = true;
+  collapsedPanel = false;
   homeRoute = "/home";
   showBackButton = true;
   subpanels = ["extracts", "entities"];
@@ -261,7 +261,8 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
             this.subpanels.unshift("passages");
             this.tabs.unshift(this.getTab('passages'));
             this.subpanel = "passages";
-            this.minimapType = "matchingpassages";
+            // this.minimapType = "matchingpassages";
+            this.minimapType = "none";
           }
           // Manage splitted documents
           const pageNumber = this.previewService.getPageNumber(previewData.record);
@@ -302,6 +303,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   highlightMostRelevant(previewData: PreviewData, previewDocument: PreviewDocument, type: string): boolean {
     const extracts = this.previewService.getExtracts(previewData, undefined, type);
+    this.updateHighlights(type);
     if (extracts[0]) {
       const mostRelevantExtract = extracts[0].textIndex;
       previewDocument.selectHighlight(type, mostRelevantExtract); // Scroll to most relevant extract
@@ -310,15 +312,38 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
+  updateHighlights(type: string) {
+    if (this.previewData) {
+      const highlights = Object.keys(this.previewData.highlightsPerCategory)
+        .filter(h => (type === "matchingpassages" && h === "matchingpassages")
+          || (type === "extractslocations" && h === "extractslocations")
+          || (type === 'entities' && h !== "matchingpassages" && h !== "extractslocations"));
+      this.previewDocument?.filterHighlights(highlights);
+    }
+  }
+
   openPanel(tab: Tab) {
     const panel = tab.value;
     this.subpanel = panel;
     // Change the type of extract highlighted by the minimap in function of the current tab
     if (panel === "passages") {
-      this.minimapType = "matchingpassages";
+      // this.minimapType = "matchingpassages";
+      this.minimapType = "none";
+      if (this.previewData && this.previewDocument) {
+        this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")
+      }
+    } else {
+      this.previewDocument?.clearPassageHighlight();
     }
     if (panel === "extracts") {
       this.minimapType = "extractslocations";
+      if (this.previewData && this.previewDocument) {
+        this.highlightMostRelevant(this.previewData, this.previewDocument, "extractslocations")
+      }
+    }
+    if (panel === 'entities') {
+      this.minimapType = "none";
+      this.updateHighlights('entities');
     }
     return false;
   }

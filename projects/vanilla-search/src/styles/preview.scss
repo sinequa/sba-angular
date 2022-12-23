@@ -6,7 +6,7 @@
 
 $extracts-color: lemonchiffon !default;
 $extractslocations-color: $extracts-color !default;
-$passages-color: #fcf2eb;
+$passages-color: transparent;
 $matchlocations-color: yellow !default;
 $matchlocations-border: 1px solid rgba(0,0,0, 0.125);
 
@@ -300,4 +300,11 @@ line.sq-svg {
 
     --factor: 1.0;
     zoom: var(--factor);
+}
+
+sq-passage-highlight {
+    position: absolute;
+    background-color: #FFF7AC;
+    border: 2px solid #0B75FF;
+    z-index: -1;
 }

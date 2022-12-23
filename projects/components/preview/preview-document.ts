@@ -1,6 +1,7 @@
 import { ElementRef } from "@angular/core";
 
 import { Utils } from "@sinequa/core/base";
+import { PassageHighlightParams } from "./bootstrap/preview-passage-highlight/preview-passage-highlight.component";
 
 export enum HighlightCategoryFilterChoice {
     All, None, Value
@@ -47,7 +48,9 @@ export class PreviewDocument {
 
     private previousElement: HTMLElement | null;
 
-    constructor(element: ElementRef | Document){
+    public passageHighlightParams?: PassageHighlightParams;
+
+    constructor(element: ElementRef | Document) {
         if (element instanceof ElementRef) {
             this._window = element?.nativeElement?.contentWindow;
             try {
@@ -105,7 +108,7 @@ export class PreviewDocument {
         forEach(nodes, n => text += (n['innerHTML'] || n.textContent));
         return text;
     }
-    
+
     public getHighlightPos(categoryId: string, index: number): DOMRect | null{
         const nodes = this.document.querySelectorAll("#"+categoryId+"_"+index);
         if(!nodes || nodes.length === 0) return null;
@@ -145,7 +148,7 @@ export class PreviewDocument {
      * @param categoryId Category of the entity
      * @param index Index of the entity in that category
      */
-    public selectHighlight(categoryId: string, index: number) : void {
+    public selectHighlight(categoryId: string, index: number): void {
 
         this.clearHighlightSelection();
         // current element becomes previous element
@@ -153,8 +156,12 @@ export class PreviewDocument {
 
         if (this.previousElement) {
             // highlight new selected element
-            this.setHighlightSelection(this.previousElement,true, true);
-            this.previousElement.scrollIntoView({block: 'center'});
+            if (categoryId === 'matchingpassages') {
+                this.highlightPassage(index);
+            } else {
+                this.setHighlightSelection(this.previousElement, true, true);
+            }
+            this.previousElement.scrollIntoView({ block: 'center' });
         }
     }
 
@@ -237,6 +244,43 @@ export class PreviewDocument {
                 }
             }
         });
+    }
+
+    /**
+     * Set the passage highlighting for a given passage index
+     * @param index the passage index
+     */
+    public highlightPassage(index: number) {
+        const nodeList = this.document.querySelectorAll("#matchingpassages_" + index);
+        if (!nodeList || !nodeList.length) return;
+
+        const nodes: any[] = [];
+        const margin = 2; // the margin between the text and the highlight box border
+
+        nodeList.forEach(node => {
+            nodes.push(node);
+        });
+
+        const minLeft = Math.min(...nodes.map(n => n.offsetLeft)) - margin;
+        const minTop = Math.min(...nodes.map(n => n.offsetTop)) - margin;
+        const maxRight = Math.max(...nodes.map(n => n.offsetLeft + n.offsetWidth));
+        const maxBottom = Math.max(...nodes.map(n => n.offsetTop + n.offsetHeight));
+        const height = maxBottom - minTop + (margin * 2);
+        const width = maxRight - minLeft + (margin * 2);
+
+        this.passageHighlightParams = {
+            height,
+            width,
+            top: minTop,
+            left: minLeft
+        }
+    }
+
+    /**
+     * Hide the passage highlight block
+     */
+    public clearPassageHighlight() {
+        this.passageHighlightParams = undefined;
     }
 
     // PRIVATE METHODS

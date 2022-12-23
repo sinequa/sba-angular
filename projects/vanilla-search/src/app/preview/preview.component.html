@@ -91,14 +91,12 @@
 
                         <!-- Expanded panel different subpanels available -->
                         <!-- Extracts/Pages panel -->
-                        <sq-preview-extracts-panel *ngIf="!pagesResults" class="flex-scroll"
-                            [extractsNumber]="10" [previewData]="previewData" [downloadUrl]="currentUrl"
-                            [previewDocument]="previewDocument">
+                        <sq-preview-extracts-panel *ngIf="!pagesResults" class="flex-scroll" [extractsNumber]="10"
+                            [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument">
                         </sq-preview-extracts-panel>
 
-                        <sq-preview-pages-panel *ngIf="pagesResults" class="flex-scroll"
-                            [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults"
-                            (gotopage)="gotoPage($event)">
+                        <sq-preview-pages-panel *ngIf="pagesResults" class="flex-scroll" [previewData]="previewData"
+                            [previewDocument]="previewDocument" [pages]="pagesResults" (gotopage)="gotoPage($event)">
                         </sq-preview-pages-panel>
 
                     </ng-container>
@@ -160,6 +158,8 @@
                     <sq-preview-minimap #minimap [previewDocument]="previewDocument" [previewData]="previewData"
                         [type]="minimapType">
                     </sq-preview-minimap>
+
+                    <sq-passage-highlight #passageHighlight [params]="previewDocument?.passageHighlightParams"></sq-passage-highlight>
 
                 </sq-preview-document-iframe>
             </div>
