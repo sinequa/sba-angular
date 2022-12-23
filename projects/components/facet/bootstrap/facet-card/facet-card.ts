@@ -178,6 +178,7 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
             updater: (action) => {
                 action.icon = this._collapsed ? "fas fa-chevron-down" : "fas fa-chevron-up";
                 action.title = this._collapsed ? 'msg#facetCard.expand' : 'msg#facetCard.collapse';
+                this.updateActions();
             }
         });
 

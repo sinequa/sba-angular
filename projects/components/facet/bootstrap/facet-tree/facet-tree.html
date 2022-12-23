@@ -1,4 +1,4 @@
-<div *ngIf="!isHidden()" class="list-group list-group-flush" [ngClass]="{'scrollable': forceMaxHeight }">
+<div *ngIf="!isHidden()" class="list-group list-group-flush m-1" [ngClass]="{'scrollable': forceMaxHeight }">
     <div *ngIf="displayActions && actions" class="d-flex pb-2 pe-2">
         <div class="btn-group ms-auto"
             [sq-action-buttons]="{items: actions, size: 'sm'}">
