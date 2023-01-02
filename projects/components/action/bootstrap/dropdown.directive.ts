@@ -2,7 +2,7 @@ import {Directive, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener} f
 import {Subscription} from 'rxjs';
 import {createPopper} from '@popperjs/core';
 import {Keys, StrictUnion} from "@sinequa/core/base";
-import {BsDropdownService, gClassName, gSelector, gAttachmentMap} from './dropdown.service';
+import {BsDropdownService, gClassName, gSelector} from './dropdown.service';
 
 // Based on  Bootstrap (v4.4.1): dropdown.js
 
@@ -19,13 +19,42 @@ const gConfig = {
 };
 
 @Directive({
-    selector: gSelector.DATA_TOGGLE
+    // eslint-disable-next-line @angular-eslint/directive-selector
+    selector: "[data-bs-toggle='dropdown']"
 })
 export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
     private subscription: Subscription;
+    /**
+     * true if the dropdown is within a navbar element
+     */
     private inNavbar: boolean;
+    /**
+     * the dropdown wrapper, often the parent of the `ElementRef` element
+     *
+     * @example
+     * <div class="dropdown">
+     * ...
+     * </div>
+     * */
     private dropdown: HTMLElement;
+    /**
+     * the `dropdown-toggle` element where the directive is set.
+     *
+     * @example
+     * <button class="dropdown-toggle" [data-bs-toggle]="dropdown">...</button>
+     */
     private dropdownToggle: HTMLElement;
+    /**
+     * the `dropdown-menu` element attached to the `dropdown-toggle` element
+     *
+     * @example
+     * <div class="dropdown">
+     *   <button class="dropdown-toggle" [data-bs-toggle]="dropdown">...</button>
+     *   <ul class="dropdown-menu">
+     *   ...
+     *   </ul>
+     * </div>
+     */
     private _dropdownMenu: HTMLElement | null;
     private popper;
 
@@ -35,9 +64,12 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
     ) {
     }
 
+    /**
+     * @returns The first `.dropdown` descendant `.dropdown-menu` element.
+     */
     get dropdownMenu(): HTMLElement | null {
         if (!this._dropdownMenu && this.dropdown) {
-            this._dropdownMenu = this.dropdown.querySelector(gSelector.MENU);
+            this._dropdownMenu = this.dropdown.querySelector(".dropdown-menu");
         }
         return this._dropdownMenu;
     }
@@ -65,12 +97,12 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
 
     @HostListener("click", ["$event"])
     clickHandler(event: Event) {
-        // before event.stopPropagation() 
+        // before event.stopPropagation()
         // needed to avoid dropdown menu list to stay opened,
         // bubble event to his root parent first and once
         const isActive = this.dropdownMenu && this.dropdownMenu.classList.contains(gClassName.SHOW);
         if (!isActive) this.dropdown.dispatchEvent(new Event('click', {bubbles: true, cancelable: false}));
-        
+
         event.preventDefault();
         event.stopPropagation();
         this.toggle(this.dropdownToggle);
@@ -81,11 +113,11 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
-        if (/*TODO element.disabled || */element.classList.contains(gClassName.DISABLED)) {
+        if (element.classList.contains("disabled")) {
             return;
         }
 
-        const isActive = this.dropdownMenu && this.dropdownMenu.classList.contains(gClassName.SHOW);
+        const isActive = this.dropdownMenu && this.dropdownMenu.classList.contains("show");
 
         this.dropdownService.raiseClear();
         // send dropdown's active state to the service
@@ -101,24 +133,34 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         this.show(true);
     }
 
+    /**
+     * * If the dropdown is a `dropup`, then the placement is `top-start` unless
+     *   if the dropdown menu is a `dropdown-menu-end`, then the placement is `top-end`.
+     * * If the dropdown is a `dropend`, then the placement is `right-start`.
+     * * If the dropdown is a `dropstart`, then the placement is `left-start`.
+     * * If the dropdown menu is a `dropdown-menu-end`, then the placement is `bottom-end`.
+     * Otherwise, the placement is `bottom-start`
+     *
+     * @returns The placement of the dropdown menu.
+     */
     private getPlacement(): string {
-        let placement = gAttachmentMap.BOTTOM;
+        let placement = "bottom-start";
 
         // Handle dropup
-        if (this.dropdown.classList.contains(gClassName.DROPUP)) {
-            placement = gAttachmentMap.TOP;
-            if (this.dropdownMenu && this.dropdownMenu.classList.contains(gClassName.MENURIGHT)) {
-                placement = gAttachmentMap.TOPEND;
+        if (this.dropdown.classList.contains("dropup")) {
+            placement = "top-start";
+            if (this.dropdownMenu && this.dropdownMenu.classList.contains("dropdown-menu-end")) {
+                placement = "top-end";
             }
         }
-        else if (this.dropdown.classList.contains(gClassName.DROPRIGHT)) {
-            placement = gAttachmentMap.RIGHT;
+        else if (this.dropdown.classList.contains("dropend")) {
+            placement = "right-start";
         }
-        else if (this.dropdown.classList.contains(gClassName.DROPLEFT)) {
-            placement = gAttachmentMap.LEFT;
+        else if (this.dropdown.classList.contains("dropstart")) {
+            placement = "left-start";
         }
-        else if (this.dropdownMenu && this.dropdownMenu.classList.contains(gClassName.MENURIGHT)) {
-            placement = gAttachmentMap.BOTTOMEND;
+        else if (this.dropdownMenu && this.dropdownMenu.classList.contains("dropdown-menu-end")) {
+            placement = "bottom-end";
         }
         return placement;
     }
@@ -153,13 +195,18 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         return popperConfig;
     }
 
+    /**
+     * If the dropdown menu is already visible, do nothing. Otherwise, if the
+     * dropdown menu is not visible, show it
+     * @param [usePopper=false] - boolean
+     */
     show(usePopper = false) {
         if (!this.dropdownToggle || !this.dropdownMenu || !this.dropdown) {
             return;
         }
-        if (/*TODO element.disabled || */
-            this.dropdownToggle.classList.contains(gClassName.DISABLED) ||
-            this.dropdownMenu.classList.contains(gClassName.SHOW)) {
+
+        if (this.dropdownToggle.classList.contains("disabled") ||
+            this.dropdownMenu.classList.contains("show")) {
           return;
         }
 
@@ -194,17 +241,21 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         this.dropdownToggle.focus();
         this.dropdownToggle.setAttribute('aria-expanded', "true");
 
-        this.dropdownMenu.classList.toggle(gClassName.SHOW);
-        parent.classList.toggle(gClassName.SHOW);
+        this.dropdownMenu.classList.toggle("show");
+        parent.classList.toggle("show");
     }
 
+    /**
+     * If the dropdown is open, close it
+     * @param event - StrictUnion<KeyboardEvent | MouseEvent | undefined>
+     */
     private clear(event: StrictUnion<KeyboardEvent | MouseEvent | undefined>) {
         if (!this.dropdownToggle || !this.dropdownMenu || !this.dropdown) {
             return;
         }
         const parent = this.dropdown;
 
-        if (!parent.classList.contains(gClassName.SHOW)) {
+        if (!parent.classList.contains("show")) {
             return;
         }
 
@@ -226,20 +277,19 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
             this.popper.destroy();
         }
 
-        this.dropdownMenu.classList.remove(gClassName.SHOW);
-        parent.classList.remove(gClassName.SHOW);
-        
-        // close all sub-menus with 'show' class
-        // here, 'parent' is the dropdown element
+        this.dropdownMenu.classList.remove("show");
+        parent.classList.remove("show");
+
+        // close all sub-menus with 'show' class where 'parent' is the dropdown element
         this.closeSubmenus(parent);
     }
-    
+
     /**
      * It removes the class "show" from all submenus.
-     * @param {HTMLElement} element - The dropdown element.
+     * @param {HTMLElement} element - HTMLElement - The element that was clicked.
      */
     private closeSubmenus(element: HTMLElement) {
         const elements = element.querySelectorAll("ul");
-        elements.forEach(el => el.classList.remove(gClassName.SHOW));
+        elements.forEach(el => el.classList.remove("show"));
     }
 }

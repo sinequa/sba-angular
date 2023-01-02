@@ -46,17 +46,6 @@ export const gSelector = {
     VISIBLE_ITEMS : '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)'
 };
 
-export const gAttachmentMap = {
-    TOP       : 'top-start',
-    TOPEND    : 'top-end',
-    BOTTOM    : 'bottom-start',
-    BOTTOMEND : 'bottom-end',
-    RIGHT     : 'right-start',
-    RIGHTEND  : 'right-end',
-    LEFT      : 'left-start',
-    LEFTEND   : 'left-end'
-};
-
 @Injectable({
     providedIn: "root"
 })
@@ -88,8 +77,20 @@ export class BsDropdownService implements OnDestroy {
         return this._events;
     }
 
-    private matchDescendant(base: Element, event: Event, selector: string): HTMLElement | null {
-        let element: HTMLElement | null = event.target as HTMLElement;
+    /**
+     * "If the event target matches the selector, return it, otherwise return the
+     * first ancestor of the event target that matches the selector."
+     *
+     * The function starts by declaring a variable named element and assigning it
+     * the value of the event target. The event target is the element that the
+     * event was dispatched from
+     * @param {Element} base - The element that the event listener is attached to.
+     * @param {Event} event - The event that was triggered.
+     * @param {string} selector - The CSS selector to match.
+     * @returns The element that matches the selector.
+     */
+    private matchDescendant(base: Element, {target}: Event, selector: string): HTMLElement | null {
+        let element: HTMLElement | null = target as HTMLElement;
         while (element && element !== base) {
             if (element.matches(selector)) {
                 return element;
@@ -99,6 +100,12 @@ export class BsDropdownService implements OnDestroy {
         return null;
     }
 
+    /**
+     * If the element has a data-target attribute, return it. Otherwise, if the
+     * element has an href attribute, return it. Otherwise, return null
+     * @param {HTMLElement} element - The element that triggered the event.
+     * @returns The selector is being returned.
+     */
     private getSelectorFromElement(element: HTMLElement) {
         let selector = element.getAttribute('data-target');
 
@@ -115,6 +122,11 @@ export class BsDropdownService implements OnDestroy {
         }
     }
 
+    /**
+     * It returns the parent element of the element passed in as a parameter
+     * @param {HTMLElement} element - The element that was clicked.
+     * @returns The parent element of the element that was clicked.
+     */
     getParentFromElement(element: HTMLElement): Node | null {
         let parent: HTMLElement | null = null;
         const selector = this.getSelectorFromElement(element);
@@ -137,32 +149,39 @@ export class BsDropdownService implements OnDestroy {
 
     private dataApiKeydownHandler = (event: KeyboardEvent): boolean | void => {
         const descendant = this.matchDescendant(this.document.documentElement, event, `${gSelector.DATA_TOGGLE},${gSelector.MENU}`);
-        if (!descendant) {
+        if (descendant === null) {
             return;
         }
-        // If not input/textarea:
-        //  - And not a key in REGEXP_KEYDOWN => not a dropdown command
-        // If input/textarea:
-        //  - If space key => not a dropdown command
-        //  - If key is other than escape
-        //    - If key is not up or down => not a dropdown command
-        //    - If trigger inside the menu => not a dropdown command
-        if (/input|textarea/i.test((event.target as Element).tagName) ?
-            event.key === Keys.space || event.key !== Keys.esc &&
-            (event.key !== Keys.down && event.key !== Keys.up || (event.target as Element).closest(gSelector.MENU)) :
-            !(event.key === Keys.up || event.key === Keys.down || event.key === Keys.esc)) {
+        /*
+            If not input/textarea:
+            - And not a key in REGEXP_KEYDOWN => not a dropdown command
+            If input/textarea:
+            - If space key => not a dropdown command
+            - If key is other than escape
+            - If key is not up or down => not a dropdown command
+            - If trigger inside the menu => not a dropdown command
+        */
+        const isInput = /input|textarea/i.test((event.target as Element).tagName);
+        const isSpaceEvent = event.key === Keys.space;
+        const isEscapeEvent = event.key === Keys.esc;
+        const isUpOrDownEvent = [Keys.up.toString(), Keys.down.toString()].includes(event.key);
+        const isDropdownMenu = (event.target as Element).closest(".dropdown-menu") !== null;
+
+        if (isInput
+            ? (isSpaceEvent || !isEscapeEvent) && (!isUpOrDownEvent || isDropdownMenu)
+            : !isUpOrDownEvent || isEscapeEvent) {
             return;
         }
 
         event.preventDefault();
         event.stopPropagation();
 
-        if (/*TODO descendant.disabled || */descendant.classList.contains(gClassName.DISABLED)) {
+        if (descendant.classList.contains("disabled")) {
             return;
         }
 
         const parent = this.getParentFromElement(descendant);
-        const isActive = parent instanceof HTMLElement && parent.classList.contains(gClassName.SHOW);
+        const isActive = parent instanceof HTMLElement && parent.classList.contains("show");
 
         if (!isActive && event.key === Keys.esc) {
             return;
@@ -172,8 +191,6 @@ export class BsDropdownService implements OnDestroy {
             if (event.key === Keys.esc) {
                 const toggle = parent instanceof Element && parent.querySelector(gSelector.DATA_TOGGLE);
                 if (toggle instanceof HTMLElement) {
-                    // toggle.dispatchEvent(new Event("focus", {bubbles: true}));
-                    // NB $(toggle).trigger('focus') will set the focus on toggle
                     toggle.focus();
                 }
             }
@@ -229,7 +246,7 @@ export class BsDropdownService implements OnDestroy {
 
     private formChildClick = (event: MouseEvent): boolean | void => {
         this.raiseActive(false);
-        if (!this.matchDescendant(this.document.documentElement, event, gSelector.FORM_CHILD)) {
+        if (!this.matchDescendant(this.document.documentElement, event, ".dropdown form")) {
             return;
         }
         event.stopPropagation();
