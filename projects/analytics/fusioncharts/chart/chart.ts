@@ -26,6 +26,8 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     @Input() results: Results;
     @Input() aggregation: string;
     @Input() aggregations?: string[];
+    /** Additional css classes */
+    @Input() styles: string;
 
     @Input() width: string = '100%';
     @Input() height: string = '350';

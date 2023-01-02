@@ -51,6 +51,9 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     @Input() chart: any = defaultMultiLevelChart;
     @Input() autohide = true;
 
+    /** Additional css classes */
+    @Input() styles: string;
+
     /** Leave the default color undefined to use the color scheme of FusionCharts */
     @Input() defaultColor?: string;
     /** Filtered items appear in a different color. Set to undefined use FusionCharts's color scheme */

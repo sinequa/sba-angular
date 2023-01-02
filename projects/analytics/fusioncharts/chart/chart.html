@@ -1,5 +1,6 @@
 <fusioncharts *ngIf="ready"
-    class="d-block p-1 overflow-hidden rounded"
+    class="d-block overflow-hidden"
+    [ngClass]="styles"
     [ngStyle]="{height: height+'px'}"
     [width]="width"
     [height]="height"
