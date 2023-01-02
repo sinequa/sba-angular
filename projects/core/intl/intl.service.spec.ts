@@ -140,6 +140,34 @@ describe('IntlService', () => {
       });
     }));
 
+    it("should format an ISO 8601 date with week number in the current locale (en-US)", () => {
+      const spy = spyOn(console, 'warn').and.callThrough();
+
+      // First day of 2022 week 52 with weekday set as Monday (default)
+      expect(service.formatDate("2022-W52", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("Dec 26, 2022");
+      // same a above, but specifying the weekday start (1-7): 1 is Monday and ending with Sunday
+      expect(service.formatDate("2022-W52-1", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("Dec 26, 2022");
+      // set Sunday as weekday start
+      expect(service.formatDate("2022-W52-7", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("Jan 01, 2023");
+
+      expect(spy).not.toHaveBeenCalled();
+    })
+
+    it("should format an ISO 8601 date with week number in the current locale (french)", () => {
+      const spy = spyOn(console, 'warn').and.callThrough();
+      service.use("fr", false).subscribe(() => {
+
+        // weekday number (1-7) can be used, week begin with Monday and ends with Sunday
+        expect(service.formatDate("2022-W52", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("26 déc. 2022");
+        // fist day of the week 52 is monday 26 Dec 2022
+        expect(service.formatDate("2022-W52-1", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("26 déc. 2022");
+        // last day of the week 52 is sunday 1 Jan 2023
+        expect(service.formatDate("2022-W52-7", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("01 janv. 2023");
+
+        expect(spy).not.toHaveBeenCalled();
+      });
+    })
+
   })
 
   describe('formatTime()', () => {
