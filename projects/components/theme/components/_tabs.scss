@@ -29,7 +29,11 @@ sq-tabs {
     .nav-link {
       border-bottom-left-radius: var(--bs-nav-tabs-border-radius);
       border-bottom-right-radius: var(--bs-nav-tabs-border-radius);
-      padding: 1rem 2rem;
+      padding: .75rem 1rem;
+
+      @include media-breakpoint-up(xl) {
+        padding: 1rem 2rem;
+      }
 
       &.active {
         box-shadow: 0 0 .4rem rgba(0, 0, 0, .1);

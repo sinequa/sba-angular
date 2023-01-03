@@ -34,6 +34,11 @@ export class BsTabs implements OnChanges {
     @Input() showCounts = true;
 
     /**
+     * Custom classes for the tab items
+     */
+    @Input() tabsClass: string = '';
+
+    /**
      * Emits an event when a tab is selected
      */
     @Output() events = new EventEmitter<Tab>();
