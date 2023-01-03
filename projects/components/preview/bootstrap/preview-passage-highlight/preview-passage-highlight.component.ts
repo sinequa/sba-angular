@@ -34,6 +34,7 @@ export class BsPassageHighlightComponent implements OnChanges {
     @HostBinding('style.width') width = `0`;
     @HostBinding('style.top') top = `0`;
     @HostBinding('style.left') left = `0`;
+    @HostBinding('style.opacity') opacity;
 
     ngOnChanges() {
         if (this.params) {
@@ -41,9 +42,9 @@ export class BsPassageHighlightComponent implements OnChanges {
             this.width = `${this.params.width}px`;
             this.top = `${this.params.top}px`;
             this.left = `${this.params.left}px`;
+            this.opacity = '1';
         } else { // hide if no params
-            this.height = `0`;
-            this.width = `0`;
+            this.opacity = '0';
         }
     }
 

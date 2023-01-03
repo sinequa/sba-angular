@@ -86,9 +86,12 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   tooltipEntityActions: Action[] = [];
   tooltipTextActions: Action[] = [];
 
-  // Zoom actions
+  // Preview actions
   private minimizeAction: Action;
   private maximizeAction: Action;
+  private displayHighlightsAction: Action;
+  private showHighlights = true;
+  private highlightType: string;
   actions: Action[] = [];
 
   private readonly scaleFactorThreshold = 0.2;
@@ -165,6 +168,20 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       }
     }));
 
+    this.displayHighlightsAction = new Action({
+      icon: "fas fa-fw fa-highlighter",
+      title: "msg#facet.preview.toggleHighlight",
+      action: () => {
+        this.showHighlights = !this.showHighlights;
+        this.updateHighlights(this.showHighlights ? this.highlightType : undefined);
+        if (this.showHighlights && this.highlightType === "matchingpassages") {
+          this.previewDocument?.highlightPassage();
+        } else {
+          this.previewDocument?.clearPassageHighlight();
+        }
+      }
+    });
+
     this.maximizeAction = new Action({
       icon: "fas fa-fw fa-search-plus",
       title: "msg#facet.preview.maximize",
@@ -185,7 +202,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       }
     });
 
-    this.actions.push(this.minimizeAction, this.maximizeAction);
+    this.actions.push(this.displayHighlightsAction, this.minimizeAction, this.maximizeAction);
 
     titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle"));
 
@@ -261,8 +278,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
             this.subpanels.unshift("passages");
             this.tabs.unshift(this.getTab('passages'));
             this.subpanel = "passages";
-            // this.minimapType = "matchingpassages";
-            this.minimapType = "none";
+            this.minimapType = "matchingpassages";
           }
           // Manage splitted documents
           const pageNumber = this.previewService.getPageNumber(previewData.record);
@@ -312,13 +328,19 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
-  updateHighlights(type: string) {
+  updateHighlights(type?: string) {
     if (this.previewData) {
-      const highlights = Object.keys(this.previewData.highlightsPerCategory)
-        .filter(h => (type === "matchingpassages" && h === "matchingpassages")
-          || (type === "extractslocations" && h === "extractslocations")
-          || (type === 'entities' && h !== "matchingpassages" && h !== "extractslocations"));
-      this.previewDocument?.filterHighlights(highlights);
+      if (!type) {
+        this.previewDocument?.filterHighlights([]);
+      } else {
+        this.highlightType = type;
+        const highlights = Object.keys(this.previewData.highlightsPerCategory)
+          .filter(h => (type === "matchingpassages" && h === "matchingpassages")
+            || (type === "extractslocations" && h === "extractslocations")
+            || ((type === "extractslocations" || type === "matchingpassages") && h === "matchlocations")
+            || (type === 'entities' && h !== "matchingpassages" && h !== "extractslocations"));
+        this.previewDocument?.filterHighlights(highlights);
+      }
     }
   }
 
@@ -327,8 +349,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     this.subpanel = panel;
     // Change the type of extract highlighted by the minimap in function of the current tab
     if (panel === "passages") {
-      // this.minimapType = "matchingpassages";
-      this.minimapType = "none";
+      this.minimapType = "matchingpassages";
       if (this.previewData && this.previewDocument) {
         this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")
       }

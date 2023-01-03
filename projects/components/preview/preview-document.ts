@@ -47,6 +47,7 @@ export class PreviewDocument {
     private readonly _document: Document;
 
     private previousElement: HTMLElement | null;
+    private highlightedPassage: number;
 
     public passageHighlightParams?: PassageHighlightParams;
 
@@ -250,8 +251,11 @@ export class PreviewDocument {
      * Set the passage highlighting for a given passage index
      * @param index the passage index
      */
-    public highlightPassage(index: number) {
-        const nodeList = this.document.querySelectorAll("#matchingpassages_" + index);
+    public highlightPassage(index?: number) {
+        if (index !== undefined) {
+            this.highlightedPassage = index;
+        }
+        const nodeList = this.document.querySelectorAll("#matchingpassages_" + this.highlightedPassage);
         if (!nodeList || !nodeList.length) return;
 
         const nodes: any[] = [];

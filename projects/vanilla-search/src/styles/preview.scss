@@ -304,7 +304,6 @@ line.sq-svg {
 
 sq-passage-highlight {
     position: absolute;
-    background-color: #FFF7AC;
     border: 2px solid #0B75FF;
-    z-index: -1;
+    pointer-events: none;
 }
