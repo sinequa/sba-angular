@@ -67,6 +67,7 @@
         "searchText": "Suche \"{text}\" im Dokument",
         "pageTitle": "Dokument-Navigator - {title}",
         "expand": "Erweitern",
+        "collapse": "Reduzieren",
         "back": "Zurück",
         "home": "Startseite",
         "downloadPdf": "PDF-Version herunterladen",

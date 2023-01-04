@@ -21,7 +21,8 @@
         </div>
         <div>
             <!-- Left panel expand button (mobile/tablet only) -->
-            <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.expand' | sqMessage"
+            <button class="btn btn-link btn-lg"
+                [sqTooltip]="(collapsedPanel ? 'msg#preview.expand' : 'msg#preview.collapse') | sqMessage"
                 (click)="collapsedPanel = !collapsedPanel">
                 <i class="fas {{collapsedPanel ? 'fa-bars' : 'fa-times'}}"></i>
             </button>
@@ -61,7 +62,8 @@
                 <ng-container *ngIf="(collapsedPanel && ui.screenSizeIsGreaterOrEqual('lg')) else logo"></ng-container>
 
                 <!-- Toggles the left panel collapsed/expanded state -->
-                <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.expand' | sqMessage"
+                <button class="btn btn-link btn-lg"
+                    [sqTooltip]="(collapsedPanel ? 'msg#preview.expand' : 'msg#preview.collapse') | sqMessage"
                     (click)="collapsedPanel = !collapsedPanel">
                     <i class="fas {{collapsedPanel ? 'fa-bars' : 'fa-times'}}"></i>
                 </button>
@@ -156,10 +158,11 @@
                     </sq-preview-tooltip>
 
                     <sq-preview-minimap #minimap [previewDocument]="previewDocument" [previewData]="previewData"
-                        [type]="minimapType">
+                        [type]="showHighlights ? minimapType : ''">
                     </sq-preview-minimap>
 
-                    <sq-passage-highlight #passageHighlight [params]="previewDocument?.passageHighlightParams"></sq-passage-highlight>
+                    <sq-passage-highlight #passageHighlight
+                        [params]="previewDocument?.passageHighlightParams"></sq-passage-highlight>
 
                 </sq-preview-document-iframe>
             </div>

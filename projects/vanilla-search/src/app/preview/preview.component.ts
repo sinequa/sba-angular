@@ -89,9 +89,9 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   private minimizeAction: Action;
   private maximizeAction: Action;
   private displayHighlightsAction: Action;
-  private showHighlights = true;
   private highlightType: string;
   actions: Action[] = [];
+  showHighlights = true;
 
   private readonly scaleFactorThreshold = 0.2;
   scaleFactor = 1.0;

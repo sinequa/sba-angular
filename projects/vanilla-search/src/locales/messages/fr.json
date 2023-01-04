@@ -99,6 +99,7 @@
         "searchText": "Chercher \"{text}\" dans le document",
         "pageTitle": "Navigateur de documents - {title}",
         "expand": "Déplier",
+        "collapse": "Replier",
         "back": "Retour",
         "home": "Accueil",
         "downloadPdf": "Télécharger la version PDF",
