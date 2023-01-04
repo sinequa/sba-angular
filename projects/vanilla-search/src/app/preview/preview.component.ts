@@ -277,7 +277,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
             this.subpanels.unshift("passages");
             this.tabs.unshift(this.getTab('passages'));
             this.subpanel = "passages";
-            this.minimapType = "matchingpassages";
+            // this.minimapType = "matchingpassages";
           } else {
             this.subpanels.unshift("extracts");
             this.tabs.unshift(this.getTab('extracts'));

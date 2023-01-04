@@ -110,10 +110,10 @@ export class PreviewDocument {
         return text;
     }
 
-    public getHighlightPos(categoryId: string, index: number): DOMRect | null {
+    public getHighlightPos(categoryId: string, index: number): NodeListOf<Element> | null {
         const nodes = this.document.querySelectorAll("#" + categoryId + "_" + index);
         if (!nodes || nodes.length === 0) return null;
-        return nodes[0].getBoundingClientRect();
+        return nodes;
     }
 
     /**
