@@ -66,12 +66,11 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   collapsedPanel = false;
   homeRoute = "/home";
   showBackButton = true;
-  subpanels = ["extracts", "entities"];
-  subpanel = 'extracts';
+  subpanels = ["entities"];
+  subpanel = 'entities';
   previewSearchable = true;
   minimapType = "extractslocations"
   tabs: Tab[] = [
-    this.getTab('extracts'),
     this.getTab('entities')
   ];
 
@@ -279,6 +278,10 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
             this.tabs.unshift(this.getTab('passages'));
             this.subpanel = "passages";
             this.minimapType = "matchingpassages";
+          } else {
+            this.subpanels.unshift("extracts");
+            this.tabs.unshift(this.getTab('extracts'));
+            this.subpanel = "extracts";
           }
           // Manage splitted documents
           const pageNumber = this.previewService.getPageNumber(previewData.record);
@@ -335,9 +338,8 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         this.highlightType = type;
         const highlights = Object.keys(this.previewData.highlightsPerCategory)
-          .filter(h => (type === "matchingpassages" && h === "matchingpassages")
-            || (type === "extractslocations" && h === "extractslocations")
-            || ((type === "extractslocations" || type === "matchingpassages") && h === "matchlocations")
+          .filter(h => (type === "matchingpassages" && (h === "matchingpassages" || h === "extractslocations" || h === "matchlocations"))
+            || (type === "extractslocations" && (h === "extractslocations" || h === "matchlocations"))
             || (type === 'entities' && h !== "matchingpassages" && h !== "extractslocations"));
         this.previewDocument?.filterHighlights(highlights);
       }
@@ -366,7 +368,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       this.minimapType = "none";
       this.updateHighlights('entities');
     }
-    return false;
   }
 
   onPreviewPageChange(event: string | PreviewDocument) {

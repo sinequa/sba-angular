@@ -63,6 +63,7 @@
     "preview": {
         "extracts": "Extrakte",
         "entities": "Entitäten",
+        "passages": "Extrakte",
         "searchText": "Suche \"{text}\" im Dokument",
         "pageTitle": "Dokument-Navigator - {title}",
         "expand": "Erweitern",

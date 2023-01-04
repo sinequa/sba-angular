@@ -95,7 +95,7 @@
     "preview": {
         "extracts": "Extracts",
         "entities": "Entities",
-        "passages": "Passages",
+        "passages": "Extracts",
         "searchText": "Search \"{text}\" in the document",
         "pageTitle": "Document Navigator - {title}",
         "expand": "Expand",

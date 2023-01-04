@@ -69,7 +69,7 @@
             </div>
 
             <div class="flex-grow-1 d-flex flex-column">
-                <ng-container *ngIf="!collapsedPanel" [ngSwitch]="subpanel">
+                <ng-container *ngIf="!loading && !collapsedPanel" [ngSwitch]="subpanel">
                     <div class="pt-2 pt-lg-4 px-2 px-lg-4">
                         <!-- Search form allowing the search preview -->
                         <sq-preview-search-form *ngIf="previewSearchable" [query]="query"
