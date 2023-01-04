@@ -69,7 +69,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   subpanels = ["entities"];
   subpanel = 'entities';
   previewSearchable = true;
-  minimapType = "extractslocations"
+  minimapType = "extractslocations";
   tabs: Tab[] = [
     this.getTab('entities')
   ];

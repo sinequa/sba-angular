@@ -47,7 +47,7 @@ export class PreviewDocument {
     private readonly _document: Document;
 
     private previousElement: HTMLElement | null;
-    private highlightedPassage: number;
+    private highlightedPassage: string;
 
     public passageHighlightParams?: PassageHighlightParams;
 
@@ -88,7 +88,7 @@ export class PreviewDocument {
      * Insert a given DOM Element in the body of the document preview
      * @param component
      */
-    public insertComponent(component){
+    public insertComponent(component) {
         this.document.body.appendChild(component);
     }
 
@@ -97,11 +97,11 @@ export class PreviewDocument {
      * @param categoryId Category of the entity
      * @param index Index of the entity in that category
      */
-    public getHighlightText(categoryId: string, index: number) : string {
+    public getHighlightText(categoryId: string, index: number): string {
         if (index < 0) {
             return "";
         }
-        const nodes = this.document.querySelectorAll("#"+categoryId + "_" + index);
+        const nodes = this.document.querySelectorAll("#" + categoryId + "_" + index);
         if (!nodes || nodes.length === 0) {
             return "";
         }
@@ -110,9 +110,9 @@ export class PreviewDocument {
         return text;
     }
 
-    public getHighlightPos(categoryId: string, index: number): DOMRect | null{
-        const nodes = this.document.querySelectorAll("#"+categoryId+"_"+index);
-        if(!nodes || nodes.length === 0) return null;
+    public getHighlightPos(categoryId: string, index: number): DOMRect | null {
+        const nodes = this.document.querySelectorAll("#" + categoryId + "_" + index);
+        if (!nodes || nodes.length === 0) return null;
         return nodes[0].getBoundingClientRect();
     }
 
@@ -158,7 +158,9 @@ export class PreviewDocument {
         if (this.previousElement) {
             // highlight new selected element
             if (categoryId === 'matchingpassages') {
-                this.highlightPassage(index);
+                this.highlightPassage(`#matchingpassages_${index}`);
+            } else if (categoryId === 'extractslocations') {
+                this.highlightPassage(`#extractslocations_${index}`);
             } else {
                 this.setHighlightSelection(this.previousElement, true, true);
             }
@@ -188,7 +190,7 @@ export class PreviewDocument {
      * Turns highlights on or off based on the provided filter object. Additionally clears the selected entity
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
-    public filterHighlights(filters: HighlightFilters){
+    public filterHighlights(filters: HighlightFilters) {
 
         this.updateHighlightFilterState(filters);
         this.clearHighlightSelection();
@@ -231,16 +233,16 @@ export class PreviewDocument {
      * @param value e.g. "BILL GATES"
      */
     public toggleHighlight(category: string, on: boolean, value?: string) {
-        const elements = this.document.querySelectorAll("."+category);
+        const elements = this.document.querySelectorAll("." + category);
         forEach(elements, element => {
-            if(!value
+            if (!value
                 || (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))
                 || (element.hasAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))) {
 
-                if(on){
+                if (on) {
                     element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
                 }
-                else{
+                else {
                     element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
                 }
             }
@@ -249,13 +251,13 @@ export class PreviewDocument {
 
     /**
      * Set the passage highlighting for a given passage index
-     * @param index the passage index
+     * @param id the passage HTML id
      */
-    public highlightPassage(index?: number) {
-        if (index !== undefined) {
-            this.highlightedPassage = index;
+    public highlightPassage(id?: string) {
+        if (id !== undefined) {
+            this.highlightedPassage = id;
         }
-        const nodeList = this.document.querySelectorAll("#matchingpassages_" + this.highlightedPassage);
+        const nodeList = this.document.querySelectorAll(this.highlightedPassage);
         if (!nodeList || !nodeList.length) return;
 
         const nodes: any[] = [];
@@ -321,15 +323,15 @@ export class PreviewDocument {
             const left = rectPosition.x;
             const right = rectPosition.x + rectPosition.width;
             const valueTransform = rect.getAttribute("transform");
-            this.addSvgLine(group, left, top   , right, top   , valueTransform);
+            this.addSvgLine(group, left, top, right, top, valueTransform);
             this.addSvgLine(group, left, bottom, right, bottom, valueTransform);
-            if (isFirst) this.addSvgLine(group, left , top, left , bottom, valueTransform);
-            if (isLast)  this.addSvgLine(group, right, top, right, bottom, valueTransform);
+            if (isFirst) this.addSvgLine(group, left, top, left, bottom, valueTransform);
+            if (isLast) this.addSvgLine(group, right, top, right, bottom, valueTransform);
         }
     }
 
     private addSvgLine(group: Node, x1: number, y1: number, x2: number, y2: number, transform: string | null): void {
-        const line: Element = this.document.createElementNS("http://www.w3.org/2000/svg","line");
+        const line: Element = this.document.createElementNS("http://www.w3.org/2000/svg", "line");
         line.setAttribute("class", PreviewDocument.SVG_LINE_CLASS);
         line.setAttribute("x1", String(x1));
         line.setAttribute("y1", String(y1));
@@ -402,7 +404,7 @@ export class PreviewDocument {
     // PRIVATE STATIC (from highlight helper)
 
 
-    private static elementIsFilteredOut(element: Element, filters: {[key: string]: HighlightCategoryFilterState}): boolean {
+    private static elementIsFilteredOut(element: Element, filters: { [key: string]: HighlightCategoryFilterState }): boolean {
         const elementClass: string = this.getElementCategory(element, Object.keys(filters));
         if (elementClass == null) {
             return false;
