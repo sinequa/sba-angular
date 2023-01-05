@@ -10,7 +10,7 @@ import { Action } from '@sinequa/components/action';
 import { TimelineSeries, TimelineDate, TimelineEvent } from './timeline.component';
 import { TimelineEventType } from './timeline-legend.component';
 import { timeFormat } from 'd3-time-format';
-import { timeMonth, timeDay, timeHour, timeWeek, timeYear } from 'd3-time';
+import { timeMonth, timeDay, timeHour, timeWeek, timeYear, timeMinute, timeSecond } from 'd3-time';
 import { isValid, parseISO, toDate } from 'date-fns';
 
 export interface TimelineAggregation {
@@ -581,6 +581,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      */
     static shiftDate(date: Date, resolution: string): Date {
         switch(resolution){
+            case "YYYY-MM-DD-hh-mm": return timeSecond.offset(date, 30);
+            case "YYYY-MM-DD-hh": return timeMinute.offset(date, 30);
             case "YYYY-MM-DD": return timeHour.offset(date, 12);
             case "YYYY-WW": return timeHour.offset(date, 84); // 3*24 + 12
             case "YYYY-MM": return timeDay.offset(date, 15);
@@ -592,6 +594,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     static getD3TimeInterval(resolution: string): d3.CountableTimeInterval {
         switch(resolution){
+            case "YYYY-MM-DD-hh-mm": return timeMinute;
+            case "YYYY-MM-DD-hh": return timeHour;
             case "YYYY-MM-DD": return timeDay;
             case "YYYY-WW": return timeWeek;
             case "YYYY-MM": return timeMonth;
