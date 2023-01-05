@@ -70,9 +70,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   subpanel = 'entities';
   previewSearchable = true;
   minimapType = "extractslocations";
-  tabs: Tab[] = [
-    this.getTab('entities')
-  ];
+  tabs: Tab[];
 
   // Page management for splitted documents
   pagesResults: Results;
@@ -273,7 +271,12 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         previewData => {
           this.previewData = previewData;
           const url = previewData?.documentCachedContentUrl;
-          if (previewData.highlightsPerCategory['matchingpassages']?.values.length && !this.subpanels.includes("passages")) {
+          this.subpanels = ["entities"];
+          this.tabs = [
+            this.getTab('entities')
+          ];
+          console.log('previewData', previewData.highlightsPerCategory);
+          if (previewData.highlightsPerCategory['matchingpassages']?.values.length) {
             this.subpanels.unshift("passages");
             this.tabs.unshift(this.getTab('passages'));
             this.subpanel = "passages";

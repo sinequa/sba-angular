@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import {PreviewData} from '@sinequa/core/web-services';
-import {PreviewDocument} from '../../preview-document';
+import { PreviewData } from '@sinequa/core/web-services';
+import { PreviewDocument } from '../../preview-document';
 
 @Component({
   selector: 'sq-preview-minimap',
@@ -8,11 +8,13 @@ import {PreviewDocument} from '../../preview-document';
   styleUrls: ['./preview-minimap.component.css']
 })
 export class BsPreviewMinimapComponent implements OnChanges {
-  locations?: {top: number, height: number | undefined, index: number}[];
+  locations?: { top: number, height: number | undefined, text: string, index: number }[];
 
   @Input() type = "extractslocations";
   @Input() previewDocument?: PreviewDocument;
   @Input() previewData?: PreviewData;
+
+  tooltipWordsNb = 20;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.extractAll();
@@ -21,7 +23,7 @@ export class BsPreviewMinimapComponent implements OnChanges {
   private extractAll() {
     this.locations = [];
     const extracts = this.previewData?.highlightsPerCategory[this.type]?.values; //Extract locations Array ordered by "relevance"
-    if(extracts && extracts.length > 0 && this.previewDocument) {
+    if (extracts && extracts.length > 0 && this.previewDocument) {
       const max = this.previewDocument.document.body.scrollHeight || 1;
 
       // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
@@ -31,12 +33,20 @@ export class BsPreviewMinimapComponent implements OnChanges {
         const lastNode = highlightPos ? highlightPos[highlightPos.length - 1].getBoundingClientRect() : undefined;
         const value = (firstNode?.top || -1) - (this.previewDocument!.document.body.getBoundingClientRect()?.top || 1);
 
+        // Setup the highlight tooltip text
+        let text = '';
+        highlightPos?.forEach(node => {
+          text += node.textContent;
+        });
+        const splitText = text.split(' ');
+        text = splitText.slice(0, this.tooltipWordsNb).join(' ') + (splitText.length > this.tooltipWordsNb ? '...' : '');
+
         // Determining the bottom position of the highlight location
         // also making sure it does not cross the following one by stopping before if needed
         const isLast = index === (extracts[0]?.locations.length - 1);
         let bottom = lastNode?.bottom;
         if (!isLast && bottom) {
-          const nextPos = this.previewDocument!.getHighlightPos(this.type, index+1);
+          const nextPos = this.previewDocument!.getHighlightPos(this.type, index + 1);
           const nextPosTop = !nextPos ? undefined : nextPos[0].getBoundingClientRect()?.top;
           if (nextPosTop) {
             bottom = nextPosTop < bottom ? nextPosTop + 2 : bottom;
@@ -46,7 +56,7 @@ export class BsPreviewMinimapComponent implements OnChanges {
         const top = ((value / max) * 99);
         const height = !bottom || !firstNode ? undefined : ((bottom - firstNode.top) / max) * 99;
 
-        return ({top, height, index});
+        return ({ top, height, index, text });
       });
     }
   }
