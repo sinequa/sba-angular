@@ -12,11 +12,19 @@ export class BsPreviewMinimapComponent implements OnChanges {
   @Input() type = "extractslocations";
   @Input() previewDocument?: PreviewDocument;
   @Input() previewData?: PreviewData;
+
+  /**
+   * The passage highlight params to also display the selected one
+   */
   @Input() passage: PassageHighlightParams;
+
+  /**
+   * The maximum number of words in the tooltip when hovering a link
+   */
+  @Input() tooltipWordsNb = 20;
 
   locations?: { top: number, height: number | undefined, text: string, index: number }[];
   passageLocation?: { top: number, height: number | undefined, text: string };
-  tooltipWordsNb = 20;
   documentHeight: number;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -34,7 +42,7 @@ export class BsPreviewMinimapComponent implements OnChanges {
       this.locations = extracts[0]?.locations.map((el, index) => {
         const highlightPos = this.previewDocument!.getHighlightPos(this.type, index);
         const isLast = index === (extracts[0]?.locations.length - 1);
-        const {top, height, text} = this.generateLocation(highlightPos, isLast, index);
+        const { top, height, text } = this.generateLocation(highlightPos, isLast, index);
         return ({ top, height, index, text });
       });
     }
@@ -42,13 +50,11 @@ export class BsPreviewMinimapComponent implements OnChanges {
 
   private setPassage() {
     this.passageLocation = undefined;
-    if (!this.passage) {
-      return;
-    } else {
-      const highlightPos = this.previewDocument!.getHighlightPosById(this.passage.id);
-      if (highlightPos && highlightPos.length) {
-        this.passageLocation = this.generateLocation(highlightPos);
-      }
+    if (!this.passage) return;
+
+    const highlightPos = this.previewDocument!.getHighlightPosById(this.passage.id);
+    if (highlightPos && highlightPos.length) {
+      this.passageLocation = this.generateLocation(highlightPos);
     }
   }
 
@@ -79,7 +85,7 @@ export class BsPreviewMinimapComponent implements OnChanges {
     const top = ((topValue / this.documentHeight) * 99);
     const height = !bottom || !firstNode ? undefined : ((bottom - firstNode.top) / this.documentHeight) * 99;
 
-    return {top, height, text};
+    return { top, height, text };
   }
 
   /**
