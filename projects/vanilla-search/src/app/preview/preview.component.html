@@ -158,7 +158,7 @@
                     </sq-preview-tooltip>
 
                     <sq-preview-minimap #minimap [previewDocument]="previewDocument" [previewData]="previewData"
-                        [type]="showHighlights ? minimapType : ''">
+                        [type]="showHighlights ? minimapType : ''" [passage]="previewDocument?.passageHighlightParams">
                     </sq-preview-minimap>
 
                     <sq-passage-highlight #passageHighlight

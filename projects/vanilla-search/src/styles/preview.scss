@@ -169,6 +169,11 @@ sq-preview-minimap {
             border: 1px solid orange;
             background-color: yellow;
             cursor: pointer;
+
+            &.minimap-passage {
+                border-color: #0B75FF;
+                background-color: transparent;
+            }
         }
     }
 }

@@ -280,11 +280,12 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
             this.subpanels.unshift("passages");
             this.tabs.unshift(this.getTab('passages'));
             this.subpanel = "passages";
-            // this.minimapType = "matchingpassages";
+            this.minimapType = "extractslocations";
           } else {
             this.subpanels.unshift("extracts");
             this.tabs.unshift(this.getTab('extracts'));
             this.subpanel = "extracts";
+            this.minimapType = "extractslocations";
           }
           // Manage splitted documents
           const pageNumber = this.previewService.getPageNumber(previewData.record);
@@ -354,7 +355,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     this.subpanel = panel;
     // Change the type of extract highlighted by the minimap in function of the current tab
     if (panel === "passages") {
-      this.minimapType = "matchingpassages";
+      this.minimapType = "extractslocations";
       if (this.previewData && this.previewDocument) {
         this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")
       }

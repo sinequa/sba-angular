@@ -110,10 +110,14 @@ export class PreviewDocument {
         return text;
     }
 
-    public getHighlightPos(categoryId: string, index: number): NodeListOf<Element> | null {
-        const nodes = this.document.querySelectorAll("#" + categoryId + "_" + index);
+    public getHighlightPosById(id: string): NodeListOf<Element> | null {
+        const nodes = this.document.querySelectorAll(id);
         if (!nodes || nodes.length === 0) return null;
         return nodes;
+    }
+
+    public getHighlightPos(categoryId: string, index: number): NodeListOf<Element> | null {
+        return this.getHighlightPosById(`#${categoryId}_${index}`);
     }
 
     /**
@@ -165,6 +169,17 @@ export class PreviewDocument {
                 this.setHighlightSelection(this.previousElement, true, true);
             }
             this.previousElement.scrollIntoView({ block: 'center' });
+        }
+    }
+
+    /**
+     * scroll to a specified element by id
+     * @param id the full id of the element
+     */
+    public scrollTo(id: string): void {
+        const element = this.document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ block: 'center' });
         }
     }
 
@@ -278,7 +293,8 @@ export class PreviewDocument {
             height,
             width,
             top: minTop,
-            left: minLeft
+            left: minLeft,
+            id: this.highlightedPassage
         }
     }
 

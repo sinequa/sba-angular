@@ -6,6 +6,7 @@ export interface PassageHighlightParams {
     width: number;
     top: number;
     left: number;
+    id: string;
 }
 
 /**
