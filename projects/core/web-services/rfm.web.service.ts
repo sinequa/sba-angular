@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable, EMPTY} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils, MapOf} from "@sinequa/core/base";
 import {Results, RFMData} from "./query.web.service";
 
@@ -14,12 +12,6 @@ import {Results, RFMData} from "./query.web.service";
 })
 export class RfmWebService extends HttpService {
     private static readonly endpoint = "search.rfm";
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Get RFM data for a set of results
@@ -44,9 +36,7 @@ export class RfmWebService extends HttpService {
         };
         const observable = this.httpClient.post<MapOf<RFMData>>(this.makeUrl(RfmWebService.endpoint), data);
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("rfmService.getRfmData failure - error: ", error);
             });

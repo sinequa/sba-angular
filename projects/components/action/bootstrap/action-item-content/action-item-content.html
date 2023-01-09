@@ -1,23 +1,21 @@
 <ng-container *ngIf="inDropdownMenu; then in_dropdown_menu else not_in_dropdown_menu"></ng-container>
 
 <ng-template #in_dropdown_menu>
+    <!-- embedded component -->
     <ng-container *ngIf="!!item.component" (click)="componentClick($event)"[sqLoadComponent]="{component: item.component, inputs: item.componentInputs }"></ng-container>
-    <div *ngIf="!!!item.component" class="d-flex align-items-baseline sq-action-item-content-container" [ngClass]="item.styles || ''">
-        <div *ngIf="item.showSelected">
-            <i class="fas fa-check {{item.selected ? '' : 'invisible'}}" aria-hidden="true"></i>
-        </div>
-        <i *ngIf="!!item.icon" class="{{item.icon}} me-1" aria-hidden="true"></i>
-        <div>{{text | sqMessage:item.messageParams}}</div>
-        <div *ngIf="!!item.iconAfter" class="ms-auto">
-            <i class="{{item.iconAfter}}" aria-hidden="true"></i>
-        </div>
+
+    <div *ngIf="!!!item.component" class="d-flex align-items-baseline sq-action-item-content-container {{item.styles}}">
+        <i *ngIf="item.showSelected" class="fas fa-check sq-icon-check {{item.selected ? '' : 'invisible'}}" aria-hidden="true"></i>
+        <i *ngIf="!!item.icon" class="{{item.icon}} sq-icon" aria-hidden="true"></i>
+        <span class="mx-2">{{text | sqMessage:item.messageParams}}</span>
+        <i *ngIf="!!item.iconAfter" class="ms-auto" class="{{item.iconAfter}} sq-icon-after" aria-hidden="true"></i>
     </div>
 </ng-template>
 
 <ng-template #not_in_dropdown_menu>
     <span [ngClass]="item.styles || ''">
-        <i  *ngIf="!!item.icon" class="{{item.icon}}" aria-hidden="true"></i>
+        <i  *ngIf="!!item.icon" class="{{item.icon}} sq-icon" aria-hidden="true"></i>
         {{text | sqMessage:item.messageParams}}
-        <i *ngIf="!!item.iconAfter" [ngClass]="item.iconAfter" aria-hidden="true"></i>
+        <i *ngIf="!!item.iconAfter" class="sq-icon-after {{item.iconAfter}}" aria-hidden="true"></i>
     </span>
 </ng-template>

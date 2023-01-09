@@ -45,12 +45,14 @@ describe("MessagePipe", () => {
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
+        { provide: ChangeDetectorRef, useValue: { markForCheck: () => {} } },
         IntlService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        MessagePipe
+      ]
     });
 
-    pipe = new MessagePipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(MessagePipe);
   })
 
   it('transforms message to ... with i18n (en-US)', () => {

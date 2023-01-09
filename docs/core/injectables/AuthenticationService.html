@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >AuthenticationService</li>
@@ -94,6 +95,10 @@ be picked up in other browser tabs.</p>
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#isTeams" >isTeams</a>
+                            </li>
                             <li>
                                 <a href="#userOverrideFailed" >userOverrideFailed</a>
                             </li>
@@ -188,7 +193,7 @@ be picked up in other browser tabs.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">login/authentication.service.ts:105</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">login/authentication.service.ts:108</a></div>
                             </td>
                         </tr>
 
@@ -311,8 +316,8 @@ be picked up in other browser tabs.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="242"
-                            class="link-to-prism">login/authentication.service.ts:242</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="247"
+                            class="link-to-prism">login/authentication.service.ts:247</a></div>
                 </td>
             </tr>
 
@@ -359,7 +364,7 @@ Currently, this adds the <code>sinequa-csrf-token</code> value to the HTTP heade
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -390,8 +395,8 @@ Currently, this adds the <code>sinequa-csrf-token</code> value to the HTTP heade
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="379"
-                            class="link-to-prism">login/authentication.service.ts:379</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="394"
+                            class="link-to-prism">login/authentication.service.ts:394</a></div>
                 </td>
             </tr>
 
@@ -466,8 +471,8 @@ Currently, this adds the <code>sinequa-csrf-token</code> value to the HTTP heade
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="333"
-                            class="link-to-prism">login/authentication.service.ts:333</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="350"
+                            class="link-to-prism">login/authentication.service.ts:350</a></div>
                 </td>
             </tr>
 
@@ -560,8 +565,8 @@ in clear text. Prior to the authentication the passed <code>response</code> is c
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="395"
-                            class="link-to-prism">login/authentication.service.ts:395</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="410"
+                            class="link-to-prism">login/authentication.service.ts:410</a></div>
                 </td>
             </tr>
 
@@ -639,8 +644,8 @@ console</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="493"
-                            class="link-to-prism">login/authentication.service.ts:493</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="504"
+                            class="link-to-prism">login/authentication.service.ts:504</a></div>
                 </td>
             </tr>
 
@@ -692,8 +697,8 @@ written via, for example, a login to the admin console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="190"
-                            class="link-to-prism">login/authentication.service.ts:190</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">login/authentication.service.ts:193</a></div>
                 </td>
             </tr>
 
@@ -731,8 +736,8 @@ written via, for example, a login to the admin console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="364"
-                            class="link-to-prism">login/authentication.service.ts:364</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="379"
+                            class="link-to-prism">login/authentication.service.ts:379</a></div>
                 </td>
             </tr>
 
@@ -771,8 +776,8 @@ is removed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="270"
-                            class="link-to-prism">login/authentication.service.ts:270</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="287"
+                            class="link-to-prism">login/authentication.service.ts:287</a></div>
                 </td>
             </tr>
 
@@ -1004,6 +1009,33 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isTeams"></a>
+                    <span class="name">
+                            <span class="modifier">Optional</span>
+                        <span ><b>isTeams</b></span>
+                        <a href="#isTeams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">login/authentication.service.ts:108</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="userOverrideFailed"></a>
                     <span class="name">
                         <span ><b>userOverrideFailed</b></span>
@@ -1019,7 +1051,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">login/authentication.service.ts:105</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">login/authentication.service.ts:106</a></div>
                         </td>
                     </tr>
 
@@ -1055,7 +1087,7 @@ only set by the <a href="HttpInterceptor">HttpInterceptor</a> and tested and res
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">login/authentication.service.ts:122</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">login/authentication.service.ts:125</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1077,7 +1109,7 @@ only set by the <a href="HttpInterceptor">HttpInterceptor</a> and tested and res
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">login/authentication.service.ts:130</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">login/authentication.service.ts:133</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1138,7 +1170,7 @@ is set accordingly</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">login/authentication.service.ts:145</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">login/authentication.service.ts:148</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1171,7 +1203,7 @@ is set accordingly</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">login/authentication.service.ts:155</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">login/authentication.service.ts:158</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1193,7 +1225,7 @@ is set accordingly</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">login/authentication.service.ts:163</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">login/authentication.service.ts:166</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1254,7 +1286,7 @@ is stored in either local or session storage</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">login/authentication.service.ts:183</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="186" class="link-to-prism">login/authentication.service.ts:186</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1287,7 +1319,7 @@ is stored in either local or session storage</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="229" class="link-to-prism">login/authentication.service.ts:229</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="234" class="link-to-prism">login/authentication.service.ts:234</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1311,14 +1343,14 @@ is stored in either local or session storage</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
 import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from &quot;@angular/common/http&quot;;
-import {Observable, timer, of, throwError} from &quot;rxjs&quot;;
-import {share, flatMap, map, catchError} from &quot;rxjs/operators&quot;;
+import {Observable, timer, of, throwError, Subject, firstValueFrom, share, switchMap, map, catchError, take} from &quot;rxjs&quot;;
 import {AuthService} from &quot;ng2-ui-auth&quot;;
 import {HttpService, START_CONFIG, StartConfig, AuditWebService} from &quot;@sinequa/core/web-services&quot;;
 import {Utils, IRef, MapOf} from &quot;@sinequa/core/base&quot;;
 import {SqHttpClient} from &quot;@sinequa/core/web-services&quot;;
 import {TokenService} from &quot;./token.service&quot;;
 import {JWTService} from &quot;./jwt.service&quot;;
+import {authentication} from &quot;@microsoft/teams-js&quot;;
 
 interface Authentication {
     csrfToken: string;
@@ -1409,11 +1441,14 @@ export interface JsonWebToken {
 export class AuthenticationService extends HttpService {
     private authentication: Authentication | undefined;
     private storage: Storage;
+    private redirect$ &#x3D; new Subject&lt;string&gt;();
     /**
      * A flag indicating whether an attempt to &quot;override user&quot; has failed. This is normally
      * only set by the {@link HttpInterceptor} and tested and reset in {@link LoginService}
      */
     userOverrideFailed: boolean;
+
+    isTeams?: boolean;
 
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
@@ -1513,6 +1548,8 @@ export class AuthenticationService extends HttpService {
     }
 
     private init() {
+        // To avoid multipe redirection when multiple HTTP 401 error occurs
+        this.redirect$.pipe(take(1)).subscribe(url &#x3D;&gt; window.location.replace(url));
         if (this.startConfig.authenticationStorage &#x3D;&#x3D;&#x3D; &quot;local&quot;) {
             this.storage &#x3D; window.localStorage;
         }
@@ -1550,7 +1587,7 @@ export class AuthenticationService extends HttpService {
      *
      * @returns new configuration
      */
-    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): {headers: HttpHeaders, params: HttpParams} {
+    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): Promise&lt;{headers: HttpHeaders, params: HttpParams}&gt; {
         this.doAuthentication();
         if (this.authentication) {
             if (this.authentication.headers) {
@@ -1568,7 +1605,19 @@ export class AuthenticationService extends HttpService {
                 }
             }
         }
-        return config;
+        if(this.isTeams) {
+            return authentication.getAuthToken().then(
+                token &#x3D;&gt; {
+                    config.headers &#x3D; config.headers.set(&quot;teams-token&quot;, token);
+                    return config
+                },
+                error &#x3D;&gt; {
+                    console.error(&quot;Could not get a token from MS Teams. Proceeding without it...&quot;, error);
+                    return config;
+                }
+            );
+        }
+        return Promise.resolve(config);
     }
 
     /**
@@ -1655,17 +1704,15 @@ export class AuthenticationService extends HttpService {
             console.error(&quot;Unexpected WWW-Authenticate header&quot;);
             return Promise.resolve(undefined);
         }
-        return this.jWTService.getToken(credentials).toPromise()
-            .then((value) &#x3D;&gt; {
-                return {
+        return firstValueFrom(this.jWTService.getToken(credentials))
+            .then((value) &#x3D;&gt; ({
                     kind: LEGACY_PROCESSED_CREDENTIALS_KIND,
                     userName: credentials.userName,
                     data: {
                         csrfToken: value,
                         provider: &quot;Sinequa&quot;
                     }
-                };
-            });
+                }));
     }
 
     /**
@@ -1707,7 +1754,7 @@ export class AuthenticationService extends HttpService {
         // AuthService.authenticate opens a popup. On some platforms (Firefox) this is asynchronous
         // so we add a delay (timer(0)) so the caller can create a promise from the returned observable
         // without yielding
-        const observable &#x3D; timer(0).pipe(flatMap((value) &#x3D;&gt; {
+        const observable &#x3D; timer(0).pipe(switchMap((value) &#x3D;&gt; {
             const observable1 &#x3D; this.authService.authenticate(provider, true).pipe(share());
             Utils.subscribe(observable1,
                 (response) &#x3D;&gt; {
@@ -1775,11 +1822,7 @@ export class AuthenticationService extends HttpService {
                         })
                     });
             }
-            observable.subscribe(
-                (response) &#x3D;&gt; {
-                    window.location.replace(response.redirectUrl);
-                }
-            );
+            observable.subscribe((response) &#x3D;&gt; this.redirect$.next(response.redirectUrl));
             return true;
         }
         else {
@@ -1802,6 +1845,9 @@ export class AuthenticationService extends HttpService {
      * @returns An Observable of a boolean value which if &#x60;true&#x60; indicates that auto-authentication has been initiated.
      */
     autoAuthenticate(): Observable&lt;boolean&gt; {
+        if(this.isTeams) { // If we are in Teams, requests are authenticated with the teams-token header: no need for a CSRF token
+          return of(false);
+        }
         return this.tokenService.getCsrfToken().pipe(
             map((csrfToken) &#x3D;&gt; {
                 // Token can be empty as getCsrfToken suppresses application errors (no cookie or cookie invalid)
@@ -1819,7 +1865,7 @@ export class AuthenticationService extends HttpService {
                 // We should rarely have an error now as getCsrfToken
                 // suppresses the application-level ones
                 if (this.initiateAutoAuthentication()) {
-                    return throwError(error);
+                    return throwError(() &#x3D;&gt; error);
                 }
                 // Swallow the error and continue with non-auto login process
                 return of(false);
@@ -1830,6 +1876,7 @@ export class AuthenticationService extends HttpService {
     </div>
 
 </div>
+
 
 
 

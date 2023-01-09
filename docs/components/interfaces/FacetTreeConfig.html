@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -143,20 +144,23 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
 import {FacetService} from &quot;../../facet.service&quot;;
 import {Action} from &quot;@sinequa/components/action&quot;;
 import {AbstractFacet} from &quot;../../abstract-facet&quot;;
-import { FormControl, FormGroup } from &quot;@angular/forms&quot;;
-import { Observable, of, Subscription } from &quot;rxjs&quot;;
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from &quot;rxjs/operators&quot;;
+import { UntypedFormControl, UntypedFormGroup } from &quot;@angular/forms&quot;;
+import { Observable, of, Subscription, catchError, debounceTime, distinctUntilChanged, map, switchMap } from &quot;rxjs&quot;;
 import { FacetConfig } from &quot;../../facet-config&quot;;
 
 export interface FacetTreeParams {
     aggregation: string;
+    showCheckbox?: boolean;
     showCount?: boolean;
     searchable?: boolean;
     allowExclude?: boolean;
     allowOr?: boolean;
+    allowAnd?: boolean;
     expandedLevel?: number;
     forceMaxHeight?: boolean;
     displayActions?: boolean;
+    alwaysShowSearch?: boolean;
+    indentFactor?: number;
 }
 
 export interface FacetTreeConfig extends FacetConfig&lt;FacetTreeParams&gt; {
@@ -173,6 +177,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
+    @Input() showCheckbox: boolean &#x3D; true;
     @Input() showCount: boolean &#x3D; true; // Show the number of occurrences
     @Input() allowExclude: boolean &#x3D; true; // Allow to exclude selected items
     @Input() allowOr: boolean &#x3D; true; // Allow to search various items in OR mode
@@ -182,6 +187,8 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
     @Input() forceMaxHeight: boolean &#x3D; true; // Allow to display a scrollbar automatically on long list items
     @Input() displayActions &#x3D; false;
     @Input() replaceCurrent &#x3D; false; // if true, the previous &quot;select&quot; is removed first
+    @Input() alwaysShowSearch &#x3D; false;
+    @Input() indentFactor &#x3D; 0.5;
 
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
@@ -199,8 +206,8 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
     // readonly filtered &#x3D; new Set&lt;AggregationItem&gt;();
 
     // Search
-    myGroup: FormGroup;
-    searchQuery: FormControl; // ngModel for textarea
+    myGroup: UntypedFormGroup;
+    searchQuery: UntypedFormControl; // ngModel for textarea
     suggestDelay &#x3D; 200;
     searchActive &#x3D; false;
     noResults &#x3D; false;
@@ -219,11 +226,11 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
         private changeDetectorRef: ChangeDetectorRef){
             super();
 
-            this.myGroup &#x3D; new FormGroup({
-                searchQuery: new FormControl()
+            this.myGroup &#x3D; new UntypedFormGroup({
+                searchQuery: new UntypedFormControl()
             });
 
-            this.searchQuery &#x3D; this.myGroup.get(&quot;searchQuery&quot;) as FormControl;
+            this.searchQuery &#x3D; this.myGroup.get(&quot;searchQuery&quot;) as UntypedFormControl;
             this.subscriptions[&quot;suggest&quot;] &#x3D; this.suggest$(this.searchQuery.valueChanges)
                 .subscribe(values &#x3D;&gt; {
                     if(this.data) {
@@ -327,7 +334,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
                 levelCallback: this.initNodes
             });
             this.originalItems &#x3D; this.data?.items;
-            this.searchItems.selected &#x3D; false;
+            this.searchItems.selected &#x3D; !!this.alwaysShowSearch;
             this.clearSearch();
         }
     }
@@ -367,7 +374,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
             actions.push(this.clearFilters);
         }
 
-        if(this.searchable){
+        if(this.searchable &amp;&amp; !this.alwaysShowSearch){
             actions.push(this.searchItems);
         }
 
@@ -444,6 +451,9 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
                 this.selected.set(item.$path!, item);
             }
             this.refreshHiddenSelected();
+        }
+        else {
+            this.filterItem(item, event);
         }
         return false;
     }
@@ -540,6 +550,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
 </code></pre>
     </div>
 </div>
+
 
 
 

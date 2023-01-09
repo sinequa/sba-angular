@@ -33,7 +33,7 @@ sq-facet-card {
       font-size: 1.15rem;
     }
 
-    .btn {
+    .btn.btn-light {
       --bs-btn-padding-x: .5rem;
       --bs-btn-padding-y: .25rem;
       --bs-btn-hover-color: #{$white} !important;
@@ -46,9 +46,6 @@ sq-facet-card {
       --bs-btn-disabled-bg: transparent !important;
       --bs-btn-disabled-border-color: transparent !important;
       margin: 0 !important;
-    }
-
-    .btn-light {
 
       &:hover,
       &.active {

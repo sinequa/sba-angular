@@ -7,7 +7,7 @@ import { Utils } from '@sinequa/core/base';
 import { LoginService } from '@sinequa/core/login';
 import { UserSettingsWebService } from '@sinequa/core/web-services';
 import { ModalResult, ModalService, PromptOptions, ModalButton, ConfirmType } from '@sinequa/core/modal';
-import { Action } from '@sinequa/components/action';
+import { Action, ActionSeparator } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
 import { DashboardAddItemModel, DashboardAddItemComponent } from './dashboard-add-item.component';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
@@ -60,7 +60,7 @@ export interface DashboardItemOption {
 }
 
 export interface DashboardEvent {
-    type: 'SET_DASHBOARD' | 'CHANGE_WIDGET_CONFIG' | 'ADD_WIDGET' | 'REMOVE_WIDGET',
+    type: 'SET_DASHBOARD' | 'CHANGE_WIDGET_CONFIG' | 'ADD_WIDGET' | 'REMOVE_WIDGET';
     dashboard: Dashboard;
     item?: DashboardItem;
 }
@@ -593,11 +593,11 @@ export class DashboardService {
                 this.manualLayout,
                 this.autoLayout,
                 this.fixedLayout,
-                new Action({separator: true}),
+                ActionSeparator,
                 newDashboard,
                 this.openAction,
                 deleteAction,
-                new Action({separator: true}),
+                ActionSeparator,
                 save,
                 saveAs,
                 this.autoSaveAction,

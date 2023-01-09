@@ -301,9 +301,10 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     /**
      * Equivalent of former d3.mouse()
      */
-    private point(node: SVGElement, event: MouseEvent) {
-        const rect = node.getBoundingClientRect();
-        return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
+    private point(node: SVGRectElement, event: MouseEvent) {
+        var point = new DOMPoint(event.clientX, event.clientY);
+        point = point.matrixTransform(node.getScreenCTM()?.inverse());
+        return [point.x, point.y];
     }
 
     /**

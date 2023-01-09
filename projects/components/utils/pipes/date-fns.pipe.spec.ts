@@ -25,13 +25,13 @@ const localeDataDE: LocaleData = {
 class AppLocalesConfig implements LocalesConfig {
   defaultLocale: Locale;
   locales?: Locale[];
-  constructor(){
-      this.locales = [
-          { name: "en", display: "msg#locale.en", data: localeDataEN },
-          { name: "fr", display: "msg#locale.fr", data: localeDataFR },
-          { name: "de", display: "msg#locale.de", data: localeDataDE },
-      ];
-      this.defaultLocale = this.locales[0];
+  constructor() {
+    this.locales = [
+      { name: "en", display: "msg#locale.en", data: localeDataEN },
+      { name: "fr", display: "msg#locale.fr", data: localeDataFR },
+      { name: "de", display: "msg#locale.de", data: localeDataDE },
+    ];
+    this.defaultLocale = this.locales[0];
   }
 }
 
@@ -47,16 +47,18 @@ describe("DateFnsPipe", () => {
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
+        { provide: ChangeDetectorRef, useValue: { markForCheck: () => {} } },
         IntlService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        DateFnsPipe
+      ]
     });
 
     // first init IntlService to en-US locale (default)
     service = TestBed.inject(IntlService);
     service.init();
 
-    pipe = new DateFnsPipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(DateFnsPipe);
   })
 
   it('transforms "2022-12-31" to ... with i18n', () => {
@@ -119,7 +121,7 @@ describe("DateFnsPipe", () => {
     expect(pipe.transform(r, { type: 'diff', unit: 'years', reference: r1 })).toEqual('8');
 
     expect(pipe.transform(d, { type: 'diff', unit: 'hour', reference: d1 })).toEqual("744");
-    expect(pipe.transform(d, { type: 'diff', unit:  "minutes", reference: d1 })).toEqual("44640");
-    expect(pipe.transform(d, { type: 'diff', unit:  "seconds", reference: d1 })).toEqual("2678400");
+    expect(pipe.transform(d, { type: 'diff', unit: "minutes", reference: d1 })).toEqual("44640");
+    expect(pipe.transform(d, { type: 'diff', unit: "seconds", reference: d1 })).toEqual("2678400");
   })
 })

@@ -1,10 +1,9 @@
-﻿import {Injectable, Inject} from "@angular/core";
+﻿import {Injectable} from "@angular/core";
 import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from "@angular/common/http";
 import {Observable, timer, of, throwError, Subject, firstValueFrom, share, switchMap, map, catchError, take} from "rxjs";
 import {AuthService} from "ng2-ui-auth";
-import {HttpService, START_CONFIG, StartConfig, AuditWebService} from "@sinequa/core/web-services";
+import {HttpService, AuditWebService} from "@sinequa/core/web-services";
 import {Utils, IRef, MapOf} from "@sinequa/core/base";
-import {SqHttpClient} from "@sinequa/core/web-services";
 import {TokenService} from "./token.service";
 import {JWTService} from "./jwt.service";
 import {authentication} from "@microsoft/teams-js";
@@ -108,13 +107,11 @@ export class AuthenticationService extends HttpService {
     isTeams?: boolean;
 
     constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient,
         private tokenService: TokenService,
         private auditService: AuditWebService,
         private jWTService: JWTService,
         private authService: AuthService) {
-        super(startConfig);
+        super();
         this.init();
     }
 

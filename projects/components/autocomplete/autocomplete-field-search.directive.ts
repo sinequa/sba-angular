@@ -1,10 +1,8 @@
-import { Directive, Input, Output, EventEmitter, SimpleChanges, ElementRef, OnChanges, OnDestroy } from "@angular/core";
+import { Directive, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnDestroy, inject } from "@angular/core";
 import { Observable, Subscription, of } from "rxjs";
 import { Utils, Keys} from "@sinequa/core/base";
-import { AppService, Expr, ExprBuilder, ExprParser, ExprValueInfo} from "@sinequa/core/app-utils";
+import { Expr, ExprBuilder, ExprParser, ExprValueInfo} from "@sinequa/core/app-utils";
 import { Autocomplete, AutocompleteItem, AutocompleteState } from './autocomplete.directive';
-import { SuggestService } from './suggest.service';
-import { UIService } from '@sinequa/components/utils';
 
 /**
  * Interface required to be implement by the component displaying
@@ -35,8 +33,8 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
 
     // FIELDED SEARCH
 
-    /** 
-     * "text" mode: fielded search is entirely managed as text in the <input> component 
+    /**
+     * "text" mode: fielded search is entirely managed as text in the <input> component
      * "selects" mode: fielded search stores the selected autocomplete items to create selections, while keeping a clean <input> content (better UI/UX but does not support operators like OR, NOT, and parentheses)
      */
     @Input() fieldSearchMode: "off" | "text" | "selects" = "text";
@@ -52,7 +50,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
 
     /** Current selection expression needed to update the list of field search items if mode === "selects" */
     @Input() fieldSearchExpression?: string;
- 
+
     /** Stores the selected fielded search items selected via Tab */
     public readonly fieldSearchItems: AutocompleteItem[] = [];
 
@@ -61,14 +59,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
 
     @Output() parse = new EventEmitter<ParseResult>();
 
-    constructor(elementRef: ElementRef<any>, 
-        suggestService: SuggestService,
-        appService: AppService,
-        uiService: UIService,
-        protected exprBuilder: ExprBuilder){
-        super(elementRef, suggestService, appService, uiService);
-    }
-
+    protected readonly exprBuilder = inject(ExprBuilder);
 
     /**
      * If the off input changes state, react accordingly
@@ -96,7 +87,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
                 if(expr instanceof Expr && this.fieldSearchItems.length !== expr.getFields().length) {
                     this.fieldSearchItems.splice(0);
                     if(expr.and) {
-                        expr.operands.forEach(e => 
+                        expr.operands.forEach(e =>
                             this.fieldSearchItems.push(this.exprToItem(e))
                         );
                     }
@@ -134,7 +125,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
     /**
      * Insert the given autocomplete item into the current search input
      * at the right location
-     * @param item 
+     * @param item
      */
     protected insertAutocompleteItem(item: AutocompleteItem): boolean {
         const value = this.getInputValue(); // Current text in the input
@@ -153,8 +144,8 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
                     return true;
                 }
                 // Autocomplete "Goo" => "company:`GOOGLE`"
-                if(res && !res.field && item.category && 
-                    (this.includedFields && this.includedFields?.includes(item.category) || 
+                if(res && !res.field && item.category &&
+                    (this.includedFields && this.includedFields?.includes(item.category) ||
                     (!this.includedFields && !this.excludedFields?.includes(item.category)))) { // Filter out fields if not in fieldSearch mode
                     this.replaceValueInForm(res, this.exprBuilder.makeExpr(item.category, item.normalized || item.display));
                     return true;
@@ -203,8 +194,8 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
                 return this.insertAutocompleteItem(item);
             }
 
-            else if(this.fieldSearchMode === "selects" && item.category && 
-                (this.includedFields && this.includedFields?.includes(item.category) || 
+            else if(this.fieldSearchMode === "selects" && item.category &&
+                (this.includedFields && this.includedFields?.includes(item.category) ||
                 (!this.includedFields && !this.excludedFields?.includes(item.category)))) { // Filter out fields if not in fieldSearch mode
                 // In the case of of a field name, we display the field for autocomplete, but we don't want to search for it
                 if(item.category === "$field$") {
@@ -240,7 +231,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      */
     protected itemsToExpr(items: AutocompleteItem[]): string | undefined {
         if(items.length > 0) {
-            return this.exprBuilder.concatAndExpr(items.map(item => 
+            return this.exprBuilder.concatAndExpr(items.map(item =>
                 this.exprBuilder.makeExpr(item.category, item.normalized || item.display, item.display)));
         }
         return undefined;
@@ -282,11 +273,11 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
                         value = res.value;
                     }
                 }
-    
+
                 if(parseResult.error) {
                     this.processSuggests(of([])); // Empty autocomplete if parsing errors
                     return;
-                }                
+                }
             }
 
             this.processSuggests(
@@ -313,8 +304,8 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
             suggests => {
                 if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
                     this.dropdown.update(true, suggests
-                        .filter(item => item.category !== "$field$" || (this.fieldSearchMode !== "off" && 
-                            (this.includedFields && this.includedFields?.includes(item.display) || 
+                        .filter(item => item.category !== "$field$" || (this.fieldSearchMode !== "off" &&
+                            (this.includedFields && this.includedFields?.includes(item.display) ||
                             (!this.includedFields && !this.excludedFields?.includes(item.display)))))  // Filter out fields if not in fieldSearch mode
                         .map(item => {
                             if(!item.label){
@@ -374,9 +365,9 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
                     this.updatePlaceholder();
                     this.fieldSearchItemsContainer?.update(this.fieldSearchItems);
                 }
-            }    
+            }
         }
-        
+
         return keydown;
     }
 

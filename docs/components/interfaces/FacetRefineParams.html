@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -234,7 +235,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef} from &quot;@angular/core&quot;;
-import {FormGroup, FormBuilder, AbstractControl} from &quot;@angular/forms&quot;;
+import {UntypedFormGroup, UntypedFormBuilder, AbstractControl} from &quot;@angular/forms&quot;;
 import {Results} from &quot;@sinequa/core/web-services&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
@@ -278,13 +279,13 @@ export class BsRefine extends AbstractFacet implements FacetRefineParams, OnChan
      */
     @Input() suggestDelay: number &#x3D; 200;
 
-    form: FormGroup;
+    form: UntypedFormGroup;
     searchControl: AbstractControl | null;
 
     inputErrorMessage: string;
 
     constructor(
-        public formBuilder: FormBuilder,
+        public formBuilder: UntypedFormBuilder,
         public searchService: SearchService,
         private changeDetectorRef: ChangeDetectorRef) {
         super();
@@ -321,6 +322,7 @@ export class BsRefine extends AbstractFacet implements FacetRefineParams, OnChan
 </code></pre>
     </div>
 </div>
+
 
 
 

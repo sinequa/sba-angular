@@ -10,7 +10,7 @@ import {Subject, Observable, map} from "rxjs";
 import {SearchService, BreadcrumbsItem, Breadcrumbs} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
 import { FacetConfig } from "./facet-config";
-import { Action } from "@sinequa/components/action";
+import { Action, ActionSeparator } from "@sinequa/components/action";
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
@@ -248,7 +248,7 @@ export class FacetService {
             }
         }));
 
-        outFacets.push(new Action({separator: true}));
+        outFacets.push(ActionSeparator);
 
         for (const facet of this.allFacets) {
             outFacets.push(new Action({

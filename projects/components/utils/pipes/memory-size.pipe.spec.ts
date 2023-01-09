@@ -49,10 +49,12 @@ describe("MemorySizePipe", () => {
         { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
         IntlService,
         FormatService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        MemorySizePipe
+      ]
     });
 
-    pipe = new MemorySizePipe(TestBed.inject(FormatService), TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(MemorySizePipe);
   })
 
   it('transforms memory unit to ... (en-US)', () => {

@@ -5,7 +5,13 @@ import {FeedbackService} from "../../feedback.service";
 @Component({
     selector: "sq-feedback-menu",
     templateUrl: "./feedback-menu.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: [`
+        :host ::ng-deep button.btn {
+            display:flex;
+            align-items: center;
+        }
+    `]
 })
 export class BsFeedbackMenu implements OnInit {
 
@@ -23,10 +29,10 @@ export class BsFeedbackMenu implements OnInit {
     ngOnInit() {
         this.items = this.feedbackService.buildFeedbackAction();
         this.options = {
-            items: this.items, 
-            autoAdjust: true, 
-            rightAligned: this.rightAligned, 
-            size: this.size, 
+            items: this.items,
+            autoAdjust: true,
+            rightAligned: this.rightAligned,
+            size: this.size,
             style: this.style
         };
     }

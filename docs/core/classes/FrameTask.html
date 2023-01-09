@@ -41,6 +41,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Classes</li>
   <li >FrameTask</li>
@@ -122,12 +123,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(callback: (params: any[]) => void, params: any[])</code>
+<code>constructor(callback: (args: any[]) => void, params: any[])</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">base/utils.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">base/utils.ts:70</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +203,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">base/utils.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">base/utils.ts:72</a></div>
                         </td>
                     </tr>
 
@@ -229,7 +230,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">base/utils.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">base/utils.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -263,8 +264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">base/utils.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">base/utils.ts:76</a></div>
                 </td>
             </tr>
 
@@ -292,7 +293,6 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {HttpParams, HttpParameterCodec} from &quot;@angular/common/http&quot;;
 import {Observable, Subscription} from &quot;rxjs&quot;;
-import moment from &quot;moment&quot;;
 import {remove as removeDiacritics} from &quot;diacritics&quot;;
 import jsSHA from &quot;jssha&quot;;
 import {MapOf} from &quot;./map-of&quot;;
@@ -303,6 +303,8 @@ import camelCase from &quot;lodash/camelCase&quot;;
 import escape from &quot;lodash/escape&quot;;
 import unescape from &quot;lodash/unescape&quot;;
 import isEqual from &quot;lodash/isEqual&quot;;
+import uniq from &quot;lodash/uniq&quot;;
+import { format, isValid, parseISO } from &quot;date-fns&quot;;
 
 // Because of: https://github.com/angular/angular/issues/18261
 class SqHttpParameterCodec implements HttpParameterCodec {
@@ -360,7 +362,7 @@ export interface ThrottleSettings {
 
 class FrameTask {
     constructor(
-        public callback: (...params) &#x3D;&gt; any,
+        public callback: (...args) &#x3D;&gt; any,
         public params: any[]) {
     }
 
@@ -446,7 +448,7 @@ export class Utils {
                 const src &#x3D; obj[key];
                 if (deep &amp;&amp; Utils.isObject(src)) {
                     if (Utils.isDate(src)) {
-                        dst[key] &#x3D; new Date(src.valueOf());
+                        dst[key] &#x3D; new Date(src.getTime());
                     }
                     else if (Utils.isRegExp(src)) {
                         dst[key] &#x3D; new RegExp(src);
@@ -601,76 +603,76 @@ export class Utils {
 
         return copyElement(source);
 
-        function copyRecurse(source, destination) {
+        function copyRecurse(src, dest) {
             let key;
-            if (Utils.isArray(source)) {
-                for (let i &#x3D; 0, ii &#x3D; source.length; i &lt; ii; i++) {
-                    destination.push(copyElement(source[i]));
+            if (Utils.isArray(src)) {
+                for (let i &#x3D; 0, ii &#x3D; src.length; i &lt; ii; i++) {
+                    dest.push(copyElement(src[i]));
                 }
-            } else if (Utils.isBlankObject(source)) {
+            } else if (Utils.isBlankObject(src)) {
                 // createMap() fast path --- Safe to avoid hasOwnProperty check because prototype chain is empty
-                for (key in source) {
-                    destination[key] &#x3D; copyElement(source[key]);
+                for (key in src) {
+                    dest[key] &#x3D; copyElement(src[key]);
                 }
-            } else if (source &amp;&amp; typeof source.hasOwnProperty &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
+            } else if (src &amp;&amp; typeof src.hasOwnProperty &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
                 // Slow path, which must rely on hasOwnProperty
-                for (key in source) {
-                    if (source.hasOwnProperty(key)) {
-                        destination[key] &#x3D; copyElement(source[key]);
+                for (key in src) {
+                    if (src.hasOwnProperty(key)) {
+                        dest[key] &#x3D; copyElement(src[key]);
                     }
                 }
             } else {
                 // Slowest path --- hasOwnProperty can&#x27;t be called as a method
-                for (key in source) {
-                    if (Object.prototype.hasOwnProperty.call(source, key)) {
-                        destination[key] &#x3D; copyElement(source[key]);
+                for (key in src) {
+                    if (Object.prototype.hasOwnProperty.call(src, key)) {
+                        dest[key] &#x3D; copyElement(src[key]);
                     }
                 }
             }
-            return destination;
+            return dest;
         }
 
-        function copyElement(source) {
+        function copyElement(src) {
             // Simple values
-            if (!Utils.isObject(source)) {
-                return source;
+            if (!Utils.isObject(src)) {
+                return src;
             }
 
             // Already copied values
-            const index &#x3D; stackSource.indexOf(source);
+            const index &#x3D; stackSource.indexOf(src);
             if (index !&#x3D;&#x3D; -1) {
                 return stackDest[index];
             }
 
-            if (Utils.isWindow(source)) {
+            if (Utils.isWindow(src)) {
                 throw new Error(&quot;Can&#x27;t copy! Making copies of Window instances is not supported.&quot;);
             }
 
             let needsRecurse &#x3D; false;
-            let destination;
+            let dest;
 
-            if (Utils.isArray(source)) {
-                destination &#x3D; [];
+            if (Utils.isArray(src)) {
+                dest &#x3D; [];
                 needsRecurse &#x3D; true;
-            } else if (Utils.isTypedArray(source)) {
-                destination &#x3D; new source.constructor(source);
-            } else if (Utils.isDate(source)) {
-                destination &#x3D; new Date(source.getTime());
-            } else if (Utils.isRegExp(source)) {
-                const matches &#x3D; source.toString().match(/[^\/]*$/);
-                destination &#x3D; new RegExp(source.source, matches ? matches[0] : &quot;&quot;);
-                destination.lastIndex &#x3D; source.lastIndex;
-            } else if (Utils.isFunction(source.cloneNode)) {
-                destination &#x3D; source.cloneNode(true);
+            } else if (Utils.isTypedArray(src)) {
+                dest &#x3D; new src.constructor(src);
+            } else if (Utils.isDate(src)) {
+                dest &#x3D; new Date(src.getTime());
+            } else if (Utils.isRegExp(src)) {
+                const matches &#x3D; src.toString().match(/[^\/]*$/);
+                dest &#x3D; new RegExp(src.source, matches ? matches[0] : &quot;&quot;);
+                dest.lastIndex &#x3D; src.lastIndex;
+            } else if (Utils.isFunction(src.cloneNode)) {
+                dest &#x3D; src.cloneNode(true);
             } else {
-                destination &#x3D; Object.create(Object.getPrototypeOf(source));
+                dest &#x3D; Object.create(Object.getPrototypeOf(src));
                 needsRecurse &#x3D; true;
             }
 
-            stackSource.push(source);
-            stackDest.push(destination);
+            stackSource.push(src);
+            stackDest.push(dest);
 
-            return needsRecurse ? copyRecurse(source, destination) : destination;
+            return needsRecurse ? copyRecurse(src, dest) : dest;
         }
     }
 
@@ -751,7 +753,7 @@ export class Utils {
         }
         return new Date(ms + new Date(ms).getTimezoneOffset() * 60000); // get date in UTC
     }
-    
+
     /**
      * Converts a Date in UTC to is previous state.
      * The date is returned. If the string cannot be converted then &#x60;undefined&#x60; is returned
@@ -791,43 +793,34 @@ export class Utils {
      * @param date The &#x60;Date&#x60; to convert
      */
     static toSysDateStr(date: Date): string {
-        if (!date)  {
+        // with Typescript, this confition will never occurs
+        if (!date) {
             return &quot;&quot;;
         }
-        const m &#x3D; moment(date);
-        if (Utils.getTime(date) &#x3D;&#x3D;&#x3D; 0) {
-            return m.format(&quot;YYYY-MM-DD&quot;);
-        }
-        else {
-            return m.format(&quot;YYYY-MM-DD HH:mm:ss&quot;);
+        try {
+            if (Utils.getTime(date) &#x3D;&#x3D;&#x3D; 0) {
+                return format(date, &quot;yyyy-MM-dd&quot;);
+            }
+            else {
+                return format(date, &quot;yyyy-MM-dd HH:mm:ss&quot;);
+            }
+        } catch {
+            return &quot;Invalid date&quot;;
         }
     }
 
     /**
-     * Converts a Sinequa system date string (&#x60;dd-mm-yyyy[ hh:mm:ss]&#x60;) to a &#x60;Date&#x60;
+     * Converts a Sinequa system date string (&#x60;yyyy-mm-dd[ hh:mm:ss]&#x60;) to a &#x60;Date&#x60;
      * If the string cannot be converted then &#x60;undefined&#x60; is returned
      *
      * @param date The Sinequa system date string to convert
      */
     static fromSysDateStr(value: string): Date | undefined {
-        const m &#x3D; moment(value, &quot;YYYY-MM-DD HH:mm:ss&quot;);
-        if (m.isValid()) {
-            return m.toDate();
+        const m &#x3D; parseISO(value)
+        if (isValid(m)) {
+            return m;
         }
         return undefined;
-    }
-
-    private static rxSysDateTime &#x3D; /^\d{4}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01])(?: (?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d)?$/;
-    // private static rxISO8601 &#x3D; /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
-    // ISO8601 combined date and time
-    private static rxISO8601DateTime &#x3D; /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
-
-    private static isSysDateTime(str: string): boolean {
-        return Utils.rxSysDateTime.test(str);
-    }
-
-    private static isISO8601DateTime(str: string): boolean {
-        return Utils.rxISO8601DateTime.test(str);
     }
 
     /**
@@ -839,12 +832,12 @@ export class Utils {
      */
     static toJson(value: any, options: ToJsonOptions &#x3D; {pretty: false}): string {
         return JSON.stringify(value,
-            function(key: string, value: any): any  {
+            function(key: string, val: any): any  {
                 if (key &amp;&amp; Utils.isDate(this[key])) {
                     const str &#x3D; Utils.toSysDateStr(this[key]);
                     return str;
                 }
-                return value;
+                return val;
             }, options.pretty ? 2 : 0);
     }
 
@@ -864,17 +857,9 @@ export class Utils {
             return JSON.parse(str, options.reviveDates ?
                 (key, value) &#x3D;&gt; {
                     if (options.reviveDates &amp;&amp; typeof value &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-                        if (Utils.isSysDateTime(value)) {
-                            const m &#x3D; moment(value, &quot;YYYY-MM-DD HH:mm:ss&quot;);
-                            if (m.isValid()) {
-                                return m.toDate();
-                            }
-                        }
-                        else if (Utils.isISO8601DateTime(value)) {
-                            const m &#x3D; moment(value, moment.ISO_8601);
-                            if (m.isValid()) {
-                                return m.toDate();
-                            }
+                        const m &#x3D; parseISO(value);
+                        if (isValid(m)) {
+                          return m;
                         }
                     }
                     return value;
@@ -1564,9 +1549,7 @@ export class Utils {
             split &#x3D; s.split(new RegExp(rxs));
         }
         if (removeEmpty) {
-            split &#x3D; split.filter((value) &#x3D;&gt; {
-                return !Utils.isEmpty(value);
-            });
+            split &#x3D; split.filter((value) &#x3D;&gt; !Utils.isEmpty(value));
         }
         return split;
     }
@@ -1931,10 +1914,10 @@ export class Utils {
                     Utils.frameTasks.clear();
                 });
             }
-            const task &#x3D; Utils.frameTasks.get(callback);
-            if (task) {
+            const tsk &#x3D; Utils.frameTasks.get(callback);
+            if (tsk) {
                 // Update params
-                task.params &#x3D; params;
+                tsk.params &#x3D; params;
             }
             else {
                 // Add new task
@@ -2315,10 +2298,18 @@ export class Utils {
         }
         return total;
     }
+
+    /**
+     * Returns the input list without any duplicates
+     */
+    static unique(array: any[]) {
+        return uniq(array);
+    }
 }
 </code></pre>
     </div>
 </div>
+
 
 
 

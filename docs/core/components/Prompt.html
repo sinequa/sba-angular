@@ -210,7 +210,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(model: <a href="../interfaces/PromptOptions.html" target="_self">PromptOptions</a>, modalRef: <a href="../classes/ModalRef.html" target="_self">ModalRef</a>, formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>)</code>
+<code>constructor(model: <a href="../interfaces/PromptOptions.html" target="_self">PromptOptions</a>, modalRef: <a href="../classes/ModalRef.html" target="_self">ModalRef</a>, formBuilder: UntypedFormBuilder)</code>
                     </td>
                 </tr>
                         <tr>
@@ -260,7 +260,7 @@
                                                         <td>formBuilder</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                                    <code>UntypedFormBuilder</code>
                                                         </td>
                                                   
                                                     <td>
@@ -447,7 +447,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>showError(control: <a href="https://angular.io/api/forms/FormControl" target="_blank">FormControl</a>)</code>
+<code>showError(control: UntypedFormControl)</code>
                 </td>
             </tr>
 
@@ -478,7 +478,7 @@
                                 <tr>
                                     <td>control</td>
                                     <td>
-                                                <code><a href="https://angular.io/api/forms/FormControl" target="_blank" >FormControl</a></code>
+                                            <code>UntypedFormControl</code>
                                     </td>
 
                                     <td>
@@ -522,7 +522,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+                        <i>Type : </i>    <code>UntypedFormGroup</code>
 
                     </td>
                 </tr>
@@ -574,7 +574,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormControl" target="_blank" >FormControl</a></code>
+                        <i>Type : </i>    <code>UntypedFormControl</code>
 
                     </td>
                 </tr>
@@ -657,7 +657,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnDestroy, OnInit } from &quot;@angular/core&quot;;
-import { FormControl, FormBuilder, Validators, FormGroup } from &#x27;@angular/forms&#x27;;
+import { UntypedFormControl, UntypedFormBuilder, Validators, UntypedFormGroup } from &#x27;@angular/forms&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
 import { MODAL_MODEL, PromptOptions, ModalResult} from &quot;./modal.service&quot;;
 import { ModalRef } from &quot;./modal-ref&quot;;
@@ -683,18 +683,18 @@ import { Utils } from &#x27;@sinequa/core/base&#x27;;
     &#x60;
 })
 export class Prompt implements OnInit, OnDestroy {
-    inputControl: FormControl;
-    form: FormGroup;
+    inputControl: UntypedFormControl;
+    form: UntypedFormGroup;
     formChanges: Subscription;
 
     constructor(
         @Inject(MODAL_MODEL) public model: PromptOptions,
         protected modalRef: ModalRef,
-        protected formBuilder: FormBuilder) {
+        protected formBuilder: UntypedFormBuilder) {
     }
 
     ngOnInit() {
-        this.inputControl &#x3D; new FormControl(this.model.output, this.model.validators || Validators.required);
+        this.inputControl &#x3D; new UntypedFormControl(this.model.output, this.model.validators || Validators.required);
         this.form &#x3D; this.formBuilder.group({
             input: this.inputControl
         });
@@ -708,7 +708,7 @@ export class Prompt implements OnInit, OnDestroy {
         this.formChanges.unsubscribe();
     }
 
-    showError(control: FormControl): boolean {
+    showError(control: UntypedFormControl): boolean {
         return control.invalid &amp;&amp; (control.dirty || this.modalRef.submitted);
     }
 
@@ -764,6 +764,8 @@ export class Prompt implements OnInit, OnDestroy {
     var ACTUAL_COMPONENT = {'name': 'Prompt'};
 </script>
 <script src="../js/tree.js"></script>
+
+
 
 
 

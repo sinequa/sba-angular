@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >AuthenticationOauthService</li>
@@ -117,7 +118,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">login/authentication-oauth.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">login/authentication-oauth.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -230,8 +231,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">login/authentication-oauth.service.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">login/authentication-oauth.service.ts:24</a></div>
                 </td>
             </tr>
 
@@ -307,8 +308,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
 import {HttpClient} from &quot;@angular/common/http&quot;;
-import {Observable} from &quot;rxjs&quot;;
-import {flatMap} from &quot;rxjs/operators&quot;;
+import {Observable, switchMap} from &quot;rxjs&quot;;
 import {OauthService, SharedService, PopupService, ConfigService} from &quot;ng2-ui-auth&quot;;
 import {START_CONFIG, StartConfig} from &quot;@sinequa/core/web-services&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
@@ -341,7 +341,7 @@ export class AuthenticationOauthService extends OauthService {
                     noUserOverride: true,
                     noAutoAuthentication: true
                 })
-            }).pipe&lt;T&gt;(flatMap&lt;{state: string}, Observable&lt;T&gt;&gt;((ret) &#x3D;&gt; {
+            }).pipe&lt;T&gt;(switchMap&lt;{state: string}, Observable&lt;T&gt;&gt;((ret) &#x3D;&gt; {
                 options.state &#x3D; ret.state;
                 return super.authenticate(name, userData);
             }));
@@ -353,6 +353,7 @@ export class AuthenticationOauthService extends OauthService {
     </div>
 
 </div>
+
 
 
 

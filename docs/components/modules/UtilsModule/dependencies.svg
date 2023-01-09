@@ -14,13 +14,13 @@
 <title>cluster_UtilsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 2144,-230.8 2144,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_UtilsModule_declarations</title>
-<polygon fill="none" stroke="black" points="44,-40.8 44,-92.8 2107,-92.8 2107,-40.8 44,-40.8"/>
-</g>
 <g id="clust21" class="cluster">
 <title>cluster_UtilsModule_exports</title>
 <polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 2136,-222.8 2136,-170.8 16,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_UtilsModule_declarations</title>
+<polygon fill="none" stroke="black" points="44,-40.8 44,-92.8 2107,-92.8 2107,-40.8 44,-40.8"/>
 </g>
 <!-- Autofocus -->
 <g id="node1" class="node">

@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >LoginService</li>
@@ -153,7 +154,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">login/login.service.ts:67</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">login/login.service.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -324,8 +325,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="290"
-                            class="link-to-prism">login/login.service.ts:290</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="277"
+                            class="link-to-prism">login/login.service.ts:277</a></div>
                 </td>
             </tr>
 
@@ -425,8 +426,8 @@ redirected to the OAuth/SAML redirect url</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="178"
-                            class="link-to-prism">login/login.service.ts:178</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">login/login.service.ts:177</a></div>
                 </td>
             </tr>
 
@@ -470,8 +471,8 @@ token.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">login/login.service.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">login/login.service.ts:129</a></div>
                 </td>
             </tr>
 
@@ -512,8 +513,8 @@ The <code>session-end</code> event is emitted</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">login/login.service.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">login/login.service.ts:88</a></div>
                 </td>
             </tr>
 
@@ -549,8 +550,8 @@ The <code>session-end</code> event is emitted</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">login/login.service.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">login/login.service.ts:149</a></div>
                 </td>
             </tr>
 
@@ -632,7 +633,7 @@ is permitted to do this. They can revert to the normal login by calling this met
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">login/login.service.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">login/login.service.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -667,7 +668,7 @@ is permitted to do this. They can revert to the normal login by calling this met
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">login/login.service.ts:97</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">login/login.service.ts:96</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -700,7 +701,7 @@ is permitted to do this. They can revert to the normal login by calling this met
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">login/login.service.ts:106</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">login/login.service.ts:105</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -727,8 +728,7 @@ the selected app.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, OnDestroy, Type, InjectionToken, Optional} from &quot;@angular/core&quot;;
 import {HttpErrorResponse} from &quot;@angular/common/http&quot;;
 import {Router} from &quot;@angular/router&quot;;
-import {BehaviorSubject, Observable, forkJoin, of, throwError} from &quot;rxjs&quot;;
-import {flatMap} from &quot;rxjs/operators&quot;;
+import {BehaviorSubject, Observable, forkJoin, of, throwError, firstValueFrom, switchMap} from &quot;rxjs&quot;;
 import {Utils, SqError, SqErrorCode} from &quot;@sinequa/core/base&quot;;
 import {START_CONFIG, StartConfig, CCApp, PrincipalWebService, Principal,
     UserSettingsWebService, UserSettings, AuditWebService} from &quot;@sinequa/core/web-services&quot;;
@@ -929,47 +929,35 @@ export class LoginService implements OnDestroy {
             }
         }
 
-        interface ObservableLoginData {
-            app: Observable&lt;CCApp&gt; | undefined;
-            principal: Observable&lt;Principal&gt; | undefined;
-            userSettings: Observable&lt;UserSettings&gt; | undefined;
-        }
-
-        const makeObservables &#x3D; (): ObservableLoginData &#x3D;&gt; {
-            const observables: ObservableLoginData &#x3D; {
-                app: undefined,
-                principal: undefined,
-                userSettings: undefined
-            };
-            if (!this.appService.app || (appName &amp;&amp; this.appService.app.name !&#x3D;&#x3D; appName)) {
-                appNeeded &#x3D; true;
-                observables.app &#x3D; this.appService.init();
-            }
-            else {
-                observables.app &#x3D; of(this.appService.app);
-            }
-            let loadUserSettings &#x3D; false;
-            if (!this.principalService.principal) {
-                loadUserSettings &#x3D; true;
-                observables.principal &#x3D; this.principalService.load();
-            }
-            else {
-                observables.principal &#x3D; of(this.principalService.principal);
-            }
-            if (!this.userSettingsService.userSettings || loadUserSettings) {
-                observables.userSettings &#x3D; this.userSettingsService.load();
-            }
-            else {
-                observables.userSettings &#x3D; of(this.userSettingsService.userSettings);
-            }
-            return observables;
-        };
-
         const observable &#x3D; this.authenticationService.autoAuthenticate()
-            .pipe(flatMap((success) &#x3D;&gt; {
-                const observables &#x3D; makeObservables();
-                return forkJoin&lt;ObservableLoginData, keyof ObservableLoginData&gt;(observables);
+            .pipe(switchMap(() &#x3D;&gt; {
+                let app: Observable&lt;CCApp&gt;;
+                let userSettings: Observable&lt;UserSettings&gt;;
+                let principal: Observable&lt;Principal&gt;;
+                if (!this.appService.app || (appName &amp;&amp; this.appService.app.name !&#x3D;&#x3D; appName)) {
+                    appNeeded &#x3D; true;
+                    app &#x3D; this.appService.init();
+                }
+                else {
+                    app &#x3D; of(this.appService.app);
+                }
+                let loadUserSettings &#x3D; false;
+                if (!this.principalService.principal) {
+                    loadUserSettings &#x3D; true;
+                    principal &#x3D; this.principalService.load();
+                }
+                else {
+                    principal &#x3D; of(this.principalService.principal);
+                }
+                if (!this.userSettingsService.userSettings || loadUserSettings) {
+                    userSettings &#x3D; this.userSettingsService.load();
+                }
+                else {
+                    userSettings &#x3D; of(this.userSettingsService.userSettings);
+                }
+                return forkJoin({app, principal, userSettings});
             }));
+
         Utils.subscribe(observable,
             (result) &#x3D;&gt; {
                 console.log(&quot;loginService.login ok: &quot;, result);
@@ -1076,7 +1064,7 @@ export class LoginService implements OnDestroy {
                                 this.authenticationService.processedCredentials &#x3D; value;
                             }
                             if (!this.checkPrincipalPromise) {
-                                this.checkPrincipalPromise &#x3D; this.principalService.get(false).toPromise();
+                                this.checkPrincipalPromise &#x3D; firstValueFrom(this.principalService.get(false));
                             }
                             return this.checkPrincipalPromise
                                 .then((principal) &#x3D;&gt; {
@@ -1127,6 +1115,7 @@ export class LoginService implements OnDestroy {
     </div>
 
 </div>
+
 
 
 

@@ -1,19 +1,16 @@
 import {HttpParams} from "@angular/common/http";
+import { inject } from "@angular/core";
 import {Utils, MapOf} from "@sinequa/core/base";
-import {StartConfig} from "./start-config.web.service";
+import { SqHttpClient } from "./http-client";
+import {START_CONFIG} from "./start-config.web.service";
 
 /**
  * A base helper class for web services. It holds the {@link StartConfig} for the app
  */
 export abstract class HttpService {
-    /**
-     * Constructor
-     *
-     * @param startConfig The start configuration
-     */
-    constructor(
-        protected startConfig: StartConfig) {
-    }
+
+    protected readonly startConfig = inject(START_CONFIG);
+    protected readonly httpClient = inject(SqHttpClient)
 
     /**
      * The name of the application

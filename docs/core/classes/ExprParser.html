@@ -41,6 +41,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Classes</li>
   <li >ExprParser</li>
@@ -294,8 +295,8 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2337"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:2337</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2339"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:2339</a></div>
                 </td>
             </tr>
 
@@ -400,7 +401,7 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Perform the reverse operation to <a href="../classess/ExprParser.html#escape">ExprParser.escpae</a></p>
+                    <div class="io-description"><p>Perform the reverse operation to <a href="../classes/ExprParser.html#escape">ExprParser.escpae</a></p>
 </div>
 
                     <div class="io-description">
@@ -2682,7 +2683,9 @@ export class ExprParser {
                         continue;
                     }
                 }
-                return &quot;bad operator: &quot; + ch;
+                sbCurrentValue.push(ch);
+                this.current++;
+                continue;
             }
             else if (&quot;\&quot;[{/&#x60;&quot;.includes(ch)) { // &quot; [ { / &#x60;
                 const last: IRef&lt;number&gt; &#x3D; {value: 0};
@@ -3084,6 +3087,7 @@ export class ExprParser {
 </code></pre>
     </div>
 </div>
+
 
 
 

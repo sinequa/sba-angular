@@ -48,10 +48,12 @@ describe("TimePipe", () => {
       providers: [
         { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
         IntlService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        TimePipe
+      ]
     });
 
-    pipe = new TimePipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(TimePipe);
   })
 
   // all options are described here:

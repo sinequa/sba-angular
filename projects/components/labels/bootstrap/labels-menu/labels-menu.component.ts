@@ -40,7 +40,6 @@ export class BsLabelsMenuComponent implements OnInit, OnChanges, OnDestroy {
     ) {
         this.renameAction = new Action({
             text: "msg#renameLabel.title",
-            title: "msg#renameLabel.title",
             action: () => {
                 this.labelsService.renameLabelModal();
             },
@@ -48,7 +47,6 @@ export class BsLabelsMenuComponent implements OnInit, OnChanges, OnDestroy {
 
         this.deleteAction = new Action({
             text: "msg#deleteLabel.title",
-            title: "msg#deleteLabel.title",
             action: () => {
                 this.labelsService.deleteLabelModal();
             },
@@ -56,7 +54,6 @@ export class BsLabelsMenuComponent implements OnInit, OnChanges, OnDestroy {
 
         this.bulkAddAction = new Action({
             text: "msg#bulkAddLabel.title",
-            title: "msg#bulkAddLabel.title",
             action: () => {
                 this.labelsService.bulkAddLabelModal();
             },
@@ -64,7 +61,6 @@ export class BsLabelsMenuComponent implements OnInit, OnChanges, OnDestroy {
 
         this.bulkDeleteAction = new Action({
             text: "msg#bulkRemoveLabel.title",
-            title: "msg#bulkRemoveLabel.title",
             action: () => {
                 this.labelsService.bulkRemoveLabelModal();
             },

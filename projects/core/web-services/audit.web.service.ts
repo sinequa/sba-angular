@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable, of} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils, MapOf, JsonObject} from "@sinequa/core/base";
 import {Results, Record} from "./query.web.service";
 import {LinkResult} from "./sponsored-links.web.service";
@@ -157,12 +155,6 @@ export const enum AuditEventType {
 })
 export class AuditWebService extends HttpService {
     private static readonly endpoint = "audit.notify";
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        protected httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Notify the Sinequa server of a sponsored link event
@@ -327,9 +319,7 @@ export class AuditWebService extends HttpService {
             $auditRecord: auditEvents
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("auditService.notify failure - error: ", error);
             });

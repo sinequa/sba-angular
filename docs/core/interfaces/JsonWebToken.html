@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -224,14 +225,14 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
 import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from &quot;@angular/common/http&quot;;
-import {Observable, timer, of, throwError} from &quot;rxjs&quot;;
-import {share, flatMap, map, catchError} from &quot;rxjs/operators&quot;;
+import {Observable, timer, of, throwError, Subject, firstValueFrom, share, switchMap, map, catchError, take} from &quot;rxjs&quot;;
 import {AuthService} from &quot;ng2-ui-auth&quot;;
 import {HttpService, START_CONFIG, StartConfig, AuditWebService} from &quot;@sinequa/core/web-services&quot;;
 import {Utils, IRef, MapOf} from &quot;@sinequa/core/base&quot;;
 import {SqHttpClient} from &quot;@sinequa/core/web-services&quot;;
 import {TokenService} from &quot;./token.service&quot;;
 import {JWTService} from &quot;./jwt.service&quot;;
+import {authentication} from &quot;@microsoft/teams-js&quot;;
 
 interface Authentication {
     csrfToken: string;
@@ -322,11 +323,14 @@ export interface JsonWebToken {
 export class AuthenticationService extends HttpService {
     private authentication: Authentication | undefined;
     private storage: Storage;
+    private redirect$ &#x3D; new Subject&lt;string&gt;();
     /**
      * A flag indicating whether an attempt to &quot;override user&quot; has failed. This is normally
      * only set by the {@link HttpInterceptor} and tested and reset in {@link LoginService}
      */
     userOverrideFailed: boolean;
+
+    isTeams?: boolean;
 
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
@@ -426,6 +430,8 @@ export class AuthenticationService extends HttpService {
     }
 
     private init() {
+        // To avoid multipe redirection when multiple HTTP 401 error occurs
+        this.redirect$.pipe(take(1)).subscribe(url &#x3D;&gt; window.location.replace(url));
         if (this.startConfig.authenticationStorage &#x3D;&#x3D;&#x3D; &quot;local&quot;) {
             this.storage &#x3D; window.localStorage;
         }
@@ -463,7 +469,7 @@ export class AuthenticationService extends HttpService {
      *
      * @returns new configuration
      */
-    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): {headers: HttpHeaders, params: HttpParams} {
+    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): Promise&lt;{headers: HttpHeaders, params: HttpParams}&gt; {
         this.doAuthentication();
         if (this.authentication) {
             if (this.authentication.headers) {
@@ -481,7 +487,19 @@ export class AuthenticationService extends HttpService {
                 }
             }
         }
-        return config;
+        if(this.isTeams) {
+            return authentication.getAuthToken().then(
+                token &#x3D;&gt; {
+                    config.headers &#x3D; config.headers.set(&quot;teams-token&quot;, token);
+                    return config
+                },
+                error &#x3D;&gt; {
+                    console.error(&quot;Could not get a token from MS Teams. Proceeding without it...&quot;, error);
+                    return config;
+                }
+            );
+        }
+        return Promise.resolve(config);
     }
 
     /**
@@ -568,17 +586,15 @@ export class AuthenticationService extends HttpService {
             console.error(&quot;Unexpected WWW-Authenticate header&quot;);
             return Promise.resolve(undefined);
         }
-        return this.jWTService.getToken(credentials).toPromise()
-            .then((value) &#x3D;&gt; {
-                return {
+        return firstValueFrom(this.jWTService.getToken(credentials))
+            .then((value) &#x3D;&gt; ({
                     kind: LEGACY_PROCESSED_CREDENTIALS_KIND,
                     userName: credentials.userName,
                     data: {
                         csrfToken: value,
                         provider: &quot;Sinequa&quot;
                     }
-                };
-            });
+                }));
     }
 
     /**
@@ -620,7 +636,7 @@ export class AuthenticationService extends HttpService {
         // AuthService.authenticate opens a popup. On some platforms (Firefox) this is asynchronous
         // so we add a delay (timer(0)) so the caller can create a promise from the returned observable
         // without yielding
-        const observable &#x3D; timer(0).pipe(flatMap((value) &#x3D;&gt; {
+        const observable &#x3D; timer(0).pipe(switchMap((value) &#x3D;&gt; {
             const observable1 &#x3D; this.authService.authenticate(provider, true).pipe(share());
             Utils.subscribe(observable1,
                 (response) &#x3D;&gt; {
@@ -688,11 +704,7 @@ export class AuthenticationService extends HttpService {
                         })
                     });
             }
-            observable.subscribe(
-                (response) &#x3D;&gt; {
-                    window.location.replace(response.redirectUrl);
-                }
-            );
+            observable.subscribe((response) &#x3D;&gt; this.redirect$.next(response.redirectUrl));
             return true;
         }
         else {
@@ -715,6 +727,9 @@ export class AuthenticationService extends HttpService {
      * @returns An Observable of a boolean value which if &#x60;true&#x60; indicates that auto-authentication has been initiated.
      */
     autoAuthenticate(): Observable&lt;boolean&gt; {
+        if(this.isTeams) { // If we are in Teams, requests are authenticated with the teams-token header: no need for a CSRF token
+          return of(false);
+        }
         return this.tokenService.getCsrfToken().pipe(
             map((csrfToken) &#x3D;&gt; {
                 // Token can be empty as getCsrfToken suppresses application errors (no cookie or cookie invalid)
@@ -732,7 +747,7 @@ export class AuthenticationService extends HttpService {
                 // We should rarely have an error now as getCsrfToken
                 // suppresses the application-level ones
                 if (this.initiateAutoAuthentication()) {
-                    return throwError(error);
+                    return throwError(() &#x3D;&gt; error);
                 }
                 // Swallow the error and continue with non-auto login process
                 return of(false);
@@ -742,6 +757,7 @@ export class AuthenticationService extends HttpService {
 </code></pre>
     </div>
 </div>
+
 
 
 

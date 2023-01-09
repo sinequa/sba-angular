@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -172,8 +173,8 @@ also manage navigation through the list (next/previous and selectedValue).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">autocomplete/autocomplete.directive.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:55</a></div>
                 </td>
             </tr>
 
@@ -211,8 +212,8 @@ also manage navigation through the list (next/previous and selectedValue).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">autocomplete/autocomplete.directive.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:60</a></div>
                 </td>
             </tr>
 
@@ -250,8 +251,8 @@ also manage navigation through the list (next/previous and selectedValue).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">autocomplete/autocomplete.directive.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:50</a></div>
                 </td>
             </tr>
 
@@ -465,6 +466,7 @@ export interface AutocompleteItem {
     normalized?: string;
     category: string;
     label?: string;
+    rank?: number;
 }
 
 /**
@@ -574,9 +576,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         this._dropdownSubscription &#x3D; this.dropdown.clicked.subscribe(item &#x3D;&gt; {
             this.select(item, true);  // An item was selected from the autocomplete &#x3D;&gt; take the value
         });
-
         this._placeholder &#x3D; this.placeholder;
-        this.inputElement.focus();
+        this.inputElement.focus({preventScroll: true});
         this.start();
     }
 
@@ -924,6 +925,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 </code></pre>
     </div>
 </div>
+
 
 
 

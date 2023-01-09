@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -145,8 +146,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, InjectionToken, OnDestroy, Optional } from &quot;@angular/core&quot;;
 import { Router } from &quot;@angular/router&quot;;
-import { Observable, of, Subscription } from &#x27;rxjs&#x27;;
-import { filter, switchMap, tap } from &quot;rxjs/operators&quot;;
+import { Observable, of, Subscription, filter, switchMap, tap } from &#x27;rxjs&#x27;;
 
 import { Utils } from &quot;@sinequa/core/base&quot;;
 import { LoginService } from &quot;@sinequa/core/login&quot;;
@@ -190,8 +190,13 @@ export class FirstPageService implements OnDestroy {
             this.loginService.events
                 .pipe(
                     filter(event &#x3D;&gt; event.type &#x3D;&#x3D;&#x3D; &quot;login-complete&quot;),
-                    tap(_ &#x3D;&gt; this.firstPage &#x3D; undefined),
-                    switchMap(_ &#x3D;&gt; this.getFirstPage())
+                    switchMap(_ &#x3D;&gt; {
+                        if(this.firstPage) {
+                            this.firstPage &#x3D; undefined;
+                            return this.getFirstPage();
+                        }
+                        else return of();
+                    })
                 ).subscribe()
         );
     }
@@ -252,6 +257,7 @@ export class FirstPageService implements OnDestroy {
 </code></pre>
     </div>
 </div>
+
 
 
 

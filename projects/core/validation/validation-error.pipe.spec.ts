@@ -48,13 +48,14 @@ describe("ValidationErrorPipe", () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ChangeDetectorRef, useValue: { markForCheck: () => {} } },
-        IntlService,
         FormatService,
         ValidationService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        ValidationErrorPipe
+      ]
     });
 
-    pipe = new ValidationErrorPipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef), TestBed.inject(ValidationService));
+    pipe = TestBed.inject(ValidationErrorPipe);
   })
 
   it('transforms an error message ... with i18n (en-US)', () => {

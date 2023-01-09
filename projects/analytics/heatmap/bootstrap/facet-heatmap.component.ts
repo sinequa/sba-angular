@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Optional, OnDestroy, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
-import { Subject, distinctUntilChanged, filter } from 'rxjs';
+import { Subject, distinctUntilChanged, filter, Subscription } from 'rxjs';
 
 import {Utils} from '@sinequa/core/base';
 import { AppService } from '@sinequa/core/app-utils';
@@ -17,7 +17,7 @@ import {HeatmapItem} from './heatmap.component';
     selector: "sq-facet-heatmap",
     templateUrl: './facet-heatmap.component.html'
 })
-export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, DoCheck, OnDestroy {
+export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, OnDestroy {
     @Input() results: Results;
     @Input() aggregation= "Heatmap";
     @Input() name?: string;
@@ -73,17 +73,22 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     // A flag to check if the data is currently loading or not
     loading = false;
 
-    constructor(
-        public appService: AppService,
-        public searchService: SearchService,
-        public facetService: FacetService,
-        public selectionService: SelectionService,
-        public formBuilder: UntypedFormBuilder,
-        public cdRef: ChangeDetectorRef,
-        public prefs: UserPreferences,
-        @Optional() public cardComponent?: BsFacetCard
-    ){
+    private subs = new Subscription();
+
+    protected readonly appService = inject(AppService);
+    protected readonly searchService = inject(SearchService);
+    protected readonly facetService = inject(FacetService);
+    protected readonly selectionService = inject(SelectionService);
+    protected readonly formBuilder = inject(UntypedFormBuilder);
+    protected readonly cdRef = inject(ChangeDetectorRef);
+    protected readonly prefs = inject(UserPreferences);
+
+    constructor( @Optional() public cardComponent?: BsFacetCard){
         super();
+
+        this.subs.add(this.cardComponent?.facetCollapsed.subscribe(value => {
+            this.ready = value === "expanded" ? true : false
+        }));
 
         // Clear the current filters
         this.clearFilters = new Action({
@@ -96,7 +101,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         });
 
         // Listen to selection changes & update the heatmap items accordingly
-        this.selectionService.events.subscribe(() => {
+        this.subs.add(this.selectionService.events.subscribe(() => {
             if(this.highlightSelected) {
                 // Update the selectedItems set
                 this.updateSelectedItems();
@@ -107,17 +112,18 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                     this.cdRef.markForCheck();
                 }
             }
-        });
+        }));
 
 
         // prevent multiple subscriptions at one time
-        this._source$.pipe(
-            filter(() => this.aggregationData !== undefined),
-            distinctUntilChanged((prev, curr) => prev.value === curr.value),
-        )
-        .subscribe(item => {
-            this.facetService.addFilterSearch(this._name, this.aggregationData!, item, {forceAdd: true});
-        });
+        this.subs.add(this._source$.pipe(
+                filter(() => this.aggregationData !== undefined),
+                distinctUntilChanged((prev, curr) => prev.value === curr.value),
+            )
+            .subscribe(item => {
+                this.facetService.addFilterSearch(this._name, this.aggregationData!, item, {forceAdd: true});
+            })
+        );
 
     }
 
@@ -137,16 +143,12 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         }
     }
 
-    ngDoCheck(){
-        // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
-        // gets created when it is visible (otherwise, there can be visual bugs...)
-        this.ready = !this.cardComponent?._collapsed;
-    }
-
     ngOnDestroy() {
         // unsubscribe to avoid memory leaks
         this._source$.complete();
         this._source$.unsubscribe();
+
+        this.subs.unsubscribe();
     }
 
 
@@ -372,8 +374,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                 action.icon = "sq-icon-"+(axis === 'x'? this.fieldXPref : this.fieldYPref);
                 action.children = ((axis === 'x'? this.fieldsX : this.fieldsY) || [])
                     .filter(f => f !== (axis === 'x'? this.fieldXPref : this.fieldYPref))
-                    .map(f => {
-                        return new Action({
+                    .map(f => new Action({
                             name: f,
                             text: this.appService.getPluralLabel(f),
                             icon: "sq-icon-"+f,
@@ -382,8 +383,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                                 this.updateActions();
                                 this.updateData();
                             }
-                        });
-                    });
+                        }));
             }
         });
     }

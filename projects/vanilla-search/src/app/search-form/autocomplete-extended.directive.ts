@@ -1,7 +1,5 @@
-import { Directive, ElementRef, Input } from '@angular/core';
-import { AutocompleteFieldSearch, SuggestService, AutocompleteItem, AutocompleteState } from '@sinequa/components/autocomplete';
-import { AppService, ExprBuilder } from '@sinequa/core/app-utils';
-import { UIService } from '@sinequa/components/utils';
+import { Directive, Input } from '@angular/core';
+import { AutocompleteFieldSearch, AutocompleteItem, AutocompleteState } from '@sinequa/components/autocomplete';
 import { RecentQueriesService, RecentDocumentsService, SavedQueriesService, RecentDocument, RecentQuery, SavedQuery } from '@sinequa/components/saved-queries';
 import { PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
@@ -26,11 +24,6 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
     @Input() sqAutocompleteExtended: string[] = [];
 
     constructor(
-        elementRef: ElementRef,
-        suggestService: SuggestService,
-        appService: AppService,
-        uiService: UIService,
-        exprBuilder: ExprBuilder,
         protected recentQueriesService: RecentQueriesService,
         protected recentDocumentsService: RecentDocumentsService,
         protected savedQueriesService: SavedQueriesService,
@@ -38,7 +31,7 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
         protected previewService: PreviewService,
         protected searchService: SearchService,
         protected audit: AuditWebService){
-        super(elementRef, suggestService, appService, uiService, exprBuilder);
+        super();
 
     }
 

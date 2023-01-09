@@ -14,13 +14,13 @@
 <title>cluster_NgxChartsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 238,-230.8 238,-32.8 8,-32.8"/>
 </g>
-<g id="clust6" class="cluster">
-<title>cluster_NgxChartsModule_exports</title>
-<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 230,-222.8 230,-170.8 16,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_NgxChartsModule_declarations</title>
 <polygon fill="none" stroke="black" points="19,-40.8 19,-92.8 226,-92.8 226,-40.8 19,-40.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_NgxChartsModule_exports</title>
+<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 230,-222.8 230,-170.8 16,-170.8"/>
 </g>
 <!-- FacetNgxChart -->
 <g id="node1" class="node">

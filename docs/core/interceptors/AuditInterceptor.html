@@ -38,6 +38,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interceptors</li>
   <li >AuditInterceptor</li>
@@ -333,7 +334,7 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
     providedIn: &quot;root&quot;
 })
 export class AuditInterceptor implements HttpInterceptor {
-    
+
     // Store the session id and its datetime of creation/refresh
     sessionid: string;
     sessionstart: Date;
@@ -375,7 +376,7 @@ export class AuditInterceptor implements HttpInterceptor {
 
     /**
      * Add a sessionid to all the audit events
-     * @param auditRecord 
+     * @param auditRecord
      */
     private addSessionId(auditRecord?: AuditRecord) {
         const sessionid &#x3D; this.getSessionId();
@@ -432,6 +433,7 @@ export class AuditInterceptor implements HttpInterceptor {
 </code></pre>
     </div>
 </div>
+
 
 
 

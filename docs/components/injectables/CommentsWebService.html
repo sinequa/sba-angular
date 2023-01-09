@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >CommentsWebService</li>
@@ -127,7 +128,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">comments/comments.web.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">comments/comments.web.service.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -202,8 +203,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">comments/comments.web.service.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">comments/comments.web.service.ts:84</a></div>
                 </td>
             </tr>
 
@@ -297,8 +298,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">comments/comments.web.service.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">comments/comments.web.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -392,8 +393,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">comments/comments.web.service.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">comments/comments.web.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -463,8 +464,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">comments/comments.web.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">comments/comments.web.service.ts:68</a></div>
                 </td>
             </tr>
 
@@ -534,8 +535,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">comments/comments.web.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">comments/comments.web.service.ts:46</a></div>
                 </td>
             </tr>
 
@@ -605,8 +606,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">comments/comments.web.service.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">comments/comments.web.service.ts:122</a></div>
                 </td>
             </tr>
 
@@ -688,8 +689,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">comments/comments.web.service.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">comments/comments.web.service.ts:97</a></div>
                 </td>
             </tr>
 
@@ -771,8 +772,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable } from &quot;@angular/core&quot;;
 import { HttpService, SqHttpClient, StartConfig, START_CONFIG } from &quot;@sinequa/core/web-services&quot;;
-import { Observable, of } from &quot;rxjs&quot;;
-import { pluck } from &quot;rxjs/operators&quot;;
+import { Observable, of, map } from &quot;rxjs&quot;;
 
 declare interface CoreComment {
     commentid: string;
@@ -812,30 +812,30 @@ export class CommentsWebService extends HttpService {
 
     /**
      * Return the list of comments for a given document
-     * @param docid 
-     * @returns 
+     * @param docid
+     * @returns
      */
     getComments(docid: string): Observable&lt;Comment[]&gt; {
         return this.httpClient.post&lt;{comments: Comment[]}&gt;(
             this.makeUrl(this.endpoint), {docid, action: &#x27;read&#x27;}
-        ).pipe(pluck(&#x27;comments&#x27;));
+        ).pipe(map(c &#x3D;&gt; c.comments));
     }
 
     /**
      * Return the number of comments for a given document
-     * @param docid 
-     * @returns 
+     * @param docid
+     * @returns
      */
     getCommentCount(docid: string): Observable&lt;number&gt; {
         return this.httpClient.post&lt;{count: number}&gt;(
             this.makeUrl(this.endpoint), {docid, action: &#x27;count&#x27;}
-        ).pipe(pluck(&#x27;count&#x27;));
+        ).pipe(map(c &#x3D;&gt; c.count));
     }
 
     /**
      * Return the number of comments for a list of documents
-     * @param docids 
-     * @returns 
+     * @param docids
+     * @returns
      */
     getCommentCounts(docids: string[]): Observable&lt;{[id: string]: number}&gt; {
         if(docids.length &#x3D;&#x3D;&#x3D; 0) {
@@ -843,41 +843,41 @@ export class CommentsWebService extends HttpService {
         }
         return this.httpClient.post&lt;{counts: {[id: string]: number}}&gt;(
             this.makeUrl(this.endpoint), {docid: docids[0], docids, action: &#x27;count&#x27;}
-        ).pipe(pluck(&#x27;counts&#x27;));
+        ).pipe(map(c &#x3D;&gt; c.counts));
     }
 
     /**
      * Create a comment with given message for a given document
-     * @param docid 
-     * @param message 
-     * @param replyto 
-     * @returns 
+     * @param docid
+     * @param message
+     * @param replyto
+     * @returns
      */
     createComment(docid: string, message: string, replyto?: string): Observable&lt;NormalComment&gt; {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, message, replyto, action: &#x27;create&#x27;}
-        ).pipe(pluck(&#x27;comment&#x27;));
+        ).pipe(map(c &#x3D;&gt; c.comment));
     }
 
     /**
      * Modify the content of a comment
-     * @param docid 
-     * @param commentid 
-     * @param message 
-     * @returns 
+     * @param docid
+     * @param commentid
+     * @param message
+     * @returns
      */
     updateComment(docid: string, commentid: string, message: string) {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, message, action: &#x27;update&#x27;}
-        ).pipe(pluck(&#x27;comment&#x27;));
+        ).pipe(map(c &#x3D;&gt; c.comment));
     }
 
     /**
      * Delete a specific comment
-     * @param docid 
-     * @param commentid 
-     * @param markAsDeleted 
-     * @returns 
+     * @param docid
+     * @param commentid
+     * @param markAsDeleted
+     * @returns
      */
     deleteComment(docid: string, commentid: string, markAsDeleted: boolean): Observable&lt;void&gt; {
         return this.httpClient.post&lt;void&gt;(
@@ -887,19 +887,21 @@ export class CommentsWebService extends HttpService {
 
     /**
      * Add a like to a comment
-     * @param docid 
-     * @param commentid 
-     * @returns 
+     * @param docid
+     * @param commentid
+     * @returns
      */
     likeComment(docid: string, commentid: string): Observable&lt;NormalComment&gt; {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, action: &#x27;like&#x27;}
-        ).pipe(pluck(&#x27;comment&#x27;));
+        ).pipe(map(c &#x3D;&gt; c.comment));
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 
 </div>
+
 
 
 

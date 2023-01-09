@@ -53,10 +53,12 @@ describe("RelativeTimePipe", () => {
       providers: [
         { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
         IntlService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        RelativeTimePipe
+      ]
     });
 
-    pipe = new RelativeTimePipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(RelativeTimePipe);
   })
 
   it('transforms a number to ... with i18n (en-US)', () => {

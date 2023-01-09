@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -178,10 +179,18 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, Output, ElementRef, ViewChild, OnChanges, AfterViewInit, EventEmitter, SimpleChanges, OnDestroy, SimpleChange, ContentChild, TemplateRef, ChangeDetectorRef } from &#x27;@angular/core&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
-import * as d3 from &#x27;d3&#x27;;
 
 import { IntlService } from &#x27;@sinequa/core/intl&#x27;;
-import {Record} from &#x27;@sinequa/core/web-services&#x27;;
+import { Record } from &#x27;@sinequa/core/web-services&#x27;;
+import { TooltipManager } from &#x27;@sinequa/analytics/tooltip&#x27;;
+import { bisector, extent, max } from &#x27;d3-array&#x27;;
+import { scaleLinear, scaleUtc } from &#x27;d3-scale&#x27;;
+import { line, area, curveBasis, curveBasisClosed, curveBasisOpen, curveBumpX, curveBumpY, curveLinear, curveLinearClosed, curveMonotoneX, curveMonotoneY, curveNatural, curveStep, curveStepAfter, curveStepBefore } from &#x27;d3-shape&#x27;;
+import { brushX, brushSelection } from &#x27;d3-brush&#x27;;
+import { select } from &#x27;d3-selection&#x27;;
+import { zoom, zoomIdentity, zoomTransform } from &#x27;d3-zoom&#x27;;
+import { axisBottom, axisLeft } from &#x27;d3-axis&#x27;;
+import { format } from &#x27;d3-format&#x27;;
 
 
 export interface TimelineDate {
@@ -206,6 +215,22 @@ export interface TimelineEvent {
     sizeOpened?: number;
     styles?: {[key:string]: any};
     record?: Record;
+}
+
+export const curveTypes &#x3D; {
+  curveBasis,
+  curveBasisClosed,
+  curveBasisOpen,
+  curveBumpX,
+  curveBumpY,
+  curveLinear,
+  curveLinearClosed,
+  curveMonotoneX,
+  curveMonotoneY,
+  curveNatural,
+  curveStep,
+  curveStepAfter,
+  curveStepBefore
 }
 
 @Component({
@@ -237,7 +262,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() showTooltip &#x3D; true;
     @Input() theme: &quot;light&quot; | &quot;dark&quot; &#x3D; &quot;light&quot;;
 
-    @Output() selectionChange &#x3D; new EventEmitter&lt;(Date|undefined)[]&gt;();
+    @Output() selectionChange &#x3D; new EventEmitter&lt;(Date|undefined)[]|undefined&gt;();
     @Output() rangeInit &#x3D; new EventEmitter&lt;Date[]&gt;();
     @Output() rangeChange &#x3D; new EventEmitter&lt;Date[]&gt;();
 
@@ -262,9 +287,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     currentSelection?: (Date|undefined)[]; // Read/Write
 
     // Elements
-    @ViewChild(&quot;xAxis&quot;) gx: ElementRef;
-    @ViewChild(&quot;yAxis&quot;) gy: ElementRef;
-    @ViewChild(&quot;brush&quot;) gbrush: ElementRef;
+    @ViewChild(&quot;xAxis&quot;) gx: ElementRef&lt;SVGGElement&gt;;
+    @ViewChild(&quot;yAxis&quot;) gy: ElementRef&lt;SVGGElement&gt;;
+    @ViewChild(&quot;brush&quot;) gbrush: ElementRef&lt;SVGGElement&gt;;
 
     // Selections
     xAxis$: d3.Selection&lt;SVGGElement, Date, null, undefined&gt;;
@@ -273,14 +298,10 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     grips$: d3.Selection&lt;SVGGElement, {type: string}, SVGGElement, undefined&gt;;
 
     // Tooltip
-    tooltipItem: TimelineEvent[] | undefined;
     tooltipX: number | undefined;
     tooltipDatapoints?: (TimelineDate|undefined)[];
-    tooltipOrientation: &quot;left&quot; | &quot;right&quot;;
-    tooltipTop: number;
-    tooltipRight: number;
-    tooltipLeft: number;
-    bisectDate &#x3D; d3.bisector&lt;TimelineDate,Date&gt;(d &#x3D;&gt; { return d.date; }).left;
+    bisectDate &#x3D; bisector&lt;TimelineDate,Date&gt;(d &#x3D;&gt; { return d.date; }).left;
+    tooltipManager &#x3D; new TooltipManager&lt;TimelineEvent[]&gt;();
 
     // Misc
     viewInit: boolean;
@@ -317,27 +338,27 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         if(!this.x) {
 
             // Scales
-            this.x &#x3D; d3.scaleUtc()
+            this.x &#x3D; scaleUtc()
                 .range([0, this.innerWidth]);
             this.xt &#x3D; this.x;
 
-            this.y &#x3D; d3.scaleLinear()
+            this.y &#x3D; scaleLinear()
                 .range([this.innerHeight, 0]);
 
             // Shapes
-            this.area &#x3D; d3.area&lt;TimelineDate&gt;()
-                .curve(d3[this.curveType])
+            this.area &#x3D; area&lt;TimelineDate&gt;()
+                .curve(curveTypes[this.curveType])
                 .x(d &#x3D;&gt; this.xt(d.date)!)
                 .y0(this.y(0)!)
                 .y1(d &#x3D;&gt; this.y(d.value)!);
 
-            this.line &#x3D; d3.line&lt;TimelineDate&gt;()
-                .curve(d3[this.curveType])
+            this.line &#x3D; line&lt;TimelineDate&gt;()
+                .curve(curveTypes[this.curveType])
                 .x(d &#x3D;&gt; this.xt(d.date)!)
                 .y(d &#x3D;&gt; this.y(d.value)!);
 
             // Behaviors
-            this.brushBehavior &#x3D; d3.brushX()
+            this.brushBehavior &#x3D; brushX()
                 .extent([[0, 0], [this.innerWidth, this.innerHeight]])
                 .on(&quot;start&quot;, () &#x3D;&gt; this.brushing &#x3D; true)
                 .on(&#x27;brush&#x27;, () &#x3D;&gt; this.onBrush())
@@ -400,13 +421,13 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     ngAfterViewInit() {
 
         // Get native elements
-        this.xAxis$ &#x3D; d3.select(this.gx.nativeElement);
-        this.yAxis$ &#x3D; d3.select(this.gy.nativeElement);
-        this.brush$ &#x3D; d3.select(this.gbrush.nativeElement);
+        this.xAxis$ &#x3D; select(this.gx.nativeElement);
+        this.yAxis$ &#x3D; select(this.gy.nativeElement);
+        this.brush$ &#x3D; select(this.gbrush.nativeElement);
 
         this.brush$
             .call(this.brushBehavior)
-            .on(&quot;mousemove&quot;, () &#x3D;&gt; this.onMousemove())
+            .on(&quot;mousemove&quot;, e &#x3D;&gt; this.onMousemove(e))
             .on(&quot;mouseout&quot;, () &#x3D;&gt; this.onMouseout());
 
         // Add 2 &quot;grips&quot; to the brush goup, on each side of the rectangle
@@ -476,9 +497,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const primarySeries &#x3D; data.filter(s &#x3D;&gt; s.primary) || [data[0]];
         const allPrimaryDates &#x3D; ([] as TimelineDate[]).concat(...primarySeries.map(s &#x3D;&gt; s.dates));
 
-        const xExtent &#x3D; d3.extent&lt;TimelineDate, Date&gt;(allPrimaryDates, d &#x3D;&gt; d.date);
-        const yMax &#x3D; d3.max&lt;TimelineSeries, number&gt;(data,
-            s &#x3D;&gt; d3.max&lt;TimelineDate, number&gt;(s.dates, d &#x3D;&gt; d.value));
+        const xExtent &#x3D; extent&lt;TimelineDate, Date&gt;(allPrimaryDates, d &#x3D;&gt; d.date);
+        const yMax &#x3D; max&lt;TimelineSeries, number&gt;(data,
+            s &#x3D;&gt; max&lt;TimelineDate, number&gt;(s.dates, d &#x3D;&gt; d.value));
 
         // Check validity of data
         if(!xExtent[0] || !xExtent[1] || !yMax) {
@@ -547,7 +568,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         if(this.zoomBehavior){
             this.zoomBehavior.on(&quot;zoom&quot;, null);
             this.zoomBehavior.on(&quot;end&quot;, null);
-            this.zoomBehavior.transform(this.brush$, d3.zoomIdentity);
+            this.zoomBehavior.transform(this.brush$, zoomIdentity);
         }
 
         // Compute the minimum and maximum zoom
@@ -555,7 +576,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const scaleExtent &#x3D; (xDomain[1].getTime() - xDomain[0].getTime()) / 86400000; // current number of days on the scale
 
         // Create the behavior
-        this.zoomBehavior &#x3D; d3.zoom()
+        this.zoomBehavior &#x3D; zoom()
             .extent([[0, 0], [this.innerWidth, this.innerHeight]])
             .scaleExtent([scaleExtent/this.maxZoomDays, scaleExtent/this.minZoomDays])
             .on(&quot;zoom&quot;, () &#x3D;&gt; this.onZoom())
@@ -602,11 +623,11 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Recreate the x scale and axes (in the event of a language change)
      */
     protected updateXAxis(){
-        this.x &#x3D; d3.scaleUtc()
+        this.x &#x3D; scaleUtc()
             .domain(this.x.domain())
             .range(this.x.range());
 
-        this.xt &#x3D; d3.scaleUtc()
+        this.xt &#x3D; scaleUtc()
             .domain(this.xt.domain())
             .range(this.xt.range());
 
@@ -618,7 +639,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      */
     protected drawXAxis() {
         const nTicks &#x3D; Math.round(this.width / 100);
-        this.xAxis$.call(d3.axisBottom(this.xt).ticks(nTicks));
+        this.xAxis$.call(axisBottom(this.xt).ticks(nTicks));
         this.xAxis$.selectAll(&quot;.domain&quot;).remove(); // Remove the axis line
     }
 
@@ -631,9 +652,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const yAxisTicks &#x3D; this.y.ticks(nTicks)
             .filter(tick &#x3D;&gt; Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
 
-        const yAxis &#x3D; d3.axisLeft&lt;number&gt;(this.y)
+        const yAxis &#x3D; axisLeft&lt;number&gt;(this.y)
             .tickValues(yAxisTicks)
-            .tickFormat(d3.format(&quot;~s&quot;)); //https://github.com/d3/d3-format
+            .tickFormat(format(&quot;~s&quot;)); //https://github.com/d3/d3-format
         this.yAxis$.call(yAxis);
         this.yAxis$.selectAll(&quot;.domain&quot;).remove(); // Remove the axis line
     }
@@ -666,7 +687,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     onBrush() {
         this.turnoffTooltip();
-        this.brushSelection &#x3D; d3.brushSelection(this.gbrush.nativeElement) as [number, number] | null;
+        this.brushSelection &#x3D; brushSelection(this.gbrush.nativeElement) as [number, number] | null;
         this.updateGrips(this.brushSelection);
     }
 
@@ -689,7 +710,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.zooming &#x3D; true;
 
         // Create a transformed scale without modifying the original (to enforce the limit of scaleExtent)
-        const transform &#x3D; d3.zoomTransform(this.brush$.node() as Element);
+        const transform &#x3D; zoomTransform(this.brush$.node() as Element);
         this.xt &#x3D; transform.rescaleX(this.x);
 
         // Redraw the axis
@@ -718,9 +739,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     /**
      * Redraw the simple tooltip (vertical line)
      */
-    onMousemove() {
-        if(!this.tooltipItem &amp;&amp; this.showTooltip) {
-            this.tooltipX &#x3D; d3.mouse(this.gbrush.nativeElement)[0];
+    onMousemove(event) {
+        if(!this.tooltipManager.isShown &amp;&amp; this.showTooltip) {
+            this.tooltipX &#x3D; this.point(this.gbrush.nativeElement, event)[0];
             const date &#x3D; this.xt.invert(this.tooltipX);
             this.tooltipDatapoints &#x3D; this.data?.map(series &#x3D;&gt; {
               if(!series.showDatapoints) return;
@@ -734,10 +755,19 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     /**
+     * Equivalent of former d3.mouse()
+     */
+    private point(node: SVGGElement, event: MouseEvent) {
+        var point &#x3D; new DOMPoint(event.clientX, event.clientY);
+        point &#x3D; point.matrixTransform(node.getScreenCTM()?.inverse());
+        return [point.x, point.y];
+    }
+
+    /**
      * Remove the simple tooltip (vertical line)
      */
     onMouseout() {
-        if(!this.tooltipItem) {
+        if(!this.tooltipManager.isShown) {
             this.tooltipX &#x3D; undefined
         }
     }
@@ -748,17 +778,12 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      */
     onEventClick(event: TimelineEvent[]) {
 
-        if(this.tooltipItem &#x3D;&#x3D;&#x3D; event) {
+        if(this.tooltipManager.data &#x3D;&#x3D;&#x3D; event) {
             this.turnoffTooltip();
         }
 
         else {
 
-            if(this.tooltipItem) {
-                this.turnoffTooltip();
-            }
-
-            this.tooltipItem &#x3D; event;
             this.tooltipX &#x3D; this.xt(event[0].date);
 
             // Since we use viewBox to auto-adjust the SVG to the container size, we have to
@@ -768,17 +793,16 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             const scale &#x3D; actualWidth / this.width;
             const relativeX &#x3D; x / this.width;
 
+            const top &#x3D; scale * (this.margin.top + 0.3*this.innerHeight); // Align tooltip arrow
+
             // Tooltip to the right
             if(relativeX &lt; 0.5) {
-                this.tooltipOrientation &#x3D; &quot;right&quot;;
-                this.tooltipLeft &#x3D; scale * x;
+                this.tooltipManager.show(event, &#x27;right&#x27;, top, scale * x);
             }
             // Tooltip to the left
             else {
-                this.tooltipOrientation &#x3D; &quot;left&quot;;
-                this.tooltipRight &#x3D; actualWidth - scale * x;
+                this.tooltipManager.show(event, &#x27;left&#x27;, top, actualWidth - scale * x);
             }
-            this.tooltipTop &#x3D; scale * (this.margin.top + 0.3*this.innerHeight); // Align tooltip arrow
 
         }
     }
@@ -787,10 +811,8 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Turns off the tooltip
      */
     turnoffTooltip &#x3D; () &#x3D;&gt; {
-        if(this.tooltipItem) {
-            this.tooltipItem &#x3D; undefined;
-            this.tooltipX &#x3D; undefined;
-        }
+        this.tooltipManager.hide();
+        this.tooltipX &#x3D; undefined;
     }
 
     ngOnDestroy(){
@@ -915,7 +937,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * @param events
      */
     eventSize(events: TimelineEvent[]): number {
-        if(events!&#x3D;&#x3D;this.tooltipItem) {
+        if(events !&#x3D;&#x3D; this.tooltipManager.data) {
             return events[0].size || 6;
         }
         else {
@@ -938,6 +960,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 </code></pre>
     </div>
 </div>
+
 
 
 

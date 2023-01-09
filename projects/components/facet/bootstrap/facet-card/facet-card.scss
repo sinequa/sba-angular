@@ -27,3 +27,10 @@
     }
   }
 }
+
+:host.collapsed {
+  .card-header {
+    border-bottom: none;
+    border-radius: .25rem;
+  }
+}

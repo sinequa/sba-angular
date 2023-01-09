@@ -1,6 +1,5 @@
 import {
     Directive,
-    ElementRef,
     Input,
     EventEmitter,
     SimpleChanges,
@@ -11,12 +10,9 @@ import {
 } from "@angular/core";
 import {
     Autocomplete,
-    SuggestService,
     AutocompleteState,
     AutocompleteItem,
 } from "@sinequa/components/autocomplete";
-import { AppService } from "@sinequa/core/app-utils";
-import { UIService } from "@sinequa/components/utils";
 import { LabelsWebService, Labels } from "@sinequa/core/web-services";
 import { Keys } from "@sinequa/core/base";
 import { LabelsService } from "./labels.service";
@@ -44,14 +40,10 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
     private _suggestions: string[] = [];
 
     constructor(
-        elementRef: ElementRef,
-        suggestService: SuggestService,
-        appService: AppService,
-        uiService: UIService,
         private labelsWebService: LabelsWebService,
         private labelsService: LabelsService
     ) {
-        super(elementRef, suggestService, appService, uiService);
+        super();
     }
 
     /**
@@ -159,12 +151,10 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
 
                     this.dropdown.update(
                         true,
-                        labels.labels.map((label) => {
-                            return {
+                        labels.labels.map((label) => ({
                                 display: label,
                                 category: "",
-                            };
-                        })
+                            }))
                     );
                 }
             },

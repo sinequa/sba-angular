@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -313,6 +314,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Query, AppService, ExprParser, Expr, ExprValueInitializer} from &quot;@sinequa/core/app-utils&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
+import { Results } from &quot;@sinequa/core/web-services&quot;;
 import {SearchService} from &quot;./search.service&quot;;
 
 export interface BreadcrumbsItem {
@@ -326,20 +328,20 @@ export interface BreadcrumbsItem {
 /**
  * Description of the Breadcrumbs class - link to {@link SearchService}
  */
-export class Breadcrumbs {
+export class Breadcrumbs&lt;T extends Results &#x3D; Results&gt; {
     appService: AppService;
-    searchService: SearchService;
+    searchService: SearchService&lt;T&gt;;
     items: BreadcrumbsItem[]; // always starts with the text expression followed by any selects
     advanced: Expr[];
     query: Query; // the associated query. Will be different to the current query if any item other than the last is selected
     fields: Set&lt;string&gt;;
 
-    static create(appService: AppService, searchService: SearchService, query: Query): Breadcrumbs {
-        const breadcrumbs &#x3D; new Breadcrumbs(appService, searchService, query);
+    static create&lt;T extends Results &#x3D; Results&gt;(appService: AppService, searchService: SearchService&lt;T&gt;, query: Query): Breadcrumbs&lt;T&gt; {
+        const breadcrumbs &#x3D; new Breadcrumbs&lt;T&gt;(appService, searchService, query);
         return breadcrumbs.init();
     }
 
-    private constructor(appService: AppService, searchService: SearchService, query: Query) {
+    private constructor(appService: AppService, searchService: SearchService&lt;T&gt;, query: Query) {
         this.appService &#x3D; appService;
         this.searchService &#x3D; searchService;
         this.query &#x3D; query.copy();
@@ -504,7 +506,7 @@ export class Breadcrumbs {
         this.items[this.items.length - 1].active &#x3D; true;
     }
 
-    private init(): Breadcrumbs {
+    private init(): Breadcrumbs&lt;T&gt; {
         this.initItems();
         return this;
     }
@@ -590,6 +592,7 @@ export class Breadcrumbs {
 </code></pre>
     </div>
 </div>
+
 
 
 
