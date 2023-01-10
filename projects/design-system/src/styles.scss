@@ -24,7 +24,7 @@ html {
 }
 
 .screen-size {
-  max-height: calc(100vh - $navbar-height);
+  height: calc(100vh - $navbar-height);
   overflow-y: scroll;
 }
 
