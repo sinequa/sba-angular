@@ -107,7 +107,7 @@ export class BsFacetSavedQueries extends AbstractFacet  {
             audit: {
                 type: SavedQueryEventType.Search,
                 detail: {
-                    "saved-query": savedQuery.name
+                    savedquery: savedQuery.name
                 }
             }
         }
