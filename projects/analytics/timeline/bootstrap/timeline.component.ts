@@ -1,5 +1,5 @@
 import { Component, Input, Output, ElementRef, ViewChild, OnChanges, AfterViewInit, EventEmitter, SimpleChanges, OnDestroy, SimpleChange, ContentChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { IntlService } from '@sinequa/core/intl';
 import { Record } from '@sinequa/core/web-services';
@@ -140,6 +140,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     zooming: boolean;
     brushing: boolean;
 
+    public noTimeSeries$ = new Subject<boolean>();
+    public noEvents$ = new Subject<boolean>();
+
     constructor(
         protected el: ElementRef,
         protected intlService: IntlService,
@@ -227,6 +230,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         // Only changes in data result in redrawing the chart
         // (other input, except selection, are expected to be static)
         if(this.viewInit && changes["data"] && this.checkDataChanges(changes["data"])){
+            this.noTimeSeries$.next(!(this.data && this.data.flatMap((timeSerie) => timeSerie.dates).length > 0));
             this.updateChart();
         }
 
@@ -239,6 +243,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         }
 
         if(changes["events"]) {
+            this.noEvents$.next(!(this.events && this.events.length > 0))
             this.updateEvents();
         }
 
@@ -248,43 +253,46 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     // At this point we can initialize all the primitives and call updateChart()
     ngAfterViewInit() {
 
-        // Get native elements
-        this.xAxis$ = select(this.gx.nativeElement);
-        this.yAxis$ = select(this.gy.nativeElement);
-        this.brush$ = select(this.gbrush.nativeElement);
+        if (!this.noTimeSeries || !this.noEvents) {
+            // Get native elements
+            this.xAxis$ = select(this.gx.nativeElement);
+            this.yAxis$ = select(this.gy.nativeElement);
+            this.brush$ = select(this.gbrush.nativeElement);
 
-        this.brush$
-            .call(this.brushBehavior)
-            .on("mousemove", e => this.onMousemove(e))
-            .on("mouseout", () => this.onMouseout());
+            this.brush$
+                .call(this.brushBehavior)
+                .on("mousemove", e => this.onMousemove(e))
+                .on("mouseout", () => this.onMouseout());
 
-        // Add 2 "grips" to the brush group, on each side of the rectangle
-        // Grips are inserted programmatically to appear on top the brush selection
-        this.grips$ = this.brush$.selectAll<SVGGElement, {type: string}>(".grip")
-            .data([{type: "w"}, {type: "e"}])
-            .enter()
-            .append("g")
-            .attr("class", "grip")
-            .attr("display", "none");
+            // Add 2 "grips" to the brush group, on each side of the rectangle
+            // Grips are inserted programmatically to appear on top the brush selection
+            this.grips$ = this.brush$.selectAll<SVGGElement, {type: string}>(".grip")
+                .data([{type: "w"}, {type: "e"}])
+                .enter()
+                .append("g")
+                .attr("class", "grip")
+                .attr("display", "none");
 
-        this.grips$.append("path")
-            .attr("d", this.drawGrips);
+            this.grips$.append("path")
+                .attr("d", this.drawGrips);
 
-        this.grips$.append("text")
-            .attr("class", "grip-text")
-            .attr("text-anchor", d => d.type === "w"? 'end' : 'start')
-            .attr("x", d => d.type === "w"? -5 : 5)
-            .attr("y", 10);
+            this.grips$.append("text")
+                .attr("class", "grip-text")
+                .attr("text-anchor", d => d.type === "w"? 'end' : 'start')
+                .attr("x", d => d.type === "w"? -5 : 5)
+                .attr("y", 10);
+
+            this.updateChart();
+
+            // This is necessary to prevent "Expression has changed after check" errors
+            // caused by calling updateChart inside ngAfterViewInit().
+            // Unfortunately this is necessary because we need the DOM to be rendered in order fill the DOM
+            // (for example gAxis needs to exist so we can draw the axis)
+            this.cdRef.detectChanges();
+        }
 
         this.viewInit = true;
 
-        this.updateChart();
-
-        // This is necessary to prevent "Expression has changed after check" errors
-        // caused by calling updateChart inside ngAfterViewInit().
-        // Unfortunately this is necessary because we need the DOM to be rendered in order fill the DOM
-        // (for example gAxis needs to exist so we can draw the axis)
-        this.cdRef.detectChanges();
     }
 
     /**
@@ -296,6 +304,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.turnoffTooltip();
 
         if(this.data && this.data.length) {
+
+            // check if the is data to plot
+            this.noTimeSeries = this.data.flatMap((timeSerie) => timeSerie.dates).length === 0;
 
             // Update scales
             // Note: does not stop the update process even if the data is invalid/empty
@@ -380,6 +391,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * updates the grouping of events (when they are close to each other)
      */
     protected updateEvents() {
+        // check if there is at least 1 event
+        this.noEvents = !(this.events && this.events.length > 0);
+
         this.groupedEvents = this.groupEvents(5);
     }
 

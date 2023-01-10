@@ -1,96 +1,104 @@
-<svg (wheel)="$event" [attr.viewBox]="'0 0 '+width+' '+height">
+<ng-container *ngIf="!noTimeSeries || !noEvents;else noData">
+    <svg (wheel)="$event" [attr.viewBox]="'0 0 '+width+' '+height">
 
-    <g [attr.transform]="'translate('+margin.left+','+ margin.top +')'">
+        <g [attr.transform]="'translate('+margin.left+','+ margin.top +')'">
 
-        <defs>
-            <!-- Clip path truncates overflowing data (important for zoom) -->
-            <clipPath [attr.id]="'clip'+instance">
-                <rect [attr.y]="-margin.top" [attr.width]="innerWidth" [attr.height]="height - margin.bottom"></rect>
-            </clipPath>
-            <!-- Mask limits opacity of non-selected areas -->
-            <mask [attr.id]="'mask'+instance" *ngIf="!!brushSelection && !!data && !! data.length">
-                <rect *ngIf="brushSelection[0] > 0"
-                    x="0" [attr.y]="-margin.top"
-                    [attr.width]="brushSelection[0]" [attr.height]="height - margin.bottom"
-                    fill="white" opacity="0.5"/>
-                <rect [attr.x]="brushSelection[0]" [attr.y]="-margin.top"
-                    [attr.width]="brushSelection[1] - brushSelection[0]" [attr.height]="height - margin.bottom"
-                    fill="white"/>
-                <rect *ngIf="innerWidth > brushSelection[1]"
-                    [attr.x]="brushSelection[1]" [attr.y]="-margin.top"
-                    [attr.width]="innerWidth - brushSelection[1]" [attr.height]="height - margin.bottom"
-                    fill="white" opacity="0.5"/>
-            </mask>
-        </defs>
+            <defs>
+                <!-- Clip path truncates overflowing data (important for zoom) -->
+                <clipPath [attr.id]="'clip'+instance">
+                    <rect [attr.y]="-margin.top" [attr.width]="innerWidth" [attr.height]="height - margin.bottom"></rect>
+                </clipPath>
+                <!-- Mask limits opacity of non-selected areas -->
+                <mask [attr.id]="'mask'+instance" *ngIf="!!brushSelection && !!data && !! data.length">
+                    <rect *ngIf="brushSelection[0] > 0"
+                        x="0" [attr.y]="-margin.top"
+                        [attr.width]="brushSelection[0]" [attr.height]="height - margin.bottom"
+                        fill="white" opacity="0.5"/>
+                    <rect [attr.x]="brushSelection[0]" [attr.y]="-margin.top"
+                        [attr.width]="brushSelection[1] - brushSelection[0]" [attr.height]="height - margin.bottom"
+                        fill="white"/>
+                    <rect *ngIf="innerWidth > brushSelection[1]"
+                        [attr.x]="brushSelection[1]" [attr.y]="-margin.top"
+                        [attr.width]="innerWidth - brushSelection[1]" [attr.height]="height - margin.bottom"
+                        fill="white" opacity="0.5"/>
+                </mask>
+            </defs>
 
-        <!-- Timeline series -->
-        <g class="areas" [attr.clip-path]="'url(#clip'+instance+')'" [attr.mask]="'url(#mask'+instance+')'">
-            <g *ngFor="let timeline of data" class="series">
-                <path class="area" [attr.d]="area(timeline.dates)" [ngStyle]="timeline.areaStyles"></path>
-                <path class="line" [attr.d]="line(timeline.dates)" [ngStyle]="timeline.lineStyles"></path>
+            <!-- Timeline series -->
+            <g class="areas" [attr.clip-path]="'url(#clip'+instance+')'" [attr.mask]="'url(#mask'+instance+')'">
+                <g *ngFor="let timeline of data" class="series">
+                    <path class="area" [attr.d]="area(timeline.dates)" [ngStyle]="timeline.areaStyles"></path>
+                    <path class="line" [attr.d]="line(timeline.dates)" [ngStyle]="timeline.lineStyles"></path>
+                </g>
             </g>
+
+            <!-- Tooltip line -->
+            <g class="tooltip-line" [attr.clip-path]="'url(#clip'+instance+')'" *ngIf="showTooltip && tooltipX && !zooming && !brushing">
+                <line [attr.x1]="tooltipX" [attr.x2]="tooltipX" y1="0" [attr.y2]="innerHeight"></line>
+                <text [attr.x]="tooltipX < innerWidth*0.75 ? tooltipX + 5 : tooltipX - 5" y="10"
+                    [attr.text-anchor]="tooltipX < innerWidth*0.75 ? 'start' : 'end'" class="tooltip-text">
+                    {{ xt.invert(tooltipX) | sqDate }}
+                </text>
+            </g>
+
+            <!-- X Axis (built in the controler) -->
+            <g #xAxis class="x axis" [attr.transform]="'translate(0,'+ innerHeight +')'"></g>
+
+            <!-- Y Axis (built in the controler) -->
+            <g #yAxis class="y axis"></g>
+
+            <!-- Brush and Zoom element -->
+            <g #brush class="brush" [attr.clip-path]="'url(#clip'+instance+')'" [attr.display]="(!data || !data.length)? 'none' : null"></g>
+
+            <!-- Timeline events -->
+            <g class="events" [attr.clip-path]="'url(#clip'+instance+')'" [attr.mask]="'url(#mask'+instance+')'">
+                <path *ngFor="let events of groupedEvents" class="event"
+                    [attr.d]="drawEvents(events, eventSize(events))"
+                    [ngStyle]="events[0].styles"
+                    (click)="onEventClick(events)"></path>
+            </g>
+
         </g>
 
-        <!-- Tooltip line -->
-        <g class="tooltip-line" [attr.clip-path]="'url(#clip'+instance+')'" *ngIf="showTooltip && tooltipX && !zooming && !brushing">
-            <line [attr.x1]="tooltipX" [attr.x2]="tooltipX" y1="0" [attr.y2]="innerHeight"></line>
-            <text [attr.x]="tooltipX < innerWidth*0.75 ? tooltipX + 5 : tooltipX - 5" y="10"
-                [attr.text-anchor]="tooltipX < innerWidth*0.75 ? 'start' : 'end'" class="tooltip-text">
-                {{ xt.invert(tooltipX) | sqDate }}
-            </text>
-        </g>
+    </svg>
 
-        <!-- X Axis (built in the controler) -->
-        <g #xAxis class="x axis" [attr.transform]="'translate(0,'+ innerHeight +')'"></g>
-
-        <!-- Y Axis (built in the controler) -->
-        <g #yAxis class="y axis"></g>
-
-        <!-- Brush and Zoom element -->
-        <g #brush class="brush" [attr.clip-path]="'url(#clip'+instance+')'" [attr.display]="(!data || !data.length)? 'none' : null"></g>
-
-        <!-- Timeline events -->
-        <g class="events" [attr.clip-path]="'url(#clip'+instance+')'" [attr.mask]="'url(#mask'+instance+')'">
-            <path *ngFor="let events of groupedEvents" class="event"
-                [attr.d]="drawEvents(events, eventSize(events))"
-                [ngStyle]="events[0].styles"
-                (click)="onEventClick(events)"></path>
-        </g>
-
-    </g>
-
-</svg>
-
-<!-- data point Tooltip -->
-<sq-tooltip [manager]="dataPointsTooltipManager" [theme]="theme">
-  <ng-template let-data>
-    <div class="list-group list-group-flush">
-        <ng-container *ngFor="let point of data">
-            <ng-container *ngIf="dataPointTooltipTpl" [ngTemplateOutlet]="dataPointTooltipTpl" [ngTemplateOutletContext]="{$implicit: point}">
-            </ng-container>
-            <div *ngIf="!dataPointTooltipTpl" class="list-group-item" style="max-width: 350px;">
-                <span class="data-point-text text-decoration-underline">{{ point.date | sqDate }}</span>
-                <ng-container *ngFor="let val of point.values">
-                    <div class="data-point-text">{{ val.name }} : {{ val.value }}</div>
+    <!-- data point Tooltip -->
+    <sq-tooltip [manager]="dataPointsTooltipManager" [theme]="theme">
+      <ng-template let-data>
+        <div class="list-group list-group-flush">
+            <ng-container *ngFor="let point of data">
+                <ng-container *ngIf="dataPointTooltipTpl" [ngTemplateOutlet]="dataPointTooltipTpl" [ngTemplateOutletContext]="{$implicit: point}">
                 </ng-container>
-            </div>
-        </ng-container>
-    </div>
-  </ng-template>
-</sq-tooltip>
-
-<!-- Event Tooltip -->
-<sq-tooltip [manager]="eventsTooltipManager" [theme]="theme">
-  <ng-template let-data>
-    <div class="list-group list-group-flush">
-        <ng-container *ngFor="let event of data">
-            <ng-container *ngIf="eventTooltipTpl" [ngTemplateOutlet]="eventTooltipTpl" [ngTemplateOutletContext]="{$implicit: event, close: turnoffTooltip}">
+                <div *ngIf="!dataPointTooltipTpl" class="list-group-item" style="max-width: 350px;">
+                    <span class="data-point-text text-decoration-underline">{{ point.date | sqDate }}</span>
+                    <ng-container *ngFor="let val of point.values">
+                        <div class="data-point-text">{{ val.name }} : {{ val.value }}</div>
+                    </ng-container>
+                </div>
             </ng-container>
-            <div *ngIf="!eventTooltipTpl" class="list-group-item" style="max-width: 300px;">
-                <span class="small text-muted">{{ event.date | sqDate }}</span>
-                <div class="text-truncate">{{ event.display }}</div>
-            </div>
-        </ng-container>
-    </div>
-  </ng-template>
-</sq-tooltip>
+        </div>
+      </ng-template>
+    </sq-tooltip>
+
+    <!-- Event Tooltip -->
+    <sq-tooltip [manager]="eventsTooltipManager" [theme]="theme">
+      <ng-template let-data>
+        <div class="list-group list-group-flush">
+            <ng-container *ngFor="let event of data">
+                <ng-container *ngIf="eventTooltipTpl" [ngTemplateOutlet]="eventTooltipTpl" [ngTemplateOutletContext]="{$implicit: event, close: turnoffTooltip}">
+                </ng-container>
+                <div *ngIf="!eventTooltipTpl" class="list-group-item" style="max-width: 300px;">
+                    <span class="small text-muted">{{ event.date | sqDate }}</span>
+                    <div class="text-truncate">{{ event.display }}</div>
+                </div>
+            </ng-container>
+        </div>
+      </ng-template>
+    </sq-tooltip>
+</ng-container>
+
+<ng-template #noData>
+  <div class="stat">
+      <span class="stat-noData">{{'msg#facet.timeline.noDataToDisplay' | sqMessage}}</span>
+  </div>
+</ng-template>
