@@ -77,9 +77,6 @@ export class InputsComponent implements OnInit {
  codeBadge: string = `<span class="badge rounded-pill bg-primary me-2">
     Badge
     <span class="fas fa-times-circle ms-1"></span>
-</span>
-<span class="badge rounded-pill bg-primary sq-small-badge">
-    Small badge
 </span>`;
 
 

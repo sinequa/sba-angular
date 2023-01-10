@@ -32,6 +32,7 @@ import { AlertsComponent } from './alerts/alerts.component';
 import { BsNotificationModule } from "@sinequa/components/notification";
 import { PreviewComponent } from './preview/preview.component';
 import { SqPreviewComponent } from './preview/sq-preview/sq-preview.component';
+import { CodeComponent } from './code/code.component';
 
 const data: LocaleData = {
     intl: {
@@ -66,7 +67,8 @@ export class AppLocalesConfig implements LocalesConfig {
         FacetComponent,
         AlertsComponent,
         PreviewComponent,
-        SqPreviewComponent
+        SqPreviewComponent,
+        CodeComponent
     ],
     imports: [
         BrowserModule,

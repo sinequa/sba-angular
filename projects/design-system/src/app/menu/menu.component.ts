@@ -14,7 +14,7 @@ export interface MenuItem {
 })
 export class MenuComponent implements OnInit {
 
-    showDisabled: boolean;
+    showDisabled: boolean = false;
     fontSize: number;
 
     inputs: MenuItem[] = [

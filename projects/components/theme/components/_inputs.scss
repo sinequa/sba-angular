@@ -168,6 +168,11 @@ Input with prepend/append icons
 .input-group-text {
   border: 0;
   height: 100%;
+
+  .input-group-prepend,
+  .input-group-append {
+    height: 100%;
+  }
 }
 
 .input-group-prepend .input-group-text {
