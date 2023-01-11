@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BsFacetModule } from "@sinequa/components/facet";
+import { BsFacetModule, FacetConfig, FacetListParams, FacetState, FacetTreeParams } from "@sinequa/components/facet";
 import { IntlModule, Locale, LocaleData, LocalesConfig } from "@sinequa/core/intl";
 import { START_CONFIG } from "@sinequa/core/web-services";
 import { MODAL_LOGIN } from "@sinequa/core/login";
@@ -27,12 +27,57 @@ import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
 import { MetadataModule } from "@sinequa/components/metadata";
 import { CollapseModule } from "@sinequa/components/collapse";
 import { BsPreviewModule } from "@sinequa/components/preview";
-import { FacetComponent } from './facet/facet.component';
+import { FacetComponent } from './modules/facet/facet/facet.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { BsNotificationModule } from "@sinequa/components/notification";
 import { PreviewComponent } from './preview/preview.component';
 import { SqPreviewComponent } from './preview/sq-preview/sq-preview.component';
 import { CodeComponent } from './code/code.component';
+import { FacetModuleComponent } from './modules/facet/facet-module.component';
+import { FacetTreeComponent } from './modules/facet/facet-tree/facet-tree.component';
+import { FacetListComponent } from './modules/facet/facet-list/facet-list.component';
+import { FacetFiltersComponent } from './modules/facet/facet-filters/facet-filters.component';
+import { FacetRangeComponent } from './modules/facet/facet-range/facet-range.component';
+import { FacetBarComponent } from './modules/facet/facet-bar/facet-bar.component';
+import { FacetMultiComponent } from './modules/facet/facet-multi/facet-multi.component';
+
+// List of facet configurations (of type list and tree)
+export const allFacets: FacetConfig<FacetListParams | FacetTreeParams>[] = [
+    {
+        name: "facet1",
+        title: "Modified",
+        type: "list",
+        icon: "fas fa-calendar-day",
+        parameters: {
+            aggregation: "Modified"
+        }
+    },
+    {
+        name: "facet2",
+        title: "Tree path",
+        type: "tree",
+        icon: "fas fa-sitemap",
+        parameters: {
+            aggregation: "Treepath"
+        }
+    },
+    {
+        name: "facet3",
+        title: "Person",
+        type: "list",
+        icon: "fas fa-user",
+        parameters: {
+            aggregation: "Person"
+        }
+    }
+];
+
+// List of default facets displayed (only facet2 is displayed here)
+export const defaultFacets: FacetState[] = [
+    { name: "facet1", position: 0 },
+    { name: "facet2", position: 1 },
+    { name: "facet3", position: 2 }
+];
 
 const data: LocaleData = {
     intl: {
@@ -68,13 +113,20 @@ export class AppLocalesConfig implements LocalesConfig {
         AlertsComponent,
         PreviewComponent,
         SqPreviewComponent,
-        CodeComponent
+        CodeComponent,
+        FacetModuleComponent,
+        FacetTreeComponent,
+        FacetListComponent,
+        FacetFiltersComponent,
+        FacetRangeComponent,
+        FacetBarComponent,
+        FacetMultiComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
-        BsFacetModule,
+        BsFacetModule.forRoot(allFacets, defaultFacets),
         IntlModule.forRoot(AppLocalesConfig),
         ResultModule,
         BsSelectionModule,

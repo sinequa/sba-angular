@@ -4,15 +4,15 @@ import { ButtonsComponent } from "./buttons/buttons.component";
 import { InputsComponent } from "./inputs/inputs.component";
 import { SearchComponent } from "./search/search.component";
 import { AlertsComponent } from "./alerts/alerts.component";
-import { FacetComponent } from "./facet/facet.component";
 import { PreviewComponent } from './preview/preview.component';
+import { FacetModuleComponent } from './modules/facet/facet-module.component';
 
 const routes: Routes = [
   { path: 'buttons', component: ButtonsComponent },
   { path: 'inputs', component: InputsComponent },
   { path: 'search', component: SearchComponent },
   { path: 'alerts', component: AlertsComponent },
-  { path: 'facet', component: FacetComponent },
+  { path: 'facet', component: FacetModuleComponent },
   { path: 'preview', component: PreviewComponent },
   { path: '**', redirectTo: '/buttons' }
 ];

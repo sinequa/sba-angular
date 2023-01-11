@@ -1,0 +1,13 @@
+<sq-facet-card title="BsFacetRange">
+    <div class="row p-3">
+        <div class="col-5">
+            <sq-facet-card title="Range" [collapsible]="false">
+                <sq-facet-range [results]="results" [aggregation]="'modified'" [min]="'2017-01-01'"
+                    [max]="'2023-01-01'"></sq-facet-range>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code"></app-code>
+        </div>
+    </div>
+</sq-facet-card>
