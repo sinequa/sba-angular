@@ -9,7 +9,9 @@ export class FacetTagCloudComponent implements OnInit {
 
   results: any = RESULTS;
 
-  code = `<sq-facet-mysearch [results]="results"></sq-facet-mysearch>`;
+  code = `<sq-facet-tag-cloud
+    [results]="results"
+    [aggregations]="['Company','Person']"></sq-facet-tag-cloud>`;
 
   constructor() { }
 

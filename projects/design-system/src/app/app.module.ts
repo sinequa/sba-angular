@@ -42,6 +42,7 @@ import { FacetBarComponent } from './modules/facet/facet-bar/facet-bar.component
 import { FacetMultiComponent } from './modules/facet/facet-multi/facet-multi.component';
 import { MySearchComponent } from './modules/facet/my-search/my-search.component';
 import { FacetTagCloudComponent } from './modules/facet/facet-tag-cloud/facet-tag-cloud.component';
+import { RefineComponent } from './modules/facet/refine/refine.component';
 
 // List of facet configurations (of type list and tree)
 export const allFacets: FacetConfig<FacetListParams | FacetTreeParams>[] = [
@@ -124,7 +125,8 @@ export class AppLocalesConfig implements LocalesConfig {
         FacetBarComponent,
         FacetMultiComponent,
         MySearchComponent,
-        FacetTagCloudComponent
+        FacetTagCloudComponent,
+        RefineComponent
     ],
     imports: [
         BrowserModule,
