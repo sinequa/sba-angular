@@ -93,7 +93,7 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
         this.audit.notify({
             type: AuditEventType.Search_AutoComplete,
             detail: {
-                  text: this.getInputValue(),
+                  querytext: this.getInputValue(),
                   display: item.display,
                   category: item.category,
                   rank: item.rank

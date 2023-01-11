@@ -95,7 +95,7 @@ export class QueryExportWebService extends HttpService {
             $auditRecord: {
                 type: AuditEventType.Search_ExportCSV,
                 detail: {
-                    "result-id": !!results ? results.id : undefined
+                    resultid: !!results ? results.id : undefined
                 }
             }
         };
@@ -153,7 +153,7 @@ export class QueryExportWebService extends HttpService {
             $auditRecord: {
                 type: AuditEventType.Search_Selection_ExportCSV,
                 detail: {
-                    "result-id": !!results ? results.id : undefined
+                    resultid: !!results ? results.id : undefined
                 }
             }
         };

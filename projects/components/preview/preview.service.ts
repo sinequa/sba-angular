@@ -194,13 +194,13 @@ export class PreviewService {
         const passages = record?.matchingpassages?.passages;
         const score = passages && passages.length ? passages[0].score : undefined;
         return {
-            "doc-id": id,
+            docid: id,
             rank,
             collection,
             source: Utils.treeFirstNode(collection),
-            "result-id": resultId,
+            resultid: resultId,
             querylang: queryLanguage,
-            text: query.text,
+            querytext: query.text,
             filename: record?.filename,
             fileext: record?.fileext,
             score

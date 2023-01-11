@@ -325,7 +325,7 @@ export class BasketsService implements OnDestroy {
                 type: BasketEventType.AddDoc,
                 detail: {
                     basket: name,
-                    "doc-id": basket.ids[0]
+                    docid: basket.ids[0]
                 }
             });
         }
@@ -369,7 +369,7 @@ export class BasketsService implements OnDestroy {
                 type: BasketEventType.RemoveDoc,
                 detail: {
                     basket: name,
-                    "doc-id": basket.ids[0]
+                    docid: basket.ids[0]
                 }
             }, true);
         }
@@ -388,7 +388,7 @@ export class BasketsService implements OnDestroy {
                     type: BasketEventType.RemoveDoc,
                     detail: {
                         basket: basket.name,
-                        "doc-id": id
+                        docid: id
                     }
                 });
             }

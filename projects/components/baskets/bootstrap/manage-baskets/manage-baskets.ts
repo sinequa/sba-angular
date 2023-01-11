@@ -90,7 +90,7 @@ export class BsManageBaskets implements OnInit {
                 type: BasketEventType.Rename,
                 detail: {
                     basket: name,
-                    "old-name": basket.name
+                    oldname: basket.name
                 }
             });
             basket.name = name;
