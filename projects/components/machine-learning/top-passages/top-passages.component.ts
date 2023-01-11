@@ -130,9 +130,9 @@ export class TopPassagesComponent extends AbstractFacet {
     return {
       type,
       detail: {
-        text: this.searchService.query.text,
-        "record.id": passage.recordId,
-        "passage.id": passage.id,
+        querytext: this.searchService.query.text,
+        recordid: passage.recordId,
+        passageid: passage.id,
         score: passage.score,
         rank
       }

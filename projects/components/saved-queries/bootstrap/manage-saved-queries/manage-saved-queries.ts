@@ -85,7 +85,7 @@ export class BsManageSavedQueries implements OnInit {
                 type: SavedQueryEventType.Rename,
                 detail: {
                     query: name,
-                    "old-name": savedQuery.name
+                    oldname: savedQuery.name
                 }
             });
             savedQuery.name = name;
