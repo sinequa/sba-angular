@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RESULTS } from 'src/mocks/results';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-facet-range',
   templateUrl: './facet-range.component.html'
 })
 export class FacetRangeComponent implements OnInit {
-
-  results: any = RESULTS;
 
   code = `<sq-facet-card
     title="Range
@@ -19,7 +17,7 @@ export class FacetRangeComponent implements OnInit {
             [max]="'2023-01-01'"></sq-facet-range>
 </sq-facet-card>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }

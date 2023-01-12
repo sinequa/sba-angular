@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FACETS } from 'src/mocks/facets';
-import { RESULTS } from 'src/mocks/results';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-facet-multi',
@@ -8,7 +8,6 @@ import { RESULTS } from 'src/mocks/results';
 })
 export class FacetMultiComponent implements OnInit {
 
-  results: any = RESULTS;
   FACETS = FACETS;
 
   code = `<sq-facet-card
@@ -20,7 +19,7 @@ export class FacetMultiComponent implements OnInit {
             #facet></sq-facet-multi>
 </sq-facet-card>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }

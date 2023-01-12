@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Action } from '@sinequa/components/action';
-import { RESULTS } from "../../../../mocks/results";
 
 @Component({
     selector: 'app-facet',
     templateUrl: './facet.component.html'
 })
 export class FacetComponent implements OnInit {
-
-    results: any = RESULTS;
 
     code1 = `<sq-facet-card
     title="With a list-group"

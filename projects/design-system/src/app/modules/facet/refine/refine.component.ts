@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RESULTS } from 'src/mocks/results';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-refine',
@@ -7,11 +7,9 @@ import { RESULTS } from 'src/mocks/results';
 })
 export class RefineComponent implements OnInit {
 
-  results: any = RESULTS;
-
   code = `<sq-refine [results]="results"></sq-refine>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }

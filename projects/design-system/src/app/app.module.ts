@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BsFacetModule, FacetConfig, FacetListParams, FacetState, FacetTreeParams } from "@sinequa/components/facet";
 import { IntlModule, Locale, LocaleData, LocalesConfig } from "@sinequa/core/intl";
-import { START_CONFIG } from "@sinequa/core/web-services";
-import { MODAL_LOGIN } from "@sinequa/core/login";
-import { MODAL_CONFIRM, MODAL_PROMPT } from "@sinequa/core/modal";
+import { WebServicesModule, StartConfig, StartConfigWebService } from "@sinequa/core/web-services";
+import { LoginInterceptor } from "@sinequa/core/login";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ResultModule } from "@sinequa/components/result";
 import { BsSelectionModule } from "@sinequa/components/selection";
@@ -18,7 +17,7 @@ import { BsActionModule } from "@sinequa/components/action";
 import { FormsModule } from "@angular/forms";
 import { InputsComponent } from './inputs/inputs.component';
 import { SearchComponent } from './search/search.component';
-import { BsSearchModule } from "@sinequa/components/search";
+import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
 import { MenuComponent } from './menu/menu.component';
 import { NavbarComponent } from './navbar/navbar.component';
 // import { HIGHLIGHT_OPTIONS, HighlightModule } from "ngx-highlightjs";
@@ -59,6 +58,31 @@ import { PreviewPagesPanelComponent } from './modules/preview/preview-pages-pane
 import { PreviewPageFormComponent } from './modules/preview/preview-page-form/preview-page-form.component';
 import { PreviewMinimapComponent } from './modules/preview/preview-minimap/preview-minimap.component';
 import { FacetPreviewComponentComponent } from './modules/preview/facet-preview-component/facet-preview-component.component';
+
+// Environment
+import { environment } from "../environments/environment";
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SearchBarComponent } from './search-bar/search-bar.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { GlobalService } from './global.service';
+
+// Initialization of @sinequa/core
+export const startConfig: StartConfig = {
+    app: "training",
+    production: environment.production,
+    autoSAMLProvider: environment.autoSAMLProvider,
+    auditEnabled: true
+};
+
+// @sinequa/core config initializer
+export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
+    return () => startConfigWebService.fetchPreLoginAppConfig();
+}
+
+// Search options (search service)
+export const searchOptions: SearchOptions = {
+    routes: ["facet"]
+};
 
 // List of facet configurations (of type list and tree)
 export const allFacets: FacetConfig<FacetListParams | FacetTreeParams>[] = [
@@ -158,14 +182,17 @@ export class AppLocalesConfig implements LocalesConfig {
         PreviewPagesPanelComponent,
         PreviewPageFormComponent,
         PreviewMinimapComponent,
-        FacetPreviewComponentComponent
+        FacetPreviewComponentComponent,
+        SearchBarComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
+        WebServicesModule.forRoot(startConfig),
         BsFacetModule.forRoot(allFacets, defaultFacets),
         IntlModule.forRoot(AppLocalesConfig),
+        BsSearchModule.forRoot(searchOptions),
         ResultModule,
         BsSelectionModule,
         BsLabelsModule,
@@ -181,21 +208,10 @@ export class AppLocalesConfig implements LocalesConfig {
         BsNotificationModule
     ],
     providers: [
-        { provide: START_CONFIG, useValue: { app: 'sinequa-design-system' } },
-        { provide: MODAL_LOGIN, useValue: {} },
-        { provide: MODAL_CONFIRM, useValue: {} },
-        { provide: MODAL_PROMPT, useValue: {} },
-        // {
-        //     provide: HIGHLIGHT_OPTIONS,
-        //     useValue: {
-        //         coreLibraryLoader: () => import('highlight.js/lib/core'),
-        //         languages: {
-        //             typescript: () => import('highlight.js/lib/languages/typescript'),
-        //             xml: () => import('highlight.js/lib/languages/xml')
-        //         },
-        //         themePath: 'assets/vs.css'
-        //     }
-        // }
+        { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        GlobalService
     ],
     bootstrap: [AppComponent]
 })

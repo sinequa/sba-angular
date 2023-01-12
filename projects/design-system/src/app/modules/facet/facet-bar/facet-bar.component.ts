@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RESULTS } from 'src/mocks/results';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-facet-bar',
@@ -7,7 +7,6 @@ import { RESULTS } from 'src/mocks/results';
 })
 export class FacetBarComponent implements OnInit {
 
-  results: any = RESULTS;
   index = 0;
 
   code = `<sq-facet-bar
@@ -61,7 +60,7 @@ export const defaultFacets: FacetState[] = [
         BsFacetModule.forRoot(allFacets, defaultFacets),
         ...`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }

@@ -1,0 +1,11 @@
+{
+    "context": [
+        "/api",
+        "/xdownload",
+        "/saml/redirect",
+        "/r"
+    ],
+    "target": "https://vm-su-sba.sinequa.com:13343",
+    "secure": true,
+    "changeOrigin": true
+}

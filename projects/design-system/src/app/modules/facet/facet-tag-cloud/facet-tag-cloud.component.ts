@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RESULTS } from 'src/mocks/results';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-facet-tag-cloud',
@@ -7,13 +7,11 @@ import { RESULTS } from 'src/mocks/results';
 })
 export class FacetTagCloudComponent implements OnInit {
 
-  results: any = RESULTS;
-
   code = `<sq-facet-tag-cloud
     [results]="results"
     [aggregations]="['Company','Person']"></sq-facet-tag-cloud>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }

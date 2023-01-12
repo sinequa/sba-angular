@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {RESULTS} from "../../mocks/results";
 import {Tab} from "@sinequa/core/web-services";
 import {BsPager} from "@sinequa/components/search";
 
@@ -9,7 +8,6 @@ import {BsPager} from "@sinequa/components/search";
 })
 export class SearchComponent implements OnInit {
 
-    results: any = RESULTS;
 
     /**
      * TABS
@@ -51,17 +49,17 @@ export class SearchComponent implements OnInit {
         <div class="d-flex w-100">
             <input type="text" placeholder="Search for...">
         </div>
-    
+
         <!-- Optional inner buttons -->
         <button type="button" class="btn p-0 me-2">
             <i class="fas fa-times-circle text-muted"></i>
         </button>
-    
+
         <button type="button" class="btn p-0 me-2">
             <i class="fas fa-brain"></i>
         </button>
     </div>
-    
+
     <!-- Search buttons -->
     <button class="btn btn-primary" type="button">
         <i class="fas fa-search"></i>

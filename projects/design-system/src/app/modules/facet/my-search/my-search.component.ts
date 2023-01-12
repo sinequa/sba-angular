@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Breadcrumbs, BreadcrumbsItem, SearchService } from '@sinequa/components/search';
-import { RESULTS } from 'src/mocks/results';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-my-search',
@@ -8,11 +8,10 @@ import { RESULTS } from 'src/mocks/results';
 })
 export class MySearchComponent implements OnInit {
 
-  results: any = RESULTS;
-
   code = `<sq-facet-mysearch [results]="results"></sq-facet-mysearch>`;
 
-  constructor(private searchService: SearchService) {
+  constructor(private searchService: SearchService,
+    public globalService: GlobalService) {
     const item: BreadcrumbsItem = {
       expr: undefined,
       display: "< 10 Ko",

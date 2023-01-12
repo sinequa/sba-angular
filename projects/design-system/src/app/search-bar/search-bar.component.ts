@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
 
 @Component({
-  selector: 'app-results',
-  templateUrl: './results.component.html'
+  selector: 'app-search-bar',
+  templateUrl: './search-bar.component.html'
 })
-export class ResultsComponent implements OnInit {
+export class SearchBarComponent implements OnInit {
 
   constructor(public globalService: GlobalService) { }
 

@@ -1,5 +1,5 @@
 <!-- List of documents (for loop) -->
-<div *ngFor="let record of results.records" class="record d-flex">
+<div *ngFor="let record of globalService.results.records" class="record d-flex">
     <!--     [ngClass]="{'selected': record.$selected || record === openedDoc}">-->
     <div class="flex-grow-1">
         <div class="d-flex align-items-center">

@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RESULTS } from 'src/mocks/results';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-facet-list',
   templateUrl: './facet-list.component.html'
 })
 export class FacetListComponent implements OnInit {
-
-  results: any = RESULTS;
 
   code = `<sq-facet-card
     title="List"
@@ -18,7 +16,7 @@ export class FacetListComponent implements OnInit {
             [aggregation]="'Treepath'"></sq-facet-list>
 </sq-facet-card>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }

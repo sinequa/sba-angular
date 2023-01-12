@@ -656,7 +656,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "design-system:build:development",
-            "ssl": true
+            "ssl": true,
+            "proxyConfig": "projects/design-system/src/proxy.conf.json"
           },
           "configurations": {
             "production": {

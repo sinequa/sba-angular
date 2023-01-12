@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {RESULTS} from "../mocks/results";
 
 
 @Component({
@@ -7,7 +6,6 @@ import {RESULTS} from "../mocks/results";
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  results: any = RESULTS;
 
   constructor() {
   }

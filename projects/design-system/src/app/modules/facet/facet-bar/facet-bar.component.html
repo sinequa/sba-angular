@@ -3,7 +3,7 @@
         <div class="col-5">
             <label class="form-label" for="id">Facet number</label>
             <input type="number" class="form-control mb-3" id="index" [(ngModel)]="index" min="0" max="2">
-            <sq-facet-bar [results]="results" [containerIndex]="index"></sq-facet-bar>
+            <sq-facet-bar [results]="globalService.results" [containerIndex]="index"></sq-facet-bar>
         </div>
         <div class="col-7">
             <app-code [code]="code"></app-code>

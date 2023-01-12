@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FACETS } from 'src/mocks/facets';
-import { RESULTS } from 'src/mocks/results';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-facet-filters',
@@ -8,14 +8,13 @@ import { RESULTS } from 'src/mocks/results';
 })
 export class FacetFiltersComponent implements OnInit {
 
-  results: any = RESULTS;
   FACETS = FACETS;
 
   code = `<sq-facet-filters
   [results]="results"
   [facets]="FACETS"></sq-facet-filters>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../../global.service';
 
 @Component({
   selector: 'app-facet-module',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FacetModuleComponent implements OnInit {
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }

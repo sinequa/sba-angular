@@ -1,7 +1,7 @@
 <sq-facet-card title="BsFacetTagCloud">
     <div class="row p-3">
         <div class="col-5">
-            <sq-facet-tag-cloud [results]="results"
+            <sq-facet-tag-cloud [results]="globalService.results"
                 [aggregations]="['Company','Person']"></sq-facet-tag-cloud>
         </div>
         <div class="col-7">

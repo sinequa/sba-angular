@@ -2,33 +2,38 @@
 
 <div class="row">
     <div class="col-12 mb-4">
-        <app-facet></app-facet>
+        <app-search-bar></app-search-bar>
     </div>
-    <div class="col-12 mb-4">
-        <app-facet-bar></app-facet-bar>
-    </div>
-    <div class="col-12 mb-4">
-        <app-facet-filters></app-facet-filters>
-    </div>
-    <div class="col-12 mb-4">
-        <app-facet-list></app-facet-list>
-    </div>
-    <div class="col-12 mb-4">
-        <app-facet-multi></app-facet-multi>
-    </div>
-    <div class="col-12 mb-4">
-        <app-facet-range></app-facet-range>
-    </div>
-    <div class="col-12 mb-4">
-        <app-facet-tree></app-facet-tree>
-    </div>
-    <div class="col-12 mb-4">
-        <app-my-search></app-my-search>
-    </div>
-    <div class="col-12 mb-4">
-        <app-facet-tag-cloud></app-facet-tag-cloud>
-    </div>
-    <div class="col-12 mb-4">
-        <app-refine></app-refine>
-    </div>
+    <ng-container *ngIf="globalService.results">
+        <div class="col-12 mb-4">
+            <app-facet></app-facet>
+        </div>
+        <div class="col-12 mb-4">
+            <app-facet-bar></app-facet-bar>
+        </div>
+        <div class="col-12 mb-4">
+            <app-facet-filters></app-facet-filters>
+        </div>
+        <div class="col-12 mb-4">
+            <app-facet-list></app-facet-list>
+        </div>
+        <div class="col-12 mb-4">
+            <app-facet-multi></app-facet-multi>
+        </div>
+        <div class="col-12 mb-4">
+            <app-facet-range></app-facet-range>
+        </div>
+        <div class="col-12 mb-4">
+            <app-facet-tree></app-facet-tree>
+        </div>
+        <div class="col-12 mb-4">
+            <app-my-search></app-my-search>
+        </div>
+        <div class="col-12 mb-4">
+            <app-facet-tag-cloud></app-facet-tag-cloud>
+        </div>
+        <div class="col-12 mb-4">
+            <app-refine></app-refine>
+        </div>
+    </ng-container>
 </div>
