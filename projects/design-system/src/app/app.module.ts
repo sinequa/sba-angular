@@ -43,6 +43,22 @@ import { FacetMultiComponent } from './modules/facet/facet-multi/facet-multi.com
 import { MySearchComponent } from './modules/facet/my-search/my-search.component';
 import { FacetTagCloudComponent } from './modules/facet/facet-tag-cloud/facet-tag-cloud.component';
 import { RefineComponent } from './modules/facet/refine/refine.component';
+import { PreviewModuleComponent } from './modules/preview/preview-module.component';
+import { PreviewHighlightsComponent } from './modules/preview/preview-highlights/preview-highlights.component';
+import { PreviewLinksComponent } from './modules/preview/preview-links/preview-links.component';
+import { PreviewPopupComponent } from './modules/preview/preview-popup/preview-popup.component';
+import { PreviewPanelComponent } from './modules/preview/preview-panel/preview-panel.component';
+import { ResultLinkPreviewComponent } from './modules/preview/result-link-preview/result-link-preview.component';
+import { FacetPreviewComponent } from './modules/preview/facet-preview/facet-preview.component';
+import { SimilarDocumentsComponent } from './modules/preview/similar-documents/similar-documents.component';
+import { PreviewEntityFacetComponent } from './modules/preview/preview-entity-facet/preview-entity-facet.component';
+import { PreviewEntityPanelComponent } from './modules/preview/preview-entity-panel/preview-entity-panel.component';
+import { PreviewExtractsPanelComponent } from './modules/preview/preview-extracts-panel/preview-extracts-panel.component';
+import { PreviewSearchFormComponent } from './modules/preview/preview-search-form/preview-search-form.component';
+import { PreviewPagesPanelComponent } from './modules/preview/preview-pages-panel/preview-pages-panel.component';
+import { PreviewPageFormComponent } from './modules/preview/preview-page-form/preview-page-form.component';
+import { PreviewMinimapComponent } from './modules/preview/preview-minimap/preview-minimap.component';
+import { FacetPreviewComponentComponent } from './modules/preview/facet-preview-component/facet-preview-component.component';
 
 // List of facet configurations (of type list and tree)
 export const allFacets: FacetConfig<FacetListParams | FacetTreeParams>[] = [
@@ -126,7 +142,23 @@ export class AppLocalesConfig implements LocalesConfig {
         FacetMultiComponent,
         MySearchComponent,
         FacetTagCloudComponent,
-        RefineComponent
+        RefineComponent,
+        PreviewModuleComponent,
+        PreviewHighlightsComponent,
+        PreviewLinksComponent,
+        PreviewPopupComponent,
+        PreviewPanelComponent,
+        ResultLinkPreviewComponent,
+        FacetPreviewComponent,
+        SimilarDocumentsComponent,
+        PreviewEntityFacetComponent,
+        PreviewEntityPanelComponent,
+        PreviewExtractsPanelComponent,
+        PreviewSearchFormComponent,
+        PreviewPagesPanelComponent,
+        PreviewPageFormComponent,
+        PreviewMinimapComponent,
+        FacetPreviewComponentComponent
     ],
     imports: [
         BrowserModule,
