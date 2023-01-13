@@ -30,7 +30,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     @Input() name = "money-timeline"
 
     @Input() results: Results;
-    @Input() query: Query;
+    @Input() query?: Query;
     /** The "money" column stores an entity in the form "<CURRENCY> <NUMERAL>", for example "USD 69420" */
     @Input() moneyColumn = "money";
     /** The "Money" aggregation must be computed over the money column */
@@ -84,14 +84,14 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
             icon: "far fa-minus-square",
             title: "msg#facet.clearSelects",
             action: () => {
-                this.facetService.clearFiltersSearch(this.name, true, this.query);
+                this.facetService.clearFiltersSearch(this.moneyColumn, true, this.query, this.name);
             }
         });
     }
 
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.facetService.hasFiltered(this.name, this.query)){
+        if(this.facetService.hasFiltered(this.moneyColumn, this.query)){
             actions.push(this.clearFilters);
         }
         return actions;
@@ -319,7 +319,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     filterDatum(datum: MoneyDatum) {
         const display = `${datum.currency} ${this.formatService.moneyFormatter(datum.value)}`;
         const filter = {field: this.moneyColumn, value: datum.rawvalue, display, facetName: this.name}
-        this.facetService.applyFilterSearch(filter);
+        this.facetService.applyFilterSearch(filter, this.query, undefined, this.name);
     }
 
     /**

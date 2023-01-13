@@ -86,7 +86,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
             icon: "far fa-minus-square",
             title: "msg#facet.clearSelects",
             action: () => {
-                this.facetService.clearFiltersSearch(this.name, true, this.query);
+                this.facetService.clearFiltersSearch(this.moneyValueColumn, true, this.query, this.name);
             }
         });
 
@@ -95,7 +95,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.facetService.hasFiltered(this.name, this.query)){
+        if(this.facetService.hasFiltered(this.moneyValueColumn, this.query)){
             actions.push(this.clearFilters);
         }
         return actions;
@@ -308,8 +308,12 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     }
 
     filterDatum(datum: MoneyCloudDatum) {
-        const filter = {field: this.moneyValueColumn, value: datum.rawvalue, facetName: this.name};
-        this.facetService.applyFilterSearch(filter, this.query);
+        const filter = {
+          field: this.moneyValueColumn,
+          value: datum.rawvalue,
+          facetName: this.name
+        };
+        this.facetService.applyFilterSearch(filter, this.query, undefined, this.name);
     }
 
     onMouseEnterDatum(datum: MoneyCloudDatum) {
