@@ -19,7 +19,6 @@ import { Utils } from "@sinequa/core/base";
 import {
     Aggregation,
     AggregationItem,
-    Filter,
     Results,
 } from "@sinequa/core/web-services";
 import { parseISO } from "date-fns";
@@ -28,7 +27,6 @@ import { BsFacetTimelineComponent } from "./facet-timeline.component";
 import { TimelineSeries } from "./timeline.component";
 
 export interface FacetDateParams {
-    aggregation: string;
     showCount?: boolean;
     timelineAggregation?: string;
     displayEmptyDistributionIntervals?: boolean;
@@ -98,7 +96,9 @@ export class BsFacetDate
             icon: "far fa-minus-square",
             title: "msg#facet.filters.clear",
             action: () => {
-                this.facetService.clearFiltersSearch(this.name, true, this.query);
+                if(this.data) {
+                    this.facetService.clearFiltersSearch(this.data.column, true, this.query);
+                }
             },
         });
     }
@@ -165,7 +165,7 @@ export class BsFacetDate
 
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if (this.facetService.hasFiltered(this.name, this.query) && actions.length === 0) {
+        if (this.data && this.facetService.hasFiltered(this.data.column, this.query)) {
             actions.push(this.clearFiltersAction);
         }
         return actions;
@@ -177,13 +177,13 @@ export class BsFacetDate
         this.selection = !range[0] && !range[1] ? undefined : range;
     }
 
-    filterItem(item: AggregationItem, event) {
-        if (!this.isFiltered(item)) {
-            this.facetService.addFilterSearch(this.name, this.data!, item, {
-                replaceCurrent: this.replaceCurrent,
-            }, this.query);
-        } else {
-            this.facetService.removeFilterSearch(this.name, this.data!, item, this.query);
+    filterItem(item: AggregationItem, event: Event) {
+        if(this.data) {
+            if (!item.$filtered) {
+                this.facetService.addFilterSearch(this.data, item, {replaceCurrent: this.replaceCurrent}, this.query, this.name);
+            } else {
+                this.facetService.removeFilterSearch(this.data, item, this.query, this.name);
+            }
         }
         event.preventDefault();
     }
@@ -237,7 +237,6 @@ export class BsFacetDate
     }
 
     private setCustomDateSelect(range: (undefined | Date)[] | undefined) {
-        let filter: Filter | undefined;
         if (range) {
             const from = range[0];
             const to = range[1];
@@ -254,24 +253,18 @@ export class BsFacetDate
             to?.setMilliseconds(0);
 
             // update search query with current selection
-            if (from && to) {
-                filter = {field: this.field, operator: "between", start: from, end: to, facetName: this.name};
-            } else if (from) {
-                filter = {field: this.field, operator: "gte", value: from, facetName: this.name};
-            } else if (to) {
-                filter = {field: this.field, operator: "lte", value: to, facetName: this.name};
+            const filter = this.facetService.makeRangeFilter(this.field, from, to);
+            if(filter) {
+                this.facetService.applyFilterSearch(filter, this.query, true, this.name);
             }
         }
 
-        if(filter) {
-            this.facetService.applyFilterSearch(filter, this.query, true);
-        }
     }
 
-    private getRangeValue(query: Query): any {
+    private getRangeValue(query: Query): [Date|undefined, Date|undefined] {
         let from: Date|undefined;
         let to: Date|undefined;
-        const filters = query.findAllFilters(f => f.facetName === this.name);
+        const filters = query.findFieldFilters(this.field);
         for(let filter of filters) {
           switch(filter.operator) {
             case 'between':
@@ -295,12 +288,4 @@ export class BsFacetDate
         }
     }
 
-    public isFiltered(item: AggregationItem): boolean {
-        const filtered = this.facetService.getAggregationItemsFiltered(
-            this.name, false, this.query
-        );
-        return (
-            this.facetService.filteredIndex(this.data, filtered, item) !== -1
-        );
-    }
 }

@@ -729,7 +729,7 @@ export class Utils {
      * @param nodes the nodes to traverse
      * @param callback the callback function
      */
-    public static traverse<T extends TreeNode>(nodes: T[], callback: (lineage: T[] | undefined) => boolean): boolean {
+    public static traverse<T extends TreeNode>(nodes: T[], callback: (lineage: T[], node: T, depth: number) => boolean): boolean {
         if (!nodes || nodes.length === 0) {
             return false;
         }
@@ -746,11 +746,10 @@ export class Utils {
             const node = stack.pop();
             if (!node) {
                 lineage.pop();
-                callback(undefined);
             }
             else {
                 lineage.push(node);
-                if (callback(lineage)) {
+                if (callback(lineage, node, lineage.length-1)) {
                     return true;
                 }
                 stack.push(undefined);
@@ -2085,5 +2084,30 @@ export class Utils {
      */
     static unique(array: any[]) {
         return uniq(array);
+    }
+
+    // static methods
+
+    static splitTreepath(path: string): string[] {
+        if (!path) return [];
+        path = path.trim();
+        if (path.length > 0 && path[0] === "/") {
+            path = path.substr(1);
+        }
+        if (path.length > 0 && path[path.length - 1] === "/") {
+            path = path.substr(0, path.length - 1);
+        }
+        if (path.length === 0) {
+            return [];
+        }
+        return path.split("/");
+    }
+
+    static treepathLast(path: string): string {
+        const parts = Utils.splitTreepath(path);
+        if (!parts || parts.length === 0) {
+            return "";
+        }
+        return parts[parts.length - 1];
     }
 }

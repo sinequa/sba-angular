@@ -193,11 +193,10 @@ export class BaseProvider implements NetworkProvider {
                 icon: "fas fa-filter",
                 title: this.context.intlService.formatMessage("msg#network.actions.filterSearch", {label: node.label}),
                 action: () => {
-                    const filter = {
+                    const filter: Filter = {
                       field: node.type.field!,
                       value: this.getNodeValue(node),
-                      display: node.label,
-                      facetName: node.context.name
+                      display: node.label
                     };
                     node.context.facetService.applyFilterSearch(filter);
                 }
@@ -223,10 +222,9 @@ export class BaseProvider implements NetworkProvider {
                     icon: "fas fa-filter",
                     title: this.context.intlService.formatMessage("msg#network.actions.filterSearch", {label: edge.fieldValue}),
                     action: () => {
-                        const filter = {
-                          field: edge.type.field!,
-                          value: edge.fieldValue!,
-                          facetName: edge.context.name
+                        const filter: Filter = {
+                            field: edge.type.field!,
+                            value: edge.fieldValue!
                         };
                         edge.context.facetService.applyFilterSearch(filter);
                     }
@@ -242,8 +240,7 @@ export class BaseProvider implements NetworkProvider {
                             filters: [
                                 {field: nodeFrom.type.field!, value: this.getNodeValue(nodeFrom), display: nodeFrom.label},
                                 {field: nodeTo.type.field!, value: this.getNodeValue(nodeTo), display: nodeTo.label}
-                            ],
-                            facetName: edge.context.name
+                            ]
                         };
                         edge.context.facetService.applyFilterSearch(filter);
                     }

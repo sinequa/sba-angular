@@ -16,27 +16,10 @@ export interface ScoredAutocompleteItem<T, Tcat extends string> extends Autocomp
 })
 export class SuggestService {
 
-    fieldCategory: string;
-
     constructor(
         private suggestQueryWebService: SuggestQueryWebService,
         private suggestFieldWebService: SuggestFieldWebService,
         private appService: AppService) {
-        this.fieldCategory = "$field$";
-    }
-
-    private addFields(text: string, suggests: Suggestion[]) {
-        if (text.includes(" ")) {
-            return;
-        }
-        for (const field of this.appService.fields) {
-            if (Utils.startsWith(field, text)) {
-                suggests.unshift({
-                    category: this.fieldCategory,
-                    display: field
-                });
-            }
-        }
     }
 
     get(suggestQuery: string, text: string, fields?: string | string[], query?: Query): Observable<Suggestion[]> {
@@ -45,29 +28,26 @@ export class SuggestService {
         }
         return this.suggestQueryWebService.get(suggestQuery, text, this.appService.ccquery.name, fields)
             .pipe(switchMap(suggests => {
-                if (!fields) {
-                    if (!suggests) {
-                        suggests = [];
-                    }
-                    this.addFields(text, suggests);
+                if (fields && (!suggests || suggests.length === 0)) {
+                    return this.getFields(text, fields, query);
                 }
-                else {
-                    if (!suggests || suggests.length === 0) {
-                        const _fields = Utils.isArray(fields) ? fields : [fields];
-                        fields = [];
-                        for (const field of _fields) {
-                            const column = this.appService.getColumn(field);
-                            if (!!column && (column.eType === EngineType.csv || AppService.isScalar(column))) {
-                                fields.push(field);
-                            }
-                        }
-                        if (fields.length > 0) {
-                            return this.suggestFieldWebService.get(text, fields, query);
-                        }
-                    }
-                }
-                return of(suggests);
+                return of(suggests || []);
             }));
+    }
+
+    getFields(text: string, fields: string | string[], query?: Query): Observable<Suggestion[]> {
+        const _fields = Array.isArray(fields) ? fields : [fields];
+        fields = [];
+        for (const field of _fields) {
+            const column = this.appService.getColumn(field);
+            if (!!column && (column.eType === EngineType.csv || AppService.isScalar(column))) {
+                fields.push(field);
+            }
+        }
+        if (fields.length > 0) {
+            return this.suggestFieldWebService.get(text, fields, query);
+        }
+        return of([]);
     }
 
 

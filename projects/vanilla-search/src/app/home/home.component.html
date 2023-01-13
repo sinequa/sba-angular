@@ -7,7 +7,7 @@
     <h1>{{ 'msg#app.name' | sqMessage }}</h1>
 
     <!-- Search Form (app/search-form) -->
-    <app-search-form></app-search-form>
+    <app-search-form [autocompleteSources]="features"></app-search-form>
 
     <div class="d-flex align-items-center mt-2">
         <!-- Login/Logout link -->

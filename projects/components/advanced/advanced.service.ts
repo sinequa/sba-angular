@@ -15,11 +15,11 @@ import {
     AppService,
     FormatService,
     Query,
-    advancedFacetPrefix,
     ValueItem,
 } from "@sinequa/core/app-utils";
 import { ValidationService } from "@sinequa/core/validation";
-import { CCColumn, Filter, ValueFilter } from "@sinequa/core/web-services";
+import { CCColumn, Filter, getFieldPredicate, ValueFilter } from "@sinequa/core/web-services";
+import { FacetService } from "@sinequa/components/facet";
 
 /**
  * Defines the possible basic types of an advanced value
@@ -74,6 +74,7 @@ export class AdvancedService {
     constructor(
         public appService: AppService,
         public searchService: SearchService,
+        public facetService: FacetService,
         public validationService: ValidationService,
         public formatService: FormatService,
     ) {}
@@ -259,7 +260,7 @@ export class AdvancedService {
         field: string,
         query = this.searchService.query
     ): Filter | undefined {
-        return query.findFilter(f => f.facetName === advancedFacetPrefix + field);
+        return query.findFilter(getFieldPredicate(field));
     }
 
     /**
@@ -288,7 +289,8 @@ export class AdvancedService {
                             field, value: Utils.isString(fieldValue)? fieldValue : fieldValue.value, display: Utils.isString(fieldValue)? undefined : fieldValue.display
                         }))};
                     }
-                    return {field, value: v.value, display: v.display};
+                    const value = v.value instanceof Date? Utils.toSysDateStr(v.value) : v.value;
+                    return {field, value, display: v.display};
                 })
             }
         }
@@ -339,6 +341,9 @@ export class AdvancedService {
                 value = value.value as string | Date | number;
             }
             value = this.parse(value, field);
+            if(value instanceof Date) {
+                value = Utils.toSysDateStr(value);
+            }
             filter = {field, operator, value};
         }
         // When filter is not defined, this simply removes the selection
@@ -361,13 +366,7 @@ export class AdvancedService {
         if (range && range.length === 2) {
             const from = this.parse(range[0] || undefined, field);
             const to = this.parse(range[1] || undefined, field);
-            if (from && to) {
-                filter = {field, operator: 'between', start: from, end: to};
-            } else if (from) {
-                filter = {field, operator: 'gte', value: from};
-            } else if (to) {
-                filter = {field, operator: 'lte', value: to};
-            }
+            filter = this.facetService.makeRangeFilter(field, from, to);
         }
         // When filter is not defined, this simply removes the selection
         this.setAdvancedSelect(field, filter, query);
@@ -384,10 +383,8 @@ export class AdvancedService {
         filter: Filter | undefined,
         query = this.searchService.query
     ) {
-        const facetName = advancedFacetPrefix + field;
-        query.removeFilter(f => f.facetName === facetName);
+        query.removeFieldFilters(field);
         if (filter) {
-            filter.facetName = facetName;
             query.addFilter(filter);
         }
     }
@@ -404,26 +401,8 @@ export class AdvancedService {
         search: boolean = true,
         query: Query = this.searchService.query
     ): void {
-        if (field) {
-            query.removeFilter(f => f.facetName === advancedFacetPrefix + field);
-            this.searchService.setQuery(query, false);
-            if (search) {
-                this.searchService.search();
-            }
-        }
-    }
-
-    /**
-     * Remove all related advanced-search select(s) from a given query and update searchService.query accordingly
-     * By default, Trigger search() action
-     * @param query Query from which will remove all advanced values, if omitted, use searchService.query
-     * @param search
-     */
-    public resetAdvancedValues(
-        search: boolean = true,
-        query: Query = this.searchService.query
-    ): void {
-        this.searchService.setQuery(query.toStandard(), false);
+        query.removeFieldFilters(field);
+        this.searchService.setQuery(query, false);
         if (search) {
             this.searchService.search();
         }

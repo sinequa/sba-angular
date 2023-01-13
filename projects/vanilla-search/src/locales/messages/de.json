@@ -13,11 +13,7 @@
     "searchForm": {
         "scopeTitle": "Suchbereich: {name}",
         "recentQuery": "Letzte Suche",
-        "recentDocument": "Letztes Dokument",
-        "currentFilters": "Aktive Filter:",
-        "advancedFilters": "Passen Sie Ihre Filter an:",
-        "closeAdvanced": "Erweiterte Bearbeitung schließen",
-        "openAdvanced": "Erweiterte Bearbeitung öffnen"
+        "recentDocument": "Letztes Dokument"
     },
 
     "facet": {

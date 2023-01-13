@@ -127,9 +127,17 @@ sq-tabs {
     }
 }
 
+sq-filters, sq-filters-editor {
+  .sq-filter-operator {
+    color: $secondary-color;
+  }
+  .sq-filter-value {
+    font-weight: bold;
+  }
+}
+
 sq-results-counter {
     color: $secondary-color;
-    font-size: 0.85em;
 }
 
 sq-sort-selector button.btn {
@@ -137,7 +145,7 @@ sq-sort-selector button.btn {
     margin: -3px 0;
     color: $secondary-color;
     background-color: inherit;
-    font-size: 0.85em;
+    font-size: 1em;
     border: none;
 
     & > div {

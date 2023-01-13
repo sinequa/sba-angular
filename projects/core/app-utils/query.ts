@@ -1,8 +1,5 @@
 ﻿import {Utils, MapOf} from "@sinequa/core/base";
-import {IQuery, Select, Open, SpellingCorrectionMode, AggregationOptions, Filter, ExprFilter} from "@sinequa/core/web-services";
-
-
-export const advancedFacetPrefix = "advanced_";
+import {IQuery, Select, Open, SpellingCorrectionMode, AggregationOptions, Filter, ExprFilter, isExprFilter, ValueFilter, FieldFilter, compareFilters, getFieldPredicate, getValuePredicate, AggregationItem, isValueFilter} from "@sinequa/core/web-services";
 
 /**
  * This regular expression performs a high-level parsing of the full text query
@@ -83,7 +80,7 @@ export class Query implements IQuery {
       if(!this.filters) {
         this.filters = filter;
       }
-      else if(this.filters.operator === 'and') {
+      else if(this.filters.operator === 'and' && !this.filters.display) {
         this.filters.filters.push(filter);
       }
       else {
@@ -94,6 +91,12 @@ export class Query implements IQuery {
       }
     }
 
+    /**
+     * Find a filter within the filter tree that matches the given predicate
+     * @param predicate
+     * @param filter
+     * @returns
+     */
     findFilter(predicate: (c: Filter) => boolean, filter = this.filters): Filter | undefined {
       if(!filter) {
         return undefined;
@@ -104,98 +107,224 @@ export class Query implements IQuery {
       return (filter as ExprFilter).filters?.find(f => this.findFilter(predicate, f));
     }
 
+    /**
+     * Find and return a filter that is equivalent to the given filter
+     * @param filter
+     * @returns
+     */
+    findSameFilter(filter: Filter): Filter | undefined {
+      return this.findFilter(f => compareFilters(f, filter));
+    }
+
+    /**
+     * Execute a callback function for each filter in the filter tree.
+     * The callback function may return true to prevent the propagation
+     * to a filter's sub-filters.
+     */
+    forEachFilter(callback: (c:Filter) => boolean|void, filter = this.filters) {
+      if(filter) {
+        const stop = callback(filter);
+        if(!stop && isExprFilter(filter)) {
+          for(let f of filter.filters) {
+            this.forEachFilter(callback, f);
+          }
+        }
+      }
+    }
+
+    /**
+     * Find all filters within the filter tree that match the given predicate
+     * @param predicate a predicate function that checks whether or not to return a filter
+     * @param nested when true, all the filters nested within a filter that matches the predicate are included (even if they do not match the predicate themselves)
+     * @param filter the filter object to explore (defaults to query.filter)
+     * @returns a list of filters that match the given predicate
+     */
     findAllFilters(predicate: (c: Filter) => boolean, nested = false, filter = this.filters): Filter[] {
       const filters = [] as Filter[];
       if(filter) {
         if(predicate(filter)) {
           filters.push(filter);
           if(nested) {
-            predicate = () => true; // Starting from, include all the children
+            predicate = () => true; // Starting from this filter, include all the children
           }
         }
-        const children = (filter as ExprFilter).filters
-          ?.map(f => this.findAllFilters(predicate, nested, f))
-          .flat() || [];
-        filters.push(...children);
+        if(isExprFilter(filter)) {
+          filters.push(...filter.filters
+            .map(f => this.findAllFilters(predicate, nested, f))
+            .flat()
+          );
+        }
       }
       return filters;
     }
 
+    /**
+     * Return all filters within the filter tree that are FieldFilter
+     * (with a 'field' attribute)
+     * @param fields The field to search for
+     */
+    findFieldFilters(field: string | string[]): FieldFilter[] {
+      return this.findAllFilters(getFieldPredicate(field)) as FieldFilter[];
+    }
+
+    /**
+     * Return all filters within the filter tree that are ValueFilter
+     * (with a 'value' attribute)
+     * @param fields The (optional) field to search for
+     */
+    findValueFilters(field?: string | string[]): ValueFilter[] {
+      return this.findAllFilters(getValuePredicate(field)) as ValueFilter[];
+    }
+
     // What counts as 1 filter is a leaf or an AND/OR/NOT with display value
-    getFilterCount(facetName: string|undefined, filter = this.filters): number {
+    getFilterCount(fields: string[]|undefined, filter = this.filters): number {
       // No filter => 0
       if(!filter) return 0;
 
-      const subFilters = (filter as ExprFilter).filters;
-
-      // We are looking for a facetName
-      if(facetName) {
-        // This filter has one, but they disagree => 0
-        if(filter.facetName && filter.facetName !== facetName) return 0;
-
-        // This filter agrees!
-        if(filter.facetName === facetName) {
-          if(!subFilters || filter.display) return 1; // if no sub filter or a display value exists => 1
-          return subFilters.reduce((acc, f) => acc + this.getFilterCount(undefined, f), 0); // If subfilters, return the number of leafs or displays
+      if(isExprFilter(filter)) {
+        const count = filter.filters.reduce((acc, f) => acc + this.getFilterCount(fields, f), 0);
+        if(count > 0) {
+          return filter.display? 1 : count; // If the expr filter has a "display", it counts as only 1
         }
       }
-
-      // We are just counting every filter
-      else {
-        if(!subFilters || filter.display) return 1; // if no sub filter or a display value exists => 1
+      else if(!fields || fields.includes(filter.field)) {
+        return 1;
       }
-
-      return subFilters?.reduce((acc, f) => acc + this.getFilterCount(facetName, f), 0) || 0;
+      return 0;
     }
 
-    removeFilter(predicate: (c: Filter) => boolean): Filter[] {
+    /**
+     * Remove the filter(s) from the filter tree that match the given
+     * predicate.
+     * Clean the filter tree after the removal to remove empty/trivial
+     * expressions.
+     */
+    removeFilters(predicate: (c: Filter) => boolean, filter = this.filters): Filter[] {
       const removed = [] as Filter[];
-      if(this.filters) {
-        if(predicate(this.filters)) {
-          removed.push(this.filters);
-          delete this.filters;
+      if(filter) {
+        if(isExprFilter(filter)) {
+          for(let i = filter.filters.length-1; i>=0; i--) {
+            const f = filter.filters[i];
+            if(predicate(f)) {
+              removed.push(f);
+              filter.filters.splice(i,1);
+            }
+            else if(isExprFilter(f)) {
+              removed.push(...this.removeFilters(predicate, f));
+            }
+          }
         }
-        else {
-          const remaining = this._removeFilter(predicate, this.filters, removed);
-          if(!remaining) {
-            removed.push(this.filters);
+        if (filter === this.filters) {
+          if(predicate(filter)) {
             delete this.filters;
+            removed.push(filter);
           }
-          else {
-            this.filters = remaining;
-          }
+          this.cleanFilters();
         }
       }
       return removed;
     }
 
-    protected _removeFilter(predicate: (c: Filter) => boolean, filter: Filter|undefined, removed: Filter[]): Filter|undefined {
-      if(this.isExpr(filter)) {
-        const updated: Filter[] = [];
-        for(let f of filter.filters) {
-          const p = predicate(f);
-          if(p) {
-            removed.push(f); // Remove conditions matching predicate
+    /**
+     * Remove expr filters that have no children from
+     * the filter tree.
+     * Also remove AND/OR filters with single values
+     */
+    cleanFilters(filter = this.filters): Filter|undefined {
+      if(isExprFilter(filter)) {
+        filter.filters = filter.filters
+          .map(f => this.cleanFilters(f)!)
+          .filter(f => f);
+        if(filter.filters.length === 0) {
+          if(filter === this.filters) {
+            delete this.filters; // Special case of the root element
           }
-          else {
-            f = this._removeFilter(predicate, f, removed)! // Apply recursively on remaining objects
-            if(f) {
-              updated.push(f); // Keep what's left
-            }
+          return undefined; // This filter can be removed from its parent
+        }
+        if(filter.filters.length === 1 && (filter.operator === 'and' || filter.operator === 'or')) {
+          if(filter === this.filters) {
+            this.filters = filter.filters[0];
           }
+          return filter.filters[0]; // Remove the unneeded and / or that contains a single value
         }
-        if(updated.length === 0) {
-          return undefined; // Delete entirely this condition
-        }
-        if(updated.length === 1 && (filter?.operator === 'and' || filter?.operator === 'or')) {
-          if(filter.facetName && !updated[0].facetName) { // When we "delete a level", we write the facetName of the "wrapper" on the nested level
-            updated[0].facetName = filter.facetName;
-          }
-          return updated[0]; // Return the inner condition (no need to apply AND/OR to single condition)
-        }
-        filter.filters = updated;
       }
       return filter;
+    }
+
+
+    /**
+     * Remove the filters from the filter tree that are identical to the
+     * given filter
+     */
+    removeSameFilters(filter: Filter): Filter[] {
+      return this.removeFilters(f => compareFilters(f, filter));
+    }
+
+    /**
+     * Remove the filters from the filter tree that act on the given field(s)
+     */
+    removeFieldFilters(field: string | string[]): Filter[] {
+      return this.removeFilters(getFieldPredicate(field));
+    }
+
+    /**
+     * Traverse the filter tree to extract aggregation items from the filters
+     *
+     * There are 2 types of items:
+     * - Simple field-value items (leafs of the tree)
+     * - Distribution items (Specific and-expressions with a display value)
+     *
+     * @returns a map of fields (lowercase) to a list of their AggregationItem
+     */
+    getFiltersAsAggregationItems(): MapOf<AggregationItem[]> {
+      const map = {} as MapOf<AggregationItem[]>;
+
+      this.forEachFilter(f => {
+
+        // The most common case of filter: field = value
+        if(isValueFilter(f)) {
+          const field = f.field.toLowerCase();
+          if(!map[field]) {
+            map[field] = [];
+          }
+          map[field].push({value: f.value, display: f.display, count: 0, $filtered: true});
+        }
+
+        // Distributions (where values are expressions)
+        if(f.display) {
+          // This code reconstructs the expresion corresponding to that distribution
+          // so it can be compared with the corresponding aggregation item
+          let field = '';
+          let value = '';
+          if(f.operator === 'and' && f.filters.length === 2 && isValueFilter(f.filters[0]) && isValueFilter(f.filters[1]) && f.filters[0].field === f.filters[1].field) {
+            value = `${f.filters[0].field}\`${f.display}\`:(>= ${f.filters[0].value} AND < ${f.filters[1].value})`;
+            field = f.filters[0].field.toLowerCase();
+          }
+          else if(f.operator === 'gte') {
+            value = `${f.field}\`${f.display}\`:>= ${f.value}`;
+            field = f.field.toLowerCase();
+          }
+          else if(f.operator === 'lt') {
+            value = `${f.field}\`${f.display}\`:< ${f.value}`;
+            field = f.field.toLowerCase();
+          }
+
+          if(value) {
+            if(!map[field]) {
+              map[field] = [];
+            }
+            map[field].push({value, display: f.display, count: 0, $filtered: true});
+            return true; // Returning true stops the forEach from exploring descendents
+          }
+        }
+
+        return false;
+      });
+
+      // Also include filtered concepts
+      map['concepts'] = this.getConcepts().map(value => ({value, count:0}));
+
+      return map;
     }
 
     nestFilter(predicate: (f: Filter) => boolean, operator: 'and' | 'or' | 'not', filter = this.filters, parent: ExprFilter|undefined = undefined) {
@@ -208,7 +337,7 @@ export class Query implements IQuery {
           parent.filters[i] = {operator: 'and', filters: [filter]};
         }
       }
-      if(this.isExpr(filter)) {
+      if(isExprFilter(filter)) {
         for(let i=0; i<filter.filters.length; i++) {
           this.nestFilter(predicate, operator, filter.filters[i], filter); // Nest children
         }
@@ -216,7 +345,7 @@ export class Query implements IQuery {
     }
 
     unnestFilter(predicate: (f: Filter) => boolean, filter = this.filters, parent: ExprFilter|undefined = undefined) {
-      if(this.isExpr(filter)) {
+      if(isExprFilter(filter)) {
         if(predicate(filter)) {
           if(!parent) {
             this.filters = filter.filters[0];
@@ -232,12 +361,9 @@ export class Query implements IQuery {
       }
     }
 
-    isExpr(filter: Filter | undefined): filter is ExprFilter {
-      return !!(filter as ExprFilter)?.filters;
-    }
 
     serializeFilter(filter: Filter): any[] {
-      const data: any[] = [filter.operator || '', filter.display || '', filter.facetName || ''];
+      const data: any[] = [filter.operator || '', filter.display || ''];
       switch(filter.operator) {
         case 'and': case 'or': case 'not':
           data.push(...filter.filters.map(f => this.serializeFilter(f)));
@@ -266,33 +392,32 @@ export class Query implements IQuery {
     }
 
     deserializeFilter(data: any[]): Filter {
-      const filter: any = {};
+      const filter: Partial<Filter> = {};
       if(data[0]) filter.operator = data[0];
       if(data[1]) filter.display = data[1];
-      if(data[2]) filter.facetName = data[2];
       switch(filter.operator) {
         case 'and': case 'or': case 'not':
-          filter.filters = data.slice(3).map(d => this.deserializeFilter(d));
+          filter.filters = data.slice(2).map(d => this.deserializeFilter(d));
           break;
         case 'between':
-          filter.field = data[3];
-          filter.start = data[4];
-          filter.end = data[5];
+          filter.field = data[2];
+          filter.start = data[3];
+          filter.end = data[4];
           break;
         case 'in':
-          filter.field = data[3];
-          filter.values = data.slice(4);
+          filter.field = data[2];
+          filter.values = data.slice(3);
           break;
         case 'null':
-          filter.field = data[3];
-          filter.not = data[4];
+          filter.field = data[2];
+          filter.not = data[3];
           break;
         default:
-          filter.field = data[3];
-          filter.value = data[4];
+          (filter as ValueFilter).field = data[2];
+          (filter as ValueFilter).value = data[3];
           break;
       }
-      return filter;
+      return filter as Filter;
     }
 
     /**
@@ -374,73 +499,6 @@ export class Query implements IQuery {
     }
 
     /**
-     * Add a select filter to the query
-     *
-     * @param expression The fielded search expression to filter the results
-     * @param facet The name of the associated facet
-     */
-    addSelect(expression: string, facet = ""): number {
-        return this.pushSelect({expression,  facet});
-    }
-
-    /**
-     * Adds a new `Select` object to the end of the query's `selects`
-     */
-    pushSelect(select: Select): number {
-        if (!this.select) {
-            this.select = [];
-        }
-        return this.select.push(select);
-    }
-
-    /**
-     * Find the index of the nth `Select` object matching the passed facet name
-     *
-     * @param facet A facet name
-     * @param ordinal Specifies which `Select` object to retrieve among selects with the same facet name
-     */
-    findSelectIndex(facet: string, ordinal = 0): number {
-        if (!this.select) {
-            return -1;
-        }
-        let index = 0;
-        let facetOrdinal = 0;
-        let facetIndex = -1;
-        for (const select of this.select) {
-            if (Utils.eqNC(facet, select.facet)) {
-                facetIndex = index;
-                if (facetOrdinal === ordinal) {
-                    break;
-                }
-                facetOrdinal++;
-            }
-            index++;
-        }
-        return facetIndex;
-    }
-
-    /**
-     * Find the first `Select` matching the passed facet name
-     *
-     * @param facet A facet name
-     * @param fromEnd If `true` start searching backwards from the last `Select`
-     */
-    findSelect(facet: string, fromEnd = true): Select | undefined {
-        const facetSelectIndex = this.findSelectIndex(facet, fromEnd ? -1 : 0);
-        return facetSelectIndex >= 0 ? this.select && this.select[facetSelectIndex] : undefined;
-    }
-
-    /**
-     * Return the last `Select` object
-     */
-    lastSelect(): Select | undefined {
-        if (!this.select) {
-            return undefined;
-        }
-        return this.select[this.select.length - 1];
-    }
-
-    /**
      * Add an `Open` filter to the query. This is typically used to load children of tree nodes
      *
      * @param expr The fielded search expression specifying the node to expand
@@ -463,60 +521,12 @@ export class Query implements IQuery {
     }
 
     /**
-     * Remove advanced search select(s) from the query
-     */
-    toStandard(): Query {
-        this.removeFilter(f => !!f.facetName?.startsWith(advancedFacetPrefix));
-        return this;
-    }
-
-    /**
      * Return a copy of this query
      */
     copy(): Query {
         const query = new Query(this.name);
         Utils.copy(this, query);
         return query;
-    }
-
-    /**
-     * Return a copy of this query but without any advanced select
-     */
-    copyStandard(): Query {
-        const query = this.copy();
-        return query.toStandard();
-    }
-
-    /**
-     * Remove all properties from the query except advanced search select(s) and optionally `text`
-     *
-     * @param withText If `true` do not remove the `text` field
-     */
-    toAdvanced(withText: boolean = false): Query {
-        for (const property in this) {
-            if (this.hasOwnProperty(property) && !Utils.eqNC(property, "filters") && (!withText || !Utils.eqNC(property, "text"))) {
-                delete this[property];
-            }
-        }
-        this.removeFilter(f => !f.facetName?.startsWith(advancedFacetPrefix));
-        return this;
-    }
-
-    /**
-     * Return a copy of this query including just the advanced fields and optionally `text`
-     *
-     * @param withText If `true` include the `text` field
-     */
-    copyAdvanced(withText: boolean = false): Query {
-        const query = this.copy();
-        return query.toAdvanced(withText);
-    }
-
-    /**
-     * Tests whether this query has advanced search selections
-     */
-    hasAdvanced(): boolean {
-        return !!this.select?.find(s => s.facet && s.facet.startsWith(advancedFacetPrefix));
     }
 
     /**

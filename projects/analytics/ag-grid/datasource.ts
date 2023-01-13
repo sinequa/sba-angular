@@ -145,7 +145,7 @@ export class SqDatasource implements IDatasource {
     updateGlobalFilters(filterModel: any) {
         for(let col of this.colDefs) {
             if(col.field && col.filter && col.filter !== "facet") { // Only manage ag-grid facets
-                this.searchService.query.removeFilter(f => f.facetName === "grid-filter-"+col.field); // Remove existing filters if any
+                this.searchService.query.removeFieldFilters(col.field); // Remove existing filters if any
                 if(filterModel[col.field]) {
                     this.applyFilter(this.searchService.query, filterModel[col.field], col.field);
                 }
@@ -194,8 +194,9 @@ export class SqDatasource implements IDatasource {
      * @param column
      */
     applyFilter(query: Query, filter: any, column: string) {
-        const sqFilter = SqDatasource.modelToFilter(filter, column, this.appService.isEntity(column), "grid-filter-"+column);
-        query.addFilter(sqFilter);
+        query.addFilter(
+            SqDatasource.modelToFilter(filter, column, this.appService.isEntity(column))
+        );
     }
 
     /**
@@ -238,19 +239,18 @@ export class SqDatasource implements IDatasource {
      * @param normalize
      * @returns
      */
-    static modelToFilter(model: any, column: string, normalize?: boolean, facetName?: string): SqFilter {
+    static modelToFilter(model: any, column: string, normalize?: boolean): SqFilter {
         if(model.operator) { // AND or OR
             return {
                 operator: (model.operator as 'AND'|'OR').toLowerCase() as 'and'|'or',
                 filters: [
                     this.makeFilter(model.condition1, column, normalize),
                     this.makeFilter(model.condition2, column, normalize)
-                ],
-                facetName
+                ]
             };
         }
         else {
-            return this.makeFilter(model, column, normalize, facetName);
+            return this.makeFilter(model, column, normalize);
         }
     }
 
@@ -261,7 +261,7 @@ export class SqDatasource implements IDatasource {
      * For example a filter of type "contains" on the string "toto"
      * is converted to the query {operator: regex, value: toto}
      */
-    static makeFilter(filter: Filter, field: string, normalize?: boolean, facetName?: string): SqFilter {
+    static makeFilter(filter: Filter, field: string, normalize?: boolean): SqFilter {
         if(filter.filterType === "text") {
             let value = filter.filter.toString();
             // Normalize entities to avoid ES-13540
@@ -269,33 +269,33 @@ export class SqDatasource implements IDatasource {
                 value = Utils.normalize(value);
             }
             switch(filter.type) {
-                case "contains": return {field, operator: 'regex', value, facetName};
-                case "notContains": return {operator: 'not', filters: [{field, operator: 'regex', value}], facetName};
-                case "equals": return {field, value, facetName};
-                case "notEqual": return {field, operator: 'neq', value, facetName};
-                case "startsWith": return {field, value: value+"*", facetName};
-                case "endsWith": return {field, operator: 'regex', value: value+"$", facetName};
+                case "contains": return {field, operator: 'regex', value};
+                case "notContains": return {operator: 'not', filters: [{field, operator: 'regex', value}]};
+                case "equals": return {field, value};
+                case "notEqual": return {field, operator: 'neq', value};
+                case "startsWith": return {field, value: value+"*"};
+                case "endsWith": return {field, operator: 'regex', value: value+"$"};
             }
         }
         else if(filter.filterType === "number") {
             let value = filter.filter;
             switch(filter.type) {
-                case "equals": return {field, value, facetName};
-                case "notEqual": return {field, operator: 'neq', value, facetName};
-                case "lessThan": return {field, operator: 'lt', value, facetName};
-                case "lessThanOrEqual": return {field, operator: 'lte', value, facetName};
-                case "greaterThan": return {field, operator: 'gt', value, facetName};
-                case "greaterThanOrEqual": return {field, operator: 'gte', value, facetName};
-                case "inRange": return {field, operator: 'between', start: value, end: filter.filterTo!, facetName};
+                case "equals": return {field, value};
+                case "notEqual": return {field, operator: 'neq', value};
+                case "lessThan": return {field, operator: 'lt', value};
+                case "lessThanOrEqual": return {field, operator: 'lte', value};
+                case "greaterThan": return {field, operator: 'gt', value};
+                case "greaterThanOrEqual": return {field, operator: 'gte', value};
+                case "inRange": return {field, operator: 'between', start: value, end: filter.filterTo!};
             }
         }
         else if(filter.filterType === "date") {
             switch(filter.type) {
-                case "equals": return {field, value:filter.dateFrom!, facetName};
-                case "notEqual": return {field, operator: 'neq', value:filter.dateFrom!, facetName};
-                case "lessThan": return {field, operator: 'lte', value:filter.dateFrom!, facetName};
-                case "greaterThan": return {field, operator: 'gte', value:filter.dateFrom!, facetName};
-                case "inRange": return {field, operator: 'between', start:filter.dateFrom!, end: filter.dateTo!, facetName};
+                case "equals": return {field, value:filter.dateFrom!};
+                case "notEqual": return {field, operator: 'neq', value:filter.dateFrom!};
+                case "lessThan": return {field, operator: 'lte', value:filter.dateFrom!};
+                case "greaterThan": return {field, operator: 'gte', value:filter.dateFrom!};
+                case "inRange": return {field, operator: 'between', start:filter.dateFrom!, end: filter.dateTo!};
             }
         }
         throw new Error("Unknown filter type "+filter.filterType);

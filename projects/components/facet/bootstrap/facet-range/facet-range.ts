@@ -35,7 +35,6 @@ export interface StepDef {
 }
 
 export interface FacetRangeParams {
-    aggregation: string;
     min?: string | number | Date;
     max?: string | number | Date;
     stepDefs?: StepDef[];
@@ -50,7 +49,7 @@ export interface FacetRangeConfig extends FacetConfig<FacetRangeParams> {
     templateUrl: "./facet-range.html"
 })
 export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnChanges, AfterViewInit, OnDestroy {
-    @Input() name: string; // If ommited, the aggregation name is used
+    @Input() name?: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() query?: Query;
     @Input() aggregation: string;
@@ -494,8 +493,8 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
     }
 
     getRange(): (number|undefined)[] {
-        if (this.column) {
-            const filter = this.facetService.findFilter(this.facetName, this.query);
+        if (this.data) {
+            const filter = this.facetService.findFilter(this.data.column, this.query);
             if (filter) {
                 switch(filter.operator) {
                     case 'between': return [this.parseValue(filter.start), this.parseValue(filter.end)];
@@ -511,7 +510,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         if (this.column && this.data) {
             const valFrom = AppService.isDate(this.column) && Utils.isNumber(from) ? new Date(from) : from;
             const valTo = AppService.isDate(this.column) && Utils.isNumber(to) ? new Date(to) : to;
-            const filter = this.facetService.makeRangeFilter(this.data.column, valFrom, valTo, this.facetName);
+            const filter = this.facetService.makeRangeFilter(this.data.column, valFrom, valTo);
             if(filter) {
                 this.facetService.applyFilterSearch(filter, this.query, true);
             }
@@ -523,7 +522,9 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
     }
 
     clearRange() {
-        this.facetService.clearFiltersSearch(this.facetName, true, this.query);
+        if(this.data) {
+            this.facetService.clearFiltersSearch(this.data.column, true, this.query, this.name);
+        }
     }
 
     override get actions(): Action[] {
@@ -537,7 +538,4 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         return actions;
     }
 
-    get facetName() {
-      return this.name || this.aggregation;
-    }
 }

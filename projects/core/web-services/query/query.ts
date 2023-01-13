@@ -1,4 +1,4 @@
-﻿import {MapOf} from "@sinequa/core/base";
+﻿import {MapOf, Utils} from "@sinequa/core/base";
 import {SpellingCorrectionMode} from "../config/ccapp";
 
 /**
@@ -23,18 +23,17 @@ export interface Select {
 
 export interface BaseFilter {
   field: string;
-  facetName?: string;
   display?: string;
 }
 
 export interface BooleanFilter extends BaseFilter {
   operator?: 'eq' | 'neq';
-  value: boolean | number | Date | string;
+  value: boolean | number | string;
 }
 
 export interface NumericalFilter extends BaseFilter {
   operator: 'gt' | 'gte' | 'lt' | 'lte';
-  value: number | Date | string;
+  value: number | string;
 }
 
 export interface StringFilter extends BaseFilter {
@@ -46,8 +45,8 @@ export type ValueFilter = BooleanFilter | NumericalFilter | StringFilter;
 
 export interface BetweenFilter extends BaseFilter {
   operator: 'between';
-  start: string | number | Date;
-  end: string | number | Date;
+  start: string | number;
+  end: string | number;
 }
 
 export interface InFilter extends BaseFilter {
@@ -65,9 +64,55 @@ export interface ExprFilter extends Omit<BaseFilter, 'field'> {
   filters: Filter[];
 }
 
-export type Filter = ValueFilter | BetweenFilter | InFilter  | NullFilter | ExprFilter;
+export type FieldFilter = ValueFilter | BetweenFilter | InFilter  | NullFilter;
+
+export type Filter = FieldFilter | ExprFilter;
 
 
+export function isFieldFilter(filter: Filter | undefined): filter is FieldFilter {
+  return !!(filter as FieldFilter)?.field;
+}
+
+export function isValueFilter(filter: Filter | undefined): filter is ValueFilter {
+  return !!(filter as ValueFilter)?.hasOwnProperty('value');
+}
+
+export function isExprFilter(filter: Filter | undefined): filter is ExprFilter {
+  return !!(filter as ExprFilter)?.filters;
+}
+
+export function compareFilters(a: Filter|undefined, b: Filter|undefined): boolean {
+  if(a === b) return true;
+  if(!a || !b) return false;
+  if(a.operator !== b.operator) return false;
+  if(isExprFilter(a)) return compareExprFilters(a, b as ExprFilter);
+  if(a.field !== (b as FieldFilter).field) return false;
+  if(isValueFilter(a)) return a.value === (b as ValueFilter).value;
+  if(a.operator === 'between') return a.start === (b as BetweenFilter).start && a.end === (b as BetweenFilter).end;
+  if(a.operator === 'in') return JSON.stringify(a.values) === JSON.stringify((b as InFilter).values);
+  if(a.operator === 'null') return !a.not === !(b as NullFilter).not;
+  return false;
+}
+
+export function compareExprFilters(a: ExprFilter, b: ExprFilter): boolean {
+  if(a.filters.length !== b?.filters.length) return false;
+  for(let i=0; i<a.filters.length; i++) {
+    if(!compareFilters(a.filters[i], b.filters[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function getFieldPredicate(field: string | string[]): (f: Filter) => boolean {
+  const fields = Array.isArray(field)? field : [field];
+  return (f: Filter) => isFieldFilter(f) && !!fields.find(field => Utils.eqNC(f.field, field));
+}
+
+export function getValuePredicate(field?: string | string[]): (f: Filter) => boolean {
+  const fields = field? Array.isArray(field)? field : [field] : undefined;
+  return (f: Filter) => isValueFilter(f) && (!fields || !!fields.find(field => Utils.eqNC(f.field, field)));
+}
 
 /**
  * Defines the object used to request the children of a tree node in an aggregation

@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, Type, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, Type, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
-import { AbstractFacet, FacetConfig } from "@sinequa/components/facet";
+import { AbstractFacet } from "../../abstract-facet";
+import { FacetConfig } from "../../facet-config";
 import { FirstPageService, SearchService } from "@sinequa/components/search";
-import { Query } from "@sinequa/core/app-utils";
+import { AppService, Query } from "@sinequa/core/app-utils";
 import { MapOf } from "@sinequa/core/base";
+import { Results } from "@sinequa/core/web-services";
+import { FacetService } from "../../facet.service";
 
 @Component({
   selector: 'sq-facet-container',
@@ -12,11 +15,11 @@ import { MapOf } from "@sinequa/core/base";
   .facet-container ::ng-deep .list-group {
     margin: 0 -0.75rem;
   }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  `]
 })
 export class FacetContainerComponent<T extends {}> implements OnChanges {
 
+  @Input() results?: Results;
   @Input() query?: Query;
   @Input() facetComponents: Record<string, Type<any>>;
   @Input() facetConfigs: FacetConfig<T>[];
@@ -43,7 +46,7 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
   _resultsMode: 'current' | 'all' = 'current';
 
   get resultsMode() {
-    if(!this.searchService.results) {
+    if(!this.results) {
       return 'all';
     }
     return this._resultsMode;
@@ -56,6 +59,8 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
 
 
   constructor(
+    public appService: AppService,
+    public facetService: FacetService,
     public searchService: SearchService,
     public firstPageService: FirstPageService,
     public cdRef: ChangeDetectorRef
@@ -64,6 +69,23 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.updateFacetList();
     if(this.openedFacet) {
+      // When the query was changed (eg. a filter was applied), but there are no new results (yet)
+      if(changes.query && !changes.results) {
+        // If we are on a search route, results are incoming
+        const query = this.query || this.searchService.query;
+        if(this.facetService.canSearch(query)) {
+          // We want to avoid refreshing facets twice on the search page
+          // When the query changes and then the results change
+          return;
+        }
+        // If we are on the home page, results are not incoming so facets
+        // will be refreshed with the same data
+        const results = this.results || this.firstPageService.firstPage;
+        if(results) {
+          // Reinitialize aggregations (in particular the $filtered flags)
+          this.searchService.initializeAggregations(query, results);
+        }
+      }
       this.setFacetInputs();
     }
   }
@@ -72,13 +94,24 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
   // Facet management
 
   updateFacetList() {
+    const query = this.query || this.searchService.query;
+    const ccquery = this.appService.getCCQuery(query.name);
     this.facetList = this.facetConfigs.map(config => {
-      if(config.name === "concepts") {
-        return {config, filters: this.query?.getConcepts().length || 0};
+      const aggregations = Array.isArray(config.aggregation)? config.aggregation : [config.aggregation];
+      let filters = 0;
+      for(let aggregation of aggregations) {
+        const ccagg = this.appService.getCCAggregation(aggregation, ccquery);
+        if(ccagg) {
+          if(ccagg.column.toLowerCase() === "concepts") {
+            filters += query.getConcepts().length || 0;
+          }
+          else {
+            filters += query.getFilterCount([ccagg.column]) || 0;
+          }
+        }
       }
-      const filters = this.query?.getFilterCount(config.name) || 0;
-      return {config, filters}
-    })
+      return {config, filters};
+    });
   }
 
   open(facet: FacetConfig<T>) {
@@ -107,7 +140,8 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
       this.facetInputs = {
         ...this.openedFacet?.parameters,
         name: this.openedFacet?.name,
-        results: this.resultsMode === 'current'? {...this.searchService.results} : {...this.firstPageService.firstPage}, // Force new result object to trigger change detection
+        aggregation: this.openedFacet?.aggregation,
+        results: this.resultsMode === 'current'? {...this.results} : {...this.firstPageService.firstPage}, // Force change detection on the child facet
         query: this.query
       };
       this.cdRef.detectChanges(); // Setting the facetInputs can results in new facetActions (without necessarily triggering onLoadComponent())

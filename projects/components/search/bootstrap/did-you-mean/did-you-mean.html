@@ -1,4 +1,4 @@
-<div *ngIf="!!item" class="sq-did-you-mean sq-text" [ngSwitch]="results.didYouMean.spellingCorrectionMode">
+<div *ngIf="item" class="sq-did-you-mean sq-text" [ngSwitch]="results.didYouMean.spellingCorrectionMode">
     <ng-container *ngSwitchCase="'DYMOnly'">
         {{'msg#didYouMean.dymonlyBeforeCorrected' | sqMessage}}<a class="sq-did-you-mean-corrected" href="#" (click)="selectCorrected()">{{item.corrected}}</a>{{'msg#didYouMean.dymonlyAfterCorrected' | sqMessage}}
     </ng-container>

@@ -1,0 +1,72 @@
+<sq-search-form #searchForm [query]="searchService.query" [showFilterCount]="true">
+
+  <ng-template let-query>
+
+    <div class="search-dropdown border-top mb-3">
+
+      <div class="d-flex align-items-start" *ngIf="query?.filters">
+        <div class="flex-grow-1">
+
+          <!-- Normal mode -->
+          <sq-collapse [collapsed]="!!filtersEdited">
+            <ng-template>
+              <div class="small fw-bold mb-1">{{'msg#searchForm.currentFilters' | sqMessage}}</div>
+              <sq-filters
+                [query]="query"
+                [filter]="query.filters"
+                (filterEdit)="onFiltersChange()"
+                class="small"
+              ></sq-filters>
+            </ng-template>
+          </sq-collapse>
+
+          <!-- Advanced edit mode -->
+          <sq-collapse [collapsed]="!filtersEdited">
+            <ng-template>
+              <div class="small fw-bold mb-1">{{'msg#searchForm.advancedFilters' | sqMessage}}</div>
+              <sq-filters-editor
+                [query]="query"
+                [filter]="query?.filters"
+                (filterEdit)="onFiltersChange()"
+              ></sq-filters-editor>
+            </ng-template>
+          </sq-collapse>
+
+        </div>
+
+        <span role="button" [sqTooltip]="'Clear filters'" (click)="clearFilters(query)">
+          <i class="fas fa-times-circle"></i>
+        </span>
+
+        <sq-collapse-button
+          (state)="toggleEdit()"
+          expandedTitle="msg#searchForm.closeAdvanced"
+          collapsedTitle="msg#searchForm.openAdvanced"
+          class="mx-2">
+        </sq-collapse-button>
+
+      </div>
+
+      <hr *ngIf="query?.filters && facets?.length"/>
+
+      <sq-facet-container *ngIf="facets?.length"
+        [results]="searchService.results"
+        [query]="query"
+        [facetConfigs]="facets"
+        [facetComponents]="facetComponents">
+      </sq-facet-container>
+
+      <hr *ngIf="query.text" />
+
+      <sq-autocomplete
+        [inputElement]="searchForm.searchInput.nativeElement"
+        [queryText]="query.text || ''"
+        [suggestTypes]="autocompleteSources"
+        (search)="onAutocompleteSearch($event, query)">
+      </sq-autocomplete>
+
+    </div>
+
+  </ng-template>
+
+</sq-search-form>

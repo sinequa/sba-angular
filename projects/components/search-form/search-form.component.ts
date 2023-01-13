@@ -9,6 +9,7 @@ import { FormsModule } from "@angular/forms";
 import { IntlModule } from "@sinequa/core/intl";
 import { UtilsModule, VoiceRecognitionService } from "@sinequa/components/utils";
 import { UserPreferences } from "@sinequa/components/user-settings";
+import { compareFilters } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-search-form',
@@ -22,7 +23,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() query: Query;
   @Input() searchRoute = "search";
   @Input() autoApply = true;
-  @Input() showFilterCount = true;
+  @Input() showFilterCount = false;
   @Input() enableVoiceRecognition = true;
   @Input() enableNeuralSearch = true;
   @Input() neuralSearchPref = "neural-search";
@@ -93,7 +94,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
     this.editedQuery = this.editedQuery.copy(); // Copy the edited query to trigger change detection
     this.filterCount = this.editedQuery.getFilterCount(undefined);
     this.canApply = this.editedQuery.text !== this.query.text
-      || !this.facetService.compareFilters(this.editedQuery.filters, this.query.filters);
+      || !compareFilters(this.editedQuery.filters, this.query.filters);
     if(this.canApply && this.autoApply && this.searchService.isSearchRouteActive()) {
       this.applyFilters(false); // Apply filters, but leave view open
     }
@@ -165,10 +166,13 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
    * Clear the edited text and filters and trigger onFiltersChanged()
    */
   clearForm() {
+    if(this.canApply) {
+      this.canApply = false;
+      this.editedQuery.filters = this.query.filters;
+    }
     delete this.editedQuery.text;
-    delete this.editedQuery.filters;
-    this.onFiltersChanged();
     this.searchInput.nativeElement.focus();
+    this.cdRef.detectChanges();
   }
 
   /**
@@ -196,11 +200,6 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
   onInputClick() {
     this.expand(); // Expand on click (while already focused)
-  }
-
-  onInputEnter(text: string) {
-    this.editedQuery.text = text;
-    this.applyFilters(); // When the user types "Enter", we want to apply filters immediately
   }
 
   onClickOutside() {

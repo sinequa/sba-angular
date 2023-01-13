@@ -44,6 +44,18 @@ export interface TimelineEventAggregation {
     styles?: {[key: string]: any} | ((item: AggregationItem) => {[key: string]: any});
 }
 
+export function isSeries(data: TimelineData): data is TimelineSeries {
+    return !!(data as TimelineSeries).dates;
+}
+
+export function isAggregation(data: TimelineData): data is TimelineAggregation {
+  return !!(data as TimelineAggregation).aggregation;
+}
+
+export function isCombinedAggregations(data: TimelineData): data is TimelineCombinedAggregations {
+  return !!(data as TimelineCombinedAggregations).aggregations;
+}
+
 export type TimelineData = TimelineSeries | TimelineAggregation | TimelineCombinedAggregations;
 
 export type TimelineEventData = TimelineEvent[] | TimelineRecords | TimelineEventAggregation;
@@ -165,7 +177,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
         // Retrieve the current active selection for this timeline (if any)
         const query = this.query || this.searchService.query;
-        const filter = query.findFilter(f => f.facetName === this.name && f.operator === 'between') as BetweenFilter;
+        const fields = this.getConfigAggregations().map(cc => cc.column);
+        const filter = query.findFilter(f => f.operator === 'between' && fields.includes(f.field)) as BetweenFilter;
 
         // Update the selection if it is not already set (which is the case on a page refresh)
         if(filter && !this.selection) {
@@ -330,12 +343,12 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         const aggregation = this.facetService.getAggregation(aggregationName, this.results);
 
         if(aggregation && ccaggregation) {
-            return of({aggregation: aggregation, ccaggregation: ccaggregation});
+            return of({aggregation, ccaggregation});
         }
 
         else if(ccaggregation) {
             return this.fetchAggregation(aggregationName, ccaggregation, range).pipe(
-                map(agg => ({aggregation: agg, ccaggregation: ccaggregation}))
+                map(aggregation => ({aggregation, ccaggregation}))
             );
         }
 
@@ -356,7 +369,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         query.aggregations = [aggregation];
 
         if(range){
-            query.addFilter({field: ccaggregation.column, operator: 'between', start: range[0], end: range[1]});
+            const filter = this.facetService.makeRangeFilter(ccaggregation.column, range[0], range[1])!;
+            query.addFilter(filter);
         }
 
         return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
@@ -417,28 +431,14 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             const from = this.formatDayRequest(selection[0]);
             const to = this.formatDayRequest(selection[1]);
 
-            const filters: Filter[] = [];
-
-            this.timeseries.forEach((config) => {
-
-                if((config as TimelineAggregation).aggregation !== undefined
-                || (config as TimelineCombinedAggregations).default !== undefined) {
-
-                    const aggregation = (config as TimelineAggregation).aggregation || (config as TimelineCombinedAggregations).default.aggregation;
-                    const ccaggregation = this.appService.getCCAggregation(aggregation);
-                    if(ccaggregation) {
-                        filters.push({field: ccaggregation.column, operator: 'between', start: from, end: to});
-                    }
-                }
-
-            });
+            const filters: Filter[] = this.getConfigAggregations()
+                .map(agg => ({field: agg.column, operator: 'between', start: from, end: to}));
 
             if(filters.length > 0) {
                 let filter = filters[0];
                 if(filters.length > 1) {
                     filter = {operator: 'or', filters};
                 }
-                filter.facetName = this.name;
                 this.facetService.applyFilterSearch(filter, this.query, true);
             }
         }
@@ -475,6 +475,16 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         this.eventClicked.next(event);
         closeTooltip();
         return false;
+    }
+
+    getConfigAggregations(): CCAggregation[] {
+        return this.timeseries.map(t => {
+            if(isCombinedAggregations(t)) return t.default.aggregation;
+            if(isAggregation(t)) return t.aggregation;
+            return undefined;
+        })
+        .map(a => a && this.appService.getCCAggregation(a))
+        .filter(agg => agg) as CCAggregation[];
     }
 
 

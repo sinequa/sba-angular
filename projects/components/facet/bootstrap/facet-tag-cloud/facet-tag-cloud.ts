@@ -7,12 +7,11 @@ import {
 } from "@sinequa/core/web-services";
 import { Action } from "@sinequa/components/action";
 import { FacetService } from "../../facet.service";
-import { Utils } from "@sinequa/core/base";
-import {AppService} from "@sinequa/core/app-utils";
+import { Query } from "@sinequa/core/app-utils";
 import { FacetConfig } from "../../facet-config";
 
 export interface FacetTagCloudParams {
-    aggregations: string | string[];
+    aggregation: string | string[];
     limit?: number;
     uniformRepartition?: boolean;
     showCount?: boolean;
@@ -40,8 +39,10 @@ export interface TagCloudItem {
 export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParams, OnChanges {
     /** search results */
     @Input() results: Results;
+    /** Search query modified by this facet */
+    @Input() query?: Query;
     /** list of aggregations to be considered in collecting tag-cloud data */
-    @Input() aggregations: string | string[];
+    @Input() aggregation: string | string[];
     /** maximum number of data to be displayed in tag-cloud */
     @Input() limit = 50;
     /** the way data are collected from given aggregations: equal repartition between them or most relevant among all of them */
@@ -54,23 +55,21 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
     @Input() countThreshold = 0;
     /** wether data are rendered following their count sorting or randomly */
     @Input() shuffleData = false;
-    /** Isolate filtering results from other facets available in the app */
-    @Input() isolateFacetFilters = false;
+    /** Optional facet name, for audit and facet customization */
+    @Input() name?: string;
 
     aggregationsData: Aggregation[] = [];
     tagCloudData: TagCloudItem[] = [];
-    filtered: AggregationItem[] = [];
+    hasFiltered = false;
 
     // Actions enabled within the facet
     private readonly clearFilters: Action;
     // Default weight to be applied if proportionalWeight = false
     private readonly defaultWeight = 2;
-    // Prefix for tag-cloud facet name to be used if isolateFacetFilters = true
-    private readonly tagCloudFacetPrefix = "tag-cloud_";
 
     constructor(
-        private facetService: FacetService,
-        private app: AppService) {
+        private facetService: FacetService
+    ) {
         super();
 
         // Clear the current filters
@@ -78,20 +77,14 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
             icon: "far fa-minus-square",
             title: "msg#facet.clearSelects",
             action: () => {
-                if (Utils.isArray(this.aggregations)) {
-                    for (const aggregation of this.aggregations) this.facetService.clearFiltersSearch(this.getName(aggregation), true);
-                } else {
-                    this.facetService.clearFiltersSearch(this.getName(this.aggregations), true);
-                }
+                const fields = this.aggregationsData.map(a => a.column);
+                this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
             },
         });
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes["results"]) {
-            /* reset filtered items */
-            this.filtered = [];
-
             /* update tag-cloud data */
             this.tagCloudData = this.getTagCloudData();
         }
@@ -101,8 +94,10 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
      * Defines the tag-cloud data according to given inputs
      */
     getTagCloudData(): TagCloudItem[] {
-        const aggregationsData = this.getAggregationsData();
+        this.aggregationsData = this.getAggregationsData();
+        this.hasFiltered = this.aggregationsData.some(agg => agg.items?.some(i => i.$filtered));
 
+        const aggregationsData = this.aggregationsData.filter(agg => agg.items?.length);
         if (aggregationsData.length === 0) {
             return [];
         } else {
@@ -212,25 +207,15 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
      * @param tagCloudItem
      * @param event
      */
-    filterItem(tagCloudItem: TagCloudItem, event) {
-        const name = this.getName(tagCloudItem.aggregation.name);
+    filterItem(tagCloudItem: TagCloudItem, event: Event) {
         const aggregation = tagCloudItem.aggregation;
         const item = tagCloudItem.item;
-        if (!this.isFiltered(aggregation, item)) {
-            this.facetService.addFilterSearch(name, aggregation, item);
+        if (!item.$filtered) {
+            this.facetService.addFilterSearch(aggregation, item, undefined, this.query, this.name);
         } else {
-            this.facetService.removeFilterSearch(name, aggregation, item);
+            this.facetService.removeFilterSearch(aggregation, item, this.query, this.name);
         }
         event.preventDefault();
-    }
-
-    /**
-     * Get a column's alias
-     * @param column column name
-     * @returns column's alias or column's name if no alias is found
-     */
-    getColumnAlias(column: string): string {
-        return this.app.resolveColumnAlias(column);
     }
 
     /**
@@ -238,7 +223,7 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
      */
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.isFiltering()) {
+        if(this.hasFiltered) {
             actions.push(this.clearFilters);
         }
         return actions;
@@ -248,63 +233,10 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
      * Map the initial aggregations names to a list of Aggregation
      */
     protected getAggregationsData(): Aggregation[] {
-        return []
-            .concat(this.aggregations as [])
-            .filter((agg: string) =>
-                this.facetService.hasData(agg, this.results)
-            )
-            .map(
-                (agg: string) =>
-                    this.facetService.getAggregation(
-                        agg,
-                        this.results
-                    ) as Aggregation
-            )
-            .map((data: Aggregation) => this.refreshFiltered(data));
-    }
-
-    /**
-     * Update aggregation's data with respect to active filters in the query & breadcrumbs
-     * @param data
-     */
-    protected refreshFiltered(data: Aggregation): Aggregation {
-        const facetName = this.getName(data.name);
-        if (this.facetService.hasFiltered(facetName)) {
-            // refresh filters from breadcrumbs
-            const items = this.facetService.getAggregationItemsFiltered(facetName, data.valuesAreExpressions);
-            items.forEach((item) => {
-                if (!this.isFiltered(data, item)) {
-                    item.$filtered = true;
-                    this.filtered.push(item);
-                }
-            });
-
-            // double check filters from query and breadcrumb
-            data.items!.forEach((item) => {
-                const indx = this.facetService.filteredIndex(data, this.filtered, item);
-                if (this.facetService.itemFiltered(facetName, data, item)) {
-                    item.$filtered = true;
-                    if (!this.isFiltered(data, item)) {
-                        this.filtered.push(item);
-                    }
-                } else if (indx !== -1) {
-                    // sometime facetService.itemFiltered() could returns false but item is present in breadcrumbs
-                    item.$filtered = true;
-                }
-            });
-        }
-        return data;
-    }
-
-    /**
-     * Returns facets names to be used according to @input() isolateFacetFilters
-     * @param aggregationName
-     */
-    private getName(aggregationName: string): string {
-        if (!this.isolateFacetFilters) {
-            return aggregationName;
-        }
-        return this.tagCloudFacetPrefix + aggregationName;
+        return ([] as string[])
+            .concat(this.aggregation)
+            .map(a => this.facetService.getAggregation(a, this.results)!)
+            .filter(a => a);
     }
 
     /**
@@ -323,15 +255,6 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
     }
 
     /**
-     * Returns true if the supplied item within the given aggregation is filtering the query
-     * @param data
-     * @param item
-     */
-    private isFiltered(data: Aggregation, item: AggregationItem): boolean {
-        return this.facetService.filteredIndex(data, this.filtered, item) !== -1;
-    }
-
-    /**
      * Shuffle items of the supplied array
      * @param arr
      */
@@ -345,14 +268,4 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
         return arr;
     }
 
-    /**
-     * Returns true if there is at least one active filter in the tag-cloud facet
-     */
-    private isFiltering(): boolean {
-        return []
-                .concat(this.aggregations as [])
-                .some((aggregationName: string) =>
-                    this.facetService.hasFiltered(this.getName(aggregationName))
-                );
-    }
 }

@@ -129,7 +129,7 @@ export default {
         "container": {
             "close": "Close this filter",
             "help": "Narrow your search down with filters:",
-            "filterFor": "Filters for:",
+            "filterFor": "{title} in:",
             "current": "Current results",
             "currentTitle": "Filters are computed for the list of results currently displayed",
             "all": "All data",

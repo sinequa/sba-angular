@@ -23,8 +23,8 @@
 <sq-collapse [collapsed]="!openedFacet">
   <ng-template>
     <div class="d-flex align-items-center">
-      <ng-container *ngIf="searchService.results">
-        <span class="small fw-bold me-2">{{ 'msg#facet.container.filterFor' | sqMessage }}</span>
+      <ng-container *ngIf="results">
+        <span class="small fw-bold me-2">{{ 'msg#facet.container.filterFor' | sqMessage:openedFacet }}</span>
         <div class="form-check form-check-inline py-2 my-0" [sqTooltip]="'msg#facet.container.currentTitle' | sqMessage">
           <input class="form-check-input" type="radio" id="currentResultsMode" value="current" [(ngModel)]="resultsMode">
           <label class="form-check-label small fw-bold" for="currentResultsMode">{{ 'msg#facet.container.current' | sqMessage }}</label>

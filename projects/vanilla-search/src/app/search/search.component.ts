@@ -12,9 +12,8 @@ import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
-import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { TopPassage } from '@sinequa/core/web-services';
-import { AppSearchFormComponent } from '../search-form/search-form.component';
+import { BsFacetDate } from '@sinequa/analytics/timeline';
 
 @Component({
   selector: 'app-search',
@@ -50,7 +49,6 @@ export class SearchComponent implements OnInit {
       "date": BsFacetDate
   }
 
-  @ViewChild("searchForm") searchForm: AppSearchFormComponent;
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
@@ -109,12 +107,6 @@ export class SearchComponent implements OnInit {
       );
   }
 
-  editFilters() {
-    // setTimeout is need to come after the "click outside" event that collapses the search form
-    setTimeout(() => this.searchForm.searchForm.expand());
-    return false;
-  }
-
   /**
    * Returns the configuration of the facets displayed in the facet-multi component.
    * The configuration from the config.ts file can be overriden by configuration from
@@ -153,7 +145,7 @@ export class SearchComponent implements OnInit {
     }
     else {
       this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = facet.title || facet.name || facet.parameters?.aggregation || '';
+      this.multiFacetTitle = facet.title || facet.name || '';
     }
   }
 
@@ -170,7 +162,6 @@ export class SearchComponent implements OnInit {
 
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
-    this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
     this.passageId = passageId?.toString();
     if (this.passageId) {
       if (this.previewFacet && this.passagesList) {

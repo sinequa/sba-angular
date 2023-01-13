@@ -70,7 +70,6 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     // Actions
     _actions: Action[] = [];
     refreshAction: Action;
-    clearFilters: Action;
 
     // Info cards
     @ContentChild("nodeTpl", {static: false}) nodeTpl: TemplateRef<any>;
@@ -108,15 +107,6 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             action: () => {
                 this.updateData();
                 this.updateActions();
-            }
-        });
-
-        // Clear the current filters
-        this.clearFilters = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facet.clearSelects",
-            action: () => {
-                this.facetService.clearFiltersSearch(this.name, true, this.query);
             }
         });
 
@@ -216,11 +206,6 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
      */
     protected updateActions() {
         this._actions = [];
-
-        // Clear the active filters
-        if(this.facetService.hasFiltered(this.name, this.query)) {
-            this._actions.push(this.clearFilters);
-        }
 
         // Selected node actions
         if(this._selectedNode) {

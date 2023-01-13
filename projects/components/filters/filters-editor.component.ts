@@ -94,6 +94,7 @@ export class FiltersEditorComponent extends FiltersComponent implements OnInit, 
         event.container.data,
         event.previousIndex,
         event.currentIndex);
+        this.query.cleanFilters();
     }
     this.filterEdit.emit(this.query);
   }

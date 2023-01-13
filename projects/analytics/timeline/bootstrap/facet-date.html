@@ -1,11 +1,11 @@
 <div class="d-flex flex-column">
 
-    <div class="d-flex flex-wrap mt-1 px-1" *ngIf="allowPredefinedRange">
+    <div class="d-flex flex-wrap mt-1 px-1" *ngIf="allowPredefinedRange && data">
         <button
             *ngFor="let item of items"
             type="button"
             class="btn btn-outline-secondary btn-sm rounded-pill date-item ms-1 mb-1"
-            [ngClass]="{active: isFiltered(item)}"
+            [ngClass]="{active: item.$filtered}"
             [disabled]="!item.count"
             (click)="filterItem(item, $event)">
 

@@ -9,7 +9,7 @@ import { AppService, FormatService, Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { IntlService } from "@sinequa/core/intl";
 import { ModalService } from "@sinequa/core/modal";
-import { Results, Record, CCColumn, EngineType } from "@sinequa/core/web-services";
+import { Results, Record, CCColumn, EngineType, getFieldPredicate } from "@sinequa/core/web-services";
 import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent, ModelUpdatedEvent } from 'ag-grid-community';
 import { ApplyColumnStateParams } from "ag-grid-community/dist/lib/columnController/columnApi";
 import { Subscription } from "rxjs";
@@ -58,6 +58,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     @Input() defaultColumnWidth = 200;
     /** Configure scrolling functionality */
     @Input() rowModelType: string = 'infinite';
+    /** Name of this component for audit purposes */
+    @Input() name?: string;
 
     /** Default column definition */
     @Input()
@@ -241,14 +243,20 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     updateFilterState(query: Query) {
         let model = {};
         for(let col of this.colDefs) {
-            const filter = query.findFilter(f => f.facetName === "grid-filter-"+col.field);
-            if(col.field && filter) {
-                if(col.filter === "facet") { // Sinequa facets
-                    model[col.field] = {facetActive: true}; // Lets us tell ag-grid that a custom filter is active this column
-                }
-                else { // AG Grid filters
-                    const filterType = col.filter ==="agNumberColumnFilter"? "number" : col.filter ==="agDateColumnFilter"? "date" : "text";
-                    model[col.field] = SqDatasource.filterToModel(filterType, col.field, filter);
+            if(col.field) {
+                const isField = getFieldPredicate(col.field);
+                const filter = query.findFilter(f =>
+                  isField(f) ||
+                  ((f.operator === 'and' || f.operator === 'or') && f.filters.length === 2 && isField(f.filters[0]) && isField(f.filters[1]))
+                );
+                if(filter) {
+                    if(col.filter === "facet") { // Sinequa facets
+                        model[col.field] = {facetActive: true}; // Lets us tell ag-grid that a custom filter is active this column
+                    }
+                    else { // AG Grid filters
+                        const filterType = col.filter ==="agNumberColumnFilter"? "number" : col.filter ==="agDateColumnFilter"? "date" : "text";
+                        model[col.field] = SqDatasource.filterToModel(filterType, filter);
+                    }
                 }
             }
         }
@@ -385,8 +393,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             // In global search mode, the new query & results will update the filter model
             this.datasource?.destroy?.();
             delete this.searchService.query.orderBy;
-            this.searchService.query.removeFilter(f => !!f.facetName?.startsWith("grid-filter-"));
-            this.searchService.search();
+            const fields = this.colDefs.map(col => col.field!).filter(f => f);
+            this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
         }
         else {
             // clear filters
@@ -396,7 +404,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
                 defaultState:{
                     sort: null
                 }
-            })
+            });
         }
         // clear width, visiblity, order
         this.gridColumnApi?.applyColumnState({

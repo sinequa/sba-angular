@@ -72,7 +72,7 @@ export class FiltersComponent implements OnChanges {
   }
 
   remove() {
-    this.query.removeFilter(c => c === this.filter);
+    this.query.removeFilters(f => f === this.filter);
     this.filterEdit.emit(this.query);
     return false;
   }

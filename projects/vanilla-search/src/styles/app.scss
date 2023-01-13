@@ -152,7 +152,6 @@ sq-filters, sq-filters-editor {
 
 sq-results-counter {
     color: $secondary-color;
-    font-size: 0.875em;
 }
 
 sq-sort-selector button.btn {
@@ -160,7 +159,7 @@ sq-sort-selector button.btn {
     margin: -3px 0;
     color: $secondary-color;
     background-color: inherit;
-    font-size: 0.875em;
+    font-size: 1em;
     border: none;
 
     & > div {

@@ -127,7 +127,7 @@ export default {
         "container": {
             "close": "Schließen Sie diesen Filter",
             "help": "Grenzen Sie Ihre Suche mit Filtern ein:",
-            "filterFor": "Filter für:",
+            "filterFor": "{title} für:",
             "current": "Aktuelle Ergebnisse",
             "currentTitle": "Filter werden für die aktuell angezeigte Ergebnisliste berechnet",
             "all": "Alle Daten",

@@ -70,7 +70,7 @@ export class AppService implements OnDestroy {
     suggestQueries: string[];
     private columnsByQuery: MapOf<MapOf<CCColumn>>;
     private columnsByIndex: MapOf<MapOf<CCColumn>>;
-    private fieldsByQuery: MapOf<string[]>;
+    private aggregationsByQuery: MapOf<MapOf<CCAggregation>>;
     private _defaultCCQuery?: CCQuery;
     private _ccquery?: CCQuery;
 
@@ -325,17 +325,6 @@ export class AppService implements OnDestroy {
     }
 
     /**
-     * Initialize this service from an application configuration object. This is typically
-     * used for supporting mutiple concurrent queries within the same application by providing
-     * component level instances of this service.
-     */
-    initFromApp(app: CCApp) {
-        if (app) {
-            this.setApp(app);
-        }
-    }
-
-    /**
      * Refresh the application configuration, reinitializing the service if it has changed
      *
      * @param auditEvents Any associated audit events that should be stored
@@ -452,7 +441,7 @@ export class AppService implements OnDestroy {
     protected makeMaps() {
         this.columnsByQuery = {};
         this.columnsByIndex = {};
-        this.fieldsByQuery = {};
+        this.aggregationsByQuery = {};
         if (!this.app) {
             return;
         }
@@ -460,8 +449,7 @@ export class AppService implements OnDestroy {
 
         // Queries
         if (this.app.queries) {
-            for (const queryName of Object.keys(this.app.queries)) {
-                const ccquery = this.app.queries[queryName];
+            for (const ccquery of Object.values(this.app.queries)) {
                 if (ccquery) {
                     ccquery.$columnFieldsPattern = new PatternMatcher("included column fields", "excluded column fields");
                     ccquery.$columnFieldsPattern.includedPattern.setText(ccquery.columnFieldsIncluded);
@@ -505,42 +493,26 @@ export class AppService implements OnDestroy {
             }
         }
 
-        // Fields per query (contains aliases for default query and globally defined aliases)
-        const globalFields = new Map<string, string>();
-        const columns = this.columnsByIndex._;
-        if (columns) {
-            for (const key of Object.keys(columns)) {
-                const column = columns[key];
-                if (column.aliases && column.aliases.length > 0) {
-                    const alias = column.aliases[0];
-                    if (alias) {
-                        globalFields.set(alias, alias);
+        // Aggregation map
+        if (this.app.queries) {
+            for (const ccquery of Object.values(this.app.queries)) {
+                if (ccquery) {
+                    const aggregationMap = {} as MapOf<CCAggregation>;
+                    for(let ccagg of ccquery.aggregations) {
+                        ccagg.column = this.resolveColumnAlias(ccagg.column); // Always use the alias when it exists
+                        aggregationMap[ccagg.name.toLowerCase()] = ccagg;
                     }
+                    this.aggregationsByQuery[ccquery.name.toLowerCase()] = aggregationMap;
                 }
             }
         }
-        for (const queryName of Object.keys(this.columnsByQuery)) {
-            const queryFields = new Map<string, string>(globalFields);
-            const columns1 = this.columnsByQuery[Utils.toLowerCase(this.defaultCCQuery ? this.defaultCCQuery.name : "")];
-            if (columns1) {
-                for (const key of Object.keys(columns1)) {
-                    const column = columns1[key];
-                    if (column.aliases && column.aliases.length > 0) {
-                        const alias = column.aliases[0];
-                        if (alias) {
-                            queryFields.set(alias, alias);
-                        }
-                    }
-                }
-                this.fieldsByQuery[queryName] = Array.from(queryFields.keys());
-            }
-        }
+
     }
 
     protected clearMaps() {
         this.columnsByQuery = {};
         this.columnsByIndex = {};
-        this.fieldsByQuery = {};
+        this.aggregationsByQuery = {};
     }
 
     /**
@@ -595,7 +567,7 @@ export class AppService implements OnDestroy {
      * Get the {@link CCQuery} with the passed name
      */
     getCCQuery(name: string): CCQuery | undefined {
-        return this.app ? this.app.queries[Utils.toLowerCase(name)] : undefined;
+        return this.app ? this.app.queries[name.toLowerCase()] : undefined;
     }
 
     /**
@@ -621,23 +593,13 @@ export class AppService implements OnDestroy {
     }
 
     /**
-     * Return the fields defined on the current {@link CCQuery}
-     */
-    get fields(): string[] {
-        if (!this.ccquery) {
-            return [];
-        }
-        return this.fieldsByQuery[Utils.toLowerCase(this.ccquery.name)] || [];
-    }
-
-    /**
      * Get the {@link CCAggregation} with the passed name
      */
-    getCCAggregation(name: string): CCAggregation | undefined {
-        if (!this.ccquery || !this.ccquery.aggregations) {
+    getCCAggregation(name: string, ccquery = this.ccquery): CCAggregation | undefined {
+        if (!ccquery) {
             return undefined;
         }
-        return this.ccquery.aggregations.find((value) => Utils.eqNC(name, value.name));
+        return this.aggregationsByQuery[ccquery.name.toLowerCase()]?.[name.toLowerCase()];
     }
 
     /**
@@ -776,10 +738,7 @@ export class AppService implements OnDestroy {
                 return label;
             }
         }
-        if (!Utils.isUndefined(_default)) {
-            return _default;
-        }
-        return name;
+        return _default || name;
     }
 
     /**
@@ -790,13 +749,7 @@ export class AppService implements OnDestroy {
      */
     getSingularLabel(name: string, _default?: string): string {
         const column = this.getColumn(name);
-        if (column && column.label) {
-            return column.label;
-        }
-        if (!Utils.isUndefined(_default)) {
-            return _default;
-        }
-        return name;
+        return column?.label || column?.labelPlural || _default || name;
     }
 
     /**
@@ -807,13 +760,7 @@ export class AppService implements OnDestroy {
      */
     getPluralLabel(name: string, _default?: string): string {
         const column = this.getColumn(name);
-        if (column && column.labelPlural) {
-            return column.labelPlural;
-        }
-        if (!Utils.isUndefined(_default)) {
-            return _default;
-        }
-        return name;
+        return column?.labelPlural || column?.label || _default || name;
     }
 
     /**

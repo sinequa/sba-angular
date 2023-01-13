@@ -91,15 +91,6 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
             this.ready = value === "expanded" ? true : false
         }));
 
-        // Clear the current filters
-        this.clearFilters = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facet.clearSelects",
-            action: () => {
-                this.facetService.clearFiltersSearch(this._name, true, this.query);
-            }
-        });
-
         // Listen to selection changes & update the heatmap items accordingly
         this.subs.add(this.selectionService.events.subscribe(() => {
             if(this.highlightSelected) {
@@ -121,7 +112,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                 distinctUntilChanged((prev, curr) => prev.value === curr.value),
             )
             .subscribe(item => {
-                this.facetService.addFilterSearch(this._name, this.aggregationData!, item, {forceAdd: true}, this.query, this._name);
+                this.facetService.addFilterSearch(this.aggregationData!, item, {forceAdd: true}, this.query, this._name);
             })
         );
 
@@ -177,7 +168,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     updateData() {
         this.loading = true;
         if(this.results) {
-            this.aggregationData = this.facetService.getAggregation(this.aggregation, this.results);
+            this.aggregationData = this.facetService.getAggregation(this.aggregation, this.results) as ListAggregation;
             if(!this.aggregationData){
                 this.getHeatmapData();
             }
@@ -250,9 +241,6 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      */
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.facetService.hasFiltered(this._name)){
-            actions.push(this.clearFilters);
-        }
         if(this.selectFieldY) {
             actions.push(this.selectFieldY);
         }

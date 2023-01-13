@@ -2,7 +2,7 @@ export default {
   "searchForm": {
     "search": "Suche",
     "searchFor": "Suche nach...",
-    "clearAll": "Suche und Filter löschen",
+    "clearAll": "Suche löschen",
     "clear": "Löschen",
     "voiceRecognition": "Sprachsuche",
     "listening": "Anhören läuft...",

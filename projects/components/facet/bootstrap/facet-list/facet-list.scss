@@ -12,7 +12,8 @@
   }
 }
 
-.facet-results-scrollable {
-  max-height: 385px;
-  overflow-y: auto;
+.item-opener {
+  --sq-tree-indent: 1em;
+  text-decoration: none !important;
+  margin-left: calc(var(--depth) * var(--sq-tree-indent));
 }

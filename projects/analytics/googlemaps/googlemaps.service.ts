@@ -27,13 +27,12 @@ export class GoogleMapsService {
     ).subscribe(this.ready);
   }
 
-  makeFilter(bounds: google.maps.LatLngBounds, latitude: string, longitude: string, facetName: string): Filter {
+  makeFilter(bounds: google.maps.LatLngBounds, latitude: string, longitude: string): Filter {
     const sw = bounds.getSouthWest();
     const ne = bounds.getNorthEast();
     return {
       operator: 'and',
       display: "Map Selection",
-      facetName,
       filters: [
         {field: latitude, operator: 'between', start: sw.lat(), end: ne.lat()},
         {field: longitude, operator: 'between', start: sw.lng(), end: ne.lng()}

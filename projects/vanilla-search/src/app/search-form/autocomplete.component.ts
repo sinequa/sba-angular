@@ -12,23 +12,8 @@ import { debounceTime, map, switchMap } from "rxjs/operators";
 
 @Component({
   selector: "sq-autocomplete",
-  template: `
-  <ul class="list-group list-group-flush" *ngIf="items$ | async as items">
-    <a href="#" *ngFor="let item of items; let i = index"
-      class="list-group-item list-group-item-action p-0 border-0"
-      (click)="select(item, $event)">
-      <div class="autocomplete-item px-2 py-1 small">
-        <i [ngClass]="autocompleteIcon(item.category)" class="ms-1"></i>
-        <span class="mx-2" [innerHTML]="item.displayHtml || item.display"></span>
-        <small *ngIf="item.category" class="autocomplete-category ms-2">{{(item.label || item.category) | sqMessage}}</small>
-      </div>
-    </a>
-  </ul>
-  `,
+  templateUrl: './autocomplete.component.html',
   styles: [`
-  .list-group {
-    margin: 0 -0.75rem;
-  }
   .list-group-item-action {
     cursor: pointer;
   }
@@ -40,6 +25,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() queryText: string;
   @Input() debounce = 200;
   @Input() suggestQuery?: string;
+  @Input() maxItems = 10;
   @Input() suggestTypes: string[] = ['suggests','recent-documents', 'recent-queries', 'saved-queries', 'baskets'];
 
   // autocomplete items returned by searchData have a "score" attribute, which is consistent across categories
@@ -107,7 +93,11 @@ export class AutocompleteComponent implements OnInit, OnChanges {
     // The forkJoin method allows to merge the suggestions into a single array, so the parent
     // directive only sees a single source.
     return forkJoin(dataSources).pipe(
-        map(suggests => suggests.flat().sort(this.sortComparator))
+      map(suggests => suggests
+        .flat()
+        .sort(this.sortComparator)
+        .slice(0, this.maxItems)
+      )
     );
 
   }

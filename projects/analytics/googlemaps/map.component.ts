@@ -33,7 +33,7 @@ export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy 
   @Input() name = "map";
   /** Results list displayed on the map when possible */
   @Input() results: Results;
-  @Input() query: Query;
+  @Input() query?: Query;
   /** Desired width of the map */
   @Input() width = 300;
   /** Desired height of the map */
@@ -75,7 +75,7 @@ export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy 
       icon: "far fa-minus-square",
       title: "msg#facet.clearSelects",
       action: () => {
-        this.facetService.clearFiltersSearch(this.name, true, this.query);
+        this.facetService.clearFiltersSearch([this.latitudeField, this.longitudeField], true, this.query, this.name);
       }
     });
 
@@ -87,8 +87,8 @@ export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy 
         if(this.map) {
           const bounds = this.map.getBounds();
           if(bounds) {
-            const filter = this.gmaps.makeFilter(bounds, this.latitudeField, this.longitudeField, this.name);
-            this.facetService.applyFilterSearch(filter, this.query, true);
+            const filter = this.gmaps.makeFilter(bounds, this.latitudeField, this.longitudeField);
+            this.facetService.applyFilterSearch(filter, this.query, true, this.name);
           }
         }
       }
@@ -104,7 +104,7 @@ export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy 
 
   override get actions(): Action[] {
     const actions = [] as Action[];
-    if (this.facetService.hasFiltered(this.name)) {
+    if (this.facetService.hasFiltered([this.latitudeField, this.longitudeField], this.query)) {
       actions.push(this.clearFilters);
     }
     if (this.map) {

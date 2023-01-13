@@ -129,8 +129,8 @@ export default {
         "container": {
             "close": "Fermer ce filtre",
             "help": "Affiner la recherche avec des filtres:",
-            "filterFor": "Filtres pour:",
-            "current": "Résultats courants",
+            "filterFor": "{title} dans:",
+            "current": "Résultats actuels",
             "currentTitle": "Les filtres sont calculés pour la liste de résultats actuellement affichée",
             "all": "Toutes les données",
             "allTitle": "Les filtres sont calculés pour toutes les données disponibles (appliquer des filtres peut ne renvoyer aucun résultat)",

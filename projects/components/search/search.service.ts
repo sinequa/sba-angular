@@ -1,9 +1,9 @@
 import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
 import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from "@angular/router";
-import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, catchError, map, switchMap} from "rxjs";
+import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, finalize} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter} from "@sinequa/core/web-services";
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation} from "@sinequa/core/web-services";
 import {AppService, FormatService, ValueItem, Query} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
@@ -345,7 +345,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         query: Query, auditEvents?: AuditEvents,
         options: SearchService.GetResultsOptions = {}): Observable<T> {
         if (!this.checkEmptySearch(query)) {
-            return throwError("empty search");
+            return throwError(() => new Error("empty search"));
         }
         if (!options.searchInactive) {
             this.searchActive = true;
@@ -358,16 +358,8 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 queryAnalysis: (query.spellingCorrectionMode !== "dymonly") ? options.queryAnalysis : undefined
             })
         ).pipe(
-            map((results) => {
-                this.searchActive = false;
-                return results;
-            }),
-            catchError((error) => {
-                // when an exception occurs, set the search active flag to false
-                // this will stop the loading bar
-                this.searchActive = false;
-                return throwError(error);
-            })
+            tap(results => this.initializeResults(query, results)),
+            finalize(() => this.searchActive = false) // Called on complete or error
         );
     }
 
@@ -375,7 +367,118 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         if (!this.checkEmptySearch(queries)) {
             return of({results: []});
         }
-        return this.queryService.getMultipleResults(queries, auditEvents);
+        return this.queryService.getMultipleResults(queries, auditEvents)
+          .pipe(
+            tap(results => results.results.forEach(
+              (r,i) => this.initializeResults(queries[i], r))
+            )
+          );
+    }
+
+    /**
+     * Initializes the client-side fields of the Results object
+     * @param results
+     */
+    initializeResults(query: Query, results: Results) {
+      // Initialize records
+      this.initializeRecords(query, results);
+
+      // Initialize aggregations
+      this.initializeAggregations(query, results);
+    }
+
+    initializeRecords(query: Query, results: Results) {
+      if(results.records) {
+        for(let record of results.records) {
+          record.$hasPassages = !!record.matchingpassages?.passages?.length;
+        }
+      }
+    }
+
+    initializeAggregations(query: Query, results: Results) {
+      // Get the query web service configuration
+      const ccquery = this.appService.getCCQuery(query.name);
+
+      // Initialize aggregation map
+      results.$aggregationMap = {};
+
+      const filtered = query.getFiltersAsAggregationItems();
+
+      for(let aggregation of results.aggregations) {
+        // Populate aggregation map
+        results.$aggregationMap[aggregation.name.toLowerCase()] = aggregation;
+
+        // Columns and aggregation configuration
+        aggregation.$cccolumn = this.appService.getColumn(aggregation.column, ccquery);
+        aggregation.column = this.appService.getColumnAlias(aggregation.$cccolumn, aggregation.column);
+        aggregation.$ccaggregation = this.appService.getCCAggregation(aggregation.name, ccquery)!;
+        aggregation.$cccount = aggregation.$ccaggregation?.count || 10;
+
+        aggregation.$filtered = filtered[aggregation.column.toLowerCase()] || [];
+        aggregation.$remainingFiltered = aggregation.$filtered;
+
+        // List aggregations
+        if(!aggregation.isTree) {
+          this.initializeAggregation(aggregation);
+        }
+        // Tree aggregations
+        else {
+          this.initializeTreeAggregation(aggregation);
+        }
+      }
+    }
+
+    initializeAggregation(aggregation: ListAggregation) {
+      // Aggregation items enrichment
+      if(aggregation.items && aggregation.$cccount > 0) { // exclude unlimited aggregation (eg. timelines)
+
+        for(let item of aggregation.items) {
+          // Include the column configuration (for formatting & labels)
+          item.$column = aggregation.$cccolumn;
+          // convert null value without display property to string
+          if (item.value === null && !aggregation.valuesAreExpressions && !item.display) {
+            item.value = String(item.value);
+          }
+          // Check whether the item is currently filtered
+          item.$filtered = aggregation.$remainingFiltered.some(i => i.value === item.value); // TODO: this properly needs refinement for Dates or other special types
+          if(item.$filtered) {
+            aggregation.$remainingFiltered = aggregation.$remainingFiltered.filter(i => i.value !== item.value); // Rather than a splice, we filter the array, in case there are duplicate filters
+          }
+        }
+
+        // adjust aggregation's items length
+        if(aggregation.items.length > aggregation.$cccount && !aggregation.isDistribution) {
+          aggregation.items = aggregation.items?.slice(0, aggregation.$cccount);
+          aggregation.$hasMore = true;
+        }
+      }
+    }
+
+    initializeTreeAggregation(aggregation: TreeAggregation) {
+      // Process the filtered items
+      for(let item of aggregation.$filtered) {
+        (item as TreeAggregationNode).$path = item.value.toString().slice(0, -1); // Remove the '*' at the end of the value
+      }
+
+      if(aggregation.items) {
+        // Traverse the aggregation items to add metadata
+        Utils.traverse(aggregation.items, (lineage, node, depth) => {
+          node.$path = '/' + lineage.map(n => n.value).join('/') + '/';
+          node.$column = aggregation.$cccolumn;
+          node.$level = depth;
+          node.$opened = false;
+          // Check whether the item is currently filtered
+          const idx = aggregation.$remainingFiltered.findIndex(
+            i => (i as TreeAggregationNode).$path === node.$path // TODO: this properly needs refinement for Dates or other special types
+          );
+          if(idx !== -1) {
+            node.$filtered = true;
+            aggregation.$remainingFiltered = aggregation.$remainingFiltered.filter(i => i.value !== node.value); // Rather than a splice, we filter the array, in case there are duplicate filters
+            lineage.filter(n => n.items?.length).forEach(n => n.$opened = true);
+          }
+          return false; // don't stop the traversal
+        });
+      }
     }
 
     navigate(options?: SearchService.NavigationOptions, audit?: AuditEvents): Promise<boolean> {
@@ -728,15 +831,12 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         if (items && (!Utils.isArray(items) || items.length > 0)) {
             let filter: Filter;
             if(!Utils.isArray(items)) {
-              filter = {field, value: items.value as string|number|Date|boolean, display: items.display};
+              filter = {field, value: items.value as string|number|boolean, display: items.display};
               if(options?.not) filter.operator = 'neq';
             }
             else {
               const operator = options?.not? 'not' : options?.and? 'and' : 'or';
-              filter = {operator, filters: items.map(item => ({field, value: item.value as string|number|Date|boolean, display: item.display}))}
-            }
-            if(options?.facetName) {
-              filter.facetName = options.facetName;
+              filter = {operator, filters: items.map(item => ({field, value: item.value as string|number|boolean, display: item.display}))}
             }
             this.query.addFilter(filter);
             return true;
@@ -844,7 +944,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             .map(r => ({field: 'id', value: r.id}))
         });
 
-        return this.queryService.getResults(query)
+        return this.getResults(query, undefined, {searchInactive: true})
                 .pipe(map(res => records.map(r => r.record as Record || res.records.find(rec => rec.id === r.id))));
     }
 }
@@ -859,7 +959,6 @@ export module SearchService {
     export interface AddSelectOptions {
         not?: boolean;      // default "false"
         and?: boolean;      // default "false"
-        facetName?: string; // default: undefined
     }
 
     export interface NavigationOptions {

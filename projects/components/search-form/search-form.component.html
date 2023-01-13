@@ -15,7 +15,7 @@
       (focus)="onInputFocus()"
       (click)="onInputClick()"
       (input)="onInputText()"
-      (keyup.enter)="onInputEnter(searchInput.value)"
+      (keyup.enter)="applyFilters()"
       [disabled]="!loginService.complete">
 
     <!-- Toggle voice recognition -->
@@ -55,7 +55,7 @@
     </div>
 
     <!-- Clear Button -->
-    <button type="button"
+    <button type="button" *ngIf="editedQuery.text"
       class="btn no-shadow p-0"
       [sqTooltip]="'msg#searchForm.clearAll' | sqMessage"
       (click)="clearForm()">

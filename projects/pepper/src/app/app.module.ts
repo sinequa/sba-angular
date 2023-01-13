@@ -32,7 +32,9 @@ import { BsFeedbackModule } from '@sinequa/components/feedback';
 import { BsPreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule, SelectionOptions, SELECTION_OPTIONS } from '@sinequa/components/selection';
-import { BsAdvancedModule } from "@sinequa/components/advanced";
+import { CollapseModule } from "@sinequa/components/collapse";
+import { FiltersModule } from "@sinequa/components/filters";
+import { SearchFormComponent } from "@sinequa/components/search-form";
 
 // @sinequa/analytics library
 import { BsHeatmapModule } from '@sinequa/analytics/heatmap';
@@ -51,12 +53,12 @@ import { AppComponent } from "./app.component";
 import { SearchComponent } from './search/search.component';
 import { DashboardItemComponent } from './dashboard/dashboard-item.component';
 import { DashboardAddItemComponent } from './dashboard/dashboard-add-item.component';
+import { AppSearchFormComponent } from "./search-form/search-form.component";
 
 // Components imported from Vanilla Search
 // ⚠️ Starting from v11.7, these components are referenced from the Vanilla Search project to avoid duplicating the code
 // Feel free to copy the source code into the Pepper app to avoid modifying the source code of Vanilla.
-import { SearchFormComponent } from '@sinequa/vanilla/app/search-form/search-form.component';
-import { AutocompleteExtended } from '@sinequa/vanilla/app/search-form/autocomplete-extended.directive';
+import { AutocompleteComponent } from '@sinequa/vanilla/app/search-form/autocomplete.component';
 
 // Environment
 import { environment } from "../environments/environment";
@@ -164,7 +166,9 @@ FusionCharts.options.creditLabel = false;
         BsPreviewModule,
         MetadataModule,
         BsSelectionModule,
-        BsAdvancedModule,
+        CollapseModule,
+        FiltersModule,
+        SearchFormComponent,
 
         BsHeatmapModule,
         BsTimelineModule,
@@ -178,8 +182,8 @@ FusionCharts.options.creditLabel = false;
     declarations: [
         AppComponent,
         SearchComponent,
-        SearchFormComponent,
-        AutocompleteExtended,
+        AppSearchFormComponent,
+        AutocompleteComponent,
         DashboardItemComponent,
         DashboardAddItemComponent
     ],

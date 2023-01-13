@@ -19,7 +19,7 @@
           [showField]="showField && !field"
           [showOperator]="showOperator && !field"
           [allowRemove]="allowRemove"
-          (filterEdit)="filterEdit.next(query)">
+          (filterEdit)="filterEdit.emit(query)">
         </sq-filters>
       </ng-container>
     </span>
@@ -65,9 +65,9 @@
 
   <!-- Remove this filter -->
   <a href="#" (click)="remove()"
-    class="ms-2 text-reset"
+    class="ms-1 text-reset"
     [title]="'msg#filters.remove' | sqMessage:{value: filter?.display || valueFilter?.value || field}"
-    *ngIf="allowRemove && (valueFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
+    *ngIf="allowRemove && (!exprFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
     <i class="fas fa-times-circle"></i>
   </a>
 </ng-container>
