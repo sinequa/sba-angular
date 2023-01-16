@@ -53,7 +53,7 @@ import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
-    app: "integrated-search-box",
+    app: "training",
     production: environment.production,
     autoSAMLProvider: environment.autoSAMLProvider,
     auditEnabled: true

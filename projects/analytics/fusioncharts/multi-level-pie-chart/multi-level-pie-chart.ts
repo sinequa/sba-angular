@@ -327,7 +327,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
                         if(Utils.isString(val)){    // Sourcestr
                             this.selectedValues.add(val.toLowerCase());
                         }
-                        if(Utils.isArray(val)){
+                        if(Array.isArray(val)){
                             val.forEach(v => {
                                 if(Utils.isString(v))
                                     this.selectedValues.add(v.toLowerCase()); // Sourcecsv

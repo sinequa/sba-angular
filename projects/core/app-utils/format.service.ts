@@ -31,7 +31,7 @@ export class FormatService {
      * Returns `true` if the passed parameter is a `ValueItem` object
      */
     protected isValueItem(valueItem: ValueItem | FieldValue): valueItem is ValueItem {
-        if (Utils.isObject(valueItem) && !Utils.isDate(valueItem) && !Utils.isArray(valueItem)) {
+        if (Utils.isObject(valueItem) && !Utils.isDate(valueItem) && !Array.isArray(valueItem)) {
             return true;
         }
         return false;
@@ -142,7 +142,7 @@ export class FormatService {
                     if(Utils.isString(value)) {
                         return this.formatMoney(value);
                     }
-                    else if(Utils.isArray(value)) {
+                    else if(Array.isArray(value)) {
                         return value.map(v =>
                             this.formatMoney(Utils.isString(v)? v : v.value)
                         ).join(', ');
@@ -195,7 +195,7 @@ export class FormatService {
                 return value.toString();
             }
         }
-        if (Utils.isArray(value)) {
+        if (Array.isArray(value)) {
             const joinValue: string[] = [];
             value.forEach(v => {
                 if (joinValue.length > 0) {
@@ -306,7 +306,7 @@ export class FormatService {
      */
     formatRaw(value: ValueItem | FieldValue): string {
         let [val] = this.getValueAndDisplay(value);
-        if(Utils.isArray(val)) {
+        if(Array.isArray(val)) {
             return val.map(v => Utils.isString(v)? v : v.value).join(';');
         }
         return val?.toString();

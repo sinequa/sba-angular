@@ -3,7 +3,7 @@ import {Results} from "@sinequa/core/web-services";
 import {FacetService, NamedFacetConfig} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import { FacetConfig, default_facet_components } from "../../facet-config";
-import { MapOf } from "@sinequa/core/base";
+import { MapOf, Utils } from "@sinequa/core/base";
 import { Subscription } from "rxjs";
 import { AbstractFacet } from "../../abstract-facet";
 
@@ -85,7 +85,7 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
 
             let disabled = true;
             let filtered = false;
-            const aggregations = Array.isArray(facet.aggregation)? facet.aggregation : [facet.aggregation];
+            const aggregations = Utils.asArray(facet.aggregation);
             for(let aggregation of aggregations) {
                 const agg = this.facetService.getAggregation(aggregation);
                 if(agg?.items?.length) {

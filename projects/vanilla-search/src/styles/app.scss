@@ -84,17 +84,17 @@ a {
 
 // thin scrollbar
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  &:hover {
+      background-color: #b6b6b6;
   }
-  ::-webkit-scrollbar-thumb {
-    background-color: #cccccc;
-    &:hover {
-        background-color: #b6b6b6;
-    }
-  }
-  ::-webkit-scrollbar-track {
-    background-color: #f3f3f3;
-  }
+}
+::-webkit-scrollbar-track {
+  background-color: #f3f3f3;
+}
 
 // large screens (> sm)
 @include media-breakpoint-up(sm) {
@@ -120,11 +120,6 @@ app-search-form {
       }
     }
 
-    .autocomplete-item {
-        small, i {
-            color: $secondary-color;
-        }
-    }
 }
 
 app-search nav {
@@ -204,15 +199,12 @@ sq-sponsored-results {
 
 // Facets
 sq-facet-card {
-  display: block;
-    &.facet-preview {
-        .card-header {
-        sq-metadata {
-            color: $secondary-color;
-            font-size: 0.875em;
-        }
-        }
-    }
+    display: block;
+}
+
+sq-facet-card.facet-preview sq-metadata {
+    color: $secondary-color;
+    font-size: 0.875em;
 }
 
 sq-facet-card.striped .list-group-item:not(.unstriped) {
@@ -233,10 +225,6 @@ sq-feedback-menu {
     .dropdown-toggle::after{
         display: none;
     }
-}
-
-sq-facet-list .facet-results-scrollable {
-    max-height: 400px !important;
 }
 
 .sq-passage {

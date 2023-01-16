@@ -90,7 +90,7 @@ export class BsRefine extends AbstractFacet implements FacetRefineParams, OnChan
                     detail: {
                         text: text,
                         itembox: "refine",
-                        "from-result-id": !!this.results ? this.results.id : null
+                        fromresultid: this.results?.id || null
                     }
                 });
             }

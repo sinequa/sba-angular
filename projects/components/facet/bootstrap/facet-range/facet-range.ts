@@ -49,7 +49,7 @@ export interface FacetRangeConfig extends FacetConfig<FacetRangeParams> {
     templateUrl: "./facet-range.html"
 })
 export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnChanges, AfterViewInit, OnDestroy {
-    @Input() name?: string; // If ommited, the aggregation name is used
+    @Input() name?: string;
     @Input() results: Results;
     @Input() query?: Query;
     @Input() aggregation: string;

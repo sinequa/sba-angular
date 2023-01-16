@@ -121,6 +121,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     // Actions
     clearFilters: Action;
+    hasFiltered = false;
 
     constructor(
         public facetService: FacetService,
@@ -146,7 +147,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             title: "msg#facet.clearSelects",
             action: () => {
                 this.selection = undefined;
-                this.facetService.clearFiltersSearch(this.name, true, this.query);
+                const fields = this.getConfigAggregations().map(a => a.column);
+                this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
             }
         });
 
@@ -162,7 +164,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.facetService.hasFiltered(this.name)){
+        if(this.hasFiltered){
             actions.push(this.clearFilters);
         }
         return actions;
@@ -179,6 +181,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         const query = this.query || this.searchService.query;
         const fields = this.getConfigAggregations().map(cc => cc.column);
         const filter = query.findFilter(f => f.operator === 'between' && fields.includes(f.field)) as BetweenFilter;
+        this.hasFiltered = !!filter;
 
         // Update the selection if it is not already set (which is the case on a page refresh)
         if(filter && !this.selection) {
@@ -427,11 +430,13 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      */
     onSelectionChange(selection: [Date, Date] | undefined) {
         this.selection = selection;
+        const aggregations = this.getConfigAggregations();
+        const fields = aggregations.map(a => a.column);
         if(selection) {
             const from = this.formatDayRequest(selection[0]);
             const to = this.formatDayRequest(selection[1]);
 
-            const filters: Filter[] = this.getConfigAggregations()
+            const filters: Filter[] = aggregations
                 .map(agg => ({field: agg.column, operator: 'between', start: from, end: to}));
 
             if(filters.length > 0) {
@@ -439,12 +444,12 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                 if(filters.length > 1) {
                     filter = {operator: 'or', filters};
                 }
-                this.facetService.applyFilterSearch(filter, this.query, true);
+                this.facetService.applyFilterSearch(filter, this.query, true, this.name);
             }
         }
 
-        else if(this.facetService.hasFiltered(this.name, this.query)) {
-            this.facetService.clearFiltersSearch(this.name, true, this.query);
+        else if(this.facetService.hasFiltered(fields, this.query)) {
+            this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
         }
     }
 

@@ -113,7 +113,9 @@ export const FACETS: FacetConfig<FacetParams>[] = [{
             allowCustomRange: true,
             showCustomRange: true,
             replaceCurrent: true,
-            displayEmptyDistributionIntervals: true
+            displayEmptyDistributionIntervals: true,
+            timelineHeight: 100,
+            timelineWidth: 500
         }
     },
     {

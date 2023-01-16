@@ -65,7 +65,7 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
             if (aggregation && aggregation.items) {
                 return aggregation.items
                 .filter(
-                    (item) => !Utils.isArray(item.value) && !!item.value
+                    (item) => !Array.isArray(item.value) && !!item.value
                 )
                 .map(
                     (item: AggregationItem) => (

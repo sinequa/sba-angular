@@ -12,16 +12,20 @@
 
     <!-- Facet displayed dynamically within dropdown -->
     <div class="dropdown-menu" (click)="$event.stopPropagation()" [ngClass]="{'d-none': isFacetEmpty}">
-      <!-- Actions of this facet -->
-      <div class="d-flex" *ngIf="facetActions">
-        <div class="ms-auto btn-group" [sq-action-buttons]="{items: facetActions, rightAligned: true}"></div>
-      </div>
-      <ng-container *ngIf="item.data === openedFacet"
-        [sqLoadComponent]="{
-          component: item.component,
-          inputs: item.componentInputs
-        }"
-        (sqLoadComponent)="onLoadFacet($event)">
+      <ng-container *ngIf="item.data === openedFacet">
+        <!-- Actions of this facet -->
+        <div class="d-flex" *ngIf="facetActions">
+          <div class="ms-auto btn-group" [sq-action-buttons]="{items: facetActions, rightAligned: true}"></div>
+        </div>
+        <div class="facet-wrapper">
+          <ng-container
+            [sqLoadComponent]="{
+              component: item.component,
+              inputs: item.componentInputs
+            }"
+            (sqLoadComponent)="onLoadFacet($event)">
+          </ng-container>
+        </div>
       </ng-container>
     </div>
   </li>

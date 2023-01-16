@@ -45,7 +45,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     @Input() selectedColor: string = "#8186d4";
 
     /** Optional facet name for audit purposes */
-    @Input() name?: string;
+    @Input() name = "chart";
 
     @Output() initialized = new EventEmitter<any>();
     @Output() aggregationChange = new EventEmitter<string>();
@@ -153,7 +153,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
      */
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.data?.$filtered) {
+        if(this.data?.$filtered.length) {
             actions.push(this.clearFilters);
         }
         if(this.aggregations && this.aggregations.length > 0) {
@@ -254,7 +254,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
                         if(Utils.isString(val)){    // Sourcestr
                             this.selectedValues.add(val.toLowerCase());
                         }
-                        if(Utils.isArray(val)){
+                        if(Array.isArray(val)){
                             val.forEach(v => {
                                 if(Utils.isString(v))
                                     this.selectedValues.add(v.toLowerCase()); // Sourcecsv

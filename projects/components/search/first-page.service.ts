@@ -72,7 +72,7 @@ export class FirstPageService implements OnDestroy {
     }
 
     displayOnHomePage(path?: string): boolean {
-        if (Utils.isArray(this.options.displayOnHomePage)) {
+        if (Array.isArray(this.options.displayOnHomePage)) {
             if (!path) {
                 const url = Utils.makeURL(this.router.url);
                 path = url.pathname;

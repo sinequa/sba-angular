@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, OnChanges } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 import { AbstractFacet } from "../../abstract-facet";
 import {
     Results,
@@ -11,7 +11,6 @@ import { Query } from "@sinequa/core/app-utils";
 import { FacetConfig } from "../../facet-config";
 
 export interface FacetTagCloudParams {
-    aggregation: string | string[];
     limit?: number;
     uniformRepartition?: boolean;
     showCount?: boolean;
@@ -56,7 +55,7 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
     /** wether data are rendered following their count sorting or randomly */
     @Input() shuffleData = false;
     /** Optional facet name, for audit and facet customization */
-    @Input() name?: string;
+    @Input() name = "tag-cloud";
 
     aggregationsData: Aggregation[] = [];
     tagCloudData: TagCloudItem[] = [];
@@ -83,11 +82,8 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
         });
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (!!changes["results"]) {
-            /* update tag-cloud data */
-            this.tagCloudData = this.getTagCloudData();
-        }
+    ngOnChanges() {
+        this.tagCloudData = this.getTagCloudData();
     }
 
     /**
@@ -95,7 +91,7 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
      */
     getTagCloudData(): TagCloudItem[] {
         this.aggregationsData = this.getAggregationsData();
-        this.hasFiltered = this.aggregationsData.some(agg => agg.items?.some(i => i.$filtered));
+        this.hasFiltered = this.aggregationsData.some(agg => agg.$filtered.length);
 
         const aggregationsData = this.aggregationsData.filter(agg => agg.items?.length);
         if (aggregationsData.length === 0) {

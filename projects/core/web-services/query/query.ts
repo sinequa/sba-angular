@@ -105,12 +105,12 @@ export function compareExprFilters(a: ExprFilter, b: ExprFilter): boolean {
 }
 
 export function getFieldPredicate(field: string | string[]): (f: Filter) => boolean {
-  const fields = Array.isArray(field)? field : [field];
+  const fields = Utils.asArray(field);
   return (f: Filter) => isFieldFilter(f) && !!fields.find(field => Utils.eqNC(f.field, field));
 }
 
 export function getValuePredicate(field?: string | string[]): (f: Filter) => boolean {
-  const fields = field? Array.isArray(field)? field : [field] : undefined;
+  const fields = field? Utils.asArray(field) : undefined;
   return (f: Filter) => isValueFilter(f) && (!fields || !!fields.find(field => Utils.eqNC(f.field, field)));
 }
 

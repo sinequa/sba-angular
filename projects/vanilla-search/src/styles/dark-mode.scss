@@ -166,14 +166,6 @@ body.dark {
 
     app-search-form {
         box-shadow: 0px 0px 15px 4px $dark-background-highlight;
-
-        .list-group-item:not(.list-group-item-primary){
-            .autocomplete-item {
-                small, i {
-                    color: $dark-secondary;
-                }
-            }
-        }
     }
 
     app-search nav {
@@ -241,12 +233,8 @@ body.dark {
         }
     }
 
-    sq-facet-card.facet-preview {
-        .card-header {
-            sq-metadata {
-                color: $dark-secondary;
-            }
-        }
+    sq-facet-card.facet-preview sq-metadata {
+        color: $dark-secondary;
     }
 
     sq-pager {
@@ -272,14 +260,4 @@ body.dark {
         }
     }
 
-    sq-facet-mysearch {
-        .sq-metadata-item {
-            background-color: $dark-background;
-
-            &:hover {
-                background-color: $dark-background;
-                opacity: 0.8;
-            }
-        }
-    }
 }

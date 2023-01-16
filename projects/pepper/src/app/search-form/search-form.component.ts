@@ -10,23 +10,7 @@ import { SearchFormComponent } from "@sinequa/components/search-form";
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
-  styles: [`
-  :host {
-    position: relative;
-    display: block;
-  }
-
-  .search-dropdown {
-    padding: 0.75rem;
-    max-height: 400px;
-    overflow-y: auto;
-  }
-
-  sq-autocomplete {
-    display: block;
-    margin: 0 -0.75rem;
-  }
-  `],
+  styleUrls: ['./search-form.component.scss'],
 })
 export class AppSearchFormComponent {
 

@@ -84,7 +84,7 @@ export class UIService implements OnDestroy {
         //let rules = this.coreConfig.screenSizeRules;
 
         // validate that we're getting a string or array.
-        if (!Utils.isString(list) && !Utils.isArray(list)) {
+        if (!Utils.isString(list) && !Array.isArray(list)) {
             throw new Error('screenSizeIs requires an array or comma-separated list');
         }
 

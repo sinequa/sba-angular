@@ -165,7 +165,7 @@ export class Utils {
                     }
                     else {
                         if (!Utils.isObject(dst[key])) {
-                            dst[key] = Utils.isArray(src) ? [] : {};
+                            dst[key] = Array.isArray(src) ? [] : {};
                         }
                         Utils.baseExtend(dst[key], [src], true);
                     }
@@ -234,7 +234,7 @@ export class Utils {
                     iterator.call(context, obj[key], key, obj);
                     }
                 }
-            } else if (Utils.isArray(obj) || Utils.isArrayLike(obj)) {
+            } else if (Array.isArray(obj) || Utils.isArrayLike(obj)) {
                 const isPrimitive = typeof obj !== 'object';
                 for (key = 0, length = obj.length; key < length; key++) {
                     if (isPrimitive || key in obj) {
@@ -292,7 +292,7 @@ export class Utils {
             }
 
             // Empty the destination object
-            if (Utils.isArray(destination)) {
+            if (Array.isArray(destination)) {
                 (destination as Array<any>).length = 0;
             }
             else {
@@ -312,7 +312,7 @@ export class Utils {
 
         function copyRecurse(src, dest) {
             let key;
-            if (Utils.isArray(src)) {
+            if (Array.isArray(src)) {
                 for (let i = 0, ii = src.length; i < ii; i++) {
                     dest.push(copyElement(src[i]));
                 }
@@ -358,7 +358,7 @@ export class Utils {
             let needsRecurse = false;
             let dest;
 
-            if (Utils.isArray(src)) {
+            if (Array.isArray(src)) {
                 dest = [];
                 needsRecurse = true;
             } else if (Utils.isTypedArray(src)) {
@@ -603,7 +603,7 @@ export class Utils {
         if (value === null) {
             return "null";
         }
-        if (Utils.isArray(value)) {
+        if (Array.isArray(value)) {
             const ret: string[] = [];
             value.forEach(v => {
                 if (ret.length > 0) {
@@ -830,13 +830,6 @@ export class Utils {
     }
 
     /**
-     * Return `true` if the passed value is an `Array`
-     */
-    static isArray(value): value is Array<any> {
-        return Array.isArray(value);
-    }
-
-    /**
      * Return `true` if the passed value is iterable
      */
     static isIterable(value): value is Array<any> {
@@ -910,7 +903,7 @@ export class Utils {
         // * jqLite is either the jQuery or jqLite constructor function
         // * we have to check the existance of jqLite first as this method is called
         //   via the forEach method when constructing the jqLite object in the first place
-        if (Utils.isArray(obj) || Utils.isString(obj) /*|| (jqLite && obj instanceof jqLite)*/) return true;
+        if (Array.isArray(obj) || Utils.isString(obj) /*|| (jqLite && obj instanceof jqLite)*/) return true;
 
         // Support: iOS 8.2 (not reproducible in simulator)
         // "length" in obj used to prevent JIT error (gh-11508)
@@ -1431,7 +1424,7 @@ export class Utils {
                     delete obj[prop];
                 }
                 else {
-                    if (Utils.isArray(obj[prop])) {
+                    if (Array.isArray(obj[prop])) {
                         obj[prop].length = 0;
                     }
                     else if (Utils.isMap(obj[prop])) {
@@ -1459,7 +1452,7 @@ export class Utils {
         }
         for (const name of Object.keys(override)) {
             if (name in template) {
-                if (Utils.isObject(override[name]) && !Utils.isArray(override[name])) {
+                if (Utils.isObject(override[name]) && !Array.isArray(override[name])) {
                     const diff = Utils.deltas(template[name], override[name]);
                     if (!Utils.equals(diff, {})) {
                         ret[name] = diff;
@@ -1942,6 +1935,10 @@ export class Utils {
         }
 
         return value.toString();
+    }
+
+    static asArray<T>(data: T | T[]): T[] {
+        return Array.isArray(data)? data : [data];
     }
 
     /**

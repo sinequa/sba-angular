@@ -45,7 +45,7 @@ export class LoginInterceptor implements HttpInterceptor {
     }
 
     protected isJsonable(obj): boolean {
-        return (Utils.isObject(obj) || Utils.isArray(obj)) && !Utils.isArrayBuffer(obj) && !Utils.isBlob(obj) &&
+        return (Utils.isObject(obj) || Array.isArray(obj)) && !Utils.isArrayBuffer(obj) && !Utils.isBlob(obj) &&
             !Utils.isString(obj) && !(obj instanceof HttpParams);
     }
 

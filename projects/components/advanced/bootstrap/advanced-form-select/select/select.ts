@@ -208,7 +208,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
         this.clearSelected();
         if (value) {
             // the value may not be an array if this select is not multiple
-            const asArray = Array.isArray(value) ? value : [value];
+            const asArray = Utils.asArray(value);
             //Mark items as selected based on input values
             this.items.forEach((item, index) => {
                 if (asArray.find((el) => el.value === item.value) && index !== undefined) {

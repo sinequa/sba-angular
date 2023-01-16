@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, 
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet, FacetService } from "@sinequa/components/facet";
 import { Utils } from "@sinequa/core/base";
-import { Results, Record } from "@sinequa/core/web-services";
+import { Results, Record, Filter } from "@sinequa/core/web-services";
 import { FormatService, Query } from "@sinequa/core/app-utils";
 import { scaleUtc, scaleLog, scaleOrdinal } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
@@ -318,7 +318,11 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      */
     filterDatum(datum: MoneyDatum) {
         const display = `${datum.currency} ${this.formatService.moneyFormatter(datum.value)}`;
-        const filter = {field: this.moneyColumn, value: datum.rawvalue, display, facetName: this.name}
+        const filter: Filter = {
+          field: this.moneyColumn,
+          value: datum.rawvalue,
+          display
+        }
         this.facetService.applyFilterSearch(filter, this.query, undefined, this.name);
     }
 

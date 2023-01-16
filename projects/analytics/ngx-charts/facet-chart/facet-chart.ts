@@ -35,7 +35,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
     @Input() colors: string[] = ["#7aa3e5"];    // Single color (default is bar chart)
     @Input() filteredColor: string = "#C3E6CB";
     @Input() selectedColor: string = "#7acce5";
-    @Input() name?: string;
+    @Input() name = "chart";
 
     // Aggregation from the Results object
     data: Aggregation | undefined;
@@ -141,7 +141,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
                         if(Utils.isString(val)){    // Sourcestr
                             this.selectedValues.add(val.toLowerCase());
                         }
-                        if(Utils.isArray(val)){
+                        if(Array.isArray(val)){
                             val.forEach(v => {
                                 if(Utils.isString(v))
                                     this.selectedValues.add(v.toLowerCase()); // Sourcecsv

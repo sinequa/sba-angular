@@ -353,9 +353,7 @@ export class FacetService {
         return false;
       }
 
-      if (!Array.isArray(items)) {
-        items = [items];
-      }
+      items = Utils.asArray(items);
 
       if(Utils.eqNC(aggregation.column, 'concepts')) {
         query.addConcepts(items.map(i => i.value.toString()), options.not? '-' : '+');
@@ -459,9 +457,7 @@ export class FacetService {
      * @param facetName
      */
     public clearFiltersSearch(fields: string | string[], all: boolean, query = this.searchService.query, facetName?: string): Promise<boolean> {
-      if(!Array.isArray(fields)) {
-        fields = [fields];
-      }
+      fields = Utils.asArray(fields);
 
       for(let field of fields) {
         this.clearFilters(field, query);
@@ -606,7 +602,7 @@ export class FacetService {
      * @param field
      */
     public findFilter(field: string | string[], query = this.searchService.query) : Filter | undefined {
-      field = Array.isArray(field)? field : [field];
+      field = Utils.asArray(field);
 
       if(field.find(f => Utils.eqNC(f, "concepts"))) {
         const concepts = query.getConcepts();

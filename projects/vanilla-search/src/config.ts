@@ -24,21 +24,6 @@ export const FEATURES: string[] = [
 
 export type FacetParams = FacetListParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams;
 export const FACETS: FacetConfig<FacetParams>[] = [
-  {
-      name: "labels",
-      aggregation: "PrivateLabels",
-      title: "Private labels",
-      type: "list",
-      icon: "fas fa-fw fa-calendar-day",
-      parameters: {
-          showCount: true,
-          searchable: true,
-          allowExclude: true,
-          allowOr: true,
-          allowAnd: false,
-          displayEmptyDistributionIntervals: false,
-      }
-  },
     {
         name: "geo",
         aggregation: "Geo",

@@ -4,18 +4,13 @@ import { AbstractFacet } from "../../abstract-facet";
 import { FacetConfig } from "../../facet-config";
 import { FirstPageService, SearchService } from "@sinequa/components/search";
 import { AppService, Query } from "@sinequa/core/app-utils";
-import { MapOf } from "@sinequa/core/base";
+import { MapOf, Utils } from "@sinequa/core/base";
 import { Results } from "@sinequa/core/web-services";
 import { FacetService } from "../../facet.service";
 
 @Component({
   selector: 'sq-facet-container',
-  templateUrl: './facet-container.component.html',
-  styles: [`
-  .facet-container ::ng-deep .list-group {
-    margin: 0 -0.75rem;
-  }
-  `]
+  templateUrl: './facet-container.component.html'
 })
 export class FacetContainerComponent<T extends {}> implements OnChanges {
 
@@ -97,7 +92,7 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
     const query = this.query || this.searchService.query;
     const ccquery = this.appService.getCCQuery(query.name);
     this.facetList = this.facetConfigs.map(config => {
-      const aggregations = Array.isArray(config.aggregation)? config.aggregation : [config.aggregation];
+      const aggregations = Utils.asArray(config.aggregation);
       let filters = 0;
       for(let aggregation of aggregations) {
         const ccagg = this.appService.getCCAggregation(aggregation, ccquery);

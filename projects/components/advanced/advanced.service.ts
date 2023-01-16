@@ -18,7 +18,7 @@ import {
     ValueItem,
 } from "@sinequa/core/app-utils";
 import { ValidationService } from "@sinequa/core/validation";
-import { CCColumn, Filter, getFieldPredicate, ValueFilter } from "@sinequa/core/web-services";
+import { CCColumn, Filter, getFieldPredicate, isValueFilter } from "@sinequa/core/web-services";
 import { FacetService } from "@sinequa/components/facet";
 
 /**
@@ -208,8 +208,8 @@ export class AdvancedService {
         if(filter.operator === 'and' || filter.operator === 'or' || filter.operator === 'not') {
             return filter.filters.map(f => this.extractValues(f)).flat();
         }
-        else if(typeof (filter as ValueFilter).value !== 'undefined') {
-            return [{value: (filter as ValueFilter).value, display: filter.display}];
+        else if(isValueFilter(filter)) {
+            return [{value: filter.value, display: filter.display}];
         }
         return [];
     }
@@ -224,8 +224,8 @@ export class AdvancedService {
         query = this.searchService.query
     ): boolean | undefined {
         const filter = this.getAdvancedFilter(field, query);
-        if (typeof (filter as ValueFilter)?.value !== 'undefined') {
-            return this.formatAdvancedValue(field, (filter as ValueFilter).value) as boolean;
+        if (isValueFilter(filter)) {
+            return this.formatAdvancedValue(field, filter.value) as boolean;
         }
         return undefined;
     }
@@ -477,7 +477,7 @@ export class AdvancedService {
         if (value) {
             const column = this.appService.getColumn(field);
             if (column) {
-                if (Utils.isArray(value)) {
+                if (Array.isArray(value)) {
                     return value.map((v) =>
                         v ? this.formatBaseAdvancedValue(v, column) : v
                     );
@@ -594,7 +594,7 @@ export class AdvancedService {
      * Return `true` if the passed value is an `ValueItem[]`
      */
     protected _isValueItemArray(value: any): value is ValueItem[] {
-        if (Utils.isArray(value)) {
+        if (Array.isArray(value)) {
             const condition = (element) => this._isValueItem(element);
             return value.every(condition);
         }
@@ -607,7 +607,7 @@ export class AdvancedService {
     protected _isValueItem(value: any): value is ValueItem {
         if (
             Utils.isObject(value) &&
-            !Utils.isArray(value) &&
+            !Array.isArray(value) &&
             !Utils.isDate(value)
         ) {
             if (value.hasOwnProperty("value")) {

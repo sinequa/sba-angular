@@ -72,7 +72,7 @@ export class BsFacetDate
     items: AggregationItem[] = [];
 
     form: UntypedFormGroup;
-    dateRangeControl: UntypedFormControl;
+    dateRangeControl?: UntypedFormControl;
 
     timeSeries: TimelineSeries[] = [];
     selection: (Date | undefined)[] | undefined;
@@ -104,54 +104,51 @@ export class BsFacetDate
     }
 
     init() {
-        if (this.allowCustomRange) {
-            this.dateRangeControl = new UntypedFormControl(
-                [undefined, undefined],
-                [
-                    this.advancedService.validators.range(this.field),
-                    this.advancedService.validators.date(this.field),
-                ]
-            );
+        this.dateRangeControl = new UntypedFormControl(
+            [undefined, undefined],
+            [
+                this.advancedService.validators.range(this.field),
+                this.advancedService.validators.date(this.field),
+            ]
+        );
 
-            this.form = this.formBuilder.group({
-                dateRange: this.dateRangeControl,
-            });
+        this.form = this.formBuilder.group({
+            dateRange: this.dateRangeControl,
+        });
 
-            // Listen to query changes
-            this.subscriptions.push(
-                this.searchService.queryStream.subscribe(() => {
-                    if(!this.query) {
-                        this.onQueryChange(this.searchService.query);
-                    }
+        // Listen to query changes
+        this.subscriptions.push(
+            this.searchService.queryStream.subscribe(() => {
+                if(!this.query) {
+                    this.onQueryChange(this.searchService.query);
+                }
+            })
+        );
+
+        // Listen to form changes
+        this.subscriptions.push(
+            this.dateRangeControl.valueChanges
+                .pipe(
+                    debounceTime(500),
+                    filter(() => this.form.valid)
+                )
+                .subscribe((value: (undefined | Date)[]) => {
+                    this.setCustomDateSelect(value);
                 })
-            );
-
-            // Listen to form changes
-            this.subscriptions.push(
-                this.dateRangeControl.valueChanges
-                    .pipe(
-                        debounceTime(500),
-                        filter(() => this.form.valid)
-                    )
-                    .subscribe((value: (undefined | Date)[]) => {
-                        this.setCustomDateSelect(value);
-                    })
-            );
-        }
+        );
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.allowCustomRange) {
+            if (!this.dateRangeControl) {
+                this.init();
+            }
             this.updateTimeSeries(this.timelineAggregation);
         }
 
         if (changes.results) {
             this.data = this.getAggregation(this.aggregation);
             this.updateItems();
-        }
-
-        if (!this.dateRangeControl) {
-            this.init();
         }
 
         if (changes.query && this.query) {
@@ -173,7 +170,7 @@ export class BsFacetDate
 
     onQueryChange(query: Query) {
         const range = this.getRangeValue(query);
-        this.dateRangeControl.setValue(range, { emitEvent: false });
+        this.dateRangeControl?.setValue(range, { emitEvent: false });
         this.selection = !range[0] && !range[1] ? undefined : range;
     }
 

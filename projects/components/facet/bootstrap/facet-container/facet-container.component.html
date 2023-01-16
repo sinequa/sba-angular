@@ -1,3 +1,4 @@
+<!-- List of buttons that activate a facet -->
 <sq-collapse #buttonList [collapsed]="!!openedFacet">
   <ng-template>
     <div class="small fw-bold mb-2">{{ 'msg#facet.container.help' | sqMessage }}</div>
@@ -20,8 +21,10 @@
   </ng-template>
 </sq-collapse>
 
+<!-- Facet component -->
 <sq-collapse [collapsed]="!openedFacet">
   <ng-template>
+    <!-- Selector of results: either "first page" (empty search) or current results -->
     <div class="d-flex align-items-center">
       <ng-container *ngIf="results">
         <span class="small fw-bold me-2">{{ 'msg#facet.container.filterFor' | sqMessage:openedFacet }}</span>
@@ -34,19 +37,26 @@
           <label class="form-check-label small fw-bold" for="allDataMode">{{ 'msg#facet.container.all' | sqMessage }}</label>
         </div>
       </ng-container>
+      <!-- Actions of the currently open facet -->
       <div class="ms-auto btn-group" [sq-action-buttons]="{items: facetActions, rightAligned: true}"></div>
     </div>
+
+    <!-- Actual display of the facet -->
     <div class="facet-container">
       <ng-container *ngIf="openedFacet && facetInputs"
         [sqLoadComponent]="{component: facetComponents[openedFacet.type], inputs: facetInputs}"
         (sqLoadComponent)="onLoadComponent($event)">
       </ng-container>
     </div>
+
+    <!-- Spinner displayed when "first page" is loading -->
     <div *ngIf="!facetInputs" class="d-flex flex-column align-items-center">
       <div class="spinner-border my-5" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
+
+    <!-- Displayed when the when auto-hides (no data to display) -->
     <div *ngIf="isFacetEmpty" class="d-flex flex-column align-items-center">
       <div class="my-5 text-muted small">
         <i>{{ 'msg#facet.container.noData' | sqMessage }}</i>

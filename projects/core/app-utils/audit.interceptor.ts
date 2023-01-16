@@ -27,7 +27,7 @@ export class AuditInterceptor implements HttpInterceptor {
     }
 
     private isJsonable(obj): boolean {
-        return (Utils.isObject(obj) || Utils.isArray(obj)) && !Utils.isArrayBuffer(obj) && !Utils.isBlob(obj) &&
+        return (Utils.isObject(obj) || Array.isArray(obj)) && !Utils.isArrayBuffer(obj) && !Utils.isBlob(obj) &&
             !Utils.isString(obj) && !(obj instanceof HttpParams);
     }
 
@@ -37,7 +37,7 @@ export class AuditInterceptor implements HttpInterceptor {
             return undefined;
         }
         let auditEvents1: AuditEvent[] | undefined;
-        if (Utils.isArray(auditEvents)) {
+        if (Array.isArray(auditEvents)) {
             auditEvents1 = auditEvents;
         }
         else if (Utils.isObject(auditEvents)) {

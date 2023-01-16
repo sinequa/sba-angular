@@ -505,7 +505,7 @@ export class Query implements IQuery {
      * @param aggregation The associated aggregation
      */
     addOpen(expression: string, aggregation: string) {
-        if (!this.open || !Utils.isArray(this.open)) {
+        if (!this.open || !Array.isArray(this.open)) {
             this.open = [];
         }
         return this.open.push({ expression, aggregation });
@@ -539,9 +539,9 @@ export class Query implements IQuery {
         const query = Utils.fromJson(jquery);
         // convert select and open
         const select = query.select;
-        if (Utils.isArray(select)) {
+        if (Array.isArray(select)) {
             query.select = select.map<Select>((value: Select | string[]) => {
-                if (Utils.isArray(value)) {
+                if (Array.isArray(value)) {
                     return {
                         expression: value[0],
                         facet: value[1]
@@ -553,9 +553,9 @@ export class Query implements IQuery {
             });
         }
         const open = query.open;
-        if (Utils.isArray(open)) {
+        if (Array.isArray(open)) {
             query.open = open.map<Open>((value: Open | string[]) => {
-                if (Utils.isArray(value)) {
+                if (Array.isArray(value)) {
                     return {
                         expression: value[0],
                         aggregation: value[1]

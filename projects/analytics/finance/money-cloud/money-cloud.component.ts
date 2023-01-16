@@ -4,7 +4,7 @@ import { AbstractFacet, FacetService } from "@sinequa/components/facet";
 import { SelectionService } from "@sinequa/components/selection";
 import { FormatService, Query, ValueItem } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
-import { AggregationItem, Results } from "@sinequa/core/web-services";
+import { AggregationItem, Filter, Results } from "@sinequa/core/web-services";
 import { scaleBand, scaleLog, scaleOrdinal, scaleLinear } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
 import { select } from 'd3-selection';
@@ -308,10 +308,11 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     }
 
     filterDatum(datum: MoneyCloudDatum) {
-        const filter = {
-          field: this.moneyValueColumn,
-          value: datum.rawvalue,
-          facetName: this.name
+        const display = `${datum.category}: ${datum.currency} ${this.formatService.moneyFormatter(datum.value)}`;
+        const filter: Filter = {
+            field: this.moneyValueColumn,
+            value: datum.rawvalue,
+            display
         };
         this.facetService.applyFilterSearch(filter, this.query, undefined, this.name);
     }

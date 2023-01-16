@@ -328,10 +328,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
     checkEmptySearch(queries: Query | Query[]): boolean {
         if (this.appService.ccquery && !this.appService.ccquery.allowEmptySearch) {
-            if (!Utils.isArray(queries)) {
-                queries = [queries];
-            }
-            for (const query of queries) {
+            for (const query of Utils.asArray(queries)) {
                 if (this.isEmptySearch(query)) {
                     this.notificationsService.info("msg#search.emptySearchNotification");
                     return false;
@@ -825,12 +822,12 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     }
 
     addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddSelectOptions): boolean {
-        if(Utils.isArray(items) && items.length === 1) {
+        if(Array.isArray(items) && items.length === 1) {
             items = items[0];
         }
-        if (items && (!Utils.isArray(items) || items.length > 0)) {
+        if (items && (!Array.isArray(items) || items.length > 0)) {
             let filter: Filter;
-            if(!Utils.isArray(items)) {
+            if(!Array.isArray(items)) {
               filter = {field, value: items.value as string|number|boolean, display: items.display};
               if(options?.not) filter.operator = 'neq';
             }
@@ -933,19 +930,20 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         });
 
         // if all records found, return them
-        if (records.filter(r => r.record).length === ids.length) return of(records.map(r => r.record as Record));
+        if (records.every(r => r.record))
+            return of(records.map(r => r.record as Record));
 
         // building query to get missing records
         const query = this.query.copy();
         query.globalRelevance = 0;
         query.addFilter({
-          operator: 'or',
-          filters: records.filter(r => !r.record)
-            .map(r => ({field: 'id', value: r.id}))
+            field: 'id',
+            operator: 'in',
+            values: records.filter(r => !r.record).map(r => r.id)
         });
 
         return this.getResults(query, undefined, {searchInactive: true})
-                .pipe(map(res => records.map(r => r.record as Record || res.records.find(rec => rec.id === r.id))));
+            .pipe(map(res => records.map(r => r.record || res.records.find(rec => rec.id === r.id)!)));
     }
 }
 

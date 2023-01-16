@@ -15,11 +15,11 @@
         [ngTemplateOutletContext]="{$implicit: item}">
     </ng-container>
 
-    <span *ngIf="searchMode && items.length === 0" class="d-block text-center text-muted small py-1">
+    <span *ngIf="suggests?.length === 0" class="d-block text-center text-muted small py-1">
         <i>{{'msg#facet.searchNoResult' | sqMessage}}</i>
     </span>
 
-    <a *ngIf="!searchMode && data?.$hasMore" class="d-block border-0 text-center" (click)="loadMore()" href="#">
+    <a *ngIf="!suggests && data?.$hasMore" class="d-block border-0 text-center" (click)="loadMore()" href="#">
         <span *ngIf="searchActive | async; else loadMoreTpl" class="fas fa-sync fa-fw fa-spin"></span>
         <ng-template #loadMoreTpl>
             <small>{{'msg#facet.loadMore' | sqMessage}}</small>

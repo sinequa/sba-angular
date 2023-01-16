@@ -4,7 +4,7 @@ import { AbstractFacet } from '../../abstract-facet';
 import { FacetConfig, default_facet_components } from "../../facet-config";
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
-import { MapOf } from '@sinequa/core/base';
+import { MapOf, Utils } from '@sinequa/core/base';
 import { Query } from '@sinequa/core/app-utils';
 
 declare interface FacetMultiConfig extends FacetConfig<{displayEmptyDistributionIntervals?: boolean}> {
@@ -28,6 +28,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   @Input() facets: FacetMultiConfig[];
   @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
   @Input() showCount: boolean = true;
+  @Input() name = "facet-multi";
 
   @Output() events = new EventEmitter<FacetMultiConfig|undefined>();
 
@@ -75,7 +76,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
           .filter((facet) => facet.$hasFiltered)
           .map(facet => facet.$fields)
           .flat();
-        this.facetService.clearFiltersSearch(fields, true, this.query);
+        this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
       }
     });
 
@@ -127,14 +128,12 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   }
 
   initFacet(facet: FacetMultiConfig) {
-    const aggregations = Array.isArray(facet.aggregation)? facet.aggregation : [facet.aggregation];
-
     facet.$fields = [];
     facet.$count = 0;
     facet.$hasMore = false;
     facet.$hasFiltered = false;
 
-    for(let aggregation of aggregations) {
+    for(let aggregation of Utils.asArray(facet.aggregation)) {
       const agg = this.facetService.getAggregation(aggregation);
       if(agg) {
         facet.$fields.push(agg.column);
