@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { Query } from '@sinequa/core/app-utils';
-import { Results } from '@sinequa/core/web-services';
+import { PreviewData, Results } from '@sinequa/core/web-services';
 import { Record } from "@sinequa/core/web-services";
 
 @Injectable({
@@ -12,8 +13,12 @@ export class GlobalService {
   query: Query = new Query('training_query');
   results: Results;
   record: Record;
+  previewData: PreviewData;
+  previewDocument: PreviewDocument;
 
-  constructor(private searchService: SearchService) {
+  constructor(private searchService: SearchService,
+    private previewService: PreviewService) {
+      this.query.text = 'Paris';
     this.search();
   }
 
@@ -25,8 +30,16 @@ export class GlobalService {
         this.results = results;
         if (results?.records?.length) {
           this.record = results.records[0];
+          this.getPreviewData();
           console.log('record', this.record);
         }
+      });
+  }
+
+  getPreviewData(): void {
+    this.previewService.getPreviewData(this.record.id, this.query).subscribe(
+      previewData => {
+        this.previewData = previewData;
       });
   }
 }

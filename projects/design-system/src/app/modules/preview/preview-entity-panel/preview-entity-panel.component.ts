@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-preview-entity-panel',
@@ -6,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreviewEntityPanelComponent implements OnInit {
 
-  constructor() { }
+  code = `<sq-preview-entity-panel
+    [previewData]="previewData"
+    [previewDocument]="previewDocument">
+</sq-preview-entity-panel>`;
+
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }

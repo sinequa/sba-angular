@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-preview-page-form',
   templateUrl: './preview-page-form.component.html'
 })
-export class PreviewPageFormComponent implements OnInit {
+export class PreviewPageFormComponent {
 
-  constructor() { }
+  code = `<sq-preview-page-form
+    [pageNumber]="previewData?.record?.$page"
+    (gotopage)="gotoPage($event)">
+</sq-preview-page-form>`;
 
-  ngOnInit(): void {
-  }
+  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-preview-extracts-panel',
   templateUrl: './preview-extracts-panel.component.html'
 })
-export class PreviewExtractsPanelComponent implements OnInit {
+export class PreviewExtractsPanelComponent {
 
-  constructor() { }
+  code = `<sq-preview-extracts-panel
+    [previewData]="previewData"
+    [previewDocument]="previewDocument">
+</sq-preview-extracts-panel>`;
 
-  ngOnInit(): void {
-  }
+  constructor(public globalService: GlobalService) { }
 
 }

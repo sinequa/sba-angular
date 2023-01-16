@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-facet-preview-component',
@@ -6,7 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FacetPreviewComponentComponent implements OnInit {
 
-  constructor() { }
+  code = `<sq-facet-preview-2
+    [query]="query"
+    [record]="record">
+</sq-facet-preview-2>`;
+
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit(): void {
   }
