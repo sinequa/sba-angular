@@ -1,0 +1,10 @@
+<div *ngIf="display" class="{{customClass}}">
+    <!-- Icon -->
+    <span *ngIf="showIcon" class="fas fa-tags pe-2"></span>
+
+    <!-- Title -->
+    <span class="pe-2" *ngIf="showTitle">{{item}}</span>
+
+    <!-- Value -->
+    <span class="pe-2">{{value}}</span>
+</div>
