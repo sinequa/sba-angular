@@ -12,7 +12,7 @@ nav_order: 5
 
 Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsPreviewModule.html) auto-generated from source code.
 
-The Autocomplete module is also documented in the [tutorial]({{site.baseurl}}tutorial/preview.html).
+The Preview module is also documented in the [tutorial]({{site.baseurl}}tutorial/preview.html).
 
 [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html#preview-route) also has a documented [preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
 
