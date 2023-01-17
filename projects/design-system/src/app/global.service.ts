@@ -12,6 +12,7 @@ export class GlobalService {
 
   query: Query = new Query('training_query');
   results: Results;
+  pagesResults: Results;
   record: Record;
   previewData: PreviewData;
   previewDocument: PreviewDocument;
@@ -40,6 +41,11 @@ export class GlobalService {
     this.previewService.getPreviewData(this.record.id, this.query).subscribe(
       previewData => {
         this.previewData = previewData;
+        const pageNumber = this.previewService.getPageNumber(previewData.record);
+          if(pageNumber) {
+            this.previewService.fetchPages(previewData.record.containerid!, this.query!)
+              .subscribe(results => this.pagesResults = results);
+          }
       });
   }
 }

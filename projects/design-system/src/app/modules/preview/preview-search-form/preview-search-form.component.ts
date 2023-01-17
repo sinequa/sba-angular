@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-preview-search-form',
   templateUrl: './preview-search-form.component.html'
 })
-export class PreviewSearchFormComponent implements OnInit {
+export class PreviewSearchFormComponent {
 
-  constructor() { }
+  code = `<sq-preview-search-form
+    [query]="query">
+</sq-preview-search-form>`;
 
-  ngOnInit(): void {
-  }
+  constructor(public globalService: GlobalService) { }
 
 }

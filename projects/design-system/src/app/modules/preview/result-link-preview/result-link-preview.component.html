@@ -1,10 +1,11 @@
 <sq-facet-card title="BsResultLinkPreview">
     <div class="row p-3">
         <div class="col-5">
-
+            <sq-result-link-preview [query]="globalService.query" [text]="'Some text'"
+                [record]="globalService.record"></sq-result-link-preview>
         </div>
         <div class="col-7">
-            <!-- <app-code [code]="code"></app-code> -->
+            <app-code [code]="code"></app-code>
         </div>
     </div>
 </sq-facet-card>

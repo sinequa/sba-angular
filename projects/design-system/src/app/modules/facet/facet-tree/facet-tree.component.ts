@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-facet-tree',
   templateUrl: './facet-tree.component.html'
 })
-export class FacetTreeComponent implements OnInit {
+export class FacetTreeComponent {
 
   code = `<sq-facet-card
     title="Tree"
@@ -16,8 +16,5 @@ export class FacetTreeComponent implements OnInit {
 </sq-facet-card>`;
 
   constructor(public globalService: GlobalService) { }
-
-  ngOnInit(): void {
-  }
 
 }

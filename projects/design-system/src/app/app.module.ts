@@ -65,6 +65,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { GlobalService } from './global.service';
+import { BsModalModule } from '@sinequa/components/modal';
+import { MODAL_MODEL } from '@sinequa/core/modal';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -201,6 +203,7 @@ export class AppLocalesConfig implements LocalesConfig {
         BsSearchModule,
         // HighlightModule,
         BsPreviewModule,
+        BsModalModule,
         MetadataModule,
         CollapseModule,
         UtilsModule,
@@ -211,6 +214,7 @@ export class AppLocalesConfig implements LocalesConfig {
         { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
+        { provide: MODAL_MODEL, useValue: {} },
         GlobalService
     ],
     bootstrap: [AppComponent]

@@ -1,10 +1,12 @@
 <sq-facet-card title="BsSimilarDocuments">
     <div class="row p-3">
         <div class="col-5">
-
+            <sq-similar-documents [sourceDocumentId]="globalService.previewData.record.id"
+                [query]="globalService.query">
+            </sq-similar-documents>
         </div>
         <div class="col-7">
-            <!-- <app-code [code]="code"></app-code> -->
+            <app-code [code]="code"></app-code>
         </div>
     </div>
 </sq-facet-card>

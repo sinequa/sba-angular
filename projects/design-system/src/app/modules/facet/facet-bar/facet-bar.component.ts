@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'app-facet-bar',
   templateUrl: './facet-bar.component.html'
 })
-export class FacetBarComponent implements OnInit {
+export class FacetBarComponent {
 
   index = 0;
 
@@ -61,8 +61,5 @@ export const defaultFacets: FacetState[] = [
         ...`;
 
   constructor(public globalService: GlobalService) { }
-
-  ngOnInit(): void {
-  }
 
 }

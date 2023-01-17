@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Tab} from "@sinequa/core/web-services";
 import {BsPager} from "@sinequa/components/search";
 
@@ -6,7 +6,7 @@ import {BsPager} from "@sinequa/components/search";
     selector: 'app-search',
     templateUrl: './search.component.html'
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
 
 
     /**
@@ -69,9 +69,6 @@ export class SearchComponent implements OnInit {
     code4: string = `<sq-breadcrumbs></sq-breadcrumbs>`;
 
     constructor() {
-    }
-
-    ngOnInit(): void {
     }
 
 }

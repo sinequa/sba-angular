@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Action, ActionButtonsOptions} from "@sinequa/components/action";
 
 const myAction = new Action({
@@ -46,7 +46,7 @@ const dropdownAction = new Action({
     selector: 'app-buttons',
     templateUrl: './buttons.component.html'
 })
-export class ButtonsComponent implements OnInit {
+export class ButtonsComponent {
 
     buttonClass: string = 'normal';
     showIcon: boolean = false;
@@ -113,7 +113,7 @@ fabActionButtonsOptions: ActionButtonsOptions = {
     items: fabAction,
     style: 'fab'
 }
-    
+
 fabAction: Action = new Action({
     icon: 'fas fa-calendar',
     action: () => {}
@@ -149,9 +149,6 @@ fabAction: Action = new Action({
     }
 
     constructor() {
-    }
-
-    ngOnInit(): void {
     }
 
 }

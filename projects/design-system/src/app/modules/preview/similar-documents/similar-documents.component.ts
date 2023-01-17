@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { GlobalService } from 'src/app/global.service';
 
 @Component({
   selector: 'app-similar-documents',
   templateUrl: './similar-documents.component.html'
 })
-export class SimilarDocumentsComponent implements OnInit {
+export class SimilarDocumentsComponent {
 
-  constructor() { }
+  code = `<sq-similar-documents
+    [sourceDocumentId]="previewData.record.id"
+    [query]="query">
+</sq-similar-documents>`;
 
-  ngOnInit(): void {
-  }
+  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,10 +1,17 @@
 <sq-facet-card title="BsPreviewPanel">
     <div class="row p-3">
         <div class="col-5">
-
+            <sq-preview-panel
+                [query]="model.query"
+                [previewData]="globalService.previewData"
+                [displaySimilarDocuments]="model.displaySimilarDocuments"
+                [metadata]="model.metadata">
+            </sq-preview-panel>
         </div>
         <div class="col-7">
-            <!-- <app-code [code]="code"></app-code> -->
+            <app-code [code]="code"></app-code>
+            <hr>
+            <app-code [code]="code2"></app-code>
         </div>
     </div>
 </sq-facet-card>

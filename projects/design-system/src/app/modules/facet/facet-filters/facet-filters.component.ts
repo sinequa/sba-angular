@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FACETS } from 'src/mocks/facets';
 import { GlobalService } from '../../../global.service';
 
@@ -6,7 +6,7 @@ import { GlobalService } from '../../../global.service';
   selector: 'app-facet-filters',
   templateUrl: './facet-filters.component.html'
 })
-export class FacetFiltersComponent implements OnInit {
+export class FacetFiltersComponent {
 
   FACETS = FACETS;
 
@@ -15,8 +15,5 @@ export class FacetFiltersComponent implements OnInit {
   [facets]="FACETS"></sq-facet-filters>`;
 
   constructor(public globalService: GlobalService) { }
-
-  ngOnInit(): void {
-  }
 
 }

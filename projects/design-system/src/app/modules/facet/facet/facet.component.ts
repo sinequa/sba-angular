@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Action } from '@sinequa/components/action';
 
 @Component({
     selector: 'app-facet',
     templateUrl: './facet.component.html'
 })
-export class FacetComponent implements OnInit {
+export class FacetComponent {
 
     code1 = `<sq-facet-card
     title="With a list-group"
@@ -90,9 +90,6 @@ const expandAction = new Action({
             action: () => {}
           });
           this.secondaryActions = [ minimizeAction, maximizeAction ];
-    }
-
-    ngOnInit(): void {
     }
 
 }

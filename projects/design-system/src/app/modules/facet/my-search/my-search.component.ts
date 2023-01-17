@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Breadcrumbs, BreadcrumbsItem, SearchService } from '@sinequa/components/search';
 import { GlobalService } from '../../../global.service';
 
@@ -6,7 +6,7 @@ import { GlobalService } from '../../../global.service';
   selector: 'app-my-search',
   templateUrl: './my-search.component.html'
 })
-export class MySearchComponent implements OnInit {
+export class MySearchComponent {
 
   code = `<sq-facet-mysearch [results]="results"></sq-facet-mysearch>`;
 
@@ -33,9 +33,6 @@ export class MySearchComponent implements OnInit {
       activeSelects: [item, item2] as BreadcrumbsItem[],
       findSelect: (facet) => item2.expr
     } as Breadcrumbs;
-  }
-
-  ngOnInit(): void {
   }
 
 }

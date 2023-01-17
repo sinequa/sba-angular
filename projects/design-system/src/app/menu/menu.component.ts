@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 
 export interface MenuItem {
@@ -12,7 +12,7 @@ export interface MenuItem {
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
 
     showDisabled: boolean = false;
     fontSize: number;
@@ -71,9 +71,6 @@ export class MenuComponent implements OnInit {
                 }
             }
         });
-    }
-
-    ngOnInit(): void {
     }
 
     get getComponents(): any[] {
