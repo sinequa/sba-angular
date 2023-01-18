@@ -275,17 +275,22 @@ export class PreviewDocument {
         const nodeList = this.document.querySelectorAll(this.highlightedPassage);
         if (!nodeList || !nodeList.length) return;
 
-        const nodes: any[] = [];
+        const coords: DOMRect[] = [];
         const margin = 2; // the margin between the text and the highlight box border
 
         nodeList.forEach(node => {
-            nodes.push(node);
+            if (node['innerText']) {
+                coords.push(node.getBoundingClientRect());
+            }
         });
 
-        const minLeft = Math.min(...nodes.map(n => n.offsetLeft)) - margin;
-        const minTop = Math.min(...nodes.map(n => n.offsetTop)) - margin;
-        const maxRight = Math.max(...nodes.map(n => n.offsetLeft + n.offsetWidth));
-        const maxBottom = Math.max(...nodes.map(n => n.offsetTop + n.offsetHeight));
+        const scrollLeft = this._window.scrollX;
+        const scrollTop = this._window.scrollY;
+
+        const minLeft = Math.min(...coords.map(c => c.left + scrollLeft)) - margin;
+        const minTop = Math.min(...coords.map(c => c.top + scrollTop)) - margin;
+        const maxRight = Math.max(...coords.map(c => c.right + scrollLeft));
+        const maxBottom = Math.max(...coords.map(c => c.bottom + scrollTop));
         const height = maxBottom - minTop + (margin * 2);
         const width = maxRight - minLeft + (margin * 2);
 
