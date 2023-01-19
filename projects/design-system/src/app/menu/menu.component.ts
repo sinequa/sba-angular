@@ -38,7 +38,7 @@ export class MenuComponent {
         {selected: false, name: 'modal', enabled: false},
         {selected: false, name: 'notification', enabled: false},
         {selected: false, name: 'preview', enabled: true},
-        {selected: false, name: 'result', enabled: false},
+        {selected: false, name: 'result', enabled: true},
         {selected: false, name: 'results-view', enabled: false},
         {selected: false, name: 'rfm', enabled: false},
         {selected: false, name: 'saved-queries', enabled: false},

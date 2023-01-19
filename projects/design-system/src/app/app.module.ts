@@ -20,7 +20,6 @@ import { SearchComponent } from './search/search.component';
 import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
 import { MenuComponent } from './menu/menu.component';
 import { NavbarComponent } from './navbar/navbar.component';
-// import { HIGHLIGHT_OPTIONS, HighlightModule } from "ngx-highlightjs";
 import { UtilsModule } from "@sinequa/components/utils";
 import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
 import { MetadataModule } from "@sinequa/components/metadata";
@@ -58,6 +57,7 @@ import { PreviewPagesPanelComponent } from './modules/preview/preview-pages-pane
 import { PreviewPageFormComponent } from './modules/preview/preview-page-form/preview-page-form.component';
 import { PreviewMinimapComponent } from './modules/preview/preview-minimap/preview-minimap.component';
 import { FacetPreviewComponentComponent } from './modules/preview/facet-preview-component/facet-preview-component.component';
+import { ResultModuleComponent } from './modules/result/result-module.component';
 
 // Environment
 import { environment } from "../environments/environment";
@@ -67,6 +67,15 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { GlobalService } from './global.service';
 import { BsModalModule } from '@sinequa/components/modal';
 import { MODAL_MODEL } from '@sinequa/core/modal';
+import { ResultTitleComponent } from './modules/result/result-title/result-title.component';
+import { ResultExtractsComponent } from './modules/result/result-extracts/result-extracts.component';
+import { ResultMissingTermsComponent } from './modules/result/result-missing-terms/result-missing-terms.component';
+import { ResultThumbnailComponent } from './modules/result/result-thumbnail/result-thumbnail.component';
+import { UserRatingComponent } from './modules/result/user-rating/user-rating.component';
+import { SponsoredResultsComponent } from './modules/result/sponsored-results/sponsored-results.component';
+import { ResultsCounterComponent } from './modules/result/results-counter/results-counter.component';
+import { ResultIconComponent } from './modules/result/result-icon/result-icon.component';
+import { ResultSourceComponent } from './modules/result/result-source/result-source.component';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -185,7 +194,17 @@ export class AppLocalesConfig implements LocalesConfig {
         PreviewPageFormComponent,
         PreviewMinimapComponent,
         FacetPreviewComponentComponent,
-        SearchBarComponent
+        SearchBarComponent,
+        ResultModuleComponent,
+        ResultTitleComponent,
+        ResultExtractsComponent,
+        ResultMissingTermsComponent,
+        ResultThumbnailComponent,
+        UserRatingComponent,
+        SponsoredResultsComponent,
+        ResultsCounterComponent,
+        ResultIconComponent,
+        ResultSourceComponent
     ],
     imports: [
         BrowserModule,
