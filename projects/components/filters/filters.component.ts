@@ -1,10 +1,18 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { AppService, Query } from "@sinequa/core/app-utils";
-import { Filter, ExprFilter, ValueFilter, NullFilter, InFilter, BetweenFilter } from "@sinequa/core/web-services";
+import { Filter, ExprFilter, ValueFilter, NullFilter, InFilter, BetweenFilter, isExprFilter } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-filters',
   templateUrl: './filters.component.html',
+  styles: [`
+a {
+  opacity: 0.5;
+}
+a:hover {
+  opacity: 1;
+}
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FiltersComponent implements OnChanges {
@@ -64,11 +72,11 @@ export class FiltersComponent implements OnChanges {
    * An expr filter might contain nested filters applied on different fields
    */
   getField(filter: Filter): string | undefined {
-    if((filter as ExprFilter).filters) {
-      const set = new Set((filter as ExprFilter).filters.map(f => this.getField(f)));
+    if(isExprFilter(filter)) {
+      const set = new Set(filter.filters.map(f => this.getField(f)));
       return set.size === 1? set.values().next().value : undefined;
     }
-    return (filter as ValueFilter)?.field;
+    return filter.field;
   }
 
   remove() {

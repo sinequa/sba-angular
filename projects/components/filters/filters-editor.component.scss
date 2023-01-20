@@ -3,10 +3,9 @@
   cursor: grab;
 }
 a {
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  opacity: 0.5;
 }
-div:hover > a {
+a:hover {
   opacity: 1;
 }
 :host ::ng-deep .dropdown-toggle::after {

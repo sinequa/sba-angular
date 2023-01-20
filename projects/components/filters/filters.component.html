@@ -68,6 +68,6 @@
     class="ms-1 text-reset"
     [title]="'msg#filters.remove' | sqMessage:{value: filter?.display || valueFilter?.value || field}"
     *ngIf="allowRemove && (!exprFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
-    <i class="fas fa-times-circle"></i>
+    <i class="fas fa-times"></i>
   </a>
 </ng-container>

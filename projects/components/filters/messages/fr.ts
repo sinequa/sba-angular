@@ -26,6 +26,9 @@ export default {
     },
     "drag": "Glisser et déposer",
     "remove": "Enlever le filtre \"{value}\"",
-    "nest": "Imbriquer le filtre \"{value}\" dans un ET"
+    "nest": "Imbriquer le filtre \"{value}\" dans un ET",
+    "advanced": "Filtres avancés",
+    "clear": "Supprimer les filtres",
+    "save": "Valider"
   }
 }

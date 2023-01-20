@@ -26,6 +26,9 @@ export default {
     },
     "drag": "Drag-and-Drop",
     "remove": "Filter entfernen \"{value}\"",
-    "nest": "Verschachteln Sie den Filter \"{value}\" in einem UND"
+    "nest": "Verschachteln Sie den Filter \"{value}\" in einem UND",
+    "advanced": "Erweiterte Filter",
+    "clear": "Filter löschen",
+    "save": "Speichern"
   }
 }

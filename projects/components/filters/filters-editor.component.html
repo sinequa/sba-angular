@@ -44,19 +44,20 @@
   <sq-filters *ngIf="!exprFilter" [filter]="filter" [showField]="false" [showOperator]="false" [allowRemove]="false">
   </sq-filters>
 
+  <!-- Nest this filter -->
+  <a href="#" (click)="nestFilter()"
+    class="ms-3 text-reset"
+    [title]="'msg#filters.nest' | sqMessage:{value:filter?.display || valueFilter?.value || field}"
+    *ngIf="allowNesting && (!exprFilter || filter.display)"> <!-- Display the nest button on "leafs" only to avoid duplicate buttons -->
+    <i class="fas fa-code-branch"></i>
+  </a>
+
   <!-- Remove this filter -->
   <a href="#" (click)="remove()"
     class="ms-2 text-reset"
     [title]="'msg#filters.remove' | sqMessage:{value: filter?.display || valueFilter?.value || field}"
-    *ngIf="allowRemove && (valueFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
-    <i class="fas fa-times-circle"></i>
+    *ngIf="allowRemove && (!exprFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
+    <i class="fas fa-times"></i>
   </a>
 
-  <!-- Nest this filter -->
-  <a href="#" (click)="nestFilter()"
-    class="ms-1 text-reset"
-    [title]="'msg#filters.nest' | sqMessage:{value:filter?.display || valueFilter?.value || field}"
-    *ngIf="allowNesting && (valueFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
-    <i class="fas fa-folder-plus"></i>
-  </a>
 </div>
