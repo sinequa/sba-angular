@@ -5,7 +5,7 @@ import {UserSettingsWebService, UserSettings, Suggestion,
 } from "@sinequa/core/web-services";
 import {IntlService} from "@sinequa/core/intl";
 import {Query, AppService, FormatService} from "@sinequa/core/app-utils";
-import {Utils} from "@sinequa/core/base";
+import {FieldValue, Utils} from "@sinequa/core/base";
 import {Subject, Observable, map, tap} from "rxjs";
 import {FirstPageService, SearchService} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
@@ -423,8 +423,13 @@ export class FacetService {
           const expr = res?.[1].split(" AND ");
           const filters = expr.map(e => {
             const operator: 'gte'|'lt' = e.indexOf('>=') !== -1? 'gte' : 'lt';
-            return {field, operator, value: e.substring(e.indexOf(' ')+1)};
+            let value: FieldValue = e.substring(e.indexOf(' ')+1);
+            if(this.appService.isNumber(aggregation.column)) {
+              value = +value;
+            }
+            return {field, operator, value};
           });
+
           if(filters.length === 2) {
             return {operator: 'and', filters, display};
           }

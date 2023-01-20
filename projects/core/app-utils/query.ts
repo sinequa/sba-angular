@@ -281,15 +281,6 @@ export class Query implements IQuery {
 
       this.forEachFilter(f => {
 
-        // The most common case of filter: field = value
-        if(isValueFilter(f)) {
-          const field = f.field.toLowerCase();
-          if(!map[field]) {
-            map[field] = [];
-          }
-          map[field].push({value: f.value, display: f.display, count: 0, $filtered: true});
-        }
-
         // Distributions (where values are expressions)
         if(f.display) {
           // This code reconstructs the expresion corresponding to that distribution
@@ -316,6 +307,15 @@ export class Query implements IQuery {
             map[field].push({value, display: f.display, count: 0, $filtered: true});
             return true; // Returning true stops the forEach from exploring descendents
           }
+        }
+
+        // The most common case of filter: field = value
+        if(isValueFilter(f)) {
+          const field = f.field.toLowerCase();
+          if(!map[field]) {
+            map[field] = [];
+          }
+          map[field].push({value: f.value, display: f.display, count: 0, $filtered: true});
         }
 
         return false;
