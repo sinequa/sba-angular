@@ -73,15 +73,10 @@ export class AutocompleteComponent implements OnInit, OnChanges {
    */
   getSuggests(value: string): Observable<AutocompleteItem[]> {
 
-    const suggestQuery = this.suggestQuery || this.appService.suggestQueries[0];
-    if(!suggestQuery || !value.trim()) {
-      return of([]);
-    }
-
     // Methods returning (observable of) suggestions from different sources
     let dataSources: Observable<AutocompleteItem[]>[] = this.suggestTypes.map(source => {
       switch(source) {
-        case 'suggests': return  this.suggestService.get(suggestQuery, value);
+        case 'suggests': return  this.suggestService.get(this.suggestQuery, value);
         case 'baskets': return from(this.searchBaskets(value));
         case 'recent-documents': return from(this.searchRecentDocuments(value));
         case 'recent-queries': return from(this.searchRecentQueries(value));

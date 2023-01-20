@@ -22,11 +22,11 @@ export class SuggestService {
         private appService: AppService) {
     }
 
-    get(suggestQuery: string, text: string, fields?: string | string[], query?: Query): Observable<Suggestion[]> {
-        if (!this.appService.ccquery) {
+    get(suggestQuery: string | undefined, text: string, fields?: string | string[], query?: Query): Observable<Suggestion[]> {
+        if (!this.appService.ccquery || !text.trim()) {
             return of([]);
         }
-        return this.suggestQueryWebService.get(suggestQuery, text, this.appService.ccquery.name, fields)
+        return this.suggestQueryWebService.get(suggestQuery || this.appService.suggestQueries[0], text, this.appService.ccquery.name, fields)
             .pipe(switchMap(suggests => {
                 if (fields && (!suggests || suggests.length === 0)) {
                     return this.getFields(text, fields, query);
