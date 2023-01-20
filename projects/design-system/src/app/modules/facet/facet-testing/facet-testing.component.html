@@ -1,0 +1,116 @@
+<sq-facet-card title="Further testings">
+    <div class="row p-3">
+        <div class="col-5">
+            <sq-facet-card [title]="'Booleans'" class="mb-3">
+                <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggBool'"></sq-facet-list>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code1"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Integers'" class="mb-3">
+                <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggInt'"></sq-facet-list>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code2"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Doubles'" class="mb-3">
+                <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggDouble'"></sq-facet-list>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code3"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Doubles Dist'" class="mb-3">
+                <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggDoubleDist'"></sq-facet-list>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code4"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Doubles Range'" class="mb-3">
+                <sq-facet-range #facet [results]="globalService.results"
+                    [aggregation]="'AggDoubleRange'"></sq-facet-range>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code5"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Dates Dist'" class="mb-3">
+                <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggDateDist'"></sq-facet-list>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code6"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Dates Range'" class="mb-3">
+                <sq-facet-range #facet [results]="globalService.results"
+                    [aggregation]="'AggDateRange'"></sq-facet-range>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code7"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Dates Timeline'" class="mb-3">
+                <sq-facet-timeline #facet [results]="globalService.results"
+                    [timeseries]="[{aggregation:'AggDateTimeline', primary: true}]" [width]="200"></sq-facet-timeline>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code8"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Dates'" class="mb-3">
+                <sq-facet-date #facet [results]="globalService.results" [aggregation]="'AggDateDist'"
+                    [timelineAggregation]="'AggDateTimeline'" [allowPredefinedRange]="true" [allowCustomRange]="true"
+                    [showCustomRange]="true"></sq-facet-date>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code9"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Strings'" class="mb-3">
+                <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggString'"></sq-facet-list>
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code10"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Trees'" class="mb-3">
+                <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggTree'"></sq-facet-list>
+                <!-- <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggTree'" [expandedLevel]="0"></sq-facet-list> -->
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code11"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Entities'" class="mb-3">
+                <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggEntity'"></sq-facet-list>
+                <!-- <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggEntity'" [expandedLevel]="0"></sq-facet-list> -->
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code12"></app-code>
+        </div>
+        <div class="col-5">
+            <sq-facet-card [title]="'Normalized Entities'" class="mb-3">
+                <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggEntityNorm'"></sq-facet-list>
+                <!-- <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggEntityNorm'" [expandedLevel]="0"></sq-facet-list> -->
+            </sq-facet-card>
+        </div>
+        <div class="col-7">
+            <app-code [code]="code13"></app-code>
+        </div>
+    </div>
+</sq-facet-card>

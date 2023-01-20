@@ -10,7 +10,7 @@ import { Record } from "@sinequa/core/web-services";
 })
 export class GlobalService {
 
-  query: Query = new Query('training_query');
+  query: Query = new Query('query');
   results: Results;
   pagesResults: Results;
   record: Record;

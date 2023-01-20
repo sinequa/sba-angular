@@ -76,10 +76,12 @@ import { SponsoredResultsComponent } from './modules/result/sponsored-results/sp
 import { ResultsCounterComponent } from './modules/result/results-counter/results-counter.component';
 import { ResultIconComponent } from './modules/result/result-icon/result-icon.component';
 import { ResultSourceComponent } from './modules/result/result-source/result-source.component';
+import { BsTimelineModule } from '@sinequa/analytics/timeline';
+import { FacetTestingComponent } from './modules/facet/facet-testing/facet-testing.component';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
-    app: "training",
+    app: "app",
     production: environment.production,
     autoSAMLProvider: environment.autoSAMLProvider,
     auditEnabled: true
@@ -204,7 +206,8 @@ export class AppLocalesConfig implements LocalesConfig {
         SponsoredResultsComponent,
         ResultsCounterComponent,
         ResultIconComponent,
-        ResultSourceComponent
+        ResultSourceComponent,
+        FacetTestingComponent
     ],
     imports: [
         BrowserModule,
@@ -214,6 +217,7 @@ export class AppLocalesConfig implements LocalesConfig {
         BsFacetModule.forRoot(allFacets, defaultFacets),
         IntlModule.forRoot(AppLocalesConfig),
         BsSearchModule.forRoot(searchOptions),
+        BsTimelineModule,
         ResultModule,
         BsSelectionModule,
         BsLabelsModule,
