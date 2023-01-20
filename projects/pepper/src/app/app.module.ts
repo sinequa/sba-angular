@@ -32,7 +32,6 @@ import { BsFeedbackModule } from '@sinequa/components/feedback';
 import { BsPreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule, SelectionOptions, SELECTION_OPTIONS } from '@sinequa/components/selection';
-import { CollapseModule } from "@sinequa/components/collapse";
 import { FiltersModule } from "@sinequa/components/filters";
 import { SearchFormComponent } from "@sinequa/components/search-form";
 
@@ -166,7 +165,6 @@ FusionCharts.options.creditLabel = false;
         BsPreviewModule,
         MetadataModule,
         BsSelectionModule,
-        CollapseModule,
         FiltersModule,
         SearchFormComponent,
 

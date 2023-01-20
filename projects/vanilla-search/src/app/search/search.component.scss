@@ -2,6 +2,16 @@
     height: 40px;
 }
 
+sq-filters-view ::ng-deep {
+  .sq-simple-mode:not(:hover) .sq-filter-action {
+    display: none;
+  }
+  .sq-advanced-mode {
+    z-index: 1;
+    min-width: 100%;
+  }
+}
+
 // Styling of the result items
 .record {
 

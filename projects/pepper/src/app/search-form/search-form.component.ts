@@ -31,23 +31,11 @@ export class AppSearchFormComponent {
   @ViewChild("searchForm") searchForm: SearchFormComponent;
 
 
-  /** editFilter = true when we display the filter editor */
-  filtersEdited: boolean;
-
   constructor(
     public searchService: SearchService
   ) {}
 
-  toggleEdit() {
-    this.filtersEdited = !this.filtersEdited;
-  }
-
   onFiltersChange() {
-    this.searchForm.onFiltersChanged();
-  }
-
-  clearFilters(query: Query) {
-    delete query.filters;
     this.searchForm.onFiltersChanged();
   }
 

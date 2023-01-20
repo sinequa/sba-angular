@@ -14,10 +14,7 @@
         "scopeTitle": "Suchbereich: {name}",
         "recentQuery": "Recent query",
         "recentDocument": "Recent document",
-        "currentFilters": "Aktive Filter:",
-        "advancedFilters": "Passen Sie Ihre Filter an:",
-        "closeAdvanced": "Erweiterte Bearbeitung schließen",
-        "openAdvanced": "Erweiterte Bearbeitung öffnen"
+        "currentFilters": "Aktive Filter:"
     },
 
     "facet": {

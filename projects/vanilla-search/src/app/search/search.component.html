@@ -91,15 +91,13 @@
 
             <!-- Toolbar -->
             <div class="d-flex small sq-toolbar">
-                <div class="flex-grow-1">
-                  <sq-filters *ngIf="searchService.query.filters"
-                    [query]="searchService.query"
-                    [filter]="searchService.query.filters"
-                    [showField]="false"
-                    [allowRemove]="true"
-                    (filterEdit)="searchService.search()">
-                  </sq-filters>
-                </div>
+                <sq-filters-view
+                  class="flex-grow-1 position-relative"
+                  [query]="searchService.query"
+                  [closeOnClickOutside]="true"
+                  [advancedModeClass]="'card position-absolute p-3'"
+                  (filterEdit)="searchService.search()">
+                </sq-filters-view>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true"></sq-sort-selector>
             </div>

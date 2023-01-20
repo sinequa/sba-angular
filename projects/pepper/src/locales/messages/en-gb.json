@@ -14,10 +14,7 @@
         "scopeTitle": "Scope: {name}",
         "recentQuery": "Recent query",
         "recentDocument": "Recent document",
-        "currentFilters": "Current filters:",
-        "advancedFilters": "Customize your query by drag & dropping filters:",
-        "closeAdvanced": "Close Advanced Edit",
-        "openAdvanced": "Open Advanced Edit"
+        "currentFilters": "Current filters:"
     },
 
     "baskets": {

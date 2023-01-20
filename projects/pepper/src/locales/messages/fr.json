@@ -14,10 +14,7 @@
         "scopeTitle": "Champ d'application : {name}",
         "recentQuery": "Recherche récente",
         "recentDocument": "Document récent",
-        "currentFilters": "Filtres actifs:",
-        "advancedFilters": "Personnaliser les filtres:",
-        "closeAdvanced": "Fermer l'édition avancée",
-        "openAdvanced": "Ouvrir l'édition avancée"
+        "currentFilters": "Filtres actifs:"
     },
 
     "baskets": {
