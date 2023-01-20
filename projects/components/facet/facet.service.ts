@@ -564,7 +564,15 @@ export class FacetService {
         query.aggregations = {};
         query.aggregations[aggregation.name] = {skip, count};
         return this.searchService.getResults(query, undefined, {searchInactive}).pipe(
-            map(results => results.aggregations[0].items || [])
+            map(results => {
+                const data = results.aggregations[0];
+                const items = aggregation.items || [];
+                if(data?.items) {
+                    items.push(...data.items);
+                }
+                aggregation.$hasMore = !!data?.$hasMore;
+                return items;
+            })
         );
     }
 

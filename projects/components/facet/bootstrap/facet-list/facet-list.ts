@@ -319,14 +319,11 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
      * Called on loadMore button click
      */
     loadMore() {
-        const data = this.data;
-        if (data) {
+        if (this.data) {
             const query = this.facetService.getDataQuery(this.results, this.query);
-            const data$ = this.facetService.loadData(data, query)
-            this.whileSearchActive(data$).subscribe(items => {
-                data.items = (data.items || []).concat(items);
-                this.updateItems();
-            });
+            const data$ = this.facetService.loadData(this.data, query)
+            this.whileSearchActive(data$)
+                .subscribe(() => this.updateItems());
         }
         return false; // Avoids following href
     }
