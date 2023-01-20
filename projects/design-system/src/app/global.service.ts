@@ -19,7 +19,8 @@ export class GlobalService {
 
   constructor(private searchService: SearchService,
     private previewService: PreviewService) {
-      this.query.text = 'Paris';
+      this.query.text = '';
+      // this.query.text = 'Paris';
     this.search();
   }
 
