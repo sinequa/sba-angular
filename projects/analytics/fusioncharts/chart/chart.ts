@@ -7,7 +7,7 @@ import { Action } from '@sinequa/components/action';
 import { Utils } from '@sinequa/core/base';
 import { merge, Subscription } from 'rxjs';
 import { SelectionService } from '@sinequa/components/selection';
-import { AppService, Query } from '@sinequa/core/app-utils';
+import { AppService, FormatService, Query, ValueItem } from '@sinequa/core/app-utils';
 
 
 export const defaultChart = {
@@ -73,6 +73,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
 
     constructor(
         public intlService: IntlService,
+        public formatService: FormatService,
         public uiService: UIService,
         public facetService: FacetService,
         public selectionService: SelectionService,
@@ -196,10 +197,10 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         this.dataSource = {
           ...this.dataSource,
           data: this.data?.items?.map(item => {
-            const isSelected = this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase()) && this.selectedColor;
+            const isSelected = item.value !== null && this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase()) && this.selectedColor;
             const isFiltered = item.$filtered && this.filteredColor;
             return {
-                label: this.facetService.formatValue(item),
+                label: item.value? this.formatService.formatFieldValue(item as ValueItem, item.$column) : 'null',
                 value: ""+item.count,
                 color: isFiltered? this.filteredColor : isSelected? this.selectedColor : this.defaultColor
             };

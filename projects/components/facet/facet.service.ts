@@ -322,7 +322,7 @@ export class FacetService {
           return this.searchService.search(undefined, {
             type: FacetEventType.AddFilter,
             detail: {
-              item: (Array.isArray(items)? items[0] : items).value.toString(),
+              item: (Array.isArray(items)? items[0] : items).value,
               itembox: facetName,
               itemcolumn: aggregation.column,
               isitemexclude: options.not,
@@ -356,7 +356,7 @@ export class FacetService {
       items = Utils.asArray(items);
 
       if(Utils.eqNC(aggregation.column, 'concepts')) {
-        query.addConcepts(items.map(i => i.value.toString()), options.not? '-' : '+');
+        query.addConcepts(items.map(i => i.value as string), options.not? '-' : '+');
         return true;
       }
 
@@ -414,11 +414,12 @@ export class FacetService {
       const display = item.display;
 
       if(aggregation.isTree) {
-        return {field, value: (item as TreeAggregationNode).$path! + '*', display: item.value.toString()}
+        const _item = item as TreeAggregationNode;
+        return {field, value: _item.$path! + '*', display: _item.value}
       }
 
       else if(aggregation.isDistribution) {
-        const res = item.value.toString().match(/.*\:\(?([><=\d\-\.AND ]+)\)?/);
+        const res = (item.value as string).match(/.*\:\(?([><=\d\-\.AND ]+)\)?/);
         if(res?.[1]) {
           const expr = res?.[1].split(" AND ");
           const filters = expr.map(e => {
@@ -493,8 +494,8 @@ export class FacetService {
       query = this.searchService.query): Filter | undefined {
 
       if(Utils.eqNC(aggregation.column, 'concepts')) {
-        const res = query.removeConcept(item.value.toString());
-        return res? {field: 'concepts', value: item.value.toString()} : undefined;
+        const res = query.removeConcept(item.value as string);
+        return res? {field: 'concepts', value: item.value as string} : undefined;
       }
 
       const filter = this.toFilter(item, aggregation);
@@ -517,7 +518,7 @@ export class FacetService {
                 return this.searchService.search(undefined, {
                     type: FacetEventType.RemoveFilter,
                     detail: {
-                        item: item.value.toString(),
+                        item: item.value,
                         itembox: facetName,
                         itemcolumn: aggregation.column,
                         fromresultid: !!this.searchService.results ? this.searchService.results.id : null
@@ -589,15 +590,6 @@ export class FacetService {
      */
     public suggest(text: string, field: string, query = this.searchService.query): Observable<Suggestion[]> {
       return this.suggestService.getFields(text, [field], query);
-    }
-
-    /**
-     * Format the given result item, using field formatter and/or i18n service
-     * @param item
-     */
-    formatValue(item: AggregationItem): string {
-      return this.intlService.formatMessage(
-        this.formatService.formatFieldValue(item, item.$column));
     }
 
     /**

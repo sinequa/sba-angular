@@ -553,28 +553,26 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
         const _items = items
             .map(item => {
-                if(!!item.value && !(item.value instanceof Date)){
+                if(item.value){
                     const val = item.value.toString();
-                    item.value = parseISO(val.length <= 4? val + "-01" : val);
-                    if(isNaN(item.value.getTime())){
-                        item.value = <Date><unknown> undefined; // So it gets filtered out
+                    let date = parseISO(val.length <= 4? val + "-01" : val);
+                    if(!isNaN(date.getTime())){
+                        return {date, value: item.count}
                     }
                 }
-                return item;
+                return undefined!; // the ! is for excluding the filtered undefined from the inferred type
             })
-            .filter(item => !!item.value && (!range || ((item.value as Date) >= range[0] && (item.value as Date) <= range[1])));
+            .filter(item => item && (!range || item.date >= range[0] && item.date <= range[1]));
 
         _items.forEach((item,i) => {
-            const date = item.value as Date;
-
-            if(i === 0 || timeInterval.offset(series[series.length-1].date, 1) < date) {
-                series.push({date: timeInterval.offset(date, -1), value: 0});
+            if(i === 0 || timeInterval.offset(series[series.length-1].date, 1) < item.date) {
+                series.push({date: timeInterval.offset(item.date, -1), value: 0});
             }
 
-            series.push({date: date, value: item.count});
+            series.push(item);
 
-            if(i === _items.length-1 || timeInterval.offset(date, 1) < _items[i+1].value){
-                series.push({date: timeInterval.offset(date, 1), value: 0});
+            if(i === _items.length-1 || timeInterval.offset(item.date, 1) < _items[i+1].date){
+                series.push({date: timeInterval.offset(item.date, 1), value: 0});
             }
         });
 

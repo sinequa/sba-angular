@@ -2,7 +2,7 @@ import {Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges} from "@an
 import {Results, Aggregation, AggregationItem} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
-import {AppService, Query} from "@sinequa/core/app-utils";
+import {AppService, FormatService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {SelectionService} from '@sinequa/components/selection';
 import {Subscription} from "rxjs";
 import {ChartOptions, ChartDataPoint} from "../chart/chart";
@@ -59,7 +59,8 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
         private facetService: FacetService,
         private intlService: IntlService,
         private selectionService: SelectionService,
-        private appService: AppService
+        private appService: AppService,
+        private formatService: FormatService
     ){
         super();
 
@@ -119,7 +120,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
         if(this.data?.items){
             for (const item of this.data.items) {
                 this.dataPoints.push({
-                    name: this.facetService.formatValue(item),
+                    name: item.value? this.formatService.formatFieldValue(item as ValueItem, item.$column) : 'null',
                     value: item.count,
                     $item: item
                 });
@@ -175,7 +176,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
                     if (item.$filtered) {
                         return this.filteredColor;
                     }
-                    if(this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase())){
+                    if(item.value !== null && this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase())){
                         return this.selectedColor;
                     }
                 }

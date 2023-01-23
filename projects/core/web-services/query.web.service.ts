@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {HttpService} from "./http.service";
-import {Utils, FieldValue, MapOf} from "@sinequa/core/base";
+import {Utils, MapOf} from "@sinequa/core/base";
 import {IQuery} from "./query/query";
 import {AuditEvents} from "./audit.web.service";
 import {CCAggregation, CCColumn, SpellingCorrectionMode} from "./config/ccapp";
@@ -310,7 +310,7 @@ export interface AggregationItem {
     /**
      * The value of the item
      */
-    value: FieldValue;
+    value: string | number | boolean | null;
     /**
      * The display value of the item, if any
      */
@@ -362,6 +362,10 @@ export interface TreeAggregationNode extends AggregationItem {
      * Contains the child nodes of this node
      */
     items: TreeAggregationNode[];
+    /**
+     * Trees are limited to string values
+     */
+    value: string;
 
     /**
      * A client-side field that contains the full path of the node
@@ -453,6 +457,7 @@ export interface ListAggregation extends Aggregation {
 export interface TreeAggregation extends Aggregation {
     isTree: true;
     items?: TreeAggregationNode[];
+    $filtered: TreeAggregationNode[];
 }
 
 /**

@@ -36,14 +36,10 @@ export class SuggestService {
     }
 
     getFields(text: string, fields: string | string[], query?: Query): Observable<Suggestion[]> {
-        const _fields = Array.isArray(fields) ? fields : [fields];
-        fields = [];
-        for (const field of _fields) {
+        fields = Utils.asArray(fields).filter(field => {
             const column = this.appService.getColumn(field);
-            if (!!column && (column.eType === EngineType.csv || AppService.isScalar(column))) {
-                fields.push(field);
-            }
-        }
+            return column && (column.eType === EngineType.csv || AppService.isScalar(column))
+        });
         if (fields.length > 0) {
             return this.suggestFieldWebService.get(text, fields, query);
         }

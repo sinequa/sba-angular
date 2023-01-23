@@ -6,7 +6,7 @@ import { FacetService, AbstractFacet, BsFacetCard } from "@sinequa/components/fa
 import { Action } from '@sinequa/components/action';
 import { Subscription, merge } from 'rxjs';
 import { SelectionService } from '@sinequa/components/selection';
-import { AppService, Query } from '@sinequa/core/app-utils';
+import { AppService, FormatService, Query, ValueItem } from '@sinequa/core/app-utils';
 import { Utils } from "@sinequa/core/base";
 
 export const defaultMultiLevelChart = {
@@ -18,7 +18,7 @@ export const defaultMultiLevelChart = {
     "pieborderthickness": 3
 }
 
-export interface Category extends AggregationItem, TreeAggregationNode {
+export interface Category extends AggregationItem {
     label: string;
     originalLabel: string;
     value: number | string;
@@ -27,6 +27,7 @@ export interface Category extends AggregationItem, TreeAggregationNode {
     showLabel?: boolean;
     showValue?: boolean;
     category?: Category[];
+    $path?: string;
 }
 
 @Component({
@@ -72,7 +73,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         if (this.isTree()) {
             return this.selectedValues.has((item as TreeAggregationNode).$path!.toLowerCase()) && this.selectedColor;
         }
-        return this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase()) && this.selectedColor;
+        return item.value !== null && this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase()) && this.selectedColor;
     }
     /**
      * Callback used to apply custom operations (sort, filter ...) on a tree nodes
@@ -112,6 +113,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         public facetService: FacetService,
         public selectionService: SelectionService,
         public appService: AppService,
+        public formatService: FormatService,
         @Optional() public cardComponent: BsFacetCard,
         private zone: NgZone,
         private el: ElementRef
@@ -219,10 +221,11 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     private convertAggregationItems<T extends AggregationItem | TreeAggregationNode>(item: T): Category {
         const isFiltered = item.$filtered && this.filteredColor;
         const isSelected = this.isSelected(item);
+        const label = item.value !== null? this.formatService.formatFieldValue(item as ValueItem) : 'null';
         if ((item as TreeAggregationNode).items) {
             return {
                 ...item,
-                label: this.facetService.formatValue(item),
+                label,
                 originalLabel: item.value,
                 value: item.count,
                 color: isFiltered ? this.filteredColor : isSelected ? this.selectedColor : this.defaultColor,
@@ -231,7 +234,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         }
         return {
             ...item,
-            label: this.facetService.formatValue(item),
+            label,
             originalLabel: item.value,
             value: item.count,
             color: isFiltered ? this.filteredColor : isSelected ? this.selectedColor : this.defaultColor

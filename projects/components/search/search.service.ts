@@ -454,7 +454,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     initializeTreeAggregation(aggregation: TreeAggregation) {
       // Process the filtered items
       for(let item of aggregation.$filtered) {
-        (item as TreeAggregationNode).$path = item.value.toString().slice(0, -1); // Remove the '*' at the end of the value
+        item.$path = item.value.slice(0, -1); // Remove the '*' at the end of the value
       }
 
       if(aggregation.items) {

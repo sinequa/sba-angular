@@ -316,7 +316,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      */
     @Input() parseCooccurrenceItem: (i:AggregationItem) => HeatmapItem
     = value => {
-        const val = value.display || value.value.toString();
+        const val = value.display || String(value.value);
         const parts = val.substr(1, val.length-2).split(")#(");
         if(parts.length < 2){
             throw new Error(`'${val}' is not formatted as a co-occurrence: (value 1)#(value 2)`);
@@ -326,8 +326,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
             y: parts[1],
             count: value.count,
             display: `${parts[0]} - ${parts[1]}`,
-            value: value.value.toString(),
-            selected: this.selectedItems.has(value.value.toString())
+            value: String(value.value),
+            selected: this.selectedItems.has(String(value.value))
         };
     }
 
