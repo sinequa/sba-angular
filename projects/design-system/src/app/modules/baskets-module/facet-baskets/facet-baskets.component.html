@@ -1,12 +1,5 @@
-<sq-facet-card title="BsFacetBasketsComponent">
-    <div class="row p-3">
-        <div class="col-5">
-            <sq-facet-card title="Title" [collapsible]="false">
-                <sq-facet-baskets #facet></sq-facet-baskets>
-            </sq-facet-card>
-        </div>
-        <div class="col-7">
-            <app-code [code]="code"></app-code>
-        </div>
-    </div>
-</sq-facet-card>
+<app-component-demo title="BsFacetBasketsComponent" [code]="code">
+    <sq-facet-card title="Title" [collapsible]="false">
+        <sq-facet-baskets #facet></sq-facet-baskets>
+    </sq-facet-card>
+</app-component-demo>

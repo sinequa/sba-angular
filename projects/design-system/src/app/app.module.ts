@@ -86,6 +86,28 @@ import { ResultBasketsComponent } from './modules/baskets-module/result-baskets/
 import { BasketsMenuComponent } from './modules/baskets-module/baskets-menu/baskets-menu.component';
 import { FacetBasketsComponent } from './modules/baskets-module/facet-baskets/facet-baskets.component';
 import { BsBasketsModule } from '@sinequa/components/baskets';
+import { CollapseModuleComponent } from './modules/collapse-module/collapse-module.component';
+import { CommentsModuleComponent } from './modules/comments-module/comments-module.component';
+import { FeedbackModuleComponent } from './modules/feedback-module/feedback-module.component';
+import { LabelsModuleComponent } from './modules/labels-module/labels-module.component';
+import { MachineLearningModuleComponent } from './modules/machine-learning-module/machine-learning-module.component';
+import { CollapseComponent } from './modules/collapse-module/collapse/collapse.component';
+import { CollapseButtonComponent } from './modules/collapse-module/collapse-button/collapse-button.component';
+import { CommentsComponent } from './modules/comments-module/comments/comments.component';
+import { CommentsModule } from '@sinequa/components/comments';
+import { FeedbackMenuComponent } from './modules/feedback-module/feedback-menu/feedback-menu.component';
+import { BsFeedbackModule } from '@sinequa/components/feedback';
+import { LabelsAutocompleteComponent } from './modules/labels-module/labels-autocomplete/labels-autocomplete.component';
+import { RenameLabelComponent } from './modules/labels-module/rename-label/rename-label.component';
+import { LabelsMenuComponent } from './modules/labels-module/labels-menu/labels-menu.component';
+import { DeleteLabelComponent } from './modules/labels-module/delete-label/delete-label.component';
+import { AddLabelComponent } from './modules/labels-module/add-label/add-label.component';
+import { EditLabelComponent } from './modules/labels-module/edit-label/edit-label.component';
+import { AnswerCardComponent } from './modules/machine-learning-module/answer-card/answer-card.component';
+import { PassageListComponent } from './modules/machine-learning-module/passage-list/passage-list.component';
+import { TopPassagesComponent } from './modules/machine-learning-module/top-passages/top-passages.component';
+import { MLModule } from '@sinequa/components/machine-learning';
+import { ComponentDemoComponent } from './component-demo/component-demo.component';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -222,7 +244,26 @@ export class AppLocalesConfig implements LocalesConfig {
         SelectBasketsComponent,
         ResultBasketsComponent,
         BasketsMenuComponent,
-        FacetBasketsComponent
+        FacetBasketsComponent,
+        CollapseModuleComponent,
+        CommentsModuleComponent,
+        FeedbackModuleComponent,
+        LabelsModuleComponent,
+        MachineLearningModuleComponent,
+        CollapseComponent,
+        CollapseButtonComponent,
+        CommentsComponent,
+        FeedbackMenuComponent,
+        LabelsAutocompleteComponent,
+        RenameLabelComponent,
+        LabelsMenuComponent,
+        DeleteLabelComponent,
+        AddLabelComponent,
+        EditLabelComponent,
+        AnswerCardComponent,
+        PassageListComponent,
+        TopPassagesComponent,
+        ComponentDemoComponent
     ],
     imports: [
         BrowserModule,
@@ -239,7 +280,6 @@ export class AppLocalesConfig implements LocalesConfig {
         BsActionModule,
         FormsModule,
         BsSearchModule,
-        // HighlightModule,
         BsPreviewModule,
         BsModalModule,
         MetadataModule,
@@ -247,7 +287,10 @@ export class AppLocalesConfig implements LocalesConfig {
         UtilsModule,
         BsAutocompleteModule,
         BsNotificationModule,
-        BsBasketsModule
+        BsBasketsModule,
+        CommentsModule,
+        BsFeedbackModule,
+        MLModule
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },

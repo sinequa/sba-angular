@@ -1,47 +1,37 @@
-<sq-facet-card title="BsFacetCard">
-    <div class="row p-3">
-        <div class="col-5">
-            <sq-facet-card title="With secondary and view actions" [collapsible]="false"
-                [viewActionsAreSecondary]="true" [actions]="primaryActions" [secondaryActions]="secondaryActions">
-                <ng-template [sqFacetView]="{text: 'View 1'}">
-                    View 1
-                </ng-template>
+<app-component-demo title="BsFacetCard" [code]="code2" class="mb-4 d-block">
+    <sq-facet-card title="With secondary and view actions" [collapsible]="false" [viewActionsAreSecondary]="true"
+        [actions]="primaryActions" [secondaryActions]="secondaryActions">
+        <ng-template [sqFacetView]="{text: 'View 1'}">
+            View 1
+        </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'View 2'}">
-                    View 2
-                </ng-template>
-            </sq-facet-card>
+        <ng-template [sqFacetView]="{text: 'View 2'}">
+            View 2
+        </ng-template>
+    </sq-facet-card>
+</app-component-demo>
+
+<app-component-demo title="BsFacetCard" [code]="code1">
+    <sq-facet-card title="With a list-group" icon="fas fa-sitemap" [collapsible]="true">
+        <div class="list-group list-group-flush">
+            <a class="saved-query-item list-group-item list-group-item-action d-flex align-items-center">
+                <span class="query-name me-auto text-truncate" [title]="'title'">title</span>
+                <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">"additional
+                    text"</span>
+                <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
+            </a>
+            <a class="saved-query-item list-group-item list-group-item-action d-flex align-items-center">
+                <span class="query-name me-auto text-truncate" [title]="'title2'">title2</span>
+                <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">"additional
+                    text 2"</span>
+                <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
+            </a>
+            <a class="saved-query-item list-group-item list-group-item-action d-flex align-items-center">
+                <span class="query-name me-auto text-truncate" [title]="'title3'">title3</span>
+                <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">"additional
+                    text 3"</span>
+                <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
+            </a>
         </div>
-        <div class="col-7">
-            <app-code [code]="code2"></app-code>
-        </div>
-        <hr>
-        <div class="col-5">
-            <sq-facet-card title="With a list-group" icon="fas fa-sitemap" [collapsible]="true">
-                <div class="list-group list-group-flush">
-                    <a class="saved-query-item list-group-item list-group-item-action d-flex align-items-center">
-                        <span class="query-name me-auto text-truncate" [title]="'title'">title</span>
-                        <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">"additional
-                            text"</span>
-                        <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
-                    </a>
-                    <a class="saved-query-item list-group-item list-group-item-action d-flex align-items-center">
-                        <span class="query-name me-auto text-truncate" [title]="'title2'">title2</span>
-                        <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">"additional
-                            text 2"</span>
-                        <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
-                    </a>
-                    <a class="saved-query-item list-group-item list-group-item-action d-flex align-items-center">
-                        <span class="query-name me-auto text-truncate" [title]="'title3'">title3</span>
-                        <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">"additional
-                            text 3"</span>
-                        <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
-                    </a>
-                </div>
-            </sq-facet-card>
-        </div>
-        <div class="col-7">
-            <app-code [code]="code1"></app-code>
-        </div>
-    </div>
-</sq-facet-card>
+    </sq-facet-card>
+</app-component-demo>

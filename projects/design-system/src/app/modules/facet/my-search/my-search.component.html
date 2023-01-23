@@ -1,10 +1,3 @@
-<sq-facet-card title="BsMySearch">
-    <div class="row p-3">
-        <div class="col-5">
-            <sq-facet-mysearch [results]="globalService.results" [ignoreText]="false"></sq-facet-mysearch>
-        </div>
-        <div class="col-7">
-            <app-code [code]="code"></app-code>
-        </div>
-    </div>
-</sq-facet-card>
+<app-component-demo title="BsMySearch" [code]="code">
+    <sq-facet-mysearch [results]="globalService.results" [ignoreText]="false"></sq-facet-mysearch>
+</app-component-demo>

@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-facet-bar',
-  templateUrl: './facet-bar.component.html'
+    selector: 'app-facet-bar',
+    templateUrl: './facet-bar.component.html'
 })
 export class FacetBarComponent {
 
-  index = 0;
+    index = 0;
 
-  code = `<sq-facet-bar
+    code = `<sq-facet-bar
     [results]="results"
     [containerIndex]="index"></sq-facet-bar>`;
 
@@ -60,6 +60,6 @@ export const defaultFacets: FacetState[] = [
         BsFacetModule.forRoot(allFacets, defaultFacets),
         ...`;
 
-  constructor(public globalService: GlobalService) { }
+    constructor(public globalService: GlobalService) { }
 
 }

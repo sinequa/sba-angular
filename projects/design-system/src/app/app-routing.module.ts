@@ -8,6 +8,11 @@ import { FacetModuleComponent } from './modules/facet/facet-module.component';
 import { PreviewModuleComponent } from './modules/preview/preview-module.component';
 import { ResultModuleComponent } from './modules/result/result-module.component';
 import { BasketsModuleComponent } from './modules/baskets-module/baskets-module.component';
+import { CollapseModuleComponent } from './modules/collapse-module/collapse-module.component';
+import { CommentsModuleComponent } from './modules/comments-module/comments-module.component';
+import { FeedbackModuleComponent } from './modules/feedback-module/feedback-module.component';
+import { LabelsModuleComponent } from './modules/labels-module/labels-module.component';
+import { MachineLearningModuleComponent } from './modules/machine-learning-module/machine-learning-module.component';
 
 const routes: Routes = [
   { path: 'buttons', component: ButtonsComponent },
@@ -18,6 +23,11 @@ const routes: Routes = [
   { path: 'preview', component: PreviewModuleComponent },
   { path: 'baskets', component: BasketsModuleComponent },
   { path: 'result', component: ResultModuleComponent },
+  { path: 'collapse', component: CollapseModuleComponent },
+  { path: 'comments', component: CommentsModuleComponent },
+  { path: 'feedback', component: FeedbackModuleComponent },
+  { path: 'labels', component: LabelsModuleComponent },
+  { path: 'machine-learning', component: MachineLearningModuleComponent },
   { path: '**', redirectTo: '/buttons' }
 ];
 

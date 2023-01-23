@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-code',
-  template: `<pre [innerText]="code"></pre>`,
+  template: `<pre [innerText]="code"></pre>
+  <hr *ngIf="addSpacer">`,
   styles: [`
 .sq-code {
   font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
@@ -13,6 +14,7 @@ import { Component, Input } from '@angular/core';
 export class CodeComponent {
 
   @Input() code: string;
+  @Input() addSpacer = false;
 
   constructor() { }
 
