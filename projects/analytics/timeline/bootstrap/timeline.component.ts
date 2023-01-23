@@ -1,8 +1,7 @@
 import { Component, Input, Output, ElementRef, ViewChild, OnChanges, AfterViewInit, EventEmitter, SimpleChanges, OnDestroy, SimpleChange, ContentChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { IntlService } from '@sinequa/core/intl';
-import { Record } from '@sinequa/core/web-services';
 import { TooltipManager } from '@sinequa/analytics/tooltip';
 import { bisector, extent, max } from 'd3-array';
 import { scaleLinear, scaleUtc } from 'd3-scale';
@@ -12,52 +11,22 @@ import { select } from 'd3-selection';
 import { zoom, zoomIdentity, zoomTransform } from 'd3-zoom';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
-
-
-export interface TimelineDate {
-    date: Date;
-    value: number;
-    displayedDate?: Date;
-}
-
-export interface TimelineSeries {
-    name: string;
-    dates: TimelineDate[];
-    primary: boolean;
-    lineStyles?: {[key:string]: any};
-    areaStyles?:  {[key:string]: any};
-    showDatapoints?: boolean;
-}
-
-export interface TimelineEvent {
-    date: Date;
-    id: string;
-    display: string;
-    size?: number;
-    sizeOpened?: number;
-    styles?: {[key:string]: any};
-    record?: Record;
-}
-
-export interface DataPoint {
-    date: Date;
-    values: ({ name: string; value: number; } | undefined)[]
-}
+import { DataPoint, TimelineDate, TimelineEvent, TimelineEventType, TimelineSeries } from './timeline.model';
 
 export const curveTypes = {
-  curveBasis,
-  curveBasisClosed,
-  curveBasisOpen,
-  curveBumpX,
-  curveBumpY,
-  curveLinear,
-  curveLinearClosed,
-  curveMonotoneX,
-  curveMonotoneY,
-  curveNatural,
-  curveStep,
-  curveStepAfter,
-  curveStepBefore
+    curveBasis,
+    curveBasisClosed,
+    curveBasisOpen,
+    curveBumpX,
+    curveBumpY,
+    curveLinear,
+    curveLinearClosed,
+    curveMonotoneX,
+    curveMonotoneY,
+    curveNatural,
+    curveStep,
+    curveStepAfter,
+    curveStepBefore
 }
 
 @Component({
@@ -95,6 +64,13 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     @ContentChild("eventTooltipTpl", {static: false}) eventTooltipTpl: TemplateRef<any>;
     @ContentChild("dataPointTooltipTpl", {static: false}) dataPointTooltipTpl: TemplateRef<any>;
+
+    @Input() showLegend = false;
+    @Input() legendHeight?: number = 50;
+    @Input() legendStyles?: {[key:string]: any} = {'justify-content' : 'center'};
+    @Input() legendEvents?: TimelineEventType[];
+    @Input() legendOrientation?: "row"|"column" = "row";
+    @Input() legendYOffset?: number = 3;
 
     // Data
     groupedEvents: TimelineEvent[][] = [];
@@ -134,14 +110,16 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     // Misc
     viewInit: boolean;
     intlSubscription: Subscription;
+    updateSubscription: Subscription;
+
     static counter = 0;
     instance: number;
 
     zooming: boolean;
     brushing: boolean;
 
-    public noTimeSeries$ = new Subject<boolean>();
-    public noEvents$ = new Subject<boolean>();
+    private noTimeSeries = true;
+    private noEvents = true;
 
     constructor(
         protected el: ElementRef,
@@ -151,16 +129,37 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         // When the locale changes, we rebuild the X scale and axis
         this.intlSubscription = this.intlService.events.subscribe(e => this.updateXAxis());
 
+        // // When data changes, check if display timeline / empty graph
+        // this.combinedDataCheck$ = combineLatest([this.noTimeSeries$, this.noEvents$]);
+        // this.updateSubscription = this.combinedDataCheck$
+        //                             .pipe(
+        //                                 map(([noTimeSeries, noEvents]) => !!noTimeSeries && !!noEvents)
+        //                             )
+        //                             .subscribe(
+        //                                 (isNoData) => {
+        //                                     //this.dataInit = true;
+        //                                     this.isNoData = isNoData;
+        //                                     if (!this.isNoData) {
+        //                                         this.updateChart();
+        //                                         this.updateEvents();
+        //                                     }
+        //                                     this.cdRef.detectChanges();
+        //                                 }
+        //                             )
+
         this.instance = BsTimelineComponent.counter++;
 
     }
 
+    get isNoData(): boolean {
+        return this.noTimeSeries && this.noEvents;
+    }
     get innerWidth(): number {
         return this.width - this.margin.left - this.margin.right;
     }
 
     get innerHeight(): number {
-        return this.height - this.margin.top - this.margin.bottom;
+        return this.height - this.margin.top - this.margin.bottom - (this.showLegend ? this.legendHeight! : 0);
     }
 
     // Note: ngOnChanges is always called once before ngAfterViewInit
@@ -198,7 +197,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
         // Resize handling
 
-        if(changes["height"]) {
+        if(changes["height"] || changes["showLegend"]) {
             this.y.range([this.innerHeight, 0]);
             this.area.y0(this.y(0)!);
             this.brushBehavior.extent([[0, 0], [this.innerWidth, this.innerHeight]]);
@@ -230,7 +229,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         // Only changes in data result in redrawing the chart
         // (other input, except selection, are expected to be static)
         if(this.viewInit && changes["data"] && this.checkDataChanges(changes["data"])){
-            this.noTimeSeries$.next(!(this.data && this.data.flatMap((timeSerie) => timeSerie.dates).length > 0));
             this.updateChart();
         }
 
@@ -243,7 +241,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         }
 
         if(changes["events"]) {
-            this.noEvents$.next(!(this.events && this.events.length > 0))
             this.updateEvents();
         }
 
@@ -253,45 +250,37 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     // At this point we can initialize all the primitives and call updateChart()
     ngAfterViewInit() {
 
-        if (!this.noTimeSeries || !this.noEvents) {
-            // Get native elements
-            this.xAxis$ = select(this.gx.nativeElement);
-            this.yAxis$ = select(this.gy.nativeElement);
-            this.brush$ = select(this.gbrush.nativeElement);
+        // Get native elements
+        this.xAxis$ = select(this.gx.nativeElement);
+        this.yAxis$ = select(this.gy.nativeElement);
+        this.brush$ = select(this.gbrush.nativeElement);
 
-            this.brush$
-                .call(this.brushBehavior)
-                .on("mousemove", e => this.onMousemove(e))
-                .on("mouseout", () => this.onMouseout());
+        this.brush$
+            .call(this.brushBehavior)
+            .on("mousemove", e => this.onMousemove(e as any as MouseEvent))
+            .on("mouseout", () => this.onMouseout());
 
-            // Add 2 "grips" to the brush group, on each side of the rectangle
-            // Grips are inserted programmatically to appear on top the brush selection
-            this.grips$ = this.brush$.selectAll<SVGGElement, {type: string}>(".grip")
-                .data([{type: "w"}, {type: "e"}])
-                .enter()
-                .append("g")
-                .attr("class", "grip")
-                .attr("display", "none");
+        // Add 2 "grips" to the brush group, on each side of the rectangle
+        // Grips are inserted programmatically to appear on top the brush selection
+        this.grips$ = this.brush$.selectAll<SVGGElement, {type: string}>(".grip")
+            .data([{type: "w"}, {type: "e"}])
+            .enter()
+            .append("g")
+            .attr("class", "grip")
+            .attr("display", "none");
 
-            this.grips$.append("path")
-                .attr("d", this.drawGrips);
+        this.grips$.append("path")
+            .attr("d", this.drawGrips);
 
-            this.grips$.append("text")
-                .attr("class", "grip-text")
-                .attr("text-anchor", d => d.type === "w"? 'end' : 'start')
-                .attr("x", d => d.type === "w"? -5 : 5)
-                .attr("y", 10);
-
-            this.updateChart();
-
-            // This is necessary to prevent "Expression has changed after check" errors
-            // caused by calling updateChart inside ngAfterViewInit().
-            // Unfortunately this is necessary because we need the DOM to be rendered in order fill the DOM
-            // (for example gAxis needs to exist so we can draw the axis)
-            this.cdRef.detectChanges();
-        }
+        this.grips$.append("text")
+            .attr("class", "grip-text")
+            .attr("text-anchor", d => d.type === "w"? 'end' : 'start')
+            .attr("x", d => d.type === "w"? -5 : 5)
+            .attr("y", 10);
 
         this.viewInit = true;
+        this.updateChart();
+        this.cdRef.detectChanges();
 
     }
 
@@ -303,10 +292,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
         this.turnoffTooltip();
 
-        if(this.data && this.data.length) {
+        this.noTimeSeries = !(this.data && this.data.flatMap((timeSerie) => timeSerie.dates).length > 0);
 
-            // check if the is data to plot
-            this.noTimeSeries = this.data.flatMap((timeSerie) => timeSerie.dates).length === 0;
+        if(this.data && this.data.length) {
 
             // Update scales
             // Note: does not stop the update process even if the data is invalid/empty
@@ -391,9 +379,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * updates the grouping of events (when they are close to each other)
      */
     protected updateEvents() {
-        // check if there is at least 1 event
-        this.noEvents = !(this.events && this.events.length > 0);
-
+        this.noEvents = !(this.events && this.events.length > 0)
         this.groupedEvents = this.groupEvents(5);
     }
 
@@ -581,37 +567,37 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     /**
      * Redraw the simple tooltip (vertical line)
      */
-    onMousemove(event) {
+    onMousemove(event: MouseEvent) {
         if(!this.eventsTooltipManager.isShown && this.showTooltip) {
             this.tooltipX = this.point(this.gbrush.nativeElement, event)[0];
             const date = this.xt.invert(this.tooltipX);
 
             const points = this.data?.map(series => {
-                                      if(!series.showDatapoints) return;
-                                      const i = this.bisectDate(series.dates, date);
-                                      const d0 = series.dates[i - 1];
-                                      const d1 = series.dates[i];
-                                      if(!d0 || !d1) return;
-                                      return date.getTime() - d0.date.getTime() > d1.date.getTime() - date.getTime() ? {...d1, name: series.name} : {...d0, name: series.name};
-                                  }).filter(p => !!p) || [];
+                                    if(!series.showDatapoints) return;
+                                    const i = this.bisectDate(series.dates, date);
+                                    const d0 = series.dates[i - 1];
+                                    const d1 = series.dates[i];
+                                    if(!d0 || !d1) return;
+                                    return date.getTime() - d0.date.getTime() > d1.date.getTime() - date.getTime() ? {...d1, name: series.name} : {...d0, name: series.name};
+                                }).filter(p => !!p) || [];
 
-            const {orientation, top, dx} = this.tooltipCoordinates();
+            const {orientation, top, dx} = this.tooltipCoordinates(event);
 
             const groupBy = (array, property) => array.reduce((grouped, element) => ({
-              ...grouped,
-              [element[property]]: [...(grouped[element[property]] || []), element]
+                ...grouped,
+                [element[property]]: [...(grouped[element[property]] || []), element]
             }), {})
 
             const groupedByDate = groupBy(points.filter(pt => !pt?.displayedDate), 'date');
             const groupedByDisplayedDate = groupBy(points.filter(pt => !!pt?.displayedDate), 'displayedDate');
 
             const data = Array.from(new Set(Object.keys(groupedByDate).concat(Object.keys(groupedByDisplayedDate))))
-                              .map((_date) => ({date: _date, values: (groupedByDate[_date] || []).concat((groupedByDisplayedDate[_date] || []))}));
+                            .map((_date) => ({date: _date, values: (groupedByDate[_date] || []).concat((groupedByDisplayedDate[_date] || []))}));
 
             if (data.length > 0) {
-              this.dataPointsTooltipManager.show(data as any as DataPoint[], orientation, top, dx);
+                this.dataPointsTooltipManager.show(data as any as DataPoint[], orientation, top, dx);
             } else {
-              this.dataPointsTooltipManager.hide();
+                this.dataPointsTooltipManager.hide();
             }
         }
     }
@@ -647,19 +633,29 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.turnoffTooltip();
         } else {
             this.tooltipX = this.xt(event[0].date);
-            const {orientation, top, dx} = this.tooltipCoordinates();
+            const {orientation, top, dx} = this.tooltipCoordinates(undefined);
             this.eventsTooltipManager.show(event, orientation, top, dx);
         }
     }
 
-    private tooltipCoordinates(): {orientation: "right" | "left", top: number, dx: number} {
+    private tooltipCoordinates(event: MouseEvent | undefined): {orientation: "right" | "left", top: number, dx: number} {
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
         // convert from the SVG coordinate system to the HTML coordinate system
         const x = this.margin.left + this.tooltipX!;
         const actualWidth = (this.el.nativeElement as HTMLElement).offsetWidth;
         const scale = actualWidth / this.width;
         const relativeX = x / this.width;
-        const top = scale * (this.margin.top + 0.3*this.innerHeight); // Align tooltip arrow
+
+        const mouseTopPosition = event?.offsetY || 0;
+        let top = scale * (this.margin.top + 0.3*this.innerHeight); // Align tooltip arrow
+
+        // if the cursor overlaps with the tooltip arrow, move it up/down
+        const diff = top - mouseTopPosition;
+        if (diff > 0 && diff < 15) {
+            top = mouseTopPosition - 15;
+        } else if (diff > -15 && diff <= 0) {
+            top = mouseTopPosition + 15;
+        }
 
         if (relativeX < 0.5) {
             return {orientation: 'right', top, dx: scale * x};

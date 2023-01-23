@@ -4,7 +4,7 @@ export default {
       custom: "Custom Date Range"
     },
     timeline: {
-      noDataToDisplay: "No data to display"
+      noDataToDisplay: "No data to display."
     }
   }
 }

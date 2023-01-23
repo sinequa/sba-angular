@@ -1,15 +1,10 @@
 import { Component, Input } from "@angular/core";
-import { TimelineSeries } from "./timeline.component";
-
-export interface TimelineEventType {
-    name: string;
-    styles?: {[key:string]: any};
-}
+import { TimelineEventType, TimelineSeries } from "./timeline.model";
 
 @Component({
     selector: 'sq-timeline-legend',
     template: `
-        <div class="legend d-flex flex-{{orientation}} flex-wrap" [ngStyle]="legendStyles">
+        <div class="legend d-flex flex-{{orientation}} flex-wrap" style="height: {{height + 'px'}}" [ngStyle]="legendStyles">
 
             <div *ngFor="let timeline of data" class="series me-2">
                 <svg width="20" height="15">
@@ -55,6 +50,7 @@ export class TimelineLegendComponent {
     @Input() events?: TimelineEventType[];
     @Input() orientation: "row"|"column" = "row";
     @Input() yOffset: number = 3;
+    @Input() height: number = 50;
     @Input() legendStyles?: {[key:string]: any};
 
 }

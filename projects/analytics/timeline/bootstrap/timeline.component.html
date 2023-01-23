@@ -1,5 +1,8 @@
-<ng-container *ngIf="!noTimeSeries || !noEvents;else noData">
-    <svg (wheel)="$event" [attr.viewBox]="'0 0 '+width+' '+height">
+<!-- Display timeline -->
+<div [style.display]="!isNoData ? 'block' : 'none'">
+
+    <!-- Timeline SVG -->
+    <svg (wheel)="$event" [attr.viewBox]="'0 0 '+width+' '+(height - (showLegend ? legendHeight! : 0))">
 
         <g [attr.transform]="'translate('+margin.left+','+ margin.top +')'">
 
@@ -64,41 +67,50 @@
 
     <!-- data point Tooltip -->
     <sq-tooltip [manager]="dataPointsTooltipManager" [theme]="theme">
-      <ng-template let-data>
-        <div class="list-group list-group-flush">
-            <ng-container *ngFor="let point of data">
-                <ng-container *ngIf="dataPointTooltipTpl" [ngTemplateOutlet]="dataPointTooltipTpl" [ngTemplateOutletContext]="{$implicit: point}">
-                </ng-container>
-                <div *ngIf="!dataPointTooltipTpl" class="list-group-item" style="max-width: 350px;">
-                    <span class="data-point-text text-decoration-underline">{{ point.date | sqDate }}</span>
-                    <ng-container *ngFor="let val of point.values">
-                        <div class="data-point-text">{{ val.name }} : {{ val.value }}</div>
+        <ng-template let-data>
+            <div class="data-point-panel">
+                <ng-container *ngFor="let point of data">
+                    <ng-container *ngIf="dataPointTooltipTpl" [ngTemplateOutlet]="dataPointTooltipTpl" [ngTemplateOutletContext]="{$implicit: point}">
                     </ng-container>
-                </div>
-            </ng-container>
-        </div>
-      </ng-template>
+                    <div *ngIf="!dataPointTooltipTpl" class="list-group-item" style="max-width: 350px;">
+                        <span class="data-point-text text-decoration-underline">{{ point.date | sqDate }}</span>
+                        <ng-container *ngFor="let val of point.values">
+                            <div class="data-point-text">{{ val.name }} : {{ val.value }}</div>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-template>
     </sq-tooltip>
 
     <!-- Event Tooltip -->
     <sq-tooltip [manager]="eventsTooltipManager" [theme]="theme">
-      <ng-template let-data>
-        <div class="list-group list-group-flush">
-            <ng-container *ngFor="let event of data">
-                <ng-container *ngIf="eventTooltipTpl" [ngTemplateOutlet]="eventTooltipTpl" [ngTemplateOutletContext]="{$implicit: event, close: turnoffTooltip}">
+        <ng-template let-data>
+            <div class="list-group list-group-flush">
+                <ng-container *ngFor="let event of data">
+                    <ng-container *ngIf="eventTooltipTpl" [ngTemplateOutlet]="eventTooltipTpl" [ngTemplateOutletContext]="{$implicit: event, close: turnoffTooltip}">
+                    </ng-container>
+                    <div *ngIf="!eventTooltipTpl" class="list-group-item" style="max-width: 300px;">
+                        <span class="small text-muted">{{ event.date | sqDate }}</span>
+                        <div class="text-truncate">{{ event.display }}</div>
+                    </div>
                 </ng-container>
-                <div *ngIf="!eventTooltipTpl" class="list-group-item" style="max-width: 300px;">
-                    <span class="small text-muted">{{ event.date | sqDate }}</span>
-                    <div class="text-truncate">{{ event.display }}</div>
-                </div>
-            </ng-container>
-        </div>
-      </ng-template>
+            </div>
+        </ng-template>
     </sq-tooltip>
-</ng-container>
 
-<ng-template #noData>
-  <div class="stat">
-      <span class="stat-noData">{{'msg#facet.timeline.noDataToDisplay' | sqMessage}}</span>
-  </div>
-</ng-template>
+    <!-- Legend -->
+    <sq-timeline-legend *ngIf="showLegend"
+        [data]="data"
+        [events]="legendEvents"
+        [legendStyles]="legendStyles"
+        [orientation]="legendOrientation"
+        [height]="legendHeight"
+        [yOffset]="legendYOffset">
+    </sq-timeline-legend>
+</div>
+
+<!-- Display message no data -->
+<div class="timeline-noData" [style.display]="isNoData ? 'flex' : 'none'" [ngStyle]="{width: width + 'px', height: height + 'px'}">
+    <span class="timeline-noData-text">{{'msg#facet.timeline.noDataToDisplay' | sqMessage}}</span>
+</div>

@@ -27,7 +27,7 @@ import {
 import { parseISO } from "date-fns";
 import { Subscription, debounceTime, filter, map } from "rxjs";
 import { BsFacetTimelineComponent } from "./facet-timeline.component";
-import { TimelineSeries } from "./timeline.component";
+import { TimelineSeries } from "./timeline.model";
 
 export interface FacetDateParams {
     aggregation: string;

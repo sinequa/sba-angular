@@ -4,7 +4,7 @@ export default {
       custom: "Dates personnalisées"
     },
     timeline: {
-      noDataToDisplay: "Aucune donnée à afficher"
+      noDataToDisplay: "Aucune donnée à afficher."
     }
   }
 }
