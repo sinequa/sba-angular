@@ -129,24 +129,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         // When the locale changes, we rebuild the X scale and axis
         this.intlSubscription = this.intlService.events.subscribe(e => this.updateXAxis());
 
-        // // When data changes, check if display timeline / empty graph
-        // this.combinedDataCheck$ = combineLatest([this.noTimeSeries$, this.noEvents$]);
-        // this.updateSubscription = this.combinedDataCheck$
-        //                             .pipe(
-        //                                 map(([noTimeSeries, noEvents]) => !!noTimeSeries && !!noEvents)
-        //                             )
-        //                             .subscribe(
-        //                                 (isNoData) => {
-        //                                     //this.dataInit = true;
-        //                                     this.isNoData = isNoData;
-        //                                     if (!this.isNoData) {
-        //                                         this.updateChart();
-        //                                         this.updateEvents();
-        //                                     }
-        //                                     this.cdRef.detectChanges();
-        //                                 }
-        //                             )
-
         this.instance = BsTimelineComponent.counter++;
 
     }
