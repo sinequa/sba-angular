@@ -27,7 +27,7 @@ export class MenuComponent {
         {selected: false, name: 'advanced', enabled: false},
         {selected: false, name: 'alerts', enabled: true},
         {selected: false, name: 'autocomplete', enabled: false},
-        {selected: false, name: 'baskets', enabled: false},
+        {selected: false, name: 'baskets', enabled: true},
         {selected: false, name: 'collapse', enabled: false},
         {selected: false, name: 'comments', enabled: false},
         {selected: false, name: 'facet', enabled: true},

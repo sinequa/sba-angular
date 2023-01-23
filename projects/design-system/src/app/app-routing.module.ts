@@ -7,6 +7,7 @@ import { AlertsComponent } from "./alerts/alerts.component";
 import { FacetModuleComponent } from './modules/facet/facet-module.component';
 import { PreviewModuleComponent } from './modules/preview/preview-module.component';
 import { ResultModuleComponent } from './modules/result/result-module.component';
+import { BasketsModuleComponent } from './modules/baskets-module/baskets-module.component';
 
 const routes: Routes = [
   { path: 'buttons', component: ButtonsComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'alerts', component: AlertsComponent },
   { path: 'facet', component: FacetModuleComponent },
   { path: 'preview', component: PreviewModuleComponent },
+  { path: 'baskets', component: BasketsModuleComponent },
   { path: 'result', component: ResultModuleComponent },
   { path: '**', redirectTo: '/buttons' }
 ];

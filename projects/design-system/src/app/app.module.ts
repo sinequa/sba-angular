@@ -78,6 +78,14 @@ import { ResultIconComponent } from './modules/result/result-icon/result-icon.co
 import { ResultSourceComponent } from './modules/result/result-source/result-source.component';
 import { BsTimelineModule } from '@sinequa/analytics/timeline';
 import { FacetTestingComponent } from './modules/facet/facet-testing/facet-testing.component';
+import { BasketsModuleComponent } from './modules/baskets-module/baskets-module.component';
+import { EditBasketComponent } from './modules/baskets-module/edit-basket/edit-basket.component';
+import { ManageBasketsComponent } from './modules/baskets-module/manage-baskets/manage-baskets.component';
+import { SelectBasketsComponent } from './modules/baskets-module/select-baskets/select-baskets.component';
+import { ResultBasketsComponent } from './modules/baskets-module/result-baskets/result-baskets.component';
+import { BasketsMenuComponent } from './modules/baskets-module/baskets-menu/baskets-menu.component';
+import { FacetBasketsComponent } from './modules/baskets-module/facet-baskets/facet-baskets.component';
+import { BsBasketsModule } from '@sinequa/components/baskets';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -207,7 +215,14 @@ export class AppLocalesConfig implements LocalesConfig {
         ResultsCounterComponent,
         ResultIconComponent,
         ResultSourceComponent,
-        FacetTestingComponent
+        FacetTestingComponent,
+        BasketsModuleComponent,
+        EditBasketComponent,
+        ManageBasketsComponent,
+        SelectBasketsComponent,
+        ResultBasketsComponent,
+        BasketsMenuComponent,
+        FacetBasketsComponent
     ],
     imports: [
         BrowserModule,
@@ -231,7 +246,8 @@ export class AppLocalesConfig implements LocalesConfig {
         CollapseModule,
         UtilsModule,
         BsAutocompleteModule,
-        BsNotificationModule
+        BsNotificationModule,
+        BsBasketsModule
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },
