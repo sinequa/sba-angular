@@ -154,7 +154,7 @@ export class AggregationProvider extends BaseProvider {
                 // Default parsing, assuming cross-distribution format ("Apple/Steve Jobs")
                 const displays = item.display.split("/");
                 // Expr has following syntax `display`:(column1:`value1` AND column2:`value2`)
-                const expr = item.value.toString();
+                const expr = String(item.value);
                 const subExpr = expr.substring((Utils.escapeExpr(item.display)+":(").length, expr.length-1).split(" AND ");
                 const values = subExpr.map(v => Utils.unescapeExpr(v.split(':')[1]));
                 if(values.length < 2 || displays.length < 2 || type.nodeTypes.length < 2 || !values[0] || !values[1]) {
@@ -163,10 +163,10 @@ export class AggregationProvider extends BaseProvider {
                 rawData = {values, displays};
             }
             // We need to exclude trivial aggregation items pointing to themselves
-            else if(sourceNode.id !== this.getNodeId(type.nodeTypes[1], item.value.toString())) {
+            else if(sourceNode.id !== this.getNodeId(type.nodeTypes[1], String(item.value))) {
                 rawData = {
-                    values: [this.getNodeValue(sourceNode), item.value.toString()],
-                    displays: [sourceNode.label, item.display || item.value.toString()]
+                    values: [this.getNodeValue(sourceNode), String(item.value)],
+                    displays: [sourceNode.label, item.display || String(item.value)]
                 };
             }
         }

@@ -196,7 +196,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         this.results.aggregations
             ?.find(a => Utils.eqNC(a.name, this.moneyAggregation))
             ?.items
-            ?.forEach(item => counts.set(item.value.toString(), item.count));
+            ?.forEach(item => counts.set(String(item.value), item.count));
 
         this.data = [];
         this.results.records?.forEach(record =>
