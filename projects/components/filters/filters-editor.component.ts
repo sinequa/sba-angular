@@ -57,6 +57,7 @@ export class FiltersEditorComponent extends FiltersComponent implements OnInit, 
     if(this.exprFilter) {
       this.options.item.text = 'msg#filters.operator.'+this.exprFilter.operator;
       this.options.item.children?.forEach(a => a.selected = a.name === this.exprFilter?.operator);
+      this.options = {...this.options}; // Force change detection
     }
   }
 
