@@ -12,7 +12,6 @@ import { SearchServiceFactory } from "@testing/factories";
 import { RouterStub } from "@testing/stubs";
 
 import { BsFacetTimelineComponent, TimelineRecords } from "./facet-timeline.component";
-import { BsTimelineComponent } from "./timeline.component";
 
 describe('BsFacetTimelineComponent', () => {
   let context: BsFacetTimelineComponent;
@@ -20,11 +19,11 @@ describe('BsFacetTimelineComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BsFacetTimelineComponent, BsTimelineComponent],
+      declarations: [BsFacetTimelineComponent],
       imports: [],
       providers: [
         HttpHandler,
-        IntlService,
+        {provide: IntlService, useFactory: () => {}},
         SelectionService,
         { provide: START_CONFIG, useValue: { app: "testing_app" } },
         { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },

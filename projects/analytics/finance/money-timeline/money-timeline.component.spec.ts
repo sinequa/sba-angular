@@ -23,7 +23,7 @@ describe('MoneyTimelineComponent', () => {
       declarations: [MoneyTimelineComponent],
       imports: [],
       providers: [
-        IntlService,
+        {provide: IntlService, useFactory: () => {}},
         { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
         { provide: SearchService, useFactory: SearchServiceFactory },
         { provide: Router, useClass: RouterStub }
