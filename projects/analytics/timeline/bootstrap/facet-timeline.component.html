@@ -13,12 +13,17 @@
     [curveType]="curveType"
     [showTooltip]="showTooltip"
     [theme]="theme"
+    [showLegend]="showLegend"
+    [legendEvents]="legendEvents"
+    [legendStyles]="legendStyles"
+    [legendOrientation]="legendOrientation"
+    [legendYOffset]="legendYOffset"
 
     (selectionChange)="onSelectionChange($event)"
     (rangeInit)="onRangeChange($event)"
     (rangeChange)="onRangeChange($event)">
 
-    <ng-template #tooltipTpl let-event let-close="close">
+    <ng-template #eventTooltipTpl let-event let-close="close">
         <a href="#" (click)="onEventClicked(event, close)"
             class="tooltip-item list-group-item list-group-item-action">
             <span class="small text-muted">{{ event.date | sqDate }}</span>
@@ -27,11 +32,3 @@
     </ng-template>
 
 </sq-timeline>
-
-<sq-timeline-legend *ngIf="showLegend"
-    [data]="mergedTimeseries$ | async"
-    [events]="legendEvents"
-    [legendStyles]="legendStyles"
-    [orientation]="legendOrientation"
-    [yOffset]="legendYOffset">
-</sq-timeline-legend>
