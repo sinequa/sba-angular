@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from "@angular/core";
 import { Record } from "@sinequa/core/web-services";
+import { IconService } from "../../icon.service";
 
 @Component({
     selector: "sq-metadata-2",
@@ -15,16 +16,22 @@ export class MetadataComponent implements OnChanges {
     @Input() showTitle = true;
 
     display = false;
+    icon: string;
 
     get value() {
         return this.record[this.item];
     }
 
-    constructor() {
+    constructor(private iconService: IconService) {
     }
 
     ngOnChanges() {
         this.display = !!this.item && !!this.record && !!this.record[this.item];
+        if (!!this.item) {
+            this.icon = this.item === 'docformat'
+                ? this.iconService.getFormatIcon(this.record[this.item]) || ''
+                : this.iconService.getIcon(this.item) || '';
+        }
     }
 
 }
