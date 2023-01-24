@@ -18,6 +18,7 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
   @Input() query?: Query;
   @Input() facetComponents: Record<string, Type<any>>;
   @Input() facetConfigs: FacetConfig<T>[];
+  @Input() buttonClass = 'primary';
 
   @Output() facetOpen = new EventEmitter<boolean>();
 
@@ -27,7 +28,7 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
   facetInputs: MapOf<any> | undefined;
   facetInstance: AbstractFacet | undefined;
 
-  facetList: {config: FacetConfig<T>, filters: number}[];
+  facetList: {config: FacetConfig<T>, filters: number, classes: {}}[];
 
   closeFacet = new Action({
     icon: "fas fa-times",
@@ -105,7 +106,12 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
           }
         }
       }
-      return {config, filters};
+      const classes = {
+        ['btn-outline-'+this.buttonClass]: !filters,
+        ['btn-'+this.buttonClass]: filters,
+        'me-3': filters
+      };
+      return {config, filters, classes};
     });
   }
 

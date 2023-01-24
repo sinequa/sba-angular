@@ -4,11 +4,7 @@
     <div class="small fw-bold mb-2">{{ 'msg#facet.container.help' | sqMessage }}</div>
     <button *ngFor="let facet of facetList"
       class="me-2 mb-1 btn btn-sm position-relative"
-      [ngClass]="{
-        'btn-outline-secondary': !facet.filters && openedFacet !== facet.config,
-        'btn-secondary': facet.filters && openedFacet !== facet.config,
-        'me-3': facet.filters
-      }"
+      [ngClass]="facet.classes"
       type="button"
       (click)="open(facet.config)"
       [title]="(facet.config.title || '') | sqMessage">
