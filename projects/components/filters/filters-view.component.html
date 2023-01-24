@@ -10,21 +10,21 @@
     ></sq-filters>
 
     <span *ngIf="!isSimpleFilter">
-      <span
-        class="sq-filter-action ms-3"
+      <a  class="sq-filter-action ms-3"
         role="button"
-        [sqTooltip]="'msg#filters.advanced' | sqMessage"
+        [sqTooltip]="'msg#filters.editTitle' | sqMessage"
         (click)="toggleEdit()">
-        <i class="fas fa-edit"></i>
-      </span>
+        <i class="fas fa-fw fa-edit"></i>
+        <span> {{'msg#filters.edit' | sqMessage}}</span>
+      </a>
 
-      <span
-        class="sq-filter-action ms-2"
+      <a  class="sq-filter-action ms-1"
         role="button"
-        [sqTooltip]="'msg#filters.clear' | sqMessage"
+        [sqTooltip]="'msg#filters.clearTitle' | sqMessage"
         (click)="clearFilters()">
-        <i class="fas fa-times"></i>
-      </span>
+        <i class="fas fa-fw fa-times"></i>
+        <span> {{'msg#filters.clear' | sqMessage}}</span>
+      </a>
     </span>
 
   </div>
@@ -36,12 +36,14 @@
       (filterEdit)="onFiltersChange()"
     ></sq-filters-editor>
 
-    <span
+    <a
       class="sq-filter-action ms-auto text-nowrap"
       role="button"
+      [sqTooltip]="'msg#filters.saveTitle' | sqMessage"
       (click)="toggleEdit()">
-      <i class="fas fa-check"></i> {{'msg#filters.save' | sqMessage}}
-    </span>
+      <i class="fas fa-fw fa-check"></i>
+      <span> {{'msg#filters.save' | sqMessage}}</span>
+    </a>
   </div>
 
 </div>

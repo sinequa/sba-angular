@@ -6,11 +6,8 @@ import { Filter, ExprFilter, ValueFilter, NullFilter, InFilter, BetweenFilter, i
   selector: 'sq-filters',
   templateUrl: './filters.component.html',
   styles: [`
-a {
-  opacity: 0.5;
-}
-a:hover {
-  opacity: 1;
+a:not(:hover) {
+  color: rgb(0,0,0,.5);
 }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush

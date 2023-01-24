@@ -6,11 +6,8 @@ import { isExprFilter } from "@sinequa/core/web-services";
   selector: 'sq-filters-view',
   templateUrl: './filters-view.component.html',
   styles: [`
-  .sq-filter-action {
-    opacity: 0.5;
-  }
-  .sq-filter-action:hover {
-    opacity: 1;
+  .sq-simple-mode a:not(:hover) {
+    color: rgb(0,0,0,.5);
   }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush

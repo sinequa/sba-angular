@@ -65,7 +65,7 @@
 
   <!-- Remove this filter -->
   <a href="#" (click)="remove()"
-    class="ms-1 text-reset"
+    class="ms-1"
     [title]="'msg#filters.remove' | sqMessage:{value: filter?.display || valueFilter?.value || field}"
     *ngIf="allowRemove && (!exprFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
     <i class="fas fa-times"></i>

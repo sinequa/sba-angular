@@ -2,11 +2,8 @@
 .sq-grip {
   cursor: grab;
 }
-a {
-  opacity: 0.5;
-}
-a:hover {
-  opacity: 1;
+a:not(:hover) {
+  color: rgb(0,0,0,.5);
 }
 :host ::ng-deep .dropdown-toggle::after {
   font-size: 0.875rem;

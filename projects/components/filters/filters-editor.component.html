@@ -46,7 +46,7 @@
 
   <!-- Nest this filter -->
   <a href="#" (click)="nestFilter()"
-    class="ms-3 text-reset"
+    class="ms-3"
     [title]="'msg#filters.nest' | sqMessage:{value:filter?.display || valueFilter?.value || field}"
     *ngIf="allowNesting && (!exprFilter || filter.display)"> <!-- Display the nest button on "leafs" only to avoid duplicate buttons -->
     <i class="fas fa-code-branch"></i>
@@ -54,7 +54,7 @@
 
   <!-- Remove this filter -->
   <a href="#" (click)="remove()"
-    class="ms-2 text-reset"
+    class="ms-2"
     [title]="'msg#filters.remove' | sqMessage:{value: filter?.display || valueFilter?.value || field}"
     *ngIf="allowRemove && (!exprFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
     <i class="fas fa-times"></i>

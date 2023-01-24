@@ -27,8 +27,11 @@ export default {
     "drag": "Drag and Drop",
     "remove": "Remove filter \"{value}\"",
     "nest": "Nest filter \"{value}\" in a AND",
-    "advanced": "Advanced Filters",
-    "clear": "Clear all filters",
-    "save": "Save"
+    "edit": "Edit",
+    "editTitle": "Edit advanced filters",
+    "clear": "Clear",
+    "clearTitle": "Clear all filters",
+    "save": "Save",
+    "saveTitle": "Save advanced filters"
   }
 }
