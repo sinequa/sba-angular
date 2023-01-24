@@ -11,7 +11,7 @@ import { select } from 'd3-selection';
 import { zoom, zoomIdentity, zoomTransform } from 'd3-zoom';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
-import { DataPoint, TimelineDate, TimelineEvent, TimelineEventType, TimelineSeries } from './timeline.model';
+import { Point, TimelineDate, TimelineEvent, TimelineEventType, TimelineSeries, TooltipDataPoint } from './timeline.model';
 
 export const curveTypes = {
     curveBasis,
@@ -105,7 +105,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     tooltipX: number | undefined;
     bisectDate = bisector<TimelineDate,Date>(d => { return d.date; }).left;
     eventsTooltipManager = new TooltipManager<TimelineEvent[]>();
-    dataPointsTooltipManager = new TooltipManager<DataPoint[]>();
+    dataPointsTooltipManager = new TooltipManager<TooltipDataPoint[]>();
 
     // Misc
     viewInit: boolean;
@@ -554,6 +554,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.tooltipX = this.point(this.gbrush.nativeElement, event)[0];
             const date = this.xt.invert(this.tooltipX);
 
+            // Retrieve all data points within eventual multiple time series, for that, each point should include the name of its corresponding time serie
             const points = this.data?.map(series => {
                                     if(!series.showDatapoints) return;
                                     const i = this.bisectDate(series.dates, date);
@@ -561,23 +562,41 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
                                     const d1 = series.dates[i];
                                     if(!d0 || !d1) return;
                                     return date.getTime() - d0.date.getTime() > d1.date.getTime() - date.getTime() ? {...d1, name: series.name} : {...d0, name: series.name};
-                                }).filter(p => !!p) || [];
+                                }).filter(p => !!p) as Point[] || [];
 
-            const {orientation, top, dx} = this.tooltipCoordinates(event);
+            // Merge all data point and retrieve different dates among all time series
+            // Example: groupedByDate = {
+            //    '2023-01-01': [{date: '2023-01-01', value: 25, name: 'toto'}, {date: '2023-01-01', value: 225, name: 'foo'}],
+            // }
+            //  groupedByDisplayedDate = {
+            //    '2018-01-01': [{date: '2023-01-01', displayedDate: '2018-01-01', value: 25, name: 'toto'}, {date: '2023-01-01', displayedDate: '2018-01-01', value: 225, name: 'foo'}],
+            //    '2015-01-01': [{date: '2023-01-10', displayedDate: '2015-01-01', value: 75, name: 'toto'}, {date: '2023-01-10', displayedDate: '2015-01-01', value: 5, name: 'foo'}]
+            // }
+            // Notice that grouping based on 'displayedDate' is here to handle the case of scaled time series (for example drawing trends in analytics dashboards)
+            const currentPoints = points.filter(pt => !pt?.displayedDate) || [];
+            // We can only have 1 unique date in currentPoints
+            let groupedCurrentPoints: TooltipDataPoint[] = [];
+            if (currentPoints.length > 0) {
+                groupedCurrentPoints = [{date: currentPoints[0]!.date, values: currentPoints}];
+            }
 
-            const groupBy = (array, property) => array.reduce((grouped, element) => ({
-                ...grouped,
-                [element[property]]: [...(grouped[element[property]] || []), element]
-            }), {})
+            const scaledPoints = points.filter(pt => !!pt?.displayedDate) || [];
+            // We can have multiple displayed dates
+            let groupedScaledPoints: TooltipDataPoint[] = [];
+            if (scaledPoints.length > 0) {
+                const uniqueScaledDates = Array.from(new Set(scaledPoints.map(el => el!.displayedDate!.toDateString())));
+                groupedScaledPoints = uniqueScaledDates.map(
+                    (date) => ({date: date!, values: scaledPoints.filter(pt => pt!.displayedDate!.toDateString() === date)})
+                );
+            }
 
-            const groupedByDate = groupBy(points.filter(pt => !pt?.displayedDate), 'date');
-            const groupedByDisplayedDate = groupBy(points.filter(pt => !!pt?.displayedDate), 'displayedDate');
+            // Reconstruct the list of data points grouped by unique dates
+            const data = [...groupedCurrentPoints, ...groupedScaledPoints]
 
-            const data = Array.from(new Set(Object.keys(groupedByDate).concat(Object.keys(groupedByDisplayedDate))))
-                            .map((_date) => ({date: _date, values: (groupedByDate[_date] || []).concat((groupedByDisplayedDate[_date] || []))}));
-
+            // Manage Tooltip display
             if (data.length > 0) {
-                this.dataPointsTooltipManager.show(data as any as DataPoint[], orientation, top, dx);
+                const {orientation, top, dx} = this.tooltipCoordinates();
+                this.dataPointsTooltipManager.show(data, orientation, top, dx);
             } else {
                 this.dataPointsTooltipManager.hide();
             }
@@ -615,12 +634,12 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.turnoffTooltip();
         } else {
             this.tooltipX = this.xt(event[0].date);
-            const {orientation, top, dx} = this.tooltipCoordinates(undefined);
+            const {orientation, top, dx} = this.tooltipCoordinates();
             this.eventsTooltipManager.show(event, orientation, top, dx);
         }
     }
 
-    private tooltipCoordinates(event: MouseEvent | undefined): {orientation: "right" | "left", top: number, dx: number} {
+    private tooltipCoordinates(): {orientation: "right" | "left", top: number, dx: number} {
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
         // convert from the SVG coordinate system to the HTML coordinate system
         const x = this.margin.left + this.tooltipX!;
@@ -628,17 +647,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const scale = actualWidth / this.width;
         const relativeX = x / this.width;
 
-        const mouseTopPosition = event?.offsetY || 0;
         let top = scale * (this.margin.top + 0.3*this.innerHeight); // Align tooltip arrow
 
-        // if the cursor overlaps with the tooltip arrow, move it up/down
-        const diff = top - mouseTopPosition;
-        if (diff > 0 && diff < 15) {
-            top = mouseTopPosition - 15;
-        } else if (diff > -15 && diff <= 0) {
-            top = mouseTopPosition + 15;
-        }
-
+        // return the coordinates of the tooltip
         if (relativeX < 0.5) {
             return {orientation: 'right', top, dx: scale * x};
         } else {

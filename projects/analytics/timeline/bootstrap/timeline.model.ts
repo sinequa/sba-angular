@@ -30,7 +30,11 @@ export interface TimelineEventType {
     styles?: {[key:string]: any};
 }
 
-export interface DataPoint {
-    date: Date;
-    values: ({ name: string; value: number; } | undefined)[]
+export interface Point extends TimelineDate {
+    name: string;
+}
+
+export interface TooltipDataPoint {
+    date: Date | string;
+    values: Point[];
 }
