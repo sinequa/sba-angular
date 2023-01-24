@@ -10,6 +10,10 @@
 // Additions specific to Pepper
 body.dark {
 
+    sq-facet-container [class*="btn-outline-"] {
+        --bs-btn-bg: rgb(255 255 255 / 90%);
+    }
+
     /* Track */
     ::-webkit-scrollbar-track {
         background: transparent;
