@@ -1,7 +1,7 @@
 <div *ngIf="query.filters" (sqClickOutside)="onClickOutside()">
 
   <div class="sq-simple-mode" [ngClass]="simpleModeClass" *ngIf="!advancedMode">
-    <sq-filters
+    <sq-filters class="me-3"
       [query]="query"
       [filter]="query.filters"
       [showField]="showField"
@@ -9,8 +9,8 @@
       (filterEdit)="onFiltersChange()"
     ></sq-filters>
 
-    <span *ngIf="!isSimpleFilter">
-      <a  class="sq-filter-action ms-3"
+    <span *ngIf="!isSimpleFilter" class="text-nowrap">
+      <a  class="sq-filter-action"
         role="button"
         [sqTooltip]="'msg#filters.editTitle' | sqMessage"
         (click)="toggleEdit()">
