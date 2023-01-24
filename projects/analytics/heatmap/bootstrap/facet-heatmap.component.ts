@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angul
 import { Subject, distinctUntilChanged, filter, Subscription } from 'rxjs';
 
 import {Utils} from '@sinequa/core/base';
-import { AppService } from '@sinequa/core/app-utils';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { AbstractFacet, BsFacetCard, FacetService } from '@sinequa/components/facet';
 import { Results, ListAggregation, AggregationItem } from '@sinequa/core/web-services';
 import { SearchService } from '@sinequa/components/search';
@@ -19,6 +19,7 @@ import {HeatmapItem} from './heatmap.component';
 })
 export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, OnDestroy {
     @Input() results: Results;
+    @Input() query?: Query;
     @Input() aggregation= "Heatmap";
     @Input() name?: string;
 
@@ -83,22 +84,12 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     protected readonly cdRef = inject(ChangeDetectorRef);
     protected readonly prefs = inject(UserPreferences);
 
-    constructor( @Optional() public cardComponent?: BsFacetCard){
+    constructor(@Optional() public cardComponent?: BsFacetCard){
         super();
 
         this.subs.add(this.cardComponent?.facetCollapsed.subscribe(value => {
             this.ready = value === "expanded" ? true : false
         }));
-
-        // Clear the current filters
-        this.clearFilters = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facet.clearSelects",
-            action: () => {
-                this.searchService.query.removeSelect(this._name);
-                this.searchService.search();
-            }
-        });
 
         // Listen to selection changes & update the heatmap items accordingly
         this.subs.add(this.selectionService.events.subscribe(() => {
@@ -121,7 +112,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                 distinctUntilChanged((prev, curr) => prev.value === curr.value),
             )
             .subscribe(item => {
-                this.facetService.addFilterSearch(this._name, this.aggregationData!, item, {forceAdd: true});
+                this.facetService.addFilterSearch(this.aggregationData!, item, {forceAdd: true}, this.query, this._name);
             })
         );
 
@@ -177,7 +168,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     updateData() {
         this.loading = true;
         if(this.results) {
-            this.aggregationData = this.facetService.getAggregation(this.aggregation, this.results);
+            this.aggregationData = this.facetService.getAggregation(this.aggregation, this.results) as ListAggregation;
             if(!this.aggregationData){
                 this.getHeatmapData();
             }
@@ -250,9 +241,6 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      */
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.facetService.hasFiltered(this._name)){
-            actions.push(this.clearFilters);
-        }
         if(this.selectFieldY) {
             actions.push(this.selectFieldY);
         }
@@ -269,7 +257,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         if(!this.appService.getCCAggregation(this.aggregation)) {
             throw new Error(`Aggregation ${this.aggregation} does not exist in the Query web service configuration`);
         }
-        const query = Utils.copy(this.searchService.query);
+        const query = (this.query || this.searchService.query).copy();
         query.action = "aggregate";
         query.aggregations = [this.aggregation];
         if(!this.fieldCooc) {
@@ -328,7 +316,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      */
     @Input() parseCooccurrenceItem: (i:AggregationItem) => HeatmapItem
     = value => {
-        const val = value.display || value.value.toString();
+        const val = value.display || String(value.value);
         const parts = val.substr(1, val.length-2).split(")#(");
         if(parts.length < 2){
             throw new Error(`'${val}' is not formatted as a co-occurrence: (value 1)#(value 2)`);
@@ -338,8 +326,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
             y: parts[1],
             count: value.count,
             display: `${parts[0]} - ${parts[1]}`,
-            value: value.value.toString(),
-            selected: this.selectedItems.has(value.value.toString())
+            value: String(value.value),
+            selected: this.selectedItems.has(String(value.value))
         };
     }
 

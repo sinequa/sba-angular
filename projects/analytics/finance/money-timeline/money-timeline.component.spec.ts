@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Router } from "@angular/router";
 
 import { SearchService } from "@sinequa/components/search";
+import { FacetService } from "@sinequa/components/facet";
 import { Record } from "@sinequa/core/web-services";
 import { IntlService, LOCALES_CONFIG } from "@sinequa/core/intl";
 
@@ -26,6 +27,7 @@ describe('MoneyTimelineComponent', () => {
         {provide: IntlService, useFactory: () => {}},
         { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
         { provide: SearchService, useFactory: SearchServiceFactory },
+        { provide: FacetService, useFactory: () => {}},
         { provide: Router, useClass: RouterStub }
       ]
     }).compileComponents();

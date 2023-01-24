@@ -1,7 +1,5 @@
 import { ElementRef } from "@angular/core";
 
-import { Utils } from "@sinequa/core/base";
-
 export enum HighlightCategoryFilterChoice {
     All, None, Value
 }
@@ -105,7 +103,7 @@ export class PreviewDocument {
         forEach(nodes, n => text += (n['innerHTML'] || n.textContent));
         return text;
     }
-    
+
     public getHighlightPos(categoryId: string, index: number): DOMRect | null{
         const nodes = this.document.querySelectorAll("#"+categoryId+"_"+index);
         if(!nodes || nodes.length === 0) return null;
@@ -193,7 +191,7 @@ export class PreviewDocument {
      */
     public updateHighlightFilterState(filters: HighlightFilters): void {
         const elements = this.document.querySelectorAll("[data-entity-display], .extractslocations, .matchlocations");
-        if (Utils.isArray(filters)) {
+        if (Array.isArray(filters)) {
             forEach<Element>(elements, element => {
                 const highlight = filters.some(category => element.classList.contains(category));
                 if (highlight) {

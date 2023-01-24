@@ -49,7 +49,7 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
 
     override onItemClicked(item: HeatmapItem){
         if(this.aggregationData){
-            this.facetService.addFilterSearch(this._name, this.aggregationData, item).then(_ => {
+            this.facetService.addFilterSearch(this.aggregationData, item, undefined, this.query, this._name).then(_ => {
                 if(this.selectView){
                     this.resultsViewService.selectResultsViewName(this.selectView);
                 }

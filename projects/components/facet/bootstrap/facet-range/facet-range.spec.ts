@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {NgxSliderModule} from '@angular-slider/ngx-slider';
 
 import {IntlModule} from '@sinequa/core/intl';
-import {EngineType, EngineTypeModifier, Results, START_CONFIG} from '@sinequa/core/web-services';
+import {EngineType, EngineTypeModifier, ListAggregation, Results, START_CONFIG} from '@sinequa/core/web-services';
 import {MODAL_LOGIN} from '@sinequa/core/login';
 import {MODAL_CONFIRM, MODAL_PROMPT} from '@sinequa/core/modal';
 import {AppService} from '@sinequa/core/app-utils';
@@ -17,29 +17,42 @@ import {startConfig} from "@testing/mocks/start.config";
 import {BsFacetModule} from '../facet.module';
 import {BsFacetRange} from './facet-range';
 
+const aggregations = {
+  modifiedrange: {
+    "name": "ModifiedRange",
+    "column": "modified",
+    "items": [
+      {
+        "count": 120397,
+        "operatorResults": {
+          "min": "1901-01-01 00:00:00",
+          "max": "2020-09-15 00:00:00"
+        }
+      }
+    ]
+  },
+  doubleaggregation: {
+    "name": "DoubleAggregation",
+    "column": "Double",
+    "items": [
+      {
+        "count": 120397,
+        "operatorResults": {
+          "min": -132.4,
+          "max": 435.65
+        }
+      }
+    ]
+  }
+};
+
 
 describe('BsFacetRange', () => {
   let context: BsFacetRange;
   let fixture: ComponentFixture<BsFacetRange>;
 
   function setModifiedAggregation() {
-    context.results = {
-      aggregations: [
-        {
-          "name": "ModifiedRange",
-          "column": "modified",
-          "items": [
-            {
-              "count": 120397,
-              "operatorResults": {
-                "min": "1901-01-01 00:00:00",
-                "max": "2020-09-15 00:00:00"
-              }
-            }
-          ]
-        }
-      ]
-    } as unknown as Results;
+    context.results = {$aggregationMap: aggregations} as unknown as Results;
     context.aggregation = "ModifiedRange";
 
     // fake getColumn() return value
@@ -48,21 +61,7 @@ describe('BsFacetRange', () => {
 
   function setDoubleAggregation() {
     context.results = {
-      aggregations: [
-        {
-          "name": "DoubleAggregation",
-          "column": "Double",
-          "items": [
-            {
-              "count": 120397,
-              "operatorResults": {
-                "min": -132.4,
-                "max": 435.65
-              }
-            }
-          ]
-        }
-      ]
+      $aggregationMap: aggregations
     } as unknown as Results;
     context.aggregation = "DoubleAggregation";
 
@@ -135,23 +134,19 @@ describe('BsFacetRange', () => {
     expect(new Date(context.value).toLocaleDateString("en-US")).toEqual("1/1/1901");
 
     // fake results changes
-    context.results = {
-      aggregations: [
+    context.results.$aggregationMap['modifiedrange'] = {
+      "name": "ModifiedRange",
+      "column": "modified",
+      "items": [
         {
-          "name": "ModifiedRange",
-          "column": "modified",
-          "items": [
-            {
-              "count": 120397,
-              "operatorResults": {
-                "min": "1974-09-02 00:00:00",
-                "max": "2020-10-25 00:00:00"
-              }
-            }
-          ]
+          "count": 120397,
+          "operatorResults": {
+            "min": "1974-09-02 00:00:00",
+            "max": "2020-10-25 00:00:00"
+          }
         }
       ]
-    } as unknown as Results;
+    } as unknown as ListAggregation;
 
     context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true}});
 

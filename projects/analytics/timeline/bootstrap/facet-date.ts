@@ -1,11 +1,10 @@
 import {
     Component,
-    OnInit,
     OnDestroy,
     Input,
     OnChanges,
     SimpleChanges,
-    ChangeDetectorRef,
+    ChangeDetectorRef
 } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { Action } from "@sinequa/components/action";
@@ -14,9 +13,7 @@ import { AbstractFacet, FacetConfig, FacetService } from "@sinequa/components/fa
 import { SearchService } from "@sinequa/components/search";
 import {
     AppService,
-    Expr,
-    ExprBuilder,
-    ExprOperator,
+    Query
 } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import {
@@ -25,12 +22,11 @@ import {
     Results,
 } from "@sinequa/core/web-services";
 import { parseISO } from "date-fns";
-import { Subscription, debounceTime, filter, map } from "rxjs";
+import { Subscription, debounceTime, filter } from "rxjs";
 import { BsFacetTimelineComponent } from "./facet-timeline.component";
 import { TimelineSeries } from "./timeline.model";
 
 export interface FacetDateParams {
-    aggregation: string;
     showCount?: boolean;
     timelineAggregation?: string;
     displayEmptyDistributionIntervals?: boolean;
@@ -54,10 +50,11 @@ export interface FacetDateConfig extends FacetConfig<FacetDateParams> {
 })
 export class BsFacetDate
     extends AbstractFacet
-    implements FacetDateParams, OnInit, OnChanges, OnDestroy
+    implements FacetDateParams, OnChanges, OnDestroy
 {
     @Input() name: string = "Date";
     @Input() results: Results;
+    @Input() query?: Query;
     @Input() aggregation: string = "Modified";
     @Input() timelineAggregation: string = "Timeline";
     @Input("field") _field?: string;
@@ -75,7 +72,7 @@ export class BsFacetDate
     items: AggregationItem[] = [];
 
     form: UntypedFormGroup;
-    dateRangeControl: UntypedFormControl;
+    dateRangeControl?: UntypedFormControl;
 
     timeSeries: TimelineSeries[] = [];
     selection: (Date | undefined)[] | undefined;
@@ -88,7 +85,6 @@ export class BsFacetDate
     constructor(
         protected facetService: FacetService,
         protected formBuilder: UntypedFormBuilder,
-        protected exprBuilder: ExprBuilder,
         protected searchService: SearchService,
         protected advancedService: AdvancedService,
         protected appService: AppService,
@@ -100,59 +96,64 @@ export class BsFacetDate
             icon: "far fa-minus-square",
             title: "msg#facet.filters.clear",
             action: () => {
-                this.facetService.clearFiltersSearch(this.name, true);
+                if(this.data) {
+                    this.facetService.clearFiltersSearch(this.data.column, true, this.query);
+                }
             },
         });
+
+        // Listen to global query changes (only if this.query is not defined)
+        this.subscriptions.push(
+            this.searchService.queryStream.subscribe(() => {
+                if(!this.query) {
+                    this.onQueryChange(this.searchService.query);
+                }
+            })
+        );
+
     }
 
-    ngOnInit() {
-        if (this.allowCustomRange) {
-            this.dateRangeControl = new UntypedFormControl(
-                [undefined, undefined],
-                [
-                    this.advancedService.validators.range(this.field),
-                    this.advancedService.validators.date(this.field),
-                ]
-            );
+    init() {
+        this.dateRangeControl = new UntypedFormControl(
+            [undefined, undefined],
+            [
+                this.advancedService.validators.range(this.field),
+                this.advancedService.validators.date(this.field),
+            ]
+        );
 
-            this.form = this.formBuilder.group({
-                dateRange: this.dateRangeControl,
-            });
+        this.form = this.formBuilder.group({
+            dateRange: this.dateRangeControl,
+        });
 
-            // Listen to query changes
-            this.subscriptions.push(
-                this.searchService.queryStream.subscribe(() => {
-                    const value = this.getRangeValue();
-                    const from = !value[0] ? undefined : parseISO(value[0]);
-                    const to = !value[1] ? undefined : parseISO(value[1]);
-                    this.dateRangeControl.setValue([from, to], { emitEvent: false });
-                    this.selection = !value[0] && !value[1] ? undefined : [from, to];
+        // Listen to form changes
+        this.subscriptions.push(
+            this.dateRangeControl.valueChanges
+                .pipe(
+                    debounceTime(500),
+                    filter(() => this.form.valid)
+                )
+                .subscribe((value: (undefined | Date)[]) => {
+                    this.setCustomDateSelect(value);
                 })
-            );
-
-            // Listen to form changes
-            this.subscriptions.push(
-                this.dateRangeControl.valueChanges
-                    .pipe(
-                        debounceTime(500),
-                        filter(() => this.form.valid)
-                    )
-                    .subscribe((value: (undefined | Date)[]) => {
-                        this.facetService.clearFiltersSearch(this.name, true);
-                        this.setCustomDateSelect(value);
-                    })
-            );
-        }
+        );
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (this.allowCustomRange) {
-            this.updateTimeSeries(this.timelineAggregation);
+        if (changes.results) {
+            this.data = this.facetService.getAggregation(this.aggregation, this.results);
+            this.updateItems(); // Update the list of standard date intervals ("since last year", etc.)
         }
 
-        if (changes.results) {
-            this.data = this.getAggregation(this.aggregation);
-            this.updateItems();
+        if (this.allowCustomRange) {
+            if (!this.dateRangeControl) {
+                this.init(); // Set up the date picker control
+            }
+            this.updateTimeSeries(this.timelineAggregation); // Update the timeseries data for the timeline component
+        }
+
+        if (changes.query && this.query) {
+            this.onQueryChange(this.query); // When the query changes, update the date-picker and timeline selection
         }
     }
 
@@ -162,19 +163,25 @@ export class BsFacetDate
 
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if (this.facetService.hasFiltered(this.name) && actions.length === 0) {
+        if (this.data && this.facetService.hasFiltered(this.data.column, this.query)) {
             actions.push(this.clearFiltersAction);
         }
         return actions;
     }
 
-    filterItem(item: AggregationItem, event) {
-        if (!this.isFiltered(item)) {
-            this.facetService.addFilterSearch(this.name, this.data!, item, {
-                replaceCurrent: this.replaceCurrent,
-            });
-        } else {
-            this.facetService.removeFilterSearch(this.name, this.data!, item);
+    onQueryChange(query: Query) {
+        const range = this.getRangeValue(query);
+        this.dateRangeControl?.setValue(range, { emitEvent: false });
+        this.selection = !range[0] && !range[1] ? undefined : range;
+    }
+
+    filterItem(item: AggregationItem, event: Event) {
+        if(this.data) {
+            if (!item.$filtered) {
+                this.facetService.addFilterSearch(this.data, item, {replaceCurrent: this.replaceCurrent}, this.query, this.name);
+            } else {
+                this.facetService.removeFilterSearch(this.data, item, this.query, this.name);
+            }
         }
         event.preventDefault();
     }
@@ -193,7 +200,7 @@ export class BsFacetDate
     private updateTimeSeries(aggregationName: string) {
         this.timeSeries = [];
         const ccaggregation = this.appService.getCCAggregation(aggregationName);
-        const aggregation = this.getAggregation(aggregationName);
+        const aggregation = this.facetService.getAggregation(aggregationName, this.results);
         if (aggregation && ccaggregation)
             this.timeSeries.push(
                 BsFacetTimelineComponent.createTimeseries(
@@ -204,108 +211,51 @@ export class BsFacetDate
             );
     }
 
-    private getAggregation(aggregationName: string): Aggregation | undefined {
-        let aggregation = this.facetService.getAggregation(
-            aggregationName,
-            this.results
-        );
-
-        if (!aggregation) {
-            const query = Utils.copy(this.searchService.query);
-            query.action = "aggregate";
-            query.aggregations = [aggregationName];
-
-            this.searchService
-                .getResults(query, undefined, { searchInactive: true })
-                .pipe(
-                    map((results) => {
-                        aggregation = results.aggregations[0];
-                    })
-                );
-        }
-
-        return aggregation;
-    }
 
     private setCustomDateSelect(range: (undefined | Date)[] | undefined) {
-        let expr: string | undefined;
         if (range) {
             const from = range[0];
             const to = range[1];
 
             // ommit time part of the Date in order to remove display dates with hh:mm:ss in the breadcrumb
-              from?.setHours(0);
-              from?.setMinutes(0);
-              from?.setSeconds(0);
+            from?.setHours(0);
+            from?.setMinutes(0);
+            from?.setSeconds(0);
+            from?.setMilliseconds(0);
 
-              to?.setHours(0);
-              to?.setMinutes(0);
-              to?.setSeconds(0);
+            to?.setHours(0);
+            to?.setMinutes(0);
+            to?.setSeconds(0);
+            to?.setMilliseconds(0);
 
             // update search query with current selection
-            if (from && to) {
-                expr = this.exprBuilder.makeRangeExpr(this.field, from, to);
-            } else if (from) {
-                expr = this.exprBuilder.makeNumericalExpr(
-                    this.field,
-                    ">=",
-                    from
-                );
-            } else if (to) {
-                expr = this.exprBuilder.makeNumericalExpr(this.field, "<=", to);
+            const filter = this.facetService.makeRangeFilter(this.field, from, to);
+            if(filter) {
+                this.facetService.applyFilterSearch(filter, this.query, true, this.name);
             }
         }
 
-        this.searchService.query.removeSelect(this.name);
-        if (expr) {
-            this.searchService.query.addSelect(expr, this.name);
-        }
-
-        this.searchService.search();
     }
 
-    private getRangeValue(): any {
-        const expr = this.getDateExprFromUrl();
-        if (expr) {
-            const value = this.getValueFromExpr(expr);
-            if (Utils.isArray(value)) {
-                return value;
-            } else {
-                if (
-                    expr.operator === ExprOperator.gte ||
-                    expr.operator === ExprOperator.gt
-                ) {
-                    return [value, undefined];
-                } else if (
-                    expr.operator === ExprOperator.lte ||
-                    expr.operator === ExprOperator.lt
-                ) {
-                    return [undefined, value];
-                }
-            }
+    private getRangeValue(query: Query): [Date|undefined, Date|undefined] {
+        let from: Date|undefined;
+        let to: Date|undefined;
+        const filters = query.findFieldFilters(this.field);
+        for(let filter of filters) {
+          switch(filter.operator) {
+            case 'between':
+              from = Utils.isDate(filter.start)? filter.start : Utils.isString(filter.start)? parseISO(filter.start) : undefined;
+              to = Utils.isDate(filter.end)? filter.end : Utils.isString(filter.end)? parseISO(filter.end) : undefined;
+              break;
+            case 'gte': case 'gt':
+              from = Utils.isDate(filter.value)? filter.value : Utils.isString(filter.value)? parseISO(filter.value) : undefined;
+              break;
+            case 'lte': case 'lt':
+              to = Utils.isDate(filter.value)? filter.value : Utils.isString(filter.value)? parseISO(filter.value) : undefined;
+              break;
+          }
         }
-        return [undefined, undefined];
-    }
-
-    private getDateExprFromUrl(): Expr | undefined {
-        const expression = this.searchService.query.findSelect(
-            this.name
-        )?.expression;
-        if (expression) {
-            const expr = this.appService.parseExpr(expression);
-            if (expr instanceof Expr) {
-                return expr;
-            }
-        }
-        return undefined;
-    }
-
-    private getValueFromExpr(expr: Expr): any {
-        if (expr.values && expr.values.length > 1) {
-            return expr.values;
-        } else {
-            return expr.value!;
-        }
+        return [from, to];
     }
 
     public updateRange(range: Date[]) {
@@ -314,12 +264,4 @@ export class BsFacetDate
         }
     }
 
-    public isFiltered(item: AggregationItem): boolean {
-        const filtered = this.facetService.getAggregationItemsFiltered(
-            this.name
-        );
-        return (
-            this.facetService.filteredIndex(this.data, filtered, item) !== -1
-        );
-    }
 }

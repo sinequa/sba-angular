@@ -16,6 +16,7 @@ import { FACETS, METADATA, FEATURES, FacetParams } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { DashboardItemComponent } from '../dashboard/dashboard-item.component';
+import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
   selector: 'app-search',
@@ -45,8 +46,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   showResults = true;
   toggleResultsTitle = "msg#search.hideResults";
-  @ViewChild('gridster') gridster!: GridsterComponent;
-
+  @ViewChild(AppSearchFormComponent) searchForm: AppSearchFormComponent;
+  @ViewChild(GridsterComponent) gridster: GridsterComponent;
   @ViewChildren(DashboardItemComponent) items: QueryList<DashboardItemComponent>;
 
   constructor(
@@ -152,7 +153,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
-   public get facets(): FacetConfig<FacetParams>[] {
+  public get facets(): FacetConfig<FacetParams>[] {
     return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || FACETS;
   }
 
@@ -190,6 +191,12 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.lastClickedId = record.id;
       }
     }
+  }
+
+  editFilters() {
+    // setTimeout is need to come after the "click outside" event that collapses the search form
+    setTimeout(() => this.searchForm.searchForm.expand());
+    return false;
   }
 
   toggleMaximized() {

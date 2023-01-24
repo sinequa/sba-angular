@@ -13,7 +13,7 @@ import { DynamicEdgeType } from './providers/dynamic-edge-provider';
  * @param records A given list of records
  */
 export function recordsProviderDemo(providerFactory: ProviderFactory, records: Record[]): NetworkProvider[] {
-  
+
   const doc = providerFactory.createRecordNodeType();
   const person = providerFactory.createPersonNodeType();
 
@@ -30,7 +30,7 @@ export function recordsProviderDemo(providerFactory: ProviderFactory, records: R
  * @param providerFactory The provider factory
  */
 export function selectedRecordsProviderDemo(providerFactory: ProviderFactory): NetworkProvider[] {
-  
+
   const doc = providerFactory.createRecordNodeType();
   const person = providerFactory.createPersonNodeType();
 
@@ -48,8 +48,8 @@ export function selectedRecordsProviderDemo(providerFactory: ProviderFactory): N
  * @param searchService The search service
  */
 export function asyncRecordsProviderDemo(providerFactory: ProviderFactory, searchService: SearchService): NetworkProvider[] {
-  
-  const doc = providerFactory.createNodeType("doc", 
+
+  const doc = providerFactory.createNodeType("doc",
     providerFactory.createDynamicImageNodeOptions(
       (node: Node) => (node as RecordNode).record['sourcevarchar4'] || ""
     )
@@ -57,8 +57,8 @@ export function asyncRecordsProviderDemo(providerFactory: ProviderFactory, searc
 
   const query = searchService.makeQuery();
   query.text = "google";
-  query.addSelect("treepath:=/Web/Wiki/");
-  query.addSelect("category:=human");
+  query.addFilter({field: "treepath", value: "/Web/Wiki/"});
+  query.addFilter({field: "category", value: "human"});
   query.pageSize = 5;
 
   const provider = providerFactory.createAsyncRecordsProvider(doc, [], query);
@@ -152,7 +152,7 @@ export function coocRecordDemo(providerFactory: ProviderFactory): NetworkProvide
   const struct = providerFactory.createCoocStructuralEdgeTypes(doc, [job, person], "person_cooc", "oninsert", "all");
 
   const provider = providerFactory.createSelectedRecordsProvider(doc, [struct], true);
-  
+
   return [provider];
 }
 
@@ -172,12 +172,12 @@ export function typedCoocRecordDemo(providerFactory: ProviderFactory): NetworkPr
   const struct = providerFactory.createTypedCoocStructuralEdgeTypes(doc, [person, company], "person_job_company", "oninsert", "all");
 
   const provider = providerFactory.createSelectedRecordsProvider(doc, [struct]);
-  
+
   return [provider];
 }
 
 /**
- * Creates a network from the list of selected record and three cross-distributions between geo, 
+ * Creates a network from the list of selected record and three cross-distributions between geo,
  * person and company entities.
  * Additionally, the metadata nodes are expandable to other metadata nodes, via cross-distributions.
  * @param providerFactory The provider factory
@@ -194,12 +194,12 @@ export function oOTBConfig(providerFactory: ProviderFactory): NetworkProvider[] 
 
   // Create structural edges from the document nodes to the standard entities
   const structEdges = providerFactory.createStructuralEdgeTypes(docNode, [geo, person, company]);
-  
+
   // Create aggregation edges to link standard entities together (The 3 aggregations are not standard and must be configured on the server)
   const geo_person = providerFactory.createAggregationEdgeType([geo, person], "Geo_Person");
   const company_person = providerFactory.createAggregationEdgeType([company, person], "Company_Person");
   const geo_company = providerFactory.createAggregationEdgeType([geo, company], "Geo_Company");
-  
+
   const expandEdges = providerFactory.createAllExpansionEdgeTypes([geo, person, company], ["Geo", "Person", "Company"], true);
 
   // Return list of providers
@@ -220,7 +220,7 @@ export function oOTBConfig(providerFactory: ProviderFactory): NetworkProvider[] 
  * @param searchService The search service
  */
 export function wikiAsyncConfig(providerFactory: ProviderFactory, searchService: SearchService): NetworkProvider[] {
-  
+
   // Create the node types for standard entities
   const geo = providerFactory.createGeoNodeType();
   const person = providerFactory.createPersonNodeType();
@@ -231,16 +231,16 @@ export function wikiAsyncConfig(providerFactory: ProviderFactory, searchService:
 
   // Create structural edges from the document nodes to the standard entities
   const structEdges = providerFactory.createStructuralEdgeTypes(docNode, [geo, person, company], "oninsert", "existingnodes");
-  
+
   // Create aggregation edges to link standard entities together (The 3 aggregations are not standard and must be configured on the server)
   const geo_person = providerFactory.createAggregationEdgeType([geo, person], "Geo_Person");
   const company_person = providerFactory.createAggregationEdgeType([company, person], "Company_Person");
   const geo_company = providerFactory.createAggregationEdgeType([geo, company], "Geo_Company");
- 
+
   // Create a query to retrieve the list of records
   const query = searchService.makeQuery();
   query.text = "Barack Obama";
-  query.addSelect("treepath:=/Web/Wiki/");
+  query.addFilter({field: "treepath", value: "/Web/Wiki/"});
   query.pageSize = 3;
 
   // Return list of providers
@@ -283,8 +283,8 @@ export function wikiDynEdgeConfig(providerFactory: ProviderFactory, searchServic
     (node: Node, type: DynamicEdgeType) => {
       const query = searchService.makeQuery();
       query.text = node.label;
-      query.addSelect("treepath:=/Web/Wiki/");
-      query.addSelect("category:=human");
+      query.addFilter({field: "treepath", value: "/Web/Wiki/"});
+      query.addFilter({field: "category", value: "human"});
       query.pageSize = 5;
       return query;
     });
@@ -310,7 +310,7 @@ export function wikiDynEdgeConfig(providerFactory: ProviderFactory, searchServic
  * @param searchService The search service
  */
 export function wikiDynConfig(providerFactory: ProviderFactory, searchService: SearchService): NetworkProvider[] {
-  
+
   // Create the node types for the company and person entities
   const company = providerFactory.createCompanyNodeType();
   const person = providerFactory.makeNodeTypeDynamic(
@@ -320,8 +320,8 @@ export function wikiDynConfig(providerFactory: ProviderFactory, searchService: S
     (node: Node) => {
       const query = searchService.makeQuery();
       query.text = node.label;
-      query.addSelect("treepath:=/Web/Wiki/");
-      query.addSelect("category:=human");
+      query.addFilter({field: "treepath", value: "/Web/Wiki/"});
+      query.addFilter({field: "category", value: "human"});
       query.pageSize = 1;
       return query
     },
@@ -348,7 +348,7 @@ export function wikiDynConfig(providerFactory: ProviderFactory, searchService: S
 
 /**
  * Creates a network from 3 cross distribution between Company, Geo and Person entities.
- * Additionally, the person nodes are "dynamic nodes", meaning they become enriched (when inserted) 
+ * Additionally, the person nodes are "dynamic nodes", meaning they become enriched (when inserted)
  * with a record fetched from the server. When this happens, the display of the node
  * changes (in this case we display the wikipedia thumbnail of that person, instead of a generic icon).
  * Additionally, the company nodes are manually expandable to display relations with other people nodes.
@@ -356,9 +356,9 @@ export function wikiDynConfig(providerFactory: ProviderFactory, searchService: S
  * @param searchService The search service
  */
 export function wikiMultiDynConfig(providerFactory: ProviderFactory, searchService: SearchService): NetworkProvider[] {
-  
+
   // Create the node types for standard entities
-  
+
   // geo and company are a normal node types
   const geo = providerFactory.createGeoNodeType();
   const company = providerFactory.createCompanyNodeType();
@@ -371,8 +371,8 @@ export function wikiMultiDynConfig(providerFactory: ProviderFactory, searchServi
     (node: Node) => {
       const query = searchService.makeQuery();
       query.text = node.label;
-      query.addSelect("treepath:=/Web/Wiki/");
-      query.addSelect("category:=human");
+      query.addFilter({field: "treepath", value: "/Web/Wiki/"});
+      query.addFilter({field: "category", value: "human"});
       query.pageSize = 1;
       return query
     },
@@ -382,13 +382,13 @@ export function wikiMultiDynConfig(providerFactory: ProviderFactory, searchServi
     ),
     // the node is mutated dynamically immediately after the metadata node is inserted
     "oninsert");
-  
-  
+
+
   // Create aggregation edges to link standard entities together (The 3 aggregations are not standard and must be configured on the server)
   const geo_person = providerFactory.createAggregationEdgeType([geo, person], "Geo_Person");
   const company_person = providerFactory.createAggregationEdgeType([company, person], "Company_Person");
   const geo_company = providerFactory.createAggregationEdgeType([geo, company], "Geo_Company");
-  
+
   const expandCompany = providerFactory.createAggregationEdgeType([company, person], "person", undefined, "manual");
 
   // Return list of providers

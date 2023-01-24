@@ -1,4 +1,5 @@
 import {Component, HostBinding, Input} from "@angular/core";
+import { Utils } from "@sinequa/core/base";
 import { Action } from "../../action";
 import { ActionButtonsOptions, ActionItemOptions } from "../../typings";
 
@@ -35,11 +36,7 @@ export class BsActionButtons {
 
     get itemsVisible(): Action[] {
         // hidden items are not displayed
-        return (Array.isArray(this._options.items))
-            ? this._options.items.filter(item => !item.hidden)
-            : this._options.items.hidden
-                ? []
-                : [this._options.items];
+        return Utils.asArray(this._options.items).filter(item => !item.hidden);
     }
 
     getActionItemOptions(item: Action): ActionItemOptions {

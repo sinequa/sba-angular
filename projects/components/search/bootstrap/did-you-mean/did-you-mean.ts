@@ -1,5 +1,4 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {Utils} from "@sinequa/core/base";
 import {Results, DidYouMeanItem, DidYouMeanKind} from "@sinequa/core/web-services";
 import {SearchService} from "../../search.service";
 
@@ -10,7 +9,6 @@ import {SearchService} from "../../search.service";
 })
 export class BsDidYouMean implements OnChanges {
     @Input() results: Results;
-    @Input() context: "search" | "refine" = "search";
     item: DidYouMeanItem | undefined;
 
     constructor(
@@ -19,41 +17,30 @@ export class BsDidYouMean implements OnChanges {
 
     private handleResults() {
         this.item = undefined;
-        if (this.results && this.results.didYouMean) {
-            if (this.context === "search") {
-                const item = this.results.didYouMean.text;
-                if (item && item.corrected) {
-                    this.item = item;
-                }
-            }
-            else {
-                const refineSelect = this.searchService.query.findSelect("refine");
-                if (refineSelect && Utils.startsWith(refineSelect.expression, "refine:") && !!this.results.didYouMean.refine) {
-                    const dymItem = this.results.didYouMean.refine[this.results.didYouMean.refine.length - 1];
-                    if (dymItem.corrected) {
-                        this.item = dymItem;
-                    }
-                }
+        if (this.results.didYouMean) {
+            const item = this.results.didYouMean.text;
+            if (item.corrected) {
+                this.item = item;
             }
         }
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!!changes["results"]) {
+        if (changes.results) {
             this.handleResults();
         }
     }
 
     selectOriginal() {
         if (this.item) {
-            this.searchService.didYouMean(this.item.original, this.context, DidYouMeanKind.Original);
+            this.searchService.didYouMean(this.item.original, DidYouMeanKind.Original);
         }
         return false;
     }
 
     selectCorrected() {
         if (this.item) {
-            this.searchService.didYouMean(this.item.corrected, this.context, DidYouMeanKind.Corrected);
+            this.searchService.didYouMean(this.item.corrected, DidYouMeanKind.Corrected);
         }
         return false;
     }

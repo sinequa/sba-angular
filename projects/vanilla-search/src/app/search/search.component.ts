@@ -12,8 +12,8 @@ import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
-import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { TopPassage } from '@sinequa/core/web-services';
+import { BsFacetDate } from '@sinequa/analytics/timeline';
 
 @Component({
   selector: 'app-search',
@@ -145,7 +145,7 @@ export class SearchComponent implements OnInit {
     }
     else {
       this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = facet.title || facet.name || facet.parameters?.aggregation || '';
+      this.multiFacetTitle = facet.title || facet.name || '';
     }
   }
 
@@ -162,7 +162,6 @@ export class SearchComponent implements OnInit {
 
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
-    this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
     this.passageId = passageId?.toString();
     if (this.passageId) {
       if (this.previewFacet && this.passagesList) {

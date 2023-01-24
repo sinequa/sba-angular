@@ -123,6 +123,17 @@ export default {
         "previous": "Zurück",
         "next": "Weiter",
         "filterItemCountTooltip": "{count} mögliche Werte für diesen Filter",
+
+        "container": {
+            "close": "Schließen Sie diesen Filter",
+            "help": "Grenzen Sie Ihre Suche mit Filtern ein:",
+            "filterFor": "{title} für:",
+            "current": "Aktuelle Ergebnisse",
+            "currentTitle": "Filter werden für die aktuell angezeigte Ergebnisliste berechnet",
+            "all": "Alle Daten",
+            "allTitle": "Filter werden für alle möglichen Ergebnisse berechnet (das Anwenden von Filtern führt möglicherweise zu keinem Ergebnis)",
+            "noData": "Keine Daten für diesen Filter"
+        },
     },
 
     "facetCard": {

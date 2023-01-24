@@ -16,7 +16,6 @@ import { AuditInterceptor } from "@sinequa/core/app-utils";
 
 // @sinequa/components library
 import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
-import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
 import { BsNotificationModule } from "@sinequa/components/notification";
 import { BsFacetModule } from "@sinequa/components/facet";
 import { BsActionModule } from "@sinequa/components/action";
@@ -32,24 +31,24 @@ import { BsFeedbackModule } from '@sinequa/components/feedback';
 import { BsPreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule } from '@sinequa/components/selection';
-import { BsAdvancedModule } from '@sinequa/components/advanced';
-import { BsTimelineModule } from '@sinequa/analytics/timeline';
 import { MLModule } from '@sinequa/components/machine-learning';
+
+import { SearchFormComponent } from "@sinequa/components/search-form";
+import { FiltersModule } from "@sinequa/components/filters";
 
 // Components
 import { AppComponent } from "./app.component";
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { PreviewComponent } from './preview/preview.component';
-import { SearchFormComponent } from './search-form/search-form.component';
-import { AutocompleteExtended } from './search-form/autocomplete-extended.directive';
+import { AppSearchFormComponent } from "./search-form/search-form.component";
+import { AutocompleteComponent } from "./search-form/autocomplete.component";
 
 // Environment
 import { environment } from "../environments/environment";
 
 // Help folder options
 import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
-
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -125,7 +124,6 @@ export const breakpoints = {
         ModalModule,
 
         BsSearchModule.forRoot(searchOptions),
-        BsAutocompleteModule,
         BsNotificationModule,
         BsFacetModule,
         BsActionModule,
@@ -141,17 +139,17 @@ export const breakpoints = {
         BsPreviewModule,
         MetadataModule,
         BsSelectionModule,
-        BsAdvancedModule,
-        BsTimelineModule,
-        MLModule
+        MLModule,
+        FiltersModule,
+        SearchFormComponent,
     ],
     declarations: [
         AppComponent,
         HomeComponent,
         SearchComponent,
         PreviewComponent,
-        SearchFormComponent,
-        AutocompleteExtended
+        AppSearchFormComponent,
+        AutocompleteComponent
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa

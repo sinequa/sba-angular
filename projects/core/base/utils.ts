@@ -165,7 +165,7 @@ export class Utils {
                     }
                     else {
                         if (!Utils.isObject(dst[key])) {
-                            dst[key] = Utils.isArray(src) ? [] : {};
+                            dst[key] = Array.isArray(src) ? [] : {};
                         }
                         Utils.baseExtend(dst[key], [src], true);
                     }
@@ -234,7 +234,7 @@ export class Utils {
                     iterator.call(context, obj[key], key, obj);
                     }
                 }
-            } else if (Utils.isArray(obj) || Utils.isArrayLike(obj)) {
+            } else if (Array.isArray(obj) || Utils.isArrayLike(obj)) {
                 const isPrimitive = typeof obj !== 'object';
                 for (key = 0, length = obj.length; key < length; key++) {
                     if (isPrimitive || key in obj) {
@@ -292,7 +292,7 @@ export class Utils {
             }
 
             // Empty the destination object
-            if (Utils.isArray(destination)) {
+            if (Array.isArray(destination)) {
                 (destination as Array<any>).length = 0;
             }
             else {
@@ -312,7 +312,7 @@ export class Utils {
 
         function copyRecurse(src, dest) {
             let key;
-            if (Utils.isArray(src)) {
+            if (Array.isArray(src)) {
                 for (let i = 0, ii = src.length; i < ii; i++) {
                     dest.push(copyElement(src[i]));
                 }
@@ -358,7 +358,7 @@ export class Utils {
             let needsRecurse = false;
             let dest;
 
-            if (Utils.isArray(src)) {
+            if (Array.isArray(src)) {
                 dest = [];
                 needsRecurse = true;
             } else if (Utils.isTypedArray(src)) {
@@ -603,7 +603,7 @@ export class Utils {
         if (value === null) {
             return "null";
         }
-        if (Utils.isArray(value)) {
+        if (Array.isArray(value)) {
             const ret: string[] = [];
             value.forEach(v => {
                 if (ret.length > 0) {
@@ -729,7 +729,7 @@ export class Utils {
      * @param nodes the nodes to traverse
      * @param callback the callback function
      */
-    public static traverse<T extends TreeNode>(nodes: T[], callback: (lineage: T[] | undefined) => boolean): boolean {
+    public static traverse<T extends TreeNode>(nodes: T[], callback: (lineage: T[], node: T, depth: number) => boolean): boolean {
         if (!nodes || nodes.length === 0) {
             return false;
         }
@@ -746,11 +746,10 @@ export class Utils {
             const node = stack.pop();
             if (!node) {
                 lineage.pop();
-                callback(undefined);
             }
             else {
                 lineage.push(node);
-                if (callback(lineage)) {
+                if (callback(lineage, node, lineage.length-1)) {
                     return true;
                 }
                 stack.push(undefined);
@@ -831,13 +830,6 @@ export class Utils {
     }
 
     /**
-     * Return `true` if the passed value is an `Array`
-     */
-    static isArray(value): value is Array<any> {
-        return Array.isArray(value);
-    }
-
-    /**
      * Return `true` if the passed value is iterable
      */
     static isIterable(value): value is Array<any> {
@@ -911,7 +903,7 @@ export class Utils {
         // * jqLite is either the jQuery or jqLite constructor function
         // * we have to check the existance of jqLite first as this method is called
         //   via the forEach method when constructing the jqLite object in the first place
-        if (Utils.isArray(obj) || Utils.isString(obj) /*|| (jqLite && obj instanceof jqLite)*/) return true;
+        if (Array.isArray(obj) || Utils.isString(obj) /*|| (jqLite && obj instanceof jqLite)*/) return true;
 
         // Support: iOS 8.2 (not reproducible in simulator)
         // "length" in obj used to prevent JIT error (gh-11508)
@@ -1432,7 +1424,7 @@ export class Utils {
                     delete obj[prop];
                 }
                 else {
-                    if (Utils.isArray(obj[prop])) {
+                    if (Array.isArray(obj[prop])) {
                         obj[prop].length = 0;
                     }
                     else if (Utils.isMap(obj[prop])) {
@@ -1460,7 +1452,7 @@ export class Utils {
         }
         for (const name of Object.keys(override)) {
             if (name in template) {
-                if (Utils.isObject(override[name]) && !Utils.isArray(override[name])) {
+                if (Utils.isObject(override[name]) && !Array.isArray(override[name])) {
                     const diff = Utils.deltas(template[name], override[name]);
                     if (!Utils.equals(diff, {})) {
                         ret[name] = diff;
@@ -1764,6 +1756,80 @@ export class Utils {
     }
 
     /**
+     * Escape a string so that the characters in it are not processed by the fielded search expression parser.
+     * Single occurrences of the backslash character are replaced by two backslashes and backquote characters
+     * are prefixed by a backslash. Finally, the string is enclosed in backquotes.
+     *
+     * For example: `` a\`\b `` => `` a\\\`\\b ``
+     */
+    // \ => \\
+    // ` => \`
+    // then surround with ``
+    public static escapeExpr(value: string | undefined): string {
+        if (!value) {
+            return "``";
+        }
+        value = String(value); // make sure we have a string
+        if (value.search(/[\\`]/) === -1) {
+            return "`" + value + "`";
+        }
+        const sb: string[] = ["`"];
+        for (let i = 0, ic = value.length; i < ic; i++) {
+            const ch = value[i];
+            if (ch === "\\" || ch === "`") {
+                sb.push("\\");
+            }
+            sb.push(ch);
+        }
+        sb.push("`");
+        return sb.join("");
+    }
+
+    private static isExprEscaped(value: string | undefined): boolean {
+        return !!value && value.length >= 2 && value[0] === "`" && value[value.length - 1] === "`";
+    }
+
+    /**
+     * Perform the reverse operation to [Utils.escape]{@link Utils#escape}
+     */
+    // remove surrounding ``
+    // \\ => \
+    // \` => `
+    public static unescapeExpr(value: string): string {
+        if (!Utils.isExprEscaped(value)) {
+            return value;
+        }
+        const sb: string[] = [];
+        for (let i = 1, ic = value.length - 1; i < ic; i++) {
+            let ch = value[i];
+            if (ch === "\\") {
+                if (i >= ic - 1) { // we end with a \ => drop it
+                    continue;
+                }
+                ch = value[++i];
+            }
+            sb.push(ch);
+        }
+        return sb.join("");
+    }
+
+    /**
+     * @ignore
+     */
+    public static unescapeExprList(values: string[]): string[] {
+        if (!values) {
+            return values;
+        }
+        const values1: string[] = [];
+        for (let _i = 0, _a = values; _i < _a.length; _i++) {
+            const value = _a[_i];
+            values1.push(Utils.unescapeExpr(value));
+        }
+        return values1;
+    }
+
+
+    /**
      * Move an element in an array
      *
      * @param array The array containing the element to move
@@ -1869,6 +1935,10 @@ export class Utils {
         }
 
         return value.toString();
+    }
+
+    static asArray<T>(data: T | T[]): T[] {
+        return Array.isArray(data)? data : [data];
     }
 
     /**
@@ -2011,5 +2081,30 @@ export class Utils {
      */
     static unique(array: any[]) {
         return uniq(array);
+    }
+
+    // static methods
+
+    static splitTreepath(path: string): string[] {
+        if (!path) return [];
+        path = path.trim();
+        if (path.length > 0 && path[0] === "/") {
+            path = path.substr(1);
+        }
+        if (path.length > 0 && path[path.length - 1] === "/") {
+            path = path.substr(0, path.length - 1);
+        }
+        if (path.length === 0) {
+            return [];
+        }
+        return path.split("/");
+    }
+
+    static treepathLast(path: string): string {
+        const parts = Utils.splitTreepath(path);
+        if (!parts || parts.length === 0) {
+            return "";
+        }
+        return parts[parts.length - 1];
     }
 }

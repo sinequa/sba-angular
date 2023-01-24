@@ -1,7 +1,7 @@
 import { Aggregation, AggregationItem } from '@sinequa/core/web-services';
 import { Node, Edge, EdgeType, NetworkDataset, NetworkContext } from '../network-models';
 import { Action } from '@sinequa/components/action';
-import { Query, Expr } from '@sinequa/core/app-utils';
+import { Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { BaseProvider } from './base-provider';
 
@@ -80,7 +80,7 @@ export class AggregationProvider extends BaseProvider {
      */
     protected fetchAggregations(types: AggregationEdgeType[], sourceNode?: Node) {
 
-        const query = Utils.copy(this.query || this.context.searchService.query);
+        const query = (this.query || this.context.query || this.context.searchService.query).copy();
         query.action = "aggregate";
         query.aggregations = {};
         types.forEach(type => query.aggregations[type.aggregation] = {
@@ -89,7 +89,7 @@ export class AggregationProvider extends BaseProvider {
         });
 
         if(sourceNode && sourceNode.type.field) {
-            query.addSelect(this.context.exprBuilder.makeExpr(sourceNode.type.field, this.getNodeValue(sourceNode)));
+            query.addFilter({field: sourceNode.type.field, value: this.getNodeValue(sourceNode)});
         }
 
         Object.keys(query.aggregations).forEach(aggregation => {
@@ -153,18 +153,20 @@ export class AggregationProvider extends BaseProvider {
                 }
                 // Default parsing, assuming cross-distribution format ("Apple/Steve Jobs")
                 const displays = item.display.split("/");
-                const expr = this.context.appService.parseExpr(item.value.toString()) as Expr;
-                const values = expr.operands.map(e => e.value!);
+                // Expr has following syntax `display`:(column1:`value1` AND column2:`value2`)
+                const expr = String(item.value);
+                const subExpr = expr.substring((Utils.escapeExpr(item.display)+":(").length, expr.length-1).split(" AND ");
+                const values = subExpr.map(v => Utils.unescapeExpr(v.split(':')[1]));
                 if(values.length < 2 || displays.length < 2 || type.nodeTypes.length < 2 || !values[0] || !values[1]) {
                     throw new Error(`Incorrect aggregation item (${item.value}, ${item.display}) or edge type (${type.nodeTypes.length})`);
                 }
                 rawData = {values, displays};
             }
             // We need to exclude trivial aggregation items pointing to themselves
-            else if(sourceNode.id !== this.getNodeId(type.nodeTypes[1], item.value.toString())) {
+            else if(sourceNode.id !== this.getNodeId(type.nodeTypes[1], String(item.value))) {
                 rawData = {
-                    values: [this.getNodeValue(sourceNode), item.value.toString()],
-                    displays: [sourceNode.label, item.display || item.value.toString()]
+                    values: [this.getNodeValue(sourceNode), String(item.value)],
+                    displays: [sourceNode.label, item.display || String(item.value)]
                 };
             }
         }

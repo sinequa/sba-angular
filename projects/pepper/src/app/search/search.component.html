@@ -3,39 +3,43 @@
     <div class="container-fluid pb-2">
 
         <!-- Application logo -->
-        <a [routerLink]="['/search']" title="Home">
-            <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
-            <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
-            <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
-            <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
-        </a>
+        <div class="col-lg-3 col-xl-2">
+            <a [routerLink]="['/search']" title="Home">
+                <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
+                <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
+                <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
+                <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
+            </a>
+        </div>
 
         <!-- Search form -->
-        <app-search-form class="flex-grow-1 flex-basis-0 mx-3"></app-search-form>
+        <div class="col-sm-5 ps-1 pe-2 align-self-baseline">
+            <app-search-form #searchForm
+                [facets]="facets"
+                [autocompleteSources]="features">
+            </app-search-form>
+        </div>
 
         <!-- User menu which visibility can be toggled with a button on small screens -->
-        <ul class="navbar-nav navbar-right" [ngClass]="{'full-width': ui.screenSizeIsLess('sm')}">
-            <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
-                <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
-                <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
-                <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
-                <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
-            </ng-container>
-            <sq-user-menu></sq-user-menu>
-        </ul>
+        <div class="col-sm-4 col-xl-5 d-flex justify-content-end flex-grow-1 flex-shrink-1 w-100">
+            <ul class="navbar-nav navbar-right">
+                <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
+                    <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
+                    <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
+                    <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
+                    <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
+                </ng-container>
+                <sq-user-menu [display]="'fullName'"></sq-user-menu>
+            </ul>
 
-        <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete"></sq-feedback-menu>
-
+            <!-- Non mobile feedback button -->
+            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
+        </div>
     </div>
 
-    <ng-container *ngIf="loginService.complete">
-        <div class="container-fluid text-nowrap" *ngIf="results$ | async as results">
-            <span class="text-muted align-self-start m-2 ms-0"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
-            <sq-facet-filters [results]="results" [facets]="facets" [facetComponents]="facetComponents" class="me-auto"></sq-facet-filters>
-
-            <div class="btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
-        </div>
-    </ng-container>
+    <div class="container-fluid text-nowrap" *ngIf="results$ | async as results">
+        <div class="ms-auto btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
+    </div>
 </nav>
 
 <!-- Loading bar (Manages its own state and visibility via the search service) -->
@@ -70,8 +74,20 @@
                 <sq-tabs [results]="results"></sq-tabs>
 
                 <!-- Toolbar -->
-                <div class="d-flex flex-row" [ngClass]="{'me-2': !results.tabs}"> <!-- margin right when no tab, due to results toggle button -->
-                    <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
+                <div class="d-flex flex-row small" [ngClass]="{'me-2': !results.tabs}"> <!-- margin right when no tab, due to results toggle button -->
+                    <div class="flex-grow-1">
+                        <a href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
+                            <sq-filters *ngIf="searchService.query.filters"
+                                [query]="searchService.query"
+                                [filter]="searchService.query.filters"
+                                [showField]="false"
+                                [allowRemove]="false">
+                            </sq-filters>
+                            <span *ngIf="!searchService.query.filters">
+                                Narrow your search down with filters...
+                            </span>
+                        </a>
+                    </div>
                     <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                     <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
                 </div>

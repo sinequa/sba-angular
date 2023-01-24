@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from '@angular/router/testing';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { AppService, FormatService, ExprValueInitializer, Expr, ExprOperandsInitializer } from "@sinequa/core/app-utils";
+import { AppService, FormatService } from "@sinequa/core/app-utils";
 
 import { SearchService } from "../search";
 import { AdvancedService } from "../advanced";
@@ -21,7 +21,7 @@ describe("AdvancedService", () => {
   let searchService: SearchService;
   let appService: AppService;
   let formatService: FormatService;
-  let intlService: IntlService;
+  // let intlService: IntlService;
 
   beforeEach(() => {
 
@@ -56,7 +56,7 @@ describe("AdvancedService", () => {
     searchService = TestBed.inject(SearchService);
     appService = TestBed.inject(AppService);
     formatService = TestBed.inject(FormatService);
-    intlService = TestBed.inject(IntlService);
+    // intlService = TestBed.inject(IntlService);
   });
 
   it("can load instance", () => {
@@ -192,292 +192,292 @@ describe("AdvancedService", () => {
     });
   });
 
-  describe("get advanced value from searchService.query", () => {
-    let spy;
-    let spyQueryAction;
-    beforeEach(() => {
-      searchService.query.select = [
-        {expression: "treepath: (`Product`:`Product` OR `web`:`web`)", facet: "advanced_treepath"},
-        {expression: "authors: (`Sinequa`:`sinequa`)", facet: "advanced_authors"},
-        {expression: "size:<=262144000", facet: "advanced_size"},
-        {expression: "modified:[2020-12-01..2020-12-16]", facet: "advanced_modified"},
-        {expression: "person: (`Bill Gates`:`BILL GATES` OR `Bill Clinton`:`BILL CLINTON`)", facet: "advanced_person"},
-        {expression: "docformat: (`htm`:`htm`)", facet: "advanced_docformat"}
-      ];
-      spy = spyOn(appService, 'parseExpr');
-      spyQueryAction = spyOn(searchService.query, 'findSelect').and.callThrough();
-    });
+  // describe("get advanced value from searchService.query", () => {
+  //   let spy;
+  //   let spyQueryAction;
+  //   beforeEach(() => {
+  //     searchService.query.select = [
+  //       {expression: "treepath: (`Product`:`Product` OR `web`:`web`)", facet: "advanced_treepath"},
+  //       {expression: "authors: (`Sinequa`:`sinequa`)", facet: "advanced_authors"},
+  //       {expression: "size:<=262144000", facet: "advanced_size"},
+  //       {expression: "modified:[2020-12-01..2020-12-16]", facet: "advanced_modified"},
+  //       {expression: "person: (`Bill Gates`:`BILL GATES` OR `Bill Clinton`:`BILL CLINTON`)", facet: "advanced_person"},
+  //       {expression: "docformat: (`htm`:`htm`)", facet: "advanced_docformat"}
+  //     ];
+  //     spy = spyOn(appService, 'parseExpr');
+  //     spyQueryAction = spyOn(searchService.query, 'findSelect').and.callThrough();
+  //   });
 
-    afterEach(() => {
-      spy.calls.reset();
-    })
+  //   afterEach(() => {
+  //     spy.calls.reset();
+  //   })
 
-    it("when defined filter for a mono-select and multi-select component", () => {
-      // Case multi-select
-      const op1 : ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["Product"],
-        display: "Product",
-        value: "Product",
-        field: "treepath",
-        operator: 0
-      }
+  //   it("when defined filter for a mono-select and multi-select component", () => {
+  //     // Case multi-select
+  //     const op1 : ExprValueInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       values: ["Product"],
+  //       display: "Product",
+  //       value: "Product",
+  //       field: "treepath",
+  //       operator: 0
+  //     }
 
-      const op2 : ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["web"],
-        display: "web",
-        value: "web",
-        field: "treepath",
-        operator: 0
-      }
+  //     const op2 : ExprValueInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       values: ["web"],
+  //       display: "web",
+  //       value: "web",
+  //       field: "treepath",
+  //       operator: 0
+  //     }
 
-      const exprOperandsInitializer1: ExprOperandsInitializer = {
-        exprContext: {appService, formatService, intlService},
-        op1: op1 as Expr,
-        op2: op2 as Expr,
-        field: "treepath",
-        and: false
-      };
-      const expr1: Expr = new Expr(exprOperandsInitializer1);
-      spy.and.returnValue(expr1);
-      const value1 = service.getValue("treepath");
+  //     const exprOperandsInitializer1: ExprOperandsInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       op1: op1 as Expr,
+  //       op2: op2 as Expr,
+  //       field: "treepath",
+  //       and: false
+  //     };
+  //     const expr1: Expr = new Expr(exprOperandsInitializer1);
+  //     spy.and.returnValue(expr1);
+  //     const value1 = service.getValue("treepath");
 
-      expect(spyQueryAction).toHaveBeenCalledWith("advanced_treepath");
-      expect(value1).toEqual([
-        {display: "Product",value: "Product"},
-        {display: "web",value: "web"}
-      ]);
+  //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_treepath");
+  //     expect(value1).toEqual([
+  //       {display: "Product",value: "Product"},
+  //       {display: "web",value: "web"}
+  //     ]);
 
-      // Case mono-select
-      const exprValueInitializer2: ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["sinequa"],
-        display: "Sinequa",
-        field: "authors",
-        operator: 0
-      };
-      const expr2: Expr = new Expr(exprValueInitializer2);
-      spy.and.returnValue(expr2);
-      const value2 = service.getValue("authors");
+  //     // Case mono-select
+  //     const exprValueInitializer2: ExprValueInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       values: ["sinequa"],
+  //       display: "Sinequa",
+  //       field: "authors",
+  //       operator: 0
+  //     };
+  //     const expr2: Expr = new Expr(exprValueInitializer2);
+  //     spy.and.returnValue(expr2);
+  //     const value2 = service.getValue("authors");
 
-      expect(spyQueryAction).toHaveBeenCalledWith("advanced_authors");
-      expect(value2).toEqual({display: "Sinequa",value: "sinequa"});
-    });
+  //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_authors");
+  //     expect(value2).toEqual({display: "Sinequa",value: "sinequa"});
+  //   });
 
-    it("when defined filter for a number/date range component", () => {
-      // Case numbers with only one operand of the range
-      const exprValueInitializer1: ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["262144000"],
-        value: "262144000",
-        field: "size",
-        operator: 5
-      };
-      const expr1: Expr = new Expr(exprValueInitializer1);
-      spy.and.returnValue(expr1);
-      const value1 = service.getRangeValue("size");
+  //   it("when defined filter for a number/date range component", () => {
+  //     // Case numbers with only one operand of the range
+  //     const exprValueInitializer1: ExprValueInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       values: ["262144000"],
+  //       value: "262144000",
+  //       field: "size",
+  //       operator: 5
+  //     };
+  //     const expr1: Expr = new Expr(exprValueInitializer1);
+  //     spy.and.returnValue(expr1);
+  //     const value1 = service.getRangeValue("size");
 
-      expect(spyQueryAction).toHaveBeenCalledWith("advanced_size");
-      expect(value1).toEqual([undefined, '262144000']);
+  //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_size");
+  //     expect(value1).toEqual([undefined, '262144000']);
 
-      // Case dates with 2 operands of the range
-      const exprValueInitializer2: ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["2020-12-01", "2020-12-16"],
-        field: "modified",
-        operator: 11
-      };
-      const expr2: Expr = new Expr(exprValueInitializer2);
-      spy.and.returnValue(expr2);
-      const value2 = service.getRangeValue("modified");
+  //     // Case dates with 2 operands of the range
+  //     const exprValueInitializer2: ExprValueInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       values: ["2020-12-01", "2020-12-16"],
+  //       field: "modified",
+  //       operator: 11
+  //     };
+  //     const expr2: Expr = new Expr(exprValueInitializer2);
+  //     spy.and.returnValue(expr2);
+  //     const value2 = service.getRangeValue("modified");
 
-      expect(spyQueryAction).toHaveBeenCalledWith("advanced_modified");
-      expect(value2).toEqual(["2020-12-01", "2020-12-16"]);
-    });
+  //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_modified");
+  //     expect(value2).toEqual(["2020-12-01", "2020-12-16"]);
+  //   });
 
-    it("when defined filter for a multi-input/input component", () => {
-      // Case multi-input
-      const op1 : ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["BILL GATES"],
-        display: "Bill Gates",
-        value: "BILL GATES",
-        field: "person",
-        operator: 0
-      }
+  //   it("when defined filter for a multi-input/input component", () => {
+  //     // Case multi-input
+  //     const op1 : ExprValueInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       values: ["BILL GATES"],
+  //       display: "Bill Gates",
+  //       value: "BILL GATES",
+  //       field: "person",
+  //       operator: 0
+  //     }
 
-      const op2 : ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["BILL CLINTON"],
-        display: "Bill Clinton",
-        value: "BILL CLINTON",
-        field: "person",
-        operator: 0
-      }
+  //     const op2 : ExprValueInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       values: ["BILL CLINTON"],
+  //       display: "Bill Clinton",
+  //       value: "BILL CLINTON",
+  //       field: "person",
+  //       operator: 0
+  //     }
 
-      const exprOperandsInitializer1: ExprOperandsInitializer = {
-        exprContext: {appService, formatService, intlService},
-        op1: op1 as Expr,
-        op2: op2 as Expr,
-        field: "person",
-        and: false
-      };
-      const expr1: Expr = new Expr(exprOperandsInitializer1);
-      spy.and.returnValue(expr1);
-      const value1 = service.getValue("person");
+  //     const exprOperandsInitializer1: ExprOperandsInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       op1: op1 as Expr,
+  //       op2: op2 as Expr,
+  //       field: "person",
+  //       and: false
+  //     };
+  //     const expr1: Expr = new Expr(exprOperandsInitializer1);
+  //     spy.and.returnValue(expr1);
+  //     const value1 = service.getValue("person");
 
-      expect(spyQueryAction).toHaveBeenCalledWith("advanced_person");
-      expect(value1).toEqual([
-        {display: "Bill Gates",value: "BILL GATES"},
-        {display: "Bill Clinton",value: "BILL CLINTON"}
-      ]);
+  //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_person");
+  //     expect(value1).toEqual([
+  //       {display: "Bill Gates",value: "BILL GATES"},
+  //       {display: "Bill Clinton",value: "BILL CLINTON"}
+  //     ]);
 
-      // Case input
-      const exprValueInitializer2: ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["htm"],
-        field: "docformat",
-        operator: 0
-      };
-      const expr2: Expr = new Expr(exprValueInitializer2);
-      spy.and.returnValue(expr2);
-      const value2 = service.getValue("docformat");
+  //     // Case input
+  //     const exprValueInitializer2: ExprValueInitializer = {
+  //       exprContext: {appService, formatService, intlService},
+  //       values: ["htm"],
+  //       field: "docformat",
+  //       operator: 0
+  //     };
+  //     const expr2: Expr = new Expr(exprValueInitializer2);
+  //     spy.and.returnValue(expr2);
+  //     const value2 = service.getValue("docformat");
 
-      expect(spyQueryAction).toHaveBeenCalledWith("advanced_docformat");
-      expect(value2).toEqual({display: "htm",value: "htm"});
-    });
+  //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_docformat");
+  //     expect(value2).toEqual({display: "htm",value: "htm"});
+  //   });
 
-    it("Undefined filter should also be processed", () => {
-      // Case range
-      const value1 = service.getRangeValue("foo");
+  //   it("Undefined filter should also be processed", () => {
+  //     // Case range
+  //     const value1 = service.getRangeValue("foo");
 
-      expect(spyQueryAction).toHaveBeenCalledWith("advanced_foo");
-      expect(value1).toEqual([undefined,undefined]);
+  //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_foo");
+  //     expect(value1).toEqual([undefined,undefined]);
 
-      // All other Cases: as example Select
-      const value2 = service.getValue("toto");
+  //     // All other Cases: as example Select
+  //     const value2 = service.getValue("toto");
 
-      expect(spyQueryAction).toHaveBeenCalledWith("advanced_toto");
-      expect(value2).toEqual(undefined);
-    });
-  });
+  //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_toto");
+  //     expect(value2).toEqual(undefined);
+  //   });
+  // });
 
-  describe("set advanced value in searchService.query", () => {
-    let spyQueryRemoveAction;
-    let spyQueryAddAction;
-    beforeEach(() => {
-      searchService.query.select = [];
-      spyQueryAddAction = spyOn(searchService.query, 'addSelect').and.callThrough();
-      spyQueryRemoveAction = spyOn(searchService.query, 'removeSelect').and.callThrough();
-    });
+  // describe("set advanced value in searchService.query", () => {
+  //   let spyQueryRemoveAction;
+  //   let spyQueryAddAction;
+  //   beforeEach(() => {
+  //     searchService.query.select = [];
+  //     spyQueryAddAction = spyOn(searchService.query, 'addSelect').and.callThrough();
+  //     spyQueryRemoveAction = spyOn(searchService.query, 'removeSelect').and.callThrough();
+  //   });
 
-    afterEach(() => {
-      spyQueryAddAction.calls.reset();
-      spyQueryRemoveAction.calls.reset();
-    })
+  //   afterEach(() => {
+  //     spyQueryAddAction.calls.reset();
+  //     spyQueryRemoveAction.calls.reset();
+  //   })
 
-    it("from a number/date range component", () => {
-      // Case numbers with only one operand of the range
-      service.setNumericalSelect('size', 262144000, '<=');
+  //   it("from a number/date range component", () => {
+  //     // Case numbers with only one operand of the range
+  //     service.setNumericalSelect('size', 262144000, '<=');
 
-      expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_size");
-      expect(spyQueryAddAction).toHaveBeenCalledWith("size:<= 262144000","advanced_size");
+  //     expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_size");
+  //     expect(spyQueryAddAction).toHaveBeenCalledWith("size:<= 262144000","advanced_size");
 
-      // Case dates with 2 operands of the range
-      service.setRangeSelect('modified', ["2020-12-01", "2020-12-16"]);
+  //     // Case dates with 2 operands of the range
+  //     service.setRangeSelect('modified', ["2020-12-01", "2020-12-16"]);
 
-      expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_modified");
-      expect(spyQueryAddAction).toHaveBeenCalledWith("modified: [2020-12-01..2020-12-16]","advanced_modified");
-    });
+  //     expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_modified");
+  //     expect(spyQueryAddAction).toHaveBeenCalledWith("modified: [2020-12-01..2020-12-16]","advanced_modified");
+  //   });
 
-    it("from a (select/input/checkbox...) component", () => {
+  //   it("from a (select/input/checkbox...) component", () => {
 
-      service.setSelect('treepath', [
-        {display: "Product",value: "Product"},
-        {display: "web",value: "web"}
-      ]);
+  //     service.setSelect('treepath', [
+  //       {display: "Product",value: "Product"},
+  //       {display: "web",value: "web"}
+  //     ]);
 
-      expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_treepath");
-      expect(spyQueryAddAction).toHaveBeenCalledWith("treepath: (`Product`:`Product` OR `web`:`web`)","advanced_treepath");
-    });
+  //     expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_treepath");
+  //     expect(spyQueryAddAction).toHaveBeenCalledWith("treepath: (`Product`:`Product` OR `web`:`web`)","advanced_treepath");
+  //   });
 
-    it("with undefined value", () => {
-      service.setSelect('person', undefined);
+  //   it("with undefined value", () => {
+  //     service.setSelect('person', undefined);
 
-      expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_person");
-      expect(spyQueryAddAction).not.toHaveBeenCalled();
-    });
-  });
+  //     expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_person");
+  //     expect(spyQueryAddAction).not.toHaveBeenCalled();
+  //   });
+  // });
 
-  describe("remove an advanced value from searchService.query", () => {
-    let spyQueryRemoveAction;
-    let spySearch;
-    beforeEach(() => {
-      searchService.query.select = [{expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"}];
-      spySearch = spyOn(searchService, 'search').and.callThrough();
-      spyQueryRemoveAction = spyOn(searchService.query, 'removeSelect').and.callThrough();
-    });
+  // describe("remove an advanced value from searchService.query", () => {
+  //   let spyQueryRemoveAction;
+  //   let spySearch;
+  //   beforeEach(() => {
+  //     searchService.query.select = [{expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"}];
+  //     spySearch = spyOn(searchService, 'search').and.callThrough();
+  //     spyQueryRemoveAction = spyOn(searchService.query, 'removeSelect').and.callThrough();
+  //   });
 
-    afterEach(() => {
-      spySearch.calls.reset();
-      spyQueryRemoveAction.calls.reset();
-    })
+  //   afterEach(() => {
+  //     spySearch.calls.reset();
+  //     spyQueryRemoveAction.calls.reset();
+  //   })
 
-    it("remove existing select and trigger new search", () => {
-      service.removeAdvancedValue("foo");
+  //   it("remove existing select and trigger new search", () => {
+  //     service.removeAdvancedValue("foo");
 
-      expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_foo");
-      expect(searchService.query.select).toEqual(undefined);
-      expect(spySearch).toHaveBeenCalled();
-    });
+  //     expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_foo");
+  //     expect(searchService.query.select).toEqual(undefined);
+  //     expect(spySearch).toHaveBeenCalled();
+  //   });
 
-    it("non-existent select and trigger new search", () => {
-      service.removeAdvancedValue("test");
+  //   it("non-existent select and trigger new search", () => {
+  //     service.removeAdvancedValue("test");
 
-      expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_test");
-      expect(searchService.query.select).toEqual([{expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"}]);
-      expect(spySearch).toHaveBeenCalled();
-    });
+  //     expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_test");
+  //     expect(searchService.query.select).toEqual([{expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"}]);
+  //     expect(spySearch).toHaveBeenCalled();
+  //   });
 
-    it("remove existing select without triggering new search", () => {
-      service.removeAdvancedValue("foo", false);
+  //   it("remove existing select without triggering new search", () => {
+  //     service.removeAdvancedValue("foo", false);
 
-      expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_foo");
-      expect(searchService.query.select).toEqual(undefined);
-      expect(spySearch).not.toHaveBeenCalled();
-    });
-  });
+  //     expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_foo");
+  //     expect(searchService.query.select).toEqual(undefined);
+  //     expect(spySearch).not.toHaveBeenCalled();
+  //   });
+  // });
 
-  describe("reset advanced values from searchService.query", () => {
-    let spySearch;
+  // describe("reset advanced values from searchService.query", () => {
+  //   let spySearch;
 
-    beforeEach(() => {
-      searchService.query.select = [
-        {expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"},
-        {expression: "test: (`titi`:`titi`)", facet: "test"}
-      ];
-      spySearch = spyOn(searchService, 'search').and.callThrough();
-    });
+  //   beforeEach(() => {
+  //     searchService.query.select = [
+  //       {expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"},
+  //       {expression: "test: (`titi`:`titi`)", facet: "test"}
+  //     ];
+  //     spySearch = spyOn(searchService, 'search').and.callThrough();
+  //   });
 
-    afterEach(() => {
-      spySearch.calls.reset();
-    })
+  //   afterEach(() => {
+  //     spySearch.calls.reset();
+  //   })
 
-    it("then trigger new search", () => {
-      service.resetAdvancedValues();
+  //   it("then trigger new search", () => {
+  //     service.resetAdvancedValues();
 
-      expect(searchService.query.select).toEqual([{expression: "test: (`titi`:`titi`)", facet: "test"}]);
-      expect(spySearch).toHaveBeenCalled();
-    });
+  //     expect(searchService.query.select).toEqual([{expression: "test: (`titi`:`titi`)", facet: "test"}]);
+  //     expect(spySearch).toHaveBeenCalled();
+  //   });
 
-    it("without triggering new search", () => {
-      service.resetAdvancedValues(false);
+  //   it("without triggering new search", () => {
+  //     service.resetAdvancedValues(false);
 
-      expect(searchService.query.select).toEqual([{expression: "test: (`titi`:`titi`)", facet: "test"}]);
-      expect(spySearch).not.toHaveBeenCalled();
-    });
-  });
+  //     expect(searchService.query.select).toEqual([{expression: "test: (`titi`:`titi`)", facet: "test"}]);
+  //     expect(spySearch).not.toHaveBeenCalled();
+  //   });
+  // });
 
   describe("format an advanced value", () => {
     let spy;

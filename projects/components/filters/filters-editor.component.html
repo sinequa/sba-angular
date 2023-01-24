@@ -1,0 +1,63 @@
+<div *ngIf="filter" class="d-flex align-items-center">
+
+  <i class="sq-grip fas fa-grip-vertical text-muted me-1" [title]="'msg#filters.drag' | sqMessage" *ngIf="canDrag"></i>
+
+  <!-- Display the field (if it exists) -->
+  <span *ngIf="showField && field" class="text-nowrap">
+    <span>{{field | sqMessage}}</span>
+    <span class="sq-filter-operator me-1">{{'msg#filters.operator.'+operator | sqMessage}}</span>
+  </span>
+
+  <!-- Filter is an expression (with AND/OR/NOT) -->
+  <ng-container *ngIf="exprFilter">
+    <!-- Use the display value if it exists -->
+    <span class="sq-filter-value" *ngIf="filter.display">{{filter.display | sqMessage}}</span>
+    <!-- Or else build the display by listing the child filters -->
+    <ng-container *ngIf="!filter.display">
+      <!-- Display AND/OR/NOT -->
+      <div class="sq-filter-operator">
+        <li class="list-inline-item" [sq-action-item]="options"></li>
+      </div>
+      <div class="sq-expr-container ms-2 ps-2 border-3 rounded-3 border-start"
+        cdkDropList
+        [cdkDropListData]="exprFilter.filters"
+        dragAndDropManager
+        (cdkDropListDropped)="drop($event)">
+        <sq-filters-editor *ngFor="let f of exprFilter.filters"
+          cdkDrag
+          class="d-block my-1"
+          [query]="query"
+          [filter]="f"
+          [showField]="showField && !field"
+          [showOperator]="showOperator && !field"
+          [allowRemove]="allowRemove"
+          [allowNesting]="allowNesting"
+          [canDrag]="true"
+          [onDragDrop]="onDragDrop$"
+          (filterEdit)="filterEdit.next(query)">
+        </sq-filters-editor>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <!-- Filter is a direct value -->
+  <sq-filters *ngIf="!exprFilter" [filter]="filter" [showField]="false" [showOperator]="false" [allowRemove]="false">
+  </sq-filters>
+
+  <!-- Nest this filter -->
+  <a href="#" (click)="nestFilter()"
+    class="ms-3"
+    [title]="'msg#filters.nest' | sqMessage:{value:filter?.display || valueFilter?.value || field}"
+    *ngIf="allowNesting && (!exprFilter || filter.display)"> <!-- Display the nest button on "leafs" only to avoid duplicate buttons -->
+    <i class="fas fa-code-branch"></i>
+  </a>
+
+  <!-- Remove this filter -->
+  <a href="#" (click)="remove()"
+    class="ms-2"
+    [title]="'msg#filters.remove' | sqMessage:{value: filter?.display || valueFilter?.value || field}"
+    *ngIf="allowRemove && (!exprFilter || filter.display)"> <!-- Display the remove button on "leafs" only to avoid duplicate buttons -->
+    <i class="fas fa-times"></i>
+  </a>
+
+</div>

@@ -2,7 +2,6 @@ import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEm
 import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {Record, EntityItem, DocumentAccessLists, CCColumn, TextChunksWebService, TextLocation} from "@sinequa/core/web-services";
-import {FacetService} from "@sinequa/components/facet";
 import {Observable, of, map} from "rxjs";
 
 export interface TreeValueItem extends ValueItem {
@@ -174,7 +173,7 @@ export class MetadataItem implements OnChanges {
                 parts.push("");
             }
             const path = parts.join("/");
-            this._select.emit({item: this.item, valueItem: {value: path + "*", display: FacetService.treepathLast(path)}});
+            this._select.emit({item: this.item, valueItem: {value: path + "*", display: Utils.treepathLast(path)}});
         }
         else {
             this._select.emit({item: this.item, valueItem: this.valueItems[index]});

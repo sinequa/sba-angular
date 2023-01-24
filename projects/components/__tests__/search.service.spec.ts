@@ -12,7 +12,6 @@ import {IntlService} from "@sinequa/core/intl";
 import {AuditWebServiceFactory, LoginServiceFactory, NotificationsServiceFactory, QueryWebServiceFactory} from '@testing/factories';
 import {RouterStub} from '@testing/stubs';
 
-import {BreadcrumbsItem, Breadcrumbs} from "../search/breadcrumbs";
 import {SearchService} from "../search/search.service";
 import { QueryIntentWebServiceFactory } from "./factories/queryIntentWebServiceFactory";
 
@@ -56,7 +55,6 @@ describe("SearchService", () => {
   it("can load instance", () => {
     expect(service).toBeTruthy();
     expect(service.results).toBeUndefined();
-    expect(service.breadcrumbs).toBeUndefined();
     expect(service['options'].routes).toEqual(["search"]);
 
     expect(service["handleLogin"]).not.toHaveBeenCalled();
@@ -114,97 +112,6 @@ describe("SearchService", () => {
     });
 
   })
-
-  describe("selectBreadcrumbsItem", () => {
-    it("should set query from BreadcrumpsItem and perfrom a search action", () => {
-      const breadcrumbsItemStub: BreadcrumbsItem = <any>{};
-      const query: Query = <Query>{name: "abc", action: "search", toJsonForQueryString: () => ""};
-      service.breadcrumbs = {
-        selectItem: (item) => query,
-        removeItem: (item) => item,
-        items: [breadcrumbsItemStub],
-        query: query
-      } as Breadcrumbs;
-      service['options'].homeRoute = "home";
-
-      spyOn(service, "setQuery").and.callThrough();
-      spyOn(service, "search").and.callThrough();
-
-      service.selectBreadcrumbsItem(breadcrumbsItemStub);
-
-      expect(service.setQuery).toHaveBeenCalledWith(query, false);
-      expect(service.search).toHaveBeenCalledWith({reuseBreadcrumbs: true});
-    });
-  });
-
-  describe("removeBreadcrumbsItem", () => {
-    it("should clear query and navigate to 'home'", () => {
-      const breadcrumbsItemStub: BreadcrumbsItem = <any>{};
-      service.breadcrumbs = {
-        removeItem: (item) => item,
-        items: [breadcrumbsItemStub],
-        query: {name: "abc"}
-      } as Breadcrumbs;
-      service['options'].homeRoute = "home";
-
-      spyOn(service, "isEmptySearch").and.callThrough();
-      spyOn(service, "clear").and.callThrough();
-      spyOn(service, "selectBreadcrumbsItem").and.callThrough();
-      spyOn(service, "navigate");
-
-      service.removeBreadcrumbsItem(breadcrumbsItemStub);
-
-      expect(service.isEmptySearch).toHaveBeenCalled();
-      expect(service.clear).toHaveBeenCalled();
-      expect(service.navigate).toHaveBeenCalledWith({path: "home"})
-      expect(service.selectBreadcrumbsItem).not.toHaveBeenCalled();
-    });
-
-    it("should not clear query and select next BreadcrumbsItem", () => {
-      const breadcrumbsItemStub: BreadcrumbsItem = <any>{};
-      service.breadcrumbs = {
-        removeItem: (item) => item,
-        selectItem: (item) => {},
-        items: [breadcrumbsItemStub],
-        query: <any>{name: "abc", select: [1, 2, 3]}
-      } as Breadcrumbs;
-      service['options'].homeRoute = "home";
-
-      spyOn(service, "isEmptySearch").and.callThrough();
-      spyOn(service, "clear").and.callThrough();
-      spyOn(service, "selectBreadcrumbsItem").and.callThrough();
-      spyOn(service, "navigate");
-
-      service.removeBreadcrumbsItem(breadcrumbsItemStub);
-
-      expect(service.isEmptySearch).toHaveBeenCalled();
-      expect(service.clear).not.toHaveBeenCalled();
-      expect(service.navigate).not.toHaveBeenCalled();
-      expect(service.selectBreadcrumbsItem).toHaveBeenCalled();
-    });
-  });
-
-  describe("removeSelect", () => {
-    it("makes expected calls", () => {
-      spyOn(service, "removeBreadcrumbsItem").and.callThrough();
-      service.breadcrumbs = {removeItem: (item) => ({}), items: [{facet: "geo"}, {facet: "person"}]} as Breadcrumbs
-
-      service.removeSelect(-1);
-
-      expect(service.removeBreadcrumbsItem).toHaveBeenCalledWith({facet: "geo"} as BreadcrumbsItem);
-    });
-  })
-
-  describe("removeText", () => {
-    it("makes expected calls", () => {
-      spyOn(service, "removeBreadcrumbsItem").and.callThrough();
-      service.breadcrumbs = {removeItem: (item) => ({}), items: [{facet: "geo"}]} as Breadcrumbs
-
-      service.removeText();
-
-      expect(service.removeBreadcrumbsItem).toHaveBeenCalledWith({facet: "geo"} as BreadcrumbsItem);
-    });
-  });
 
   describe("home", () => {
     it("should clear query and navigate to home", () => {

@@ -1,5 +1,11 @@
 @import "../facet-base.scss";
 
+:host {
+  display: block;
+  overflow: auto;
+  max-height: 50vh;
+}
+
 .list-group {
     .list-group-item:not(.sq-filtered):hover  {
         border-radius: .25rem;

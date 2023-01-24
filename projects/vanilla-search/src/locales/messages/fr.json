@@ -11,25 +11,9 @@
     },
 
     "searchForm": {
-        "search": "Rechercher",
-        "searchFor": "Rechercher ...",
-        "advanced": "Avancée",
-        "advancedSearch": "Recherche avancée",
         "scopeTitle": "Champ d'application : {name}",
         "recentQuery": "Recherche récente",
-        "recentDocument": "Document récent",
-        "fieldedSearch": "Recherche sur champs",
-        "off": "Désactivée",
-        "simple": "Simple",
-        "simpleTitle": "Mode graphique affichant les filtres sélectionnés sous forme de badges",
-        "advancedTitle": "Mode textuel permettant d'utiliser des expressions de recherche telles que \"geo: Paris OR company: Sinequa\"",
-        "keepFilters": "Les filtres sont conservés dans les nouvelles requêtes",
-        "notKeepFilters": "Les filtres sont réinitialisés dans les nouvelles requêtes",
-        "clearAll": "Effacer tout",
-        "clear": "Effacer",
-        "voiceRecognition": "Recherche vocale",
-        "scrollLeft": "Défiler à gauche",
-        "scrollRight": "Défiler à droite"
+        "recentDocument": "Document récent"
     },
 
     "baskets": {
