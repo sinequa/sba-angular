@@ -22,7 +22,7 @@ import {
     Results,
 } from "@sinequa/core/web-services";
 import { parseISO } from "date-fns";
-import { Subscription, debounceTime, filter, map } from "rxjs";
+import { Subscription, debounceTime, filter } from "rxjs";
 import { BsFacetTimelineComponent } from "./facet-timeline.component";
 import { TimelineSeries } from "./timeline.component";
 
@@ -101,6 +101,16 @@ export class BsFacetDate
                 }
             },
         });
+
+        // Listen to global query changes (only if this.query is not defined)
+        this.subscriptions.push(
+            this.searchService.queryStream.subscribe(() => {
+                if(!this.query) {
+                    this.onQueryChange(this.searchService.query);
+                }
+            })
+        );
+
     }
 
     init() {
@@ -116,15 +126,6 @@ export class BsFacetDate
             dateRange: this.dateRangeControl,
         });
 
-        // Listen to query changes
-        this.subscriptions.push(
-            this.searchService.queryStream.subscribe(() => {
-                if(!this.query) {
-                    this.onQueryChange(this.searchService.query);
-                }
-            })
-        );
-
         // Listen to form changes
         this.subscriptions.push(
             this.dateRangeControl.valueChanges
@@ -139,20 +140,20 @@ export class BsFacetDate
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (this.allowCustomRange) {
-            if (!this.dateRangeControl) {
-                this.init();
-            }
-            this.updateTimeSeries(this.timelineAggregation);
+        if (changes.results) {
+            this.data = this.facetService.getAggregation(this.aggregation, this.results);
+            this.updateItems(); // Update the list of standard date intervals ("since last year", etc.)
         }
 
-        if (changes.results) {
-            this.data = this.getAggregation(this.aggregation);
-            this.updateItems();
+        if (this.allowCustomRange) {
+            if (!this.dateRangeControl) {
+                this.init(); // Set up the date picker control
+            }
+            this.updateTimeSeries(this.timelineAggregation); // Update the timeseries data for the timeline component
         }
 
         if (changes.query && this.query) {
-            this.onQueryChange(this.query);
+            this.onQueryChange(this.query); // When the query changes, update the date-picker and timeline selection
         }
     }
 
@@ -199,7 +200,7 @@ export class BsFacetDate
     private updateTimeSeries(aggregationName: string) {
         this.timeSeries = [];
         const ccaggregation = this.appService.getCCAggregation(aggregationName);
-        const aggregation = this.getAggregation(aggregationName);
+        const aggregation = this.facetService.getAggregation(aggregationName, this.results);
         if (aggregation && ccaggregation)
             this.timeSeries.push(
                 BsFacetTimelineComponent.createTimeseries(
@@ -210,28 +211,6 @@ export class BsFacetDate
             );
     }
 
-    private getAggregation(aggregationName: string): Aggregation | undefined {
-        let aggregation = this.facetService.getAggregation(
-            aggregationName,
-            this.results
-        );
-
-        if (!aggregation) {
-            const query = Utils.copy(this.searchService.query);
-            query.action = "aggregate";
-            query.aggregations = [aggregationName];
-
-            this.searchService
-                .getResults(query, undefined, { searchInactive: true })
-                .pipe(
-                    map((results) => {
-                        aggregation = results.aggregations[0];
-                    })
-                );
-        }
-
-        return aggregation;
-    }
 
     private setCustomDateSelect(range: (undefined | Date)[] | undefined) {
         if (range) {
