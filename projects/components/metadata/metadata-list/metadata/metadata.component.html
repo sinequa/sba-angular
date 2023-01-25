@@ -3,8 +3,10 @@
     <span *ngIf="showIcon" class="{{icon}} pe-2"></span>
 
     <!-- Title -->
-    <span class="pe-2" *ngIf="showTitle">{{item}}</span>
+    <span *ngIf="showTitle" class="sq-metadata-item-label pe-2">
+        {{'msg#metadata.item.label' | sqMessage:itemLabelMessageParams}}
+    </span>
 
     <!-- Value -->
-    <span class="pe-2">{{value}}</span>
+    <span class="pe-2">{{value | sqValue:column}}</span>
 </div>

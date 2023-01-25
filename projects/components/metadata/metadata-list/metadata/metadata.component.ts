@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from "@angular/core";
-import { Record } from "@sinequa/core/web-services";
+import { AppService } from "@sinequa/core/app-utils";
+import { CCColumn, Record } from "@sinequa/core/web-services";
 import { IconService } from "../../icon.service";
 
 @Component({
@@ -17,12 +18,15 @@ export class MetadataComponent implements OnChanges {
 
     display = false;
     icon: string;
+    column: CCColumn | undefined;
+    itemLabelMessageParams: any;
 
     get value() {
         return this.record[this.item];
     }
 
-    constructor(private iconService: IconService) {
+    constructor(private iconService: IconService,
+        private appService: AppService) {
     }
 
     ngOnChanges() {
@@ -31,6 +35,9 @@ export class MetadataComponent implements OnChanges {
             this.icon = this.item === 'docformat'
                 ? this.iconService.getFormatIcon(this.record[this.item]) || ''
                 : this.iconService.getIcon(this.item) || '';
+
+            this.column = this.appService.getColumn(this.item);
+            this.itemLabelMessageParams = { values: { label: this.appService.getLabel(this.item) } };
         }
     }
 
