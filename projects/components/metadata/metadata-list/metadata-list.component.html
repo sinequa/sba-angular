@@ -1,6 +1,13 @@
-<sq-metadata-2 *ngFor="let item of items"
-    [record]="record"
-    [item]="item"
-    [showIcon]="showIcons"
-    [showTitle]="showTitles">
-</sq-metadata-2>
+<div class="metadata-{{style}}">
+    <sq-metadata-2 *ngFor="let item of items"
+        [record]="record"
+        [item]="item"
+        [query]="query"
+        [customClass]="customClass"
+        [showIcon]="showIcons"
+        [showTitle]="showTitles"
+        [showCounts]="showCounts"
+        [showEntityTooltip]="showEntityTooltip"
+        [clickable]="clickable">
+    </sq-metadata-2>
+</div>

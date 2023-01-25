@@ -1,0 +1,15 @@
+.sq-metadata {
+    display: flex;
+    align-items: center;
+}
+
+.badge {
+    cursor: pointer;
+    background-color: lightgrey;
+    color: lighten(black, 10%);
+
+    &:hover, &:focus {
+        background-color: darken(lightgrey, 10%);
+        color: black;
+    }
+}

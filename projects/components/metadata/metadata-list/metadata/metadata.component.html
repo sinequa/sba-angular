@@ -1,4 +1,4 @@
-<div *ngIf="display" class="{{customClass}}">
+<div *ngIf="display" class="sq-metadata {{customClass}}">
     <!-- Icon -->
     <span *ngIf="showIcon" class="{{icon}} pe-2"></span>
 
@@ -8,5 +8,31 @@
     </span>
 
     <!-- Value -->
-    <span class="pe-2">{{value | sqValue:column}}</span>
+    <ng-container *ngIf="isTree; else isNotTree">
+        <!-- Tree (displayed as breadcrumbs)-->
+        <ng-container *ngFor="let valueItem of valueItems; let $index = index">
+            <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
+                <li *ngFor="let part of valueItem.parts; let $subIndex = index">
+                    <span class="{{itemClass}}" [ngClass]="'sq-metadata-item-' + item"
+                        (click)="select($index, $subIndex)">{{part | sqValue:column}}</span>
+                    <span *ngIf="$subIndex < valueItem.parts.length - 1"
+                        class="sq-metadata-item-tree-node-separator">{{'msg#metadata.item.treeNodeSeparator' |
+                        sqMessage}}</span>
+                </li>
+            </ol>
+            <span *ngIf="$index < valueItems.length - 1"
+                class="sq-metadata-item-tree-separator">{{'msg#metadata.item.treeSeparator' | sqMessage}}</span>
+        </ng-container>
+    </ng-container>
+
+    <!-- Not a Tree-->
+    <ng-template #isNotTree>
+        <span *ngFor="let valueItem of valueItems; let $index = index"
+            class="{{itemClass}} {{'sq-metadata-item-' + item}} me-1" (click)="select($index)"
+            [attr.title]="(showTitle || entityTooltip)? null : (label | sqMessage)" [sqTooltip]="entityTooltip"
+            [sqTooltipData]="valueItem">{{valueItem | sqValue:column}}
+            <span *ngIf="showCounts && valueItem.count" class="counter rounded-pill bg-light text-black ms-1"
+                [title]="valueItem.count + ' occurrences in document'">{{valueItem.count}}</span>
+        </span>
+    </ng-template>
 </div>

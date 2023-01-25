@@ -52,6 +52,15 @@ export class SearchComponent implements OnInit {
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
+
+  // TEMP METADATA VARS
+  style = 'inline';
+  showTitles = true;
+  showIcons = true;
+  showCounts = true;
+  showEntityTooltip = true;
+  clickable = true;
+
   constructor(
     private previewService: PreviewService,
     private titleService: Title,
