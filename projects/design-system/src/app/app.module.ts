@@ -22,11 +22,12 @@ import { MenuComponent } from './menu/menu.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UtilsModule } from "@sinequa/components/utils";
 import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
+import { BsAlertsModule } from "@sinequa/components/alerts";
 import { MetadataModule } from "@sinequa/components/metadata";
 import { CollapseModule } from "@sinequa/components/collapse";
 import { BsPreviewModule } from "@sinequa/components/preview";
 import { FacetComponent } from './modules/facet/facet/facet.component';
-import { AlertsComponent } from './alerts/alerts.component';
+import { AlertsComponent } from './modules/alerts-module/alerts/alerts.component';
 import { BsNotificationModule } from "@sinequa/components/notification";
 import { PreviewComponent } from './preview/preview.component';
 import { SqPreviewComponent } from './preview/sq-preview/sq-preview.component';
@@ -66,7 +67,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { GlobalService } from './global.service';
 import { BsModalModule } from '@sinequa/components/modal';
-import { MODAL_MODEL } from '@sinequa/core/modal';
+import { ModalRef, MODAL_MODEL } from '@sinequa/core/modal';
 import { ResultTitleComponent } from './modules/result/result-title/result-title.component';
 import { ResultExtractsComponent } from './modules/result/result-extracts/result-extracts.component';
 import { ResultMissingTermsComponent } from './modules/result/result-missing-terms/result-missing-terms.component';
@@ -108,6 +109,22 @@ import { PassageListComponent } from './modules/machine-learning-module/passage-
 import { TopPassagesComponent } from './modules/machine-learning-module/top-passages/top-passages.component';
 import { MLModule } from '@sinequa/components/machine-learning';
 import { ComponentDemoComponent } from './component-demo/component-demo.component';
+import { MetadataModuleComponent } from './modules/metadata-module/metadata-module.component';
+import { MetadataComponent } from './modules/metadata-module/metadata/metadata.component';
+import { AdvancedModuleComponent } from './modules/advanced-module/advanced-module.component';
+import { AlertsModuleComponent } from './modules/alerts-module/alerts-module.component';
+import { AdvancedFormCheckboxComponent } from './modules/advanced-module/advanced-form-checkbox/advanced-form-checkbox.component';
+import { AdvancedFormInputComponent } from './modules/advanced-module/advanced-form-input/advanced-form-input.component';
+import { AdvancedFormRangeComponent } from './modules/advanced-module/advanced-form-range/advanced-form-range.component';
+import { AdvancedFormSelectComponent } from './modules/advanced-module/advanced-form-select/advanced-form-select.component';
+import { AdvancedFormMultiInputComponent } from './modules/advanced-module/advanced-form-multi-input/advanced-form-multi-input.component';
+import { DatePickerComponent } from './modules/advanced-module/date-picker/date-picker.component';
+import { DateRangePickerComponent } from './modules/advanced-module/date-range-picker/date-range-picker.component';
+import { SelectComponent } from './modules/advanced-module/select/select.component';
+import { BsAdvancedModule } from '@sinequa/components/advanced';
+import { EditAlertComponent } from './modules/alerts-module/edit-alert/edit-alert.component';
+import { ManageAlertsComponent } from './modules/alerts-module/manage-alerts/manage-alerts.component';
+import { AlertsMenuComponent } from './modules/alerts-module/alerts-menu/alerts-menu.component';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -263,7 +280,22 @@ export class AppLocalesConfig implements LocalesConfig {
         AnswerCardComponent,
         PassageListComponent,
         TopPassagesComponent,
-        ComponentDemoComponent
+        ComponentDemoComponent,
+        MetadataModuleComponent,
+        MetadataComponent,
+        AdvancedModuleComponent,
+        AlertsModuleComponent,
+        AdvancedFormCheckboxComponent,
+        AdvancedFormInputComponent,
+        AdvancedFormRangeComponent,
+        AdvancedFormSelectComponent,
+        AdvancedFormMultiInputComponent,
+        DatePickerComponent,
+        DateRangePickerComponent,
+        SelectComponent,
+        EditAlertComponent,
+        ManageAlertsComponent,
+        AlertsMenuComponent
     ],
     imports: [
         BrowserModule,
@@ -290,13 +322,17 @@ export class AppLocalesConfig implements LocalesConfig {
         BsBasketsModule,
         CommentsModule,
         BsFeedbackModule,
-        MLModule
+        MLModule,
+        MetadataModule,
+        BsAdvancedModule,
+        BsAlertsModule
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: MODAL_MODEL, useValue: {} },
+        { provide: ModalRef, useValue: {} },
         GlobalService
     ],
     bootstrap: [AppComponent]

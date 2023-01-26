@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col-12 mb-4">
-        <app-search-bar></app-search-bar>
+        <app-search-bar [search]="'Paris'"></app-search-bar>
     </div>
     <ng-container *ngIf="globalService.results">
         <!-- <div class="col-12 mb-4">

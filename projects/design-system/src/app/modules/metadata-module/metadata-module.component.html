@@ -1,0 +1,12 @@
+<h1>Metadata Module</h1>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <app-search-bar [search]="'Paris'"></app-search-bar>
+    </div>
+    <ng-container *ngIf="globalService.results">
+        <div class="col-12 mb-4">
+            <app-metadata></app-metadata>
+        </div>
+    </ng-container>
+</div>

@@ -23,8 +23,7 @@ export class MenuComponent {
     ];
 
     components: MenuItem[] = [
-        {selected: false, name: 'action', enabled: false},
-        {selected: false, name: 'advanced', enabled: false},
+        {selected: false, name: 'advanced', enabled: true},
         {selected: false, name: 'alerts', enabled: true},
         {selected: false, name: 'autocomplete', enabled: false},
         {selected: false, name: 'baskets', enabled: true},
@@ -34,7 +33,7 @@ export class MenuComponent {
         {selected: false, name: 'feedback', enabled: true},
         {selected: false, name: 'labels', enabled: true},
         {selected: false, name: 'machine-learning', enabled: true},
-        {selected: false, name: 'metadata', enabled: false},
+        {selected: false, name: 'metadata', enabled: true},
         {selected: false, name: 'modal', enabled: false},
         {selected: false, name: 'notification', enabled: false},
         {selected: false, name: 'preview', enabled: true},

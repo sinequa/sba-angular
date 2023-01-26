@@ -1,0 +1,21 @@
+<h1>Alerts Module</h1>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <app-search-bar></app-search-bar>
+    </div>
+    <ng-container *ngIf="globalService.results">
+        <div class="col-12 mb-4">
+            <app-alerts></app-alerts>
+        </div>
+        <div class="col-12 mb-4">
+            <app-alerts-menu></app-alerts-menu>
+        </div>
+        <div class="col-12 mb-4">
+            <app-edit-alert></app-edit-alert>
+        </div>
+        <div class="col-12 mb-4">
+            <app-manage-alerts></app-manage-alerts>
+        </div>
+    </ng-container>
+</div>

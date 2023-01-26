@@ -1,0 +1,16 @@
+<app-component-demo title="Alert test" [code]="code">
+    <button class="btn btn-primary mx-2" (click)="notificationsService.error('Lorem ipsum', undefined, 'ALERT');">
+        Alert
+    </button>
+    <button class="btn btn-primary mx-2" (click)="notificationsService.success('Lorem ipsum', undefined, 'SUCCESS');">
+        Success
+    </button>
+    <button class="btn btn-primary mx-2" (click)="notificationsService.warning('Lorem ipsum', undefined, 'WARNING');">
+        Warning
+    </button>
+    <button class="btn btn-primary mx-2" (click)="notificationsService.info('Lorem ipsum', undefined, 'INFO');">
+        Info
+    </button>
+
+    <sq-notifications></sq-notifications>
+</app-component-demo>
