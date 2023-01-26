@@ -1,10 +1,15 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import { Component, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 
+/**
+ * Internal component that wraps the tooltip's content
+ */
 @Component({
   selector: 'sqx-tooltip',
   styleUrls: ['./tooltip.component.css'],
-  template: `<div class="sq-tooltip" @tooltip [innerHTML]="text"></div>`,
+  template: `
+  <div *ngIf="text" class="sq-tooltip" @tooltip [innerHTML]="text"></div>
+  <div *ngIf="template" class="sq-tooltip" @tooltip><ng-container [ngTemplateOutlet]="template"></ng-container></div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('tooltip', [
@@ -19,5 +24,6 @@ import {animate, style, transition, trigger} from '@angular/animations';
   ],
 })
 export class TooltipComponent {
-  text = '';
+  text?;
+  template?: TemplateRef<any>;
 }
