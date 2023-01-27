@@ -109,10 +109,14 @@ export class PreviewDocument {
         return text;
     }
 
-    public getHighlightPos(categoryId: string, index: number): DOMRect | null{
-        const nodes = this.document.querySelectorAll("#"+categoryId+"_"+index);
-        if(!nodes || nodes.length === 0) return null;
-        return nodes[0].getBoundingClientRect();
+    public getHighlightPosById(id: string): NodeListOf<Element> | null {
+        const nodes = this.document.querySelectorAll(id);
+        if (!nodes || nodes.length === 0) return null;
+        return nodes;
+    }
+
+    public getHighlightPos(categoryId: string, index: number): NodeListOf<Element> | null {
+        return this.getHighlightPosById(`#${categoryId}_${index}`);
     }
 
     /**
