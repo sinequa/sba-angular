@@ -1,6 +1,7 @@
 import { ElementRef } from "@angular/core";
 
 import { Utils } from "@sinequa/core/base";
+import { PassageHighlightParams } from "./bootstrap/preview-passage-highlight/preview-passage-highlight.component";
 
 export enum HighlightCategoryFilterChoice {
     All, None, Value
@@ -46,8 +47,11 @@ export class PreviewDocument {
     private readonly _document: Document;
 
     private previousElement: HTMLElement | null;
+    private highlightedPassage: string;
 
-    constructor(element: ElementRef | Document){
+    public passageHighlightParams?: PassageHighlightParams;
+
+    constructor(element: ElementRef | Document) {
         if (element instanceof ElementRef) {
             this._window = element?.nativeElement?.contentWindow;
             try {
@@ -84,7 +88,7 @@ export class PreviewDocument {
      * Insert a given DOM Element in the body of the document preview
      * @param component
      */
-    public insertComponent(component){
+    public insertComponent(component) {
         this.document.body.appendChild(component);
     }
 
@@ -93,11 +97,11 @@ export class PreviewDocument {
      * @param categoryId Category of the entity
      * @param index Index of the entity in that category
      */
-    public getHighlightText(categoryId: string, index: number) : string {
+    public getHighlightText(categoryId: string, index: number): string {
         if (index < 0) {
             return "";
         }
-        const nodes = this.document.querySelectorAll("#"+categoryId + "_" + index);
+        const nodes = this.document.querySelectorAll("#" + categoryId + "_" + index);
         if (!nodes || nodes.length === 0) {
             return "";
         }
@@ -105,11 +109,15 @@ export class PreviewDocument {
         forEach(nodes, n => text += (n['innerHTML'] || n.textContent));
         return text;
     }
-    
-    public getHighlightPos(categoryId: string, index: number): DOMRect | null{
-        const nodes = this.document.querySelectorAll("#"+categoryId+"_"+index);
-        if(!nodes || nodes.length === 0) return null;
-        return nodes[0].getBoundingClientRect();
+
+    public getHighlightPosById(id: string): NodeListOf<Element> | null {
+        const nodes = this.document.querySelectorAll(id);
+        if (!nodes || nodes.length === 0) return null;
+        return nodes;
+    }
+
+    public getHighlightPos(categoryId: string, index: number): NodeListOf<Element> | null {
+        return this.getHighlightPosById(`#${categoryId}_${index}`);
     }
 
     /**
@@ -145,7 +153,7 @@ export class PreviewDocument {
      * @param categoryId Category of the entity
      * @param index Index of the entity in that category
      */
-    public selectHighlight(categoryId: string, index: number) : void {
+    public selectHighlight(categoryId: string, index: number): void {
 
         this.clearHighlightSelection();
         // current element becomes previous element
@@ -153,8 +161,25 @@ export class PreviewDocument {
 
         if (this.previousElement) {
             // highlight new selected element
-            this.setHighlightSelection(this.previousElement,true, true);
-            this.previousElement.scrollIntoView({block: 'center'});
+            if (categoryId === 'matchingpassages') {
+                this.highlightPassage(`#matchingpassages_${index}`);
+            } else if (categoryId === 'extractslocations') {
+                this.highlightPassage(`#extractslocations_${index}`);
+            } else {
+                this.setHighlightSelection(this.previousElement, true, true);
+            }
+            this.previousElement.scrollIntoView({ block: 'center' });
+        }
+    }
+
+    /**
+     * scroll to a specified element by id
+     * @param id the full id of the element
+     */
+    public scrollTo(id: string): void {
+        const element = this.document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ block: 'center' });
         }
     }
 
@@ -180,7 +205,7 @@ export class PreviewDocument {
      * Turns highlights on or off based on the provided filter object. Additionally clears the selected entity
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
-    public filterHighlights(filters: HighlightFilters){
+    public filterHighlights(filters: HighlightFilters) {
 
         this.updateHighlightFilterState(filters);
         this.clearHighlightSelection();
@@ -223,20 +248,66 @@ export class PreviewDocument {
      * @param value e.g. "BILL GATES"
      */
     public toggleHighlight(category: string, on: boolean, value?: string) {
-        const elements = this.document.querySelectorAll("."+category);
+        const elements = this.document.querySelectorAll("." + category);
         forEach(elements, element => {
-            if(!value
+            if (!value
                 || (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))
                 || (element.hasAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))) {
 
-                if(on){
+                if (on) {
                     element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
                 }
-                else{
+                else {
                     element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
                 }
             }
         });
+    }
+
+    /**
+     * Set the passage highlighting for a given passage index
+     * @param id the passage HTML id
+     */
+    public highlightPassage(id?: string) {
+        if (id !== undefined) {
+            this.highlightedPassage = id;
+        }
+        const nodeList = this.document.querySelectorAll(this.highlightedPassage);
+        if (!nodeList || !nodeList.length) return;
+
+        const coords: DOMRect[] = [];
+        const margin = 2; // the margin between the text and the highlight box border
+
+        nodeList.forEach(node => {
+            if (node['innerText']) {
+                coords.push(node.getBoundingClientRect());
+            }
+        });
+
+        const scrollLeft = this._window.scrollX;
+        const scrollTop = this._window.scrollY;
+
+        const minLeft = Math.min(...coords.map(c => c.left + scrollLeft)) - margin;
+        const minTop = Math.min(...coords.map(c => c.top + scrollTop)) - margin;
+        const maxRight = Math.max(...coords.map(c => c.right + scrollLeft));
+        const maxBottom = Math.max(...coords.map(c => c.bottom + scrollTop));
+        const height = maxBottom - minTop + (margin * 2);
+        const width = maxRight - minLeft + (margin * 2);
+
+        this.passageHighlightParams = {
+            height,
+            width,
+            top: minTop,
+            left: minLeft,
+            id: this.highlightedPassage
+        }
+    }
+
+    /**
+     * Hide the passage highlight block
+     */
+    public clearPassageHighlight() {
+        this.passageHighlightParams = undefined;
     }
 
     // PRIVATE METHODS
@@ -273,15 +344,15 @@ export class PreviewDocument {
             const left = rectPosition.x;
             const right = rectPosition.x + rectPosition.width;
             const valueTransform = rect.getAttribute("transform");
-            this.addSvgLine(group, left, top   , right, top   , valueTransform);
+            this.addSvgLine(group, left, top, right, top, valueTransform);
             this.addSvgLine(group, left, bottom, right, bottom, valueTransform);
-            if (isFirst) this.addSvgLine(group, left , top, left , bottom, valueTransform);
-            if (isLast)  this.addSvgLine(group, right, top, right, bottom, valueTransform);
+            if (isFirst) this.addSvgLine(group, left, top, left, bottom, valueTransform);
+            if (isLast) this.addSvgLine(group, right, top, right, bottom, valueTransform);
         }
     }
 
     private addSvgLine(group: Node, x1: number, y1: number, x2: number, y2: number, transform: string | null): void {
-        const line: Element = this.document.createElementNS("http://www.w3.org/2000/svg","line");
+        const line: Element = this.document.createElementNS("http://www.w3.org/2000/svg", "line");
         line.setAttribute("class", PreviewDocument.SVG_LINE_CLASS);
         line.setAttribute("x1", String(x1));
         line.setAttribute("y1", String(y1));
@@ -354,7 +425,7 @@ export class PreviewDocument {
     // PRIVATE STATIC (from highlight helper)
 
 
-    private static elementIsFilteredOut(element: Element, filters: {[key: string]: HighlightCategoryFilterState}): boolean {
+    private static elementIsFilteredOut(element: Element, filters: { [key: string]: HighlightCategoryFilterState }): boolean {
         const elementClass: string = this.getElementCategory(element, Object.keys(filters));
         if (elementClass == null) {
             return false;

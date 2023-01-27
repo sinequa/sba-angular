@@ -286,4 +286,18 @@ body.dark {
             }
         }
     }
+
+    sq-preview-extracts-panel {
+        .matchingpassages {
+            color: $dark-link !important;
+        }
+
+        .extractslocations:not(.sq-inactive) {
+            color: black !important;
+
+            .matchingpassages {
+                color: black !important;
+            }
+        }
+    }
 }

@@ -95,9 +95,11 @@
     "preview": {
         "extracts": "Extracts",
         "entities": "Entities",
+        "passages": "Passages",
         "searchText": "Search \"{text}\" in the document",
         "pageTitle": "Document Navigator - {title}",
         "expand": "Expand",
+        "collapse": "Collapse",
         "back": "Back",
         "home": "Home",
         "downloadPdf": "Download PDF version",

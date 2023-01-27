@@ -41,6 +41,7 @@ export default {
             "expandTitle": "Maximize",
             "minimize": "Zoom out",
             "maximize": "Zoom in",
+            "toggleHighlight": "Toggle all highlights",
             "toggleExtracts": "Toggle relevant extracts highlighting",
             "extracts": "Relevant Extracts",
             "toggleEntities": "Toggle entities highlighting",

@@ -2,6 +2,15 @@
   <a *ngFor="let location of locations"
     class="minimap-section"
     (click)=jumpTo(location.index)
-    [style.top.%]="location.top">
+    [title]="location.text"
+    [style.top.%]="location.top"
+    [style.height.%]="location.height">
+  </a>
+  <a *ngIf="passageLocation"
+    class="minimap-section minimap-passage"
+    (click)=jumpToPassage()
+    [title]="passageLocation.text"
+    [style.top.%]="passageLocation.top"
+    [style.height.%]="passageLocation.height">
   </a>
 </div>

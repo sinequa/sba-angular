@@ -63,17 +63,14 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   previewDocument?: PreviewDocument;
 
   // State of the preview
-  collapsedPanel = true;
+  collapsedPanel = false;
   homeRoute = "/home";
   showBackButton = true;
-  subpanels = ["extracts", "entities"];
-  subpanel = 'extracts';
+  subpanels = ["entities"];
+  subpanel = 'entities';
   previewSearchable = true;
-  minimapType = "extractslocations"
-  tabs: Tab[] = [
-    this.getTab('extracts'),
-    this.getTab('entities')
-  ];
+  minimapType = "extractslocations";
+  tabs: Tab[];
 
   // Page management for splitted documents
   pagesResults: Results;
@@ -86,10 +83,13 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   tooltipEntityActions: Action[] = [];
   tooltipTextActions: Action[] = [];
 
-  // Zoom actions
+  // Preview actions
   private minimizeAction: Action;
   private maximizeAction: Action;
+  private displayHighlightsAction: Action;
+  private highlightType: string;
   actions: Action[] = [];
+  showHighlights = true;
 
   private readonly scaleFactorThreshold = 0.2;
   scaleFactor = 1.0;
@@ -165,6 +165,20 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       }
     }));
 
+    this.displayHighlightsAction = new Action({
+      icon: "fas fa-fw fa-highlighter",
+      title: "msg#facet.preview.toggleHighlight",
+      action: () => {
+        this.showHighlights = !this.showHighlights;
+        this.updateHighlights(this.showHighlights ? this.highlightType : undefined);
+        if (this.showHighlights && this.highlightType === "matchingpassages") {
+          this.previewDocument?.highlightPassage();
+        } else {
+          this.previewDocument?.clearPassageHighlight();
+        }
+      }
+    });
+
     this.maximizeAction = new Action({
       icon: "fas fa-fw fa-search-plus",
       title: "msg#facet.preview.maximize",
@@ -185,7 +199,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       }
     });
 
-    this.actions.push(this.minimizeAction, this.maximizeAction);
+    this.actions.push(this.displayHighlightsAction, this.minimizeAction, this.maximizeAction);
 
     titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle"));
 
@@ -257,11 +271,21 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         previewData => {
           this.previewData = previewData;
           const url = previewData?.documentCachedContentUrl;
-          if (previewData.highlightsPerCategory['matchingpassages']?.values.length && !this.subpanels.includes("passages")) {
+          this.subpanels = ["entities"];
+          this.tabs = [
+            this.getTab('entities')
+          ];
+          console.log('previewData', previewData.highlightsPerCategory);
+          if (previewData.highlightsPerCategory['matchingpassages']?.values.length) {
             this.subpanels.unshift("passages");
             this.tabs.unshift(this.getTab('passages'));
             this.subpanel = "passages";
-            this.minimapType = "matchingpassages";
+            this.minimapType = "extractslocations";
+          } else {
+            this.subpanels.unshift("extracts");
+            this.tabs.unshift(this.getTab('extracts'));
+            this.subpanel = "extracts";
+            this.minimapType = "extractslocations";
           }
           // Manage splitted documents
           const pageNumber = this.previewService.getPageNumber(previewData.record);
@@ -302,6 +326,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   highlightMostRelevant(previewData: PreviewData, previewDocument: PreviewDocument, type: string): boolean {
     const extracts = this.previewService.getExtracts(previewData, undefined, type);
+    this.updateHighlights(type);
     if (extracts[0]) {
       const mostRelevantExtract = extracts[0].textIndex;
       previewDocument.selectHighlight(type, mostRelevantExtract); // Scroll to most relevant extract
@@ -310,17 +335,43 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
+  updateHighlights(type?: string) {
+    if (this.previewData) {
+      if (!type) {
+        this.previewDocument?.filterHighlights([]);
+      } else {
+        this.highlightType = type;
+        const highlights = Object.keys(this.previewData.highlightsPerCategory)
+          .filter(h => (type === "matchingpassages" && (h === "matchingpassages" || h === "extractslocations" || h === "matchlocations"))
+            || (type === "extractslocations" && (h === "extractslocations" || h === "matchlocations"))
+            || (type === 'entities' && h !== "matchingpassages" && h !== "extractslocations"));
+        this.previewDocument?.filterHighlights(highlights);
+      }
+    }
+  }
+
   openPanel(tab: Tab) {
     const panel = tab.value;
     this.subpanel = panel;
     // Change the type of extract highlighted by the minimap in function of the current tab
     if (panel === "passages") {
-      this.minimapType = "matchingpassages";
+      this.minimapType = "extractslocations";
+      if (this.previewData && this.previewDocument) {
+        this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")
+      }
+    } else {
+      this.previewDocument?.clearPassageHighlight();
     }
     if (panel === "extracts") {
       this.minimapType = "extractslocations";
+      if (this.previewData && this.previewDocument) {
+        this.highlightMostRelevant(this.previewData, this.previewDocument, "extractslocations")
+      }
     }
-    return false;
+    if (panel === 'entities') {
+      this.minimapType = "none";
+      this.updateHighlights('entities');
+    }
   }
 
   onPreviewPageChange(event: string | PreviewDocument) {
