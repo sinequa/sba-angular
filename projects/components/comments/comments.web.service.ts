@@ -1,5 +1,5 @@
-import { Inject, Injectable } from "@angular/core";
-import { HttpService, SqHttpClient, StartConfig, START_CONFIG } from "@sinequa/core/web-services";
+import { Injectable } from "@angular/core";
+import { HttpService } from "@sinequa/core/web-services";
 import { Observable, of, map } from "rxjs";
 
 declare interface CoreComment {
@@ -31,12 +31,6 @@ export type Comment = NormalComment | DeletedComment;
 })
 export class CommentsWebService extends HttpService {
     protected endpoint = 'plugin/CommentsWebService';
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        protected httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Return the list of comments for a given document

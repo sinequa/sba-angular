@@ -40,6 +40,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Pipes</li>
   <li >TimePipe</li>
@@ -106,8 +107,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">utils/pipes/time-pipe.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="7"
+                            class="link-to-prism">utils/pipes/time-pipe.ts:7</a></div>
                 </td>
             </tr>
 
@@ -173,16 +174,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe, ChangeDetectorRef} from &quot;@angular/core&quot;;
-import {AbstractIntlPipe, IntlService} from &quot;@sinequa/core/intl&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe} from &quot;@angular/core&quot;;
+import {AbstractIntlPipe} from &quot;@sinequa/core/intl&quot;;
 
 @Pipe({name: &quot;sqTime&quot;, pure: false})
-export class TimePipe extends AbstractIntlPipe {
-    constructor(
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
-    }
+export class TimePipe extends AbstractIntlPipe&lt;(number | Date), Intl.DateTimeFormatOptions&gt; {
 
     override updateValue(key: number | Date, params: Intl.DateTimeFormatOptions): void {
         super.updateValue(key, params);
@@ -192,6 +188,7 @@ export class TimePipe extends AbstractIntlPipe {
     </div>
 
 </div>
+
 
 
 

@@ -11,12 +11,12 @@
 		</div>
 		<div class="card-action d-flex justify-content-center align-items-center mx-2">
 			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+pageNumber-1) % pageNumber"
-				*ngIf="passages.length > 1">
+				*ngIf="pageNumber > 1">
 				<i class="fas fa-chevron-left"></i>
 			</button>
 			{{'msg#machine-learning.passage' | sqMessage:{items: itemsPerPage, current: currentRange, length: passages.length} }}
 			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+1) % pageNumber"
-				*ngIf="passages.length > 1">
+				*ngIf="pageNumber > 1">
 				<i class="fas fa-chevron-right"></i>
 			</button>
 		</div>

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, OnDestroy} from "@angular/core";
 import {UntypedFormGroup} from "@angular/forms";
 import {AppService, ValueItem} from "@sinequa/core/app-utils";
-import {CCColumn, Aggregation, AggregationItem} from "@sinequa/core/web-services";
+import {CCColumn, Aggregation} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {Subscription} from "rxjs";
 import {FirstPageService} from "@sinequa/components/search";
@@ -62,19 +62,13 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
                 (aggr: Aggregation) => this.column && Utils.eqNC(aggr.column, this.column.name);
             const aggregation = firstPage.aggregations.find(condition);
 
-            if (aggregation && aggregation.items) {
+            if (aggregation?.items) {
                 return aggregation.items
-                .filter(
-                    (item) => !Utils.isArray(item.value) && !!item.value
-                )
-                .map(
-                    (item: AggregationItem) => (
-                        {
-                            value: item.value,
-                            display: item.display ? item.display : item.value.toString()
-                        }
-                    )
-                );
+                    .filter(item => item.value)
+                    .map(item => ({
+                        value: item.value!,
+                        display: item.display ? item.display : String(item.value)
+                    }));
             }
         }
         return [];

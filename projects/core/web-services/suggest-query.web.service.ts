@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable, of, map} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Suggestion} from "./suggest/suggestion";
 
 /**
@@ -12,11 +10,6 @@ import {Suggestion} from "./suggest/suggestion";
     providedIn: "root"
 })
 export class SuggestQueryWebService extends HttpService {
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Gets suggestions for the passed text for a set of fields using the passed suggestquery web service

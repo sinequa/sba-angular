@@ -41,6 +41,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Classes</li>
   <li >AppLocalesConfig</li>
@@ -118,7 +119,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">__tests__/mocks/app.locales.config.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">__tests__/mocks/app.locales.config.ts:53</a></div>
                             </td>
                         </tr>
 
@@ -150,7 +151,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">__tests__/mocks/app.locales.config.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">__tests__/mocks/app.locales.config.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -177,7 +178,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">__tests__/mocks/app.locales.config.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">__tests__/mocks/app.locales.config.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -197,36 +198,72 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Locale, LocaleData, LocalesConfig} from &#x27;@sinequa/core/intl&#x27;;
+import { FormatLocaleDefinition } from &#x27;d3-format&#x27;;
+import { TimeLocaleDefinition } from &#x27;d3-time-format&#x27;;
 
-import d3Format from &quot;d3-format/locale/en-US.json&quot;;
-import d3Time from &quot;d3-time-format/locale/en-US.json&quot;;
+import d3Format from &quot;../../../../node_modules/d3-format/locale/en-US.json&quot;;
+import d3Time from &quot;../../../../node_modules/d3-time-format/locale/en-US.json&quot;;
 
-const data: LocaleData &#x3D; {
+const localeDataFR: LocaleData &#x3D; {
   intl: {
-    locale: &quot;en-US&quot;
+    locale: &#x27;fr-FR&#x27;
+  },
+  moment: {
+    locale: &quot;fr&quot;
+  },
+  d3: {
+    locale: &quot;fr-FR&quot;,
+    format: d3Format as FormatLocaleDefinition,
+    time: d3Time as TimeLocaleDefinition
+  },
+  messages: {}
+}
+const localeDataEN: LocaleData &#x3D; {
+  intl: {
+    locale: &#x27;en-US&#x27;
+  },
+  moment: {
+    locale: &quot;en&quot;
   },
   d3: {
     locale: &quot;en-US&quot;,
-    format: d3Format,
-    time: d3Time
+    format: d3Format as FormatLocaleDefinition,
+    time: d3Time as TimeLocaleDefinition
   },
   messages: {}
-};
+}
+const localeDataDE: LocaleData &#x3D; {
+  intl: {
+    locale: &#x27;de-DE&#x27;
+  },
+  moment: {
+    locale: &quot;de&quot;
+  },
+  d3: {
+    locale: &quot;de-DE&quot;,
+    format: d3Format as FormatLocaleDefinition,
+    time: d3Time as TimeLocaleDefinition
+  },
+  messages: {}
+}
 
 export class AppLocalesConfig implements LocalesConfig {
   defaultLocale: Locale;
   locales?: Locale[];
   constructor() {
     this.locales &#x3D; [
-      {name: &quot;en&quot;, display: &quot;msg#locale.en&quot;, data},
+      { name: &quot;en&quot;, display: &quot;msg#locale.en&quot;, data: localeDataEN },
+      { name: &quot;fr&quot;, display: &quot;msg#locale.fr&quot;, data: localeDataFR },
+      { name: &quot;de&quot;, display: &quot;msg#locale.de&quot;, data: localeDataDE },
     ];
-    this.defaultLocale &#x3D; this.locales[0];
+    this.defaultLocale &#x3D; this.locales[1];
   }
 }
 ;
 </code></pre>
     </div>
 </div>
+
 
 
 

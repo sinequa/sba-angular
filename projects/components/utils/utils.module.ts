@@ -6,7 +6,6 @@ import {IntlModule} from "@sinequa/core/intl";
 
 // Formatting pipes
 import {DatePipe} from "./pipes/date-pipe";
-import {ExprPipe} from "./pipes/expr-pipe";
 import {MemorySizePipe} from "./pipes/memory-size-pipe";
 import {MomentPipe} from "./pipes/moment-pipe";
 import {NumberPipe} from "./pipes/number-pipe";
@@ -45,12 +44,12 @@ export const defaultScreenSizeRules = {
         IntlModule
     ],
     declarations: [
-        DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
+        DatePipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
         ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, VirtualScrollDirective
     ],
     exports: [
-        DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
+        DatePipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
         ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, VirtualScrollDirective
     ],

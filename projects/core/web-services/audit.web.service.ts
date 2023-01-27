@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable, of} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils, MapOf, JsonObject} from "@sinequa/core/base";
 import {Results, Record} from "./query.web.service";
 import {LinkResult} from "./sponsored-links.web.service";
@@ -158,12 +156,6 @@ export const enum AuditEventType {
 export class AuditWebService extends HttpService {
     private static readonly endpoint = "audit.notify";
 
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        protected httpClient: SqHttpClient) {
-        super(startConfig);
-    }
-
     /**
      * Notify the Sinequa server of a sponsored link event
      *
@@ -176,11 +168,11 @@ export class AuditWebService extends HttpService {
         evt: AuditEventType, sl: LinkResult, resultId: string,
         parameters?: MapOf<string | number | boolean | undefined>): Observable<void>  {
         const detail: JsonObject = {
-            "link-id": sl.id,
+            linkid: sl.id,
             rank: sl.rank || 0,
             title: sl.title,
             url: sl.url,
-            "result-id": resultId
+            resultid: resultId
         };
         if (parameters) {
             Object.keys(parameters).forEach(key => detail[key] = parameters[key]);
@@ -216,18 +208,18 @@ export class AuditWebService extends HttpService {
         }
         const detail: JsonObject = {
             app: this.appName,
-            "doc-id": doc.id,
+            docid: doc.id,
             rank: doc.rank,
             title: doc.title,
             source: Utils.treeFirstNode(doc.collection[0]),
             collection: doc.collection[0],
-            "result-id": resultId,
+            resultid: resultId,
             filename: doc.filename,
             fileext: doc.fileext,
             index: doc.databasealias
         };
         if (results) {
-            detail["result-count"] = results.totalRowCount;
+            detail["resultcount"] = results.totalRowCount;
         }
         if (parameters) {
             Object.keys(parameters).forEach(key => detail[key] = parameters[key]);
@@ -259,7 +251,7 @@ export class AuditWebService extends HttpService {
         const collection = id.substr(0, id.indexOf("|"));
         const detail: JsonObject = {
             app: this.appName,
-            "doc-id": id,
+            docid: id,
             rank: -1,
             source: Utils.treeFirstNode(collection),
             collection
@@ -327,9 +319,7 @@ export class AuditWebService extends HttpService {
             $auditRecord: auditEvents
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("auditService.notify failure - error: ", error);
             });

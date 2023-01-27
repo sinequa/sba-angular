@@ -1,9 +1,7 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
-import { SqHttpClient } from "./http-client";
 import { HttpService } from "./http.service";
 import { IQuery } from "./query/query";
-import { StartConfig, START_CONFIG } from "./start-config.web.service";
 
 export interface TextLocation {
     /** Location in document (defaults to 0) */
@@ -26,12 +24,6 @@ export interface TextChunk {
 @Injectable({providedIn: 'root'})
 export class TextChunksWebService extends HttpService {
     private static readonly endpoint = "doc.textchunks";
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Returns text chunks from a given document and at given locations with

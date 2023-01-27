@@ -1,5 +1,5 @@
-import {Injectable, Inject} from "@angular/core";
-import {START_CONFIG, StartConfig, SqHttpClient, HttpService} from "@sinequa/core/web-services";
+import {Injectable} from "@angular/core";
+import {HttpService} from "@sinequa/core/web-services";
 import {Observable, map} from "rxjs";
 
 /**
@@ -10,12 +10,6 @@ import {Observable, map} from "rxjs";
     providedIn: "root"
 })
 export class TokenService extends HttpService {
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Retrieve the CSRF token corresponding to the current JWT cookie
@@ -34,9 +28,7 @@ export class TokenService extends HttpService {
                 noNotify: !notify
             })
         }).pipe(
-            map((value) => {
-                return value.csrfToken;
-            }));
+            map((value) => value.csrfToken));
     }
 
     /**

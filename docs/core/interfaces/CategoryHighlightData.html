@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -301,14 +302,13 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
-import {Observable, throwError} from &quot;rxjs&quot;;
+import {Observable, throwError, catchError, distinctUntilChanged, shareReplay} from &quot;rxjs&quot;;
 import {SqHttpClient} from &quot;./http-client&quot;;
 import {HttpService} from &quot;./http.service&quot;;
 import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
 import {IQuery} from &quot;./query/query&quot;;
 import {Record} from &quot;./query.web.service&quot;;
 import {AuditEvents} from &quot;./audit.web.service&quot;;
-import {catchError, distinctUntilChanged, shareReplay} from &quot;rxjs/operators&quot;;
 
 /**
  * Describes highlight data for a set of categories
@@ -403,24 +403,25 @@ export class PreviewWebService extends HttpService {
             $auditRecord: auditEvents
         }).pipe(shareReplay(1));
     }
-    
+
     /**
      * Gets document&#x27;s preview HTML content
-     * 
+     *
      * @param url The document preview URL
-     * @returns 
+     * @returns
      */
     public getHtmlPreview(url: string): Observable&lt;any&gt; {
         return this.httpClient.get(url, {responseType: &quot;text&quot;}).pipe(
             catchError(err &#x3D;&gt; throwError(err)),
             distinctUntilChanged(),
             shareReplay(1)
-        );                
+        );
     }
 }
 </code></pre>
     </div>
 </div>
+
 
 
 

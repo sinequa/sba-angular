@@ -6,6 +6,5 @@ export const AppServiceStub = {
     allowEmptySearch: false
   },
   defaultCCQuery: {name: "default_ccquery_name"},
-  getCCQuery: name => ({name: "def"}),
-  parseExpr: expression => ({field: {}, value: {}, not: {}})
+  getCCQuery: name => ({name: "def"})
 };

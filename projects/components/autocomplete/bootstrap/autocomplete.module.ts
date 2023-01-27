@@ -1,9 +1,7 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {Autocomplete} from "../autocomplete.directive";
-import {AutocompleteFieldSearch} from "../autocomplete-field-search.directive";
 import {BsAutocompleteList} from "./autocomplete-list/autocomplete-list";
-import {BsFieldSearchItemsComponent} from './field-search-items.component';
 import {UtilsModule} from '@sinequa/components/utils';
 
 @NgModule({
@@ -12,10 +10,10 @@ import {UtilsModule} from '@sinequa/components/utils';
         UtilsModule
     ],
     declarations: [
-        BsAutocompleteList, BsFieldSearchItemsComponent, Autocomplete, AutocompleteFieldSearch
+        BsAutocompleteList, Autocomplete
     ],
     exports: [
-        BsAutocompleteList, BsFieldSearchItemsComponent, Autocomplete, AutocompleteFieldSearch
+        BsAutocompleteList, Autocomplete
     ]
 })
 export class BsAutocompleteModule {

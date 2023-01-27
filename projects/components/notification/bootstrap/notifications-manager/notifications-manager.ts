@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy, ChangeDetectorRef} from "@angular/core";
 import {Subscription} from "rxjs";
 import {NotificationsService} from "@sinequa/core/notification";
-import {Action} from "@sinequa/components/action";
+import {Action, ActionSeparator} from "@sinequa/components/action";
 
 
 @Component({
@@ -68,9 +68,7 @@ export class BsNotificationsManager implements OnInit, OnDestroy {
                         this.changeDetectorRef.markForCheck();
                     }
                 }),
-                new Action({
-                    separator: true
-                }),
+                ActionSeparator,
                 new Action({
                     text: "msg#notification.clearNotifications",
                     action: (item, $event) => {

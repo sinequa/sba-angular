@@ -1,0 +1,4635 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Analytics</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Analytics</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >VisTimelineService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>vis-timeline/vis-timeline.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>A service to create, manage and control VisTimeline instances.</p>
+
+            </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#changed" >changed</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#click" >click</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#contextmenu" >contextmenu</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#currentTimeTick" >currentTimeTick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#doubleClick" >doubleClick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#groupDragged" >groupDragged</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#itemout" >itemout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#itemover" >itemover</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#rangechange" >rangechange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#rangechanged" >rangechanged</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#select" >select</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#timechange" >timechange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#timechanged" >timechanged</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addCustomTime" >addCustomTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#createWithItems" >createWithItems</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#createWithItemsAndGroups" >createWithItemsAndGroups</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#destroy" >destroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#fit" >fit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#focusOnId" >focusOnId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#focusOnIds" >focusOnIds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getCurrentTime" >getCurrentTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getCustomTime" >getCustomTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getEmitter" >getEmitter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getEventProperties" >getEventProperties</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getItemRange" >getItemRange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSelection" >getSelection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getVisibleItems" >getVisibleItems</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getWindow" >getWindow</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#moveTo" >moveTo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#off" >off</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#on" >on</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#redraw" >redraw</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeCustomTime" >removeCustomTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setCurrentTime" >setCurrentTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setCustomTime" >setCustomTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setCustomTimeTitle" >setCustomTimeTitle</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setData" >setData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setGroups" >setGroups</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setItems" >setItems</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setOptions" >setOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setSelectionToId" >setSelectionToId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setSelectionToIds" >setSelectionToIds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setWindow" >setWindow</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">vis-timeline/vis-timeline.service.ts:140</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>ngZone</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCustomTime"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>addCustomTime</b></span>
+                        <a href="#addCustomTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCustomTime(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, time: DateType, id?: IdType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:207</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add new vertical bar representing a custom time that can be dragged by the user.
+The id is added as CSS class name of the custom time bar,
+allowing to style multiple time bars differently.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>time</td>
+                                    <td>
+                                            <code>DateType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameter time can be a Date, Number, or String, and is new Date() by default.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                            <code>IdType</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameter id can be Number or String and is undefined by default.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>IdType</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The method returns id of the created bar.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createWithItems"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>createWithItems</b></span>
+                        <a href="#createWithItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createWithItems(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, container: HTMLElement, items: DataItemCollectionType, options?: TimelineOptions)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:158</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates a new timeline instance.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>container</td>
+                                    <td>
+                                            <code>HTMLElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The HTML element that contains the timeline view.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                            <code>DataItemCollectionType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The initial timeline items.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>TimelineOptions</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline options.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createWithItemsAndGroups"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>createWithItemsAndGroups</b></span>
+                        <a href="#createWithItemsAndGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createWithItemsAndGroups(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, container: HTMLElement, items: DataItemCollectionType, groups: DataGroupCollectionType, options?: TimelineOptions)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:179</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates a new timeline instance.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>container</td>
+                                    <td>
+                                            <code>HTMLElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The HTML element that contains the timeline view.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                            <code>DataItemCollectionType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The initial timeline items.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>groups</td>
+                                    <td>
+                                            <code>DataGroupCollectionType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The initial timeline groups.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>TimelineOptions</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline options.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>destroy</b></span>
+                        <a href="#destroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>destroy(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="671"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:671</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Destroy the Timeline.
+The timeline is removed from memory.
+All DOM elements and event listeners are cleaned up.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fit"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>fit</b></span>
+                        <a href="#fit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>fit(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options?: TimelineAnimationOptions)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="226"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:226</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adjust the visible window such that it fits all items.
+See also function focus(id).</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>TimelineAnimationOptions</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional options.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusOnId"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>focusOnId</b></span>
+                        <a href="#focusOnId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>focusOnId(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, id: IdType, options?: TimelineAnimationOptions)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="245"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:245</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adjust the visible window such that the selected item is centered on screen.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                            <code>IdType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The id of the item.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>TimelineAnimationOptions</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Options options.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusOnIds"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>focusOnIds</b></span>
+                        <a href="#focusOnIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>focusOnIds(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, ids: IdType[], options?: TimelineAnimationOptions)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:264</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adjust the visible window such that the selected items are centered on screen.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ids</td>
+                                    <td>
+                                            <code>IdType[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The item ids.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>TimelineAnimationOptions</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional options.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCurrentTime"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getCurrentTime</b></span>
+                        <a href="#getCurrentTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCurrentTime(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="283"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:283</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the current time.
+Only applicable when option showCurrentTime is true.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The current time.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCustomTime"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getCustomTime</b></span>
+                        <a href="#getCustomTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCustomTime(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, id?: IdType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="303"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:303</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Retrieve the custom time from the custom time bar with given id.
+Id is undefined by default.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                            <code>IdType</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>The time bar id.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The custom time.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEmitter"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getEmitter</b></span>
+                        <a href="#getEmitter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getEmitter(eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="729"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:729</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the event emitter associated with the specified event name.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eventName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The event name.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>EventEmitter | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The event emitter of the specified event name.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEventProperties"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getEventProperties</b></span>
+                        <a href="#getEventProperties"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getEventProperties(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="322"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:322</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns an Object with relevant properties from an event.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The event.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/TimelineEvent.html" target="_self" >TimelineEventPropertiesResult</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Properties of an event</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getItemRange"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getItemRange</b></span>
+                        <a href="#getItemRange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getItemRange(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:340</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the range of all the items as an object containing min: Date and max: Date.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>literal type</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The min and max dates.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSelection"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getSelection</b></span>
+                        <a href="#getSelection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSelection(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="358"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:358</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get an array with the ids of the currently selected items.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>IdType[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The currently selected items.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getVisibleItems"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getVisibleItems</b></span>
+                        <a href="#getVisibleItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getVisibleItems(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="376"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:376</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get an array with the ids of the currently visible items.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>IdType[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The currently visible items.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getWindow"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getWindow</b></span>
+                        <a href="#getWindow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getWindow(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="394"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:394</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the current visible window.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>literal type</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Returns an object with properties start: Date and end: Date.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moveTo"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>moveTo</b></span>
+                        <a href="#moveTo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>moveTo(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, time: DateType, options?: TimelineAnimationOptions)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="413"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:413</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><div><pre class="line-numbers"><code class="language-none">Move the window such that given time is centered on screen.</code></pre></div></div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>time</td>
+                                    <td>
+                                            <code>DateType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameter time can be a Date, Number, or String.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>TimelineAnimationOptions</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional options.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="off"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>off</b></span>
+                        <a href="#off"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>off(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="717"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:717</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Deactivates an event.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>eventName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The event name.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="on"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>on</b></span>
+                        <a href="#on"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>on(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, eventName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, preventDefault?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="688"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:688</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Activates an event.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>eventName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The event name.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>preventDefault</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Stops the default behavior of the event.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Returns true when the event was activated.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="redraw"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>redraw</b></span>
+                        <a href="#redraw"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>redraw(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="433"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:433</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Force a redraw of the Timeline.
+The size of all items will be recalculated.
+Can be useful to manually redraw when option autoResize=false and the window has been resized,
+or when the items CSS has been changed.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeCustomTime"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>removeCustomTime</b></span>
+                        <a href="#removeCustomTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeCustomTime(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, id: IdType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="451"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:451</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Remove vertical bars previously added to the timeline via addCustomTime method.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                            <code>IdType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameter id is the ID of the custom vertical bar returned by addCustomTime method.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setCurrentTime"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setCurrentTime</b></span>
+                        <a href="#setCurrentTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setCurrentTime(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, time: DateType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="472"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:472</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set a current time.
+This can be used for example to ensure that a client&#39;s time is synchronized
+with a shared server time.
+Only applicable when option showCurrentTime is true.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>time</td>
+                                    <td>
+                                            <code>DateType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>time can be a Date object, numeric timestamp, or ISO date string.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setCustomTime"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setCustomTime</b></span>
+                        <a href="#setCustomTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setCustomTime(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, time: DateType, id?: IdType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="491"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:491</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><div><pre class="line-numbers"><code class="language-none">Adjust the time of a custom time bar.</code></pre></div></div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>time</td>
+                                    <td>
+                                            <code>DateType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameter time can be a Date object, numeric timestamp, or ISO date string.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                            <code>IdType</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameter id is the id of the custom time bar, and is undefined by default.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setCustomTimeTitle"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setCustomTimeTitle</b></span>
+                        <a href="#setCustomTimeTitle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setCustomTimeTitle(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, title: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, id?: IdType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="511"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:511</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adjust the title attribute of a custom time bar.</p>
+<div><pre class="line-numbers"><code class="language-none">                  Use empty string to hide the title completely.</code></pre></div></div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>title</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameter title is the string to be set as title.
+Use empty string to hide the title completely.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                            <code>IdType</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameter id is the id of the custom time bar, and is undefined by default.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setData"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setData</b></span>
+                        <a href="#setData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setData(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="535"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:535</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set both groups and items at once.
+Both properties are optional.
+This is a convenience method for individually calling both setItems(items) and setGroups(groups).
+Both items and groups can be an Array with Objects, a DataSet (offering 2 way data binding),
+or a DataView (offering 1 way data binding).
+For each of the groups, the items of the timeline are filtered on the property group,
+which must correspond with the id of the group.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The new timline data.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setGroups"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setGroups</b></span>
+                        <a href="#setGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setGroups(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, groups: DataGroupCollectionType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="555"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:555</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set a data set with groups for the Timeline.
+For each of the groups, the items of the timeline are filtered on the property group,
+which must correspond with the id of the group.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>groups</td>
+                                    <td>
+                                            <code>DataGroupCollectionType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>a DataSet (offering 2 way data binding)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setItems"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setItems</b></span>
+                        <a href="#setItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setItems(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, items: DataItemCollectionType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="573"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:573</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set a data set with items for the Timeline.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                            <code>DataItemCollectionType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>can be an Array with Objects, a DataSet (offering 2 way data binding)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setOptions"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setOptions</b></span>
+                        <a href="#setOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setOptions(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: TimelineOptions)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="593"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:593</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set or update options.
+It is possible to change any option of the timeline at any time.
+You can for example switch orientation on the fly.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>TimelineOptions</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The new options of the timeline.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setSelectionToId"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setSelectionToId</b></span>
+                        <a href="#setSelectionToId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setSelectionToId(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, id: IdType)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="612"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:612</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Select one item by its id.#
+The currently selected items will be unselected.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                            <code>IdType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The id of the item that should be selected.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setSelectionToIds"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setSelectionToIds</b></span>
+                        <a href="#setSelectionToIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setSelectionToIds(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, ids: IdType[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="632"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:632</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Select multiple items by their id.
+The currently selected items will be unselected.
+To unselect all selected items, call <code>setSelection([])</code>.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ids</td>
+                                    <td>
+                                            <code>IdType[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The ids of the irems that should be selected.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setWindow"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>setWindow</b></span>
+                        <a href="#setWindow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setWindow(visTimeline: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, start: DateType, end: DateType, options?: TimelineAnimationOptions)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="654"
+                            class="link-to-prism">vis-timeline/vis-timeline.service.ts:654</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set the current visible window.</p>
+<p>If the parameter value of start or end is null, the parameter will be left unchanged.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visTimeline</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The timeline name/identifier.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>start</td>
+                                    <td>
+                                            <code>DateType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The parameters start can be a Date, Number, or String.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>end</td>
+                                    <td>
+                                            <code>DateType</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The parameters end can be a Date, Number, or String.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>TimelineAnimationOptions</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional options.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changed"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>changed</b></span>
+                        <a href="#changed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">vis-timeline/vis-timeline.service.ts:76</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired once after each graph redraw.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="click"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>click</b></span>
+                        <a href="#click"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">vis-timeline/vis-timeline.service.ts:42</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired when clicked inside the Timeline.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="contextmenu"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>contextmenu</b></span>
+                        <a href="#contextmenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">vis-timeline/vis-timeline.service.ts:52</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired when right-clicked inside the Timeline.
+Note that in order to prevent the context menu from showing up,
+default behavior of the event must be stopped.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentTimeTick"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>currentTimeTick</b></span>
+                        <a href="#currentTimeTick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">vis-timeline/vis-timeline.service.ts:34</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired when the current time bar redraws.
+The rate depends on the zoom level.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="doubleClick"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>doubleClick</b></span>
+                        <a href="#doubleClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">vis-timeline/vis-timeline.service.ts:60</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired when double clicked inside the Timeline.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groupDragged"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>groupDragged</b></span>
+                        <a href="#groupDragged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">vis-timeline/vis-timeline.service.ts:68</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><div><pre class="line-numbers"><code class="language-none">Fired after the dragging of a group is finished.</code></pre></div></div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="itemout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>itemout</b></span>
+                        <a href="#itemout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">vis-timeline/vis-timeline.service.ts:118</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired when the user moves the mouse out of an item.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="itemover"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>itemover</b></span>
+                        <a href="#itemover"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">vis-timeline/vis-timeline.service.ts:110</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired when the user moves the mouse over an item.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rangechange"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>rangechange</b></span>
+                        <a href="#rangechange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">vis-timeline/vis-timeline.service.ts:84</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired repeatedly when the timeline window is being changed.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rangechanged"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>rangechanged</b></span>
+                        <a href="#rangechanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">vis-timeline/vis-timeline.service.ts:92</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired once after the timeline window has been changed.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="select"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>select</b></span>
+                        <a href="#select"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">vis-timeline/vis-timeline.service.ts:102</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired after the user selects or deselects items by tapping or holding them.
+When a use taps an already selected item, the select event is fired again.
+Not fired when the method setSelectionis executed.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timechange"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>timechange</b></span>
+                        <a href="#timechange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">vis-timeline/vis-timeline.service.ts:127</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired repeatedly when the user is dragging the custom time bar.
+Only available when the custom time bar is enabled.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timechanged"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>timechanged</b></span>
+                        <a href="#timechanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new EventEmitter&lt;any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">vis-timeline/vis-timeline.service.ts:136</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fired once after the user has dragged the custom time bar.
+Only available when the custom time bar is enabled.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventEmitter, Injectable, NgZone } from &#x27;@angular/core&#x27;;
+import {
+  DataGroupCollectionType,
+  DataItemCollectionType,
+  DateType,
+  IdType,
+  Timeline,
+  TimelineAnimationOptions,
+  TimelineEventPropertiesResult,
+  TimelineOptions,
+} from &#x27;vis-timeline/esnext&#x27;;
+
+/**
+ * A service to create, manage and control VisTimeline instances.
+ *
+ * @export
+ * @class VisTimelineService
+ */
+@Injectable({providedIn: &#x27;root&#x27;})
+export class VisTimelineService {
+  /**
+   * Fired when the current time bar redraws.
+   * The rate depends on the zoom level.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public currentTimeTick: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired when clicked inside the Timeline.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public click: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired when right-clicked inside the Timeline.
+   * Note that in order to prevent the context menu from showing up,
+   * default behavior of the event must be stopped.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public contextmenu: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired when double clicked inside the Timeline.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public doubleClick: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * 	Fired after the dragging of a group is finished.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public groupDragged: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired once after each graph redraw.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public changed: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired repeatedly when the timeline window is being changed.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public rangechange: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired once after the timeline window has been changed.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public rangechanged: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired after the user selects or deselects items by tapping or holding them.
+   * When a use taps an already selected item, the select event is fired again.
+   * Not fired when the method setSelectionis executed.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public select: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired when the user moves the mouse over an item.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public itemover: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired when the user moves the mouse out of an item.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public itemout: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired repeatedly when the user is dragging the custom time bar.
+   * Only available when the custom time bar is enabled.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public timechange: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  /**
+   * Fired once after the user has dragged the custom time bar.
+   * Only available when the custom time bar is enabled.
+   *
+   * @type {EventEmitter&lt;any&gt;}
+   * @memberOf VisTimelineService
+   */
+  public timechanged: EventEmitter&lt;any&gt; &#x3D; new EventEmitter&lt;any&gt;();
+
+  private events: Map&lt;string, EventEmitter&lt;any&gt;&gt; &#x3D; new Map();
+
+  private timelines: { [id: string]: Timeline } &#x3D; {};
+
+  constructor(
+    private ngZone: NgZone,
+  ) { }
+
+  /**
+   * Creates a new timeline instance.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {HTMLElement} container The HTML element that contains the timeline view.
+   * @param {VisTimelineItems} items The initial timeline items.
+   * @param {VisTimelineOptions} [options] The timeline options.
+   *
+   * @throws {Error} Thrown when timeline already exists.
+   *
+   * @memberOf VisTimelineService
+   */
+  public createWithItems(visTimeline: string, container: HTMLElement, items: DataItemCollectionType, options?: TimelineOptions): void {
+    if (this.timelines[visTimeline]) {
+      throw new Error(this.alreadyExistsError(visTimeline));
+    }
+
+    this.timelines[visTimeline] &#x3D; this.ngZone.runOutsideAngular(() &#x3D;&gt; new Timeline(container, items, this.wrapCallbacksWithNgZone(options!)));
+  }
+
+  /**
+   * Creates a new timeline instance.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {HTMLElement} container The HTML element that contains the timeline view.
+   * @param {VisTimelineItems} items The initial timeline items.
+   * @param {VisTimelineGroups} groups The initial timeline groups.
+   * @param {VisTimelineOptions} [options] The timeline options.
+   *
+   * @throws {Error} Thrown when timeline already exists.
+   *
+   * @memberOf VisTimelineService
+   */
+  public createWithItemsAndGroups(
+    visTimeline: string,
+    container: HTMLElement,
+    items: DataItemCollectionType,
+    groups: DataGroupCollectionType,
+    options?: TimelineOptions,
+  ): void {
+    if (this.timelines[visTimeline]) {
+      throw new Error(this.alreadyExistsError(visTimeline));
+    }
+
+    this.timelines[visTimeline] &#x3D; this.ngZone.runOutsideAngular(() &#x3D;&gt; new Timeline(container, items, groups, this.wrapCallbacksWithNgZone(options!)));
+  }
+
+  /**
+   * Add new vertical bar representing a custom time that can be dragged by the user.
+   * The id is added as CSS class name of the custom time bar,
+   * allowing to style multiple time bars differently.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {DateType} time Parameter time can be a Date, Number, or String, and is new Date() by default.
+   * @param {IdType} [id] Parameter id can be Number or String and is undefined by default.
+   * @returns {IdType} The method returns id of the created bar.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public addCustomTime(visTimeline: string, time: DateType, id?: IdType): IdType {
+    if (this.timelines[visTimeline]) {
+      return this.timelines[visTimeline].addCustomTime(time, id);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Adjust the visible window such that it fits all items.
+   * See also function focus(id).
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {TimelineAnimationOptions} [options] Optional options.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public fit(visTimeline: string, options?: TimelineAnimationOptions): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].fit(options);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Adjust the visible window such that the selected item is centered on screen.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {IdType} id The id of the item.
+   * @param {TimelineAnimationOptions} [options] Options options.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public focusOnId(visTimeline: string, id: IdType, options?: TimelineAnimationOptions): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].focus(id, options);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Adjust the visible window such that the selected items are centered on screen.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {IdType[]} ids The item ids.
+   * @param {TimelineAnimationOptions} [options] Optional options.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public focusOnIds(visTimeline: string, ids: IdType[], options?: TimelineAnimationOptions): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].focus(ids, options);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Get the current time.
+   * Only applicable when option showCurrentTime is true.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @returns {Date} The current time.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public getCurrentTime(visTimeline: string): Date {
+    if (this.timelines[visTimeline]) {
+      return this.timelines[visTimeline].getCurrentTime();
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Retrieve the custom time from the custom time bar with given id.
+   * Id is undefined by default.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {IdType} [id] The time bar id.
+   * @returns {Date} The custom time.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public getCustomTime(visTimeline: string, id?: IdType): Date {
+    if (this.timelines[visTimeline]) {
+      return this.timelines[visTimeline].getCustomTime(id);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Returns an Object with relevant properties from an event.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {Event} event The event.
+   * @returns {VisTimelineEventPropertiesResult} Properties of an event
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public getEventProperties(visTimeline: string, event: Event): TimelineEventPropertiesResult {
+    if (this.timelines[visTimeline]) {
+      return this.timelines[visTimeline].getEventProperties(event);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Get the range of all the items as an object containing min: Date and max: Date.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @returns {{ min: Date, max: Date }} The min and max dates.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public getItemRange(visTimeline: string): { min: Date; max: Date } {
+    if (this.timelines[visTimeline]) {
+      return this.timelines[visTimeline].getItemRange();
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Get an array with the ids of the currently selected items.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @returns {IdType[]} The currently selected items.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public getSelection(visTimeline: string): IdType[] {
+    if (this.timelines[visTimeline]) {
+      return this.timelines[visTimeline].getSelection();
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Get an array with the ids of the currently visible items.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @returns {IdType[]} The currently visible items.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public getVisibleItems(visTimeline: string): IdType[] {
+    if (this.timelines[visTimeline]) {
+      return this.timelines[visTimeline].getVisibleItems();
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Get the current visible window.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @returns {{ start: Date, end: Date }} Returns an object with properties start: Date and end: Date.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public getWindow(visTimeline: string): { start: Date; end: Date } {
+    if (this.timelines[visTimeline]) {
+      return this.timelines[visTimeline].getWindow();
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * 	Move the window such that given time is centered on screen.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {DateType} time Parameter time can be a Date, Number, or String.
+   * @param {TimelineAnimationOptions} [options] Optional options.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public moveTo(visTimeline: string, time: DateType, options?: TimelineAnimationOptions): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].moveTo(time, options);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Force a redraw of the Timeline.
+   * The size of all items will be recalculated.
+   * Can be useful to manually redraw when option autoResize&#x3D;false and the window has been resized,
+   * or when the items CSS has been changed.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public redraw(visTimeline: string): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].redraw();
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Remove vertical bars previously added to the timeline via addCustomTime method.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {IdType} id Parameter id is the ID of the custom vertical bar returned by addCustomTime method.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public removeCustomTime(visTimeline: string, id: IdType): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].removeCustomTime(id);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Set a current time.
+   * This can be used for example to ensure that a client&#x27;s time is synchronized
+   * with a shared server time.
+   * Only applicable when option showCurrentTime is true.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {DateType} time time can be a Date object, numeric timestamp, or ISO date string.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setCurrentTime(visTimeline: string, time: DateType): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setCurrentTime(time);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * 	Adjust the time of a custom time bar.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {DateType} time Parameter time can be a Date object, numeric timestamp, or ISO date string.
+   * @param {IdType} [id] Parameter id is the id of the custom time bar, and is undefined by default.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setCustomTime(visTimeline: string, time: DateType, id?: IdType): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setCustomTime(time, id);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Adjust the title attribute of a custom time bar.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {string} title Parameter title is the string to be set as title.
+   *                       Use empty string to hide the title completely.
+   * @param {IdType} [id] Parameter id is the id of the custom time bar, and is undefined by default.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setCustomTimeTitle(visTimeline: string, title: string, id?: IdType): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setCustomTimeTitle(title, id);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Set both groups and items at once.
+   * Both properties are optional.
+   * This is a convenience method for individually calling both setItems(items) and setGroups(groups).
+   * Both items and groups can be an Array with Objects, a DataSet (offering 2 way data binding),
+   * or a DataView (offering 1 way data binding).
+   * For each of the groups, the items of the timeline are filtered on the property group,
+   * which must correspond with the id of the group.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {{ groups?: VisTimelineGroups; items?: VisTimelineItems }} data The new timline data.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setData(visTimeline: string, data: { groups?: DataGroupCollectionType; items?: DataItemCollectionType }): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setData(data);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Set a data set with groups for the Timeline.
+   * For each of the groups, the items of the timeline are filtered on the property group,
+   * which must correspond with the id of the group.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {VisTimelineGroups} groups a DataSet (offering 2 way data binding)
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setGroups(visTimeline: string, groups: DataGroupCollectionType): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setGroups(groups);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Set a data set with items for the Timeline.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {VisTimelineItems} items can be an Array with Objects, a DataSet (offering 2 way data binding)
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setItems(visTimeline: string, items: DataItemCollectionType): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setItems(items);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Set or update options.
+   * It is possible to change any option of the timeline at any time.
+   * You can for example switch orientation on the fly.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {VisTimelineOptions} options The new options of the timeline.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setOptions(visTimeline: string, options: TimelineOptions): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setOptions(options);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Select one item by its id.#
+   * The currently selected items will be unselected.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {IdType} id The id of the item that should be selected.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setSelectionToId(visTimeline: string, id: IdType): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setSelection(id);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Select multiple items by their id.
+   * The currently selected items will be unselected.
+   * To unselect all selected items, call &#x60;setSelection([])&#x60;.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {IdType[]} ids The ids of the irems that should be selected.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setSelectionToIds(visTimeline: string, ids: IdType[]): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setSelection(ids);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Set the current visible window.
+   *
+   * If the parameter value of start or end is null, the parameter will be left unchanged.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {DateType} start The parameters start can be a Date, Number, or String.
+   * @param {DateType} end The parameters end can be a Date, Number, or String.
+   * @param {TimelineAnimationOptions} [options] Optional options.
+   *
+   * @throws {Error} Thrown when timeline does not exist.
+   *
+   * @memberOf VisTimelineService
+   */
+  public setWindow(visTimeline: string, start: DateType, end: DateType, options?: TimelineAnimationOptions): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].setWindow(start, end, options);
+    } else {
+      throw new Error(this.doesNotExistError(visTimeline));
+    }
+  }
+
+  /**
+   * Destroy the Timeline.
+   * The timeline is removed from memory.
+   * All DOM elements and event listeners are cleaned up.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   *
+   * @memberOf VisTimelineService
+   */
+  public destroy(visTimeline: string): void {
+    if (this.timelines[visTimeline]) {
+      this.timelines[visTimeline].destroy();
+      delete this.timelines[visTimeline];
+    }
+  }
+
+  /**
+   * Activates an event.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {string} eventName The event name.
+   * @param {boolean} preventDefault Stops the default behavior of the event.
+   * @returns {boolean} Returns true when the event was activated.
+   *
+   * @memberOf VisTimelineService
+   */
+  public on(visTimeline: string, eventName: string, preventDefault?: boolean): boolean {
+    if (this.timelines[visTimeline]) {
+      this.events.set(eventName, new EventEmitter&lt;any&gt;());
+      // tslint:disable-next-line
+      const that: { [index: string]: any } &#x3D; this;
+      this.timelines[visTimeline].on(eventName, (params: any) &#x3D;&gt; {
+        const emitter &#x3D; (that[eventName] || that.events.get(eventName)) as EventEmitter&lt;any&gt;;
+        if (emitter) {
+          emitter.emit(params ? [visTimeline].concat(params) : visTimeline);
+        }
+        if (preventDefault &amp;&amp; params.event) {
+          params.event.preventDefault();
+        }
+      });
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Deactivates an event.
+   *
+   * @param {string} visTimeline The timeline name/identifier.
+   * @param {string} eventName The event name.
+   *
+   * @memberOf VisTimelineService
+   */
+  public off(visTimeline: string, eventName: string): void {
+    if (this.timelines[visTimeline]) {
+      this.events.delete(eventName);
+      this.timelines[visTimeline].off(eventName, undefined);
+    }
+  }
+
+  /**
+   * Get the event emitter associated with the specified event name.
+   * @param {string} eventName The event name.
+   * @returns {EventEmitter&lt;any&gt;} The event emitter of the specified event name.
+   */
+  public getEmitter(eventName: string): EventEmitter&lt;any&gt; | undefined {
+    return this.events.get(eventName);
+  }
+
+  private doesNotExistError(visTimeline: string): string {
+    return &#x60;Timeline with id ${visTimeline} does not exist.&#x60;;
+  }
+
+  private alreadyExistsError(visTimeline: string): string {
+    return &#x60;Timeline with id ${visTimeline} already exists.&#x60;;
+  }
+
+  private wrapCallbacksWithNgZone(options: TimelineOptions): TimelineOptions {
+    const updatedOptions: any &#x3D; { ...options };
+    const callbackFunctions: Array&lt;keyof TimelineOptions&gt; &#x3D; [
+      &#x27;onAdd&#x27;,
+      &#x27;onAddGroup&#x27;,
+      &#x27;onDropObjectOnItem&#x27;,
+      &#x27;onInitialDrawComplete&#x27;,
+      &#x27;onUpdate&#x27;,
+      &#x27;onMove&#x27;,
+      &#x27;onMoveGroup&#x27;,
+      &#x27;onMoving&#x27;,
+      &#x27;onRemove&#x27;,
+      &#x27;onRemoveGroup&#x27;,
+    ];
+
+    callbackFunctions
+      .filter((callbackFunction) &#x3D;&gt; updatedOptions.hasOwnProperty(callbackFunction))
+      .forEach((callbackFunction) &#x3D;&gt; {
+        updatedOptions[callbackFunction] &#x3D; (...params: any[]) &#x3D;&gt; this.ngZone.run(() &#x3D;&gt; options[callbackFunction](...params));
+      });
+
+    return updatedOptions;
+
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'VisTimelineService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

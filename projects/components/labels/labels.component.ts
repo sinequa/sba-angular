@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, HostBinding } from "@angular/core";
-import { Utils } from "@sinequa/core/base";
 import { Record } from "@sinequa/core/web-services";
 import { LabelsService } from "./labels.service";
 import { AppService } from "@sinequa/core/app-utils";
@@ -60,7 +59,7 @@ export class Labels implements OnChanges {
             return;
         }
         const labels = this.record[this.labelsField];
-        if (Utils.isArray(labels)) {
+        if (Array.isArray(labels)) {
             this.labels = this.labelsService.sort(labels.slice(), this.public);
         } else {
             this.labels = [];

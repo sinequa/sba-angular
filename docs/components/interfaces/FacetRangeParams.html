@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -167,7 +168,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>max:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>max:     <code>string | number | Date</code>
 </code>
                                     </td>
                                 </tr>
@@ -175,7 +176,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>    <code>string | number | Date</code>
 
                                         </td>
                                     </tr>
@@ -205,7 +206,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>min:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>min:     <code>string | number | Date</code>
 </code>
                                     </td>
                                 </tr>
@@ -213,7 +214,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>    <code>string | number | Date</code>
 
                                         </td>
                                     </tr>
@@ -279,7 +280,7 @@ import {AppService, FormatService, Expr, ExprOperator, ExprBuilder} from &quot;@
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
 import {CCColumn, Results, Aggregation} from &quot;@sinequa/core/web-services&quot;;
 import {Options, LabelType, ChangeContext} from &quot;@angular-slider/ngx-slider&quot;;
-import moment from &quot;moment&quot;;
+import { getDay, getTime, getWeek, getWeekYear, isValid, parseISO } from &quot;date-fns&quot;;
 import {FacetService} from &quot;../../facet.service&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 import {UIService} from &quot;@sinequa/components/utils&quot;;
@@ -312,8 +313,8 @@ export interface StepDef {
 
 export interface FacetRangeParams {
     aggregation: string;
-    min?: string;
-    max?: string;
+    min?: string | number | Date;
+    max?: string | number | Date;
     stepDefs?: StepDef[];
 }
 
@@ -329,8 +330,8 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
-    @Input() min : string;
-    @Input() max : string;
+    @Input() min : string | number | Date;
+    @Input() max : string | number | Date;
     @Input() stepDefs: StepDef[];
     @ViewChild(&quot;slider&quot;, {static: false}) slider: ElementRef;
 
@@ -386,8 +387,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         if (this.format) {
             if (this.column &amp;&amp; AppService.isDate(this.column)) {
                 const date &#x3D; new Date(value1);
-                const m &#x3D; moment(date);
-                return this.intlService.formatMessage(this.format, {date: date, time: Utils.getTime(date), weekDay: m.weekday(), week: m.week(), weekYear: m.weekYear()});
+                return this.intlService.formatMessage(this.format, {date: date, time: Utils.getTime(date), weekDay: getDay(date), week: getWeek(date), weekYear: getWeekYear(date)});
             }
             else {
                 return this.intlService.formatMessage(this.format, {value: value1});
@@ -501,8 +501,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
                         date &#x3D; new Date(date.getFullYear(), date.getMonth(), date.getDate() + adjust);
                     }
                     // Then, round to week number
-                    const m &#x3D; moment(date);
-                    const week &#x3D; m.week();
+                    const week &#x3D; getWeek(date);
                     if (week % multiple !&#x3D;&#x3D; 0) {
                         date &#x3D; new Date(date.getFullYear(), date.getMonth(), date.getDate() + (this.roundAdjustment(week, multiple, roundType) * 7));
                     }
@@ -551,7 +550,8 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
                 else if (seconds &gt; 59) {
                     seconds &#x3D; 59;
                 }
-                dateStr &#x3D; dateStr.substr(0, secondsSep + 1) + seconds;
+                // seconds must contains 2 digits
+                dateStr &#x3D; dateStr.substring(0, secondsSep + 1) + String(seconds).padStart(2, &quot;0&quot;);
             }
         }
         return dateStr;
@@ -561,8 +561,8 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         let min &#x3D; 0;
         let max &#x3D; 0;
         if (!Utils.isEmpty(this.min) &amp;&amp; (!Utils.isEmpty(this.max))) {
-            min &#x3D; this.parseValue(!!new Date(this.min).getDate()? new Date(this.min) : this.min);
-            max &#x3D; this.parseValue(!!new Date(this.max).getDate()? new Date(this.max) : this.max);
+            min &#x3D; this.parseValue(this.min);
+            max &#x3D; this.parseValue(this.max);
         }
         else {
             if (this.data?.items) {
@@ -596,24 +596,31 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         this.options.ceil &#x3D; max;
     }
 
-    protected parseValue(value: string | Date): number {
-        if (Utils.isDate(value)) {
+    protected parseValue(value: string | number | Date): number {
+        if (Utils.isNumber(value)) { // number &#x3D;&gt; number
+            return value;
+        }
+        if (Utils.isDate(value)) { // Date &#x3D;&gt; number
             return value.getTime();
         }
-        if (!Utils.isString(value)) {
+        if (!Utils.isString(value)) { // Ensure string
             return 0;
         }
-        let _value: number | undefined;
-        if (this.column &amp;&amp; this.column.parser) {
-            const str &#x3D; this.formatService.parseValue(value, this.column.parser);
-            _value &#x3D; Utils.toNumber(str);
+        if (this.column?.parser) { // Parse string if needed (only parser implemented is memorysize)
+            value &#x3D; this.formatService.parseValue(value, this.column.parser);
         }
-        if (Utils.isUndefined(_value)) {
-            _value &#x3D; this.column &amp;&amp; AppService.isDate(this.column) ?
-                Utils.toDuration(value) :
-                Utils.toSize(value);
+        if (Utils.testFloat(value)) { // Return as a plain number if it is one
+          return Utils.toNumber(value, 0);
         }
-        return _value;
+        const date &#x3D; parseISO(value); // Try parsing as a date
+        if (isValid(date)) {
+          return getTime(date);
+        }
+        // Finally, manage durations and sizes special formats
+        if(this.column &amp;&amp; AppService.isDate(this.column)) {
+          return Utils.toDuration(value);
+        }
+        return Utils.toSize(value, 0);
     }
 
     protected initStep() {
@@ -851,6 +858,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
 </code></pre>
     </div>
 </div>
+
 
 
 

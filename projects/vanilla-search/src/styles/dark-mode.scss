@@ -117,8 +117,10 @@ body.dark {
     }
 
     ul.dropdown-menu {
-        background: #1c1e21;
-        border-color: $dark-borders;
+        --bs-dropdown-bg: #1c1e21;
+        --bs-dropdown-border-color: #{$dark-borders};
+        background: var(--bs-dropdown-bg);
+        border-color: var(--bs-dropdown-border-color);
 
         a {
             color: #f8f9fa;
@@ -162,15 +164,18 @@ body.dark {
         color: $dark-color;
     }
 
-    app-search-form {
-        box-shadow: 0px 0px 15px 4px $dark-background-highlight;
-
-        .list-group-item:not(.list-group-item-primary){
-            .autocomplete-item {
-                small, i {
-                    color: $dark-secondary;
-                }
-            }
+    sq-search-form {
+        .form-control, .form-control:focus-within {
+            box-shadow: 0px 3px 10px 4px $dark-background-highlight !important;
+            background-color: $dark-background;
+            color: $dark-color;
+        }
+        .form-control .search-input {
+            background-color: $dark-background;
+            color: $dark-color;
+        }
+        a.list-group-item {
+            color: $dark-color !important;
         }
     }
 
@@ -198,9 +203,12 @@ body.dark {
         }
     }
 
-    sq-breadcrumbs {
-        .breadcrumbs, .breadcrumb-item, .breadcrumb-item.active {
+    sq-filters-view {
+        .sq-filter-operator {
             color: $dark-secondary;
+        }
+        .sq-simple-mode .sq-filter-action:not(:hover) {
+            color: rgb(255,255,255,0.5);
         }
     }
 
@@ -245,12 +253,8 @@ body.dark {
         }
     }
 
-    sq-facet-card.facet-preview {
-        .card-header {
-            sq-metadata {
-                color: $dark-secondary;
-            }
-        }
+    sq-facet-card.facet-preview sq-metadata {
+        color: $dark-secondary;
     }
 
     sq-pager {
@@ -276,28 +280,4 @@ body.dark {
         }
     }
 
-    sq-facet-mysearch {
-        .sq-metadata-item {
-            background-color: $dark-background;
-
-            &:hover {
-                background-color: $dark-background;
-                opacity: 0.8;
-            }
-        }
-    }
-
-    sq-preview-extracts-panel {
-        .matchingpassages {
-            color: $dark-link !important;
-        }
-
-        .extractslocations:not(.sq-inactive) {
-            color: black !important;
-
-            .matchingpassages {
-                color: black !important;
-            }
-        }
-    }
 }

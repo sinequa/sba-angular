@@ -1,15 +1,7 @@
-import {Component, Input} from "@angular/core";
-import {ActionItemOptions} from "..";
-import {Action} from "../../action";
-
-export interface ActionButtonsOptions {
-    items: Action[] | Action;
-    size?: string;
-    style?: string;
-    autoAdjust?: boolean;
-    autoAdjustBreakpoint?: string;
-    rightAligned?: boolean;
-}
+import {Component, HostBinding, Input} from "@angular/core";
+import { Utils } from "@sinequa/core/base";
+import { Action } from "../../action";
+import { ActionButtonsOptions, ActionItemOptions } from "../../typings";
 
 @Component({
     selector: "[sq-action-buttons]",
@@ -22,8 +14,10 @@ export interface ActionButtonsOptions {
     `]
 })
 export class BsActionButtons {
+    @HostBinding('class') klass = "sq-action-buttons";
+
     private _options: ActionButtonsOptions;
-    
+
     @Input("sq-action-buttons")
     set options (opts: ActionButtonsOptions) {
         this._options = opts;
@@ -39,12 +33,12 @@ export class BsActionButtons {
     get styleClass(): string {
         return this._options.style ? `btn-${this._options.style}` : "btn-light";
     }
-    
+
     get itemsVisible(): Action[] {
         // hidden items are not displayed
-        return (Array.isArray(this._options.items)) ? this._options.items.filter(item => !item.hidden) : this._options.items.hidden ? [] : [this._options.items];
+        return Utils.asArray(this._options.items).filter(item => !item.hidden);
     }
-    
+
     getActionItemOptions(item: Action): ActionItemOptions {
         return ({...this._options, item, inMenu: false});
     }

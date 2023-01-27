@@ -2,6 +2,19 @@
     height: 40px;
 }
 
+sq-filters-view ::ng-deep {
+  .sq-simple-mode .sq-filter-action > span {
+    display: none; // Display only button icons
+  }
+  .sq-simple-mode:not(:hover) .sq-filter-action {
+    opacity: 0; // Hide buttons unless the component is hover
+  }
+  .sq-advanced-mode {
+    z-index: 1;
+    min-width: 100%;
+  }
+}
+
 // Styling of the result items
 .record {
 

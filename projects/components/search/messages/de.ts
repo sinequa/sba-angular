@@ -4,11 +4,6 @@ export default {
         "alreadyFiltered": "bereits ausgewählt"
     },
 
-    "breadcrumbs": {
-        "emptySearch": "<Suche ohne Suchbegriff>",
-        "itemRemove": "Entfernen"
-    },
-
     "didYouMean": {
         "dymonlyBeforeCorrected": "Meinten Sie: ",
         "dymonlyAfterCorrected": "?",

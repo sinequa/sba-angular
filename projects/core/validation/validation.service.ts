@@ -13,7 +13,7 @@ function isEmptyInputValue(value: any): boolean {
 }
 
 const processInputValue = (value: any) => { // add support for object values of the advanced search
-  if (Utils.isArray(value)) {
+  if (Array.isArray(value)) {
     return value.map(
       (val) => {
         if (Utils.isObject(val) && val.hasOwnProperty("value")) {
@@ -458,7 +458,7 @@ export class ValidationService {
      */
     rangeValidator(type: string | number | Date, parser?: string): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
-            if (isEmptyInputValue(control.value) || !Utils.isArray(control.value) || control.value.length !== 2) {
+            if (isEmptyInputValue(control.value) || !Array.isArray(control.value) || control.value.length !== 2) {
                 return null;  // don't validate empty values to allow optional controls
             }
             let value1 = control.value[0];

@@ -1,9 +1,7 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
 import {AuditEvents} from "./audit.web.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {CCApp} from "./config/ccapp";
 
 /**
@@ -22,16 +20,9 @@ export interface CCAppRefresh {
     providedIn: "root"
 })
 export class AppWebService extends HttpService {
-    /**
-     * Constructor
-     *
-     * @param startConfig Provides the app name
-     * @param httpClient The HTTP client
-     */
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
+
+    constructor() {
+        super();
 
         if (!this.appName) {
             console.error("Missing app name!");
@@ -51,10 +42,7 @@ export class AppWebService extends HttpService {
         });
         observable
             .subscribe(
-                (response) => {
-                //console.log("appWebService.get success - data: ", response);
-                    return response;
-                },
+                (response) => response,
                 (error) => {
                     //console.log("appWebService.get failure - reason: ", error);
                 });
@@ -80,10 +68,7 @@ export class AppWebService extends HttpService {
         });
         observable
             .subscribe(
-                (response) => {
-                    //console.log("appWebService.refresh success - data: ", response);
-                    return response;
-                },
+                (response) => /*console.log("appWebService.refresh success - data: ", response);*/ response,
                 (error) => {
                     //console.log("appWebService.refresh failure - reason: ", error);
                 });

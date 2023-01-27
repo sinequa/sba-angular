@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >UIService</li>
@@ -299,8 +300,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="397"
-                            class="link-to-prism">utils/ui.service.ts:397</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="400"
+                            class="link-to-prism">utils/ui.service.ts:400</a></div>
                 </td>
             </tr>
 
@@ -518,8 +519,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="405"
-                            class="link-to-prism">utils/ui.service.ts:405</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="408"
+                            class="link-to-prism">utils/ui.service.ts:408</a></div>
                 </td>
             </tr>
 
@@ -605,8 +606,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="420"
-                            class="link-to-prism">utils/ui.service.ts:420</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="423"
+                            class="link-to-prism">utils/ui.service.ts:423</a></div>
                 </td>
             </tr>
 
@@ -692,8 +693,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="215"
-                            class="link-to-prism">utils/ui.service.ts:215</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">utils/ui.service.ts:218</a></div>
                 </td>
             </tr>
 
@@ -800,7 +801,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>ClientRect</code>
+                        <b>Returns : </b>    <code>DOMRect</code>
 
                     </div>
                     <div class="io-description">
@@ -830,8 +831,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="316"
-                            class="link-to-prism">utils/ui.service.ts:316</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="319"
+                            class="link-to-prism">utils/ui.service.ts:319</a></div>
                 </td>
             </tr>
 
@@ -923,8 +924,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="393"
-                            class="link-to-prism">utils/ui.service.ts:393</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="396"
+                            class="link-to-prism">utils/ui.service.ts:396</a></div>
                 </td>
             </tr>
 
@@ -997,8 +998,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="401"
-                            class="link-to-prism">utils/ui.service.ts:401</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="404"
+                            class="link-to-prism">utils/ui.service.ts:404</a></div>
                 </td>
             </tr>
 
@@ -1492,8 +1493,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="222"
-                            class="link-to-prism">utils/ui.service.ts:222</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="225"
+                            class="link-to-prism">utils/ui.service.ts:225</a></div>
                 </td>
             </tr>
 
@@ -2124,7 +2125,7 @@ export class UIService implements OnDestroy {
         return false;
     }
 
-    getContentRect(element: HTMLElement): ClientRect {
+    getContentRect(element: HTMLElement): DOMRect {
         const rect &#x3D; element.getBoundingClientRect();
         const computedStyle &#x3D; window.getComputedStyle(element);
         const borderLeft &#x3D; parseFloat(computedStyle.borderLeft);
@@ -2141,7 +2142,10 @@ export class UIService implements OnDestroy {
             bottom: rect.bottom - borderBottom - paddingBottom,
             left: rect.left + borderLeft + paddingLeft,
             width: rect.width - borderLeft - paddingLeft - paddingRight - borderRight,
-            height: rect.height - borderTop - paddingTop - paddingBottom - borderBottom
+            height: rect.height - borderTop - paddingTop - paddingBottom - borderBottom,
+            x: rect.left + borderLeft + paddingLeft,
+            y: rect.top + borderTop + paddingTop,
+            toJSON: () &#x3D;&gt; &#x27;&#x27;
         };
     }
 
@@ -2335,7 +2339,7 @@ export class UIService implements OnDestroy {
     removeElementResizeListener(element: HTMLElement, listener: (this: HTMLElement) &#x3D;&gt; void) {
         this.elementResizeDetector.removeListener(element, listener);
     }
-    
+
     copyToClipboard(data: string, maxLength &#x3D; 30) {
         if (!navigator?.clipboard) {
             // Note: CDK seems to struggle with large chunks of text
@@ -2385,6 +2389,7 @@ export module UIService {
     </div>
 
 </div>
+
 
 
 

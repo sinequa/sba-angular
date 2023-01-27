@@ -1,6 +1,6 @@
-import {Pipe, ChangeDetectorRef} from "@angular/core";
+import {inject, Pipe} from "@angular/core";
 import {ValidationErrors} from "@angular/forms";
-import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
+import {AbstractIntlPipe} from "@sinequa/core/intl";
 import {ValidationService} from "./validation.service";
 
 /**
@@ -8,12 +8,7 @@ import {ValidationService} from "./validation.service";
  */
 @Pipe({name: "sqValidationError", pure: false})
 export class ValidationErrorPipe extends AbstractIntlPipe<ValidationErrors, any> {
-    constructor(
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef,
-        protected validationService: ValidationService) {
-        super(intlService, changeDetectorRef);
-    }
+    private validationService: ValidationService = inject(ValidationService);
 
     override updateValue(key: ValidationErrors, params: any): void {
         super.updateValue(key, params);

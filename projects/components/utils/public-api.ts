@@ -9,7 +9,6 @@ export * from "./directives/tooltip/tooltip.directive";
 export * from "./directives/tooltip/tooltip.component";
 export * from "./directives/virtual-scroll.directive";
 export * from "./pipes/date-pipe";
-export * from "./pipes/expr-pipe";
 export * from "./pipes/memory-size-pipe";
 export * from "./pipes/moment-pipe";
 export * from "./pipes/date-fns.pipe";

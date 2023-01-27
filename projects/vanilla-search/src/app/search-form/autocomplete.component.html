@@ -1,0 +1,11 @@
+<ul class="list-group list-group-flush" *ngIf="items$ | async as items">
+  <a href="#" *ngFor="let item of items"
+    class="list-group-item list-group-item-action px-2 py-1 small border-0"
+    (click)="select(item, $event)">
+    <i class="icon" [ngClass]="autocompleteIcon(item.category)"></i>
+    <span class="text ms-2" [innerHTML]="item.displayHtml || item.display"></span>
+    <span *ngIf="item.category" class="category small text-muted ms-3">
+      {{(item.label || item.category) | sqMessage}}
+    </span>
+  </a>
+</ul>

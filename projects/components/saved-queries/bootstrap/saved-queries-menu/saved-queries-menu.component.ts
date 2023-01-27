@@ -30,13 +30,11 @@ export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
 
     this.saveAction = new Action({
       text: "msg#savedQueries.saveCurrentQuery",
-      title: "msg#savedQueries.saveCurrentQuery",
       action: () => { this.savedQueriesService.createSavedQueryModal(); }
     });
 
     this.manageAction = new Action({
       text: "msg#savedQueries.manageSavedQueries",
-      title: "msg#savedQueries.manageSavedQueries",
       action: () => { this.savedQueriesService.manageSavedQueriesModal(); }
     });
 
@@ -86,7 +84,6 @@ export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
             scrollGroup: true,
             children: this.savedQueriesService.savedqueries.map(savedQuery => new Action({
               text: savedQuery.name,
-              title: savedQuery.name,
               data: savedQuery,
               action: item => this.savedQueriesService.searchSavedQuery(item.data, this.searchRoute)
           }))

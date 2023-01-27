@@ -11,6 +11,7 @@ import {
     LabelsWebService,
     AuditEventType,
     LabelsRights,
+    StringFilter,
 } from "@sinequa/core/web-services";
 import { AppService, ValueItem } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
@@ -409,20 +410,10 @@ export class LabelsService implements OnDestroy {
      * @returns The selected labels
      */
     private getSelectedLabels(field: string): string[] {
-        const labels: string[] = [];
-        if (field && this.searchService.breadcrumbs?.activeSelects) {
-            for (const select of this.searchService.breadcrumbs.activeSelects) {
-                if (select.expr) {
-                    const values = select.expr.getValues(field);
-                    values.forEach((value) => {
-                        if (labels.indexOf(value) === -1) {
-                            labels.push(value);
-                        }
-                    });
-                }
-            }
-        }
-        return labels;
+        return this.searchService.query
+            .findAllFilters(f => f.operator === 'eq' || !f.operator && f.field === field)
+            .filter<StringFilter>((f): f is StringFilter => typeof ((f as StringFilter).value) === 'string')
+            .map(f => f.value);
     }
 
     renameLabels(

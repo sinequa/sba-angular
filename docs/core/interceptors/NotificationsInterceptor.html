@@ -38,6 +38,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interceptors</li>
   <li >NotificationsInterceptor</li>
@@ -111,7 +112,7 @@ in the <code>$notifications</code> member.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">notification/notifications.interceptor.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">notification/notifications.interceptor.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -186,8 +187,8 @@ in the <code>$notifications</code> member.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">notification/notifications.interceptor.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">notification/notifications.interceptor.ts:46</a></div>
                 </td>
             </tr>
 
@@ -255,8 +256,7 @@ in the <code>$notifications</code> member.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
 import {HttpInterceptor, HttpRequest, HttpResponse, HttpHandler, HttpEvent} from &quot;@angular/common/http&quot;;
-import {Observable} from &quot;rxjs&quot;;
-import {tap} from &quot;rxjs/operators&quot;;
+import {Observable, tap} from &quot;rxjs&quot;;
 import {START_CONFIG, StartConfig} from &quot;@sinequa/core/web-services&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {NotificationsService, Notification, NotificationType} from &quot;./notifications.service&quot;;
@@ -316,6 +316,7 @@ export class NotificationsInterceptor implements HttpInterceptor {
 </code></pre>
     </div>
 </div>
+
 
 
 

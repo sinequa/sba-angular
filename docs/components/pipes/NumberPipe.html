@@ -40,6 +40,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Pipes</li>
   <li >NumberPipe</li>
@@ -106,8 +107,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">utils/pipes/number-pipe.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="7"
+                            class="link-to-prism">utils/pipes/number-pipe.ts:7</a></div>
                 </td>
             </tr>
 
@@ -173,16 +174,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe, ChangeDetectorRef} from &quot;@angular/core&quot;;
-import {AbstractIntlPipe, IntlService} from &quot;@sinequa/core/intl&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe} from &quot;@angular/core&quot;;
+import {AbstractIntlPipe} from &quot;@sinequa/core/intl&quot;;
 
 @Pipe({name: &quot;sqNumber&quot;, pure: false})
-export class NumberPipe extends AbstractIntlPipe {
-    constructor(
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
-    }
+export class NumberPipe extends AbstractIntlPipe&lt;(number | string), Intl.NumberFormatOptions&gt; {
 
     override updateValue(key: number | string, params: Intl.NumberFormatOptions): void {
         super.updateValue(key, params);
@@ -192,6 +188,7 @@ export class NumberPipe extends AbstractIntlPipe {
     </div>
 
 </div>
+
 
 
 

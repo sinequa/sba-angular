@@ -9,10 +9,14 @@
 
 // Additions specific to Pepper
 body.dark {
-    
+
+    sq-facet-container [class*="btn-outline-"] {
+        --bs-btn-bg: rgb(255 255 255 / 90%);
+    }
+
     /* Track */
     ::-webkit-scrollbar-track {
-        background: transparent; 
+        background: transparent;
     }
 
     sq-network {
@@ -20,19 +24,9 @@ body.dark {
             background-color: #aaa;
         }
     }
-    
-    sq-theme-toggle {
-        color: $dark-secondary;
-    }
 
     .toggle-results > i {
         background: $dark-background !important;
-    }
-
-    sq-facet-filters {
-        sq-action-item-content > .filtered {
-            color: $dark-color !important;
-        }
     }
 
 }

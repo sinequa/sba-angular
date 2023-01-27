@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from "@angular/core";
-import {Utils} from "@sinequa/core/base";
+import { Utils } from "@sinequa/core/base";
 import {Action} from "../../action";
+import { ActionSize } from "../../typings";
 
 @Component({
     selector: "sq-action-menu",
@@ -8,17 +9,21 @@ import {Action} from "../../action";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsActionMenu implements OnInit{
+    /**
+     * the children `Action` elements of the menu
+     */
     @Input() items: Action[];
-    @Input() size: string;
+    @Input() size: ActionSize;
     @Input() autoAdjust: boolean;
-    @Input() autoAdjustBreakpoint: string;
-    @Input() collapseBreakpoint: string;
+    @Input() autoAdjustBreakpoint: ActionSize;
+    @Input() collapseBreakpoint: ActionSize;
+    /**
+     * whether the menu elements are right-aligned
+     */
     @Input() right: boolean;
 
     ngOnInit() {
-        if (!Utils.isArray(this.items)) {
-            this.items = [<Action>this.items];
-        }
+        this.items = Utils.asArray(this.items);
     }
 
     identify(index:number, item: Action) {

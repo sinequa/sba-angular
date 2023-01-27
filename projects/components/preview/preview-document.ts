@@ -1,6 +1,5 @@
 import { ElementRef } from "@angular/core";
 
-import { Utils } from "@sinequa/core/base";
 import { PassageHighlightParams } from "./bootstrap/preview-passage-highlight/preview-passage-highlight.component";
 
 export enum HighlightCategoryFilterChoice {
@@ -110,14 +109,10 @@ export class PreviewDocument {
         return text;
     }
 
-    public getHighlightPosById(id: string): NodeListOf<Element> | null {
-        const nodes = this.document.querySelectorAll(id);
-        if (!nodes || nodes.length === 0) return null;
-        return nodes;
-    }
-
-    public getHighlightPos(categoryId: string, index: number): NodeListOf<Element> | null {
-        return this.getHighlightPosById(`#${categoryId}_${index}`);
+    public getHighlightPos(categoryId: string, index: number): DOMRect | null{
+        const nodes = this.document.querySelectorAll("#"+categoryId+"_"+index);
+        if(!nodes || nodes.length === 0) return null;
+        return nodes[0].getBoundingClientRect();
     }
 
     /**
@@ -218,7 +213,7 @@ export class PreviewDocument {
      */
     public updateHighlightFilterState(filters: HighlightFilters): void {
         const elements = this.document.querySelectorAll("[data-entity-display], .extractslocations, .matchlocations");
-        if (Utils.isArray(filters)) {
+        if (Array.isArray(filters)) {
             forEach<Element>(elements, element => {
                 const highlight = filters.some(category => element.classList.contains(category));
                 if (highlight) {

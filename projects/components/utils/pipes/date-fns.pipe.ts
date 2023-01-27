@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Pipe } from "@angular/core";
-import { AbstractIntlPipe, IntlService } from "@sinequa/core/intl";
+import { Pipe } from "@angular/core";
+import { AbstractIntlPipe } from "@sinequa/core/intl";
 import { differenceInDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInQuarters, differenceInSeconds, differenceInWeeks, differenceInYears, format, formatDistance, formatDistanceToNow, formatRelative, getDaysInMonth, getTime, getUnixTime, parseISO, toDate } from "date-fns";
 import { zonedTimeToUtc } from 'date-fns-tz';
 
@@ -38,10 +38,6 @@ const differenceIn = {
 
 @Pipe({ name: "sqDateExt", pure: false })
 export class DateFnsPipe extends AbstractIntlPipe<(Date | number | string), DateParams> {
-
-    constructor(intlService: IntlService, cdr: ChangeDetectorRef) {
-        super(intlService, cdr);
-    }
 
     override updateValue(key: Date | number | string, params: DateParams = {} as DateParams): void {
         super.updateValue(key, params);

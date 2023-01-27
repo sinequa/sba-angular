@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -330,7 +331,7 @@ export class PreviewService {
         return observable;
     }
 
-    public makeDownloadUrl(url: string): string | undefined {
+    public makeDownloadUrl(url: string | undefined): string | undefined {
         return url ? this.appService.updateUrlForCors(url) : undefined;
     }
 
@@ -343,15 +344,10 @@ export class PreviewService {
         this.modalService.open(this.previewModal, { model });
     }
 
-    private getQueryStr(query: Query): string {
-        query &#x3D; this.makeQuery(query);
-        return query.toJsonForQueryString();
-    }
-
     openNewWindow(record: Record, query: Query): Window | null {
         const params &#x3D; {
             id: record.id,
-            query: this.getQueryStr(query),
+            query: this.makeQuery(query).toJsonForQueryString(),
             app: this.appService.appName
         };
 
@@ -375,7 +371,7 @@ export class PreviewService {
         return this.router.navigate([path], {
             queryParams: {
                 id: record.id,
-                query: this.getQueryStr(query)
+                query: this.makeQuery(query).toJsonForQueryString()
             }
         });
     }
@@ -419,16 +415,19 @@ export class PreviewService {
         const collectionColumn &#x3D; record?.collection;
         const collection &#x3D; !!collectionColumn ? collectionColumn[0] : Utils.split(id, &quot;|&quot;)[0];
         const rank &#x3D; !!record ? record.rank : this.rank || 0;
+        const passages &#x3D; record?.matchingpassages?.passages;
+        const score &#x3D; passages &amp;&amp; passages.length ? passages[0].score : undefined;
         return {
             &quot;doc-id&quot;: id,
-            rank: rank,
-            collection: collection,
+            rank,
+            collection,
             source: Utils.treeFirstNode(collection),
-            resultid: resultId,
+            &quot;result-id&quot;: resultId,
             querylang: queryLanguage,
             text: query.text,
             filename: record?.filename,
             fileext: record?.fileext,
+            score
         }
     }
 
@@ -483,6 +482,7 @@ export class PreviewService {
 </code></pre>
     </div>
 </div>
+
 
 
 

@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -339,8 +340,12 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ElementRef, Output, EventEmitter, Input, ViewChild, OnChanges, AfterViewInit } from &#x27;@angular/core&#x27;;
-
-import * as d3 from &#x27;d3&#x27;;
+import { axisLeft, axisTop } from &#x27;d3-axis&#x27;;
+import { scaleBand, scaleQuantile } from &#x27;d3-scale&#x27;;
+import { select } from &#x27;d3-selection&#x27;;
+import { transition } from &#x27;d3-transition&#x27;;
+import { schemeBlues, schemeReds, schemeGreens, schemeRdBu, schemeSpectral, schemeYlGnBu } from &#x27;d3-scale-chromatic&#x27;;
+import { TooltipManager } from &#x27;@sinequa/analytics/tooltip&#x27;;
 
 export interface HeatmapItem {
     x: string;
@@ -349,6 +354,15 @@ export interface HeatmapItem {
     value: string;
     display: string;
     selected?: boolean;
+}
+
+export const colorSchemes &#x3D; {
+  schemeBlues,
+  schemeReds,
+  schemeGreens,
+  schemeRdBu,
+  schemeSpectral,
+  schemeYlGnBu
 }
 
 @Component({
@@ -378,7 +392,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     @Input() maxX &#x3D; 20; // Max items on X
     @Input() maxY &#x3D; 20; // Max items on Y
     @Input() theme: &quot;light&quot; | &quot;dark&quot; &#x3D; &quot;light&quot;;
-    
+
     // Events from user interactions
     @Output() itemClicked &#x3D; new EventEmitter&lt;HeatmapItem&gt;();
     @Output() axisClicked &#x3D; new EventEmitter&lt;{value: string, axis: &#x27;x&#x27; | &#x27;y&#x27;}&gt;();
@@ -393,16 +407,12 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     @ViewChild(&quot;yAxis&quot;) gy: ElementRef;
     xAxis: d3.Selection&lt;SVGGElement, string, null, undefined&gt;;
     yAxis: d3.Selection&lt;SVGGElement, string, null, undefined&gt;;
-    
+
     // Data actually displayed
     dataFiltered: HeatmapItem[] &#x3D; [];
 
-    // Tooltip    
-    tooltipItem?: HeatmapItem;
-    tooltipOrientation: &quot;left&quot; | &quot;right&quot;;
-    tooltipTop: number;
-    tooltipRight: number;
-    tooltipLeft: number;
+    // Tooltip
+    tooltipManager &#x3D; new TooltipManager&lt;HeatmapItem&gt;();
 
     // Misc
     viewInit: boolean;
@@ -425,17 +435,17 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
         this.dataFiltered &#x3D; this.data.filter(value &#x3D;&gt; xLabels.includes(value.x) &amp;&amp; yLabels.includes(value.y));
 
         // Create scales
-        this.x &#x3D; d3.scaleBand&lt;string&gt;()
+        this.x &#x3D; scaleBand&lt;string&gt;()
             .domain(xLabels)
             .range([0, this.width-this.margin.left-this.margin.right]);
 
-        this.y &#x3D; d3.scaleBand&lt;string&gt;()
+        this.y &#x3D; scaleBand&lt;string&gt;()
             .domain(yLabels)
             .range([0, this.height-this.margin.top-this.margin.bottom]);
 
-        this.color &#x3D; d3.scaleQuantile&lt;string&gt;()
+        this.color &#x3D; scaleQuantile&lt;string&gt;()
             .domain(this.dataFiltered.map(item &#x3D;&gt; item.count))
-            .range(d3[this.colorScheme][this.buckets]);
+            .range(colorSchemes[this.colorScheme][this.buckets]);
 
         // Note: ngOnChanges is always called once, before ngAfterViewInit
         if(this.viewInit) {
@@ -446,37 +456,37 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     // Note: In onAfterViewInit we can access gx and gy, obtained with @ViewChild.
     // At this point we can call buildChart()
     ngAfterViewInit(){
-        this.xAxis &#x3D; d3.select(this.gx.nativeElement);
-        this.yAxis &#x3D; d3.select(this.gy.nativeElement);
+        this.xAxis &#x3D; select(this.gx.nativeElement);
+        this.yAxis &#x3D; select(this.gy.nativeElement);
         this.viewInit &#x3D; true;
 
         this.buildChart();
     }
-    
+
     /**
      * buildChart() actually only builds the axes of the chart, since the
      * rest is build automatically with Angular syntax in the template.
      * We build axis programmatically (with D3 selects) to benefit from the
      * D3 abstractions and transitions.
-     * @param update 
+     * @param update
      */
     buildChart(update?: boolean){
-                    
+
         if(update){
-            const t &#x3D; d3.transition().duration(this.transition) as d3.Transition&lt;any, any, any, any&gt;;
-    
+            const t &#x3D; transition().duration(this.transition) as d3.Transition&lt;any, any, any, any&gt;;
+
             this.xAxis.transition(t)
-                .call(d3.axisTop&lt;string&gt;(this.x).tickSize(0))
+                .call(axisTop&lt;string&gt;(this.x).tickSize(0))
                 .on(&quot;end&quot;, () &#x3D;&gt; this.xAxis.selectAll&lt;SVGTextElement, string&gt;(&#x27;text&#x27;).each(this.wrap));
 
             this.yAxis.transition(t)
-                .call(d3.axisLeft&lt;string&gt;(this.y).tickSize(0))
+                .call(axisLeft&lt;string&gt;(this.y).tickSize(0))
                 .on(&quot;end&quot;, () &#x3D;&gt; this.yAxis.selectAll&lt;SVGTextElement, string&gt;(&#x27;text&#x27;).each(this.wrap));
-            
+
         }
         else {
-            this.xAxis.call(d3.axisTop&lt;string&gt;(this.x).tickSize(0));
-            this.yAxis.call(d3.axisLeft&lt;string&gt;(this.y).tickSize(0));
+            this.xAxis.call(axisTop&lt;string&gt;(this.x).tickSize(0));
+            this.yAxis.call(axisLeft&lt;string&gt;(this.y).tickSize(0));
         }
 
         this.xAxis.selectAll(&quot;.domain&quot;).remove(); // Remove the axis line
@@ -494,11 +504,10 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
 
     /**
      * Called when the user hovers the mouse over a heatmap tile
-     * @param item 
-     * @param event 
+     * @param item
+     * @param event
      */
     onMouseOver(item: HeatmapItem, event: MouseEvent){
-        this.tooltipItem &#x3D; item;
 
         const x &#x3D; this.x(item.x) as number;
         const y &#x3D; this.y(item.y) as number;
@@ -509,22 +518,25 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
         const scale &#x3D; actualWidth / this.width;
         const relativeX &#x3D; x / this.width;
 
+        const top &#x3D; scale * (this.margin.top + y + 0.5*this.y.bandwidth()); // Align tooltip arrow
+
         // Tooltip to the right
         if(relativeX &lt; 0.5) {
-            this.tooltipOrientation &#x3D; &quot;right&quot;;
-            this.tooltipLeft &#x3D; scale * (this.margin.left + x + this.x.bandwidth() - 3);
+            this.tooltipManager.show(item, &#x27;right&#x27;, top, scale * (this.margin.left + x + this.x.bandwidth() - 3));
         }
         // Tooltip to the left
         else {
-            this.tooltipOrientation &#x3D; &quot;left&quot;;
-            this.tooltipRight &#x3D; actualWidth - scale * (this.margin.left + x + 3);
+            this.tooltipManager.show(item, &#x27;left&#x27;, top, actualWidth - scale * (this.margin.left + x + 3));
         }
-        this.tooltipTop &#x3D; scale * (this.margin.top + y + 0.5*this.y.bandwidth()); // Align tooltip arrow
+    }
+
+    onMouseOut() {
+        this.tooltipManager.delayedHide();
     }
 
     /**
      * Called when the user clicks on a heatmap tile
-     * @param item 
+     * @param item
      */
     onItemClicked(item: HeatmapItem){
         if(this.itemsClickable){
@@ -534,8 +546,8 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
 
     /**
      * Called when the user clicks on an axis item
-     * @param value 
-     * @param axis 
+     * @param value
+     * @param axis
      */
     onAxisClicked(value: string, axis: &#x27;x&#x27; | &#x27;y&#x27;){
         if(this.axisClickable){
@@ -568,7 +580,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
      * Truncates the axis strings to fit inside 90px width
      */
     wrap &#x3D; (d: string, i: number, nodes: SVGTextElement[] | ArrayLike&lt;SVGTextElement&gt;) &#x3D;&gt; {
-        const self &#x3D; d3.select(nodes[i]);
+        const self &#x3D; select(nodes[i]);
         let textLength &#x3D; nodes[i].getComputedTextLength();
         let text &#x3D; self.text();
         const fullText &#x3D; self.text();
@@ -583,6 +595,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
 </code></pre>
     </div>
 </div>
+
 
 
 

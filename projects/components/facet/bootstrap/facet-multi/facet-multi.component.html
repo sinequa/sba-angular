@@ -1,16 +1,16 @@
-<div *ngIf="!openedFacet" class="list-group list-group-flush pb-1">
+<div *ngIf="!openedFacet" class="list-group list-group-flush m-1">
     <ng-container *ngFor="let facet of facets">
         <div *ngIf="!facet.$hidden" [ngClass]="facet.className" (click)="openFacet(facet)"
             class="d-flex flex-row list-group-item list-group-item-action align-items-center"
-            [ngClass]="{'sq-filtered':facet.$hasFiltered, 'disabled':!facet.$hasData }">
+            [ngClass]="{'sq-filtered':facet.$hasFiltered, 'disabled':facet.$count === 0 }">
             <span class="flex-grow-1">{{ facet.title | sqMessage }}</span>
             <span class="far fa-minus-square ms-2" sqTooltip="{{ 'msg#facet.filters.clear' | sqMessage }}" (click)="clearFacetFilters(facet, $event)" *ngIf="facet.$hasFiltered"></span>
             <span
                 *ngIf="showCount"
                 class="mx-2 text-muted small"
-                title="{{ 'msg#facet.filterItemCountTooltip' | sqMessage:{ values: { count: facet.$count } } }}"
+                title="{{ 'msg#facet.filterItemCountTooltip' | sqMessage:{ values: { count: facet.$count + (facet.$hasMore? '+' : '') } } }}"
             >
-                {{ facet.$count | sqNumber }}
+                {{ facet.$count }}{{ facet.$hasMore? '+' : '' }}
             </span>
             <i class="fas fa-caret-right"></i>
         </div>

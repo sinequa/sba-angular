@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -340,9 +341,12 @@ import { SelectionService } from &quot;@sinequa/components/selection&quot;;
 import { ExprBuilder, FormatService, ValueItem } from &quot;@sinequa/core/app-utils&quot;;
 import { Utils } from &quot;@sinequa/core/base&quot;;
 import { AggregationItem, Results } from &quot;@sinequa/core/web-services&quot;;
-
-import * as d3 from &#x27;d3&#x27;;
-
+import { scaleBand, scaleLog, scaleOrdinal, scaleLinear } from &quot;d3-scale&quot;;
+import { schemeCategory10 } from &quot;d3-scale-chromatic&quot;;
+import { select } from &#x27;d3-selection&#x27;;
+import { axisBottom, axisLeft } from &#x27;d3-axis&#x27;;
+import { extent } from &#x27;d3-array&#x27;;
+import { TooltipManager } from &quot;@sinequa/analytics/tooltip&quot;;
 
 export interface MoneyCloudDatum {
     value: number;
@@ -394,16 +398,12 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     // Selections
     xAxis$: d3.Selection&lt;SVGGElement, string, null, undefined&gt;;
     yAxis$: d3.Selection&lt;SVGGElement, number, null, undefined&gt;;
-    
+
     // Tooltips
-    tooltipItem: MoneyCloudDatum | undefined;
-    tooltipOrientation: &quot;left&quot; | &quot;right&quot;;
-    tooltipTop: number;
-    tooltipRight: number;
-    tooltipLeft: number;
+    tooltipManager &#x3D; new TooltipManager&lt;MoneyCloudDatum&gt;();
 
     viewInit: boolean;
-    
+
     clearFilters: Action;
 
     constructor(
@@ -448,24 +448,24 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     ngOnChanges(changes: SimpleChanges) {
 
         if(!this.x) {
-            
-            // Scales
-            this.x &#x3D; d3.scaleBand&lt;string&gt;()
-                .range([0, this.innerWidth]);
-                
-            this.x_inner &#x3D; d3.scaleLinear&lt;number, number&gt;();
 
-            this.y &#x3D; d3.scaleLog()
+            // Scales
+            this.x &#x3D; scaleBand&lt;string&gt;()
+                .range([0, this.innerWidth]);
+
+            this.x_inner &#x3D; scaleLinear&lt;number, number&gt;();
+
+            this.y &#x3D; scaleLog()
                 .range([this.innerHeight, 0]);
 
-            this.r &#x3D; d3.scaleLog()
+            this.r &#x3D; scaleLog()
                 .range([4, 10]);
 
-            this.c &#x3D; d3.scaleOrdinal&lt;string&gt;()
-                .range(d3.schemeCategory10);
-                
+            this.c &#x3D; scaleOrdinal&lt;string&gt;()
+                .range(schemeCategory10);
+
         }
-        
+
         // Resize handling
 
         if(changes[&quot;height&quot;]) {
@@ -488,18 +488,18 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     }
 
     ngAfterViewInit() {
-        
-        // Get native elements
-        this.xAxis$ &#x3D; d3.select(this.gx.nativeElement);
-        this.yAxis$ &#x3D; d3.select(this.gy.nativeElement);
 
-        d3.select(this.overlay.nativeElement)        
+        // Get native elements
+        this.xAxis$ &#x3D; select(this.gx.nativeElement);
+        this.yAxis$ &#x3D; select(this.gy.nativeElement);
+
+        select(this.overlay.nativeElement)
             .on(&quot;mousemove&quot;, () &#x3D;&gt; this.onMousemove());
-        
+
         this.viewInit &#x3D; true;
 
         this.updateChart();
-        
+
         // This is necessary to prevent &quot;Expression has changed after check&quot; errors
         // caused by calling updateChart inside ngAfterViewInit().
         // Unfortunately this is necessary because we need the DOM to be rendered in order fill the DOM
@@ -509,10 +509,10 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
     updateChart() {
 
-        this.turnoffTooltip();
+        this.tooltipManager.hide();
 
         if(this.results) {
-            
+
             this.updateData();
 
             // Update scales
@@ -527,7 +527,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     updateData() {
 
         this.updateSelectedItems();
-        
+
         const counts &#x3D; new Map&lt;string, number&gt;();
 
         this.data &#x3D; [];
@@ -558,7 +558,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         // Check the data is valid
         if(isNaN(value) || value &lt;&#x3D; 0) {
             return undefined;
-        }        
+        }
         counts.set(category, (counts.get(category) || 0) + 1);
         return {
             value,
@@ -573,8 +573,8 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
     updateScales() {
 
         if(this.data.length) {
-            const yExtent &#x3D; d3.extent&lt;MoneyCloudDatum, number&gt;(this.data, d &#x3D;&gt; d.value);
-            const rExtent &#x3D; d3.extent&lt;MoneyCloudDatum, number&gt;(this.data, d &#x3D;&gt; d.count);
+            const yExtent &#x3D; extent&lt;MoneyCloudDatum, number&gt;(this.data, d &#x3D;&gt; d.value);
+            const rExtent &#x3D; extent&lt;MoneyCloudDatum, number&gt;(this.data, d &#x3D;&gt; d.count);
 
             if(!yExtent[0] || !yExtent[1] || !rExtent[0] || !rExtent[1]) {
                 return;
@@ -602,7 +602,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
             });
         });
     }
-    
+
     /**
      * Update the x and y axes
      */
@@ -615,7 +615,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
      * Draws the X axis
      */
      protected drawXAxis() {
-        const xAxis &#x3D; d3.axisBottom(this.x);
+        const xAxis &#x3D; axisBottom(this.x);
         this.xAxis$.call(xAxis);
         //this.xAxis$.selectAll(&quot;.domain&quot;).remove(); // Remove the axis line
     }
@@ -627,7 +627,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         const yAxisTicks &#x3D; this.y.ticks(5)
             .filter(tick &#x3D;&gt; Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
 
-        const yAxis &#x3D; d3.axisLeft&lt;number&gt;(this.y)
+        const yAxis &#x3D; axisLeft&lt;number&gt;(this.y)
             .tickSizeInner(-this.innerWidth)
             .tickValues(yAxisTicks)
             .tickFormat(this.formatService.moneyFormatter); //https://github.com/d3/d3-format
@@ -635,12 +635,12 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         //this.yAxis$.selectAll(&quot;.domain&quot;).remove(); // Remove the axis line
     }
 
-    
+
     /**
      * Redraw the simple tooltip (vertical line)
      */
     onMousemove() {
-        this.tooltipItem &#x3D; undefined;
+        this.tooltipManager.delayedHide();
     }
 
     filterDatum(datum: MoneyCloudDatum) {
@@ -658,8 +658,6 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
         if(Utils.isUndefined(x) || Utils.isUndefined(x_inner) || Utils.isUndefined(r) || Utils.isUndefined(y)) return;
 
-        this.tooltipItem &#x3D; datum;
-
         x +&#x3D; x_inner;
 
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
@@ -668,30 +666,23 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         const scale &#x3D; actualWidth / this.width;
         const relativeX &#x3D; x / this.width;
 
+        const top &#x3D; scale * (this.margin.top + y); // Align tooltip arrow
+
         // Tooltip to the right
         if(relativeX &lt; 0.5) {
-            this.tooltipOrientation &#x3D; &quot;right&quot;;
-            this.tooltipLeft &#x3D; scale * (this.margin.left + x + r);
+            this.tooltipManager.show(datum, &#x27;right&#x27;, top, scale * (this.margin.left + x + r));
         }
         // Tooltip to the left
         else {
-            this.tooltipOrientation &#x3D; &quot;left&quot;;
-            this.tooltipRight &#x3D; actualWidth - scale * (this.margin.left + x - r);
-        }
-        this.tooltipTop &#x3D; scale * (this.margin.top + y); // Align tooltip arrow
-    }
-    
-    /**
-     * Turns off the tooltip
-     */
-    turnoffTooltip &#x3D; () &#x3D;&gt; {
-        if(this.tooltipItem) {
-            this.tooltipItem &#x3D; undefined;
+            this.tooltipManager.show(datum, &#x27;left&#x27;, top, actualWidth - scale * (this.margin.left + x - r));
         }
     }
-}</code></pre>
+
+}
+</code></pre>
     </div>
 </div>
+
 
 
 

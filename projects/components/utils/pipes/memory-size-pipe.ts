@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Pipe} from "@angular/core";
-import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
+import {inject, Pipe} from "@angular/core";
+import {AbstractIntlPipe} from "@sinequa/core/intl";
 import {FormatService} from "@sinequa/core/app-utils";
 
 /**
@@ -11,10 +11,8 @@ import {FormatService} from "@sinequa/core/app-utils";
  */
 @Pipe({name: "sqMemorySize", pure: false})
 export class MemorySizePipe extends AbstractIntlPipe<number, void> {
-    constructor(
-        protected formatService: FormatService, intlService: IntlService, cdr: ChangeDetectorRef) {
-        super(intlService, cdr);
-    }
+
+    protected readonly formatService: FormatService = inject(FormatService);
 
     override updateValue(key: number): void {
         super.updateValue(key);

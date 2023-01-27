@@ -46,6 +46,8 @@
 
 
 
+
+
 <ol class="breadcrumb">
   <li>Miscellaneous</li>
   <li>Variables</li>
@@ -59,10 +61,19 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
+                            <a href="#colorSchemes" title="heatmap/bootstrap/heatmap.component.ts" ><b>colorSchemes</b>&nbsp;&nbsp;&nbsp;(heatmap/.../heatmap.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#curveTypes" title="timeline/bootstrap/timeline.component.ts" ><b>curveTypes</b>&nbsp;&nbsp;&nbsp;(timeline/.../timeline.component.ts)</a>
+                        </li>
+                        <li>
                             <a href="#darkStyle" title="googlemaps/dark-style.ts" ><b>darkStyle</b>&nbsp;&nbsp;&nbsp;(googlemaps/.../dark-style.ts)</a>
                         </li>
                         <li>
                             <a href="#defaultChart" title="fusioncharts/chart/chart.ts" ><b>defaultChart</b>&nbsp;&nbsp;&nbsp;(fusioncharts/.../chart.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#defaultMultiLevelChart" title="fusioncharts/multi-level-pie-chart/multi-level-pie-chart.ts" ><b>defaultMultiLevelChart</b>&nbsp;&nbsp;&nbsp;(fusioncharts/.../multi-level-pie-chart.ts)</a>
                         </li>
                         <li>
                             <a href="#defaultOptions" title="network/network.component.ts" ><b>defaultOptions</b>&nbsp;&nbsp;&nbsp;(network/.../network.component.ts)</a>
@@ -95,6 +106,9 @@
                             <a href="#enHeatmap" title="heatmap/messages/index.ts" ><b>enHeatmap</b>&nbsp;&nbsp;&nbsp;(heatmap/.../index.ts)</a>
                         </li>
                         <li>
+                            <a href="#eventList" title="fusioncharts/angular-fusioncharts/events/events.ts" ><b>eventList</b>&nbsp;&nbsp;&nbsp;(fusioncharts/.../events.ts)</a>
+                        </li>
+                        <li>
                             <a href="#frFinance" title="finance/messages/index.ts" ><b>frFinance</b>&nbsp;&nbsp;&nbsp;(finance/.../index.ts)</a>
                         </li>
                         <li>
@@ -107,6 +121,9 @@
                             <a href="#frHeatmap" title="heatmap/messages/index.ts" ><b>frHeatmap</b>&nbsp;&nbsp;&nbsp;(heatmap/.../index.ts)</a>
                         </li>
                         <li>
+                            <a href="#GOOGLE_MAPS_API_KEY" title="googlemaps/googlemaps.service.ts" ><b>GOOGLE_MAPS_API_KEY</b>&nbsp;&nbsp;&nbsp;(googlemaps/.../googlemaps.service.ts)</a>
+                        </li>
+                        <li>
                             <a href="#sinequaComponentsModule" title="public-api.ts" ><b>sinequaComponentsModule</b>&nbsp;&nbsp;&nbsp;(public-api.ts)</a>
                         </li>
                     </ul>
@@ -116,6 +133,85 @@
     </table>
 </section>
 
+    <h3>heatmap/bootstrap/heatmap.component.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="colorSchemes"></a>
+                    <span class="name">
+                        <span ><b>colorSchemes</b></span>
+                        <a href="#colorSchemes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  schemeBlues,
+  schemeReds,
+  schemeGreens,
+  schemeRdBu,
+  schemeSpectral,
+  schemeYlGnBu
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>timeline/bootstrap/timeline.component.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curveTypes"></a>
+                    <span class="name">
+                        <span ><b>curveTypes</b></span>
+                        <a href="#curveTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  curveBasis,
+  curveBasisClosed,
+  curveBasisOpen,
+  curveBumpX,
+  curveBumpY,
+  curveLinear,
+  curveLinearClosed,
+  curveMonotoneX,
+  curveMonotoneY,
+  curveNatural,
+  curveStep,
+  curveStepAfter,
+  curveStepBefore
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
     <h3>googlemaps/dark-style.ts</h3>
     <section>
     <h3></h3>    <table class="table table-sm table-bordered">
@@ -131,7 +227,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>[]</code>
+                        <i>Type : </i>    <code>google.maps.MapTypeStyle[]</code>
 
                     </td>
                 </tr>
@@ -402,6 +498,42 @@
     &quot;theme&quot;: &quot;fusion&quot;,
     &quot;labelDisplay&quot;: &quot;rotate&quot;,
     &quot;slantLabel&quot;: &quot;1&quot;
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>fusioncharts/multi-level-pie-chart/multi-level-pie-chart.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="defaultMultiLevelChart"></a>
+                    <span class="name">
+                        <span ><b>defaultMultiLevelChart</b></span>
+                        <a href="#defaultMultiLevelChart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    &quot;theme&quot;: &quot;fusion&quot;,
+    &quot;highlightParentPieSlices&quot;: true, // automatically highlight parent slices when you hover over the child pie slices
+    &quot;highlightChildPieSlices&quot;: false, // prevent child pie slices from getting highlighted, when you hover over the parent slices
+    &quot;showPlotBorder&quot;: true,
+    &quot;piefillalpha&quot;: 60,
+    &quot;pieborderthickness&quot;: 3
 }</code>
                     </td>
                 </tr>
@@ -729,6 +861,191 @@ See: <a href="https://visjs.github.io/vis-network/docs/network/">https://visjs.g
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>Utils.merge({}, _frHeatmap, frResultsView, frSearch)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>fusioncharts/angular-fusioncharts/events/events.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="eventList"></a>
+                    <span class="name">
+                        <span ><b>eventList</b></span>
+                        <a href="#eventList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Array&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  &quot;beforeLinkedItemOpen&quot;,
+  &quot;linkedItemOpened&quot;,
+  &quot;beforeLinkedItemClose&quot;,
+  &quot;linkedItemClosed&quot;,
+  &quot;printReadyStateChange&quot;,
+  &quot;dataLoadRequestCompleted&quot;,
+  &quot;dataLoadError&quot;,
+  &quot;dataLoadCancelled&quot;,
+  &quot;dataLoadRequestCancelled&quot;,
+  &quot;dataUpdated&quot;,
+  &quot;dataUpdateCancelled&quot;,
+  &quot;dataLoadRequested&quot;,
+  &quot;beforeDataUpdate&quot;,
+  &quot;realTimeUpdateComplete&quot;,
+  &quot;chartCleared&quot;,
+  &quot;slicingEnd&quot;,
+  &quot;slicingStart&quot;,
+  &quot;entityRollOut&quot;,
+  &quot;entityRollOver&quot;,
+  &quot;entityClick&quot;,
+  &quot;connectorRollOver&quot;,
+  &quot;connectorRollOut&quot;,
+  &quot;connectorClick&quot;,
+  &quot;markerRollOver&quot;,
+  &quot;markerRollOut&quot;,
+  &quot;markerClick&quot;,
+  &quot;pageNavigated&quot;,
+  &quot;rotationEnd&quot;,
+  &quot;rotationStart&quot;,
+  &quot;centerLabelRollover&quot;,
+  &quot;centerLabelRollout&quot;,
+  &quot;centerLabelClick&quot;,
+  &quot;centerLabelChanged&quot;,
+  &quot;chartClick&quot;,
+  &quot;chartMouseMove&quot;,
+  &quot;chartRollOver&quot;,
+  &quot;chartRollOut&quot;,
+  &quot;backgroundLoaded&quot;,
+  &quot;backgroundLoadError&quot;,
+  &quot;legendItemClicked&quot;,
+  &quot;legendItemRollover&quot;,
+  &quot;legendItemRollout&quot;,
+  &quot;logoRollover&quot;,
+  &quot;logoRollout&quot;,
+  &quot;logoClick&quot;,
+  &quot;logoLoaded&quot;,
+  &quot;logoLoadError&quot;,
+  &quot;beforeExport&quot;,
+  &quot;exported&quot;,
+  &quot;exportCancelled&quot;,
+  &quot;beforePrint&quot;,
+  &quot;printComplete&quot;,
+  &quot;printCancelled&quot;,
+  &quot;dataLabelClick&quot;,
+  &quot;dataLabelRollOver&quot;,
+  &quot;dataLabelRollOut&quot;,
+  &quot;scrollStart&quot;,
+  &quot;scrollEnd&quot;,
+  &quot;onScroll&quot;,
+  &quot;zoomReset&quot;,
+  &quot;zoomedOut&quot;,
+  &quot;zoomedIn&quot;,
+  &quot;zoomed&quot;,
+  &quot;zoomModeChanged&quot;,
+  &quot;pinned&quot;,
+  &quot;dataRestored&quot;,
+  &quot;beforeDataSubmit&quot;,
+  &quot;dataSubmitError&quot;,
+  &quot;dataSubmitted&quot;,
+  &quot;dataSubmitCancelled&quot;,
+  &quot;chartUpdated&quot;,
+  &quot;nodeAdded&quot;,
+  &quot;nodeUpdated&quot;,
+  &quot;nodeDeleted&quot;,
+  &quot;connectorAdded&quot;,
+  &quot;connectorUpdated&quot;,
+  &quot;connectorDeleted&quot;,
+  &quot;labelAdded&quot;,
+  &quot;labelDeleted&quot;,
+  &quot;selectionRemoved&quot;,
+  &quot;selectionStart&quot;,
+  &quot;selectionEnd&quot;,
+  &quot;labelClick&quot;,
+  &quot;labelRollOver&quot;,
+  &quot;labelRollOut&quot;,
+  &quot;labelDragStart&quot;,
+  &quot;labelDragEnd&quot;,
+  &quot;dataplotDragStart&quot;,
+  &quot;dataplotDragEnd&quot;,
+  &quot;processClick&quot;,
+  &quot;processRollOver&quot;,
+  &quot;processRollOut&quot;,
+  &quot;categoryClick&quot;,
+  &quot;categoryRollOver&quot;,
+  &quot;categoryRollOut&quot;,
+  &quot;milestoneClick&quot;,
+  &quot;milestoneRollOver&quot;,
+  &quot;milestoneRollOut&quot;,
+  &quot;chartTypeChanged&quot;,
+  &quot;overlayButtonClick&quot;,
+  &quot;loaded&quot;,
+  &quot;rendered&quot;,
+  &quot;drawComplete&quot;,
+  &quot;renderComplete&quot;,
+  &quot;dataInvalid&quot;,
+  &quot;dataXMLInvalid&quot;,
+  &quot;dataLoaded&quot;,
+  &quot;noDataToDisplay&quot;,
+  &quot;legendPointerDragStart&quot;,
+  &quot;legendPointerDragStop&quot;,
+  &quot;legendRangeUpdated&quot;,
+  &quot;alertComplete&quot;,
+  &quot;realTimeUpdateError&quot;,
+  &quot;dataplotRollOver&quot;,
+  &quot;dataplotRollOut&quot;,
+  &quot;dataplotClick&quot;,
+  &quot;linkClicked&quot;,
+  &quot;beforeRender&quot;,
+  &quot;renderCancelled&quot;,
+  &quot;beforeResize&quot;,
+  &quot;resized&quot;,
+  &quot;resizeCancelled&quot;,
+  &quot;beforeDispose&quot;,
+  &quot;disposed&quot;,
+  &quot;disposeCancelled&quot;,
+  &quot;linkedChartInvoked&quot;,
+  &quot;beforeDrillDown&quot;,
+  &quot;drillDown&quot;,
+  &quot;beforeDrillUp&quot;,
+  &quot;drillUp&quot;,
+  &quot;drillDownCancelled&quot;,
+  &quot;drillUpCancelled&quot;,
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>googlemaps/googlemaps.service.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GOOGLE_MAPS_API_KEY"></a>
+                    <span class="name">
+                        <span ><b>GOOGLE_MAPS_API_KEY</b></span>
+                        <a href="#GOOGLE_MAPS_API_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;string&gt;(&quot;GOOGLE_MAPS_API_KEY&quot;)</code>
                     </td>
                 </tr>
 

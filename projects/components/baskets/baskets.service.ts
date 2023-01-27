@@ -306,17 +306,11 @@ export class BasketsService implements OnDestroy {
         const basket = this.basket(name);
         if (!basket) return false;
         if (!basket.ids) basket.ids = [];
-        if (Utils.isArray(ids)) {
-            for (let i = 0, ic = ids.length; i < ic; i++) {
-                const id = ids[i];
-                if (basket.ids.indexOf(id) === -1) {
-                    basket.ids.push(id);
-                }
-            }
-        }
-        else {
-            if (basket.ids.indexOf(<string>ids) === -1) {
-                basket.ids.push(<string>ids);
+        ids = Utils.asArray(ids);
+        for (let i = 0, ic = ids.length; i < ic; i++) {
+            const id = ids[i];
+            if (basket.ids.indexOf(id) === -1) {
+                basket.ids.push(id);
             }
         }
         if(!skipPatch){
@@ -325,7 +319,7 @@ export class BasketsService implements OnDestroy {
                 type: BasketEventType.AddDoc,
                 detail: {
                     basket: name,
-                    "doc-id": basket.ids[0]
+                    docid: basket.ids[0]
                 }
             });
         }
@@ -348,17 +342,10 @@ export class BasketsService implements OnDestroy {
         const basket = this.basket(name);
         if (!basket) return false;
         if (!basket.ids) basket.ids = [];
-        if (Utils.isArray(ids)) {
-            for (let i = 0, ic = ids.length; i < ic; i++) {
-                const id = ids[i];
-                const index = basket.ids.indexOf(id);
-                if (index !== -1) {
-                    basket.ids.splice(index, 1);
-                }
-            }
-        }
-        else {
-            const index = basket.ids.indexOf(<string>ids);
+        ids = Utils.asArray(ids);
+        for (let i = 0, ic = ids.length; i < ic; i++) {
+            const id = ids[i];
+            const index = basket.ids.indexOf(id);
             if (index !== -1) {
                 basket.ids.splice(index, 1);
             }
@@ -369,7 +356,7 @@ export class BasketsService implements OnDestroy {
                 type: BasketEventType.RemoveDoc,
                 detail: {
                     basket: name,
-                    "doc-id": basket.ids[0]
+                    docid: basket.ids[0]
                 }
             }, true);
         }
@@ -388,7 +375,7 @@ export class BasketsService implements OnDestroy {
                     type: BasketEventType.RemoveDoc,
                     detail: {
                         basket: basket.name,
-                        "doc-id": id
+                        docid: id
                     }
                 });
             }

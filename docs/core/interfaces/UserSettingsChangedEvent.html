@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -152,7 +153,6 @@ import {HttpService} from &quot;./http.service&quot;;
 import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {AuditEvents} from &quot;./audit.web.service&quot;;
-import jstz from &quot;jstz&quot;;
 
 /**
  * Minimal built-in user settings. Can be extended in the context of
@@ -202,7 +202,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
         @Inject(START_CONFIG) startConfig: StartConfig,
         private httpClient: SqHttpClient) {
         super(startConfig);
-        this.timezone &#x3D; jstz.determine().name(); // until momentjs gets this
+        this.timezone &#x3D; Intl.DateTimeFormat().resolvedOptions().timeZone;
     }
 
     ngOnDestroy() {
@@ -348,6 +348,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
 </code></pre>
     </div>
 </div>
+
 
 
 

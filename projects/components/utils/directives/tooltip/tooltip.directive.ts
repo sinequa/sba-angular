@@ -135,9 +135,7 @@ export class TooltipDirective<T> implements OnDestroy {
   }
 
   fallbackPositions(): ConnectedPosition[] {
-    return (Utils.isArray(this.fallbackPlacements) ? this.fallbackPlacements : [this.fallbackPlacements]).map(
-      (placement: Placement) => this.position(placement)
-    )
+    return Utils.asArray(this.fallbackPlacements).map(p => this.position(p));
   }
 
   /**

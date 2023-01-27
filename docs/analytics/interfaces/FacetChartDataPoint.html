@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -160,7 +161,15 @@ export interface FacetChartDataPoint extends ChartDataPoint {
 
 @Component({
     selector: &quot;sq-facet-ngx-chart&quot;,
-    templateUrl: &quot;./facet-chart.html&quot;
+    templateUrl: &quot;./facet-chart.html&quot;,
+    styles: [&#x60;
+    :host {
+        fill: var(--bs-dark);
+    }
+    :host-context(.dark) {
+        fill: var(--bs-light);
+    }
+    &#x60;]
 })
 export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, OnDestroy {
     @Input() results: Results;
@@ -210,7 +219,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
         this.selectField &#x3D; new Action({
             title: &quot;Select field&quot;,
             updater: (action) &#x3D;&gt; {
-                if(this.aggregations) {                 
+                if(this.aggregations) {
                     action.text &#x3D; this.facetService.getAggregationLabel(this.aggregation);
                     action.children &#x3D; this.aggregations
                         .filter(v &#x3D;&gt; v!&#x3D;&#x3D;this.aggregation)
@@ -414,6 +423,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
 }</code></pre>
     </div>
 </div>
+
 
 
 

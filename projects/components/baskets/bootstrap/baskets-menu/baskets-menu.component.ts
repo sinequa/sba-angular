@@ -27,13 +27,11 @@ export class BsBasketsMenuComponent implements OnInit {
 
     this.createAction = new Action({
       text: "msg#baskets.createBasket",
-      title: "msg#baskets.createBasket",
       action: _ => { this.basketsService.createBasketModal(); }
     });
 
     this.manageAction = new Action({
       text: "msg#baskets.manageBaskets",
-      title: "msg#baskets.manageBaskets",
       action: _ => { this.basketsService.manageBasketsModal(); }
     });
   }
@@ -64,7 +62,6 @@ export class BsBasketsMenuComponent implements OnInit {
             scrollGroup: true,
             children: this.basketsService.baskets.map(basket => new Action({
                 text: basket.name,
-                title: basket.name,
                 data: basket,
                 action: () => this.basketsService.searchBasket(basket, this.searchRoute)
             }))

@@ -94,12 +94,12 @@ export class BsEditUserSettings implements OnInit {
                 else if (Utils.isRegExp(value)) {
                     obj[key] = new RegExp(value);
                 }
-                else if (Utils.isArray(value)) {
+                else if (Array.isArray(value)) {
                     obj[key] = value.slice(0); // clone the array
                 }
                 else {
                     if (!Utils.isObject(obj[key])) {
-                        obj[key] = Utils.isArray(value) ? [] : {};
+                        obj[key] = Array.isArray(value) ? [] : {};
                     }
                     this.setNewValue(obj[key], value);
                 }
@@ -183,7 +183,7 @@ export class BsEditUserSettings implements OnInit {
     private cast<T>(
         inputType: JsonInfo.InputType, value: any, castFn: (params: any) => T | undefined
     ): T | T[] | undefined {
-        if (Utils.isArray(value)) {
+        if (Array.isArray(value)) {
             const array = value as any[];
             const empty = array.length === 0;
             switch (inputType) {
@@ -211,7 +211,7 @@ export class BsEditUserSettings implements OnInit {
      */
     private readFormValue(key: string): any {
         const formValue = this.form.value[key];
-        if (Utils.isArray(formValue)) {
+        if (Array.isArray(formValue)) {
             switch (this.layout[key].type as JsonInfo.InputType) {
                 case JsonInfo.InputType.Entry:
                     // The entry is single-value type whereas its corresponding form control has an array value.

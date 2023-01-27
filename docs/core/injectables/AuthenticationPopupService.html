@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >AuthenticationPopupService</li>
@@ -125,7 +126,7 @@ redirect url outside of the popup</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">login/authentication-popup.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">login/authentication-popup.service.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -202,8 +203,8 @@ redirect url outside of the popup</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">login/authentication-popup.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">login/authentication-popup.service.ts:29</a></div>
                 </td>
             </tr>
 
@@ -283,8 +284,7 @@ redirect url outside of the popup</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
 import {HttpClient} from &quot;@angular/common/http&quot;;
-import {Observable} from &quot;rxjs&quot;;
-import {flatMap} from &quot;rxjs/operators&quot;;
+import {Observable, switchMap} from &quot;rxjs&quot;;
 import {PopupService} from &quot;ng2-ui-auth&quot;;
 import {START_CONFIG, StartConfig} from &quot;@sinequa/core/web-services&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
@@ -319,7 +319,7 @@ export class AuthenticationPopupService extends PopupService {
                     tokenInCookie: true,
                     loginInPopup: true
                 })
-            }).pipe(flatMap((ret) &#x3D;&gt; {
+            }).pipe(switchMap((ret) &#x3D;&gt; {
                 return super.open(ret.redirectUrl, options, cordova);
             }));
         }
@@ -330,6 +330,7 @@ export class AuthenticationPopupService extends PopupService {
     </div>
 
 </div>
+
 
 
 

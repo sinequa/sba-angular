@@ -411,7 +411,7 @@ export class SavedQueriesService implements OnDestroy {
         return this.searchService.search({ path: path }, {
             type: SavedQueryEventType.Search,
             detail: {
-                "saved-query": savedquery.name
+                savedquery: savedquery.name
             }
         });
     }

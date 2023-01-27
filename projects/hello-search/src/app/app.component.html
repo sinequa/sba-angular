@@ -6,16 +6,16 @@
         <button *ngIf="results$ | async" type="button" (click)="clear()">Clear</button>
     </form>
     <div *ngIf="results$ | async; let results">
-        <hr>    
+        <hr>
         <div *ngFor="let record of results.records" class="record">
             <a href="{{record.url1}}">
                 <h3 [innerHtml]="record.displayTitle || record.title"></h3>
             </a>
             <div class="source">{{record.url1}}</div>
-            <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>       
+            <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>
         </div>
     </div>
-    <hr>    
+    <hr>
     <button *ngIf="loginService.complete" type="button" (click)="logout()">Logout</button>
     <button *ngIf="!loginService.complete" type="button" (click)="login()">Login</button>
     <ng-container *ngIf="notificationsService.notificationsStream | async as notification">

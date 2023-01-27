@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -223,7 +224,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef} from &#x27;@angular/core&#x27;;
 import { HttpResponse } from &#x27;@angular/common/http&#x27;;
-import { FormBuilder, FormGroup, Validators } from &#x27;@angular/forms&#x27;;
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from &#x27;@angular/forms&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
 import { ValidationService } from &quot;@sinequa/core/validation&quot;;
 import { NotificationsService } from &quot;@sinequa/core/notification&quot;;
@@ -252,7 +253,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
     public readonly outputFormats: typeof ExportOutputFormat &#x3D; ExportOutputFormat;
     public readonly sourceTypes: typeof ExportSourceType &#x3D; ExportSourceType;
 
-    public form: FormGroup;
+    public form: UntypedFormGroup;
     public savedQueries: string[] &#x3D; [];
     public buttons: ModalButton[] &#x3D; [];
     public isDownloading &#x3D; false;
@@ -264,7 +265,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
 
     constructor(
         @Inject(MODAL_MODEL) public model: ExportQueryModel,
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private appService: AppService,
         private selectionService: SelectionService,
         private savedQueriesService: SavedQueriesService,
@@ -425,6 +426,7 @@ interface CCQueryExport extends CCWebService {
 </code></pre>
     </div>
 </div>
+
 
 
 

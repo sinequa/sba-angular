@@ -47,10 +47,12 @@ describe("NumberPipe", () => {
       providers: [
         { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
         IntlService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        NumberPipe
+      ]
     });
 
-    pipe = new NumberPipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(NumberPipe);
   })
 
   it('transforms a number to ... with i18n (en-US)', () => {

@@ -7,17 +7,17 @@
     <h1>{{ 'msg#app.name' | sqMessage }}</h1>
 
     <!-- Search Form (app/search-form) -->
-    <app-search-form></app-search-form>
+    <app-search-form [autocompleteSources]="features"></app-search-form>
 
     <div class="d-flex align-items-center mt-2">
-        <!-- Login/Logout link -->    
+        <!-- Login/Logout link -->
         <button class="btn btn-link" (click)="toggleLogin()">{{ (loginService.complete ? 'msg#userMenu.logout' : 'msg#userMenu.login') | sqMessage}}</button>
-    
+
         <span> &bull; </span>
-    
-        <!-- Dark mode -->   
+
+        <!-- Dark mode -->
         <button class="btn btn-link" (click)="toggleDark()">{{ (isDark()? 'msg#home.lightMode' : 'msg#home.darkMode') | sqMessage}}</button>
-    
+
     </div>
 
     <!-- Home facets -->
@@ -29,7 +29,7 @@
 
                 <!-- Recent documents -->
                 <sq-facet-card *ngSwitchCase="'recent-documents'"
-                                [title]="'msg#recentDocuments.recentDocuments'" 
+                                [title]="'msg#recentDocuments.recentDocuments'"
                                 [collapsible]="false"
                                 [icon]="'fas fa-file-alt'"
                                 class="{{ facetSizing(i, homeFacets.length) }} mb-3 striped">
@@ -38,7 +38,7 @@
 
                 <!-- Recent queries -->
                 <sq-facet-card *ngSwitchCase="'recent-queries'"
-                                [title]="'msg#facet.recentQueries.title'" 
+                                [title]="'msg#facet.recentQueries.title'"
                                 [collapsible]="false"
                                 [icon]="'fas fa-history'"
                                 class="{{ facetSizing(i, homeFacets.length) }} mb-3 striped">
@@ -47,7 +47,7 @@
 
                 <!-- Saved queries -->
                 <sq-facet-card *ngSwitchCase="'saved-queries'"
-                                [title]="'msg#savedQueries.savedQueries'" 
+                                [title]="'msg#savedQueries.savedQueries'"
                                 [collapsible]="false"
                                 [icon]="'fas fa-save'"
                                 class="{{ facetSizing(i, homeFacets.length) }} mb-3 striped">
@@ -56,7 +56,7 @@
 
                 <!-- Collections (baskets) -->
                 <sq-facet-card *ngSwitchCase="'baskets'"
-                                [title]="'msg#baskets.baskets'" 
+                                [title]="'msg#baskets.baskets'"
                                 [collapsible]="false"
                                 [icon]="'fas fa-inbox'"
                                 class="{{ facetSizing(i, homeFacets.length) }} mb-3 striped">

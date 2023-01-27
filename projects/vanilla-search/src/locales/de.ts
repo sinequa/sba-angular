@@ -26,9 +26,12 @@ import {deStatusBar} from "@sinequa/components/status-bar";
 import {deUserSettings} from "@sinequa/components/user-settings";
 import { deTimeline } from "@sinequa/analytics/timeline";
 import { deML } from "@sinequa/components/machine-learning";
+import { deFilters } from "@sinequa/components/filters";
+import { deSearchForm } from "@sinequa/components/search-form";
 
 const messages = Utils.merge({}, deCore, deUtils, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
-    deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deTimeline, deML, appMessages);
+    deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deTimeline,
+    deML, deFilters, deSearchForm, appMessages);
 
 export default <LocaleData>{
     intl: {

@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >SuggestFieldWebService</li>
@@ -122,7 +123,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">web-services/suggest-field.web.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">web-services/suggest-field.web.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -197,8 +198,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">web-services/suggest-field.web.service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">web-services/suggest-field.web.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -457,8 +458,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
-import {Observable, of} from &quot;rxjs&quot;;
-import {map} from &quot;rxjs/operators&quot;;
+import {Observable, of, map} from &quot;rxjs&quot;;
 import {SqHttpClient} from &quot;./http-client&quot;;
 import {HttpService} from &quot;./http.service&quot;;
 import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
@@ -506,10 +506,12 @@ export class SuggestFieldWebService extends HttpService {
             return observable;
         }
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 
 </div>
+
 
 
 

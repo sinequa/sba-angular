@@ -1,12 +1,12 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional, DoCheck, NgZone, ElementRef } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional, NgZone, ElementRef } from "@angular/core";
 import { IntlService } from "@sinequa/core/intl";
 import { Results, Aggregation, AggregationItem, TreeAggregationNode } from '@sinequa/core/web-services';
 import { UIService } from "@sinequa/components/utils";
 import { FacetService, AbstractFacet, BsFacetCard } from "@sinequa/components/facet";
 import { Action } from '@sinequa/components/action';
-import { Subscription } from 'rxjs';
+import { Subscription, merge } from 'rxjs';
 import { SelectionService } from '@sinequa/components/selection';
-import { AppService } from '@sinequa/core/app-utils';
+import { AppService, FormatService, Query, ValueItem } from '@sinequa/core/app-utils';
 import { Utils } from "@sinequa/core/base";
 
 export const defaultMultiLevelChart = {
@@ -18,7 +18,7 @@ export const defaultMultiLevelChart = {
     "pieborderthickness": 3
 }
 
-export interface Category extends AggregationItem, TreeAggregationNode {
+export interface Category extends AggregationItem {
     label: string;
     originalLabel: string;
     value: number | string;
@@ -27,6 +27,7 @@ export interface Category extends AggregationItem, TreeAggregationNode {
     showLabel?: boolean;
     showValue?: boolean;
     category?: Category[];
+    $path?: string;
 }
 
 @Component({
@@ -35,9 +36,10 @@ export interface Category extends AggregationItem, TreeAggregationNode {
     styleUrls: ["./multi-level-pie-chart.scss"]
 })
 // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
-export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDestroy, DoCheck {
+export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDestroy {
     @Input() results: Results;
     @Input() aggregation: string; // Aggregation name
+    @Input() query?: Query;
 
     @Input() data: Category[];
 
@@ -51,20 +53,18 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     @Input() chart: any = defaultMultiLevelChart;
     @Input() autohide = true;
 
+    /** Additional css classes */
+    @Input() styles: string;
+
     /** Leave the default color undefined to use the color scheme of FusionCharts */
     @Input() defaultColor?: string;
     /** Filtered items appear in a different color. Set to undefined use FusionCharts's color scheme */
     @Input() filteredColor: string = "#C3E6CB";
     /** Items that belong in a selected document appear in a different color. Set to undefined use FusionCharts's color scheme */
     @Input() selectedColor: string = "#8186d4";
+    /** Optional name for audit purposes */
+    @Input() name?: string;
 
-    /**
-     * A function that returns true this component is already filtering the query
-     */
-    @Input()
-    hasFiltered = () => {
-        return this.facetService.hasFiltered(this.getName());
-    }
     /**
      * A function that returns true the aggregationItem match a selected document
      */
@@ -73,12 +73,12 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         if (this.isTree()) {
             return this.selectedValues.has((item as TreeAggregationNode).$path!.toLowerCase()) && this.selectedColor;
         }
-        return this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase()) && this.selectedColor;
+        return item.value !== null && this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase()) && this.selectedColor;
     }
     /**
      * Callback used to apply custom operations (sort, filter ...) on a tree nodes
      */
-    @Input() initNodes = (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) => {}
+    @Input() initNodes?: (lineage: TreeAggregationNode[], node: TreeAggregationNode, depth: number) => boolean;
 
     @Output() initialized = new EventEmitter<any>();
     @Output() onClick = new EventEmitter<Category | undefined>();
@@ -104,8 +104,8 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     private readonly clearFilters: Action;
 
     // Subscriptions
-    private localeChange: Subscription;
-    private selectionChange: Subscription;
+    private subs = new Subscription();
+
 
     constructor(
         public intlService: IntlService,
@@ -113,42 +113,35 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         public facetService: FacetService,
         public selectionService: SelectionService,
         public appService: AppService,
+        public formatService: FormatService,
         @Optional() public cardComponent: BsFacetCard,
         private zone: NgZone,
         private el: ElementRef
     ) {
         super();
 
+        this.subs.add(this.cardComponent?.facetCollapsed.subscribe(value => {
+            this.ready = value === "expanded" ? true : false
+        }));
+
         // Clear the current filters
         this.clearFilters = new Action({
             icon: "far fa-minus-square",
             title: "msg#facet.clearSelects",
             action: () => {
-                this.facetService.clearFiltersSearch(this.getName(), true);
+                if(this.aggrData) {
+                    this.facetService.clearFiltersSearch(this.aggrData.column, true, this.query, this.name);
+                }
             }
         });
 
-        this.localeChange = this.intlService.events.subscribe(event => {
-            this.updateData();
-        });
-        this.selectionChange = this.selectionService.events.subscribe(event => {
-            this.updateData();
-        });
+        this.subs.add(merge(this.intlService.events, this.selectionService.events)
+            .subscribe(_ => this.updateData())
+        );
     }
 
-    // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
     ngOnDestroy() {
-        this.localeChange.unsubscribe();
-        this.selectionChange.unsubscribe();
-    }
-
-
-    /**
-     * Name of the facet, used to create and retrieve selections
-     * through the facet service.
-     */
-    getName() : string {
-        return this.aggregation;
+        this.subs.unsubscribe();
     }
 
     /**
@@ -156,7 +149,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
      */
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.hasFiltered()) {
+        if(this.aggrData?.$filtered.length) {
             actions.push(this.clearFilters);
         }
         return actions;
@@ -184,13 +177,6 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         }
         this.updatePlotsValueDisplay();
         this.isRefreshing = false
-    }
-
-    // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
-    ngDoCheck(){
-        // We check that the parent component (if any) has been expanded at least once so that the fusioncharts
-        // gets created when it is visible (otherwise, there can be visual bugs...)
-        this.ready = !this.cardComponent?._collapsed;
     }
 
     /**
@@ -224,28 +210,31 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
             // Get aggregation from the facet service
             this.aggrData = this.facetService.getAggregation(
                 this.aggregation,
-                this.results,
-                {facetName: this.getName(), levelCallback: this.initNodes}
+                this.results
             );
+            if(this.aggrData?.isTree && this.initNodes) {
+                Utils.traverse(this.aggrData.items as TreeAggregationNode[], this.initNodes);
+            }
         }
     }
 
     private convertAggregationItems<T extends AggregationItem | TreeAggregationNode>(item: T): Category {
-        const isFiltered = this.isFiltered(item) && this.filteredColor;
+        const isFiltered = item.$filtered && this.filteredColor;
         const isSelected = this.isSelected(item);
-        if (item.hasOwnProperty('items')) {
+        const label = item.value !== null? this.formatService.formatFieldValue(item as ValueItem) : 'null';
+        if ((item as TreeAggregationNode).items) {
             return {
                 ...item,
-                label: this.facetService.formatValue(item),
+                label,
                 originalLabel: item.value,
                 value: item.count,
                 color: isFiltered ? this.filteredColor : isSelected ? this.selectedColor : this.defaultColor,
-                category: item['items'].map(el => this.convertAggregationItems(el))
+                category: (item as TreeAggregationNode).items.map(el => this.convertAggregationItems(el))
             } as Category
         }
         return {
             ...item,
-            label: this.facetService.formatValue(item),
+            label,
             originalLabel: item.value,
             value: item.count,
             color: isFiltered ? this.filteredColor : isSelected ? this.selectedColor : this.defaultColor
@@ -273,10 +262,10 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         this.zone.run(() => { // FusionCharts runs outside Angular zone, so we must re-enter it
             if (this.aggrData) { // For standard Aggregation data structure
                 const obj = {...item!, value: item!.originalLabel} // Re-convert clickedItem structure to fit standard AggregationItem
-                if (!this.isFiltered(obj)) {
-                    this.facetService.addFilterSearch(this.getName(), this.aggrData, obj);
+                if (!item?.$filtered) {
+                    this.facetService.addFilterSearch(this.aggrData, obj, undefined, this.query, this.name);
                 } else {
-                    this.facetService.removeFilterSearch(this.getName(), this.aggrData, obj);
+                    this.facetService.removeFilterSearch(this.aggrData, obj, this.query, this.name);
                 }
             } else { // For custom data structure, just emit the clicked item, behavior should be implemented at parent component level
                 this.onClick.next(item);
@@ -284,13 +273,6 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         });
     }
 
-    /**
-     * Returns true if the given AggregationItem is filtered
-     * @param item
-     */
-    private isFiltered(item: AggregationItem) : boolean {
-        return !!this.aggrData && this.facetService.itemFiltered(this.getName(), this.aggrData, item);
-    }
 
     private isTree(): boolean {
         return !!this.aggrData?.isTree;
@@ -302,19 +284,19 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
      */
     getItem(label: string, data: Category[] | undefined): Category | undefined {
         let item;
-        const isTree = this.isTree()
+        const isTree = this.isTree();
 
-        function _getItem(label: string, data: Category[] | undefined, root = '/') {
+        function _getItem(_label: string, _data: Category[] | undefined, root = '/') {
             let path = root;
-            if (data) {
-                for (const _element of data) {
+            if (_data) {
+                for (const _element of _data) {
                     path = path + _element.originalLabel + '/';
-                    if (_element.label === label && (isTree ? _element.$path === path : true)) {
+                    if (_element.label === _label && (isTree ? _element.$path === path : true)) {
                         item = _element;
                         break;
                     } else if (_element.category) {
                         for (const _elem of _element.category) {
-                            _getItem(label, [_elem], path);
+                            _getItem(_label, [_elem], path);
                             if (item) {
                                 break;
                             }
@@ -343,12 +325,12 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
             .filter(record => record.$selected)
             .forEach(record => {
                 if(this.aggrData){
-                    const val = record[this.appService.getColumnAlias(this.appService.getColumn(this.aggrData.column))];
+                    const val = record[this.aggrData.column];
                     if(val){
                         if(Utils.isString(val)){    // Sourcestr
                             this.selectedValues.add(val.toLowerCase());
                         }
-                        if(Utils.isArray(val)){
+                        if(Array.isArray(val)){
                             val.forEach(v => {
                                 if(Utils.isString(v))
                                     this.selectedValues.add(v.toLowerCase()); // Sourcecsv

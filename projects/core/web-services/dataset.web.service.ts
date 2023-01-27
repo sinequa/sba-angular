@@ -1,9 +1,7 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
-import { SqHttpClient } from "./http-client";
 import { HttpService } from "./http.service";
 import { Results } from "./query.web.service";
-import { StartConfig, START_CONFIG } from "./start-config.web.service";
 
 export type Dataset = {[key: string]: Results|DatasetError};
 
@@ -25,12 +23,6 @@ export interface DatasetDescription {
 })
 export class DatasetWebService extends HttpService {
     private static readonly endpoint = "search.dataset";
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        protected httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Return the list of queries configured in the given

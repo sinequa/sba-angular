@@ -19,14 +19,16 @@ describe("MomentPipe", () => {
       providers: [
         { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
         IntlService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        MomentPipe
+      ]
     });
 
     // first init IntlService to en-US locale (default)
     const service = TestBed.inject(IntlService);
     service.init();
 
-    pipe = new MomentPipe(TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(MomentPipe);
   })
 
   it('transforms "2022-12-31" to ... with i18n', () => {

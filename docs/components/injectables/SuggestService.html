@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >SuggestService</li>
@@ -126,7 +127,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">autocomplete/suggest.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">autocomplete/suggest.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -215,8 +216,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">autocomplete/suggest.service.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">autocomplete/suggest.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -343,8 +344,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">autocomplete/suggest.service.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">autocomplete/suggest.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -451,8 +452,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">autocomplete/suggest.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">autocomplete/suggest.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -616,7 +617,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">autocomplete/suggest.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">autocomplete/suggest.service.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -630,8 +631,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &quot;@angular/core&quot;;
-import {Observable, of} from &quot;rxjs&quot;;
-import {map, flatMap} from &quot;rxjs/operators&quot;;
+import {Observable, of, switchMap} from &quot;rxjs&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {SuggestQueryWebService, SuggestFieldWebService, Suggestion, EngineType} from &quot;@sinequa/core/web-services&quot;;
 import {AppService, Query} from &quot;@sinequa/core/app-utils&quot;;
@@ -669,9 +669,8 @@ export class SuggestService {
         if (!this.appService.ccquery) {
             return of([]);
         }
-        const observable &#x3D; this.suggestQueryWebService.get(suggestQuery, text, this.appService.ccquery.name, fields);
-        return observable.pipe(
-            flatMap(suggests &#x3D;&gt; {
+        return this.suggestQueryWebService.get(suggestQuery, text, this.appService.ccquery.name, fields)
+            .pipe(switchMap(suggests &#x3D;&gt; {
                 if (!fields) {
                     if (!suggests) {
                         suggests &#x3D; [];
@@ -689,11 +688,7 @@ export class SuggestService {
                             }
                         }
                         if (fields.length &gt; 0) {
-                            return this.suggestFieldWebService.get(text, fields, query).pipe(
-                                map((suggests) &#x3D;&gt; {
-                                    suggests.forEach(value &#x3D;&gt; value.display &#x3D; Utils.toSqlValue(value.display)); // because dates get automatically converted by the interceptor
-                                    return suggests;
-                                }));
+                            return this.suggestFieldWebService.get(text, fields, query);
                         }
                     }
                 }
@@ -803,10 +798,12 @@ export class SuggestService {
         }
         return undefined;
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 
 </div>
+
 
 
 

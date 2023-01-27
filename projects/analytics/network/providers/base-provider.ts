@@ -2,6 +2,7 @@ import { Utils } from '@sinequa/core/base';
 import { Node, Edge, NodeType, EdgeType, NetworkProvider, NetworkDataset, NetworkContext} from '../network-models';
 import { Subject } from 'rxjs';
 import { Action } from '@sinequa/components/action';
+import { Filter } from '@sinequa/core/web-services';
 
 
 /**
@@ -53,7 +54,7 @@ export class BaseProvider implements NetworkProvider {
     protected getEdgeId(node1: Node, node2: Node): string {
         return node1.id + this.EDGESEPARATOR + node2.id;
     }
-    
+
     /** Returns a standard ID for a node with a given type and "value" */
     protected getNodeId(type: NodeType, value: string): string {
         return `${type.name}:${value}`;
@@ -101,7 +102,7 @@ export class BaseProvider implements NetworkProvider {
         }
         return Utils.extend(node, options);
     }
-    
+
     /**
      * Creates a new Edge object
      * @param type The EdgeType of that Edge
@@ -133,7 +134,7 @@ export class BaseProvider implements NetworkProvider {
         if(relation) {
             edge["label"] = relation;
             edge["labels"] = [relation];
-            edge["font"] = {size: 5, color: "#808080"};            
+            edge["font"] = {size: 5, color: "#808080"};
         }
         let options: {[key: string]: any};
         if(typeof type.edgeOptions === "function") {
@@ -144,7 +145,7 @@ export class BaseProvider implements NetworkProvider {
         }
         return Utils.extend(edge, options);
     }
-    
+
 
     // Implementation of the NetworkProvider interface
 
@@ -157,19 +158,19 @@ export class BaseProvider implements NetworkProvider {
     }
 
     onDatasetsMerged(dataset: NetworkDataset) {
-        
+
     }
 
     onNodesInserted(nodes: Node[]) {
-        
+
     }
-    
+
     onNodeClicked(node: Node | undefined) {
-        
+
     }
 
     onEdgeClicked(edge: Edge | undefined) {
-        
+
     }
 
     /**
@@ -192,9 +193,12 @@ export class BaseProvider implements NetworkProvider {
                 icon: "fas fa-filter",
                 title: this.context.intlService.formatMessage("msg#network.actions.filterSearch", {label: node.label}),
                 action: () => {
-                    const expr = this.context.exprBuilder.makeExpr(node.type.field!, this.getNodeValue(node), node.label);
-                    node.context.searchService.query.addSelect(expr, node.context.name);
-                    node.context.searchService.search();
+                    const filter: Filter = {
+                      field: node.type.field!,
+                      value: this.getNodeValue(node),
+                      display: node.label
+                    };
+                    node.context.facetService.applyFilterSearch(filter);
                 }
             }));
         }
@@ -218,9 +222,11 @@ export class BaseProvider implements NetworkProvider {
                     icon: "fas fa-filter",
                     title: this.context.intlService.formatMessage("msg#network.actions.filterSearch", {label: edge.fieldValue}),
                     action: () => {
-                        const expr = this.context.exprBuilder.makeExpr(edge.type.field!, edge.fieldValue!);
-                        edge.context.searchService.query.addSelect(expr, edge.context.name);
-                        edge.context.searchService.search();
+                        const filter: Filter = {
+                            field: edge.type.field!,
+                            value: edge.fieldValue!
+                        };
+                        edge.context.facetService.applyFilterSearch(filter);
                     }
                 }));
             }
@@ -229,21 +235,24 @@ export class BaseProvider implements NetworkProvider {
                     icon: "fas fa-filter",
                     title: this.context.intlService.formatMessage("msg#network.actions.filterSearch2", {label1: nodeFrom.label, label2: nodeTo.label}),
                     action: () => {
-                        const exprFrom = this.context.exprBuilder.makeExpr(nodeFrom.type.field!, this.getNodeValue(nodeFrom), nodeFrom.label);
-                        const exprTo = this.context.exprBuilder.makeExpr(nodeTo.type.field!, this.getNodeValue(nodeTo), nodeTo.label);
-                        const expr = this.context.exprBuilder.concatAndExpr([exprFrom, exprTo]);
-                        edge.context.searchService.query.addSelect(expr, edge.context.name);
-                        edge.context.searchService.search();
+                        const filter: Filter = {
+                            operator: 'and',
+                            filters: [
+                                {field: nodeFrom.type.field!, value: this.getNodeValue(nodeFrom), display: nodeFrom.label},
+                                {field: nodeTo.type.field!, value: this.getNodeValue(nodeTo), display: nodeTo.label}
+                            ]
+                        };
+                        edge.context.facetService.applyFilterSearch(filter);
                     }
                 }));
             }
-            
+
         }
         return actions;
     }
 
     onDestroy() {
-        
+
     }
 
 }

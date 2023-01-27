@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >QueryIntentWebService</li>
@@ -136,7 +137,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">web-services/queryintent.service.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">web-services/queryintent.service.ts:57</a></div>
                             </td>
                         </tr>
 
@@ -211,8 +212,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">web-services/queryintent.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">web-services/queryintent.service.ts:65</a></div>
                 </td>
             </tr>
 
@@ -449,7 +450,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">web-services/queryintent.service.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">web-services/queryintent.service.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -463,12 +464,11 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
-import {Observable, of} from &quot;rxjs&quot;;
+import {Observable, of, map, tap} from &quot;rxjs&quot;;
 import {SqHttpClient} from &quot;./http-client&quot;;
 import {HttpService} from &quot;./http.service&quot;;
 import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
 import {IQuery} from &quot;./query/query&quot;;
-import {pluck, tap} from &quot;rxjs/operators&quot;;
 
 export interface QueryIntentResponse {
     query: string;
@@ -542,7 +542,7 @@ export class QueryIntentWebService extends HttpService {
         return this.httpClient.post&lt;QueryIntentResponse&gt;(
             this.makeUrl(this.endpoint), data)
                 .pipe(
-                    pluck(&quot;intents&quot;),
+                    map(r &#x3D;&gt; r.intents),
                     tap(intents &#x3D;&gt; {
                         this.cache.set(text, intents);
                     })
@@ -553,6 +553,7 @@ export class QueryIntentWebService extends HttpService {
     </div>
 
 </div>
+
 
 
 

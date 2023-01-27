@@ -16,7 +16,7 @@ export interface RecordNode extends Node {
 /**
  * An extension of the EdgeType interface to include properties specific to
  * structural edges (edge between a record and its metadata).
- * 
+ *
  * About trigger/display: At the moment, the Record provider always adds ALL nodes and edges
  * to the dataset, but potentially with a visibility set to false. Some of the settings are
  * not compatible with each other, and some take precedence over the others:
@@ -90,18 +90,18 @@ export class RecordsProvider extends BaseProvider {
     protected updateDataset(records?: Record[]) {
         this.dataset.clear();
         if(!this.active || !records || records.length === 0) {
-            return; 
+            return;
         }
         this.addRecordNodes(records);
     }
-    
+
     // Record nodes
 
     /**
      * Generates the nodes for a list of records, including their structural
      * edges, and adds them to the dataset.
      * Returns the list of record nodes.
-     * @param records 
+     * @param records
      */
     protected addRecordNodes(records: Record[]): RecordNode[] {
         return records.map(record => {
@@ -117,7 +117,7 @@ export class RecordsProvider extends BaseProvider {
         });
     }
 
-    
+
     // Structural edges
 
     /**
@@ -134,7 +134,7 @@ export class RecordsProvider extends BaseProvider {
         if(type.nodeTypes[0] !== this.nodeType){
             throw new Error(`Inconsistent node type: '${type.nodeTypes[0].name}' instead of '${this.nodeType.name}'`);
         }
-        
+
         const recorddata = node.record[type.field];
 
         if(recorddata === undefined){
@@ -143,25 +143,20 @@ export class RecordsProvider extends BaseProvider {
 
         // Custom parse for mono or multi valued data
         if(type.parse) {
-            if(Utils.isArray(recorddata)) {
-                recorddata.forEach((value,i) => { 
-                    this.addCustomEdge(node, type, type.parse!(value, node.record, type));
-                });
-            }
-            else {
-                this.addCustomEdge(node, type, type.parse!(recorddata, node.record, type));
-            }
+            Utils.asArray(recorddata).forEach((value,i) => {
+                this.addCustomEdge(node, type, type.parse!(value, node.record, type));
+            });
         }
         // Default handling for standard Sinequa Metadata
         else {
             const data = new NetworkDataset();
             data.addNodes(node);
-    
+
             // sourcestr
             if(Utils.isString(recorddata)) {
                 this.addStructuralEdge(data, node, type, recorddata, recorddata, 0);
             }
-            else if(Utils.isArray(recorddata)) {
+            else if(Array.isArray(recorddata)) {
                 recorddata.forEach((value,i) => {
                     // sourcecsv
                     if(Utils.isString(value)) {
@@ -173,7 +168,7 @@ export class RecordsProvider extends BaseProvider {
                     }
                 });
             }
-    
+
             this.dataset.merge(data);
         }
     }
@@ -257,7 +252,7 @@ export class RecordsProvider extends BaseProvider {
             return type.display(node, recordNode, index);
         }
     }
-    
+
 
 
     // NetworkProvider interface
@@ -335,11 +330,11 @@ export class RecordsProvider extends BaseProvider {
      * attached to this node.
      * Both actions might be displayed at the same time, if the node is in an intermediate
      * state.
-     * @param node 
+     * @param node
      */
     override getNodeActions(node: Node): Action[] {
         const actions = super.getNodeActions(node);
-        
+
         // Actions for exanding / collapsing a record node
         if(this.active && node.type === this.nodeType && this.edgeTypes.length > 0) {
             let hasExpandedEdge = false;
@@ -374,7 +369,7 @@ export class RecordsProvider extends BaseProvider {
                     }
                 }));
             }
-            
+
             if(hasExpandedEdge) {
                 actions.push(new Action({
                     icon: "fas fa-compress-arrows-alt",
@@ -404,4 +399,3 @@ export class RecordsProvider extends BaseProvider {
     }
 
 }
-    

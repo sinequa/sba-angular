@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable, tap} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Record} from "./query.web.service";
 import {AuditEventType} from "./audit.web.service";
 
@@ -33,11 +31,6 @@ export interface UserRatingResponse {
     providedIn: "root"
 })
 export class UserRatingsWebService extends HttpService {
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Gets the current user rating for a document
@@ -80,7 +73,7 @@ export class UserRatingsWebService extends HttpService {
                     {
                         type: AuditEventType.Rating_Set,
                         detail: {
-                            "doc-id": record.id,
+                            docid: record.id,
                             ratingnum: rating,
                             value: ratingResponse.rating,
                             average: ratingResponse.averagerating
@@ -124,7 +117,7 @@ export class UserRatingsWebService extends HttpService {
                     {
                         type: AuditEventType.Rating_Delete,
                         detail: {
-                            "doc-id": record.id,
+                            docid: record.id,
                             value: ratingResponse.rating,
                             average: ratingResponse.averagerating
                         }

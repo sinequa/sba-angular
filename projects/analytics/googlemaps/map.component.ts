@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewC
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { AbstractFacet, FacetService } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
-import { SearchService } from '@sinequa/components/search';
 import { Results, Record } from '@sinequa/core/web-services';
 
 import { darkStyle } from "./dark-style";
@@ -12,6 +11,7 @@ import { Subscription } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 import { TemplateRef } from '@angular/core';
 import { ContentChild } from '@angular/core';
+import { Query } from '@sinequa/core/app-utils';
 
 export interface GeoRecord {
   position: google.maps.LatLngLiteral;
@@ -33,6 +33,7 @@ export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy 
   @Input() name = "map";
   /** Results list displayed on the map when possible */
   @Input() results: Results;
+  @Input() query?: Query;
   /** Desired width of the map */
   @Input() width = 300;
   /** Desired height of the map */
@@ -63,7 +64,6 @@ export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy 
   sub: Subscription;
 
   constructor(
-    public searchService: SearchService,
     public selectionService: SelectionService,
     public facetService: FacetService,
     public gmaps: GoogleMapsService
@@ -75,8 +75,7 @@ export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy 
       icon: "far fa-minus-square",
       title: "msg#facet.clearSelects",
       action: () => {
-        this.searchService.query.removeSelect(this.name);
-        this.searchService.search();
+        this.facetService.clearFiltersSearch([this.latitudeField, this.longitudeField], true, this.query, this.name);
       }
     });
 
@@ -86,14 +85,10 @@ export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy 
       title: "msg#googlemaps.filterArea",
       action: () => {
         if(this.map) {
-          if (this.facetService.hasFiltered(this.name)) {
-            this.searchService.query.removeSelect(this.name);
-          }
           const bounds = this.map.getBounds();
           if(bounds) {
-            const expr = this.gmaps.makeExpr(bounds, this.latitudeField, this.longitudeField);
-            this.searchService.query.addSelect(expr, this.name);
-            this.searchService.search();
+            const filter = this.gmaps.makeFilter(bounds, this.latitudeField, this.longitudeField);
+            this.facetService.applyFilterSearch(filter, this.query, true, this.name);
           }
         }
       }
@@ -109,7 +104,7 @@ export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy 
 
   override get actions(): Action[] {
     const actions = [] as Action[];
-    if (this.facetService.hasFiltered(this.name)) {
+    if (this.facetService.hasFiltered([this.latitudeField, this.longitudeField], this.query)) {
       actions.push(this.clearFilters);
     }
     if (this.map) {

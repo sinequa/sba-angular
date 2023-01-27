@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef} from "@angular/core";
+import {Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef, inject} from "@angular/core";
 import {Subscription} from "rxjs";
 import {LoginService} from "./login.service";
 
@@ -17,10 +17,8 @@ export class ComponentWithLogin implements OnInit, OnDestroy, AfterViewInit {
      */
     loginComplete: boolean;
 
-    constructor(
-        protected loginService: LoginService,
-        protected changeDetectorRef: ChangeDetectorRef) {
-    }
+    protected readonly loginService = inject(LoginService);
+    protected readonly changeDetectorRef = inject(ChangeDetectorRef);
 
     /**
      * A method called whenever the `session-changed` event is received. This can be

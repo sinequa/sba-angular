@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable, of, map, tap} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {IQuery} from "./query/query";
 
 export interface QueryIntentResponse {
@@ -55,12 +53,6 @@ export class QueryIntentWebService extends HttpService {
 
     // The cache prevents analyzing the same query multiple times
     cache = new Map<string,QueryIntentMatch[]>();
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     getQueryIntent(query: IQuery): Observable<QueryIntentMatch[]> {
         if(!query.text){
