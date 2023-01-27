@@ -1,11 +1,11 @@
-import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, OnDestroy, ChangeDetectorRef, NgZone} from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router, NavigationEnd, RouterEvent } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 
 import { LoginService } from '@sinequa/core/login';
-import { AuditEventType, PreviewData, Results } from '@sinequa/core/web-services';
+import { AuditEventType, PreviewData, Results, Tab } from '@sinequa/core/web-services';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
 import { PreviewService, PreviewDocument } from '@sinequa/components/preview';
@@ -33,8 +33,8 @@ export interface PreviewInput {
 export interface EntitiesState {
   count: number;
   sortFreq: boolean;
-  hidden: Map<string,boolean>;
-  nav: Map<string,number>;
+  hidden: Map<string, boolean>;
+  nav: Map<string, number>;
   category: string;
 }
 
@@ -63,13 +63,14 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   previewDocument?: PreviewDocument;
 
   // State of the preview
-  collapsedPanel= true;
+  collapsedPanel = false;
   homeRoute = "/home";
   showBackButton = true;
-  subpanels = ["extracts", "entities"];
-  subpanel = 'extracts';
+  subpanels = ["entities"];
+  subpanel = 'entities';
   previewSearchable = true;
-  minimapType = "extractslocations"
+  minimapType = "extractslocations";
+  tabs: Tab[];
 
   // Page management for splitted documents
   pagesResults: Results;
@@ -81,6 +82,14 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   // Preview Tooltip
   tooltipEntityActions: Action[] = [];
   tooltipTextActions: Action[] = [];
+
+  // Preview actions
+  private minimizeAction: Action;
+  private maximizeAction: Action;
+  private displayHighlightsAction: Action;
+  private highlightType: string;
+  actions: Action[] = [];
+  showHighlights = true;
 
   private readonly scaleFactorThreshold = 0.2;
   scaleFactor = 1.0;
@@ -102,7 +111,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     public ui: UIService,
     protected activatedRoute: ActivatedRoute,
     private zone: NgZone
-    ) {
+  ) {
 
     // If the page is refreshed login needs to happen again, then we can get the preview data
     this.loginSubscription = this.loginService.events.subscribe({
@@ -118,16 +127,16 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(
         filter(event => event instanceof RouterEvent && event.url !== this.homeRoute)
       ).subscribe({
-      next: (event) => {
-        if (event instanceof NavigationEnd) {
-          this.getPreviewDataFromUrl();
+        next: (event) => {
+          if (event instanceof NavigationEnd) {
+            this.getPreviewDataFromUrl();
+          }
         }
-      }
-    });
+      });
 
     // In case the component is loaded in a modal
-    if(previewInput){
-      if(previewInput.config){
+    if (previewInput) {
+      if (previewInput.config) {
         previewConfig = previewInput.config;
       }
       this.id = previewInput.id;
@@ -135,7 +144,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     // Configuration may be injected by the root app (or as above by the modal)
-    if(previewConfig){
+    if (previewConfig) {
       this.previewConfig = previewConfig;
     }
 
@@ -148,13 +157,49 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
           this.query.text = event['text'].slice(0, 50);
           this.router.navigate([], {
             relativeTo: this.route,
-            queryParams: {query: this.query.toJsonForQueryString()},
+            queryParams: { query: this.query.toJsonForQueryString() },
             queryParamsHandling: 'merge',
             state: {}
           });
         }
       }
     }));
+
+    this.displayHighlightsAction = new Action({
+      icon: "fas fa-fw fa-highlighter",
+      title: "msg#facet.preview.toggleHighlight",
+      action: () => {
+        this.showHighlights = !this.showHighlights;
+        this.updateHighlights(this.showHighlights ? this.highlightType : undefined);
+        if (this.showHighlights && this.highlightType === "matchingpassages") {
+          this.previewDocument?.highlightPassage();
+        } else {
+          this.previewDocument?.clearPassageHighlight();
+        }
+      }
+    });
+
+    this.maximizeAction = new Action({
+      icon: "fas fa-fw fa-search-plus",
+      title: "msg#facet.preview.maximize",
+      action: () => {
+        this.scaleFactor = this.scaleFactor + this.scaleFactorThreshold;
+      }
+    });
+
+    this.minimizeAction = new Action({
+      icon: "fas fa-fw fa-search-minus",
+      title: "msg#facet.preview.minimize",
+      disabled: this.scaleFactor <= 0.1,
+      action: () => {
+        this.scaleFactor = Math.round(Math.max(0.1, this.scaleFactor - this.scaleFactorThreshold) * 100) / 100;
+      },
+      updater: (action) => {
+        action.disabled = this.scaleFactor <= 0.1;
+      }
+    });
+
+    this.actions.push(this.displayHighlightsAction, this.minimizeAction, this.maximizeAction);
 
     titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle"));
 
@@ -174,33 +219,38 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
    */
   ngOnInit() {
 
-    if(!this.id || !this.query) { // do nothing if the parameters are already here
+    if (!this.id || !this.query) { // do nothing if the parameters are already here
       this.getPreviewDataFromUrl();
     }
 
-    if(this.previewConfig){
-      if(this.previewConfig.initialCollapsedPanel !== undefined){
+    if (this.previewConfig) {
+      if (this.previewConfig.initialCollapsedPanel !== undefined) {
         this.collapsedPanel = this.previewConfig.initialCollapsedPanel;
       }
-      if(this.previewConfig.homeRoute !== undefined){
+      if (this.previewConfig.homeRoute !== undefined) {
         this.homeRoute = this.previewConfig.homeRoute;
       }
-      if(this.previewConfig.showBackButton !== undefined){
+      if (this.previewConfig.showBackButton !== undefined) {
         this.showBackButton = this.previewConfig.showBackButton;
       }
-      if(this.previewConfig.subpanels !== undefined){
+      if (this.previewConfig.subpanels !== undefined) {
         this.subpanels = this.previewConfig.subpanels;
+        this.tabs = this.subpanels.map(panel => this.getTab(panel));
       }
-      if(this.previewConfig.defaultSubpanel !== undefined){
+      if (this.previewConfig.defaultSubpanel !== undefined) {
         this.subpanel = this.previewConfig.defaultSubpanel;
       }
-      if(this.previewConfig.previewSearchable !== undefined){
+      if (this.previewConfig.previewSearchable !== undefined) {
         this.previewSearchable = this.previewConfig.previewSearchable;
       }
     }
+
+    if (!this.previewConfig || this.previewConfig.initialCollapsedPanel === undefined) {
+      this.collapsedPanel = this.ui.screenSizeIsLessOrEqual('xs');
+    }
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.loginSubscription.unsubscribe();
     this.routerSubscription.unsubscribe();
   }
@@ -220,26 +270,37 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
    * Performs a call to the preview service. Update the search form with the searched query text (page refresh or navigation)
    */
   private getPreviewData() {
-    if(!!this.id && !!this.query && this.loginService.complete) {
+    if (!!this.id && !!this.query && this.loginService.complete) {
       this.previewService.getPreviewData(this.id, this.query).subscribe(
         previewData => {
           this.previewData = previewData;
           const url = previewData?.documentCachedContentUrl;
-          if(previewData.highlightsPerCategory['matchingpassages']?.values.length && !this.subpanels.includes("passages")) {
+          this.subpanels = ["entities"];
+          this.tabs = [
+            this.getTab('entities')
+          ];
+          console.log('previewData', previewData.highlightsPerCategory);
+          if (previewData.highlightsPerCategory['matchingpassages']?.values.length) {
             this.subpanels.unshift("passages");
+            this.tabs.unshift(this.getTab('passages'));
             this.subpanel = "passages";
-            this.minimapType = "matchingpassages";
+            this.minimapType = "extractslocations";
+          } else {
+            this.subpanels.unshift("extracts");
+            this.tabs.unshift(this.getTab('extracts'));
+            this.subpanel = "extracts";
+            this.minimapType = "extractslocations";
           }
           // Manage splitted documents
           const pageNumber = this.previewService.getPageNumber(previewData.record);
-          if(pageNumber) {
+          if (pageNumber) {
             this.previewService.fetchPages(previewData.record.containerid!, this.query!)
               .subscribe(results => this.pagesResults = results);
           }
           this.currentUrl = url;
           this.downloadUrl = url ? this.previewService.makeDownloadUrl(url) : undefined;
-          this.sandbox = ["xlsx","xls"].includes(previewData.record.docformat) ? null : undefined;
-          this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", {title: previewData?.record?.title || ""}));
+          this.sandbox = ["xlsx", "xls"].includes(previewData.record.docformat) ? null : undefined;
+          this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", { title: previewData?.record?.title || "" }));
           this.loading = true;
         }
       );
@@ -250,18 +311,18 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
    * Called when the HTML of the preview finishes loading in the iframe
    * @param previewDocument
    */
-  onPreviewReady(previewDocument: PreviewDocument){
+  onPreviewReady(previewDocument: PreviewDocument) {
     if (this.previewData) {
       this.loading = false;
       // uses preferences to uncheck highlighted entities
       const uncheckedEntities = this.entitiesStartUnchecked;
       Object.keys(uncheckedEntities)
-        .map(key => ({entity: key, value: uncheckedEntities[key]}))
+        .map(key => ({ entity: key, value: uncheckedEntities[key] }))
         .filter(item => item.value === true)
         .map(item => previewDocument.toggleHighlight(item.entity, false));
 
       this.previewDocument = previewDocument;
-      if(!this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")) {
+      if (!this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")) {
         this.highlightMostRelevant(this.previewData, this.previewDocument, "extractslocations");
       }
     }
@@ -269,7 +330,8 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   highlightMostRelevant(previewData: PreviewData, previewDocument: PreviewDocument, type: string): boolean {
     const extracts = this.previewService.getExtracts(previewData, undefined, type);
-    if(extracts[0]) {
+    this.updateHighlights(type);
+    if (extracts[0]) {
       const mostRelevantExtract = extracts[0].textIndex;
       previewDocument.selectHighlight(type, mostRelevantExtract); // Scroll to most relevant extract
       return true;
@@ -277,16 +339,43 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     return false;
   }
 
-  openPanel(panel: string) {
+  updateHighlights(type?: string) {
+    if (this.previewData) {
+      if (!type) {
+        this.previewDocument?.filterHighlights([]);
+      } else {
+        this.highlightType = type;
+        const highlights = Object.keys(this.previewData.highlightsPerCategory)
+          .filter(h => (type === "matchingpassages" && (h === "matchingpassages" || h === "extractslocations" || h === "matchlocations"))
+            || (type === "extractslocations" && (h === "extractslocations" || h === "matchlocations"))
+            || (type === 'entities' && h !== "matchingpassages" && h !== "extractslocations"));
+        this.previewDocument?.filterHighlights(highlights);
+      }
+    }
+  }
+
+  openPanel(tab: Tab) {
+    const panel = tab.value;
     this.subpanel = panel;
     // Change the type of extract highlighted by the minimap in function of the current tab
-    if(panel === "passages") {
-      this.minimapType = "matchingpassages";
-    }
-    if(panel === "extracts") {
+    if (panel === "passages") {
       this.minimapType = "extractslocations";
+      if (this.previewData && this.previewDocument) {
+        this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")
+      }
+    } else {
+      this.previewDocument?.clearPassageHighlight();
     }
-    return false;
+    if (panel === "extracts") {
+      this.minimapType = "extractslocations";
+      if (this.previewData && this.previewDocument) {
+        this.highlightMostRelevant(this.previewData, this.previewDocument, "extractslocations")
+      }
+    }
+    if (panel === 'entities') {
+      this.minimapType = "none";
+      this.updateHighlights('entities');
+    }
   }
 
   onPreviewPageChange(event: string | PreviewDocument) {
@@ -304,7 +393,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Back button (navigating back to search)
    */
-  back(){
+  back() {
     this._location.back();
   }
 
@@ -318,9 +407,9 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Notification for the audit service
    */
-  notifyOriginalDoc(){
+  notifyOriginalDoc() {
     if (this.previewData) {
-      const type = this.previewData?.record.url1? AuditEventType.Doc_Url1 : AuditEventType.Doc_CacheOriginal;
+      const type = this.previewData?.record.url1 ? AuditEventType.Doc_Url1 : AuditEventType.Doc_CacheOriginal;
       this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, type);
     }
   }
@@ -337,7 +426,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
    */
   gotoPage(page: number) {
     const containerid = this.previewData?.record.containerid;
-    if(containerid) {
+    if (containerid) {
       const id = `${containerid}/#${page}#`;
 
       // we needs surround router.navigate() as we navigate outside Angular
@@ -357,11 +446,11 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
    * @param text
    */
   searchText(text: string) {
-    if(this.query && this.query.text !== text) {
+    if (this.query && this.query.text !== text) {
       this.query.text = text;
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: {query: this.query.toJsonForQueryString()},
+        queryParams: { query: this.query.toJsonForQueryString() },
         queryParamsHandling: 'merge',
         state: {}
       });
@@ -380,31 +469,22 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Entity facets state
    */
-  get entitiesStartUnchecked(): {[entity: string]: boolean} {
+  get entitiesStartUnchecked(): { [entity: string]: boolean } {
     return this.prefs.get("preview-entities-checked") || {};
   }
 
-  entitiesChecked(event: {entity: string, checked: boolean}) {
+  entitiesChecked(event: { entity: string, checked: boolean }) {
     const startUnchecked = this.entitiesStartUnchecked;
     startUnchecked[event.entity] = !event.checked;
     this.prefs.set("preview-entities-checked", startUnchecked);
   }
 
-  increaseScaleFactor() {
-    this.scaleFactor = this.scaleFactor + this.scaleFactorThreshold;
-    return false;
-  }
-
-  decreaseScaleFactor() {
-    this.scaleFactor = Math.round(Math.max(0.1, this.scaleFactor - this.scaleFactorThreshold) * 100) / 100;
-    return false;
-  }
-
-  shouldDisableMinimize() {
-    return this.scaleFactor <= 0.1;
-  }
-
-  leftPanelTooltipPlacement() {
-    return this.collapsedPanel ? 'right' : 'bottom'
+  private getTab(panel: string): Tab {
+    return {
+      name: panel,
+      display: `msg#preview.${panel}`,
+      value: panel,
+      count: 1
+    }
   }
 }

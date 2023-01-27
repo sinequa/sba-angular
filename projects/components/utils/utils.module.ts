@@ -18,6 +18,7 @@ import {Autofocus} from "./directives/autofocus";
 import {ClickOutside} from "./directives/click-outside";
 import {ScrollIntoView} from "./directives/scroll-into-view";
 import {FocusKeyListDirective} from "./directives/focus-key-list.directive";
+import {VirtualScrollDirective} from "./directives/virtual-scroll.directive";
 import {FocusKeyListItemDirective} from "./directives/focus-key-list-item.directive";
 import {ResizeEventDirective} from "./directives/resize-event.directive";
 import {StickyComponent} from "./directives/sticky";
@@ -45,12 +46,12 @@ export const defaultScreenSizeRules = {
     declarations: [
         DatePipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
-        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, VirtualScrollDirective
     ],
     exports: [
         DatePipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
-        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, VirtualScrollDirective
     ],
     providers: [
         {

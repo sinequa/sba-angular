@@ -41,6 +41,7 @@ export default {
             "expandTitle": "Maximiser",
             "minimize": "Réduire",
             "maximize": "Agrandir",
+            "toggleHighlight": "Activer/désactiver le surlignage",
             "toggleExtracts": "Surlignage des extraits pertinents",
             "extracts": "Extraits Pertinents",
             "toggleEntities": "Surlignage des entités",

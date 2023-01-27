@@ -19,6 +19,10 @@
   cursor: default;
 }
 
+sq-collapse {
+  flex: 1;
+}
+
 .card {
   ::ng-deep {
     .list-group.list-group-flush {
