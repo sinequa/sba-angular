@@ -244,6 +244,10 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         this.previewSearchable = this.previewConfig.previewSearchable;
       }
     }
+
+    if (!this.previewConfig || this.previewConfig.initialCollapsedPanel === undefined) {
+      this.collapsedPanel = this.ui.screenSizeIsLessOrEqual('xs');
+    }
   }
 
   ngOnDestroy() {
