@@ -62,6 +62,7 @@ export interface ExportQueryModel {
     maxCount?: number;
     queryName?: string;
     exportedColumns?: string[];
+    filename?: string;
 }
 
 /**
@@ -354,7 +355,7 @@ export class SavedQueriesService implements OnDestroy {
 
 
     public download(model : ExportQueryModel): Observable<HttpResponse<Blob>> {
-        return this.downloadService.download(this.requestExport(model));
+        return this.downloadService.download(this.requestExport(model), model.filename);
     }
 
     private requestExport(model: ExportQueryModel): Observable<HttpResponse<Blob>> {
@@ -475,7 +476,7 @@ export class SavedQueriesService implements OnDestroy {
      * @param exportType type of export to perform (selection, saved query, results)
      * @param savedQuery The saved query
      */
-    public exportModal(exportType: ExportSourceType, savedQuery?: SavedQuery)
+    public exportModal(exportType: ExportSourceType, savedQuery?: SavedQuery, filename?: string)
             : Promise<ModalResult> {
 
         if (!this.hasExportConfig() || !this.appService.app) {
@@ -487,7 +488,8 @@ export class SavedQueriesService implements OnDestroy {
         const model: ExportQueryModel = {
             format: ExportOutputFormat.Csv,
             export: exportType,
-            webService: defaultQueryWebService
+            webService: defaultQueryWebService,
+            filename
         };
 
         if (savedQuery && exportType === ExportSourceType.SavedQuery) {
