@@ -50,10 +50,10 @@ export class DatasetWebService extends HttpService {
         return this.httpClient.post<{datasets: Dataset}>(url, {parameters}).pipe(
             map(d => {
                 const res = d.datasets[query];
-                if(!isDatasetError(res)) {
-                    return res;
+                if(isDatasetError(res)) {
+                    throw new Error(res.errorMessage);
                 }
-                throw new Error(res.errorMessage);
+                return res;
             })
         );
     }
