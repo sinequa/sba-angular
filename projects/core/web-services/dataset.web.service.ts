@@ -15,6 +15,10 @@ export interface DatasetDescription {
     description?: string;
 }
 
+export function isResults(res: Results|DatasetError): res is Results {
+    return !(res as DatasetError).errorMessage;
+}
+
 /**
  * A service to notify the audit manager on the Sinequa server of client-side events
  */
@@ -41,10 +45,16 @@ export class DatasetWebService extends HttpService {
      * @param query name of the query
      * @param params parameters of the queries
      */
-    get(webServiceName: string, query: string, parameters = {}): Observable<Dataset> {
+    get(webServiceName: string, query: string, parameters = {}): Observable<Results> {
         const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}/${query}`;
         return this.httpClient.post<{datasets: Dataset}>(url, {parameters})
-            .pipe(map(d => {const obj = new Object(); obj[query]= d.datasets[query]; return obj as Dataset}));
+            .pipe(map(d => {
+                const res = d.datasets[query];
+                if(isResults(res)) {
+                    return res;
+                }
+                throw new Error(res.errorMessage);
+            }));
     }
 
     /**
