@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Observable, map } from "rxjs";
+import { Observable, map, tap } from "rxjs";
+import { AppService } from "../app-utils";
 import { HttpService } from "./http.service";
-import { Results } from "./query.web.service";
+import { Record, Results } from "./query.web.service";
 
 export type Dataset = {[key: string]: Results|DatasetError};
 
@@ -28,6 +29,12 @@ export function isResults(res: Results|DatasetError): res is Results {
 export class DatasetWebService extends HttpService {
     private static readonly endpoint = "search.dataset";
 
+    constructor(
+      public appService: AppService
+    ) {
+      super();
+    }
+
     /**
      * Return the list of queries configured in the given
      * dataset web service.
@@ -45,16 +52,20 @@ export class DatasetWebService extends HttpService {
      * @param query name of the query
      * @param params parameters of the queries
      */
-    get(webServiceName: string, query: string, parameters = {}): Observable<Results> {
+    get(webServiceName: string, query: string, parameters = {}, resolveAliases = true): Observable<Results> {
         const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}/${query}`;
-        return this.httpClient.post<{datasets: Dataset}>(url, {parameters})
-            .pipe(map(d => {
+        return this.httpClient.post<{datasets: Dataset}>(url, {parameters}).pipe(
+            map(d => {
                 const res = d.datasets[query];
                 if(isResults(res)) {
+                    if(resolveAliases) {
+                        this.resolveAliases(res);
+                    }
                     return res;
                 }
                 throw new Error(res.errorMessage);
-            }));
+            })
+        );
     }
 
     /**
@@ -63,21 +74,36 @@ export class DatasetWebService extends HttpService {
      * @param params parameters of the queries
      * @param datasets precise list of queries, defined in the web service, to be executed
      */
-    getBulk(webServiceName: string, parameters = {}, datasets: string[]): Observable<Dataset> {
+    getBulk(webServiceName: string, parameters = {}, datasets?: string[], resolveAliases = true): Observable<Dataset> {
         const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
-        return this.httpClient.post<{datasets: Dataset}>(url, {parameters, datasets})
-            .pipe(map(d => d.datasets));
+        return this.httpClient.post<{datasets: Dataset}>(url, {parameters, datasets}).pipe(
+            map(d => d.datasets),
+            tap(d => {
+                if(resolveAliases) {
+                    for(let result of Object.values(d)) {
+                        if(isResults(result)) {
+                            this.resolveAliases(result);
+                        }
+                    }
+                }
+            })
+        );
     }
 
-    /**
-     * Queries the given web service.
-     * @param webServiceName name of the web service
-     * @param params parameters of the queries
-     */
-    getAll(webServiceName: string, parameters = {}): Observable<Dataset> {
-        const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
-        return this.httpClient.post<{datasets: Dataset}>(url, {parameters})
-            .pipe(map(d => d.datasets));
+    protected resolveAliases(res: Results) {
+        // Resolve aggregation column names
+        for(let agg of res.aggregations) {
+            agg.column = this.appService.resolveColumnAlias(agg.column);
+        }
+
+        // Resolve record property names
+        res.records = res.records.map(record => {
+            const entries = Object.entries(record);
+            for(let entry of entries) {
+                entry[0] = this.appService.resolveColumnAlias(entry[0]);
+            }
+            return Object.fromEntries(entries) as Record;
+        });
     }
 
 }
