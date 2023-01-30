@@ -115,7 +115,7 @@ export class BsManageBaskets implements OnInit {
 
     export(basket: Basket) {
         this.basketsService.searchBasket(basket).then(_ =>
-            this.savedQueryService.exportModal(ExportSourceType.Result)
+            this.savedQueryService.exportModal(ExportSourceType.Result, undefined, basket.name)
         );
         return false;
     }

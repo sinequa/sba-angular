@@ -105,7 +105,7 @@ export class BsManageSavedQueries implements OnInit {
     }
 
     export(savedQuery: SavedQuery) {
-        this.savedQueriesService.exportModal(ExportSourceType.SavedQuery, savedQuery);
+        this.savedQueriesService.exportModal(ExportSourceType.SavedQuery, savedQuery, savedQuery.name);
         return false;
     }
 
