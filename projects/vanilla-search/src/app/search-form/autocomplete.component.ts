@@ -15,7 +15,13 @@ import { debounceTime, map, switchMap } from "rxjs/operators";
   templateUrl: './autocomplete.component.html',
   styles: [`
   .list-group-item-action {
+    text-overflow: ellipsis;
+    overflow: hidden;
     cursor: pointer;
+  }
+  .category {
+    /* This value prevents user agents from collapsing sequences of white space. Lines are only broken at preserved newline characters. */
+    white-space: pre;
   }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
