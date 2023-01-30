@@ -15,6 +15,10 @@ import { MachineLearningModuleComponent } from './modules/machine-learning-modul
 import { MetadataModuleComponent } from './modules/metadata-module/metadata-module.component';
 import { AdvancedModuleComponent } from './modules/advanced-module/advanced-module.component';
 import { AlertsModuleComponent } from './modules/alerts-module/alerts-module.component';
+import { AutocompleteModuleComponent } from './modules/autocomplete-module/autocomplete-module.component';
+import { ModalModuleComponent } from './modules/modal-module/modal-module.component';
+import { NotificationModuleComponent } from './modules/notification-module/notification-module.component';
+import { ResultsViewModuleComponent } from './modules/results-view-module/results-view-module.component';
 
 const routes: Routes = [
   { path: 'buttons', component: ButtonsComponent },
@@ -22,6 +26,7 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'alerts', component: AlertsModuleComponent },
   { path: 'advanced', component: AdvancedModuleComponent },
+  { path: 'autocomplete', component: AutocompleteModuleComponent },
   { path: 'facet', component: FacetModuleComponent },
   { path: 'preview', component: PreviewModuleComponent },
   { path: 'baskets', component: BasketsModuleComponent },
@@ -32,6 +37,9 @@ const routes: Routes = [
   { path: 'labels', component: LabelsModuleComponent },
   { path: 'machine-learning', component: MachineLearningModuleComponent },
   { path: 'metadata', component: MetadataModuleComponent },
+  { path: 'modal', component: ModalModuleComponent },
+  { path: 'notification', component: NotificationModuleComponent },
+  { path: 'results-view', component: ResultsViewModuleComponent },
   { path: '**', redirectTo: '/buttons' }
 ];
 

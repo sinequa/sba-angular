@@ -22,6 +22,7 @@ import { MenuComponent } from './menu/menu.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UtilsModule } from "@sinequa/components/utils";
 import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
+import { BsResultsViewModule, ResultsView } from "@sinequa/components/results-view";
 import { BsAlertsModule } from "@sinequa/components/alerts";
 import { MetadataModule } from "@sinequa/components/metadata";
 import { CollapseModule } from "@sinequa/components/collapse";
@@ -125,6 +126,25 @@ import { BsAdvancedModule } from '@sinequa/components/advanced';
 import { EditAlertComponent } from './modules/alerts-module/edit-alert/edit-alert.component';
 import { ManageAlertsComponent } from './modules/alerts-module/manage-alerts/manage-alerts.component';
 import { AlertsMenuComponent } from './modules/alerts-module/alerts-menu/alerts-menu.component';
+import { AutocompleteModuleComponent } from './modules/autocomplete-module/autocomplete-module.component';
+import { AutocompleteListComponent } from './modules/autocomplete-module/autocomplete-list/autocomplete-list.component';
+import { FieldSearchItemsComponent } from './modules/autocomplete-module/field-search-items/field-search-items.component';
+import { ModalModuleComponent } from './modules/modal-module/modal-module.component';
+import { ModalComponent } from './modules/modal-module/modal/modal.component';
+import { ModalHeaderComponent } from './modules/modal-module/modal-header/modal-header.component';
+import { ModalFooterComponent } from './modules/modal-module/modal-footer/modal-footer.component';
+import { LoginComponent } from './modules/modal-module/login/login.component';
+import { ConfirmComponent } from './modules/modal-module/confirm/confirm.component';
+import { OverrideUserComponent } from './modules/modal-module/override-user/override-user.component';
+import { EditableComponent } from './modules/modal-module/editable/editable.component';
+import { PromptComponent } from './modules/modal-module/prompt/prompt.component';
+import { HelpComponent } from './modules/modal-module/help/help.component';
+import { NotificationModuleComponent } from './modules/notification-module/notification-module.component';
+import { NotificationsComponent } from './modules/notification-module/notifications/notifications.component';
+import { NotificationsManagerComponent } from './modules/notification-module/notifications-manager/notifications-manager.component';
+import { ResultsViewModuleComponent } from './modules/results-view-module/results-view-module.component';
+import { ResultsViewSelectorComponent } from './modules/results-view-module/results-view-selector/results-view-selector.component';
+import { ResultsGridViewComponent } from './modules/results-view-module/results-grid-view/results-grid-view.component';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -188,6 +208,11 @@ const data: LocaleData = {
     },
     messages: {}
 };
+
+const resultsView: ResultsView = {
+    name: 'name',
+    type: 'type'
+  };
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -295,7 +320,26 @@ export class AppLocalesConfig implements LocalesConfig {
         SelectComponent,
         EditAlertComponent,
         ManageAlertsComponent,
-        AlertsMenuComponent
+        AlertsMenuComponent,
+        AutocompleteModuleComponent,
+        AutocompleteListComponent,
+        FieldSearchItemsComponent,
+        ModalModuleComponent,
+        ModalComponent,
+        ModalHeaderComponent,
+        ModalFooterComponent,
+        LoginComponent,
+        ConfirmComponent,
+        HelpComponent,
+        OverrideUserComponent,
+        EditableComponent,
+        PromptComponent,
+        NotificationModuleComponent,
+        NotificationsComponent,
+        NotificationsManagerComponent,
+        ResultsViewModuleComponent,
+        ResultsViewSelectorComponent,
+        ResultsGridViewComponent
     ],
     imports: [
         BrowserModule,
@@ -325,7 +369,8 @@ export class AppLocalesConfig implements LocalesConfig {
         MLModule,
         MetadataModule,
         BsAdvancedModule,
-        BsAlertsModule
+        BsAlertsModule,
+        BsResultsViewModule.forRoot([resultsView], resultsView)
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },

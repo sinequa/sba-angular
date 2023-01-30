@@ -1,0 +1,17 @@
+<app-component-demo title="BsAutocompleteList" [code]="code">
+    <input
+        sqAdvancedFormAutocomplete
+        [off]="false"
+        [suggestQuery]="'Paris'"
+        [dropdown]="dropdown"
+        type="text"
+        class="form-control"
+        [id]="'authors'"
+        autocomplete="off"
+        spellcheck="off">
+    <sq-autocomplete-list #dropdown>
+        <ng-template #itemTpl let-item>
+            <div class="py-2">{{item.display}}</div>
+        </ng-template>
+    </sq-autocomplete-list>
+</app-component-demo>
