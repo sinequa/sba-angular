@@ -89,7 +89,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   private displayHighlightsAction: Action;
   private highlightType: string;
   actions: Action[] = [];
-  showHighlights = true;
+  showHighlights: boolean;
 
   private readonly scaleFactorThreshold = 0.2;
   scaleFactor = 1.0;
@@ -112,6 +112,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     private zone: NgZone
   ) {
+    this.showHighlights = this.prefs.get("preview-highlights") || true;
 
     // If the page is refreshed login needs to happen again, then we can get the preview data
     this.loginSubscription = this.loginService.events.subscribe({
@@ -170,11 +171,10 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       title: "msg#facet.preview.toggleHighlight",
       action: () => {
         this.showHighlights = !this.showHighlights;
+        this.prefs.set("preview-highlights", this.showHighlights);
         this.updateHighlights(this.showHighlights ? this.highlightType : undefined);
         if (this.showHighlights && this.highlightType === "matchingpassages") {
           this.previewDocument?.highlightPassage();
-        } else {
-          this.previewDocument?.clearPassageHighlight();
         }
       }
     });
@@ -279,7 +279,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
           this.tabs = [
             this.getTab('entities')
           ];
-          console.log('previewData', previewData.highlightsPerCategory);
           if (previewData.highlightsPerCategory['matchingpassages']?.values.length) {
             this.subpanels.unshift("passages");
             this.tabs.unshift(this.getTab('passages'));
