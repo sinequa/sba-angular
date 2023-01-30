@@ -52,7 +52,8 @@ describe('BsFacetRange', () => {
   let fixture: ComponentFixture<BsFacetRange>;
 
   function setModifiedAggregation() {
-    context.results = {$aggregationMap: aggregations} as unknown as Results;
+    const agg = structuredClone(aggregations);
+    context.results = {$aggregationMap: agg} as unknown as Results;
     context.aggregation = "ModifiedRange";
 
     // fake getColumn() return value
@@ -60,8 +61,9 @@ describe('BsFacetRange', () => {
   }
 
   function setDoubleAggregation() {
+    const agg = structuredClone(aggregations);
     context.results = {
-      $aggregationMap: aggregations
+      $aggregationMap: agg
     } as unknown as Results;
     context.aggregation = "DoubleAggregation";
 

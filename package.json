@@ -108,7 +108,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/marked": "^4.0.3",
-    "@types/node": "^12.11.1",
+    "@types/node": "^16.18.11",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
     "eslint": "^8.18.0",
@@ -127,6 +127,6 @@
     "postcss": "^8.2.15",
     "sass-color-helpers": "^2.1.1",
     "ts-node": "~8.3.0",
-    "typescript": "~4.6.4"
+    "typescript": "4.7"
   }
 }
