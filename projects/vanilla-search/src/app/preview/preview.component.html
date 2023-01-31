@@ -133,7 +133,8 @@
 
         <!-- Right panel (iframe with preview HTML) -->
         <sq-facet-card [collapsible]="false" class="preview m-0" [actions]="actions" [actionsSize]="'md'"
-            [ngClass]="{'d-none d-sm-block col-sm-6 col-md-7 col-lg-9': !collapsedPanel}">
+            [cardClass]="'h-100'" [ngClass]="{'d-none d-sm-block col-sm-6 col-md-7 col-lg-9': !collapsedPanel}"
+            [collapseClass]="'flex-grow-1'" [collapseCustomClass]="'h-100'">
             <ng-template #headerTpl>
                 <div class="text-truncate flex-grow-1 py-2">
                     <div class="preview-title text-truncate">{{previewData?.record.title}}</div>

@@ -74,6 +74,19 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     @Input() secondaryActionsClass?: string = "btn-group float-end";
 
     /**
+     * Class applied to containing card
+     */
+    @Input() cardClass: string;
+
+    /**
+     * Classes applied to the collapse component
+     * collapseClass: applied to the component itself
+     * collapseCustomClass: inserted in the component's input
+     */
+    @Input() collapseClass: string;
+    @Input() collapseCustomClass: string;
+
+    /**
      * Whether the facet can be collapsed (default: true)
      */
     @Input() collapsible: boolean = true;

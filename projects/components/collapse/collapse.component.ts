@@ -15,7 +15,7 @@ export function collapseAnimations(timings: number | string): AnimationTriggerMe
 @Component({
     selector: "sq-collapse",
     template: `
-        <div *ngIf="!collapsed" class="sq-collapse h-100" [@show]="!collapsed && afterViewInit">
+        <div *ngIf="!collapsed" class="sq-collapse {{customClass}}" [@show]="!collapsed && afterViewInit">
             <ng-container [ngTemplateOutlet]="template"></ng-container>
         </div>
     `,
@@ -24,6 +24,7 @@ export function collapseAnimations(timings: number | string): AnimationTriggerMe
 })
 export class Collapse implements AfterViewInit {
     @Input() collapsed: boolean;
+    @Input() customClass: string;
     afterViewInit: boolean; // This allows to only trigger the animation after the view initialization
     @ContentChild(TemplateRef, {static: false}) template: TemplateRef<any>;
 
