@@ -1,4 +1,4 @@
-import { Directive, Input, OnChanges, EventEmitter, Output, SimpleChanges, HostListener, ElementRef, AfterViewInit } from "@angular/core";
+import { Directive, Input, OnChanges, EventEmitter, Output, SimpleChanges, AfterViewInit, ElementRef, OnDestroy } from "@angular/core";
 
 /**
  * Infinite Scroll Directive
@@ -9,7 +9,7 @@ import { Directive, Input, OnChanges, EventEmitter, Output, SimpleChanges, HostL
 @Directive({
     selector: "[sqVirtualScroll]"
 })
-export class VirtualScrollDirective implements OnChanges, AfterViewInit {
+export class VirtualScrollDirective implements OnChanges, AfterViewInit, OnDestroy {
     /**
      * The list to be scrolled
      */
@@ -44,52 +44,19 @@ export class VirtualScrollDirective implements OnChanges, AfterViewInit {
      */
     @Output() newList = new EventEmitter<Object[]>();
 
-    private indexFrom: number = 0;
     private indexTo: number = this.itemsNumber;
-    private showTopSpacer = false;
+    private observer: IntersectionObserver;
 
     get subList(): Object[] {
-        return this.list?.slice(this.indexFrom, this.indexTo) || [];
-    }
-
-    @HostListener("scroll", ["$event"])
-    onScrollTriggered(event: Event): void {
-        const target = event.target as HTMLElement;
-        const isStart = target.scrollTop === 0;
-        const isEnd = target.scrollHeight - Math.ceil(target.scrollTop) <= target.clientHeight;
-        const isFirstPart = this.indexTo - this.itemsNumber < this.itemsNumber;
-        const isLastPart = this.indexTo + this.itemsNumber >= this.list.length;
-
-        if (isStart && this.indexFrom) {
-            // If reached the top of the items list
-            this.setTopSpacerVisibility(false);
-            const id = 0 + this.indexFrom;
-            this.indexFrom = isFirstPart ? 0 : this.indexFrom - this.itemsNumber;
-            this.indexTo = isFirstPart ? this.itemsNumber
-                : (isLastPart ? this.list.length - 1 : this.indexTo - this.itemsNumber);
-            this.newList.emit(this.subList);
-            this.scrollTo(id);
-        } else if (isEnd && this.indexTo < this.list.length) {
-            // If reached the bottom of the items list
-            const id = this.subList[this.subList.length - 1][this.idParameter];
-            this.indexFrom = isLastPart ? this.list.length - this.itemsNumber
-                : (isFirstPart ? this.indexFrom : this.indexFrom + this.itemsNumber);
-            this.indexTo = isLastPart ? this.list.length - 1 : this.indexTo + this.itemsNumber;
-            this.newList.emit(this.subList);
-            this.scrollTo(id);
-        } else if (this.indexFrom > 0 && !this.showTopSpacer) {
-            // Display the small spacer at the top of the list
-            this.setTopSpacerVisibility(true);
-        }
+        return this.list?.slice(0, this.indexTo) || [];
     }
 
     constructor(private elementRef: ElementRef) {
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(changes: SimpleChanges): void {
         if (changes["list"]) {
             // Reset if new list
-            this.indexFrom = 0;
             this.indexTo = this.itemsNumber;
             this.newList.emit(this.subList);
         }
@@ -97,14 +64,7 @@ export class VirtualScrollDirective implements OnChanges, AfterViewInit {
             // If forced selected index
             this.indexTo = this.scrollIndex + this.itemsNumber < this.list.length
                 ? this.scrollIndex + this.itemsNumber : this.list.length - 1;
-            this.indexFrom = this.indexTo - this.itemsNumber > 0
-                ? this.indexTo - this.itemsNumber : 0;
             this.newList.emit(this.subList);
-
-            if (this.indexFrom > 0 && !this.showTopSpacer) {
-                this.setTopSpacerVisibility(true);
-            }
-
             this.scrollTo(this.scrollIndex);
         }
     }
@@ -112,16 +72,24 @@ export class VirtualScrollDirective implements OnChanges, AfterViewInit {
     ngAfterViewInit(): void {
         // Add spacers at the top and bottom of the list which prevent strange behavior when doing some forced scrolling
         // like if we force scroll to an element, it is set at the top and if no spacer is here it will think we have scrolled top and go to the previous page
-        this.elementRef.nativeElement.insertAdjacentHTML('afterbegin', '<div id="infinite-scroll-top-spacing" class="d-none" style="height:1rem">&nbsp;</div>');
-        this.elementRef.nativeElement.insertAdjacentHTML('beforeend', '<div id="infinite-scroll-bottom-spacing" class="d-block" style="height:1rem">&nbsp;</div>');
+        this.elementRef.nativeElement.insertAdjacentHTML('beforeend', '<div id="infinite-scroll-spacing" class="d-block" style="height:1rem">&nbsp;</div>');
+        const element = document.querySelector('#infinite-scroll-spacing');
+        if (element) {
+            this.observer = new IntersectionObserver(([entry]) => {
+                if (entry.isIntersecting) {
+                    const isLastPart = this.indexTo + this.itemsNumber >= this.list.length;
+                    const id = this.subList[this.subList.length - 1][this.idParameter];
+                    this.indexTo = isLastPart ? this.list.length - 1 : this.indexTo + this.itemsNumber;
+                    this.newList.emit(this.subList);
+                    this.scrollTo(id);
+                }
+            });
+            this.observer.observe(element);
+        }
     }
 
-    private setTopSpacerVisibility(visible: boolean): void {
-        this.showTopSpacer = visible;
-        const elt = document.getElementById('infinite-scroll-top-spacing');
-        if (elt) {
-            elt.className = visible ? 'd-block' : 'd-none';
-        }
+    ngOnDestroy(): void {
+        this.observer.disconnect();
     }
 
     private scrollTo(id: number): void {
