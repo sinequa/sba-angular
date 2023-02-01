@@ -36,10 +36,6 @@
             <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
         </div>
     </div>
-
-    <div class="container-fluid text-nowrap" *ngIf="results$ | async as results">
-        <div class="ms-auto btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
-    </div>
 </nav>
 
 <!-- Loading bar (Manages its own state and visibility via the search service) -->
@@ -48,14 +44,6 @@
 <!-- Main interface -->
 <ng-container *ngIf="loginService.complete">
     <div class="flex-grow-1 container-fluid position-relative main-content" *ngIf="results$ | async as results">
-
-        <!-- Result sidebar toggle -->
-        <span class="toggle-results btn-link"
-            [ngClass]="{collapsed: !showResults}"
-            [sqTooltip]="toggleResultsTitle | sqMessage"
-            (click)="toggleResults()">
-            <i [ngClass]="showResults ? 'fas fa-chevron-circle-left' : 'fas fa-chevron-circle-right'"></i>
-        </span>
 
         <div class="row flex-nowrap h-100">
 
@@ -89,7 +77,7 @@
                         </a>
                     </div>
                     <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
-                    <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
+                    <sq-sort-selector [results]="results" [rightAligned]="true" [style]="theme"></sq-sort-selector>
                 </div>
 
                 <!-- Did you mean -->
@@ -101,7 +89,7 @@
                 <!-- List of documents (for loop) -->
                 <div *ngFor="let record of results.records; index as i" class="record d-flex"
                     (click)="onDocumentClicked(record, $event)"
-                    [ngClass]="{'selected': record.$selected || isOpened(record)}"
+                    [ngClass]="{'selected': record.$selected || record.$opened}"
                     [sqScrollIntoView]="{active: record.id === lastSelectedId, first: i === 0}">
                     <div class="flex-grow-1 overflow-hidden">
                         <div class="d-flex align-items-center">
@@ -126,27 +114,15 @@
             </div>
 
             <!-- Dashboard -->
-            <div class="h-100 px-0 dashboard-container" [ngClass]="{'dashboard-container--expanded': !showResults}">
-
-                <!-- Gridster dashboard component -->
-                <gridster #gridster [options]="dashboardService.options">
-                    <!-- Gridster item component (one for each widget): Manages drag & drop, resize, etc. -->
-                    <gridster-item [item]="item" *ngFor="let item of dashboardService.dashboard.items; index as i" [attr.focus]="i === focusElementIndex">
-                        <!-- Sinequa dashboard item component which wraps each widget type-->
-                        <sq-dashboard-item
-                            [config]="item"
-                            [results]="results"
-                            [width]="item.width"
-                            [height]="item.height"
-                            [buttonsStyle]="isDark()? 'dark' : 'light'"
-                            (recordClicked)="onDocumentClickedFromView($event)"
-                            (click)="setFocus(i, $event)"
-                            [sqScrollIntoView]="{active: item.recordId && item.recordId === lastClickedId, first: i === 0}">
-                        </sq-dashboard-item>
-                    </gridster-item>
-                </gridster>
-
-            </div>
+            <app-dashboard
+                [results]="results"
+                [theme]="isDark()? 'dark' : 'light'"
+                [showResults]="showResults"
+                class="px-0"
+                [ngClass]="{expanded: !showResults}"
+                (recordClicked)="onDocumentClickedFromView($event)"
+                (toggleResults)="toggleResults()">
+            </app-dashboard>
 
         </div>
 

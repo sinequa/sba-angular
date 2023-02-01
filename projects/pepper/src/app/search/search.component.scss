@@ -23,37 +23,11 @@
     }
 }
 
-.toggle-results {
-    cursor: pointer;
-    font-size: 1.15rem;
-    position: absolute;
-    opacity: 0.5;
-    top: 3px;
-
-    left: calc(33% - 32px);
-    transition: left .5s,  opacity .5s;
-
-    &:hover {
-        opacity: 1;
-    }
-
-    &.collapsed {
-        opacity: 1;
-        left: 5px;
-        z-index: 999;
-    }
-
-    & > i {
-        background: white;
-        border-radius: 10px;
-    }
-}
-
-.dashboard-container {
+app-dashboard {
     width: calc(100% - 33%);
 
-    &--expanded {
-        width: 100% !important;
+    &.expanded {
+        width: calc(100%);
     }
 }
 
@@ -90,43 +64,4 @@ h1 {
 .card.action-bar {
     bottom: 10px;
     z-index: 4;
-}
-
-// Dashboard (Gridster)
-gridster {
-    background: transparent !important;
-    z-index: 1;
-}
-
-// Active when resizing or dragging items: prevents a glitch when the mouse pointer hovers the preview's iframe
-gridster.display-grid {
-    ::ng-deep iframe {
-        pointer-events: none !important;
-    }
-
-    ::ng-deep iframe {
-        pointer-events: none !important;
-    }
-}
-
-gridster-item {
-    border-radius: 0.25em;
-    overflow: initial;
-}
-
-gridster-item.gridster-item-moving {
-    z-index: 100 !important;
-}
-
-gridster-item.gridster-item-resizing {
-    overflow: hidden;
-}
-
-// always display gridster-item buttons while
-// focused
-gridster-item[focus="true"] {
-    z-index: 90 !important;
-    button {
-        visibility: visible;
-    }
 }
