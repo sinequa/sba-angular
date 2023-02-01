@@ -23,10 +23,10 @@ import {ResizeEventDirective} from "./directives/resize-event.directive";
 import {StickyComponent} from "./directives/sticky";
 import {TooltipComponent} from "./directives/tooltip/tooltip.component";
 import {TooltipDirective} from "./directives/tooltip/tooltip.directive";
+import {BsVirtualScroller} from "./virtual-scroller/virtual-scroller";
 
 // UI Service
 import {SCREEN_SIZE_RULES} from "./ui.service";
-import { BsVirtualScroller } from "./virtual-scroller/virtual-scroller";
 
 export const defaultScreenSizeRules = {
     xxl: "(min-width: 1920px)",
