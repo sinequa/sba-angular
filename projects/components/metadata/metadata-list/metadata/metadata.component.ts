@@ -25,6 +25,7 @@ export class MetadataComponent implements OnChanges {
 
     display = false;
     icon: string;
+    color: string | undefined;
     column: CCColumn | undefined;
     itemLabelMessageParams: any;
 
@@ -54,9 +55,12 @@ export class MetadataComponent implements OnChanges {
     ngOnChanges() {
         this.display = !!this.item && !!this.record && !!this.record[this.item];
         if (!!this.item) {
-            this.icon = this.item === 'docformat'
-                ? this.iconService.getFormatIcon(this.record[this.item]) || ''
-                : this.iconService.getIcon(this.item) || '';
+            if (this.item === 'docformat') {
+                this.icon = this.iconService.getFormatIcon(this.record[this.item]) || '';
+                this.color = this.iconService.getColor(this.record[this.item]);
+            } else {
+                this.icon = this.iconService.getIcon(this.item) || '';
+            }
 
             this.column = this.appService.getColumn(this.item);
             this.itemLabelMessageParams = { values: { label: this.appService.getLabel(this.item) } };
