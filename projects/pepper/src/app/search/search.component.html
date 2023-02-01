@@ -1,5 +1,5 @@
 <!-- Navbar with app icon, search form, and menus -->
-<nav class="navbar navbar-expand flex-column pb-0" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
+<nav class="navbar navbar-expand flex-column" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
     <div class="container-fluid pb-2">
 
         <!-- Application logo -->
@@ -62,7 +62,7 @@
                 <sq-tabs [results]="results"></sq-tabs>
 
                 <!-- Toolbar -->
-                <div class="d-flex flex-row small" [ngClass]="{'me-2': !results.tabs}"> <!-- margin right when no tab, due to results toggle button -->
+                <div class="d-flex flex-row small my-1">
                     <div class="flex-grow-1">
                         <a href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
                             <sq-filters *ngIf="searchService.query.filters"

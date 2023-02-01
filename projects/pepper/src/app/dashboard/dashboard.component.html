@@ -45,14 +45,14 @@
   positioned absolutely (so that scrolling on the left area scrolls the dashboard)
   - 43px padding accounts for a standard facet header height and borders
   - 2px  padding accounts for 1px borders on each side
-  - 85px padding accounts for the app's header
+  - 110px padding accounts for the app's header
 -->
 <sq-dashboard
   [dashboard]="dashboard"
   [gridsterOptions]="{outerMarginLeft: 60}"
   [horizontalPadding]="2"
-  [verticalPadding]="43"
-  [windowPadding]="85"
+  [verticalPadding]="46"
+  [windowPadding]="110"
   (changed)="onChanged($event)"
   (removed)="onRemoved($event)">
 
