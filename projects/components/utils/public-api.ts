@@ -19,3 +19,4 @@ export * from "./utils.module";
 export * from "./ui.service";
 export * from "./voice-recognition/voice-recongnition.service";
 export * from "./messages";
+export * from "./virtual-scroller/virtual-scroller";

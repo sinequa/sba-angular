@@ -8,4 +8,3 @@ export * from "./loading-bar/loading-bar";
 export * from "./scroller/scroller";
 export * from "./load-more/load-more";
 export * from "./scope/scope.component";
-export * from "./virtual-scroller/virtual-scroller";

@@ -26,6 +26,7 @@ import {TooltipDirective} from "./directives/tooltip/tooltip.directive";
 
 // UI Service
 import {SCREEN_SIZE_RULES} from "./ui.service";
+import { BsVirtualScroller } from "./virtual-scroller/virtual-scroller";
 
 export const defaultScreenSizeRules = {
     xxl: "(min-width: 1920px)",
@@ -45,12 +46,12 @@ export const defaultScreenSizeRules = {
     declarations: [
         DatePipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
-        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, BsVirtualScroller
     ],
     exports: [
         DatePipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
-        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, BsVirtualScroller
     ],
     providers: [
         {

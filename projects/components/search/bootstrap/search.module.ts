@@ -18,7 +18,6 @@ import {BsLoadingBar} from "./loading-bar/loading-bar";
 import {BsScroller} from "./scroller/scroller"
 import {BsLoadMore} from './load-more/load-more';
 import {BsScopeComponent} from "./scope/scope.component";
-import { BsVirtualScroller } from "./virtual-scroller/virtual-scroller";
 
 @NgModule({
     imports: [
@@ -37,14 +36,14 @@ import { BsVirtualScroller } from "./virtual-scroller/virtual-scroller";
         BsPager, BsPageSizeSelector, BsSortSelector,
         BsTabs, BsLoadingBar,
         BsScroller, BsLoadMore,
-        BsScopeComponent, BsVirtualScroller
+        BsScopeComponent
     ],
     exports: [
         BsDidYouMean,
         BsPager, BsPageSizeSelector, BsSortSelector,
         BsTabs, BsLoadingBar,
         BsScroller, BsLoadMore,
-        BsScopeComponent, BsVirtualScroller
+        BsScopeComponent
     ],
 })
 export class BsSearchModule {
