@@ -1,4 +1,4 @@
-<div class="card {{cardClass}}">
+<div class="card">
     <!-- Facet card header -->
     <div class="card-header cursor-default ps-3 pe-2 py-1">
         <div class="d-flex align-items-center">
@@ -38,7 +38,7 @@
     </div>
 
     <!-- Facet card content -->
-    <sq-collapse class="{{collapseClass}}" [collapsed]="_collapsed" [customClass]="collapseCustomClass">
+    <sq-collapse [collapsed]="_collapsed">
         <ng-template>
             <ng-container *ngIf="!_settingsOpened && view" [ngTemplateOutlet]="view.template"></ng-container>
             <ng-content *ngIf="!_settingsOpened && !view"></ng-content>
