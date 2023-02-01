@@ -12,8 +12,7 @@
 
     <ng-template #extractsTpl>
         <sq-virtual-scroller class="overflow-auto mb-4 list-group" id="extracts-list" [list]="extracts"
-            idParameter="relevanceIndex" idPrefix="extract" [itemsNumber]="extractsNumber" [scrollIndex]="scrollIndex"
-            (newList)="displayedExtracts = $event">
+            [itemsNumber]="extractsNumber" [scrollIndex]="scrollIndex" (newList)="displayedExtracts = $event">
             <div *ngFor="let extract of displayedExtracts; let i = index" class="px-2 px-lg-4"
                 [sqScrollIntoView]="{active: i === currentIndex, first: i === 0}"
                 [id]="'extract-' + extract.relevanceIndex">
