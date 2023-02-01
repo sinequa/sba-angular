@@ -1,6 +1,6 @@
-:host ::ng-deep .cdk-virtual-scroll-orientation-vertical .cdk-virtual-scroll-content-wrapper {
-      min-width: 100%;
-      max-width: 100%;
+:host ::ng-deep {
+    display: flex;
+    flex-direction: column;
 }
 
 .spinner-grow {
