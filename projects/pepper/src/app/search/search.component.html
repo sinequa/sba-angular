@@ -77,7 +77,7 @@
                         </a>
                     </div>
                     <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
-                    <sq-sort-selector [results]="results" [rightAligned]="true" [style]="theme"></sq-sort-selector>
+                    <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
                 </div>
 
                 <!-- Did you mean -->

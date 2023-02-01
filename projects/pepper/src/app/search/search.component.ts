@@ -27,8 +27,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  theme = 'light';
-
   public readonly facetComponents = {
     ...default_facet_components,
     "date": BsFacetDate
