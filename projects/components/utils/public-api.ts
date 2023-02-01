@@ -7,7 +7,6 @@ export * from "./directives/resize-event.directive";
 export * from "./directives/sticky";
 export * from "./directives/tooltip/tooltip.directive";
 export * from "./directives/tooltip/tooltip.component";
-export * from "./directives/virtual-scroll.directive";
 export * from "./pipes/date-pipe";
 export * from "./pipes/memory-size-pipe";
 export * from "./pipes/moment-pipe";
