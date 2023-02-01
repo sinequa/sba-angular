@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { Record } from "@sinequa/core/web-services";
-import { DashboardComponent, WidgetOption, DashboardService, Widget } from "@sinequa/analytics/dashboard";
+import { DashboardComponent, WidgetOption, DashboardService, Widget, WidgetState } from "@sinequa/analytics/dashboard";
 import { FinanceModule } from "@sinequa/analytics/finance";
 import { FusionChartsModule } from "@sinequa/analytics/fusioncharts";
 import { BsHeatmapModule } from "@sinequa/analytics/heatmap";
@@ -17,6 +17,7 @@ import { Results } from "@sinequa/core/web-services";
 import { map, Observable, of, tap } from "rxjs";
 import { GoogleMapsModule } from "@sinequa/analytics/googlemaps";
 import { UserPreferences } from "@sinequa/components/user-settings";
+import { NotificationsService } from "@sinequa/core/notification";
 
 const defaultOptions = {
   renamable: false,
@@ -88,6 +89,7 @@ export class AppDashboardComponent implements OnChanges {
     public searchService: SearchService,
     public dashboardService: DashboardService,
     public providerFactory: ProviderFactory,
+    public notificationsService: NotificationsService,
     public prefs: UserPreferences
   ) {}
 
@@ -113,12 +115,19 @@ export class AppDashboardComponent implements OnChanges {
       .map(option => this.dashboardService.createWidget(option));
   }
 
-  createDashboard(states: any[]) {
-    return states.map(state => {
-      const option = this.getOption(state.type);
-      option.state = state;
-      return this.dashboardService.createWidget(option);
-    });
+  createDashboard(states: WidgetState[]) {
+    try {
+      return states.map(state => {
+        const option = this.getOption(state.type);
+        option.state = state;
+        return this.dashboardService.createWidget(option);
+      });
+    }
+    catch(err) {
+      this.notificationsService.error("Failed to import dashboard! See the console for more information");
+      console.error(err);
+      return [];
+    }
   }
 
   addWidget() {
@@ -155,7 +164,7 @@ export class AppDashboardComponent implements OnChanges {
 
   // Button to reset the dashboard
 
-  promptReset() {
+  reset() {
     this.dashboardService.promptReset().then(confirmed => {
       if(confirmed) {
         this.dashboard = this.createDefaultDashboard();
@@ -163,6 +172,18 @@ export class AppDashboardComponent implements OnChanges {
     });
   }
 
+
+  // Import and export
+  export() {
+    this.dashboardService.export(this.dashboard);
+  }
+
+  import(input: HTMLInputElement) {
+    this.dashboardService.import(input).then(
+      res => this.dashboard = this.createDashboard(res),
+      err => console.warn("Aborted import", err)
+    );
+  }
 
   // Button to toggle the visibility of results
 

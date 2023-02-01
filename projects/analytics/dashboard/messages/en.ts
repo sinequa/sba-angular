@@ -14,6 +14,8 @@ export default {
     "renameWidgetMessage": "Enter a new name for this widget",
     "renameWidgetTitle": "Rename this widget",
     "maximizeTitle": "Maximize",
-    "minimizeTitle": "Reduce"
+    "minimizeTitle": "Reduce",
+    "export": "Export this dashboard configuration",
+    "import": "Import a dashboard configuration"
   }
 }

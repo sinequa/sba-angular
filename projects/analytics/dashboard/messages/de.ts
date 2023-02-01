@@ -14,6 +14,8 @@ export default {
     "renameWidgetMessage": "Geben Sie einen neuen Namen für dieses Widget ein",
     "renameWidgetTitle": "Benennen Sie dieses Widget um",
     "maximizeTitle": "Maximieren",
-    "minimizeTitle": "reduzieren"
+    "minimizeTitle": "reduzieren",
+    "export": "Die Konfiguration dieses Dashboards exportieren",
+    "import": "Dashboard-Konfiguration importieren"
   }
 }
