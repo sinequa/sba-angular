@@ -29,17 +29,7 @@ export class BsVirtualScroller implements OnChanges, AfterViewInit, OnDestroy {
   @Input() itemsNumber: number = 10;
 
   /**
-   * The unique parameter between the list items to scroll back to the element we were on after a new page load
-   */
-  @Input() idParameter: string = 'id';
-
-  /**
-   * Optional prefix for the elements' HTML id (so for ids like "extract-1" it would be "extract")
-   */
-  @Input() idPrefix: string;
-
-  /**
-   * To force going to a specific index
+   * When going to a specific index
    */
   @Input() scrollIndex: number;
 
@@ -71,7 +61,6 @@ export class BsVirtualScroller implements OnChanges, AfterViewInit, OnDestroy {
       this.indexTo = this.scrollIndex + this.itemsNumber < this.list.length
         ? this.scrollIndex + this.itemsNumber : this.list.length - 1;
       this.newList.emit(this.subList);
-      this.scrollTo(this.scrollIndex);
     }
   }
 
@@ -80,10 +69,8 @@ export class BsVirtualScroller implements OnChanges, AfterViewInit, OnDestroy {
     this.observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         const isLastPart = this.indexTo + this.itemsNumber >= this.list.length;
-        const id = this.subList[this.subList.length - 1][this.idParameter];
         this.indexTo = isLastPart ? this.list.length - 1 : this.indexTo + this.itemsNumber;
         this.newList.emit(this.subList);
-        this.scrollTo(id);
       }
     });
     this.observer.observe(this.spacing.nativeElement);
@@ -91,13 +78,6 @@ export class BsVirtualScroller implements OnChanges, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.observer.disconnect();
-  }
-
-  private scrollTo(id: number): void {
-    setTimeout(() => {
-      const elementId = this.idPrefix ? `${this.idPrefix}-${id}` : String(id);
-      document.getElementById(elementId)?.scrollIntoView();
-    });
   }
 
 }
