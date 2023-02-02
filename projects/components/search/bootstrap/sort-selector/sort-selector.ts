@@ -109,17 +109,13 @@ export class BsSortSelector implements OnChanges {
         if (!query)
             return false;
         const tabSearch = query.tabSearch;
-        console.log('isTabSearch', tabSearch)
         return !(!tabSearch || !tabSearch.column || !tabSearch.isActive ||
             !tabSearch.tabs || tabSearch.tabs.length === 0);
     }
 
     private getSortingChoices(): CCSortingChoice[] | null | undefined {
-        console.log('aaaa', this.isTabSearch());
         if (this.isTabSearch()) {
-            console.log('enterr');
             const tabName = this.searchService.results && this.searchService.results.tab;
-            console.log('tabname', tabName);
             if (tabName && this.appService.ccquery) {
                 for (const t of this.appService.ccquery.tabSearch.tabs) {
                     if (t.name === tabName) {
