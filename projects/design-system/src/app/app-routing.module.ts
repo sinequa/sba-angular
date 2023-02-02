@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ButtonsComponent } from "./buttons/buttons.component";
 import { InputsComponent } from "./inputs/inputs.component";
-import { SearchComponent } from "./search/search.component";
 import { FacetModuleComponent } from './modules/facet/facet-module.component';
 import { PreviewModuleComponent } from './modules/preview/preview-module.component';
 import { ResultModuleComponent } from './modules/result/result-module.component';
@@ -19,11 +18,14 @@ import { AutocompleteModuleComponent } from './modules/autocomplete-module/autoc
 import { ModalModuleComponent } from './modules/modal-module/modal-module.component';
 import { NotificationModuleComponent } from './modules/notification-module/notification-module.component';
 import { ResultsViewModuleComponent } from './modules/results-view-module/results-view-module.component';
+import { SearchModuleComponent } from './modules/search-module/search-module.component';
+import { RfmModuleComponent } from './modules/rfm-module/rfm-module.component';
+import { SavedQueriesModuleComponent } from './modules/saved-queries-module/saved-queries-module.component';
 
 const routes: Routes = [
   { path: 'buttons', component: ButtonsComponent },
   { path: 'inputs', component: InputsComponent },
-  { path: 'search', component: SearchComponent },
+  { path: 'search', component: SearchModuleComponent },
   { path: 'alerts', component: AlertsModuleComponent },
   { path: 'advanced', component: AdvancedModuleComponent },
   { path: 'autocomplete', component: AutocompleteModuleComponent },
@@ -40,6 +42,8 @@ const routes: Routes = [
   { path: 'modal', component: ModalModuleComponent },
   { path: 'notification', component: NotificationModuleComponent },
   { path: 'results-view', component: ResultsViewModuleComponent },
+  { path: 'rfm', component: RfmModuleComponent },
+  { path: 'saved-queries', component: SavedQueriesModuleComponent },
   { path: '**', redirectTo: '/buttons' }
 ];
 

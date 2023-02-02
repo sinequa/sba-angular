@@ -145,6 +145,30 @@ import { NotificationsManagerComponent } from './modules/notification-module/not
 import { ResultsViewModuleComponent } from './modules/results-view-module/results-view-module.component';
 import { ResultsViewSelectorComponent } from './modules/results-view-module/results-view-selector/results-view-selector.component';
 import { ResultsGridViewComponent } from './modules/results-view-module/results-grid-view/results-grid-view.component';
+import { RfmModuleComponent } from './modules/rfm-module/rfm-module.component';
+import { SavedQueriesModuleComponent } from './modules/saved-queries-module/saved-queries-module.component';
+import { SearchModuleComponent } from './modules/search-module/search-module.component';
+import { RfmActionComponent } from './modules/rfm-module/rfm-action/rfm-action.component';
+import { BsRfmModule } from '@sinequa/components/rfm';
+import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
+import { EditSavedQueryComponent } from './modules/saved-queries-module/edit-saved-query/edit-saved-query.component';
+import { ManageSavedQueriesComponent } from './modules/saved-queries-module/manage-saved-queries/manage-saved-queries.component';
+import { ExportQueryComponent } from './modules/saved-queries-module/export-query/export-query.component';
+import { QueryExporterComponent } from './modules/saved-queries-module/query-exporter/query-exporter.component';
+import { SavedQueriesMenuComponent } from './modules/saved-queries-module/saved-queries-menu/saved-queries-menu.component';
+import { FacetSavedQueriesComponent } from './modules/saved-queries-module/facet-saved-queries/facet-saved-queries.component';
+import { FacetRecentQueriesComponent } from './modules/saved-queries-module/facet-recent-queries/facet-recent-queries.component';
+import { FacetRecentDocumentsComponent } from './modules/saved-queries-module/facet-recent-documents/facet-recent-documents.component';
+import { DidYouMeanComponent } from './modules/search-module/did-you-mean/did-you-mean.component';
+import { BreadcrumbsComponent } from './modules/search-module/breadcrumbs/breadcrumbs.component';
+import { PagerComponent } from './modules/search-module/pager/pager.component';
+import { PageSizeSelectorComponent } from './modules/search-module/page-size-selector/page-size-selector.component';
+import { SortSelectorComponent } from './modules/search-module/sort-selector/sort-selector.component';
+import { TabsComponent } from './modules/search-module/tabs/tabs.component';
+import { LoadingBarComponent } from './modules/search-module/loading-bar/loading-bar.component';
+import { ScrollerComponent } from './modules/search-module/scroller/scroller.component';
+import { LoadMoreComponent } from './modules/search-module/load-more/load-more.component';
+import { ScopeComponent } from './modules/search-module/scope/scope.component';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -339,7 +363,29 @@ export class AppLocalesConfig implements LocalesConfig {
         NotificationsManagerComponent,
         ResultsViewModuleComponent,
         ResultsViewSelectorComponent,
-        ResultsGridViewComponent
+        ResultsGridViewComponent,
+        RfmModuleComponent,
+        SavedQueriesModuleComponent,
+        SearchModuleComponent,
+        RfmActionComponent,
+        EditSavedQueryComponent,
+        ManageSavedQueriesComponent,
+        ExportQueryComponent,
+        QueryExporterComponent,
+        SavedQueriesMenuComponent,
+        FacetSavedQueriesComponent,
+        FacetRecentQueriesComponent,
+        FacetRecentDocumentsComponent,
+        DidYouMeanComponent,
+        BreadcrumbsComponent,
+        PagerComponent,
+        PageSizeSelectorComponent,
+        SortSelectorComponent,
+        TabsComponent,
+        LoadingBarComponent,
+        ScrollerComponent,
+        LoadMoreComponent,
+        ScopeComponent
     ],
     imports: [
         BrowserModule,
@@ -370,7 +416,9 @@ export class AppLocalesConfig implements LocalesConfig {
         MetadataModule,
         BsAdvancedModule,
         BsAlertsModule,
-        BsResultsViewModule.forRoot([resultsView], resultsView)
+        BsResultsViewModule.forRoot([resultsView], resultsView),
+        BsRfmModule,
+        BsSavedQueriesModule
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },

@@ -1,0 +1,39 @@
+<h1>Search Module</h1>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <app-search-bar [search]="'Cooronavirus'"></app-search-bar>
+    </div>
+    <ng-container *ngIf="globalService.results">
+        <div class="col-12 mb-4">
+            <app-breadcrumbs></app-breadcrumbs>
+        </div>
+        <div class="col-12 mb-4">
+            <app-did-you-mean></app-did-you-mean>
+        </div>
+        <div class="col-12 mb-4">
+            <app-load-more></app-load-more>
+        </div>
+        <div class="col-12 mb-4">
+            <app-loading-bar></app-loading-bar>
+        </div>
+        <div class="col-12 mb-4">
+            <app-page-size-selector></app-page-size-selector>
+        </div>
+        <div class="col-12 mb-4">
+            <app-pager></app-pager>
+        </div>
+        <div class="col-12 mb-4">
+            <app-scope></app-scope>
+        </div>
+        <div class="col-12 mb-4">
+            <app-scroller></app-scroller>
+        </div>
+        <div class="col-12 mb-4">
+            <app-sort-selector></app-sort-selector>
+        </div>
+        <div class="col-12 mb-4">
+            <app-tabs></app-tabs>
+        </div>
+    </ng-container>
+</div>
