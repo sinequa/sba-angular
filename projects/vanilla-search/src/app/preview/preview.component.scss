@@ -4,6 +4,18 @@
 
 @import "../../../../components/theme/bootstrap-variables";
 
+:host ::ng-deep sq-facet-card .card {
+  height: 100%;
+
+  sq-collapse {
+    flex: 1;
+
+    .sq-collapse {
+      height: 100%;
+    }
+  }
+}
+
 nav {
   padding-left: .5rem;
   padding-right: .5rem;
@@ -87,6 +99,7 @@ nav img,
   .preview-content {
     background-color: black;
   }
+
   .side-menu {
     background-color: #1c1e21;
   }

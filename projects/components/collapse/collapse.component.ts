@@ -15,7 +15,7 @@ export function collapseAnimations(timings: number | string): AnimationTriggerMe
 @Component({
     selector: "sq-collapse",
     template: `
-        <div *ngIf="!collapsed" class="sq-collapse h-100" [@show]="!collapsed && afterViewInit">
+        <div *ngIf="!collapsed" class="sq-collapse" [@show]="!collapsed && afterViewInit">
             <ng-container [ngTemplateOutlet]="template"></ng-container>
         </div>
     `,

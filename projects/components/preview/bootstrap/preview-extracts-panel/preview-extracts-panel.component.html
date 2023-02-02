@@ -1,4 +1,4 @@
-<div *ngIf="previewData" class="d-flex flex-column h-100">
+<ng-container *ngIf="previewData">
     <div class="d-flex flex-row-reverse px-3 pb-2" *ngIf="extracts?.length > 0">
         <div class="btn-group" [sq-action-buttons]="{items: [sortAction], autoAdjust: true, style: 'link'}"></div>
     </div>
@@ -11,18 +11,19 @@
     </div>
 
     <ng-template #extractsTpl>
-        <div class="overflow-auto mb-4 list-group" id="extracts-list" sqVirtualScroll [list]="extracts"
-            idParameter="relevanceIndex" idPrefix="extract" [itemsNumber]="extractsNumber"
-            [scrollIndex]="scrollIndex" (newList)="displayedExtracts = $event">
-            <div *ngFor="let extract of displayedExtracts" class="px-2 px-lg-4"
+        <sq-virtual-scroller class="flex-grow-1 overflow-auto mb-4 list-group" id="extracts-list" [list]="extracts"
+            [itemsNumber]="extractsNumber" [scrollIndex]="scrollIndex" (newList)="displayedExtracts = $event">
+            <div *ngFor="let extract of displayedExtracts; let i = index" class="px-2 px-lg-4"
+                [sqScrollIntoView]="{active: i === currentIndex, first: i === 0}"
                 [id]="'extract-' + extract.relevanceIndex">
                 <a href="#" class="my-2 list-group-item list-group-item-action"
-                    [ngClass]="{'active': currentIndex === extract.relevanceIndex}" (click)="scrollExtract(extract, extract.relevanceIndex)">
+                    [ngClass]="{'active': currentIndex === extract.relevanceIndex}"
+                    (click)="scrollExtract(extract, extract.relevanceIndex)">
                     <p class="m-0" [innerHTML]="extract.text"></p>
                 </a>
                 <hr>
             </div>
-        </div>
+        </sq-virtual-scroller>
     </ng-template>
 
     <div class="d-flex justify-content-between p-4 pt-0" *ngIf="showPagination && extracts?.length > 0">
@@ -40,7 +41,7 @@
             </div>
         </button>
     </div>
-</div>
+</ng-container>
 
 <div class="text-center" *ngIf="!previewData">
     {{ 'msg#preview.loading' | sqMessage}}

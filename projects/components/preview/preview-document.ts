@@ -153,8 +153,15 @@ export class PreviewDocument {
      * @param index Index of the entity in that category
      */
     public selectHighlight(categoryId: string, index: number): void {
+        const id = categoryId + '_' + index;
 
         this.clearHighlightSelection();
+
+        if (id === this.previousElement?.id) {
+            this.previousElement = null;
+            return this.clearPassageHighlight();
+        }
+
         // current element becomes previous element
         this.previousElement = this.document.getElementById(categoryId + '_' + index);
 
