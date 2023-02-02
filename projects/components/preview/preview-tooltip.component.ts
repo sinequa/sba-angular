@@ -145,8 +145,10 @@ export class PreviewTooltip implements OnChanges {
      * Handle mouse movements. If hovering an entity and no text is selected, will display a tooltip for this entity
      */
     handleMouseMove = (event: MouseEvent) => {
-        if(!this.selectedText && event["path"]){
-            const path = <Element[]> event["path"];
+        // event.path: Deprecated and Removed (https://chromestatus.com/feature/5726124632965120)
+        const elementPath = (event.composedPath ? event.composedPath() : event['path']);
+        if(!this.selectedText && elementPath){
+            const path = <Element[]> elementPath;
             if(path.length>0){
                 const element = path[0];
                 if(element.nodeType === 1 && element.nodeName === "SPAN" && (element.attributes["data-entity-basic"] || element.attributes["data-entity-display"])){
