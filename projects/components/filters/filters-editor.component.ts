@@ -13,7 +13,6 @@ import { FiltersComponent } from "./filters.component";
 })
 export class FiltersEditorComponent extends FiltersComponent implements OnInit, OnDestroy {
   @Input() canDrag = false;
-  @Input() allowNesting = true;
 
   @Input('onDragDrop')
   public onDragDrop$!: Subject<CdkDragDrop<Filter[]>>;
@@ -59,18 +58,6 @@ export class FiltersEditorComponent extends FiltersComponent implements OnInit, 
       this.options.item.children?.forEach(a => a.selected = a.name === this.exprFilter?.operator);
       this.options = {...this.options}; // Force change detection
     }
-  }
-
-  nestFilter() {
-    this.query.nestFilter(c => c === this.filter, 'and');
-    this.filterEdit.emit(this.query);
-    return false; // prevent default
-  }
-
-  unnestFilter() {
-    this.query.unnestFilter(c => c === this.filter);
-    this.filterEdit.emit(this.query);
-    return false; // prevent default
   }
 
   setOperator(op: 'and'|'or'|'not') {

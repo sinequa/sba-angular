@@ -6,6 +6,7 @@
       [filter]="query.filters"
       [showField]="showField"
       [allowRemove]="allowRemove"
+      [allowNesting]="allowNesting"
       (filterEdit)="onFiltersChange()"
     ></sq-filters>
 
@@ -33,6 +34,9 @@
     <sq-filters-editor
       [query]="query"
       [filter]="query.filters"
+      [showField]="true"
+      [allowRemove]="true"
+      [allowNesting]="true"
       (filterEdit)="onFiltersChange()"
     ></sq-filters-editor>
 

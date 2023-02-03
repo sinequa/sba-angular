@@ -95,7 +95,7 @@
                   class="flex-grow-1 position-relative"
                   [query]="searchService.query"
                   [closeOnClickOutside]="true"
-                  [advancedModeClass]="'card position-absolute p-3'"
+                  [advancedModeClass]="'position-absolute card border shadow p-3'"
                   (filterEdit)="searchService.search()">
                 </sq-filters-view>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>

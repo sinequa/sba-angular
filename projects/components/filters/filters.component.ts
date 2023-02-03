@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { AppService, Query } from "@sinequa/core/app-utils";
-import { Filter, ExprFilter, ValueFilter, NullFilter, InFilter, BetweenFilter, isExprFilter } from "@sinequa/core/web-services";
+import { Filter, ExprFilter, ValueFilter, NullFilter, InFilter, BetweenFilter, isExprFilter, CCColumn } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-filters',
@@ -18,6 +18,7 @@ export class FiltersComponent implements OnChanges {
   @Input() showField = true;
   @Input() showOperator = true;
   @Input() allowRemove = true;
+  @Input() allowNesting = false;
   @Output() filterEdit = new EventEmitter<Query>();
 
   exprFilter?: ExprFilter;
@@ -27,6 +28,7 @@ export class FiltersComponent implements OnChanges {
   nullFilter?: NullFilter;
 
   field?: string;
+  column?: CCColumn;
   operator?: string;
 
   constructor(
@@ -54,7 +56,8 @@ export class FiltersComponent implements OnChanges {
 
         const field = this.getField(this.filter);
         if(field) {
-          this.field = this.appService.getLabel(field);
+          this.column = this.appService.getColumn(field);
+          this.field = this.exprFilter? this.appService.getPluralLabel(field) : this.appService.getSingularLabel(field);
         }
 
         // Get the operator displayed in front of the value
@@ -79,6 +82,15 @@ export class FiltersComponent implements OnChanges {
   remove() {
     this.query.removeFilters(f => f === this.filter);
     this.filterEdit.emit(this.query);
-    return false;
+  }
+
+  nestFilter() {
+    this.query.nestFilter(c => c === this.filter, 'and');
+    this.filterEdit.emit(this.query);
+  }
+
+  unnestFilter() {
+    this.query.unnestFilter(c => c === this.filter);
+    this.filterEdit.emit(this.query);
   }
 }
