@@ -16,6 +16,7 @@ export class FiltersViewComponent implements OnChanges {
   @Input() query: Query;
   @Input() showField = false;
   @Input() allowRemove = true;
+  @Input() allowNesting = false;
   @Input() closeOnClickOutside = false;
   @Input() simpleModeClass = "";
   @Input() advancedModeClass = "";
