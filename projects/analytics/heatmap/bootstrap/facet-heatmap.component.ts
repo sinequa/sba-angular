@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Optional, OnDestroy, inject } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Optional, OnDestroy, inject, DoCheck } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Subject, distinctUntilChanged, filter, Subscription } from 'rxjs';
 
@@ -17,7 +17,7 @@ import {HeatmapItem} from './heatmap.component';
     selector: "sq-facet-heatmap",
     templateUrl: './facet-heatmap.component.html'
 })
-export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, OnDestroy {
+export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, OnDestroy, DoCheck {
     @Input() results: Results;
     @Input() query?: Query;
     @Input() aggregation= "Heatmap";
@@ -140,6 +140,14 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         this._source$.unsubscribe();
 
         this.subs.unsubscribe();
+    }
+
+
+    // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
+    ngDoCheck(){
+        // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
+        // gets created when it is visible (otherwise, there can be visual bugs...)
+        this.ready = !this.cardComponent?._collapsed;
     }
 
 

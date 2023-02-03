@@ -31,10 +31,11 @@ import {deFinance} from "@sinequa/analytics/finance";
 import {deTimeline} from "@sinequa/analytics/timeline";
 import {deFilters} from "@sinequa/components/filters";
 import {deSearchForm} from "@sinequa/components/search-form";
+import {deDashboard} from "@sinequa/analytics/dashboard";
 
 const messages = Utils.merge({}, deCore, deUtils, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
     deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deNetwork,
-    deGooglemaps, deFinance, deTimeline, deTheme, deFilters, deSearchForm, appMessages);
+    deGooglemaps, deFinance, deTimeline, deTheme, deFilters, deSearchForm, deDashboard, appMessages);
 
 export default <LocaleData>{
     intl: {

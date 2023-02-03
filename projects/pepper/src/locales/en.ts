@@ -30,10 +30,11 @@ import {enFinance} from "@sinequa/analytics/finance";
 import {enTimeline} from "@sinequa/analytics/timeline";
 import {enFilters} from "@sinequa/components/filters";
 import {enSearchForm} from "@sinequa/components/search-form";
+import {enDashboard} from "@sinequa/analytics/dashboard";
 
 const messages = Utils.merge({}, enCore, enUtils, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, enHeatmap, enLabels, enMetadata,
     enNotification, enPreview, enResult, enResultsView, enSavedQueries, enSelection, enSearch, enStatusBar, enUserSettings, enNetwork,
-    enGooglemaps, enFinance, enTimeline, enTheme, enFilters, enSearchForm, appMessages);
+    enGooglemaps, enFinance, enTimeline, enTheme, enFilters, enSearchForm, enDashboard, appMessages);
 
 export default <LocaleData>{
     intl: {
