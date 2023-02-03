@@ -43,7 +43,7 @@
 
 <!-- Main interface -->
 <ng-container *ngIf="loginService.complete">
-    <div class="flex-grow-1 container-fluid position-relative main-content" *ngIf="results$ | async as results">
+    <div class="flex-grow-1 container-fluid position-relative overflow-hidden" *ngIf="results$ | async as results">
 
         <div class="row flex-nowrap h-100">
 
@@ -62,7 +62,7 @@
                 <sq-tabs [results]="results"></sq-tabs>
 
                 <!-- Toolbar -->
-                <div class="d-flex flex-row small my-1">
+                <div class="d-flex small sq-toolbar">
                     <div class="flex-grow-1">
                         <a href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
                             <sq-filters *ngIf="searchService.query.filters"

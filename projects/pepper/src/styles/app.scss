@@ -120,7 +120,7 @@ app-search-form {
 
 app-search nav {
     box-shadow: 1px 3px 4px 0px rgba(0,0,0,.08);
-    z-index: 3;
+    z-index: 4; // Above loading-bar (4) and dashboard toolbar (2)
 }
 
 

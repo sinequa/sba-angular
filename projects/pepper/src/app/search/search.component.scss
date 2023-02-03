@@ -5,10 +5,6 @@
     min-height: 100%;
 }
 
-.main-content {
-    overflow-y: hidden;
-}
-
 .results-list {
     max-height: 100%;
     overflow-y: scroll;
@@ -35,9 +31,8 @@ app-dashboard {
     height: 40px;
 }
 
-h1 {
-    color: #e64b30;
-    font-weight: bold;
+.sq-toolbar {
+    margin: 0.625rem 0;
 }
 
 // Styling of the result items
@@ -54,10 +49,6 @@ h1 {
     padding: 0.5em 15px;
     margin: 0 -15px;
     cursor: pointer;
-}
-
-.full-width {
-    flex-basis: 100%;
 }
 
 // Selection / Action bar on top of results (position: fixed)

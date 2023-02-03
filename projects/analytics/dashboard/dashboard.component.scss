@@ -39,12 +39,19 @@ gridster-item[focus="true"] {
   }
 }
 
-gridster-item ::ng-deep sq-facet-card > .card {
-  height: 100%; // Force cards to take 100%, even they have no content for some reason
+gridster-item ::ng-deep {
 
-  // Force the settings form of the Network and HeatMap facets to scroll rather than overflowing the widget frame
-  & .sq-collapse > .card-body {
-    height: var(--sq-widget-height);
-    overflow-y: auto;
+  sq-facet-card > .card {
+    height: 100%; // Force cards to take 100%, even they have no content for some reason
+
+    // Force the settings form of the Network and HeatMap facets to scroll rather than overflowing the widget frame
+    & .sq-collapse > .card-body {
+      height: var(--sq-widget-height);
+      overflow-y: auto;
+    }
+  }
+
+  .gridster-item-resizable-handler.handle-e {
+    right: -5px; // shift resize element slightly so that scrollbar can be manipulated
   }
 }
