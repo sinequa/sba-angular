@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
-import { ComponentWithLogin } from '@sinequa/core/login';
+import { AfterViewInit, Component } from '@angular/core';
+import { LoginService } from '@sinequa/core/login';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent extends ComponentWithLogin {
+export class AppComponent implements AfterViewInit {
 
-  constructor() {
-    super();
+  constructor(private loginService: LoginService) {
+  }
+
+  ngAfterViewInit(): void {
+    this.loginService.login();
   }
 }

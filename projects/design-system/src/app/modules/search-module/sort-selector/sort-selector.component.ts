@@ -7,7 +7,9 @@ import { GlobalService } from 'src/app/global.service';
 })
 export class SortSelectorComponent {
 
-  code = ``;
+  code = `<sq-sort-selector
+    [results]="results">
+</sq-sort-selector>`;
 
   constructor(public globalService: GlobalService) { }
 

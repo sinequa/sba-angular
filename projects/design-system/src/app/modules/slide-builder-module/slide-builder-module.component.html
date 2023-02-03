@@ -1,0 +1,15 @@
+<h1>Slide Builder Module</h1>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <app-search-bar [search]="'Paris'"></app-search-bar>
+    </div>
+    <ng-container *ngIf="globalService.results">
+        <div class="col-12 mb-4">
+            <app-slide-builder></app-slide-builder>
+        </div>
+        <div class="col-12 mb-4">
+            <app-slide-list></app-slide-list>
+        </div>
+    </ng-container>
+</div>

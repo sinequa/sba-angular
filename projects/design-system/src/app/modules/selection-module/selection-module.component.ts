@@ -2,14 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-tabs',
-  templateUrl: './tabs.component.html'
+  selector: 'app-selection-module',
+  templateUrl: './selection-module.component.html'
 })
-export class TabsComponent {
-
-  code = `<sq-tabs
-    [results]="results">
-</sq-tabs>`;
+export class SelectionModuleComponent {
 
   constructor(public globalService: GlobalService) { }
 

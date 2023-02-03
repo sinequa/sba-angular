@@ -3,8 +3,8 @@ import {NavigationEnd, Router} from "@angular/router";
 
 export interface MenuItem {
     name: string;
-    selected: boolean;
     enabled: boolean;
+    selected?: boolean;
 }
 
 @Component({
@@ -18,36 +18,36 @@ export class MenuComponent {
     fontSize: number;
 
     inputs: MenuItem[] = [
-        {selected: false, name: 'buttons', enabled: true},
-        {selected: false, name: 'inputs', enabled: true},
+        {name: 'buttons', enabled: true},
+        {name: 'inputs', enabled: true},
     ];
 
     components: MenuItem[] = [
-        {selected: false, name: 'advanced', enabled: true},
-        {selected: false, name: 'alerts', enabled: true},
-        {selected: false, name: 'autocomplete', enabled: true},
-        {selected: false, name: 'baskets', enabled: true},
-        {selected: false, name: 'collapse', enabled: true},
-        {selected: false, name: 'comments', enabled: true},
-        {selected: false, name: 'facet', enabled: true},
-        {selected: false, name: 'feedback', enabled: true},
-        {selected: false, name: 'labels', enabled: true},
-        {selected: false, name: 'machine-learning', enabled: true},
-        {selected: false, name: 'metadata', enabled: true},
-        {selected: false, name: 'modal', enabled: true},
-        {selected: false, name: 'notification', enabled: true},
-        {selected: false, name: 'preview', enabled: true},
-        {selected: false, name: 'result', enabled: true},
-        {selected: false, name: 'results-view', enabled: true},
-        {selected: false, name: 'rfm', enabled: true},
-        {selected: false, name: 'saved-queries', enabled: true},
-        {selected: false, name: 'search', enabled: true},
-        {selected: false, name: 'selection', enabled: false},
-        {selected: false, name: 'slide-builder', enabled: false},
-        {selected: false, name: 'status-bar', enabled: false},
-        {selected: false, name: 'theme-toggle', enabled: false},
-        {selected: false, name: 'user-settings', enabled: false},
-        {selected: false, name: 'utils', enabled: false}
+        {name: 'advanced', enabled: true},
+        {name: 'alerts', enabled: true},
+        {name: 'autocomplete', enabled: true},
+        {name: 'baskets', enabled: true},
+        {name: 'collapse', enabled: true},
+        {name: 'comments', enabled: true},
+        {name: 'facet', enabled: true},
+        {name: 'feedback', enabled: true},
+        {name: 'labels', enabled: true},
+        {name: 'machine-learning', enabled: true},
+        {name: 'metadata', enabled: true},
+        {name: 'modal', enabled: true},
+        {name: 'notification', enabled: true},
+        {name: 'preview', enabled: true},
+        {name: 'result', enabled: true},
+        {name: 'results-view', enabled: true},
+        {name: 'rfm', enabled: true},
+        {name: 'saved-queries', enabled: true},
+        {name: 'search', enabled: true},
+        {name: 'selection', enabled: true},
+        {name: 'slide-builder', enabled: true},
+        {name: 'status-bar', enabled: true},
+        {name: 'theme-toggle', enabled: true},
+        {name: 'user-settings', enabled: true},
+        {name: 'utils', enabled: true}
     ];
 
     private _previousMenu: MenuItem | undefined;

@@ -1,0 +1,18 @@
+<h1>Selection Module</h1>
+
+<div class="row">
+    <div class="col-12 mb-4">
+        <app-search-bar></app-search-bar>
+    </div>
+    <ng-container *ngIf="globalService.results">
+        <div class="col-12 mb-4">
+            <app-result-selector></app-result-selector>
+        </div>
+        <div class="col-12 mb-4">
+            <app-results-selector></app-results-selector>
+        </div>
+        <div class="col-12 mb-4">
+            <app-selection-arranger></app-selection-arranger>
+        </div>
+    </ng-container>
+</div>

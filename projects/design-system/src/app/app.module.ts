@@ -1,6 +1,5 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BsFacetModule, FacetConfig, FacetListParams, FacetState, FacetTreeParams } from "@sinequa/components/facet";
@@ -60,8 +59,6 @@ import { PreviewPageFormComponent } from './modules/preview/preview-page-form/pr
 import { PreviewMinimapComponent } from './modules/preview/preview-minimap/preview-minimap.component';
 import { FacetPreviewComponentComponent } from './modules/preview/facet-preview-component/facet-preview-component.component';
 import { ResultModuleComponent } from './modules/result/result-module.component';
-
-// Environment
 import { environment } from "../environments/environment";
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SearchBarComponent } from './search-bar/search-bar.component';
@@ -169,6 +166,29 @@ import { LoadingBarComponent } from './modules/search-module/loading-bar/loading
 import { ScrollerComponent } from './modules/search-module/scroller/scroller.component';
 import { LoadMoreComponent } from './modules/search-module/load-more/load-more.component';
 import { ScopeComponent } from './modules/search-module/scope/scope.component';
+import { SelectionModuleComponent } from './modules/selection-module/selection-module.component';
+import { SlideBuilderModuleComponent } from './modules/slide-builder-module/slide-builder-module.component';
+import { StatusBarModuleComponent } from './modules/status-bar-module/status-bar-module.component';
+import { ResultsSelectorComponent } from './modules/selection-module/results-selector/results-selector.component';
+import { ResultSelectorComponent } from './modules/selection-module/result-selector/result-selector.component';
+import { SelectionArrangerComponent } from './modules/selection-module/selection-arranger/selection-arranger.component';
+import { SlideBuilderComponent } from './modules/slide-builder-module/slide-builder/slide-builder.component';
+import { SlideListComponent } from './modules/slide-builder-module/slide-list/slide-list.component';
+import { FullscreenActivatorComponent } from './modules/status-bar-module/fullscreen-activator/fullscreen-activator.component';
+import { NetworkActivityComponent } from './modules/status-bar-module/network-activity/network-activity.component';
+import { ThemeToggleModuleComponent } from './modules/theme-toggle-module/theme-toggle-module.component';
+import { UserSettingsModuleComponent } from './modules/user-settings-module/user-settings-module.component';
+import { ThemeToggleComponent } from './modules/theme-toggle-module/theme-toggle/theme-toggle.component';
+import { EditUserSettingsComponent } from './modules/user-settings-module/edit-user-settings/edit-user-settings.component';
+import { UserSettingsEditorComponent } from './modules/user-settings-module/user-settings-editor/user-settings-editor.component';
+import { UserMenuComponent } from './modules/user-settings-module/user-menu/user-menu.component';
+import { UtilsModuleComponent } from './modules/utils-module/utils-module.component';
+import { StickyComponent } from './modules/utils-module/sticky/sticky.component';
+import { TooltipComponent } from './modules/utils-module/tooltip/tooltip.component';
+import { SlideBuilderModule } from '@sinequa/components/slide-builder';
+import { BsStatusBarModule } from '@sinequa/components/status-bar';
+import { BsThemeToggleModule } from '@sinequa/components/theme-toggle';
+import { BsUserSettingsModule } from '@sinequa/components/user-settings';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -385,7 +405,26 @@ export class AppLocalesConfig implements LocalesConfig {
         LoadingBarComponent,
         ScrollerComponent,
         LoadMoreComponent,
-        ScopeComponent
+        ScopeComponent,
+        SelectionModuleComponent,
+        SlideBuilderModuleComponent,
+        StatusBarModuleComponent,
+        ResultsSelectorComponent,
+        ResultSelectorComponent,
+        SelectionArrangerComponent,
+        SlideBuilderComponent,
+        SlideListComponent,
+        FullscreenActivatorComponent,
+        NetworkActivityComponent,
+        ThemeToggleModuleComponent,
+        UserSettingsModuleComponent,
+        ThemeToggleComponent,
+        EditUserSettingsComponent,
+        UserSettingsEditorComponent,
+        UserMenuComponent,
+        UtilsModuleComponent,
+        StickyComponent,
+        TooltipComponent
     ],
     imports: [
         BrowserModule,
@@ -418,7 +457,11 @@ export class AppLocalesConfig implements LocalesConfig {
         BsAlertsModule,
         BsResultsViewModule.forRoot([resultsView], resultsView),
         BsRfmModule,
-        BsSavedQueriesModule
+        BsSavedQueriesModule,
+        SlideBuilderModule,
+        BsStatusBarModule,
+        BsThemeToggleModule,
+        BsUserSettingsModule
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },

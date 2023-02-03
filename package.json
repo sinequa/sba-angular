@@ -6,7 +6,7 @@
     "start": "ng serve",
     "start:vanilla": "ng serve vanilla-search --ssl=true --proxy-config=./projects/vanilla-search/src/proxy.conf.json",
     "start:pepper": "ng serve pepper --ssl=true --proxy-config=./projects/pepper/src/proxy.conf.json",
-    "start:designsystem": "ng serve design-system --ssl=true",
+    "start:designsystem": "ng serve design-system",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-tabs',
-  templateUrl: './tabs.component.html'
+  selector: 'app-slide-list',
+  templateUrl: './slide-list.component.html'
 })
-export class TabsComponent {
+export class SlideListComponent {
 
-  code = `<sq-tabs
+  code = `<sq-slide-list
     [results]="results">
-</sq-tabs>`;
+</sq-slide-list>`;
 
   constructor(public globalService: GlobalService) { }
 

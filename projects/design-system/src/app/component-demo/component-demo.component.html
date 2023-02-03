@@ -1,15 +1,13 @@
 <sq-facet-card [title]="title">
     <div class="row p-3">
-        <div class="{{componentClass}}">
+        <div [ngClass]="componentClass">
             <ng-content></ng-content>
         </div>
-        <div class="{{codeClass}}">
+        <div [ngClass]="codeClass">
             <ng-container *ngIf="isArray">
                 <app-code *ngFor="let c of code; let i = index;" [code]="c" [addSpacer]="i < code.length-1"></app-code>
             </ng-container>
-            <ng-container *ngIf="!isArray">
-                <app-code [code]="code"></app-code>
-            </ng-container>
+            <app-code *ngIf="!isArray" [code]="code"></app-code>
         </div>
     </div>
 </sq-facet-card>

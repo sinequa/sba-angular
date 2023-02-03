@@ -21,6 +21,12 @@ import { ResultsViewModuleComponent } from './modules/results-view-module/result
 import { SearchModuleComponent } from './modules/search-module/search-module.component';
 import { RfmModuleComponent } from './modules/rfm-module/rfm-module.component';
 import { SavedQueriesModuleComponent } from './modules/saved-queries-module/saved-queries-module.component';
+import { StatusBarModuleComponent } from './modules/status-bar-module/status-bar-module.component';
+import { SlideBuilderModuleComponent } from './modules/slide-builder-module/slide-builder-module.component';
+import { SelectionModuleComponent } from './modules/selection-module/selection-module.component';
+import { ThemeToggleModuleComponent } from './modules/theme-toggle-module/theme-toggle-module.component';
+import { UserSettingsModuleComponent } from './modules/user-settings-module/user-settings-module.component';
+import { UtilsModuleComponent } from './modules/utils-module/utils-module.component';
 
 const routes: Routes = [
   { path: 'buttons', component: ButtonsComponent },
@@ -44,6 +50,12 @@ const routes: Routes = [
   { path: 'results-view', component: ResultsViewModuleComponent },
   { path: 'rfm', component: RfmModuleComponent },
   { path: 'saved-queries', component: SavedQueriesModuleComponent },
+  { path: 'selection', component: SelectionModuleComponent },
+  { path: 'slide-builder', component: SlideBuilderModuleComponent },
+  { path: 'status-bar', component: StatusBarModuleComponent },
+  { path: 'theme-toggle', component: ThemeToggleModuleComponent },
+  { path: 'user-settings', component: UserSettingsModuleComponent },
+  { path: 'utils', component: UtilsModuleComponent },
   { path: '**', redirectTo: '/buttons' }
 ];
 

@@ -12,7 +12,7 @@ export class ComponentDemoComponent {
   @Input() codeClass = 'col-7';
 
   get isArray() {
-    return this.code instanceof Array;
+    return Array.isArray(this.code);
   }
 
   constructor() { }

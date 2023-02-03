@@ -13,9 +13,16 @@ export class GlobalService {
   query: Query = new Query('query');
   results: Results;
   pagesResults: Results;
-  record: Record;
   previewData: PreviewData;
   previewDocument: PreviewDocument;
+
+  get records(): Record[] | undefined {
+    return this.results?.records?.length ? this.results.records : undefined
+  }
+
+  get record(): Record | undefined {
+    return this.records ? this.records[0] : undefined;
+  }
 
   constructor(private searchService: SearchService,
     private previewService: PreviewService,
@@ -37,11 +44,7 @@ export class GlobalService {
         this.results = results;
         this.results.tab = 'Tab1';
         this.searchService.setResults(this.results);
-        if (results?.records?.length) {
-          this.record = results.records[0];
-          this.getPreviewData();
-          console.log('record', this.record);
-        }
+        this.getPreviewData();
 
         this.appService.ccquery = {} as any;
         if (this.appService.ccquery) {
@@ -55,9 +58,12 @@ export class GlobalService {
             postGroupBy: false,
             mergeGroups: false,
             tabs: [
-              { name: 'Tab1', display: 'Tab1', value: 'value', isDefault: true, excludedIndices: '', excludedAggregations: '', sortingChoices: [
-                // SORTING CHOICE ICI
-              ] }
+              {
+                name: 'Tab1', display: 'Tab1', value: 'value', isDefault: true, excludedIndices: '', excludedAggregations: '', sortingChoices: [
+                  { name: 'sortingChoice', description: 'description', display: 'choice1', orderByClause: 'test', isDefaultNoRelevance: true, isDefaultWithRelevance: true },
+                  { name: 'sortingChoice', description: 'description', display: 'choice2', orderByClause: 'test', isDefaultNoRelevance: true, isDefaultWithRelevance: true }
+                ]
+              }
             ]
           };
           this.appService.ccquery.scopes = [
@@ -69,14 +75,16 @@ export class GlobalService {
   }
 
   getPreviewData(): void {
-    this.previewService.getPreviewData(this.record.id, this.query).subscribe(
-      previewData => {
-        this.previewData = previewData;
-        const pageNumber = this.previewService.getPageNumber(previewData.record);
-        if (pageNumber) {
-          this.previewService.fetchPages(previewData.record.containerid!, this.query!)
-            .subscribe(results => this.pagesResults = results);
-        }
-      });
+    if (this.record) {
+      this.previewService.getPreviewData(this.record?.id, this.query).subscribe(
+        previewData => {
+          this.previewData = previewData;
+          const pageNumber = this.previewService.getPageNumber(previewData.record);
+          if (pageNumber) {
+            this.previewService.fetchPages(previewData.record.containerid!, this.query!)
+              .subscribe(results => this.pagesResults = results);
+          }
+        });
+    }
   }
 }
