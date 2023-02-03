@@ -11,12 +11,13 @@
       type="text" spellcheck="false" autocomplete="off"
       class="search-input pe-2"
       [placeholder]="(voiceState? 'msg#searchForm.listening' : 'msg#searchForm.searchFor') | sqMessage"
+      [disabled]="!loginService.complete"
       [(ngModel)]="editedQuery.text"
       (focus)="onInputFocus()"
       (click)="onInputClick()"
       (input)="onInputText()"
       (keyup.enter)="applyFilters()"
-      [disabled]="!loginService.complete">
+      (keyup.shift.enter)="applyFilters()"> <!-- keyup.shift.enter is necessary for iOS13+: https://github.com/angular/angular/issues/32963 -->
 
     <!-- Toggle voice recognition -->
     <button type="button" *ngIf="enableVoiceRecognition && voiceService.available && hasFocus"
