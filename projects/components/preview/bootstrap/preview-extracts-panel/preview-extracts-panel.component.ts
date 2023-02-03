@@ -107,7 +107,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
             this.extracts = this.extracts.map(el => el).sort((a, b) => a.relevanceIndex - b.relevanceIndex);
             this.sortAction.text = item.text;
             this.sortAction.messageParams = { values: { text: item.text } };
-            this.currentIndex = -1;
+            this.currentIndex = 0;
           }
         }),
         new Action({
@@ -118,7 +118,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
             this.extracts = this.extracts.map(el => el).sort((a, b) => a.textIndex - b.textIndex);
             this.sortAction.text = item.text;
             this.sortAction.messageParams = { values: { text: item.text } };
-            this.currentIndex = -1;
+            this.currentIndex = 0;
           }
         })
       ]
@@ -149,7 +149,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   previousExtract() {
     this.currentIndex--;
     this.scrollIndex = this.currentIndex;
-    this.scrollExtract(this.extracts[this.currentIndex]);
+    this.scrollExtract(this.displayedExtracts[this.currentIndex]);
   }
 
   /**
@@ -158,6 +158,6 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   nextExtract() {
     this.currentIndex++;
     this.scrollIndex = this.currentIndex;
-    this.scrollExtract(this.extracts[this.currentIndex]);
+    this.scrollExtract(this.displayedExtracts[this.currentIndex]);
   }
 }
