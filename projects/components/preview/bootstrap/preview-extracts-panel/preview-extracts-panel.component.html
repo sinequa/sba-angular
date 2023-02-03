@@ -17,8 +17,8 @@
                 [sqScrollIntoView]="{active: i === currentIndex, first: i === 0}"
                 [id]="'extract-' + extract.relevanceIndex">
                 <a href="#" class="my-2 list-group-item list-group-item-action"
-                    [ngClass]="{'active': currentIndex === extract.relevanceIndex}"
-                    (click)="scrollExtract(extract, extract.relevanceIndex)">
+                    [ngClass]="{'active': currentIndex === i}"
+                    (click)="scrollExtract(extract, i)">
                     <p class="m-0" [innerHTML]="extract.text"></p>
                 </a>
                 <hr>

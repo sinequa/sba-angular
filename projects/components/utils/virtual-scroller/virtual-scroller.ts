@@ -58,9 +58,11 @@ export class BsVirtualScroller implements OnChanges, AfterViewInit, OnDestroy {
     }
     if (changes["scrollIndex"]?.currentValue !== undefined && changes["scrollIndex"].currentValue !== -1) {
       // If forced selected index
-      this.indexTo = this.scrollIndex + this.itemsNumber < this.list.length
-        ? this.scrollIndex + this.itemsNumber : this.list.length - 1;
-      this.newList.emit(this.subList);
+      if (this.scrollIndex > this.indexTo) {
+        this.indexTo = this.scrollIndex + this.itemsNumber < this.list.length
+          ? this.scrollIndex + this.itemsNumber : this.list.length;
+        this.newList.emit(this.subList);
+      }
     }
   }
 
@@ -69,7 +71,7 @@ export class BsVirtualScroller implements OnChanges, AfterViewInit, OnDestroy {
     this.observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         const isLastPart = this.indexTo + this.itemsNumber >= this.list.length;
-        this.indexTo = isLastPart ? this.list.length - 1 : this.indexTo + this.itemsNumber;
+        this.indexTo = isLastPart ? this.list.length : this.indexTo + this.itemsNumber;
         this.newList.emit(this.subList);
       }
     });
