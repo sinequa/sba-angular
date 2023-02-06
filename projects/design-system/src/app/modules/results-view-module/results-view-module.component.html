@@ -5,11 +5,8 @@
         <app-search-bar></app-search-bar>
     </div>
     <ng-container *ngIf="globalService.results">
-        <div class="col-12 mb-4">
-            <app-results-grid-view></app-results-grid-view>
-        </div>
-        <div class="col-12 mb-4">
-            <app-results-view-selector></app-results-view-selector>
+        <div class="col-12 mb-4" *ngFor="let component of components">
+            <ng-container *ngComponentOutlet="component"></ng-container>
         </div>
     </ng-container>
 </div>

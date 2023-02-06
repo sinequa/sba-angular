@@ -61,6 +61,7 @@ export class InputsComponent {
     disabledCB: boolean = false;
     validCB: boolean = false;
     invalidCB: boolean = false;
+    radio: number;
     codeCB: string = `<div class="form-check">
     <input type="checkbox" class="form-check-input" id="my-checkbox"/>
     <label for="my-checkbox">Some label</label>

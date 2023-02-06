@@ -1,11 +1,13 @@
-<app-navbar></app-navbar>
-<div class="container p-0">
-    <div class="row">
-        <div class="col-3 screen-size">
-           <app-menu></app-menu>
-        </div>
-        <div class="col-9 pt-2 screen-size pb-4">
+<header>
+    <app-navbar></app-navbar>
+</header>
+<main class="container p-0">
+    <article class="row">
+        <aside class="col-3 screen-size">
+            <app-menu></app-menu>
+        </aside>
+        <section class="col-9 pt-2 screen-size pb-4">
             <router-outlet></router-outlet>
-        </div>
-    </div>
-</div>
+        </section>
+    </article>
+</main>

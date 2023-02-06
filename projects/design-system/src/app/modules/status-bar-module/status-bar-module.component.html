@@ -4,10 +4,7 @@
     <div class="col-12 mb-4">
         <app-search-bar [search]="'Paris'"></app-search-bar>
     </div>
-    <div class="col-12 mb-4">
-        <app-fullscreen-activator></app-fullscreen-activator>
-    </div>
-    <div class="col-12 mb-4">
-        <app-network-activity></app-network-activity>
+    <div class="col-12 mb-4" *ngFor="let component of components">
+        <ng-container *ngComponentOutlet="component"></ng-container>
     </div>
 </div>
