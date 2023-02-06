@@ -9,22 +9,17 @@ li {
   list-style: none;
   padding-left: 1rem;
   border-left: $sq-border;
-  cursor: pointer;
   line-height: 1.7rem;
   font-weight: 300;
   text-transform: capitalize;
-
-  &:not(.disabled):hover {
-    border-color: $grey-5;
-  }
 
   &.active {
     border-color: $blue-1;
     font-weight: 400;
   }
+}
 
-  &.disabled {
-    cursor: initial;
-    opacity: .5;
-  }
+a {
+  text-decoration: none;
+  color: inherit;
 }

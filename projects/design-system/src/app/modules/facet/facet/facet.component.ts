@@ -11,17 +11,18 @@ export class FacetComponent {
     title="With a list-group"
     icon="fas fa-sitemap"
     [collapsible]="true">
-        <div class="list-group list-group-flush">
-            <a
-                class="saved-query-item list-group-item list-group-item-action d-flex align-items-center">
-                <span class="query-name me-auto text-truncate" [title]="'title'">title</span>
-                <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">
-                    "additional text"
-                </span>
-                <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
-            </a>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a class="list-group-item-action d-flex align-items-center">
+                    <span class="query-name me-auto text-truncate" [title]="'title'">title</span>
+                    <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">
+                        "additional text"
+                    </span>
+                    <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
+                </a>
+            </li>
             ...
-        </div>
+        </ul>
 </sq-facet-card>`;
 
 code2 = `<sq-facet-card

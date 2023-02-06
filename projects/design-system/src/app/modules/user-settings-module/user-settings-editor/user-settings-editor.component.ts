@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { JsonInfo } from '@sinequa/components/user-settings/bootstrap/user-settings-editor/jsonInfo.model';
 import { MapOf } from '@sinequa/core/base';
 import { IntlService, Locale } from '@sinequa/core/intl/intl.service';
@@ -16,11 +16,11 @@ export class UserSettingsEditorComponent {
     [layout]="layout">
 </sq-user-settings-editor>`;
 
-  form: UntypedFormGroup;
+  form: FormGroup;
   public model: MapOf<any>;
   public layout: MapOf<JsonInfo.Entry>;
 
-  constructor(formBuilder: UntypedFormBuilder,
+  constructor(formBuilder: FormBuilder,
     intlService: IntlService) {
     const locale: Locale = {
       name: 'fr-FR',

@@ -33,13 +33,11 @@ import { PreviewComponent } from './preview/preview.component';
 import { SqPreviewComponent } from './preview/sq-preview/sq-preview.component';
 import { CodeComponent } from './code/code.component';
 import { FacetModuleComponent } from './modules/facet/facet-module.component';
-import { FacetTreeComponent } from './modules/facet/facet-tree/facet-tree.component';
 import { FacetListComponent } from './modules/facet/facet-list/facet-list.component';
 import { FacetFiltersComponent } from './modules/facet/facet-filters/facet-filters.component';
 import { FacetRangeComponent } from './modules/facet/facet-range/facet-range.component';
 import { FacetBarComponent } from './modules/facet/facet-bar/facet-bar.component';
 import { FacetMultiComponent } from './modules/facet/facet-multi/facet-multi.component';
-import { MySearchComponent } from './modules/facet/my-search/my-search.component';
 import { FacetTagCloudComponent } from './modules/facet/facet-tag-cloud/facet-tag-cloud.component';
 import { RefineComponent } from './modules/facet/refine/refine.component';
 import { PreviewModuleComponent } from './modules/preview/preview-module.component';
@@ -287,13 +285,11 @@ export class AppLocalesConfig implements LocalesConfig {
         SqPreviewComponent,
         CodeComponent,
         FacetModuleComponent,
-        FacetTreeComponent,
         FacetListComponent,
         FacetFiltersComponent,
         FacetRangeComponent,
         FacetBarComponent,
         FacetMultiComponent,
-        MySearchComponent,
         FacetTagCloudComponent,
         RefineComponent,
         PreviewModuleComponent,

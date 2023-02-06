@@ -7,9 +7,7 @@ import { FacetMultiComponent } from './facet-multi/facet-multi.component';
 import { FacetRangeComponent } from './facet-range/facet-range.component';
 import { FacetTagCloudComponent } from './facet-tag-cloud/facet-tag-cloud.component';
 import { FacetTestingComponent } from './facet-testing/facet-testing.component';
-import { FacetTreeComponent } from './facet-tree/facet-tree.component';
 import { FacetComponent } from './facet/facet.component';
-import { MySearchComponent } from './my-search/my-search.component';
 import { RefineComponent } from './refine/refine.component';
 
 @Component({
@@ -26,8 +24,6 @@ export class FacetModuleComponent {
     FacetMultiComponent,
     FacetRangeComponent,
     FacetTagCloudComponent,
-    FacetTreeComponent,
-    MySearchComponent,
     RefineComponent,
     FacetTestingComponent
   ];
