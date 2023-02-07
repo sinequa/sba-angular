@@ -1,19 +1,20 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
 import { SlideBuilderComponent } from './slide-builder/slide-builder.component';
 import { SlideListComponent } from './slide-list/slide-list.component';
 
 @Component({
   selector: 'app-slide-builder-module',
-  templateUrl: './slide-builder-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class SlideBuilderModuleComponent {
+
+  title = 'Slide Builder Module';
 
   components = [
     SlideBuilderComponent,
     SlideListComponent
   ];
 
-  constructor(public globalService: GlobalService) { }
+  constructor() { }
 
 }

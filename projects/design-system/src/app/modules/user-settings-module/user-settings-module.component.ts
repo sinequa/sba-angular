@@ -5,9 +5,11 @@ import { UserSettingsEditorComponent } from './user-settings-editor/user-setting
 
 @Component({
   selector: 'app-user-settings-module',
-  templateUrl: './user-settings-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class UserSettingsModuleComponent {
+
+  title = 'User Settings Module';
 
   components = [
     EditUserSettingsComponent,

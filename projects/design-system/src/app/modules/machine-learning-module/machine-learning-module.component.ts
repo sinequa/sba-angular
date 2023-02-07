@@ -5,9 +5,11 @@ import { TopPassagesComponent } from './top-passages/top-passages.component';
 
 @Component({
   selector: 'app-machine-learning-module',
-  templateUrl: './machine-learning-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class MachineLearningModuleComponent {
+
+  title = 'Machine Learning Module';
 
   components = [
     AnswerCardComponent,

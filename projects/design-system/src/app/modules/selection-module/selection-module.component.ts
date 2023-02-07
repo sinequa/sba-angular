@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
 import { ResultSelectorComponent } from './result-selector/result-selector.component';
 import { ResultsSelectorComponent } from './results-selector/results-selector.component';
 import { SelectionArrangerComponent } from './selection-arranger/selection-arranger.component';
 
 @Component({
   selector: 'app-selection-module',
-  templateUrl: './selection-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class SelectionModuleComponent {
+
+  title = 'Selection Module';
 
   components = [
     ResultSelectorComponent,
@@ -16,6 +17,6 @@ export class SelectionModuleComponent {
     SelectionArrangerComponent
   ];
 
-  constructor(public globalService: GlobalService) { }
+  constructor() { }
 
 }

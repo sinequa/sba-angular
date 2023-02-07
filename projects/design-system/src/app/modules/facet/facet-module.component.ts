@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../global.service';
 import { FacetBarComponent } from './facet-bar/facet-bar.component';
 import { FacetFiltersComponent } from './facet-filters/facet-filters.component';
 import { FacetListComponent } from './facet-list/facet-list.component';
@@ -12,9 +11,11 @@ import { RefineComponent } from './refine/refine.component';
 
 @Component({
   selector: 'app-facet-module',
-  templateUrl: './facet-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class FacetModuleComponent {
+
+  title = 'Facet Module';
 
   components = [
     FacetComponent,
@@ -28,6 +29,6 @@ export class FacetModuleComponent {
     FacetTestingComponent
   ];
 
-  constructor(public globalService: GlobalService) { }
+  constructor() { }
 
 }

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { DidYouMeanComponent } from './did-you-mean/did-you-mean.component';
 import { LoadMoreComponent } from './load-more/load-more.component';
@@ -13,9 +12,11 @@ import { TabsComponent } from './tabs/tabs.component';
 
 @Component({
   selector: 'app-search-module',
-  templateUrl: './search-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class SearchModuleComponent {
+
+  title = 'Search Module';
 
   components = [
     BreadcrumbsComponent,
@@ -30,6 +31,6 @@ export class SearchModuleComponent {
     TabsComponent
   ];
 
-  constructor(public globalService: GlobalService) { }
+  constructor() { }
 
 }

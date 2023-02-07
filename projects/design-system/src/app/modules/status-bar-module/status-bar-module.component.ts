@@ -4,9 +4,11 @@ import { NetworkActivityComponent } from './network-activity/network-activity.co
 
 @Component({
   selector: 'app-status-bar-module',
-  templateUrl: './status-bar-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class StatusBarModuleComponent {
+
+  title = 'Status Bar Module';
 
   components = [
     FullscreenActivatorComponent,

@@ -3,9 +3,11 @@ import { CommentsComponent } from './comments/comments.component';
 
 @Component({
   selector: 'app-comments-module',
-  templateUrl: './comments-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class CommentsModuleComponent {
+
+  title = 'Comments Module';
 
   components = [
     CommentsComponent

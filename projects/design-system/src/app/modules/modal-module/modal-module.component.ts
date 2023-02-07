@@ -11,9 +11,11 @@ import { PromptComponent } from './prompt/prompt.component';
 
 @Component({
   selector: 'app-modal-module',
-  templateUrl: './modal-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class ModalModuleComponent {
+
+  title = 'Modal Module';
 
   components = [
     ConfirmComponent,

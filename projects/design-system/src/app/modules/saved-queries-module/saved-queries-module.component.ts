@@ -10,9 +10,11 @@ import { SavedQueriesMenuComponent } from './saved-queries-menu/saved-queries-me
 
 @Component({
   selector: 'app-saved-queries-module',
-  templateUrl: './saved-queries-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class SavedQueriesModuleComponent {
+
+  title = 'Saved Queries Module';
 
   components = [
     EditSavedQueryComponent,

@@ -10,9 +10,11 @@ import { SelectComponent } from './select/select.component';
 
 @Component({
   selector: 'app-advanced-module',
-  templateUrl: './advanced-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class AdvancedModuleComponent {
+
+  title = 'Advanced Module';
 
   components = [
     AdvancedFormCheckboxComponent,

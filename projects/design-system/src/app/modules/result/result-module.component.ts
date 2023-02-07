@@ -11,9 +11,11 @@ import { UserRatingComponent } from './user-rating/user-rating.component';
 
 @Component({
   selector: 'app-result-module',
-  templateUrl: './result-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class ResultModuleComponent {
+
+  title = 'Result Module';
 
   components = [
     ResultExtractsComponent,

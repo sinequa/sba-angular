@@ -3,9 +3,11 @@ import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-theme-toggle-module',
-  templateUrl: './theme-toggle-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class ThemeToggleModuleComponent {
+
+  title = 'Theme Toggle Module';
 
   components = [
     ThemeToggleComponent

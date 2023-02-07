@@ -3,9 +3,11 @@ import { FeedbackMenuComponent } from './feedback-menu/feedback-menu.component';
 
 @Component({
   selector: 'app-feedback-module',
-  templateUrl: './feedback-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class FeedbackModuleComponent {
+
+  title = 'Feedback Module';
 
   components = [
     FeedbackMenuComponent

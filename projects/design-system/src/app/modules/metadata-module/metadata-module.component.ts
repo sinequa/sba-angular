@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
 import { MetadataComponent } from './metadata/metadata.component';
 
 @Component({
   selector: 'app-metadata-module',
-  templateUrl: './metadata-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class MetadataModuleComponent {
+
+  title = 'Metadata Module';
 
   components = [
     MetadataComponent
   ];
 
-  constructor(public globalService: GlobalService) { }
+  constructor() { }
 
 }

@@ -4,9 +4,11 @@ import { NotificationsComponent } from './notifications/notifications.component'
 
 @Component({
   selector: 'app-notification-module',
-  templateUrl: './notification-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class NotificationModuleComponent {
+
+  title = 'Notification Module';
 
   components = [
     NotificationsComponent,

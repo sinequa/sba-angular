@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../global.service';
 import { FacetPreviewComponentComponent } from './facet-preview-component/facet-preview-component.component';
 import { PreviewEntityFacetComponent } from './preview-entity-facet/preview-entity-facet.component';
 import { PreviewEntityPanelComponent } from './preview-entity-panel/preview-entity-panel.component';
@@ -17,9 +16,11 @@ import { SimilarDocumentsComponent } from './similar-documents/similar-documents
 
 @Component({
   selector: 'app-preview-module',
-  templateUrl: './preview-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class PreviewModuleComponent {
+
+  title = 'Preview Module';
 
   components = [
     // FacetPreviewComponent,
@@ -39,6 +40,6 @@ export class PreviewModuleComponent {
     SimilarDocumentsComponent
   ];
 
-  constructor(public globalService: GlobalService) { }
+  constructor() { }
 
 }

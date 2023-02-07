@@ -8,9 +8,11 @@ import { SelectBasketsComponent } from './select-baskets/select-baskets.componen
 
 @Component({
   selector: 'app-baskets-module',
-  templateUrl: './baskets-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class BasketsModuleComponent {
+
+  title = 'Baskets Module';
 
   components = [
     BasketsMenuComponent,

@@ -4,9 +4,11 @@ import { FieldSearchItemsComponent } from './field-search-items/field-search-ite
 
 @Component({
   selector: 'app-autocomplete-module',
-  templateUrl: './autocomplete-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class AutocompleteModuleComponent {
+
+  title = 'Autocomplete Module';
 
   components = [
     AutocompleteListComponent,

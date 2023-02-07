@@ -8,9 +8,11 @@ import { RenameLabelComponent } from './rename-label/rename-label.component';
 
 @Component({
   selector: 'app-labels-module',
-  templateUrl: './labels-module.component.html'
+  templateUrl: '../module-template.html'
 })
 export class LabelsModuleComponent {
+
+  title = 'Labels Module';
 
   components = [
     AddLabelComponent,

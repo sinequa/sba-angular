@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { LoginService } from '@sinequa/core/login';
+import { GlobalService } from './global.service';
 
 
 @Component({
@@ -8,7 +9,8 @@ import { LoginService } from '@sinequa/core/login';
 })
 export class AppComponent implements AfterViewInit {
 
-  constructor(private loginService: LoginService) {
+  constructor(private loginService: LoginService,
+    public globalService: GlobalService) {
   }
 
   ngAfterViewInit(): void {
