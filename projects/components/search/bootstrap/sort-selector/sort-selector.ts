@@ -30,9 +30,7 @@ export class BsSortSelector implements OnChanges {
     private setCurrentSort(name: string) {
         if (this.sortAction) {
             const sortingChoices = this.getSortingChoices();
-            const current = sortingChoices && sortingChoices.find((value) => {
-                return Utils.eqNC(value.name, name);
-            });
+            const current = sortingChoices?.find(value => Utils.eqNC(value.name, name));
             if (current) {
                 const queryOrderBy = this.searchService.query.orderBy;
                 this.sortAction.text = !!queryOrderBy ? "msg#sortSelector.sortOther" : current.display || current.name;
@@ -70,7 +68,7 @@ export class BsSortSelector implements OnChanges {
         this.sortAction = new Action({
             title: "msg#sortSelector.sortByTitle",
             children: sortingChoices
-                .filter(sortingChoice => this.searchService.hasRelevance || !Utils.includes(sortingChoice.orderByClause, "globalrelevance"))
+                .filter(sortingChoice => this.results.hasRelevance || !Utils.includes(sortingChoice.orderByClause, "globalrelevance"))
                 .map(sortingChoice => new Action({
                     icon: this.isAscendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-up'
                             : this.isDescendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-down' : '',
@@ -81,9 +79,7 @@ export class BsSortSelector implements OnChanges {
                     }
                 }))
         });
-        if (!!this.searchService.results) {
-            this.setCurrentSort(this.searchService.results.sort);
-        }
+        this.setCurrentSort(this.results.sort);
     }
 
     private isAscendingSort(orderByClause: string): boolean {
@@ -115,7 +111,7 @@ export class BsSortSelector implements OnChanges {
 
     private getSortingChoices(): CCSortingChoice[] | null | undefined {
         if (this.isTabSearch()) {
-            const tabName = this.searchService.results && this.searchService.results.tab;
+            const tabName = this.results.tab;
             if (tabName && this.appService.ccquery) {
                 for (const t of this.appService.ccquery.tabSearch.tabs) {
                     if (t.name === tabName) {

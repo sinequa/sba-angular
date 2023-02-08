@@ -5,6 +5,8 @@ import {
   Input,
   OnDestroy,
   TemplateRef
+  OnDestroy,
+  TemplateRef
 } from "@angular/core";
 import {
   ConnectedPosition,
@@ -18,13 +20,49 @@ import { Utils } from "@sinequa/core/base";
 import { Observable, of, Subscription, delay } from "rxjs";
 
 export type Placement = "top" | "bottom" | "right" | "left";
-
-@Directive({ selector: "[sqTooltip]" })
+/**
+ * Directive that attaches a tooltip to the host element
+ *
+ * @example
+ * <div sqTooltip="This is a tooltip's text"></div>
+ *
+ * @example
+ * // A template can be passed to the directive instead of a string. Here 'tooltip' is a template reference
+ * <div sqTooltip="tooltip"></div>
+ *
+ * <ng-template #tooltip>
+ *  <h2>Title</h2>
+ *  <p>{{ "this is a comment" | uppercase }}</p>
+ *  <h3>Other text</h3>
+ * </ng-template>
+ *
+ * @example
+ * //HTML can be used directly (not recommanded)
+ * <div sqTooltip="<h1>Title</h1><br><p>This is a comment</p>"></div>
+ */
+@Directive({selector: "[sqTooltip]"})
 export class TooltipDirective<T> implements OnDestroy {
-  @Input("sqTooltip") text?: string | ((data?: T) => Observable<string | undefined>) | TemplateRef<any> = "";
+  /**
+   * Defining a property called textOrTemplate that can be a string, a function that
+   * returns an Observable of a string or undefined, or a TemplateRef.
+   */
+  @Input("sqTooltip") potentialValueOrTemplate?: string | ((data?: T) => Observable<string|undefined>) | TemplateRef<any>;
   @Input("sqTooltipData") data?: T;
+
+  /**
+   * Setting the default value of the placement property to `bottom`
+   */
   @Input() placement: Placement = "bottom";
+  /**
+   * List of fallback placement if *Placement* defined can't be applyied
+   */
   @Input() fallbackPlacements: Placement | Placement[] = [];
+
+  /**
+   * Delay in millisecond before showing/hiding the tooltip.
+   *
+   * Default value is 300ms
+   */
   @Input() delay = 300;
   @Input() hoverableTooltip = false;
 
@@ -57,23 +95,30 @@ export class TooltipDirective<T> implements OnDestroy {
 
     this.clearSubscription();
 
-    if (!this.text) return;
+    if(!this.potentialValueOrTemplate) return;
 
     let obs: Observable<string | undefined | TemplateRef<any>>;
 
-    if (Utils.isFunction(this.text)) {
-      obs = this.text(this.data);
+    if(Utils.isFunction(this.potentialValueOrTemplate)) {
+      obs = this.potentialValueOrTemplate(this.data);
     }
-    else {
-      obs = of(this.text)
+    else if (typeof(this.potentialValueOrTemplate) === "string") {
+      obs = of(this.potentialValueOrTemplate)
         .pipe(delay(this.delay))
+    } else {
+      // this.text is a templateRef
+      obs = of(this.potentialValueOrTemplate);
     }
 
-    this.subscription = obs.subscribe(content => {
+    this.subscription = obs.subscribe(valueOrTemplate => {
       this.overlayRef?.detach();
-      const isTemplateRef = content instanceof TemplateRef;
-      if (!isTemplateRef && !content?.trim().length) return;
 
+      // return when value is empty
+      if (typeof (valueOrTemplate) === "string") {
+        if (!valueOrTemplate?.trim().length) return;
+      }
+
+      // set the tooltip's position strategy
       const positionStrategy = this.overlayPositionBuilder
         .flexibleConnectedTo(this.elementRef)
         .withPositions([this.position(), ...this.fallbackPositions()]);
@@ -81,21 +126,13 @@ export class TooltipDirective<T> implements OnDestroy {
       const scrollStrategy = this.overlay.scrollStrategies.close();
       this.overlayRef = this.overlay.create({ positionStrategy, scrollStrategy });
 
+      // instance of the tooltip's component
       const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
-      if (isTemplateRef) {
-        tooltipRef.instance.template = content;
-      } else {
-        tooltipRef.instance.text = content;
-      }
 
-      if (this.hoverableTooltip) {
-        this.overlayRef.overlayElement.addEventListener("mouseenter", () => {
-          this.hoveringOverlayRef = true;
-        });
-        this.overlayRef.overlayElement.addEventListener('mouseleave', () => {
-          this.hoveringOverlayRef = false;
-          this.clearSubscription();
-        });
+      if (typeof (valueOrTemplate) === "string") {
+        tooltipRef.instance.text = valueOrTemplate;
+      } else {
+        tooltipRef.instance.template = valueOrTemplate;
       }
     });
   }
@@ -107,8 +144,8 @@ export class TooltipDirective<T> implements OnDestroy {
     this.clearSubscription();
   }
 
-  @HostListener("mouseleave", ['$event'])
-  hide(event: MouseEvent) {
+  @HostListener("mouseleave")
+  hide() {
     if (!this.clearTimeout) {
       this.clearTimeout = setTimeout(() => this.clearSubscription(), this.hoverableTooltip ? 500 : 10);
     }
@@ -152,9 +189,7 @@ export class TooltipDirective<T> implements OnDestroy {
   }
 
   fallbackPositions(): ConnectedPosition[] {
-    return (Utils.isArray(this.fallbackPlacements) ? this.fallbackPlacements : [this.fallbackPlacements]).map(
-      (placement: Placement) => this.position(placement)
-    )
+    return Utils.asArray(this.fallbackPlacements).map(p => this.position(p));
   }
 
   /**

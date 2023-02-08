@@ -1,5 +1,5 @@
 <form novalidate [formGroup]="form">
-    <div class="input-group mb-3">
+    <div class="input-group">
         <input id="search-input" type="text" placeholder="{{ 'msg#searchForm.searchFor' | sqMessage }}" formControlName="search" class="form-control" sqAutofocus>
 
         <button class="btn btn-primary" type="submit" (click)="search()" title="{{ 'msg#searchForm.search' | sqMessage }}">

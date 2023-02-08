@@ -1,0 +1,38 @@
+
+.form-control {
+  position: absolute;
+  border-radius: 20px;
+  box-shadow: 0 5px 7px rgb(0 0 0 / 8%);
+  z-index: 4;
+
+  padding: 0;
+
+  & > .search-input-container {
+    padding: 0.375rem 0.75rem; // Padding from .form-control
+  }
+
+  .search-input {
+    flex-grow: 1;
+    // input cannot shrink below their default width unless to force width
+    // 3 ways: width:0 , width: 100%, min-width: 0
+    width: 0;
+
+    border: none;
+    padding: 1px;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &:focus-within {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  .light-green {
+    color: #b1dfbb !important
+  }
+}

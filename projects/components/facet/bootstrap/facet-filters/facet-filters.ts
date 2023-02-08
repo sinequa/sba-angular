@@ -1,12 +1,11 @@
-import {Component, Input, OnChanges, OnDestroy, Type} from "@angular/core";
+import {ChangeDetectorRef, Component, ComponentRef, Input, OnChanges, OnDestroy, Type} from "@angular/core";
 import {Results} from "@sinequa/core/web-services";
-import {FacetService} from "../../facet.service";
+import {FacetService, NamedFacetConfig} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import { FacetConfig, default_facet_components } from "../../facet-config";
-import { MapOf } from "@sinequa/core/base";
+import { MapOf, Utils } from "@sinequa/core/base";
 import { Subscription } from "rxjs";
-
-declare interface FacetFiltersConfig extends FacetConfig<{aggregation?: string}> {}
+import { AbstractFacet } from "../../abstract-facet";
 
 @Component({
     selector: "sq-facet-filters",
@@ -15,7 +14,7 @@ declare interface FacetFiltersConfig extends FacetConfig<{aggregation?: string}>
 })
 export class BsFacetFilters implements OnChanges, OnDestroy {
     @Input() results: Results;
-    @Input() facets: FacetFiltersConfig[];
+    @Input() facets: FacetConfig<{}>[];
     @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
     @Input() enableCustomization = false;
 
@@ -26,35 +25,37 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
     @Input() size: string;
 
     filters: Action[] = [];
-    hidden: boolean = false;
+    facetMenu: Action | undefined;
+
+    // When a facet is opened
+    openedFacet: FacetConfig<{}> | undefined;
+    facetInstance: AbstractFacet | undefined;
 
     sub: Subscription;
 
     constructor(
-        private facetService: FacetService
+        private facetService: FacetService,
+        private cdRef: ChangeDetectorRef
     ) {
-        this.hidden = false;
         this.filters = [];
     }
 
     ngOnChanges() {
         if (this.enableCustomization) {
+            const facets = this.facets.filter(f => f.name) as NamedFacetConfig[];
+
             if (!this.facetService.defaultFacets) {
-                this.facetService.defaultFacets = this.facets.map(
-                    facet => ({name: facet.name, position: 0})
-                );
+                this.facetService.defaultFacets = facets
+                    .map(f => ({name: f.name!, position: 0}));
             }
 
             if (!this.facetService.allFacets) {
-                this.facetService.allFacets = this.facets;
+                this.facetService.allFacets = facets;
             }
         }
 
         if(this.results) {
             this.buildFilters();
-        }
-        else {
-            this.hidden=true;
         }
 
         if(!this.sub) {
@@ -72,22 +73,26 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
     protected buildFilters() {
 
         // For each facet
-        this.filters = this.filteredFacets.map((facet: FacetFiltersConfig) => {
+        this.filters = this.filteredFacets.map(facet => {
 
-            const children = [
-                new Action({
-                    component: this.facetComponents[facet.type],
-                    componentInputs: {
-                        ...facet.parameters,
-                        name: facet.name,
-                        results: this.results,
-                        displayActions: true
-                    }
-                })
-            ];
+            const component = this.facetComponents[facet.type];
+            const componentInputs = {
+                ...facet.parameters,
+                name: facet.name,
+                aggregation: facet.aggregation,
+                results: this.results
+            };
 
-            const disabled = !this.hasData(facet);
-            const filtered = this.hasFiltered(facet.name);
+            let disabled = true;
+            let filtered = false;
+            const aggregations = Utils.asArray(facet.aggregation);
+            for(let aggregation of aggregations) {
+                const agg = this.facetService.getAggregation(aggregation);
+                if(agg?.items?.length) {
+                    disabled = false;
+                    filtered = filtered || agg.$filtered.length > 0;
+                }
+            }
 
             return new Action({
                 name: facet.name,
@@ -96,43 +101,47 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
                 icon: facet.icon,
                 disabled,
                 styles: `${facet.className || ''} ${filtered? "filtered" : disabled? "disabled" : ''}`,
-                children: children
+                action: () => this.openFacet(facet),
+                data: facet,
+                component,
+                componentInputs
             });
         });
 
         if (this.enableCustomization) {
-          this.filters.unshift(this.facetService.createFacetMenu());
+            this.facetMenu = this.facetService.createFacetMenu();
         }
+
+        this.cdRef.detectChanges(); // needed to detect changes in the facet actions when results change
     }
 
-    /**
-     * Use to outline facet when filters are sets
-     * @param facetName facet name
-     *
-     * @returns true if filters are sets otherwise false
-     */
-    protected hasFiltered(facetName): boolean {
-        return this.facetService.hasFiltered(facetName);
+    openFacet(facet: FacetConfig<{}>) {
+        if(this.openedFacet) {
+          this.openedFacet = undefined;
+          this.cdRef.detectChanges(); // Force a new call to onLoadFacet
+        }
+        this.openedFacet = facet;
     }
 
-    /**
-     * Use to disable menu item when no items in a facet
-     * @param facet facet to check
-     *
-     * @returns true if facet contains at least one item otherwise false
-     */
-    protected hasData(facet: FacetFiltersConfig): boolean {
-        if(!facet.parameters?.aggregation) return false;
-        return this.facetService.hasData(facet.parameters.aggregation, this.results);
+    onLoadFacet(event: {componentRef: ComponentRef<AbstractFacet> | undefined}) {
+        this.facetInstance = event.componentRef?.instance;
+        this.cdRef.detectChanges(); // Detect changes manually, because the facet actions need to be displayed
     }
 
+    get facetActions(): Action[] | undefined {
+        return this.facetInstance?.actions;
+    }
+
+    get isFacetEmpty(): boolean {
+        return !!this.facetInstance?.isHidden();
+    }
 
     get filteredFacets() {
         const filtered = this.facets.filter(facet => this.facetService.isFacetIncluded(facet, this.results))
 
         if (!this.enableCustomization) return filtered;
 
-        const new_facets: FacetFiltersConfig[] = [];
+        const new_facets: FacetConfig<{}>[] = [];
 
         if (this.userFacets) {
             for (const facet of filtered) {
@@ -153,5 +162,9 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
             if (this.userFacets.find(userFacet => userFacet.name === facet.name)) return true;
         }
         return false;
+    }
+
+    trackByData = (action: Action) => {
+        return action.data; // Necessary to maintain the same DOM elements when filters are rebuilt
     }
 }

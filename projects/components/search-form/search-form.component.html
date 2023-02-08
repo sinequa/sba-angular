@@ -1,0 +1,75 @@
+<div class="form-control" [ngClass]="{expanded: expanded}" (sqClickOutside)="onClickOutside()">
+
+  <div class="search-input-container d-flex align-items-center">
+
+    <div class="me-2 text-muted">
+      <i class="fas fa-fw fa-search"></i>
+    </div>
+
+    <!-- Search input -->
+    <input #searchInput
+      type="text" spellcheck="false" autocomplete="off"
+      class="search-input pe-2"
+      [placeholder]="(voiceState? 'msg#searchForm.listening' : 'msg#searchForm.searchFor') | sqMessage"
+      [disabled]="!loginService.complete"
+      [(ngModel)]="editedQuery.text"
+      (focus)="onInputFocus()"
+      (click)="onInputClick()"
+      (input)="onInputText()"
+      (keyup.enter)="applyFilters()"
+      (keyup.shift.enter)="applyFilters()"> <!-- keyup.shift.enter is necessary for iOS13+: https://github.com/angular/angular/issues/32963 -->
+
+    <!-- Toggle voice recognition -->
+    <button type="button" *ngIf="enableVoiceRecognition && voiceService.available && hasFocus"
+      class="btn no-shadow p-0 me-1"
+      [sqTooltip]="'msg#searchForm.voiceRecognition' | sqMessage"
+      (click)="toggleVoice()">
+      <i class="fas fa-fw fa-microphone" [ngClass]="voiceState ? 'light-green' : 'text-muted'"></i>
+    </button>
+
+    <!-- Neural search Button -->
+    <button type="button" *ngIf="enableNeuralSearch && appService.isNeural()" class="btn p-0 me-2"
+      [sqTooltip]="(neuralSearch? 'msg#searchForm.neural.on' : 'msg#searchForm.neural.off') | sqMessage"
+      [disabled]="!loginService.complete"
+      (click)="toggleNeuralSearch()">
+      <i class="fas fa-fw fa-brain" [ngClass]="neuralSearch ? 'light-green' : 'text-muted'"></i>
+    </button>
+
+    <!-- Apply Button -->
+    <button type="button" *ngIf="canApply"
+      class="btn btn-sm btn-primary fw-bold rounded-4 py-0 px-2 me-1"
+      [sqTooltip]="'msg#searchForm.applyTitle' | sqMessage"
+      (click)="applyFilters()">
+      {{'msg#searchForm.apply' | sqMessage}}
+    </button>
+
+    <!-- Filter count -->
+    <div *ngIf="showFilterCount && filterCount"
+      class="text-muted position-relative me-3"
+      [sqTooltip]="'msg#searchForm.filterCount' | sqMessage:{value: filterCount}"
+      (click)="onInputClick()">
+      <i class="fas fa-filter"></i>
+      <span class="position-absolute bottom-0 badge rounded-pill bg-danger"
+            style="font-size: 10px; left: 0.75rem;">
+        {{filterCount}}
+      </span>
+    </div>
+
+    <!-- Clear Button -->
+    <button type="button" *ngIf="editedQuery.text"
+      class="btn no-shadow p-0"
+      [sqTooltip]="'msg#searchForm.clearAll' | sqMessage"
+      (click)="clearForm()">
+      <i class="fas fa-fw fa-times text-muted"></i>
+    </button>
+
+  </div>
+
+  <div *ngIf="expanded">
+    <ng-container
+      [ngTemplateOutlet]="dropdown"
+      [ngTemplateOutletContext]="{$implicit: editedQuery}">
+    </ng-container>
+  </div>
+
+</div>

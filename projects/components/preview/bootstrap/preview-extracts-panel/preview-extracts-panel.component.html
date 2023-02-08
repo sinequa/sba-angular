@@ -1,12 +1,6 @@
 <ng-container *ngIf="previewData">
-    <div class="d-flex justify-content-between p-2" *ngIf="extracts?.length > 0">
-        <button class="btn btn-light" (click)="previousExtract()" [disabled]="currentIndex < 1">
-            <i class="fas fa-arrow-left"></i>&nbsp;{{ 'msg#preview.previousDocument' | sqMessage}}
-        </button>
-        <div class="btn-group" [sq-action-buttons]="{items: [sortAction], autoAdjust: true}" ></div>
-        <button class="btn btn-light float-right" (click)="nextExtract()" [disabled]="currentIndex >= extracts.length-1">
-            {{ 'msg#preview.nextDocument' | sqMessage}}&nbsp;<i class="fas fa-arrow-right"></i>
-        </button>
+    <div class="d-flex flex-row-reverse px-3 pb-2" *ngIf="extracts?.length > 0">
+        <div class="btn-group" [sq-action-buttons]="{items: [sortAction], autoAdjust: true, style: 'link'}"></div>
     </div>
 
     <div *ngIf="loading" class="d-flex justify-content-center align-items-center h-100">
@@ -15,19 +9,38 @@
     <div class="text-center text-muted" *ngIf="!loading && extracts?.length === 0; else extractsTpl">
         <span>{{ 'msg#preview.noextract' | sqMessage}}</span>
     </div>
-    
+
     <ng-template #extractsTpl>
-        <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="64" class="h-100">
-            <div *cdkVirtualFor="let extract of extracts; let i = index" class="ps-2 pe-2">
-                <a  href="#" 
-                    class="card my-1 list-group-item-action"
-                    [ngClass]="{'active': i === currentIndex}"
+        <sq-virtual-scroller class="flex-grow-1 overflow-auto mb-4 list-group" id="extracts-list" [list]="extracts"
+            [itemsNumber]="extractsNumber" [scrollIndex]="scrollIndex" (newList)="displayedExtracts = $event">
+            <div *ngFor="let extract of displayedExtracts; let i = index" class="px-2 px-lg-4"
+                [sqScrollIntoView]="{active: i === currentIndex, first: i === 0}"
+                [id]="'extract-' + extract.relevanceIndex">
+                <a href="#" class="my-2 list-group-item list-group-item-action"
+                    [ngClass]="{'active': currentIndex === i}"
                     (click)="scrollExtract(extract, i)">
-                    <p class="card-body m-0" [innerHTML]="extract.text"></p>
+                    <p class="m-0" [innerHTML]="extract.text"></p>
                 </a>
+                <hr>
             </div>
-        </cdk-virtual-scroll-viewport>
+        </sq-virtual-scroller>
     </ng-template>
+
+    <div class="d-flex justify-content-between p-4 pt-0" *ngIf="showPagination && extracts?.length > 0">
+        <button class="btn btn-primary" (click)="previousExtract()" [disabled]="currentIndex < 1">
+            <div class="d-flex align-items-center"><i class="fas fa-arrow-left"></i>
+                <span class="d-none d-md-block ms-md-2">{{ 'msg#preview.previousDocument' | sqMessage}}</span>
+            </div>
+        </button>
+        <div *ngIf="currentIndex >= 0" class="extracts-counter"><span>{{currentIndex+1}}/{{extracts?.length}}</span>
+        </div>
+        <button class="btn btn-primary" (click)="nextExtract()" [disabled]="currentIndex >= extracts.length-1">
+            <div class="d-flex align-items-center">
+                <span class="d-none d-md-block me-md-2">{{ 'msg#preview.nextDocument' | sqMessage}}</span><i
+                    class="fas fa-arrow-right"></i>
+            </div>
+        </button>
+    </div>
 </ng-container>
 
 <div class="text-center" *ngIf="!previewData">

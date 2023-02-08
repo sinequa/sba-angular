@@ -77,6 +77,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @ViewChild('documentFrame', { static: true, read: ElementRef }) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', { read: ElementRef, static: false }) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
     @ContentChild('minimap', { read: ElementRef, static: false }) minimap: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
+    @ContentChild('passageHighlight', { read: ElementRef, static: false }) passageHighlight: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     // Must be undefined by default, because if a default value is set,
     // if we set it to undefined in the future, this new (undefined) value
@@ -132,10 +133,14 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
             }
 
             if (this.tooltip)
-                this.addTooltip(this.previewDocument);
+                this.previewDocument.insertComponent(this.tooltip.nativeElement);
 
             if (this.minimap) {
                 this.previewDocument.insertComponent(this.minimap.nativeElement);
+            }
+
+            if (this.passageHighlight) {
+                this.previewDocument.insertComponent(this.passageHighlight.nativeElement);
             }
 
         } catch (error) {
@@ -145,10 +150,6 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         // Let upstream component know document is now ready
         this.onPreviewReady.next(this.previewDocument);
         this.cdr.markForCheck();
-    }
-
-    addTooltip(previewDocument: PreviewDocument) {
-        previewDocument.insertComponent(this.tooltip.nativeElement);
     }
 
     ngOnInit() {

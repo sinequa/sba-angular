@@ -40,6 +40,15 @@
     fill: darkgrey;
 }
 
+.data-point-panel {
+    background-color: white;
+}
+
+.data-point-text {
+    font-size: 10px;
+    color: darkgrey;
+}
+
 .brush ::ng-deep {
 
     .selection {
@@ -63,7 +72,7 @@
 }
 
 .events {
-    
+
     .event {
         fill: #7c7c7c;
         opacity: 0.6;
@@ -73,5 +82,17 @@
     .event:hover {
         opacity: 1;
         transition: opacity 0.2s ease-in 0s;
+    }
+}
+
+.timeline-noData {
+    justify-content: center;
+    align-items: center;
+
+    &-text {
+        font-family: Verdana, sans;
+        font-size: 10px;
+        text-anchor: middle;
+        opacity: 0.7;
     }
 }

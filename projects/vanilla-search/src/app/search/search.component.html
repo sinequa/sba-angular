@@ -20,8 +20,8 @@
             </button>
 
             <!-- Search form -->
-            <div class="col-sm-5 ps-1 pe-2" *ngIf="showForm">
-                <app-search-form class="w-100"></app-search-form>
+            <div class="app-search-form col-sm-5 ps-1 pe-2" *ngIf="showForm">
+                <app-search-form [autocompleteSources]="features"></app-search-form>
             </div>
 
             <!-- User menu which visibility can be toggled with a button on small screens -->
@@ -55,13 +55,15 @@
 <!-- Main interface -->
 <div class="container-xl main" *ngIf="loginService.complete">
     <div class="row" *ngIf="results$ | async; let results">
-
         <!-- Left facet bar -->
         <!-- sqSticky to update if you change the header sizing -->
         <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 96, bottom: 80}">
+            <!-- Source facet -->
             <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" class="mb-3">
-                <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
+                <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
             </sq-facet-card>
+
+            <!-- Other metadata -->
             <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" class="mb-3">
                 <sq-facet-multi
                     #facet
@@ -85,11 +87,17 @@
         <div class="col-lg-5" [ngClass]="{'col-md-7': !showFilters, 'col-md-8': showFilters}" *ngIf="showResults">
 
             <!-- Tabs -->
-            <sq-tabs [results]="results"></sq-tabs>
+            <sq-tabs [tabsClass]="'py-2 px-4'" [results]="results"></sq-tabs>
 
             <!-- Toolbar -->
-            <div class="d-flex sq-toolbar">
-                <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
+            <div class="d-flex small sq-toolbar">
+                <sq-filters-view
+                  class="flex-grow-1 position-relative"
+                  [query]="searchService.query"
+                  [closeOnClickOutside]="true"
+                  [advancedModeClass]="'position-absolute card border shadow p-3'"
+                  (filterEdit)="searchService.search()">
+                </sq-filters-view>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true"></sq-sort-selector>
             </div>

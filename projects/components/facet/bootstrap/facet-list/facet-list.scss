@@ -12,28 +12,8 @@
   }
 }
 
-.facet-results-scrollable {
-  max-height: 385px;
-  overflow-y: auto;
-}
-
-.sq-filtered-wrapper {
-	& > .sq-filtered:first-child {
-		border-top-left-radius: .5rem;
-		border-top-right-radius: .5rem;
-	}
-	& > .sq-filtered:last-child {
-		border-bottom-left-radius: .5rem;
-		border-bottom-right-radius: .5rem;
-	}
-
-  /* add space between filtered group and suggestions or items groups */
-  ~ .facet-results-scrollable,
-  ~ .list-group-item {
-    margin-top: .25rem;
-  }
-}
-
-.list-group .list-group-item:not(.sq-filtered):hover {
-  border-radius: .25rem;
+.item-opener {
+  --sq-tree-indent: 1em;
+  text-decoration: none !important;
+  margin-left: calc(var(--depth) * var(--sq-tree-indent));
 }

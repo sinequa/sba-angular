@@ -39,6 +39,7 @@ export default {
             "expandTitle": "Maximieren",
             "minimize": "Rauszoomen",
             "maximize": "hineinzoomen",
+            "toggleHighlight": "Alle Hervorhebungen schalten",
             "toggleExtracts": "Schalten Sie die Hervorhebung relevanter Auszüge um",
             "extracts": "Relevante Auszüge",
             "toggleEntities": "Schalten Sie die Hervorhebung von Objekten",

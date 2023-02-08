@@ -153,3 +153,8 @@ Footer action buttons
     box-shadow: none !important;
   }
 }
+
+sq-results-selector .btn {
+  --bs-btn-padding-x: 0.5rem !important;
+  --bs-btn-padding-y: 0.25rem !important;
+}

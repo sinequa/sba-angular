@@ -29,34 +29,25 @@ import { BsLabelsModule } from '@sinequa/components/labels';
 import { BsUserSettingsModule } from '@sinequa/components/user-settings';
 import { ResultModule } from '@sinequa/components/result';
 import { BsFeedbackModule } from '@sinequa/components/feedback';
-import { BsPreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule, SelectionOptions, SELECTION_OPTIONS } from '@sinequa/components/selection';
-import { BsAdvancedModule } from "@sinequa/components/advanced";
+import { FiltersModule } from "@sinequa/components/filters";
+import { SearchFormComponent } from "@sinequa/components/search-form";
 
 // @sinequa/analytics library
-import { BsHeatmapModule } from '@sinequa/analytics/heatmap';
-import { BsTimelineModule } from '@sinequa/analytics/timeline';
-import { NgxChartsModule } from '@sinequa/analytics/ngx-charts';
 import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
-import { NetworkModule } from '@sinequa/analytics/network';
-import { GoogleMapsModule, GOOGLE_MAPS_API_KEY } from '@sinequa/analytics/googlemaps';
-import { FinanceModule } from '@sinequa/analytics/finance';
-
-// Third-party libs
-import { GridsterModule } from 'angular-gridster2';
+import { GOOGLE_MAPS_API_KEY } from "@sinequa/analytics/googlemaps";
 
 // Components
 import { AppComponent } from "./app.component";
 import { SearchComponent } from './search/search.component';
-import { DashboardItemComponent } from './dashboard/dashboard-item.component';
-import { DashboardAddItemComponent } from './dashboard/dashboard-add-item.component';
+import { AppSearchFormComponent } from "./search-form/search-form.component";
+import { AppDashboardComponent } from "./dashboard/dashboard.component";
 
 // Components imported from Vanilla Search
 // ⚠️ Starting from v11.7, these components are referenced from the Vanilla Search project to avoid duplicating the code
 // Feel free to copy the source code into the Pepper app to avoid modifying the source code of Vanilla.
-import { SearchFormComponent } from '@sinequa/vanilla/app/search-form/search-form.component';
-import { AutocompleteExtended } from '@sinequa/vanilla/app/search-form/autocomplete-extended.directive';
+import { AutocompleteComponent } from '@sinequa/vanilla/app/search-form/autocomplete.component';
 
 // Environment
 import { environment } from "../environments/environment";
@@ -161,27 +152,19 @@ FusionCharts.options.creditLabel = false;
         BsUserSettingsModule,
         ResultModule,
         BsFeedbackModule,
-        BsPreviewModule,
         MetadataModule,
         BsSelectionModule,
-        BsAdvancedModule,
+        FiltersModule,
+        SearchFormComponent,
 
-        BsHeatmapModule,
-        BsTimelineModule,
-        NgxChartsModule,
         FusionChartsModule.forRoot(FusionCharts, charts, FusionTheme, CandyTheme),
-        NetworkModule,
-        GoogleMapsModule,
-        FinanceModule,
-        GridsterModule
+        AppDashboardComponent
     ],
     declarations: [
         AppComponent,
         SearchComponent,
-        SearchFormComponent,
-        AutocompleteExtended,
-        DashboardItemComponent,
-        DashboardAddItemComponent
+        AppSearchFormComponent,
+        AutocompleteComponent
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa

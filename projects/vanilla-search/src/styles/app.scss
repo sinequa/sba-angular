@@ -1,21 +1,7 @@
 
 @import "@angular/cdk/overlay-prebuilt";
 
-// Overriding Bootstrap variables
-$grid-breakpoints: (
-        xs: 0,
-        sm: 576px,
-        md: 992px,
-        lg: 1400px,
-        xl: 1650px
-);
-
-$container-max-widths: (
-        sm: 540px,
-        md: 960px,
-        lg: 1360px,
-        xl: 1610px
-);
+@import "../../../components/theme/bootstrap-variables";
 
 // Bootstrap styles
 @import "bootstrap/scss/bootstrap";
@@ -26,8 +12,6 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "@fortawesome/fontawesome-free/scss/brands";
 @import "@fortawesome/fontawesome-free/scss/regular";
 @import "@fortawesome/fontawesome-free/scss/solid";
-
-@import "vis-network/dist/dist/vis-network.min.css";
 
 .btn-link {
   text-decoration: none;
@@ -84,17 +68,17 @@ a {
 
 // thin scrollbar
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  &:hover {
+      background-color: #b6b6b6;
   }
-  ::-webkit-scrollbar-thumb {
-    background-color: #cccccc;
-    &:hover {
-        background-color: #b6b6b6;
-    }
-  }
-  ::-webkit-scrollbar-track {
-    background-color: #f3f3f3;
-  }
+}
+::-webkit-scrollbar-track {
+  background-color: #f3f3f3;
+}
 
 // large screens (> sm)
 @include media-breakpoint-up(sm) {
@@ -120,11 +104,6 @@ app-search-form {
       }
     }
 
-    .autocomplete-item {
-        small, i {
-            color: $secondary-color;
-        }
-    }
 }
 
 app-search nav {
@@ -141,9 +120,17 @@ sq-tabs {
     }
 }
 
+sq-filters, sq-filters-editor {
+  .sq-filter-operator {
+    color: $secondary-color;
+  }
+  .sq-filter-value {
+    font-weight: bold;
+  }
+}
+
 sq-results-counter {
     color: $secondary-color;
-    font-size: 0.875em;
 }
 
 sq-sort-selector button.btn {
@@ -151,7 +138,7 @@ sq-sort-selector button.btn {
     margin: -3px 0;
     color: $secondary-color;
     background-color: inherit;
-    font-size: 0.875em;
+    font-size: 1em;
     border: none;
 
     & > div {
@@ -196,15 +183,12 @@ sq-sponsored-results {
 
 // Facets
 sq-facet-card {
-  display: block;
-    &.facet-preview {
-        .card-header {
-        sq-metadata {
-            color: $secondary-color;
-            font-size: 0.875em;
-        }
-        }
-    }
+    display: block;
+}
+
+sq-facet-card.facet-preview sq-metadata {
+    color: $secondary-color;
+    font-size: 0.875em;
 }
 
 sq-facet-card.striped .list-group-item:not(.unstriped) {
@@ -225,16 +209,6 @@ sq-feedback-menu {
     .dropdown-toggle::after{
         display: none;
     }
-}
-
-sq-facet-tree {
-    .list-group.list-group-flush.scrollable {
-        max-height: calc(75vh - 250px);
-    }
-}
-
-sq-facet-list .facet-results-scrollable {
-    max-height: 400px !important;
 }
 
 .sq-passage {

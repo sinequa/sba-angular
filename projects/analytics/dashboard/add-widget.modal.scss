@@ -1,0 +1,16 @@
+:host ::ng-deep {
+  .modal-dialog {
+    max-width: fit-content;
+  }
+
+  .modal-body {
+    button {
+      width: 150px;
+      sq-action-item-content>span>i {
+        font-size: 5em;
+        color: #7f939b;
+      }
+    }
+  }
+
+}

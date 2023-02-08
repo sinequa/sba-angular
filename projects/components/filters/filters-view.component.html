@@ -1,0 +1,53 @@
+<div *ngIf="query.filters" (sqClickOutside)="onClickOutside()">
+
+  <div class="sq-simple-mode" [ngClass]="simpleModeClass" *ngIf="!advancedMode">
+    <sq-filters class="me-3"
+      [query]="query"
+      [filter]="query.filters"
+      [showField]="showField"
+      [allowRemove]="allowRemove"
+      [allowNesting]="allowNesting"
+      (filterEdit)="onFiltersChange()"
+    ></sq-filters>
+
+    <span *ngIf="!isSimpleFilter" class="text-nowrap">
+      <a  class="sq-filter-action"
+        role="button"
+        [sqTooltip]="'msg#filters.editTitle' | sqMessage"
+        (click)="toggleEdit()">
+        <i class="fas fa-fw fa-edit"></i>
+        <span> {{'msg#filters.edit' | sqMessage}}</span>
+      </a>
+
+      <a  class="sq-filter-action ms-1"
+        role="button"
+        [sqTooltip]="'msg#filters.clearTitle' | sqMessage"
+        (click)="clearFilters()">
+        <i class="fas fa-fw fa-times"></i>
+        <span> {{'msg#filters.clear' | sqMessage}}</span>
+      </a>
+    </span>
+
+  </div>
+
+  <div class="sq-advanced-mode d-flex flex-row align-items-end" [ngClass]="advancedModeClass" *ngIf="advancedMode">
+    <sq-filters-editor
+      [query]="query"
+      [filter]="query.filters"
+      [showField]="true"
+      [allowRemove]="true"
+      [allowNesting]="true"
+      (filterEdit)="onFiltersChange()"
+    ></sq-filters-editor>
+
+    <a
+      class="sq-filter-action ms-auto text-nowrap"
+      role="button"
+      [sqTooltip]="'msg#filters.saveTitle' | sqMessage"
+      (click)="toggleEdit()">
+      <i class="fas fa-fw fa-check"></i>
+      <span> {{'msg#filters.save' | sqMessage}}</span>
+    </a>
+  </div>
+
+</div>

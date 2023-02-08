@@ -5,10 +5,6 @@
     min-height: 100%;
 }
 
-.main-content {
-    overflow-y: hidden;
-}
-
 .results-list {
     max-height: 100%;
     overflow-y: scroll;
@@ -23,37 +19,11 @@
     }
 }
 
-.toggle-results {
-    cursor: pointer;
-    font-size: 1.15rem;
-    position: absolute;
-    opacity: 0.5;
-    top: 3px;
-
-    left: calc(33% - 32px);
-    transition: left .5s,  opacity .5s;
-
-    &:hover {
-        opacity: 1;
-    }
-
-    &.collapsed {
-        opacity: 1;
-        left: 5px;
-        z-index: 999;
-    }
-
-    & > i {
-        background: white;
-        border-radius: 10px;
-    }
-}
-
-.dashboard-container {
+app-dashboard {
     width: calc(100% - 33%);
 
-    &--expanded {
-        width: 100% !important;
+    &.expanded {
+        width: 100%;
     }
 }
 
@@ -61,9 +31,8 @@
     height: 40px;
 }
 
-h1 {
-    color: #e64b30;
-    font-weight: bold;
+.sq-toolbar {
+    margin: 0.625rem 0;
 }
 
 // Styling of the result items
@@ -82,56 +51,8 @@ h1 {
     cursor: pointer;
 }
 
-.full-width {
-    flex-basis: 100%;
-}
-
 // Selection / Action bar on top of results (position: fixed)
 .card.action-bar {
     bottom: 10px;
     z-index: 4;
-}
-
-sq-facet-filters {
-    flex: 1 1 0;
-    min-width: 0;
-}
-
-// Dashboard (Gridster)
-gridster {
-    background: transparent !important;
-    z-index: 1;
-}
-
-// Active when resizing or dragging items: prevents a glitch when the mouse pointer hovers the preview's iframe
-gridster.display-grid {
-    ::ng-deep iframe {
-        pointer-events: none !important;
-    }
-
-    ::ng-deep iframe {
-        pointer-events: none !important;
-    }
-}
-
-gridster-item {
-    border-radius: 0.25em;
-    overflow: initial;
-}
-
-gridster-item.gridster-item-moving {
-    z-index: 100 !important;
-}
-
-gridster-item.gridster-item-resizing {
-    overflow: hidden;
-}
-
-// always display gridster-item buttons while
-// focused
-gridster-item[focus="true"] {
-    z-index: 90 !important;
-    button {
-        visibility: visible;
-    }
 }

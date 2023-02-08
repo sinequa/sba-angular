@@ -18,7 +18,7 @@ input.input-autocomplete {
     &:not(.dropdown-toggle) {
       box-shadow: none !important;
       outline: none;
-      border-color: var(--primary, $blue-1);
+      border-color: var(--primary, #{$blue-1});
     }
   }
 
@@ -140,7 +140,7 @@ Input with prepend/append icons
   box-shadow: none;
 
   &:focus-within {
-    border-color: var(--primary, $blue-1);
+    border-color: var(--primary, #{$blue-1});
   }
 
   &:has(input:disabled, select:disabled),

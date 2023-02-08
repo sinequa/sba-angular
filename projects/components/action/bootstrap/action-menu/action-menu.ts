@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from "@angular/core";
-import {Utils} from "@sinequa/core/base";
+import { Utils } from "@sinequa/core/base";
 import {Action} from "../../action";
 import { ActionSize } from "../../typings";
 
@@ -23,9 +23,7 @@ export class BsActionMenu implements OnInit{
     @Input() right: boolean;
 
     ngOnInit() {
-        if (!Utils.isArray(this.items)) {
-            this.items = [<Action>this.items];
-        }
+        this.items = Utils.asArray(this.items);
     }
 
     identify(index:number, item: Action) {

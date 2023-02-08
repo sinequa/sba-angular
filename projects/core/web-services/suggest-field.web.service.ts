@@ -25,14 +25,12 @@ export class SuggestFieldWebService extends HttpService {
             return of([]);
         }
         else {
-            if (!Utils.isArray(fields)) {
-                fields = [fields];
-            }
+            fields = Utils.asArray(fields);
             const observable = this.httpClient.post<{suggests: Suggestion[]}>(this.makeUrl("suggestfield"), {
                 app: this.appName,
-                text: text,
-                fields: fields,
-                query: query
+                text,
+                fields,
+                query
             }).pipe(map((value) => {
                 value.suggests.forEach(suggestion => suggestion.display = Utils.toSqlValue(suggestion.display)); // because dates get automatically converted by the interceptor
                 return value.suggests;

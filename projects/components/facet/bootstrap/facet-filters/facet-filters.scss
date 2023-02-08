@@ -1,30 +1,29 @@
-.facet-filters-bar ::ng-deep {
+// Min and max width for the facets
+.dropdown-menu.show {
+  min-width: 250px;
+  max-width: 400px;
+}
 
-    // Min and max width for the facets
-    .dropdown-menu.show {
-        min-width: 250px;
-        max-width: 400px;
-    }
+.facet-wrapper {
+  max-height: 50vh;
+  overflow: auto;
+}
 
-    .navbar-nav {
-      flex-wrap: wrap;
+.navbar-nav {
+  flex-wrap: wrap;
 
-      & > li.dropdown:not(:last-child) {
-        margin-right: 0.5em;
-      }
-    }
+  & > li.dropdown:not(:last-child) {
+    margin-right: 0.5em;
+  }
+}
 
-    sq-action-item-content {
-        /** facets with no values */
-        & > .disabled {
-            opacity: 0.85;
-        }
+/** facets with no values */
+.nav-link > .disabled {
+  opacity: 0.85;
+}
 
-        /** facets with filtered values */
-        & > .filtered {
-            font-weight: bold;
-            color: rgba(0, 0, 0, 0.7);
-        }
-    }
-
+/** facets with filtered values */
+.nav-link > .filtered {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.7);
 }

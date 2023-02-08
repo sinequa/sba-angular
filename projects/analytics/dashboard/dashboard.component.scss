@@ -1,0 +1,57 @@
+gridster {
+  background: transparent !important;
+  z-index: 1;
+}
+
+gridster.scrollVertical {
+  overflow-y: scroll;
+}
+
+gridster-item {
+  border-radius: 0.25em;
+  overflow: initial;
+}
+
+gridster-item.gridster-item-moving {
+  z-index: 100 !important;
+}
+
+gridster-item.gridster-item-resizing {
+  overflow: hidden;
+}
+
+gridster-item.maximized {
+  position: absolute !important;
+  top: calc(var(--sq-padding) * 1px) !important;
+  left: calc(var(--sq-padding-left) * 1px) !important;
+  z-index: 998 !important;
+  width: calc(100% - calc(var(--sq-padding-left) * 1px) - calc(var(--sq-padding-right) * 1px)) !important;
+  height: calc(100% - calc(var(--sq-padding) * 2px)) !important;
+  transform: unset !important;
+}
+
+// always display gridster-item buttons while
+// focused
+gridster-item[focus="true"] {
+  z-index: 90 !important;
+  ::ng-deep button {
+    visibility: visible;
+  }
+}
+
+gridster-item ::ng-deep {
+
+  sq-facet-card > .card {
+    height: 100%; // Force cards to take 100%, even they have no content for some reason
+
+    // Force the settings form of the Network and HeatMap facets to scroll rather than overflowing the widget frame
+    & .sq-collapse > .card-body {
+      height: var(--sq-widget-height);
+      overflow-y: auto;
+    }
+  }
+
+  .gridster-item-resizable-handler.handle-e {
+    right: -5px; // shift resize element slightly so that scrollbar can be manipulated
+  }
+}

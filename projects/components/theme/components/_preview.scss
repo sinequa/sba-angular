@@ -2,7 +2,7 @@
     .card-header {
         padding: 1rem 1.25rem !important;
     }
-    
+
     // Title
     .sq-result-title {
         font-size: 1.25rem;
@@ -30,6 +30,18 @@
             --bs-btn-hover-bg: #{$blue-hover};
             --bs-btn-active-bg: #{$blue-1};
             box-shadow: none;
+        }
+    }
+}
+
+sq-preview-extracts-panel {
+    .list-group-item {
+        &:active {
+            background-color: var(--brand-200, #{$blue-focus});
+        }
+
+        &.active {
+            background-color: var(--brand, #{$blue-selection}) !important;
         }
     }
 }

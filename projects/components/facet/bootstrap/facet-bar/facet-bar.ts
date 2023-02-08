@@ -30,6 +30,7 @@ export class BsFacetBar {
         return {
             ...facet.parameters,
             name: facet.name,
+            aggregation: facet.aggregation,
             results: this.results
         };
     }

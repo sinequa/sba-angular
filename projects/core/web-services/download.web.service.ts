@@ -16,14 +16,15 @@ export class DownloadWebService {
      * when the observed object is ready.
      *
      * @param observable The observable to subscribe.
+     * @param name The file name to save
      * @returns The observable for chaining.
      */
-    public download(observable: Observable<HttpResponse<Blob>>): Observable<HttpResponse<Blob>> {
+    public download(observable: Observable<HttpResponse<Blob>>, name?: string): Observable<HttpResponse<Blob>> {
         Utils.subscribe(
             observable,
             (response: HttpResponse<Blob>) => {
                 const header = response.headers.get('content-disposition');
-                const fileName = header ? header.split('filename=')[1].replace('"', '').replace('"', '') : "";
+                const fileName = name || (header !== null ? header!.split('filename=')[1].replace('"', '').replace('"', '') : "");
 
                 if (response.body === null) return response;
                 if (window.navigator && window.navigator.msSaveOrOpenBlob) {

@@ -5,13 +5,15 @@ import { FacetConfig, default_facet_components } from "../../facet-config";
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
+import { Query } from '@sinequa/core/app-utils';
 
-declare interface FacetMultiConfig extends FacetConfig<{aggregation?: string, displayEmptyDistributionIntervals?: boolean}> {
+declare interface FacetMultiConfig extends FacetConfig<{displayEmptyDistributionIntervals?: boolean}> {
   // Properties internally setup by this component
-  $count?: string;
-  $hasData?: boolean;
-  $hasFiltered?: boolean;
-  $hidden?: boolean;
+  $count: number;
+  $hasMore: boolean;
+  $hasFiltered: boolean;
+  $hidden: boolean;
+  $fields: string[];
 }
 
 @Component({
@@ -22,9 +24,11 @@ declare interface FacetMultiConfig extends FacetConfig<{aggregation?: string, di
 export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
+  @Input() query?: Query;
   @Input() facets: FacetMultiConfig[];
   @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
   @Input() showCount: boolean = true;
+  @Input() name = "facet-multi";
 
   @Output() events = new EventEmitter<FacetMultiConfig|undefined>();
 
@@ -68,20 +72,15 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       icon: "far fa-minus-square",
       title: "msg#facet.filters.clear",
       action: () => {
-        const facetsWithFiltered = this.facets.filter((facet) => facet.$hasFiltered).map(facet => this.getName(facet));
-        this.facetService.clearFiltersSearch(facetsWithFiltered, true);
+        const fields = this.facets
+          .filter((facet) => facet.$hasFiltered)
+          .map(facet => facet.$fields)
+          .flat();
+        this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
       }
     });
 
   }
-
-    /**
-     * Name of the facet, used to retrieve selections
-     * through the facet service.
-     */
-    getName(facet: FacetMultiConfig) : string {
-      return facet.name || facet.parameters?.aggregation || '';
-    }
 
   /**
    * If a sub-facet is opened, add a Back button and forward
@@ -91,9 +90,9 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     const actions: Action[] = [];
     if(this.openedFacet){
       actions.push(this.backAction);
-    } else {
-      const hasFiltered = this.facets.some(facet => facet.$hasFiltered);
-      if (hasFiltered) actions.push(this.clearAllFiltersAction);
+    }
+    else if (this.facets.some(facet => facet.$hasFiltered)) {
+      actions.push(this.clearAllFiltersAction);
     }
     if(this.facetComponent){
       actions.push(...this.facetActions);
@@ -124,55 +123,59 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   clearFacetFilters(facet: FacetMultiConfig, e:Event) {
     e.stopPropagation();
-    this.facetService.clearFiltersSearch(this.getName(facet), true);
+    this.facetService.clearFiltersSearch(facet.$fields, true, this.query, facet.name);
     return false;
   }
 
-  /**
-   * Return the number of items to display for a given facet
-   * @param facet
-   */
-  private getFacetCount(facet: FacetMultiConfig): string {
-    const agg = this.results.aggregations.find(agg => Utils.eqNC(agg.name, <string>facet.parameters?.aggregation)); // avoid calling getAggregation() which is costly for trees
-    if (!agg?.items) return "";
+  initFacet(facet: FacetMultiConfig) {
+    facet.$fields = [];
+    facet.$count = 0;
+    facet.$hasMore = false;
+    facet.$hasFiltered = false;
 
-    const max = this.facetService.getAggregationCount(<string>facet.parameters?.aggregation); // configured count (default: 10)
-    const count = max < 0 ? agg.items.length : max;
-    const aggItemCounter = (!agg.isDistribution || facet?.parameters?.displayEmptyDistributionIntervals)
-      ? agg.items.length
-      : agg.items.filter(item => item.count > 0).length;
-    return aggItemCounter >= count ? `${count}+` : `${aggItemCounter}`;
+    for(let aggregation of Utils.asArray(facet.aggregation)) {
+      const agg = this.facetService.getAggregation(aggregation);
+      if(agg) {
+        facet.$fields.push(agg.column);
+        if(agg.items) {
+          const aggCount = agg.$cccount < 0 ? agg.items.length : agg.$cccount; // configured count (default: 10)
+          const aggItemCounter = (!agg.isDistribution || facet?.parameters?.displayEmptyDistributionIntervals)
+            ? agg.items.length
+            : agg.items.filter(item => item.count > 0).length;
+          if(aggItemCounter >= aggCount) {
+            facet.$count += aggCount;
+            facet.$hasMore = true; // The number of items is superior or equal to the configured number
+          }
+          else {
+            facet.$count += aggItemCounter;
+          }
+        }
+        if(agg.$filtered.length > 0) {
+          facet.$hasFiltered = true;
+        }
+      }
+    }
+
+    // The facet is hidden if there are included tabs and the current tab is not in it
+    // OR if there are excluded tabs and the current tab is in it.
+    facet.$hidden = !this.facetService.isFacetIncluded(facet, this.results);
   }
-
-  /**
-   * Return whether a given facet has been used in the current context
-   * @param facet
-   */
-  private hasFiltered(facet: FacetMultiConfig): boolean {
-    return this.facetService.hasFiltered(this.getName(facet));
-  }
-
   /**
    * When the results change, actualize count, hasData and hasFiltered
    * which are displayed in the template.
    * Also, update list of inputs passed to child facets
    */
   ngOnChanges(changes: SimpleChanges) {
-    this.facets.forEach(facet => {
-      facet.$count = this.getFacetCount(facet);
-      facet.$hasData = this.facetService.hasData(<string>facet.parameters?.aggregation, this.results);
-      facet.$hasFiltered = this.hasFiltered(facet);
-      // The facet is hidden if there are included tabs and the current tab is not in it
-      // OR if there are excluded tabs and the current tab is in it.
-      facet.$hidden = !this.facetService.isFacetIncluded(facet, this.results);
-    });
+    for(let facet of this.facets) {
+      this.initFacet(facet);
+    }
     // Update list of inputs used by child facet
     // PS: attributes of openedFacet MUST have the same name as component's inputs name
     if (changes.results) {
-        this.facetComponentInputs = {results: this.results}
+      this.facetComponentInputs = {results: this.results}
     }
     if (changes.facets) {
-        this.facetComponentInputs = this.getFacetInputs();
+      this.facetComponentInputs = this.getFacetInputs();
     }
 
     this.changeDetectorRef.detectChanges();
@@ -186,6 +189,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     return {
       ...this.openedFacet?.parameters,
       name: this.openedFacet?.name,
+      aggregation: this.openedFacet?.aggregation,
       results: this.results
     };
   }

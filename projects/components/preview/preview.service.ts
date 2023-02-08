@@ -1,7 +1,7 @@
 import {Injectable, InjectionToken, Inject, Type, Optional} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable, Subject} from "rxjs";
-import {AppService, ExprBuilder, Query} from "@sinequa/core/app-utils";
+import {AppService, Query} from "@sinequa/core/app-utils";
 import {AuthenticationService} from "@sinequa/core/login";
 import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent, Results} from "@sinequa/core/web-services";
 import {JsonObject, Utils} from "@sinequa/core/base";
@@ -50,7 +50,6 @@ export class PreviewService {
         private searchService: SearchService,
         private modalService: ModalService,
         private recentDocumentsService: RecentDocumentsService,
-        public exprBuilder: ExprBuilder,
         private domSanitizer: DomSanitizer) {
 
         // Subscribe to own events and add documents to the recent documents service
@@ -76,12 +75,8 @@ export class PreviewService {
         delete query.basket;
         delete query.page;
         delete query.queryId;
-        if (query.select) {
-            query.select = query.select.filter(value => Utils.eqNC(value.facet, "refine"));
-            if (query.select.length === 0) {
-                delete query.select;
-            }
-        }
+        delete query.select;
+        delete query.filters;
         return query;
     }
 
@@ -180,7 +175,7 @@ export class PreviewService {
     fetchPages(containerid: string, query: Query): Observable<Results> {
         query = this.makeQuery(query);
         query.groupBy = ""; // If the query web service uses GROUP BY containerid
-        query.addSelect(this.exprBuilder.makeExpr("containerid", containerid));
+        query.addFilter({field: "containerid", value: containerid});
         return this.searchService.getResults(query);
     }
 

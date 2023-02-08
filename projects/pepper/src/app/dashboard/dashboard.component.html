@@ -1,0 +1,185 @@
+
+<!-- Dashboard toolbar -->
+<div class="sq-dashboard-toolbar btn-group-vertical rounded shadow" role="group" aria-label="Dashboard toolbar">
+  <!-- Toggle results list-->
+  <button type="button" class="btn btn-{{theme}}" (click)="onToggleResults()" [sqTooltip]="'msg#search.hideResults' | sqMessage" placement="right" *ngIf="showResults">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <button type="button" class="btn btn-primary" (click)="onToggleResults()" [sqTooltip]="'msg#search.showResults' | sqMessage" placement="right" *ngIf="!showResults">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+
+  <!-- Add widget -->
+  <button type="button" class="btn btn-{{theme}}" (click)="addWidget()" [sqTooltip]="'msg#dashboard.addWidgetTitle' | sqMessage" placement="right">
+    <i class="fas fa-plus"></i>
+  </button>
+
+  <!-- Export dashboard -->
+  <button type="button" class="btn btn-{{theme}}" (click)="export()" [sqTooltip]="'msg#dashboard.export' | sqMessage" placement="right">
+    <i class="fas fa-file-export"></i>
+  </button>
+
+  <!-- Import dashboard-->
+  <input #importConfigElement type="file" accept="application/JSON" (change)="import(importConfigElement)" style="display:none;"/>
+  <button type="button" class="btn btn-{{theme}}" (click)="importConfigElement.click()" [sqTooltip]="'msg#dashboard.import' | sqMessage" placement="right">
+    <i class="fas fa-file-import"></i>
+  </button>
+
+  <!-- Reset dashboard configuration -->
+  <button type="button" class="btn btn-{{theme}}" (click)="reset()" [sqTooltip]="'msg#dashboard.resetConfirmTitle' | sqMessage" placement="right">
+    <i class="fas fa-trash"></i>
+  </button>
+
+  <!-- Close all previews -->
+  <button type="button" class="btn btn-{{theme}}" (click)="closePreviews()" [sqTooltip]="'msg#dashboard.closePreviews' | sqMessage" placement="right" *ngIf="previewCount > 0">
+    <i class="fas fa-window-close"></i>
+    <span class="position-absolute badge rounded-pill bg-danger" style="font-size: 10px">
+      {{previewCount}}
+    </span>
+  </button>
+</div>
+
+<!--
+  Dashboard component.
+  - 60px margin on the left to leave space to the vertical button which is
+  positioned absolutely (so that scrolling on the left area scrolls the dashboard)
+  - 43px padding accounts for a standard facet header height and borders
+  - 2px  padding accounts for 1px borders on each side
+  - 110px padding accounts for the app's header
+-->
+<sq-dashboard
+  [dashboard]="dashboard"
+  [gridsterOptions]="{outerMarginLeft: 60}"
+  [horizontalPadding]="2"
+  [verticalPadding]="46"
+  [windowPadding]="110"
+  (changed)="onChanged($event)"
+  (removed)="onRemoved($event)">
+
+  <ng-template let-widget let-i="index">
+    <sq-facet-card
+      [title]="widget.state.title"
+      [icon]="widget.icon"
+      [collapsible]="false"
+      [actions]="widget.actions"
+      [actionsFirst]="false"
+      [buttonsStyle]="theme"
+      [ngSwitch]="widget.state.type"
+      [sqScrollIntoView]="{active: widget.state.recordId === clickedRecordId, first: i === 0}">
+
+      <!-- Map view-->
+      <sq-googlemaps *ngSwitchCase="'map'"
+        #facet
+        [results]="results"
+        [width]="widget.width"
+        [height]="widget.height"
+        [style]="theme"
+        (recordClicked)="recordClicked.emit($event)">
+      </sq-googlemaps>
+
+      <!-- Heatmap view -->
+      <sq-facet-heatmap *ngSwitchCase="'heatmap'"
+        #facet
+        [results]="results"
+        [fieldX]="'geo'"
+        [fieldY]="'company'"
+        [fieldsX]="['geo', 'company', 'person']"
+        [fieldsY]="['geo', 'company', 'person']"
+        [width]="widget.width"
+        [height]="widget.height"
+        [allowResizeOption]="false"
+        [theme]="theme">
+      </sq-facet-heatmap>
+
+      <sq-facet-timeline *ngSwitchCase="'timeline'"
+        #facet
+        [results]="results"
+        [width]="widget.width"
+        [height]="widget.height"
+        [theme]="theme"
+        (eventClicked)="recordClicked.emit($event.record)">
+      </sq-facet-timeline>
+
+      <sq-facet-tag-cloud *ngSwitchCase="'tagcloud'"
+        #facet
+        class="d-block overflow-auto" style="height: var(--sq-widget-height)"
+        [results]="results"
+        [aggregation]="['Concepts','Geo','Company','Person']">
+      </sq-facet-tag-cloud>
+
+      <sq-money-timeline *ngSwitchCase="'money-timeline'"
+        #facet
+        [results]="results"
+        [width]="widget.width"
+        [height]="widget.height"
+        [theme]="theme"
+        (recordClicked)="recordClicked.emit($event)">
+      </sq-money-timeline>
+
+      <sq-money-cloud *ngSwitchCase="'money-cloud'"
+        #facet
+        [results]="results"
+        [width]="widget.width"
+        [height]="widget.height"
+        [theme]="theme">
+      </sq-money-cloud>
+
+      <!-- Chart view -->
+      <sq-fusion-chart *ngSwitchCase="'chart'"
+        #facet
+        [results]="results"
+        [chart]="{theme: theme === 'dark'? 'candy' : 'fusion', labelDisplay: 'rotate', slantLabel: '1'}"
+        [width]="widget.width"
+        [height]="widget.height"
+        [aggregation]="widget.state.aggregation"
+        [aggregations]="['Company','Geo','Person','Concepts']"
+        [type]="widget.state.chartType"
+        [types]="[
+          {type: 'Column2D', display: 'Columns 2D'},
+          {type: 'Bar2D', display: 'Bars 2D'},
+          {type: 'Pie2D', display: 'Pie 2D'},
+          {type: 'Column3D', display: 'Columns 3D'},
+          {type: 'Bar3D', display: 'Bars 3D'},
+          {type: 'Pie3D', display: 'Pie 3D'}
+        ]"
+        [autohide]="false"
+        (initialized)="$event.resizeTo(widget.width, widget.height)"
+        (typeChange)="dashboardComponent.update(widget, {chartType: $event})"
+        (aggregationChange)="dashboardComponent.update(widget, {aggregation: $event})">
+      </sq-fusion-chart>
+
+      <!-- Network view -->
+      <sq-network *ngSwitchCase="'network'"
+        #facet
+        [results]="results"
+        [providers]="widget.providers"
+        [options]="{height: widget.height+'px'}">
+      </sq-network>
+
+      <!-- Preview -->
+      <ng-container *ngSwitchCase="'preview'">
+        <ng-container *ngIf="widget.record | async as record">
+          <sq-facet-preview-2
+            #facet
+            [record]="record"
+            [query]="widget.query"
+            [scalingFactor]="0.8"
+            [height]="widget.height">
+          </sq-facet-preview-2>
+
+          <ng-template #headerTpl>
+            <sq-result-title class="flex-grow-1 flex-basis-0"
+              [record]="record"
+              titleLinkBehavior="open-if-url">
+            </sq-result-title>
+          </ng-template>
+        </ng-container>
+
+        <div *ngIf="widget.error" class="h-100 text-danger text-center p-4">
+          Could not retrieve document preview for {{widget.state.recordId}}
+        </div>
+      </ng-container>
+
+    </sq-facet-card>
+  </ng-template>
+</sq-dashboard>

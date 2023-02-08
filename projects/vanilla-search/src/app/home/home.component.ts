@@ -62,10 +62,7 @@ export class HomeComponent implements OnInit {
    * the app configuration on the server
    */
   public get features(): string[] {
-    if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
-      return <string[]> <any> this.appService.app.data.features;
-    }
-    return FEATURES;
+    return this.appService.app?.data?.features as string[] || FEATURES;
   }
 
   /**

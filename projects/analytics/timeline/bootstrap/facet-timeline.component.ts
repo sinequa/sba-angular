@@ -1,16 +1,15 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Observable, of, combineLatest, ReplaySubject, map } from 'rxjs';
-import { Results, AggregationItem, Aggregation, CCAggregation, Record, AuditWebService, AuditEventType } from '@sinequa/core/web-services';
-import { AppService, Expr, ExprBuilder } from '@sinequa/core/app-utils';
+import { Results, AggregationItem, Aggregation, CCAggregation, Record, AuditWebService, BetweenFilter, Filter } from '@sinequa/core/web-services';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { AbstractFacet, FacetService } from '@sinequa/components/facet';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { Action } from '@sinequa/components/action';
-import { TimelineSeries, TimelineDate, TimelineEvent } from './timeline.component';
-import { TimelineEventType } from './timeline-legend.component';
+import { TimelineSeries, TimelineDate, TimelineEvent, TimelineEventType } from './timeline.model';
 import { timeFormat } from 'd3-time-format';
-import { timeMonth, timeDay, timeHour, timeWeek, timeYear } from 'd3-time';
+import { timeMonth, timeDay, timeHour, timeWeek, timeYear, timeMinute, timeSecond } from 'd3-time';
 import { isValid, parseISO, toDate } from 'date-fns';
 
 export interface TimelineAggregation {
@@ -44,6 +43,18 @@ export interface TimelineEventAggregation {
     styles?: {[key: string]: any} | ((item: AggregationItem) => {[key: string]: any});
 }
 
+export function isSeries(data: TimelineData): data is TimelineSeries {
+    return !!(data as TimelineSeries).dates;
+}
+
+export function isAggregation(data: TimelineData): data is TimelineAggregation {
+  return !!(data as TimelineAggregation).aggregation;
+}
+
+export function isCombinedAggregations(data: TimelineData): data is TimelineCombinedAggregations {
+  return !!(data as TimelineCombinedAggregations).aggregations;
+}
+
 export type TimelineData = TimelineSeries | TimelineAggregation | TimelineCombinedAggregations;
 
 export type TimelineEventData = TimelineEvent[] | TimelineRecords | TimelineEventAggregation;
@@ -56,6 +67,7 @@ export type TimelineEventData = TimelineEvent[] | TimelineRecords | TimelineEven
 export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges {
     @Input() name = 'Timeline';
     @Input() results: Results;
+    @Input() query?: Query;
 
     // By default, we show the standard Timeline aggregation and the list of current records
     @Input() timeseries: TimelineData[] = [{aggregation: 'Timeline', primary: true}];
@@ -108,13 +120,13 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     // Actions
     clearFilters: Action;
+    hasFiltered = false;
 
     constructor(
         public facetService: FacetService,
         public searchService: SearchService,
         public appService: AppService,
         public selectionService: SelectionService,
-        public exprBuilder: ExprBuilder,
         public cdRef: ChangeDetectorRef,
         public audit: AuditWebService
     ){
@@ -134,8 +146,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             title: "msg#facet.clearSelects",
             action: () => {
                 this.selection = undefined;
-                this.searchService.query.removeSelect(this.name);
-                this.searchService.search();
+                const fields = this.getConfigAggregations().map(a => a.column);
+                this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
             }
         });
 
@@ -151,7 +163,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.facetService.hasFiltered(this.name)){
+        if(this.hasFiltered){
             actions.push(this.clearFilters);
         }
         return actions;
@@ -165,30 +177,27 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         }
 
         // Retrieve the current active selection for this timeline (if any)
-        const select = this.searchService.query.findSelect(this.name);
+        const query = this.query || this.searchService.query;
+        const fields = this.getConfigAggregations().map(cc => cc.column);
+        const filter = query.findFilter(f => f.operator === 'between' && fields.includes(f.field)) as BetweenFilter;
+        this.hasFiltered = !!filter;
 
         // Update the selection if it is not already set (which is the case on a page refresh)
-        if(select && !this.selection) {
-            let parsedexpr = this.appService.parseExpr(select.expression) as Expr;
-            if(!Utils.isString(parsedexpr)){
-                while(!parsedexpr.isLeaf){ // The select might over multiple fields (modified between [...] AND created between [...])
-                    parsedexpr = parsedexpr.operands[0];
-                }
-                if(parsedexpr.values){
-                    this.selection = [parseISO(parsedexpr.values[0]), parseISO(parsedexpr.values[1])];
-                    // Guess a current range based on the selection
-                    if(!this.currentRange) {
-                        const interval = this.selection[1].getTime() - this.selection[0].getTime();
-                        this.currentRange = [ // Selected Interval +10% on each side
-                            toDate(this.selection[0].getTime()-interval*0.1),
-                            toDate(this.selection[1].getTime()+interval*0.1)
-                        ];
-                    }
-                }
+        if(filter && !this.selection) {
+            const from = Utils.isString(filter.start)? parseISO(filter.start) : Utils.isDate(filter.start)? filter.start : new Date(filter.start);
+            const to = Utils.isString(filter.end)? parseISO(filter.end) : Utils.isDate(filter.end)? filter.end : new Date(filter.end);
+            this.selection = [from, to];
+            // Guess a current range based on the selection
+            if(!this.currentRange) {
+                const interval = from.getTime() - to.getTime();
+                this.currentRange = [ // Selected Interval +10% on each side
+                    toDate(from.getTime()-interval*0.1),
+                    toDate(to.getTime()+interval*0.1)
+                ];
             }
         }
         // If no active selection we remove the selection from the timeline, along with the current zoomed range
-        else if(!select) {
+        else if(!filter) {
             this.selection = undefined; // If no select, it was possibly removed by the user, we need to update our selection
             this.currentRange = undefined; // current range is set by zoom events, we want to reset it only if there are no select (ie. no user interaction)
         }
@@ -336,12 +345,12 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         const aggregation = this.facetService.getAggregation(aggregationName, this.results);
 
         if(aggregation && ccaggregation) {
-            return of({aggregation: aggregation, ccaggregation: ccaggregation});
+            return of({aggregation, ccaggregation});
         }
 
         else if(ccaggregation) {
             return this.fetchAggregation(aggregationName, ccaggregation, range).pipe(
-                map(agg => ({aggregation: agg, ccaggregation: ccaggregation}))
+                map(aggregation => ({aggregation, ccaggregation}))
             );
         }
 
@@ -357,12 +366,13 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      * @param range
      */
     fetchAggregation(aggregation: string, ccaggregation: CCAggregation, range?: [Date, Date]): Observable<Aggregation> {
-        const query = Utils.copy(this.searchService.query);
+        const query = (this.query || this.searchService.query).copy();
         query.action = "aggregate";
         query.aggregations = [aggregation];
 
         if(range){
-            query.addSelect(`${ccaggregation.column}:[${this.formatDayRequest(range[0])}..${this.formatDayRequest(range[1])}]`);
+            const filter = this.facetService.makeRangeFilter(ccaggregation.column, range[0], range[1])!;
+            query.addFilter(filter);
         }
 
         return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
@@ -419,37 +429,26 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      */
     onSelectionChange(selection: [Date, Date] | undefined) {
         this.selection = selection;
+        const aggregations = this.getConfigAggregations();
+        const fields = aggregations.map(a => a.column);
         if(selection) {
             const from = this.formatDayRequest(selection[0]);
             const to = this.formatDayRequest(selection[1]);
 
-            const exprs: string[] = [];
-            this.searchService.query.removeSelect(this.name);
+            const filters: Filter[] = aggregations
+                .map(agg => ({field: agg.column, operator: 'between', start: from, end: to}));
 
-            this.timeseries.forEach((config) => {
-
-                if((config as TimelineAggregation).aggregation !== undefined
-                || (config as TimelineCombinedAggregations).default !== undefined) {
-
-                    const aggregation = (config as TimelineAggregation).aggregation || (config as TimelineCombinedAggregations).default.aggregation;
-                    const ccaggregation = this.appService.getCCAggregation(aggregation);
-                    if(ccaggregation) {
-                        exprs.push(this.exprBuilder.makeRangeExpr(ccaggregation.column, from, to));
-                    }
+            if(filters.length > 0) {
+                let filter = filters[0];
+                if(filters.length > 1) {
+                    filter = {operator: 'or', filters};
                 }
-
-            });
-
-            if(exprs.length > 0) {
-                const expr = this.exprBuilder.concatOrExpr(exprs);
-                this.searchService.query.addSelect(expr, this.name);
-                this.searchService.search(undefined, {type:AuditEventType.Search_Timeline_Usage, detail: { from, to }});
+                this.facetService.applyFilterSearch(filter, this.query, true, this.name);
             }
         }
 
-        else if(this.searchService.query.findSelect(this.name)) {
-            this.searchService.query.removeSelect(this.name);
-            this.searchService.search();
+        else if(this.facetService.hasFiltered(fields, this.query)) {
+            this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
         }
     }
 
@@ -480,6 +479,16 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         this.eventClicked.next(event);
         closeTooltip();
         return false;
+    }
+
+    getConfigAggregations(): CCAggregation[] {
+        return this.timeseries.map(t => {
+            if(isCombinedAggregations(t)) return t.default.aggregation;
+            if(isAggregation(t)) return t.aggregation;
+            return undefined;
+        })
+        .map(a => a && this.appService.getCCAggregation(a))
+        .filter(agg => agg) as CCAggregation[];
     }
 
 
@@ -543,28 +552,26 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
         const _items = items
             .map(item => {
-                if(!!item.value && !(item.value instanceof Date)){
+                if(item.value){
                     const val = item.value.toString();
-                    item.value = parseISO(val.length <= 4? val + "-01" : val);
-                    if(isNaN(item.value.getTime())){
-                        item.value = <Date><unknown> undefined; // So it gets filtered out
+                    let date = parseISO(val.length <= 4? val + "-01" : val);
+                    if(!isNaN(date.getTime())){
+                        return {date, value: item.count}
                     }
                 }
-                return item;
+                return undefined!; // the ! is for excluding the filtered undefined from the inferred type
             })
-            .filter(item => !!item.value && (!range || ((item.value as Date) >= range[0] && (item.value as Date) <= range[1])));
+            .filter(item => item && (!range || item.date >= range[0] && item.date <= range[1]));
 
         _items.forEach((item,i) => {
-            const date = item.value as Date;
-
-            if(i === 0 || timeInterval.offset(series[series.length-1].date, 1) < date) {
-                series.push({date: timeInterval.offset(date, -1), value: 0});
+            if(i === 0 || timeInterval.offset(series[series.length-1].date, 1) < item.date) {
+                series.push({date: timeInterval.offset(item.date, -1), value: 0});
             }
 
-            series.push({date: date, value: item.count});
+            series.push(item);
 
-            if(i === _items.length-1 || timeInterval.offset(date, 1) < _items[i+1].value){
-                series.push({date: timeInterval.offset(date, 1), value: 0});
+            if(i === _items.length-1 || timeInterval.offset(item.date, 1) < _items[i+1].date){
+                series.push({date: timeInterval.offset(item.date, 1), value: 0});
             }
         });
 
@@ -581,6 +588,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      */
     static shiftDate(date: Date, resolution: string): Date {
         switch(resolution){
+            case "YYYY-MM-DD-hh-mm": return timeSecond.offset(date, 30);
+            case "YYYY-MM-DD-hh": return timeMinute.offset(date, 30);
             case "YYYY-MM-DD": return timeHour.offset(date, 12);
             case "YYYY-WW": return timeHour.offset(date, 84); // 3*24 + 12
             case "YYYY-MM": return timeDay.offset(date, 15);
@@ -592,6 +601,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     static getD3TimeInterval(resolution: string): d3.CountableTimeInterval {
         switch(resolution){
+            case "YYYY-MM-DD-hh-mm": return timeMinute;
+            case "YYYY-MM-DD-hh": return timeHour;
             case "YYYY-MM-DD": return timeDay;
             case "YYYY-WW": return timeWeek;
             case "YYYY-MM": return timeMonth;

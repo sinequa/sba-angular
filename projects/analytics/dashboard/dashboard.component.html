@@ -1,0 +1,20 @@
+<gridster [options]="options"
+  [style.--sq-padding]="options.margin"
+  [style.--sq-padding-left]="options.outerMarginLeft || options.margin"
+  [style.--sq-padding-right]="options.outerMarginRight || options.margin">
+
+  <gridster-item *ngFor="let widget of dashboard; let index=index"
+    [item]="widget.state"
+    [attr.focus]="widget === focusedWidget"
+    [ngClass]="{maximized: widget.maximized}"
+    [style.--sq-widget-height]="widget.height+'px'"
+    (click)="focusedWidget = widget">
+
+    <ng-container *ngIf="widget.width"
+      [ngTemplateOutlet]="template"
+      [ngTemplateOutletContext]="{$implicit: widget, index}">
+    </ng-container>
+
+  </gridster-item>
+
+</gridster>

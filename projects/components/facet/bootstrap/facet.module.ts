@@ -12,20 +12,18 @@ import {BsActionModule} from "@sinequa/components/action";   // needed for sq-ac
 import {BsSearchModule} from "@sinequa/components/search";   // needed for refine facet / didyoumean
 import {BsAutocompleteModule} from "@sinequa/components/autocomplete";  // needed for refine facet
 
-import {FacetState, ALL_FACETS, DEFAULT_FACETS} from "../facet.service";
+import {FacetState, ALL_FACETS, DEFAULT_FACETS, NamedFacetConfig} from "../facet.service";
 import {BsRefine} from "./facet-refine/facet-refine";
 import {BsFacetBar} from "./facet-bar/facet-bar";
-import {BsMySearch} from "./facet-mysearch/facet-mysearch";
 import {BsFacetRange} from "./facet-range/facet-range";
 import {BsFacetCard} from "./facet-card/facet-card";
 import {BsFacetList} from "./facet-list/facet-list";
-import {BsFacetTree} from "./facet-tree/facet-tree";
 import {BsFacetFilters} from "./facet-filters/facet-filters";
 import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
 import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 import { LoadComponentModule } from "@sinequa/core/load-component";
-import { FacetConfig } from "../facet-config";
 import { FacetViewDirective } from "./facet-view.directive";
+import { FacetContainerComponent } from "./facet-container/facet-container.component";
 
 @NgModule({
     imports: [
@@ -45,24 +43,26 @@ import { FacetViewDirective } from "./facet-view.directive";
         LoadComponentModule
     ],
     declarations: [
-        BsFacetCard, FacetViewDirective, BsFacetList, BsFacetTree,
+        BsFacetCard, FacetViewDirective, BsFacetList,
         BsFacetFilters,
         BsRefine,
-        BsFacetRange, BsMySearch, BsFacetBar,
+        BsFacetRange, BsFacetBar,
         BsFacetMultiComponent,
-        BsFacetTagCloud
+        BsFacetTagCloud,
+        FacetContainerComponent
     ],
     exports: [
-        BsFacetCard, FacetViewDirective, BsFacetList, BsFacetTree,
+        BsFacetCard, FacetViewDirective, BsFacetList,
         BsFacetFilters,
         BsRefine,
-        BsFacetRange, BsMySearch, BsFacetBar,
+        BsFacetRange, BsFacetBar,
         BsFacetMultiComponent,
-        BsFacetTagCloud
+        BsFacetTagCloud,
+        FacetContainerComponent
     ],
 })
 export class BsFacetModule {
-    public static forRoot<T>(allFacets?: FacetConfig<T>[], defaultFacets?: FacetState[]): ModuleWithProviders<BsFacetModule> {
+    public static forRoot(allFacets?: NamedFacetConfig[], defaultFacets?: FacetState[]): ModuleWithProviders<BsFacetModule> {
         return {
             ngModule: BsFacetModule,
             providers: [
