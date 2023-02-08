@@ -7,10 +7,10 @@
     <!-- Label (title)-->
     <span *ngIf="showTitle && !!item" class="sq-metadata-item-label pe-2">{{'msg#metadata.item.label' | sqMessage:itemLabelMessageParams}}</span>
 
-    <span class="sq-metadata-item-values" [ngClass]="{collapsed: !!collapsed}" #values>
+    <span class="sq-metadata-item-values" [style.--max-height]="valuesHeight" #values>
         <!-- Collapse button -->
-        <a *ngIf="collapseRows && needsCollapse" href="#" (click)="toggleCollapse($event)" class="collapse-button me-1">
-            <i class="fas fa-fw fa-chevron-{{collapsed? 'right' : 'down'}}"></i>
+        <a *ngIf="collapseRows && needsCollapse" role="button" (click)="toggleCollapse()" class="collapse-button me-1">
+            <i class="fas fa-fw fa-caret-{{collapsed? 'right' : 'down'}}"></i>
         </a>
 
         <!-- Access list metadata -->

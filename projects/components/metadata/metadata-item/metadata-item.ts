@@ -1,4 +1,4 @@
-import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEmitter} from "@angular/core";
+import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEmitter, ElementRef, ViewChild} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {Record, EntityItem, DocumentAccessLists, CCColumn, TextChunksWebService, TextLocation} from "@sinequa/core/web-services";
@@ -32,11 +32,15 @@ export class MetadataItem implements OnChanges {
     isEntity: boolean;
     isCsv: boolean;
     itemLabelMessageParams: any;
-    collapsed: boolean;
-    needsCollapse: boolean = false;
     entityTooltip?: (entity: EntityItem) => Observable<string|undefined>;
 
+    @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
+    lineHeight: number;
+    valuesMaxHeight: number;
+    valuesHeight: number | undefined;
+
     constructor(
+        public el: ElementRef,
         public appService: AppService,
         public formatService: FormatService,
         public textChunkWebService: TextChunksWebService) {
@@ -105,11 +109,18 @@ export class MetadataItem implements OnChanges {
             }
         }
 
-        const collapsable = (this.isEntity || this.isCsv) && !this.isTree; // Tree columns are multivalues, and therefore isCsv=true
-        if (changes.collapseRows || this.collapsed === undefined) {
-            this.collapsed = collapsable && this.collapseRows;
+        this.valuesHeight = undefined;
+        if(this.collapseRows) {
+            this.lineHeight = parseInt(getComputedStyle(this.el.nativeElement).lineHeight);
+            this.valuesHeight = this.lineHeight; // The display starts collapsed
+            this.valuesMaxHeight = this.lineHeight; // And without the collapse icon
+            // We have to wait for the element to be rendered to "measure" it
+            setTimeout(() => {
+                if(this.valuesEl) { // Display or not the collapse icon
+                    this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
+                }
+            });
         }
-        this.needsCollapse = collapsable && this.collapseRows && this.tabular && this.valueItems.length > 1; // We display the collapse button as soon as the number of values is >1 which does not take into account the actualy width of each value...
     }
 
     public get isEmpty(): boolean {
@@ -181,10 +192,18 @@ export class MetadataItem implements OnChanges {
         return false; // prevent default
     }
 
-    toggleCollapse(event: Event) {
-        event.stopImmediatePropagation();
-        this.collapsed = !this.collapsed;
-        return false;
+    // Collapse management
+
+    get collapsed(): boolean {
+      return this.valuesHeight === this.lineHeight;
+    }
+
+    get needsCollapse(): boolean {
+        return this.valuesMaxHeight > this.lineHeight;
+    }
+
+    toggleCollapse() {
+        this.valuesHeight = this.collapsed? this.valuesMaxHeight : this.lineHeight;
     }
 
     getEntitySentence = (entity: EntityItem) => {
