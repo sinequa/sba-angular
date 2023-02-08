@@ -5,8 +5,6 @@ import {
   Input,
   OnDestroy,
   TemplateRef
-  OnDestroy,
-  TemplateRef
 } from "@angular/core";
 import {
   ConnectedPosition,
@@ -40,13 +38,13 @@ export type Placement = "top" | "bottom" | "right" | "left";
  * //HTML can be used directly (not recommanded)
  * <div sqTooltip="<h1>Title</h1><br><p>This is a comment</p>"></div>
  */
-@Directive({selector: "[sqTooltip]"})
+@Directive({ selector: "[sqTooltip]" })
 export class TooltipDirective<T> implements OnDestroy {
   /**
    * Defining a property called textOrTemplate that can be a string, a function that
    * returns an Observable of a string or undefined, or a TemplateRef.
    */
-  @Input("sqTooltip") potentialValueOrTemplate?: string | ((data?: T) => Observable<string|undefined>) | TemplateRef<any>;
+  @Input("sqTooltip") potentialValueOrTemplate?: string | ((data?: T) => Observable<string | undefined>) | TemplateRef<any>;
   @Input("sqTooltipData") data?: T;
 
   /**
@@ -95,14 +93,14 @@ export class TooltipDirective<T> implements OnDestroy {
 
     this.clearSubscription();
 
-    if(!this.potentialValueOrTemplate) return;
+    if (!this.potentialValueOrTemplate) return;
 
     let obs: Observable<string | undefined | TemplateRef<any>>;
 
-    if(Utils.isFunction(this.potentialValueOrTemplate)) {
+    if (Utils.isFunction(this.potentialValueOrTemplate)) {
       obs = this.potentialValueOrTemplate(this.data);
     }
-    else if (typeof(this.potentialValueOrTemplate) === "string") {
+    else if (typeof (this.potentialValueOrTemplate) === "string") {
       obs = of(this.potentialValueOrTemplate)
         .pipe(delay(this.delay))
     } else {
@@ -133,6 +131,16 @@ export class TooltipDirective<T> implements OnDestroy {
         tooltipRef.instance.text = valueOrTemplate;
       } else {
         tooltipRef.instance.template = valueOrTemplate;
+      }
+
+      if (this.hoverableTooltip) {
+        this.overlayRef.overlayElement.addEventListener("mouseenter", () => {
+          this.hoveringOverlayRef = true;
+        });
+        this.overlayRef.overlayElement.addEventListener('mouseleave', () => {
+          this.hoveringOverlayRef = false;
+          this.clearSubscription();
+        });
       }
     });
   }
