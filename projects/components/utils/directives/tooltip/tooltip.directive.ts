@@ -3,7 +3,8 @@ import {
   ElementRef,
   HostListener,
   Input,
-  OnDestroy
+  OnDestroy,
+  TemplateRef
 } from "@angular/core";
 import {
   ConnectedPosition,
@@ -18,23 +19,25 @@ import { Observable, of, Subscription, delay } from "rxjs";
 
 export type Placement = "top" | "bottom" | "right" | "left";
 
-@Directive({selector: "[sqTooltip]"})
+@Directive({ selector: "[sqTooltip]" })
 export class TooltipDirective<T> implements OnDestroy {
-  @Input("sqTooltip") text?: string | ((data?: T) => Observable<string|undefined>) = "";
+  @Input("sqTooltip") text?: string | ((data?: T) => Observable<string | undefined>) | TemplateRef<any> = "";
   @Input("sqTooltipData") data?: T;
   @Input() placement: Placement = "bottom";
   @Input() fallbackPlacements: Placement | Placement[] = [];
   @Input() delay = 300;
+  @Input() hoverableTooltip = false;
 
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
   private clearTimeout?: any;
+  private hoveringOverlayRef: boolean;
 
   constructor(
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
     private elementRef: ElementRef
-  ) {}
+  ) { }
 
   ngOnDestroy() {
     // do not forget to clear timeout function
@@ -47,18 +50,18 @@ export class TooltipDirective<T> implements OnDestroy {
     event.stopPropagation();
 
     // The tooltip is already showing: just cancel the hiding
-    if(this.clearTimeout) {
+    if (this.clearTimeout) {
       clearTimeout(this.clearTimeout);
       return;
     }
 
     this.clearSubscription();
 
-    if(!this.text) return;
+    if (!this.text) return;
 
-    let obs: Observable<string|undefined>;
+    let obs: Observable<string | undefined | TemplateRef<any>>;
 
-    if(Utils.isFunction(this.text)) {
+    if (Utils.isFunction(this.text)) {
       obs = this.text(this.data);
     }
     else {
@@ -66,20 +69,34 @@ export class TooltipDirective<T> implements OnDestroy {
         .pipe(delay(this.delay))
     }
 
-    this.subscription = obs.subscribe(text => {
+    this.subscription = obs.subscribe(content => {
       this.overlayRef?.detach();
-
-      if(!text?.trim().length) return;
+      const isTemplateRef = content instanceof TemplateRef;
+      if (!isTemplateRef && !content?.trim().length) return;
 
       const positionStrategy = this.overlayPositionBuilder
-      .flexibleConnectedTo(this.elementRef)
-      .withPositions([this.position(), ...this.fallbackPositions()]);
+        .flexibleConnectedTo(this.elementRef)
+        .withPositions([this.position(), ...this.fallbackPositions()]);
 
       const scrollStrategy = this.overlay.scrollStrategies.close();
-      this.overlayRef = this.overlay.create({positionStrategy, scrollStrategy});
+      this.overlayRef = this.overlay.create({ positionStrategy, scrollStrategy });
 
       const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
-      tooltipRef.instance.text = text;
+      if (isTemplateRef) {
+        tooltipRef.instance.template = content;
+      } else {
+        tooltipRef.instance.text = content;
+      }
+
+      if (this.hoverableTooltip) {
+        this.overlayRef.overlayElement.addEventListener("mouseenter", () => {
+          this.hoveringOverlayRef = true;
+        });
+        this.overlayRef.overlayElement.addEventListener('mouseleave', () => {
+          this.hoveringOverlayRef = false;
+          this.clearSubscription();
+        });
+      }
     });
   }
 
@@ -92,8 +109,8 @@ export class TooltipDirective<T> implements OnDestroy {
 
   @HostListener("mouseleave", ['$event'])
   hide(event: MouseEvent) {
-    if(!this.clearTimeout) {
-      this.clearTimeout = setTimeout(() => this.clearSubscription(), 10);
+    if (!this.clearTimeout) {
+      this.clearTimeout = setTimeout(() => this.clearSubscription(), this.hoverableTooltip ? 500 : 10);
     }
   }
 
@@ -144,8 +161,10 @@ export class TooltipDirective<T> implements OnDestroy {
    * Clear timeout function and detach overlayRef
    */
   private clearSubscription() {
+    if (this.hoverableTooltip && this.hoveringOverlayRef) return;
+
     this.subscription?.unsubscribe();
-    if(this.clearTimeout) {
+    if (this.clearTimeout) {
       clearTimeout(this.clearTimeout);
       this.clearTimeout = undefined;
     }

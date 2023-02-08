@@ -1,6 +1,14 @@
-<div *ngIf="display" class="sq-metadata {{customClass}}">
+<div *ngIf="display" class="sq-metadata {{customClass}}" [sqTooltip]="clickable ? tooltip : undefined"
+    [placement]="'top'" [hoverableTooltip]="true">
+    <ng-template #tooltip>
+        <div class="btn-group">
+            <button class="btn"><span class="fas fa-filter"></span> Filter</button>
+            <button class="btn"><span class="fas fa-minus-circle"></span> Exclude</button>
+        </div>
+    </ng-template>
+
     <!-- Icon -->
-    <span *ngIf="showIcon" class="{{icon}} pe-2" [style.color]="color"></span>
+    <span *ngIf="showIcon" class="{{icon}} pe-2"></span>
 
     <!-- Title -->
     <span *ngIf="showTitle" class="sq-metadata-item-label pe-2">
@@ -30,7 +38,9 @@
         <span *ngFor="let valueItem of valueItems; let $index = index"
             class="{{itemClass}} {{'sq-metadata-item-' + item}} me-1" (click)="select($index)"
             [attr.title]="(showTitle || entityTooltip)? null : (label | sqMessage)" [sqTooltip]="entityTooltip"
-            [sqTooltipData]="valueItem">{{valueItem | sqValue:column}}
+            [sqTooltipData]="valueItem">
+            <span *ngIf="valueIcon" class="{{valueIcon}}" [style.color]="color"></span>
+            {{valueItem | sqValue:column}}
             <span *ngIf="showCounts && valueItem.count" class="counter rounded-pill bg-light text-black ms-1"
                 [title]="valueItem.count + ' occurrences in document'">{{valueItem.count}}</span>
         </span>

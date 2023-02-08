@@ -11,8 +11,26 @@
   max-width: 280px;
 }
 
+::ng-deep .sq-tooltip .btn {
+  color: white !important;
+}
+
+::ng-deep .sq-tooltip .btn:hover {
+  color: lightgray !important;
+}
+
 :host-context(.dark)
 .sq-tooltip {
   background-color: #f0f0f0;
   color: #606060;
+}
+
+:host-context(.dark)
+::ng-deep .sq-tooltip .btn {
+  color: gray !important;
+}
+
+:host-context(.dark)
+::ng-deep .sq-tooltip .btn:hover {
+  color: black !important;
 }

@@ -19,7 +19,8 @@ const METADATA_MAPPINGS = {
   'fas fa-align-left': ['matchingpartnames'],
   'fas fa-envelope': ['msgfrom'],
   'fas fa-envelope-open-text': ['msgto'],
-  'far fa-file-alt': ['extractslocations', 'filename']
+  'far fa-file-alt': ['extractslocations', 'filename'],
+  'fas fa-info-circle': ['docformat']
 };
 
 const FORMAT_MAPPINGS = {
@@ -83,7 +84,6 @@ export class IconService {
   }
 
   getColor(format: string): string | undefined {
-    console.log('color', format);
     return this.getMappingIcon(COLORS_MAPPINGS, format);
   }
 

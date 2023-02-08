@@ -12,6 +12,7 @@ import { MetadataAccessListsItemSingleAccessList } from "./metadata-access-lists
 import { MetadataListComponent } from "./metadata-list/metadata-list.component";
 import { MetadataComponent } from "./metadata-list/metadata/metadata.component";
 import { IconService } from "./icon.service";
+import { MetadataService } from "./metadata.service";
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { IconService } from "./icon.service";
         MetadataListComponent, MetadataComponent
     ],
     providers: [
-        IconService
+        IconService,
+        MetadataService
     ]
 })
 export class MetadataModule {
