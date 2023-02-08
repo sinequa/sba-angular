@@ -1,8 +1,9 @@
-import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEmitter, ElementRef, ViewChild} from "@angular/core";
+import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEmitter, ElementRef, ViewChild, OnDestroy} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {Record, EntityItem, DocumentAccessLists, CCColumn, TextChunksWebService, TextLocation} from "@sinequa/core/web-services";
 import {Observable, of, map} from "rxjs";
+import {UIService} from "@sinequa/components/utils";
 
 export interface TreeValueItem extends ValueItem {
     parts: ValueItem[];
@@ -13,7 +14,7 @@ export interface TreeValueItem extends ValueItem {
     templateUrl: "./metadata-item.html",
     styleUrls: ['./metadata-item.scss']
 })
-export class MetadataItem implements OnChanges {
+export class MetadataItem implements OnChanges, OnDestroy {
     @Input() record: Record;
     @Input() item: string;
     @Input() showTitle = true;
@@ -43,8 +44,10 @@ export class MetadataItem implements OnChanges {
         public el: ElementRef,
         public appService: AppService,
         public formatService: FormatService,
-        public textChunkWebService: TextChunksWebService) {
+        public textChunkWebService: TextChunksWebService,
+        public ui: UIService) {
         this.valueItems = [];
+        this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
     }
 
     ensureScalarValue(value: any): any {
@@ -114,14 +117,16 @@ export class MetadataItem implements OnChanges {
             this.lineHeight = parseInt(getComputedStyle(this.el.nativeElement).lineHeight);
             this.valuesHeight = this.lineHeight; // The display starts collapsed
             this.valuesMaxHeight = this.lineHeight; // And without the collapse icon
-            // We have to wait for the element to be rendered to "measure" it
-            setTimeout(() => {
-                if(this.valuesEl) { // Display or not the collapse icon
-                    this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
-                }
-            });
+            setTimeout(() => this.updateMaxHeight());
         }
     }
+
+    ngOnDestroy(): void {
+        this.ui.removeElementResizeListener(this.el.nativeElement, this.onResize);
+    }
+
+    onResize = () => this.updateMaxHeight()
+
 
     public get isEmpty(): boolean {
         if (!this.item) {
@@ -199,11 +204,17 @@ export class MetadataItem implements OnChanges {
     }
 
     get needsCollapse(): boolean {
-        return this.valuesMaxHeight > this.lineHeight;
+        return this.valuesMaxHeight > this.lineHeight * 1.5; // take some margin as the actual size may slightly exceed the line height
     }
 
     toggleCollapse() {
         this.valuesHeight = this.collapsed? this.valuesMaxHeight : this.lineHeight;
+    }
+
+    updateMaxHeight() {
+        if(this.valuesEl) { // Display or not the collapse icon
+            this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
+        }
     }
 
     getEntitySentence = (entity: EntityItem) => {
