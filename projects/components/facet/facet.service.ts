@@ -619,7 +619,8 @@ export class FacetService {
 
     /**
      * Look for an aggregation with the given name in the search results and returns it.
-     * Takes care of initializing the aggregation items to insert their $column property.
+     * If this.searchService.results is used, then it takes care of initializing the aggregation items to insert their $column property.
+     * If not, fallback to results?.aggregations since $aggregationMap will never exists
      * @param aggregationName
      * @param results The search results can be provided explicitly or taken from the SearchService implicitly.
      */
@@ -627,7 +628,7 @@ export class FacetService {
         aggregationName: string,
         results = this.searchService.results,
     ): ListAggregation | TreeAggregation | undefined {
-        return results?.$aggregationMap[aggregationName.toLowerCase()];
+        return results?.$aggregationMap?.[aggregationName.toLowerCase()] || results?.aggregations.find((agg) => agg.name === aggregationName);
     }
 
     /**
