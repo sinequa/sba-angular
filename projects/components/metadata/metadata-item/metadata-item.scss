@@ -4,13 +4,12 @@
 }
 
 .sq-metadata-item-values {
-    --max-height: 1000px;
     display: block;
     overflow: hidden;
 
     /* using var, animation can be played when collapsing and expanding */
-    max-height: var(--max-height);
-    transition: max-height 0.3s ease-in-out;
+    max-height: calc(var(--max-height) * 1px);
+    transition: max-height 0.3s ease-in;
 
     & .breadcrumb {
         padding: 0;
@@ -30,11 +29,6 @@
         padding-left: 5px;
         padding-right: 5px;
         font-size: .7rem;
-    }
-
-    // Collapsed behavior
-    &.collapsed {
-        --max-height: 26px;
     }
 
     .collapse-button {
