@@ -137,7 +137,7 @@ export const breakpoints = {
         ResultModule,
         BsFeedbackModule,
         BsPreviewModule,
-        MetadataModule,
+        MetadataModule.forRoot(),
         BsSelectionModule,
         MLModule,
         FiltersModule,

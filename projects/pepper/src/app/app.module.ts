@@ -152,7 +152,7 @@ FusionCharts.options.creditLabel = false;
         BsUserSettingsModule,
         ResultModule,
         BsFeedbackModule,
-        MetadataModule,
+        MetadataModule.forRoot(),
         BsSelectionModule,
         FiltersModule,
         SearchFormComponent,
