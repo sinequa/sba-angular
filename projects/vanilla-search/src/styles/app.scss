@@ -159,10 +159,15 @@ sq-result-title {
 }
 
 sq-result-extracts {
-  p {
-      color: $secondary-color;
-      font-size: 0.875em;
-  }
+    p {
+        color: $secondary-color;
+        font-size: 0.875em;
+    }
+}
+
+sq-result-missing-terms {
+    color: $secondary-color;
+    font-size: 0.875em;
 }
 
 sq-result-thumbnail img {
