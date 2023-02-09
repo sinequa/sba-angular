@@ -16,22 +16,6 @@ export class MetadataService {
   constructor(private textChunkWebService: TextChunksWebService,
     private appService: AppService) { }
 
-  setTreeValues(paths: string[], valueItems: (ValueItem | TreeValueItem)[]): void {
-    if (paths) {
-      for (const path of paths) {
-        const parts = path.split("/");
-        if (parts.length > 0 && parts[0] === "") {
-          parts.splice(0, 1);
-        }
-        if (parts.length > 0 && parts[parts.length - 1] === "") {
-          parts.splice(parts.length - 1, 1);
-        }
-        const item: TreeValueItem = { value: path, parts: parts.map(value => ({ value: value })) };
-        valueItems.push(item);
-      }
-    }
-  }
-
   setEntityValues(entityItems: EntityItem[], valueItems: (ValueItem | TreeValueItem)[], showEntityTooltip: boolean, entityTooltip?: (entity: EntityItem) => Observable<string | undefined>): void {
     if (entityItems) {
       valueItems.push(...entityItems);

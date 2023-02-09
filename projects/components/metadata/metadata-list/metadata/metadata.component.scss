@@ -1,19 +1,21 @@
+::ng-deep .sq-tooltip {
+    padding: 0 !important;
+}
+
 .sq-metadata {
     display: flex;
     align-items: center;
     font-weight: normal;
-    .sq-metadata-item-label, .clickable {
-        font-weight: 600;
-    }
+
+
 }
 
-.badge {
-    cursor: pointer;
-    background-color: lightgrey;
-    color: lighten(black, 10%);
+.sq-metadata-item-label,
+.clickable {
+    font-weight: 600;
+}
 
-    &:hover, &:focus {
-        background-color: darken(lightgrey, 10%);
-        color: black;
-    }
+.sq-metadata-btn .btn {
+    --bs-btn-padding-x: .75rem;
+    --bs-btn-padding-y: .5rem;
 }

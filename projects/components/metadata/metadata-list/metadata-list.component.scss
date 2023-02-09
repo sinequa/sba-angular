@@ -1,0 +1,23 @@
+.metadata-inline {
+    sq-metadata-2 {
+        display: inline-flex;
+    }
+}
+
+.metadata-flex {
+    sq-metadata-2 {
+        display: flex;
+    }
+}
+
+.metadata-tabular {
+    display: table;
+
+    sq-metadata-2 {
+        display: table-row;
+
+        ::ng-deep .sq-metadata-col {
+            display: table-cell;
+        }
+    }
+}

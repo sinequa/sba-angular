@@ -79,18 +79,14 @@ export class MetadataComponent implements OnChanges {
         this.isEntity = !!this.column && AppService.isEntity(this.column);
         this.isCsv = !!this.column && AppService.isCsv(this.column);
         const values = this.record[this.appService.getColumnAlias(this.column, this.item)];
-        if (this.isTree) {
-            const paths: string[] = values;
-            this.metadataService.setTreeValues(paths, this.valueItems);
-        }
-        else if (this.isEntity) {
+        if (this.isEntity) {
             const entityItems: EntityItem[] = values;
             this.metadataService.setEntityValues(entityItems, this.valueItems, this.showEntityTooltip, this.entityTooltip);
         }
         else if (this.isCsv) {
             this.metadataService.setCsvValues(values, this.valueItems);
         }
-        else {
+        else if (!this.isTree) {
             this.metadataService.setValues(values, this.valueItems, this.column);
         }
     }

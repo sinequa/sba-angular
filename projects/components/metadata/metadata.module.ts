@@ -13,6 +13,7 @@ import { MetadataListComponent } from "./metadata-list/metadata-list.component";
 import { MetadataComponent } from "./metadata-list/metadata/metadata.component";
 import { IconService } from "./icon.service";
 import { MetadataService } from "./metadata.service";
+import { MetadataTreeComponent } from './metadata-list/metadata-tree/metadata-tree.component';
 
 @NgModule({
     imports: [
@@ -24,7 +25,7 @@ import { MetadataService } from "./metadata.service";
     declarations: [
         Metadata, MetadataItem,
         MetadataAccessListsItem, MetadataAccessListsItemSingleAccessList,
-        MetadataListComponent, MetadataComponent
+        MetadataListComponent, MetadataComponent, MetadataTreeComponent
     ],
     exports: [
         Metadata, MetadataItem,

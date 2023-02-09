@@ -1,21 +1,26 @@
 <div class="nav-wrapper">
     <!-- Navbar with app icon, search form, and menus -->
-    <nav class="navbar navbar-expand-sm" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
+    <nav class="navbar navbar-expand-sm"
+        [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
         <div class="container-xl flex-nowrap">
 
             <div class="col-lg-3 col-xl-2" *ngIf="showLogo">
                 <!-- Application logo -->
                 <a [routerLink]="['/home']" title="Home">
-                    <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('sm')">
-                    <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('sm')">
-                    <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('sm')">
-                    <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('sm')">
+                    <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px"
+                        *ngIf="!isDark() && ui.screenSizeIsGreater('sm')">
+                    <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px"
+                        *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('sm')">
+                    <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px"
+                        *ngIf="isDark() && ui.screenSizeIsGreater('sm')">
+                    <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px"
+                        *ngIf="isDark() && ui.screenSizeIsLessOrEqual('sm')">
                 </a>
             </div>
 
             <!-- Button to toggle the visibility of facets on small screens -->
-            <button *ngIf="showFilterToggle" class="btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showFilters' | sqMessage }}"
-                (click)="toggleFilters()">
+            <button *ngIf="showFilterToggle" class="btn btn-lg btn-light btn-link align-self-baseline"
+                title="{{ 'msg#search.showFilters' | sqMessage }}" (click)="toggleFilters()">
                 <i class="fas fa-filter text-muted"></i>
             </button>
 
@@ -37,11 +42,12 @@
                 </ul>
 
                 <!-- Non mobile feedback button -->
-                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
+                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1"
+                    *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
             </div>
 
-            <button *ngIf="!showForm" class="btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showMenu' | sqMessage }}"
-                (click)="toggleMenu()">
+            <button *ngIf="!showForm" class="btn btn-lg btn-light btn-link align-self-baseline"
+                title="{{ 'msg#search.showMenu' | sqMessage }}" (click)="toggleMenu()">
                 <i class="fas fa-bars text-muted"></i>
             </button>
 
@@ -59,25 +65,22 @@
         <!-- sqSticky to update if you change the header sizing -->
         <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 96, bottom: 80}">
             <!-- Source facet -->
-            <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" class="mb-3">
+            <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false"
+                class="mb-3">
                 <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
             </sq-facet-card>
 
             <!-- Other metadata -->
             <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" class="mb-3">
-                <sq-facet-multi
-                    #facet
-                    [results]="results"
-                    [facets]="facets"
-                    [facetComponents]="facetComponents"
-                    (events)="facetChanged($event)"
-                >
+                <sq-facet-multi #facet [results]="results" [facets]="facets" [facetComponents]="facetComponents"
+                    (events)="facetChanged($event)">
                 </sq-facet-multi>
             </sq-facet-card>
         </div>
 
         <!-- Result selection toolbar -->
-        <div class="card-action-bar rounded text-white bg-primary position-fixed w-auto" *ngIf="ui.screenSizeIsGreater('sm')">
+        <div class="card-action-bar rounded text-white bg-primary position-fixed w-auto"
+            *ngIf="ui.screenSizeIsGreater('sm')">
             <div class="p-2">
                 <sq-results-selector [style]="'primary'"></sq-results-selector>
             </div>
@@ -91,12 +94,9 @@
 
             <!-- Toolbar -->
             <div class="d-flex small sq-toolbar">
-                <sq-filters-view
-                  class="flex-grow-1 position-relative"
-                  [query]="searchService.query"
-                  [closeOnClickOutside]="true"
-                  [advancedModeClass]="'position-absolute card border shadow p-3'"
-                  (filterEdit)="searchService.search()">
+                <sq-filters-view class="flex-grow-1 position-relative" [query]="searchService.query"
+                    [closeOnClickOutside]="true" [advancedModeClass]="'position-absolute card border shadow p-3'"
+                    (filterEdit)="searchService.search()">
                 </sq-filters-view>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true"></sq-sort-selector>
@@ -133,8 +133,10 @@
                 [ngClass]="{'selected': record.$selected || record === openedDoc}">
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center">
-                        <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record"></sq-result-selector>
-                        <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
+                        <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')"
+                            [record]="record"></sq-result-selector>
+                        <sq-result-title [record]="record"
+                            (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                     <sq-result-extracts [record]="record"></sq-result-extracts>
@@ -173,11 +175,12 @@
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" [facetActionsAreSecondary]="true"
                 [viewActionsAreSecondary]="true"
                 secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-light rounded shadow on-hover"
-                viewActionsClass="d-block btn-group mt-2" viewButtonsStyle="outline-primary" [actions]="previewCustomActions"
-                actionsSize="" class="mb-3 facet-preview" #previewFacet>
+                viewActionsClass="d-block btn-group mt-2" viewButtonsStyle="outline-primary"
+                [actions]="previewCustomActions" actionsSize="" class="mb-3 facet-preview" #previewFacet>
 
                 <ng-template #headerTpl>
-                    <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url">
+                    <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title"
+                        titleLinkBehavior="open-if-url">
                     </sq-result-title>
                 </ng-template>
 
@@ -186,21 +189,18 @@
                         [tabular]="false" [clickable]="true">
                     </sq-metadata>
                     <hr>
-                    <button class="btn btn-primary" (click)="style = style === 'inline' ? 'tabular' : 'inline'">Style ({{style}})</button>
+                    <button class="btn btn-primary"
+                        (click)="style = style === 'inline' ? 'tabular' : (style === 'tabular' ? 'flex' : 'inline')">Style
+                        ({{style}})</button>
                     <button class="btn btn-primary" (click)="showTitles=!showTitles">Titles</button>
                     <button class="btn btn-primary" (click)="showIcons=!showIcons">Icons</button>
                     <button class="btn btn-primary" (click)="showCounts=!showCounts">Counts</button>
-                    <button class="btn btn-primary" (click)="showEntityTooltip=!showEntityTooltip">Entity tooltip</button>
+                    <button class="btn btn-primary" (click)="showEntityTooltip=!showEntityTooltip">Entity
+                        tooltip</button>
                     <button class="btn btn-primary" (click)="clickable=!clickable">Clickable</button>
                     <hr>
-                    <sq-metadata-list
-                        [record]="openedDoc"
-                        [items]="metadata"
-                        [style]="style"
-                        [showTitles]="showTitles"
-                        [showIcons]="showIcons"
-                        [showCounts]="showCounts"
-                        [showEntityTooltip]="showEntityTooltip"
+                    <sq-metadata-list [record]="openedDoc" [items]="metadata" [style]="style" [showTitles]="showTitles"
+                        [showIcons]="showIcons" [showCounts]="showCounts" [showEntityTooltip]="showEntityTooltip"
                         [clickable]="clickable"></sq-metadata-list>
                 </ng-template>
 
