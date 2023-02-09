@@ -2,17 +2,12 @@
     padding: 0 !important;
 }
 
-.sq-metadata {
-    display: flex;
-    align-items: center;
+.sq-metadata-item:not(.clickable) {
     font-weight: normal;
-
-
 }
 
-.sq-metadata-item-label,
 .clickable {
-    font-weight: 600;
+    cursor: pointer;
 }
 
 .sq-metadata-btn .btn {

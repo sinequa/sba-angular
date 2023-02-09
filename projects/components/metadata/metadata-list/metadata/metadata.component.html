@@ -8,7 +8,12 @@
     </span>
 
     <!-- Value -->
-    <div class="sq-metadata-col" [sqTooltip]="clickable ? tooltip : undefined" [placement]="'top'" [hoverableTooltip]="true">
+    <div class="sq-metadata-col" sqPopper [target]="clickable ? tooltip : undefined" [placement]="placement">
+        <div class="btn-group sq-metadata-btn" #tooltip>
+            <button class="btn btn-primary"><span class="fas fa-filter"></span> Filter</button>
+            <button class="btn btn-primary"><span class="fas fa-minus-circle"></span> Exclude</button>
+        </div>
+
         <ng-container *ngIf="isTree; else isNotTree">
             <sq-metadata-tree [record]="record" [item]="item" [itemClass]="itemClass"
                 [column]="column"></sq-metadata-tree>
@@ -17,21 +22,14 @@
         <!-- Not a Tree-->
         <ng-template #isNotTree>
             <span *ngFor="let valueItem of valueItems; let $index = index"
-                class="{{itemClass}} {{'sq-metadata-item-' + item}} me-1" (click)="select($index)"
+                class="sq-metadata-item {{itemClass}} {{'sq-metadata-item-' + item}} me-1" (click)="select($index)"
                 [attr.title]="(showTitle || entityTooltip)? null : (label | sqMessage)" [sqTooltip]="entityTooltip"
                 [sqTooltipData]="valueItem">
-                <span *ngIf="valueIcon" class="{{valueIcon}}" [style.color]="color"></span>
+                <span *ngIf="showFormatIcon && valueIcon" class="{{valueIcon}}" [style.color]="color"></span>
                 {{valueItem | sqValue:column}}
                 <span *ngIf="showCounts && valueItem.count" class="counter rounded-pill bg-light text-black ms-1"
                     [title]="valueItem.count + ' occurrences in document'">{{valueItem.count}}</span>
             </span>
         </ng-template>
     </div>
-
-    <ng-template #tooltip>
-        <div class="btn-group sq-metadata-btn">
-            <button class="btn"><span class="fas fa-filter"></span> Filter</button>
-            <button class="btn"><span class="fas fa-minus-circle"></span> Exclude</button>
-        </div>
-    </ng-template>
 </ng-container>

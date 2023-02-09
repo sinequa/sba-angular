@@ -1,17 +1,17 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import {IntlModule} from "@sinequa/core/intl";
-import {LoadComponentModule} from "@sinequa/core/load-component";
-import {UtilsModule} from "@sinequa/components/utils";
+import { IntlModule } from "@sinequa/core/intl";
+import { LoadComponentModule } from "@sinequa/core/load-component";
+import { UtilsModule } from "@sinequa/components/utils";
 
-import {BsActionButtons} from "./action-buttons/action-buttons";
-import {BsActionItemContent} from "./action-item-content/action-item-content";
-import {BsActionItem} from "./action-item/action-item";
-import {BsActionMenu} from "./action-menu/action-menu";
-import {BsDropdownMenu} from "./dropdown-menu/dropdown-menu";
-import {BsDropdownDirective} from "./dropdown.directive";
-
+import { BsActionButtons } from "./action-buttons/action-buttons";
+import { BsActionItemContent } from "./action-item-content/action-item-content";
+import { BsActionItem } from "./action-item/action-item";
+import { BsActionMenu } from "./action-menu/action-menu";
+import { BsDropdownMenu } from "./dropdown-menu/dropdown-menu";
+import { BsDropdownDirective } from "./dropdown.directive";
+import { PopperDirective } from "./popper.directive";
 
 @NgModule({
     imports: [
@@ -26,13 +26,15 @@ import {BsDropdownDirective} from "./dropdown.directive";
         BsActionItem,
         BsActionMenu,
         BsDropdownMenu,
-        BsDropdownDirective
+        BsDropdownDirective,
+        PopperDirective
     ],
     exports: [
         BsActionButtons,
         BsActionMenu,
         BsActionItem,
-        BsDropdownDirective
+        BsDropdownDirective,
+        PopperDirective
     ]
 })
 export class BsActionModule {

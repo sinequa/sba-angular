@@ -6,3 +6,4 @@ export * from "./dropdown-menu/dropdown-menu";
 export * from "./dropdown.directive";
 export * from "./dropdown.service";
 export * from "./action.module";
+export * from './popper.directive';

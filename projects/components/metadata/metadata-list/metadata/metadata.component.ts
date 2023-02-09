@@ -15,9 +15,11 @@ export class MetadataComponent implements OnChanges {
     @Input() record: Record;
     @Input() item: string;
     @Input() query?: Query;
+    @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
     @Input() customClass?: string;
 
     @Input() showIcon = true;
+    @Input() showFormatIcon = true;
     @Input() showTitle = true;
     @Input() showCounts = true;
     @Input() showEntityTooltip: false;
@@ -46,6 +48,10 @@ export class MetadataComponent implements OnChanges {
 
     get label(): string {
         return this.appService.getLabel(this.item);
+    }
+
+    get placement(): string {
+        return this.style === 'inline' ? 'top' : 'top-start';
     }
 
     constructor(private iconService: IconService,
