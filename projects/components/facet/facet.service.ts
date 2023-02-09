@@ -920,7 +920,7 @@ export class FacetService {
                     value = Utils.isTrue(item.value);
                 }
                 if (item.column?.eType === EngineType.csv) {
-                    value = item.display || item.value || "";
+                    value = item.value || item.display || "";
                     const path = item.value?.slice(0, -1);
                     return ({count: 0, value, display: item.display, $column: item.column, $path: path, $excluded: (item?.not || item?.parent?.not)} as TreeAggregationNode);
                 }
