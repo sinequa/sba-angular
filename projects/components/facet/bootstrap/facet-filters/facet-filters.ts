@@ -87,7 +87,7 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
             let filtered = false;
             const aggregations = Utils.asArray(facet.aggregation);
             for(let aggregation of aggregations) {
-                const agg = this.facetService.getAggregation(aggregation);
+                const agg = this.facetService.getAggregation(aggregation, this.results);
                 if(agg?.items?.length) {
                     disabled = false;
                     filtered = filtered || agg.$filtered.length > 0;
