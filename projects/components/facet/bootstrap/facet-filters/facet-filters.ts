@@ -128,10 +128,6 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
         this.cdRef.detectChanges(); // Detect changes manually, because the facet actions need to be displayed
     }
 
-    get facetActions(): Action[] | undefined {
-        return this.facetInstance?.actions;
-    }
-
     get isFacetEmpty(): boolean {
         return !!this.facetInstance?.isHidden();
     }

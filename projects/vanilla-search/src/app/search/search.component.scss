@@ -2,6 +2,11 @@
     height: 40px;
 }
 
+.sq-facet-bar {
+    position: relative;
+    z-index: 1; // This is needed for dropdown menus from the facet actions not to be masked by the sq-filters-view which has position: relative
+}
+
 sq-filters-view ::ng-deep {
   .sq-simple-mode .sq-filter-action > span {
     display: none; // Display only button icons

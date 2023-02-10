@@ -57,21 +57,18 @@
     <div class="row" *ngIf="results$ | async; let results">
         <!-- Left facet bar -->
         <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 96, bottom: 80}">
+        <div class="col-md-4 col-lg-3 col-xl-2 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 96, bottom: 80}">
             <!-- Source facet -->
             <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" class="mb-3">
                 <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
             </sq-facet-card>
 
             <!-- Other metadata -->
-            <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" class="mb-3">
-                <sq-facet-multi
-                    #facet
+            <sq-facet-card [collapsible]="false" class="mb-3">
+                <sq-facet-multi #facet
                     [results]="results"
                     [facets]="facets"
-                    [facetComponents]="facetComponents"
-                    (events)="facetChanged($event)"
-                >
+                    [facetComponents]="facetComponents">
                 </sq-facet-multi>
             </sq-facet-card>
         </div>
@@ -172,7 +169,7 @@
             <!-- With selected document -->
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" [facetActionsAreSecondary]="true"
                 [viewActionsAreSecondary]="true"
-                secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-light rounded shadow on-hover"
+                secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-{{isDark()? 'dark' : 'light'}} rounded shadow on-hover"
                 viewActionsClass="d-block btn-group mt-2" viewButtonsStyle="outline-primary" [actions]="previewCustomActions"
                 actionsSize="" class="mb-3 facet-preview" #previewFacet>
 

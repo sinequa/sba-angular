@@ -22,9 +22,6 @@ import { BsFacetDate } from '@sinequa/analytics/timeline';
 })
 export class SearchComponent implements OnInit {
 
-  // Dynamic display of facets titles/icons in the multi-facet component
-  public multiFacetIcon? = "fas fa-filter fa-fw";
-  public multiFacetTitle = "msg#facet.filters.title";
 
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
@@ -103,6 +100,9 @@ export class SearchComponent implements OnInit {
           }
           this.hasAnswers = !!results?.answers?.answers?.length;
           this.hasPassages = !!results?.topPassages?.passages?.length;
+          if(results && results.records.length <= results.pageSize) {
+            window.scrollTo({top: 0, behavior: 'auto'});
+          }
         })
       );
   }
@@ -132,21 +132,6 @@ export class SearchComponent implements OnInit {
    */
   public get metadata(): string[] {
     return this.appService.app?.data?.metadata as string[] || METADATA;
-  }
-
-  /**
-   * Responds to a change of facet in the multi facet
-   * @param facet
-   */
-  facetChanged(facet: FacetConfig<FacetParams>){
-    if(!facet) {
-      this.multiFacetIcon = "fas fa-filter fa-fw";
-      this.multiFacetTitle = "msg#facet.filters.title";
-    }
-    else {
-      this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = facet.title || facet.name || '';
-    }
   }
 
   /**
