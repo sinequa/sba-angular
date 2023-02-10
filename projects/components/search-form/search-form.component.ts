@@ -23,6 +23,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() query: Query;
   @Input() searchRoute = "search";
   @Input() autoApply = true;
+  @Input() autoSubmit = true;
   @Input() showFilterCount = false;
   @Input() enableVoiceRecognition = true;
   @Input() enableNeuralSearch = true;
@@ -189,6 +190,12 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
 
   // Template event handlers
+
+  onInputEnter() {
+    if(this.autoSubmit) {
+      this.applyFilters();
+    }
+  }
 
   onInputFocus() {
     this.expand(); // Expand on focus

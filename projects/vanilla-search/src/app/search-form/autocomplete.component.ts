@@ -1,4 +1,4 @@
-import { Input, Output, Component, EventEmitter, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from "@angular/core";
+import { Input, Output, Component, EventEmitter, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
 import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
 import { BasketsService } from "@sinequa/components/baskets";
 import { PreviewService } from "@sinequa/components/preview";
@@ -6,7 +6,7 @@ import { RecentDocumentsService, RecentQueriesService, SavedQueriesService } fro
 import { SearchService } from "@sinequa/components/search";
 import { AppService } from "@sinequa/core/app-utils";
 import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
-import { fromEvent, merge, of, Observable, from, forkJoin, ReplaySubject } from "rxjs";
+import { fromEvent, merge, of, Observable, from, forkJoin, ReplaySubject, Subscription } from "rxjs";
 import { debounceTime, map, switchMap } from "rxjs/operators";
 
 
@@ -14,19 +14,17 @@ import { debounceTime, map, switchMap } from "rxjs/operators";
   selector: "sq-autocomplete",
   templateUrl: './autocomplete.component.html',
   styles: [`
-  .list-group-item-action {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  .category {
-    /* This value prevents user agents from collapsing sequences of white space. Lines are only broken at preserved newline characters. */
-    white-space: pre;
+  .list-group-item {
+    display: flex;
+    align-items: center;
+    padding: 0.3rem 1rem 0.3rem 0.75rem;
+    border: none;
+    font-size: 0.875rem;
   }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AutocompleteComponent implements OnInit, OnChanges {
+export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   @Input() inputElement: HTMLInputElement;
   @Input() queryText: string;
   @Input() debounce = 200;
@@ -38,10 +36,15 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() sortComparator = (a: AutocompleteItem, b: AutocompleteItem) => (b['score'] || 0) - (a['score'] || 0)
 
   @Output() search = new EventEmitter<string>();
+  @Output() select = new EventEmitter<string>();
 
-  items$: Observable<AutocompleteItem[] | undefined>;
+  items: AutocompleteItem[] = [];
 
   inputChange$ = new ReplaySubject(1);
+
+  selectedIndex: number | undefined;
+
+  subscription: Subscription;
 
   constructor(
     public suggestService: SuggestService,
@@ -53,6 +56,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
     public recentDocumentsService: RecentDocumentsService,
     public basketsService: BasketsService,
     public audit: AuditWebService,
+    public cdRef: ChangeDetectorRef
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -62,13 +66,34 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.items$ = merge(
+    this.subscription = merge(
       this.inputChange$,
       fromEvent(this.inputElement, 'focus')
     ).pipe(
       debounceTime(this.debounce),
       switchMap(() => this.getSuggests(this.queryText)),
+    ).subscribe(items => {
+      this.items = items;
+      this.selectedIndex = undefined;
+      this.cdRef.detectChanges();
+    });
+
+    this.subscription.add(
+      fromEvent<KeyboardEvent>(this.inputElement, 'keydown')
+        .subscribe(event => {
+          switch(event.key) {
+            case "ArrowDown": this.moveNext(event); break;
+            case "ArrowUp": this.movePrevious(event); break;
+            case "Enter": this.onEnter(); break;
+            case "Tab": this.onTab(event); break;
+          }
+        })
     );
+
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 
@@ -108,9 +133,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
    * as selecting a basket, a saved query or a recent document.
    * @param item
    */
-  select(item: AutocompleteItem, event: Event) {
-    event.preventDefault(); // Prevent following link
-
+  selectItem(item: AutocompleteItem) {
     this.audit.notify({type: AuditEventType.Search_AutoComplete, detail:{display: item.display, category: item.category }})
 
     if(item.category === "recent-document"){
@@ -137,7 +160,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
       case "recent-document": return "far fa-file-alt fa-fw";
       case "recent-query": return "fas fa-history fa-fw";
       case "basket": return "fas fa-inbox fa-fw";
-      case "saved-query": return "far fa-save fa-fw";
+      case "saved-query": return "fas fa-save fa-fw";
     }
     return "far fa-lightbulb fa-fw";
   }
@@ -199,4 +222,44 @@ export class AutocompleteComponent implements OnInit, OnChanges {
       "msg#editBasket.title");
   }
 
+
+  // Keyboard navigation and actions
+
+  moveNext(event: Event) {
+    if(this.items.length) {
+      this.selectedIndex = this.selectedIndex !== undefined && this.selectedIndex < this.items.length-1 ?
+        this.selectedIndex + 1 : 0;
+        event.preventDefault();
+        this.cdRef.detectChanges();
+    }
+  }
+
+  movePrevious(event: Event) {
+    if(this.items.length) {
+      this.selectedIndex = this.selectedIndex !== undefined && this.selectedIndex > 0 ?
+        this.selectedIndex - 1 : this.items.length-1;
+      event.preventDefault();
+      this.cdRef.detectChanges();
+    }
+  }
+
+  onEnter() {
+    if(this.items.length && this.selectedIndex !== undefined) {
+      this.selectItem(this.items[this.selectedIndex]);
+    }
+    else {
+      this.search.emit(this.inputElement.value); // This has the effect of submitting the search with the current search form content
+    }
+  }
+
+  onTab(event: Event) {
+    if(this.items.length && this.selectedIndex !== undefined) {
+      const item = this.items[this.selectedIndex];
+      if(item && item.category !== 'recent-document' && item.category !== 'saved-query' && item.category !== 'basket') {
+        this.audit.notify({type: AuditEventType.Search_AutoComplete, detail:{display: item.display, category: item.category }})
+        this.select.emit(item.display);
+      }
+      event.preventDefault(); // prevent removing focus for input element, even if the tab didn't produce any effect
+    }
+  }
 }

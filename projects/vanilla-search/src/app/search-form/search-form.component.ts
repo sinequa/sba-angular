@@ -44,4 +44,8 @@ export class AppSearchFormComponent {
     this.searchForm.applyFilters(); // Apply the autocomplete query and close the form
   }
 
+  onAutocompleteSelect(text: string, query: Query) {
+    query.text = text;
+  }
+
 }
