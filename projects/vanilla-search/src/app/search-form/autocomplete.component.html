@@ -1,7 +1,7 @@
-<ul class="list-group list-group-flush" *ngIf="items.length">
+<div class="list-group list-group-flush" *ngIf="items.length">
   <a role="button" *ngFor="let item of items; let i=index"
     class="list-group-item list-group-item-action"
-    [ngClass]="{'sq-selected': i === selectedIndex}"
+    [ngClass]="{'list-group-item-primary': i === selectedIndex}"
     (click)="selectItem(item)">
 
     <!-- Autocomplete icon -->
@@ -15,4 +15,4 @@
       {{(item.label || item.category) | sqMessage}}
     </span>
   </a>
-</ul>
+</div>

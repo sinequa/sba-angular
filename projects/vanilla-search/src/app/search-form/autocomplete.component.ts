@@ -21,9 +21,6 @@ import { debounceTime, map, switchMap } from "rxjs/operators";
     border: none;
     font-size: 0.875rem;
   }
-  .sq-selected {
-    background-color: rgb(122 174 255 / 15%) !important;
-  }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
