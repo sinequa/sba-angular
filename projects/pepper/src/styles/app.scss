@@ -145,6 +145,12 @@ sq-filters, sq-filters-editor {
   }
 }
 
+sq-filters-editor {
+  .sq-filter-operator .dropdown-item > span {
+    font-weight: bold;
+  }
+}
+
 sq-results-counter {
     color: $secondary-color;
 }
