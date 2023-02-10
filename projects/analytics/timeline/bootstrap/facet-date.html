@@ -54,7 +54,7 @@
             width="{{timelineWidth}}"
             height="{{timelineHeight}}"
             [margin]="timelineMargin"
-            [showTooltip]="false"
+            [showTooltip]="true"
             [curveType]="'curveLinear'"
             (selectionChange)="updateRange($event)"
             (rangeChange)="cdRef.markForCheck()">
