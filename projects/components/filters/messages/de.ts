@@ -7,10 +7,10 @@ export default {
       "gt": " > ",
       "lte": " ≤ ",
       "lt": " < ",
-      "between": " Zwischen ",
+      "between": " zwischen ",
       "in": " unter ",
       "and": " und ",
-      "or": " Woher ",
+      "or": " oder ",
       "not": " nicht ",
       "null": "ist "
     },
