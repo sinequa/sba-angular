@@ -83,7 +83,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
         // Clear the current filters
         this.clearFilters = new Action({
-            icon: "far fa-minus-square",
+            icon: "sq-filter-clear",
             title: "msg#facet.clearSelects",
             action: () => {
                 this.facetService.clearFiltersSearch(this.moneyValueColumn, true, this.query, this.name);

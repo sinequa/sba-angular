@@ -126,7 +126,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
 
         // Clear the current filters
         this.clearFilters = new Action({
-            icon: "far fa-minus-square",
+            icon: "sq-filter-clear",
             title: "msg#facet.clearSelects",
             action: () => {
                 if(this.aggrData) {
