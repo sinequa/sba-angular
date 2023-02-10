@@ -4,7 +4,8 @@ import {
     Input,
     OnChanges,
     SimpleChanges,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    OnInit
 } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import { Action } from "@sinequa/components/action";
@@ -50,7 +51,7 @@ export interface FacetDateConfig extends FacetConfig<FacetDateParams> {
 })
 export class BsFacetDate
     extends AbstractFacet
-    implements FacetDateParams, OnChanges, OnDestroy
+    implements FacetDateParams, OnInit, OnChanges, OnDestroy
 {
     @Input() name: string = "Date";
     @Input() results: Results;
@@ -93,23 +94,14 @@ export class BsFacetDate
         super();
 
         this.clearFiltersAction = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facet.filters.clear",
+            icon: "sq-filter-clear",
+            title: "msg#facet.clearSelects",
             action: () => {
                 if(this.data) {
                     this.facetService.clearFiltersSearch(this.data.column, true, this.query);
                 }
             },
         });
-
-        // Listen to global query changes (only if this.query is not defined)
-        this.subscriptions.push(
-            this.searchService.queryStream.subscribe(() => {
-                if(!this.query) {
-                    this.onQueryChange(this.searchService.query);
-                }
-            })
-        );
 
     }
 
@@ -136,6 +128,17 @@ export class BsFacetDate
                 .subscribe((value: (undefined | Date)[]) => {
                     this.setCustomDateSelect(value);
                 })
+        );
+    }
+
+    ngOnInit() {
+        // Listen to global query changes (only if this.query is not defined)
+        this.subscriptions.push(
+            this.searchService.queryStream.subscribe(() => {
+                if(!this.query) {
+                    this.onQueryChange(this.searchService.query);
+                }
+            })
         );
     }
 

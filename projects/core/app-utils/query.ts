@@ -1,5 +1,5 @@
 ﻿import {Utils, MapOf} from "@sinequa/core/base";
-import {IQuery, Select, Open, SpellingCorrectionMode, AggregationOptions, Filter, ExprFilter, isExprFilter, ValueFilter, FieldFilter, compareFilters, getFieldPredicate, getValuePredicate, AggregationItem, isValueFilter} from "@sinequa/core/web-services";
+import {IQuery, Select, Open, SpellingCorrectionMode, AggregationOptions, Filter, ExprFilter, isExprFilter, ValueFilter, FieldFilter, compareFilters, getFieldPredicate, getValuePredicate, AggregationItem, isValueFilter, isFieldFilter} from "@sinequa/core/web-services";
 
 /**
  * This regular expression performs a high-level parsing of the full text query
@@ -310,12 +310,26 @@ export class Query implements IQuery {
         }
 
         // The most common case of filter: field = value
-        if(isValueFilter(f)) {
+        if(isFieldFilter(f)) {
           const field = f.field.toLowerCase();
           if(!map[field]) {
             map[field] = [];
           }
-          map[field].push({value: f.value, display: f.display, count: 0, $filtered: true});
+          switch(f.operator) {
+            case 'between':
+              map[field].push({value: f.start, display: f.display, count: 0, $filtered: true});
+              map[field].push({value: f.end, display: f.display, count: 0, $filtered: true});
+              break;
+            case 'in':
+              map[field].push(...f.values.map(value => ({value, count: 0, $filtered: true})));
+              break;
+            case 'null':
+              map[field].push({value: null, display: 'null', count: 0, $filtered: true});
+              break;
+            default:
+              map[field].push({value: f.value, display: f.display, count: 0, $filtered: true});
+              break;
+          }
         }
 
         return false;
