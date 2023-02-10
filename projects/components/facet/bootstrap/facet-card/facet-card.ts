@@ -205,7 +205,7 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
                 action.update();
             },
             updater: (action) => {
-                action.icon = this._settingsOpened ? "far fa-save" : "fas fa-cog";
+                action.icon = this._settingsOpened ? "fas fa-save" : "fas fa-cog";
                 action.title = this._settingsOpened ? "msg#facetCard.saveSettings" : "msg#facetCard.openSettings";
             }
         });

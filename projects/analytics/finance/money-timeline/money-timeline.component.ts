@@ -81,7 +81,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
 
         // Clear the current filters
         this.clearFilters = new Action({
-            icon: "far fa-minus-square",
+            icon: "sq-filter-clear",
             title: "msg#facet.clearSelects",
             action: () => {
                 this.facetService.clearFiltersSearch(this.moneyColumn, true, this.query, this.name);

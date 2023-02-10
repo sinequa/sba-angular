@@ -31,7 +31,7 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
                 action.update();
             },
             updater: (action) => {
-                action.icon = this.showSettings ? "far fa-save" : "fas fa-cog";
+                action.icon = this.showSettings ? "fas fa-save" : "fas fa-cog";
                 action.text = this.showSettings ? "msg#facetCard.saveSettings" : "msg#facetCard.openSettings";
                 action.title = this.showSettings ? "msg#facetCard.saveSettings" : "msg#facetCard.openSettings";
                 action.selected = this.showSettings;
