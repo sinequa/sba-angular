@@ -134,7 +134,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     facet.$hasFiltered = false;
 
     for(let aggregation of Utils.asArray(facet.aggregation)) {
-      const agg = this.facetService.getAggregation(aggregation);
+      const agg = this.facetService.getAggregation(aggregation, this.results);
       if(agg) {
         facet.$fields.push(agg.column);
         if(agg.items) {
