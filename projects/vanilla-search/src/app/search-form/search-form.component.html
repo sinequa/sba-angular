@@ -1,4 +1,7 @@
-<sq-search-form #searchForm [query]="searchService.query" [searchRoute]="searchRoute">
+<sq-search-form #searchForm
+  [query]="searchService.query"
+  [searchRoute]="searchRoute"
+  [autoSubmit]="false"> <!-- The search form won't autosubmit on "Enter", instead the autocomplete captures this event and acts accordindly -->
 
   <ng-template let-query>
 
@@ -6,7 +9,8 @@
       [inputElement]="searchForm.searchInput.nativeElement"
       [queryText]="query.text || ''"
       [suggestTypes]="autocompleteSources"
-      (search)="onAutocompleteSearch($event, query)">
+      (search)="onAutocompleteSearch($event, query)"
+      (select)="onAutocompleteSelect($event, query)">
     </sq-autocomplete>
 
   </ng-template>
