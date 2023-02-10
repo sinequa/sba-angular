@@ -1,10 +1,12 @@
 <ng-container *ngIf="missingTerms.length > 0">
-    <span class="sq-missing-terms-label sq-text">{{'msg#results.missingTerms' | sqMessage}}</span>
-    <span class="sq-missing-terms sq-text">
+    <span class="sq-missing-terms-label">{{'msg#results.missingTerms' | sqMessage}}</span>
+    <span class="sq-missing-terms">
         <span *ngFor="let term of missingTerms" class="sq-missing-term ms-1">{{term}}</span>
     </span>
-    <span> | Must include: </span>
-    <span class="sq-missing-terms sq-text">
-        <a role="button" *ngFor="let term of missingTerms" (click)="mustInclude(term)" class="ms-1">{{term}}</a>
-    </span>
+    <ng-container *ngIf="showMustInclude">
+        <span class="sq-missing-terms-label ms-1">{{'msg#results.mustInclude' | sqMessage}}</span>
+        <span class="sq-missing-terms">
+            <a role="button" *ngFor="let term of missingTerms" (click)="mustInclude(term)" class="ms-1">{{term}}</a>
+        </span>
+    </ng-container>
 </ng-container>
