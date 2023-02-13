@@ -1,18 +1,18 @@
-import { ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, Type, ViewChild } from "@angular/core";
-import { Action } from "@sinequa/components/action";
+import { ChangeDetectorRef, Component, ComponentRef, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, Type, ViewChild } from "@angular/core";
 import { AbstractFacet } from "../../abstract-facet";
 import { FacetConfig } from "../../facet-config";
 import { FirstPageService, SearchService } from "@sinequa/components/search";
 import { AppService, Query } from "@sinequa/core/app-utils";
 import { MapOf, Utils } from "@sinequa/core/base";
 import { Results } from "@sinequa/core/web-services";
-import { FacetService } from "../../facet.service";
+import { FacetEventType, FacetService } from "../../facet.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'sq-facet-container',
   templateUrl: './facet-container.component.html'
 })
-export class FacetContainerComponent<T extends {}> implements OnChanges {
+export class FacetContainerComponent<T extends {}> implements OnChanges, OnDestroy {
 
   @Input() results?: Results;
   @Input() query?: Query;
@@ -28,16 +28,7 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
   facetInputs: MapOf<any> | undefined;
   facetInstance: AbstractFacet | undefined;
 
-  facetList: {config: FacetConfig<T>, filters: number, classes: {}}[];
-
-  closeFacet = new Action({
-    icon: "fas fa-times",
-    title: "msg#facet.container.close",
-    action: () => {
-      this.openedFacet = undefined;
-      this.facetOpen.emit(false);
-    }
-  });
+  facetList: {config: FacetConfig<T>, filters: number, classes: {}, disabled: boolean}[];
 
   _resultsMode: 'current' | 'all' = 'current';
 
@@ -53,6 +44,8 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
     this.setFacetInputs();
   }
 
+  subscription: Subscription;
+
 
   constructor(
     public appService: AppService,
@@ -60,7 +53,13 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
     public searchService: SearchService,
     public firstPageService: FirstPageService,
     public cdRef: ChangeDetectorRef
-  ){}
+  ){
+    this.subscription = this.facetService.events.subscribe(event => {
+      if(event.type === FacetEventType.AddFilter) {
+        this.close();
+      }
+    })
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateFacetList();
@@ -86,15 +85,20 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
     }
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   // Facet management
 
   updateFacetList() {
     const query = this.query || this.searchService.query;
     const ccquery = this.appService.getCCQuery(query.name);
+    const results = this.results || this.firstPageService.firstPage;
     this.facetList = this.facetConfigs.map(config => {
       const aggregations = Utils.asArray(config.aggregation);
       let filters = 0;
+      let count = 0;
       for(let aggregation of aggregations) {
         const ccagg = this.appService.getCCAggregation(aggregation, ccquery);
         if(ccagg) {
@@ -105,13 +109,18 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
             filters += query.getFilterCount([ccagg.column]) || 0;
           }
         }
+        if(results) {
+          const agg = this.facetService.getAggregation(aggregation, results);
+          count += agg?.items?.length || 0;
+        }
       }
       const classes = {
         ['btn-outline-'+this.buttonClass]: !filters,
         ['btn-'+this.buttonClass]: filters,
         'me-3': filters
       };
-      return {config, filters, classes};
+      const disabled = !!results && count === 0;
+      return {config, filters, classes, disabled};
     });
   }
 
@@ -127,6 +136,11 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
       setTimeout(() => this.buttonList.nativeElement.scrollIntoView(false));
     }
     this.facetOpen.emit(!!this.openedFacet);
+  }
+
+  close() {
+    this.openedFacet = undefined;
+    this.facetOpen.emit(false);
   }
 
   setFacetInputs() {
@@ -152,12 +166,6 @@ export class FacetContainerComponent<T extends {}> implements OnChanges {
   onLoadComponent(event: {componentRef: ComponentRef<AbstractFacet> | undefined}) {
     this.facetInstance = event.componentRef?.instance;
     this.cdRef.detectChanges(); // Detect changes manually, because the facet actions need to be displayed
-  }
-
-  get facetActions(): Action[] {
-    const actions = this.facetInstance?.actions || [];
-    actions.push(this.closeFacet);
-    return actions;
   }
 
   get isFacetEmpty(): boolean {

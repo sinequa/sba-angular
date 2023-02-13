@@ -16,21 +16,13 @@ $color-gray-600: #999999;
 $color-gray-700: #7c7c7c;
 $color-gray-800: #505050;
 
-// thin scrollbar
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: $color-gray-400;
-}
-::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
 .list-group {
   font-size: 0.875em;
 
+  --bs-list-group-item-padding-x: 0.75rem; // Slightly decreased from 1rem to compensate list-group padding
   --bs-list-group-item-padding-y: 0.25rem;
+
+  padding: 0.25rem;
 
   .list-group-item {
     border: 0;
@@ -39,4 +31,57 @@ $color-gray-800: #505050;
   .list-group-item.sq-filtered {
     background-color: rgb(211 215 212 / 47%);
   }
+
+  .list-group-item:not(.sq-filtered):hover  {
+    border-radius: .25rem;
+  }
 }
+
+.list-group-item.disabled {
+  opacity: 0.5;
+}
+
+/* single row */
+:not(.sq-filtered)+.sq-filtered:not(:has(+.sq-filtered)) {
+  margin-top: .25rem;
+  border-radius: .25rem;
+}
+/* first child and single row */
+:first-child.sq-filtered:not(:has(+.sq-filtered)) {
+  border-radius: .25rem;
+}
+
+/* first row of a group */
+:not(.sq-filtered)+.sq-filtered:has(+.sq-filtered) {
+  margin-top: .25rem;
+  border-bottom-left-radius: none;
+  border-bottom-right-radius: none;
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+}
+
+/* first child and first row of a group */
+:first-child.sq-filtered:has(+.sq-filtered) {
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+  border-bottom-left-radius: none;
+  border-bottom-right-radius: none;
+}
+
+/* last row of a group */
+.sq-filtered:not(:has(+.sq-filtered)) {
+  margin-bottom: .25rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  border-top-left-radius: none;
+  border-top-right-radius: none;
+  border-bottom-left-radius: .5rem;
+  border-bottom-right-radius: .5rem;
+}
+
+/* no margin bottom applied to the last row if it's the last child */
+.sq-filtered:not(:has(+.sq-filtered)):last-child {
+  margin-bottom: 0 !important;
+}
+
