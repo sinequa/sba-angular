@@ -48,7 +48,7 @@ import {PREVIEW_MODAL} from '../preview.service';
 
         UtilsModule,
         CollapseModule,
-        MetadataModule.forRoot(),
+        MetadataModule,
         BsModalModule,
         BsFacetModule,
         ResultModule,

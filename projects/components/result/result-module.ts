@@ -27,7 +27,7 @@ import {ResultIcon} from "./result-icon/result-icon";
 
         UtilsModule,
         CollapseModule,
-        MetadataModule.forRoot()
+        MetadataModule
     ],
     declarations: [
         ResultTitle, ResultExtracts,
