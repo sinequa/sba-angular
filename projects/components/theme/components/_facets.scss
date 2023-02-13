@@ -1,3 +1,5 @@
+$sq-facet-primary: var(--brand-400, #{$darker-blue});
+
 sq-facet-card {
   .card {
     --bs-card-cap-bg: var(--brand-300, #{$blue-focus});
@@ -33,36 +35,38 @@ sq-facet-card {
       font-size: 1.15rem;
     }
 
-    .btn.btn-light {
-      --bs-btn-padding-x: .5rem;
-      --bs-btn-padding-y: .25rem;
-      --bs-btn-hover-color: #{$white} !important;
-      --bs-btn-hover-bg: var(--brand, #{$blue-1}) !important;
-      --bs-btn-hover-border-color: var(--brand, #{$blue-1}) !important;
-      --bs-btn-active-color: #{$white} !important;
-      --bs-btn-active-bg: var(--brand-400, #{$darker-blue}) !important;
-      --bs-btn-active-border-color: var(--brand-400, #{$darker-blue}) !important;
-      --bs-btn-disabled-color: #{$body-text-grey-1} !important;
-      --bs-btn-disabled-bg: transparent !important;
-      --bs-btn-disabled-border-color: transparent !important;
-      margin: 0 !important;
+    .btn-light {
+      --bs-btn-bg: transparent;
+      --bs-btn-border-color: transparent;
+      --bs-btn-hover-color: #{$white};
+      --bs-btn-hover-bg: #{$sq-facet-primary};
+      --bs-btn-hover-border-color: #{$sq-facet-primary};
+      --bs-btn-active-color: #{$white};
+      --bs-btn-active-bg: #{$sq-facet-primary};
+      --bs-btn-active-border-color: #{$sq-facet-primary};
+      --bs-btn-disabled-color: #{$body-text-grey-1};
+      --bs-btn-disabled-bg: transparent;
+      --bs-btn-disabled-border-color: transparent;
+    }
 
-      &:hover,
-      &.active {
-        background-color: var(--brand-400, #{$darker-blue});
-        border-color: var(--brand-400, #{$darker-blue});
-      }
-
-      &.active:hover {
-        background-color: var(--brand-400, #{$darker-blue});
-        opacity: .6;
-      }
+    .btn-primary {
+      --bs-btn-hover-bg: #{$sq-facet-primary};
+      --bs-btn-hover-border-color: #{$sq-facet-primary};
+      --bs-btn-active-bg: #{$sq-facet-primary};
+      --bs-btn-active-border-color: #{$sq-facet-primary};
     }
 
     .btn-outline-primary {
-      --bs-btn-hover-bg: var(--brand-400, #{$darker-blue}) !important;
-      --bs-btn-hover-border-color: var(--brand-400, #{$darker-blue}) !important;
+      --bs-btn-color: #{$sq-facet-primary};
+      --bs-btn-border-color: #{$sq-facet-primary};
+      --bs-btn-hover-bg: #{$sq-facet-primary};
+      --bs-btn-hover-border-color: #{$sq-facet-primary};
+      --bs-btn-active-bg: #{$sq-facet-primary};
+      --bs-btn-active-border-color: #{$sq-facet-primary};
+      --bs-btn-disabled-color: #{$sq-facet-primary};
+      --bs-btn-disabled-border-color: #{$sq-facet-primary};
     }
+
   }
 
   /**
@@ -78,37 +82,6 @@ sq-facet-card {
 
   }
 
-  /**
-  Header buttons
-   */
-  .btn-light {
-    --bs-btn-color: #{$body-text-grey-1} !important;
-    --bs-btn-bg: transparent !important;
-    --bs-btn-border-width: 0 !important;
-    --bs-btn-hover-color: #000 !important;
-    --bs-btn-hover-bg: #d3d4d5 !important;
-    --bs-btn-hover-border-color: #c6c7c8 !important;
-    --bs-btn-focus-shadow-rgb: 211, 212, 213 !important;
-    --bs-btn-active-color: #000 !important;
-    --bs-btn-active-bg: #c6c7c8 !important;
-    --bs-btn-active-border-color: #babbbc !important;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
-    --bs-btn-disabled-color: #000 !important;
-    --bs-btn-disabled-bg: #f8f9fa !important;
-    --bs-btn-disabled-border-color: #f8f9fa !important;
-    box-shadow: none !important;
-
-    &.sq-secondary-btn {
-      --bs-btn-bg: #{$white} !important;
-      --bs-btn-border-radius: 0 !important;
-      border-radius: 0 !important;
-    }
-
-    &.preview-btn {
-      --bs-btn-padding-y: .8rem !important;
-      --bs-btn-padding-x: 1rem !important;
-    }
-  }
 }
 
 /**
