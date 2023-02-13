@@ -12,7 +12,6 @@ import {frAlerts} from "@sinequa/components/alerts";
 import {frBaskets} from "@sinequa/components/baskets";
 import {frFacet} from "@sinequa/components/facet";
 import {frFeedback} from "@sinequa/components/feedback";
-import {frHeatmap} from "@sinequa/analytics/heatmap";
 import {frLabels} from "@sinequa/components/labels";
 import {frMetadata} from "@sinequa/components/metadata";
 import {frNotification} from "@sinequa/components/notification";
@@ -24,14 +23,14 @@ import {frSelection} from "@sinequa/components/selection";
 import {frSearch} from "@sinequa/components/search";
 import {frStatusBar} from "@sinequa/components/status-bar";
 import {frUserSettings} from "@sinequa/components/user-settings";
-import { frTimeline } from "@sinequa/analytics/timeline";
-import { frML } from "@sinequa/components/machine-learning";
-import { frFilters } from "@sinequa/components/filters";
-import { frSearchForm } from "@sinequa/components/search-form";
+import {frTimeline} from "@sinequa/analytics/timeline";
+import {frML} from "@sinequa/components/machine-learning";
+import {frFilters} from "@sinequa/components/filters";
+import {frSearchForm} from "@sinequa/components/search-form";
 
 d3Format.thousands = " "; // consistency with intl-number-format
 
-const messages = Utils.merge({}, frCore, frUtils, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frHeatmap, frLabels, frMetadata,
+const messages = Utils.merge({}, frCore, frUtils, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frLabels, frMetadata,
     frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, frTimeline,
     frML, frFilters, frSearchForm, appMessages);
 
