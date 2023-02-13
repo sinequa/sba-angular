@@ -11,7 +11,6 @@ import { Utils } from "@sinequa/core/base";
     [results]="results"
     [aggregation]="aggregation.name"
     [searchable]="aggregation.$hasMore"
-    [alwaysShowSearch]="aggregation.$hasMore"
     name="ag-grid-{{field}}">
 </sq-facet-list>
     `,
