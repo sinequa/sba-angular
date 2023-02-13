@@ -89,7 +89,7 @@ export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnC
         super();
 
         this.clearFiltersAction = new Action({
-            icon: "far fa-minus-square",
+            icon: "sq-filter-clear",
             title: "msg#facet.range.clear",
             action: () => this.clearRange()
         });
