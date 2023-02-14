@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, HostListener, ContentChildren, QueryList, TemplateRef, DoCheck, OnChanges } from "@angular/core";
+import { Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, ContentChildren, QueryList, TemplateRef, DoCheck, OnChanges } from "@angular/core";
 import { delay, Subscription } from "rxjs";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "../../abstract-facet";
@@ -228,6 +228,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     ngOnChanges(): void {
         // Most Input() of this component potentially have an effect on the actions
         this.updateActions();
+
+        this.updateClickOutside();
     }
 
     // In ngAfterContentInit we have access to the facet content (facet component or views, depending on how the facet-card is used)
@@ -269,6 +271,10 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
 
     ngOnDestroy() {
         this.subs.unsubscribe();
+
+        if(this.onClickOutside) {
+            document.removeEventListener('click', this.onClickOutside);
+        }
     }
 
     updateFacetComponent() {
@@ -372,13 +378,23 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         return this.hideActionsCollapsed && this._collapsed;
     }
 
-    @HostListener('window:click', ['$event'])
-    clickOut() {
-        if (this.collapseOnClickOutside) {
-            this._collapsed = true;
-            this.collapseAction.update();
-            this.expandAction.update();
-            this.settingsAction.update();
+    updateClickOutside() {
+        if(this.collapseOnClickOutside && !this.onClickOutside) {
+            this.onClickOutside = () => {
+                if(!this._collapsed) {
+                    this._collapsed = true;
+                    this.collapseAction.update();
+                    this.expandAction.update();
+                    this.settingsAction.update();
+                }
+            }
+            document.addEventListener('click', this.onClickOutside);
+        }
+        if(!this.collapseOnClickOutside && this.onClickOutside) {
+            document.removeEventListener('click', this.onClickOutside);
         }
     }
+
+    onClickOutside?: () => void;
+
 }
