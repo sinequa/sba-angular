@@ -197,11 +197,9 @@
                     <button class="btn btn-primary" (click)="showCounts=!showCounts">Counts</button>
                     <button class="btn btn-primary" (click)="showEntityTooltip=!showEntityTooltip">Entity
                         tooltip</button>
-                    <button class="btn btn-primary" (click)="clickable=!clickable">Clickable</button>
                     <hr>
-                    <sq-metadata-list [record]="openedDoc" [items]="metadata" [style]="style" [showTitles]="showTitles"
-                        [showIcons]="showIcons" [showCounts]="showCounts" [showEntityTooltip]="showEntityTooltip"
-                        [clickable]="clickable"></sq-metadata-list>
+                    <sq-metadata-list [record]="openedDoc" [config]="metadataConfig" [style]="style" [showTitles]="showTitles"
+                        [showIcons]="showIcons" [showCounts]="showCounts" [showEntityTooltip]="showEntityTooltip"></sq-metadata-list>
                 </ng-template>
 
                 <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">

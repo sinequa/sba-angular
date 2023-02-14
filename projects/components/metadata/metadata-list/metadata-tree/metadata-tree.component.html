@@ -1,7 +1,7 @@
 <ng-container *ngFor="let valueItem of valueItems; let $index = index">
     <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
         <li *ngFor="let part of valueItem.parts; let $subIndex = index">
-            <span class="{{itemClass}}" [ngClass]="'sq-metadata-item-' + item"
+            <span [class.clickable]="clickable" [ngClass]="'sq-metadata-item-' + config.item"
                 (click)="select($index, $subIndex)">{{part | sqValue:column}}</span>
             <span *ngIf="$subIndex < valueItem.parts.length - 1"
                 class="sq-metadata-item-tree-node-separator">{{'msg#metadata.item.treeNodeSeparator' |

@@ -5,6 +5,13 @@ import { CCColumn, EntityItem, Record, TextChunksWebService, TextLocation } from
 import { map, Observable, of } from 'rxjs';
 import { TreeValueItem } from './metadata-item/metadata-item';
 
+export interface MetadataConfig {
+  item: string; // the column name
+  icon: string; // its icon
+  filterable?: boolean; // if clickable to add in the filters
+  excludable?: boolean; // if clickable to exclude from the search
+};
+
 @Injectable({
   providedIn: 'root'
 })

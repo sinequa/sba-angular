@@ -4,7 +4,7 @@ import { CCColumn, EntityItem, Record } from "@sinequa/core/web-services";
 import { Observable } from "rxjs";
 import { IconService } from "../../icon.service";
 import { TreeValueItem } from "../../metadata-item/metadata-item";
-import { MetadataService } from "../../metadata.service";
+import { MetadataConfig, MetadataService } from "../../metadata.service";
 
 @Component({
     selector: "sq-metadata-2",
@@ -13,7 +13,7 @@ import { MetadataService } from "../../metadata.service";
 })
 export class MetadataComponent implements OnChanges {
     @Input() record: Record;
-    @Input() item: string;
+    @Input() config: MetadataConfig;
     @Input() query?: Query;
     @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
     @Input() customClass?: string;
@@ -23,12 +23,9 @@ export class MetadataComponent implements OnChanges {
     @Input() showTitle = true;
     @Input() showCounts = true;
     @Input() showEntityTooltip: false;
-    @Input() clickable = true;
 
     display = false;
-    icon: string;
     valueIcon: string;
-    color: string | undefined;
     column: CCColumn | undefined;
     itemLabelMessageParams: any;
 
@@ -38,16 +35,12 @@ export class MetadataComponent implements OnChanges {
     isEntity: boolean;
     isCsv: boolean;
 
-    get value(): any {
-        return this.record[this.item];
-    }
-
-    get itemClass(): string {
-        return this.clickable ? 'clickable' : '';
+    get isClickable(): boolean {
+        return !!this.config.filterable || !!this.config.excludable;
     }
 
     get label(): string {
-        return this.appService.getLabel(this.item);
+        return this.appService.getLabel(this.config.item);
     }
 
     get placement(): string {
@@ -60,17 +53,14 @@ export class MetadataComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        this.display = !!this.item && !!this.record && !!this.record[this.item];
-        if (!!this.item) {
-            this.icon = this.iconService.getIcon(this.item) || '';
-
-            if (this.item === 'docformat') {
-                this.valueIcon = this.iconService.getFormatIcon(this.record[this.item]) || '';
-                this.color = this.iconService.getColor(this.record[this.item]);
+        this.display = !!this.config.item && !!this.record && !!this.record[this.config.item];
+        if (!!this.config.item) {
+            if (this.config.item === 'docformat') {
+                this.valueIcon = this.iconService.getFormatIcon(this.record[this.config.item]) || '';
             }
 
-            this.column = this.appService.getColumn(this.item);
-            this.itemLabelMessageParams = { values: { label: this.appService.getLabel(this.item) } };
+            this.column = this.appService.getColumn(this.config.item);
+            this.itemLabelMessageParams = { values: { label: this.appService.getLabel(this.config.item) } };
             this.setValueItems();
         }
     }
@@ -84,7 +74,7 @@ export class MetadataComponent implements OnChanges {
         this.isTree = !!this.column && AppService.isTree(this.column);
         this.isEntity = !!this.column && AppService.isEntity(this.column);
         this.isCsv = !!this.column && AppService.isCsv(this.column);
-        const values = this.record[this.appService.getColumnAlias(this.column, this.item)];
+        const values = this.record[this.appService.getColumnAlias(this.column, this.config.item)];
         if (this.isEntity) {
             const entityItems: EntityItem[] = values;
             this.metadataService.setEntityValues(entityItems, this.valueItems, this.showEntityTooltip, this.entityTooltip);

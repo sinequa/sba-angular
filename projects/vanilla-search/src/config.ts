@@ -1,5 +1,6 @@
 import { FacetDateParams } from '@sinequa/analytics/timeline';
 import { FacetConfig, FacetListParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams } from '@sinequa/components/facet';
+import { MetadataConfig } from '@sinequa/components/metadata/metadata.service';
 import { HelpFolderOptions } from '@sinequa/components/user-settings';
 
 /**
@@ -147,10 +148,6 @@ export const FACETS: FacetConfig<FacetParams>[] = [
     }
 ];
 
-export const METADATA: string[] = [
-    "authors", "docformat", "modified", "size", "treepath", "filename"
-];
-
 export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
     folder: 'vanilla-search',
     path: '/r/_sinequa/webpackages/help',
@@ -158,3 +155,39 @@ export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
     useLocale: true,
     useLocaleAsPrefix: true
 }
+
+export const METADATA: string[] = [
+    "authors", "docformat", "modified", "size", "treepath", "filename"
+];
+
+export const METADATA_CONFIG: MetadataConfig[] = [
+    {
+        item: "authors",
+        icon: "fas fa-user-edit",
+        filterable: true,
+        excludable: true
+    },
+    {
+        item: "docformat",
+        icon: "fas fa-info-circle",
+        filterable: true,
+        excludable: true
+    },
+    {
+        item: "modified",
+        icon: "far fa-calendar-alt",
+        filterable: true
+    },
+    {
+        item: "size",
+        icon: "fas fa-weight-hanging"
+    },
+    {
+        item: "treepath",
+        icon: "fas fa-folder-open"
+    },
+    {
+        item: "filename",
+        icon: "far fa-file-alt"
+    },
+];

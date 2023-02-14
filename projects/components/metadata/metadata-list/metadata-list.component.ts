@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { Query } from "@sinequa/core/app-utils";
 import { Record } from "@sinequa/core/web-services";
+import { MetadataConfig } from "../metadata.service";
 
 @Component({
     selector: "sq-metadata-list",
@@ -9,7 +10,7 @@ import { Record } from "@sinequa/core/web-services";
 })
 export class MetadataListComponent {
     @Input() record: Record;
-    @Input() items: string[];
+    @Input("config") configItems: MetadataConfig[];
     @Input() query?: Query;
     @Input() customClass?: string;
     @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
@@ -18,7 +19,6 @@ export class MetadataListComponent {
     @Input() showIcons = true;
     @Input() showCounts = true;
     @Input() showEntityTooltip: false;
-    @Input() clickable = true;
 
     constructor() {
     }

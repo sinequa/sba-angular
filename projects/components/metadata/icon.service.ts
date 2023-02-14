@@ -1,27 +1,6 @@
 import { Injectable } from '@angular/core';
 
-const METADATA_MAPPINGS = {
-  'far fa-flag': ['matchlocations'],
-  'fas fa-map-marker-alt': ['geo'],
-  'fas fa-user': ['person'],
-  'fas fa-building': ['company'],
-  'fas fa-tag': ['title'],
-  'far fa-calendar-alt': ['modified'],
-  'fas fa-weight-hanging': ['size'],
-  'fas fa-folder-open': ['treepath'],
-  'fas fa-user-edit': ['authors'],
-  'fas fa-lock': ['accesslists'],
-  'far fa-file': ['doctype', 'file'],
-  'fas fa-globe-americas': ['documentlanguages'],
-  'far fa-star': ['globalrelevance'],
-  'fas fa-search': ['indexationtime'],
-  'fas fa-tags': ['keywords'],
-  'fas fa-align-left': ['matchingpartnames'],
-  'fas fa-envelope': ['msgfrom'],
-  'fas fa-envelope-open-text': ['msgto'],
-  'far fa-file-alt': ['extractslocations', 'filename'],
-  'fas fa-info-circle': ['docformat']
-};
+const METADATA_MAPPINGS = {};
 
 const FORMAT_MAPPINGS = {
   'fas fa-globe-europe': ['htm', 'html', 'xhtm', 'xhtml', 'mht'],
@@ -46,27 +25,6 @@ const FORMAT_MAPPINGS = {
   'fas fa-file-medical': ['mmp', 'mppx']
 }
 
-const COLORS_MAPPINGS = {
-  '#3f3fca': ['doc', 'docx', 'docm', 'dot', 'dotx', 'dotm', 'rtf'],
-  'green': ['xls', 'xlsx', 'xlt', 'xltx', 'xlsm', 'xltm'],
-  '#e64b30': ['ppt', 'pptx', 'pptm', 'pptm2', 'pps', 'ppsx', 'ppsm', 'pot', 'potx', 'potm'],
-  '#ec2e2e': ['pdf'],
-  '#202020': ['txt', 'text'],
-  '#4545bf': ['jpg', 'jpeg', 'bmp', 'tiff', 'tif', 'gif', 'png', 'mp4', 'flv', 'swf', 'mts', 'divx', 'wmv', 'avi', 'mov', 'mpg', 'mpeg', 'asf', 'rm', 'htm', 'html', 'xhtm', 'xhtml', 'mht', 'xml', 'cs', 'java', 'cpp', 'c', 'h', 'hpp', 'js', 'ts'],
-  'lightblue': ['mp3', 'wav', 'ogg', 'wma', 'aac', 'm3u'],
-  'yellow': ['zip', '7zip', '7z', 'rar', 'gz'],
-  'orange': ['notes', 'quickr', 'odg', 'otg', 'gslides'],
-  'black': ['email', 'mail', 'msg'],
-  'purple': ['mdb', 'xsn', 'one', 'vsdx', 'vsx', 'vtx', 'vdx', 'vssx', 'vstx', 'vsdm', 'vssm', 'vstm', 'vdw', 'vsd', 'vss', 'vst', 'gform'],
-  'darkred': ['odb', 'otb'],
-  'grey': ['odf', 'otf', 'odt', 'ott', 'mmp', 'mppx'],
-  'red': ['odp', 'otp', 'gdraw'],
-  'lightgreen': ['ods', 'ots'],
-  'brown': ['ldap', 'ad'],
-  'darkgreen': ['pub', 'gsheet'],
-  'blue': ['gdoc'],
-
-};
 
 @Injectable({
   providedIn: 'root'
@@ -81,10 +39,6 @@ export class IconService {
 
   getFormatIcon(format: string): string | undefined {
     return this.getMappingIcon(FORMAT_MAPPINGS, format);
-  }
-
-  getColor(format: string): string | undefined {
-    return this.getMappingIcon(COLORS_MAPPINGS, format);
   }
 
   private getMappingIcon(mappings: any, type: string): string | undefined {

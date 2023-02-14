@@ -2,7 +2,8 @@
     padding: 0 !important;
 }
 
-.sq-metadata-item:not(.clickable) {
+.sq-metadata-item:not(.clickable),
+::ng-deep .sq-metadata-item-treepath:not(.clickable) {
     font-weight: normal;
 }
 

@@ -2,6 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { AppService, ValueItem } from '@sinequa/core/app-utils';
 import { CCColumn, Record } from '@sinequa/core/web-services';
 import { TreeValueItem } from '../../metadata-item/metadata-item';
+import { MetadataConfig } from '../../metadata.service';
 
 @Component({
   selector: 'sq-metadata-tree',
@@ -13,8 +14,8 @@ import { TreeValueItem } from '../../metadata-item/metadata-item';
 export class MetadataTreeComponent implements OnChanges {
 
   @Input() record: Record;
-  @Input() item: string;
-  @Input() itemClass: string;
+  @Input() config: MetadataConfig;
+  @Input() clickable: boolean;
   @Input() column: CCColumn | undefined;
 
   valueItems: (ValueItem | TreeValueItem)[];
@@ -25,7 +26,7 @@ export class MetadataTreeComponent implements OnChanges {
     this.valueItems = [];
 
     if (this.record) {
-      const paths: string[] = this.record[this.appService.getColumnAlias(this.column, this.item)];
+      const paths: string[] = this.record[this.appService.getColumnAlias(this.column, this.config.item)];
       if (paths) {
         for (const path of paths) {
           const parts = path.split("/");

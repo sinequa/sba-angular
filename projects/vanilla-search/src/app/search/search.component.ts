@@ -11,9 +11,10 @@ import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
+import { FacetParams, FACETS, FEATURES, METADATA, METADATA_CONFIG } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { MetadataConfig } from '@sinequa/components/metadata/metadata.service';
 
 @Component({
   selector: 'app-search',
@@ -54,12 +55,11 @@ export class SearchComponent implements OnInit {
 
 
   // TEMP METADATA VARS
-  style = 'inline';
+  style = 'tabular';
   showTitles = true;
   showIcons = true;
   showCounts = true;
   showEntityTooltip = true;
-  clickable = true;
 
   constructor(
     private previewService: PreviewService,
@@ -141,6 +141,15 @@ export class SearchComponent implements OnInit {
    */
   public get metadata(): string[] {
     return this.appService.app?.data?.metadata as string[] || METADATA;
+  }
+
+  /**
+   * Returns the configuration of the metadata displayed in the facet-preview component.
+   * The configuration from the config.ts file can be overriden by configuration from
+   * the app configuration on the server
+   */
+  public get metadataConfig(): MetadataConfig[] {
+    return this.appService.app?.data?.metadataConfig as any as MetadataConfig[] || METADATA_CONFIG;
   }
 
   /**
