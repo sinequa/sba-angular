@@ -59,7 +59,6 @@ export class SearchComponent implements OnInit {
   showTitles = true;
   showIcons = true;
   showCounts = true;
-  showEntityTooltip = true;
 
   constructor(
     private previewService: PreviewService,
@@ -70,7 +69,7 @@ export class SearchComponent implements OnInit {
     public selectionService: SelectionService,
     public loginService: LoginService,
     public auditService: AuditWebService,
-    public ui: UIService,
+    public ui: UIService
   ) {
 
     const expandAction = new Action({

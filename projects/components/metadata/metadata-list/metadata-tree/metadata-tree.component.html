@@ -3,11 +3,12 @@
         <li *ngFor="let part of valueItem.parts; let $subIndex = index">
             <span [class.clickable]="clickable" [ngClass]="'sq-metadata-item-' + config.item"
                 (click)="select($index, $subIndex)">{{part | sqValue:column}}</span>
-            <span *ngIf="$subIndex < valueItem.parts.length - 1"
-                class="sq-metadata-item-tree-node-separator">{{'msg#metadata.item.treeNodeSeparator' |
-                sqMessage}}</span>
+            <span *ngIf="$subIndex < valueItem.parts.length - 1" class="sq-metadata-item-tree-node-separator">
+                {{'msg#metadata.item.treeNodeSeparator' | sqMessage}}
+            </span>
         </li>
     </ol>
-    <span *ngIf="$index < valueItems.length - 1"
-        class="sq-metadata-item-tree-separator">{{'msg#metadata.item.treeSeparator' | sqMessage}}</span>
+    <span *ngIf="$index < valueItems.length - 1" class="sq-metadata-item-tree-separator">
+        {{'msg#metadata.item.treeSeparator' | sqMessage}}
+    </span>
 </ng-container>

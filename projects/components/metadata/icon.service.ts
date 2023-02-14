@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-const METADATA_MAPPINGS = {};
-
 const FORMAT_MAPPINGS = {
   'fas fa-globe-europe': ['htm', 'html', 'xhtm', 'xhtml', 'mht'],
   'far fa-file-word': ['doc', 'docx', 'docm', 'dot', 'dotx', 'dotm', 'rtf', 'odt', 'ott', 'gdoc'],
@@ -25,17 +23,12 @@ const FORMAT_MAPPINGS = {
   'fas fa-file-medical': ['mmp', 'mppx']
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class IconService {
 
   constructor() { }
-
-  getIcon(type: string): string | undefined {
-    return this.getMappingIcon(METADATA_MAPPINGS, type);
-  }
 
   getFormatIcon(format: string): string | undefined {
     return this.getMappingIcon(FORMAT_MAPPINGS, format);

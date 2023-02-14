@@ -41,27 +41,29 @@ export class PopperDirective implements OnInit, OnDestroy {
     protected readonly renderer: Renderer2 = inject(Renderer2);
 
     ngOnInit(): void {
-        // An element to position the hint relative to
-        const reference = this.sqPopper ? this.sqPopper : this.el.nativeElement;
+        if (this.target) {
+            // An element to position the hint relative to
+            const reference = this.sqPopper ? this.sqPopper : this.el.nativeElement;
 
-        this.popper = createPopper(reference, this.target, {
-            ...this.defaultConfig,
-            placement: this.placement || this.defaultConfig.placement
-        });
+            this.popper = createPopper(reference, this.target, {
+                ...this.defaultConfig,
+                placement: this.placement || this.defaultConfig.placement
+            });
 
-        this.renderer.setStyle(this.target, "display", "none");
+            this.renderer.setStyle(this.target, "display", "none");
 
-        merge(
-            fromEvent(reference, "mouseenter"),
-            fromEvent(reference, "mouseleave"),
-            // fromEvent(reference, 'click')
-        )
-            .pipe(
-                filter(() => this.popper != null),
-                pluck("type"),
-                takeUntil(this.destroy$)
+            merge(
+                fromEvent(reference, "mouseenter"),
+                fromEvent(reference, "mouseleave"),
+                // fromEvent(reference, 'click')
             )
-            .subscribe((e: any) => this.mouseHoverHandler(e));
+                .pipe(
+                    filter(() => this.popper != null),
+                    pluck("type"),
+                    takeUntil(this.destroy$)
+                )
+                .subscribe((e: any) => this.mouseHoverHandler(e));
+        }
     }
 
     ngOnDestroy(): void {

@@ -2,28 +2,77 @@ import { Injectable } from '@angular/core';
 import { AppService, Query, ValueItem } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, EntityItem, Record, TextChunksWebService, TextLocation } from '@sinequa/core/web-services';
+import { METADATA_CONFIG } from '@sinequa/vanilla/config';
 import { map, Observable, of } from 'rxjs';
 import { TreeValueItem } from './metadata-item/metadata-item';
 
 export interface MetadataConfig {
   item: string; // the column name
-  icon: string; // its icon
+  icon: string; // the icon css class
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
+  showEntityTooltip?: boolean; // if the entity tooltip should be displayed
 };
+
+export interface MetadataValue {
+  item: string; // the parameter name
+  valueItems: (ValueItem | TreeValueItem)[]; // the determined value from the results
+  column: CCColumn | undefined; // the results column
+  icon: string; // the icon css class
+  isTree: boolean; // if is tree
+  isEntity: boolean; // if is entity
+  isCsv: boolean; // if is csv
+  filterable?: boolean; // if clickable to add in the filters
+  excludable?: boolean; // if clickable to exclude from the search
+  entityTooltip?: (entity: EntityItem, record: Record, query: Query) => Observable<string | undefined>;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class MetadataService {
 
-  record: Record;
-  query: Query;
-
   constructor(private textChunkWebService: TextChunksWebService,
     private appService: AppService) { }
 
-  setEntityValues(entityItems: EntityItem[], valueItems: (ValueItem | TreeValueItem)[], showEntityTooltip: boolean, entityTooltip?: (entity: EntityItem) => Observable<string | undefined>): void {
+  setMetadata(record: Record): void {
+    record.$metadataValues = METADATA_CONFIG.map(config => {
+      const item = config.item;
+      const valueItems: (ValueItem | TreeValueItem)[] = [];
+      const column = this.appService.getColumn(config.item);
+      const isTree = !!column && AppService.isTree(column);
+      const isEntity = !!column && AppService.isEntity(column);
+      const isCsv = !!column && AppService.isCsv(column);
+      let entityTooltip: ((entity: EntityItem, record: Record, query: Query) => Observable<string | undefined>) | undefined;
+
+      const values = record[this.appService.getColumnAlias(column, config.item)];
+      if (isEntity) {
+        const entityItems: EntityItem[] = values;
+        this.setEntityValues(entityItems, valueItems, config.showEntityTooltip || false, entityTooltip);
+      }
+      else if (isCsv) {
+        this.setCsvValues(values, valueItems);
+      }
+      else if (!isTree) {
+        this.setValues(values, valueItems, column);
+      }
+
+      return {
+        item,
+        valueItems,
+        column,
+        icon: config.icon,
+        isTree,
+        isEntity,
+        isCsv,
+        filterable: config.filterable,
+        excludable: config.excludable
+      }
+    });
+  }
+
+  private setEntityValues(entityItems: EntityItem[], valueItems: (ValueItem | TreeValueItem)[], showEntityTooltip: boolean,
+    entityTooltip?: (entity: EntityItem, record: Record, query: Query) => Observable<string | undefined>): void {
     if (entityItems) {
       valueItems.push(...entityItems);
       if (showEntityTooltip && entityItems[0]?.locations) {
@@ -32,7 +81,7 @@ export class MetadataService {
     }
   }
 
-  setCsvValues(values: any, valueItems: (ValueItem | TreeValueItem)[]): void {
+  private setCsvValues(values: any, valueItems: (ValueItem | TreeValueItem)[]): void {
     if (values && values instanceof Array) {
       valueItems.push(...values.map<ValueItem>(value => ({ value: value })));
     }
@@ -41,7 +90,7 @@ export class MetadataService {
     }
   }
 
-  setValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined): void {
+  private setValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined): void {
     const value = this.ensureScalarValue(values, column);
     if (!Utils.isEmpty(value)) {
       valueItems.push({ value: value });
@@ -60,7 +109,7 @@ export class MetadataService {
     return value;
   }
 
-  private getEntitySentence = (entity: EntityItem) => {
+  private getEntitySentence = (entity: EntityItem, record: Record, query: Query) => {
     // Get entity location
     const location = this.getEntityLocation(entity);
     if (!location) return of(undefined);
@@ -69,7 +118,7 @@ export class MetadataService {
     // Get the text at the location of the entity
     // The query is optional, but can be useful to resolve aliases and relevant extracts/matches
     return this.textChunkWebService.getTextChunks(
-      this.record.id, [location], highlights, this.query, 1, 1)
+      record.id, [location], highlights, query, 1, 1)
       .pipe(map(chunks => chunks?.[0]?.text));
   }
 
@@ -84,7 +133,9 @@ export class MetadataService {
   private getEntityLocation(entity: EntityItem): TextLocation | undefined {
     const locations = entity.locations?.split(";")?.[0]?.split(",");
     if (!locations?.length) return;
+    // eslint-disable-next-line radix
     const offset = parseInt(locations[0]);
+    // eslint-disable-next-line radix
     const length = parseInt(locations[1]);
     return { offset, length };
   }

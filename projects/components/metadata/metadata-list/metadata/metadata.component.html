@@ -9,27 +9,31 @@
 
     <!-- Value -->
     <div class="sq-metadata-col" sqPopper [target]="isClickable ? tooltip : undefined" [placement]="placement">
-        <div class="btn-group sq-metadata-btn" #tooltip>
-            <button class="btn btn-primary" *ngIf="config.filterable"><span class="fas fa-filter"></span> Filter</button>
-            <button class="btn btn-primary" *ngIf="config.excludable"><span class="fas fa-minus-circle"></span> Exclude</button>
-        </div>
-
-        <ng-container *ngIf="isTree; else isNotTree">
+        <ng-container *ngIf="config.isTree; else isNotTree">
             <sq-metadata-tree [record]="record" [config]="config" [clickable]="isClickable"
-                [column]="column"></sq-metadata-tree>
+                [column]="config.column"></sq-metadata-tree>
         </ng-container>
 
         <!-- Not a Tree-->
         <ng-template #isNotTree>
-            <span *ngFor="let valueItem of valueItems; let $index = index" [class.clickable]="isClickable"
+            <span *ngFor="let valueItem of config.valueItems; let $index = index" [class.clickable]="isClickable"
                 class="sq-metadata-item {{'sq-metadata-item-' + config.item}} me-1" (click)="select($index)"
-                [attr.title]="(showTitle || entityTooltip)? null : (label | sqMessage)" [sqTooltip]="entityTooltip"
-                [sqTooltipData]="valueItem">
+                [attr.title]="(showTitle || config.entityTooltip) ? null : (label | sqMessage)"
+                [sqTooltip]="config.entityTooltip" [sqTooltipData]="valueItem">
                 <span *ngIf="showFormatIcon && valueIcon" class="{{valueIcon}}"></span>
-                {{valueItem | sqValue:column}}
+                {{valueItem | sqValue:config.column}}
                 <span *ngIf="showCounts && valueItem.count" class="counter rounded-pill bg-light text-black ms-1"
                     [title]="valueItem.count + ' occurrences in document'">{{valueItem.count}}</span>
             </span>
         </ng-template>
+    </div>
+
+    <div class="btn-group sq-metadata-btn" #tooltip>
+        <button class="btn btn-primary" *ngIf="config.filterable">
+            <span class="fas fa-filter"></span> Filter
+        </button>
+        <button class="btn btn-primary" *ngIf="config.excludable">
+            <span class="fas fa-minus-circle"></span> Exclude
+        </button>
     </div>
 </ng-container>
