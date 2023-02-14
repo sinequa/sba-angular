@@ -9,6 +9,10 @@ import { isExprFilter } from "@sinequa/core/web-services";
   .sq-simple-mode a:not(:hover) {
     color: rgb(0,0,0,.5);
   }
+  .sq-simple-mode:hover sq-filters ::ng-deep sq-filters .sq-filters-expr {
+    border-bottom: 2px solid rgb(0,0,0,0.2);
+    border-radius: 0.25rem;
+  }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

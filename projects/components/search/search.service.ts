@@ -443,8 +443,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
           }
         }
 
-        // adjust aggregation's items length
-        if(aggregation.items.length > aggregation.$cccount && !aggregation.isDistribution) {
+        // Adjust aggregation's items length only if an aggregation configuration is available in the query web service
+        // Otherwise, do not truncate the list of items (example in case of dataset web service)
+        if(aggregation.$ccaggregation && aggregation.items.length > aggregation.$cccount && !aggregation.isDistribution) {
           aggregation.items = aggregation.items?.slice(0, aggregation.$cccount);
           aggregation.$hasMore = true;
         }

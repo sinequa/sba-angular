@@ -1,11 +1,12 @@
-import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges, Type } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges, Type, OnDestroy } from '@angular/core';
 import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
 import { FacetConfig, default_facet_components } from "../../facet-config";
 import { Action } from '@sinequa/components/action';
-import { FacetService } from '../../facet.service';
+import { FacetEventType, FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
 import { Query } from '@sinequa/core/app-utils';
+import { Subscription } from 'rxjs';
 
 declare interface FacetMultiConfig extends FacetConfig<{displayEmptyDistributionIntervals?: boolean}> {
   // Properties internally setup by this component
@@ -21,7 +22,7 @@ declare interface FacetMultiConfig extends FacetConfig<{displayEmptyDistribution
   templateUrl: './facet-multi.component.html',
   styleUrls: ['./facet-multi.component.scss']
 })
-export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
+export class BsFacetMultiComponent extends AbstractFacet implements OnChanges, OnDestroy {
 
   @Input() results: Results;
   @Input() query?: Query;
@@ -50,6 +51,8 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   facetComponentInputs: MapOf<any>;
 
+  subscription: Subscription;
+
   constructor(
     public facetService: FacetService,
     private changeDetectorRef: ChangeDetectorRef
@@ -57,26 +60,21 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
     super();
 
-    this.backAction = new Action({
-      name: "back",
-      icon: "fas fa-arrow-left",
-      title: "msg#facet.filters.back",
-      action: () => {
-        this.openedFacet = undefined;
-        this.events.next(undefined);
-        this.changeDetectorRef.detectChanges();
-      }
-    });
-
     this.clearAllFiltersAction = new Action({
-      icon: "far fa-minus-square",
-      title: "msg#facet.filters.clear",
+      icon: "sq-filter-clear",
+      title: "msg#facet.clearSelects",
       action: () => {
         const fields = this.facets
           .filter((facet) => facet.$hasFiltered)
           .map(facet => facet.$fields)
           .flat();
         this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
+      }
+    });
+
+    this.subscription = this.facetService.events.subscribe(event => {
+      if(event.type === FacetEventType.AddFilter && this.openedFacet) {
+        this.close();
       }
     });
 
@@ -88,10 +86,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    */
   override get actions(): Action[] {
     const actions: Action[] = [];
-    if(this.openedFacet){
-      actions.push(this.backAction);
-    }
-    else if (this.facets.some(facet => facet.$hasFiltered)) {
+    if (!this.openedFacet && this.facets.some(facet => facet.$hasFiltered)) {
       actions.push(this.clearAllFiltersAction);
     }
     if(this.facetComponent){
@@ -121,6 +116,12 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
+  close() {
+    this.openedFacet = undefined;
+    this.events.next(undefined);
+    this.changeDetectorRef.detectChanges();
+  }
+
   clearFacetFilters(facet: FacetMultiConfig, e:Event) {
     e.stopPropagation();
     this.facetService.clearFiltersSearch(facet.$fields, true, this.query, facet.name);
@@ -134,7 +135,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     facet.$hasFiltered = false;
 
     for(let aggregation of Utils.asArray(facet.aggregation)) {
-      const agg = this.facetService.getAggregation(aggregation);
+      const agg = this.facetService.getAggregation(aggregation, this.results);
       if(agg) {
         facet.$fields.push(agg.column);
         if(agg.items) {
@@ -179,6 +180,10 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     }
 
     this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onFacetLoad(componentRef: {componentRef: ComponentRef<AbstractFacet> | undefined}) {

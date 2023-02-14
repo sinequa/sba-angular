@@ -1,7 +1,6 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy} from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef, AfterViewInit} from "@angular/core";
 import {Results, Aggregation, AggregationItem, Suggestion, TreeAggregationNode, ListAggregation, TreeAggregation} from "@sinequa/core/web-services";
 import {AddFilterOptions, FacetService} from "../../facet.service";
-import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
 import {Observable, debounceTime, distinctUntilChanged, switchMap, finalize, Subscription, of, Subject} from 'rxjs';
 import {FormControl, FormGroup} from '@angular/forms';
@@ -11,16 +10,15 @@ import { SearchService } from "@sinequa/components/search";
 import { Utils } from "@sinequa/core/base";
 
 export interface FacetListParams {
-    showCheckbox?: boolean;
     showCount?: boolean;
     searchable?: boolean;
+    focusSearch?: boolean;
     allowExclude?: boolean;
     allowOr?: boolean;
     allowAnd?: boolean;
     displayEmptyDistributionIntervals?: boolean;
     acceptNonAggregationItemFilter?: boolean;
     replaceCurrent?: boolean;
-    alwaysShowSearch?: boolean;
     suggestQuery?: string;
 }
 
@@ -34,23 +32,24 @@ export interface FacetListConfig extends FacetConfig<FacetListParams> {
     styleUrls: ["./facet-list.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsFacetList extends AbstractFacet implements FacetListParams, OnChanges, OnDestroy {
+export class BsFacetList extends AbstractFacet implements FacetListParams, OnChanges, OnDestroy, AfterViewInit {
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() query?: Query;
     @Input() aggregation: string;
-    @Input() showCheckbox: boolean = true;
     @Input() showCount: boolean = true; // Show the number of occurrences
     @Input() searchable: boolean = true; // Allow to search for items in the facet
+    @Input() focusSearch: boolean = false;
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
-    @Input() allowAnd: boolean = true; // Allow to search various items in AND mode
+    @Input() allowAnd: boolean = false; // Allow to search various items in AND mode
     @Input() displayEmptyDistributionIntervals: boolean = false; // If the aggregration is a distribution, then this property controls whether empty distribution intervals will be displayed
     @Input() acceptNonAggregationItemFilter = true; // when false, filtered items which don't match an existing aggregation item, should not be added to filtered list
     @Input() replaceCurrent = false; // if true, the previous "select" is removed first
-    @Input() alwaysShowSearch = false;
     // Specific to tree facets
     @Input() expandedLevel: number = 2;
+
+    @ViewChild("searchInput") searchInput: ElementRef<HTMLInputElement>;
 
     items: (AggregationItem | TreeAggregationNode)[] = [];
 
@@ -63,13 +62,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     suggestDelay = 200;
     searchActive = new Subject<boolean>();
 
-    // Actions (displayed in facet menu)
-    // All actions are built in the constructor
-    private readonly filterItemsOr: Action;
-    private readonly filterItemsAnd: Action;
-    private readonly excludeItems: Action;
-    private readonly clearFilters: Action;
-    public readonly searchItems: Action;
+    showCheckbox = false;
 
     constructor(
         protected searchService: SearchService,
@@ -92,44 +85,6 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             })
         );
 
-        // Keep documents with ANY of the selected items
-        this.filterItemsOr = new Action({
-            icon: "fas fa-filter",
-            title: "msg#facet.filterItems",
-            action: () => this.addFilter(this.selected, {replaceCurrent: this.replaceCurrent})
-        });
-
-        // Keep documents with ALL the selected items
-        this.filterItemsAnd = new Action({
-            icon: "fas fa-bullseye",
-            title: "msg#facet.filterItemsAnd",
-            action: () => this.addFilter(this.selected, {and: true, replaceCurrent: this.replaceCurrent})
-        });
-
-        // Exclude document with selected items
-        this.excludeItems = new Action({
-            icon: "fas fa-times",
-            title: "msg#facet.excludeItems",
-            action: () => this.addFilter(this.selected, {not: true, replaceCurrent: this.replaceCurrent})
-        });
-
-        // Clear the current filters
-        this.clearFilters = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facet.clearSelects",
-            action: () => this.clearAllFilters()
-        });
-
-        // Search for a value in this list
-        this.searchItems = new Action({
-            icon: "fas fa-search",
-            title: "msg#facet.searchItems",
-            action: action => {
-                action.selected = !action.selected;
-                this.clearSearch();
-                this.changeDetectorRef.detectChanges();
-            }
-        });
     }
 
     /**
@@ -142,7 +97,8 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         if (this.searchable === undefined) this.searchable = true;
         if (this.allowExclude === undefined) this.allowExclude = true;
         if (this.allowOr === undefined) this.allowOr = true;
-        if (this.allowAnd === undefined) this.allowAnd = true;
+        if (this.allowAnd === undefined) this.allowAnd = false;
+        this.showCheckbox = this.allowOr || this.allowAnd || this.allowExclude;
 
         if (changes.results || changes.aggregation) {     // New data from the search service
             this.data = this.facetService.getAggregation(this.aggregation, this.results);
@@ -150,7 +106,6 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
                 this.expandItems(this.data.items);
             }
             this.data?.items?.forEach(item => item.$selected = false); // Reinitialize the source aggregation's selected items
-            this.searchItems.selected = !!this.alwaysShowSearch;
             this.selected = [];
             this.clearSearch();
             this.updateItems();
@@ -162,13 +117,19 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         this.sub.unsubscribe();
     }
 
+    ngAfterViewInit(): void {
+        if(this.focusSearch) {
+            this.searchInput?.nativeElement.focus();
+        }
+    }
+
     updateItems() {
         if(!this.data) {
             this.items = [];
             return;
         }
 
-        if (this.searchMode && this.suggests) {
+        if (this.searchable && this.suggests) {
             if(this.data.isTree) {
                 this.items = this.facetService.suggestionsToTreeAggregationNodes(this.suggests, this.searchControl.value, this.data);
             }
@@ -225,36 +186,6 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         ];
     }
 
-    /**
-     * Returns all the actions that are relevant in the current context
-     */
-    override get actions(): Action[] {
-
-        const actions: Action[] = [];
-
-        if (this.selected.length > 0) {
-            if(this.allowOr){
-                actions.push(this.filterItemsOr);
-            }
-            if(this.allowAnd && this.selected.length > 1){
-                actions.push(this.filterItemsAnd);
-            }
-            if(this.allowExclude){
-                actions.push(this.excludeItems);
-            }
-        }
-
-        if(this.data?.$filtered.length) {
-            actions.push(this.clearFilters);
-        }
-
-        if(this.searchable && !this.alwaysShowSearch){
-            actions.push(this.searchItems);
-        }
-
-        return actions;
-    }
-
 
     // Filtered items
 
@@ -265,7 +196,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
      */
     filterItem(item: AggregationItem, event?: Event) {
         if (!item.$filtered) {
-            this.addFilter(item, {replaceCurrent: this.replaceCurrent});
+            this.addFilter(item);
         }
         else {
             this.removeFilter(item);
@@ -274,8 +205,12 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         return false;
     }
 
-    addFilter(item: AggregationItem|AggregationItem[], options: AddFilterOptions) {
+    addFilter(item: AggregationItem|AggregationItem[], options: AddFilterOptions = {}) {
         if(this.data) {
+            options.replaceCurrent = this.replaceCurrent;
+            if(!this.allowOr && this.allowAnd) {
+              options.and = true; // The default mode is OR, unless explicitly forbidden
+            }
             this.facetService.addFilterSearch(this.data, item, options, this.query, this.name);
         }
     }
@@ -364,10 +299,6 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
 
     get searchControl(): FormControl {
         return this.searchGroup.get("searchQuery") as FormControl;
-    }
-
-    get searchMode(): boolean {
-        return !!this.searchItems.selected;
     }
 
     onSearch(text: string): Observable<Suggestion[] | undefined> {

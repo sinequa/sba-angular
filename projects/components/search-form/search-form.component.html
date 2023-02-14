@@ -16,8 +16,17 @@
       (focus)="onInputFocus()"
       (click)="onInputClick()"
       (input)="onInputText()"
-      (keyup.enter)="applyFilters()"
-      (keyup.shift.enter)="applyFilters()"> <!-- keyup.shift.enter is necessary for iOS13+: https://github.com/angular/angular/issues/32963 -->
+      (keyup.enter)="onInputEnter()"
+      (keyup.shift.enter)="onInputEnter()"> <!-- keyup.shift.enter is necessary for iOS13+: https://github.com/angular/angular/issues/32963 -->
+
+
+    <!-- Clear Button (not displayed when expanded to avoid the confusion of users trying to close the box) -->
+    <button type="button" *ngIf="editedQuery.text && (hasFocus || !expanded)"
+      class="btn no-shadow p-0"
+      [sqTooltip]="'msg#searchForm.clearAll' | sqMessage"
+      (click)="clearForm()">
+      <i class="fas fa-fw fa-times text-muted"></i>
+    </button>
 
     <!-- Toggle voice recognition -->
     <button type="button" *ngIf="enableVoiceRecognition && voiceService.available && hasFocus"
@@ -54,14 +63,6 @@
         {{filterCount}}
       </span>
     </div>
-
-    <!-- Clear Button -->
-    <button type="button" *ngIf="editedQuery.text"
-      class="btn no-shadow p-0"
-      [sqTooltip]="'msg#searchForm.clearAll' | sqMessage"
-      (click)="clearForm()">
-      <i class="fas fa-fw fa-times text-muted"></i>
-    </button>
 
   </div>
 

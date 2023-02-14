@@ -4,9 +4,9 @@
 // On the left of the mapping: the class present in Angular code (prefixed with sq-icon)
 // On the right of the mapping: A tupple containing the icon name, followed by the
 // font type code (one of "s" (solid), "b" (brand), "r" (regular), "l" (light)).
-// 
+//
 $sq-icons-map: (
-    
+
     // Category icons (used to associate an icon to a type of metadata/entity displayed in a facet, the preview, etc.)
     "extractslocations": ("file-alt", "r"),  // sq-icon-extractslocations => far fa-file-alt
     "matchlocations": ("flag", "r"),
@@ -31,7 +31,7 @@ $sq-icons-map: (
     "msgto": ("envelope-open-text", "s"),
 
     // File formats (Used to associate an icon to a specific file extension)
-    "file": ("file", "r"),    
+    "file": ("file", "r"),
     ("file-htm", "file-html", "file-xhtm", "file-xhtml", "file-mht"): ("globe-europe", "s"),
     ("file-doc", "file-docx", "file-docm", "file-dot", "file-dotx", "file-dotm", "file-rtf", "file-odt", "file-ott", "file-gdoc"): ("file-word", "r"),
     ("file-xls", "file-xlsx", "file-xlt", "file-xltx", "file-xlsm", "file-xltm", "file-gsheet", "file-ods", "file-ots"): ("file-excel", "r"),
@@ -55,18 +55,18 @@ $sq-icons-map: (
     ("file-ldap", "file-ad"): ("users", "r"),
     ("file-mmp", "file-mppx"): ("file-medical", "s"),
     ("file-pub"): ("object-group", "r"),
-    
+
 );
 
 $sq-icons-color-map: (
-    
+
     ("file-doc"): #3f3fca,
     ("file-docx", "file-docm", "file-dot", "file-dotx", "file-dotm", "file-rtf"): #3f3fca,
     ("file-xls", "file-xlsx", "file-xlt", "file-xltx", "file-xlsm", "file-xltm"): green,
     ("file-ppt", "file-pptx", "file-pptm", "file-pptm2", "file-pps", "file-ppsx", "file-ppsm", "file-pot", "file-potx", "file-potm"): #e64b30,
     ("file-pdf"): #ec2e2e,
     ("file-txt", "file-text"): #202020,
-    
+
     ("file-jpg", "file-jpeg", "file-bmp", "file-tiff", "file-tif", "file-gif", "file-png"): #4545bf,
     ("file-mp4", "file-flv", "file-swf", "file-mts", "file-divx", "file-wmv", "file-avi", "file-mov", "file-mpg", "file-mpeg", "file-asf", "file-rm"): #4545bf,
     ("file-mp3", "file-wav", "file-ogg", "file-wma", "file-aac", "file-m3u"): lightblue,
@@ -109,14 +109,14 @@ $sq-icon-families: ("s", "b", "r", "l") !default;
                 .sq-icon-#{$key} {
                     @extend .fa#{$value}; // solid, brand, regular or light
                 }
-            }            
+            }
             @else {
                 .sq-icon-#{$key} {
                     @extend .fa-#{$value};
                 }
             }
         }
-    }    
+    }
 }
 
 // generate icon colors
@@ -162,4 +162,22 @@ $sq-icon-families: ("s", "b", "r", "l") !default;
 .sq-logo {
     height: 1rem;
     align-self: center;
+}
+
+// Custom icon for "clear filters", obtained as a combination of "fa-filter" and "fa-times-circle"
+.sq-filter-clear {
+  @extend .fas;
+  @extend .fa-filter;
+  position: relative;
+  width: 1.25em;
+  &::before {
+    margin-right: 0.2em;
+  }
+  &::after {
+    content: "\f057";
+    font-size: 0.75em;
+    position: absolute;
+    bottom: -0.05em;
+    right: -0.32em;
+  }
 }

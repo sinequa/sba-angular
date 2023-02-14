@@ -142,7 +142,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
         // Clear the current filters
         this.clearFilters = new Action({
-            icon: "far fa-minus-square",
+            icon: "sq-filter-clear",
             title: "msg#facet.clearSelects",
             action: () => {
                 this.selection = undefined;

@@ -7,7 +7,8 @@
       [ngClass]="facet.classes"
       type="button"
       (click)="open(facet.config)"
-      [title]="(facet.config.title || '') | sqMessage">
+      [title]="(facet.config.title || '') | sqMessage"
+      [disabled]="facet.disabled">
       <span *ngIf="facet.config.icon" [ngClass]="facet.config.icon"></span>
       <span class="ms-1">{{facet.config.title | sqMessage}}</span>
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="facet.filters">
@@ -22,7 +23,7 @@
   <ng-template>
     <!-- Selector of results: either "first page" (empty search) or current results -->
     <div class="d-flex align-items-center">
-      <ng-container *ngIf="results">
+      <div *ngIf="results" class="me-auto">
         <span class="small fw-bold me-2">{{ 'msg#facet.container.filterFor' | sqMessage:openedFacet }}</span>
         <div class="form-check form-check-inline py-2 my-0" [sqTooltip]="'msg#facet.container.currentTitle' | sqMessage">
           <input class="form-check-input" type="radio" id="currentResultsMode" value="current" [(ngModel)]="resultsMode">
@@ -32,9 +33,18 @@
           <input class="form-check-input" type="radio" id="allDataMode" value="all" [(ngModel)]="resultsMode">
           <label class="form-check-label small fw-bold" for="allDataMode">{{ 'msg#facet.container.all' | sqMessage }}</label>
         </div>
-      </ng-container>
+      </div>
+
+      <!-- Header of the currently open facet -->
+      <ng-container *ngTemplateOutlet="facetInstance?.headerTpl"></ng-container>
+
       <!-- Actions of the currently open facet -->
-      <div class="ms-auto btn-group" [sq-action-buttons]="{items: facetActions, rightAligned: true}"></div>
+      <div class="ms-1 btn-group" [sq-action-buttons]="{items: facetInstance?.actions, rightAligned: true, size: 'sm'}"></div>
+
+      <!-- Button to close the open facet-->
+      <button class="ms-1 btn btn-sm btn-primary" [sqTooltip]="'msg#facet.container.close' | sqMessage" (click)="close()">
+        <i class="fas fa-fw fa-times"></i>
+      </button>
     </div>
 
     <!-- Actual display of the facet -->

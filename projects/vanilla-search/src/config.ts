@@ -34,6 +34,7 @@ export const FACETS: FacetConfig<FacetParams>[] = [
         parameters: {
             showCount: true,
             searchable: true,
+            focusSearch: true,
             allowExclude: true,
             allowOr: true,
             allowAnd: false,
@@ -49,6 +50,7 @@ export const FACETS: FacetConfig<FacetParams>[] = [
         parameters: {
             showCount: true,
             searchable: true,
+            focusSearch: true,
             allowExclude: true,
             allowOr: true,
             allowAnd: false,
@@ -64,6 +66,7 @@ export const FACETS: FacetConfig<FacetParams>[] = [
         parameters: {
             showCount: true,
             searchable: true,
+            focusSearch: true,
             allowExclude: true,
             allowOr: true,
             allowAnd: false,
@@ -79,6 +82,7 @@ export const FACETS: FacetConfig<FacetParams>[] = [
         parameters: {
             showCount: true,
             searchable: false,
+            focusSearch: true,
             allowExclude: true,
             allowOr: true,
             allowAnd: false,

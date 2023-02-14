@@ -87,7 +87,7 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
             let filtered = false;
             const aggregations = Utils.asArray(facet.aggregation);
             for(let aggregation of aggregations) {
-                const agg = this.facetService.getAggregation(aggregation);
+                const agg = this.facetService.getAggregation(aggregation, this.results);
                 if(agg?.items?.length) {
                     disabled = false;
                     filtered = filtered || agg.$filtered.length > 0;
@@ -126,10 +126,6 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
     onLoadFacet(event: {componentRef: ComponentRef<AbstractFacet> | undefined}) {
         this.facetInstance = event.componentRef?.instance;
         this.cdRef.detectChanges(); // Detect changes manually, because the facet actions need to be displayed
-    }
-
-    get facetActions(): Action[] | undefined {
-        return this.facetInstance?.actions;
     }
 
     get isFacetEmpty(): boolean {

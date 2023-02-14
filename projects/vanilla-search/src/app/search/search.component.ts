@@ -11,10 +11,9 @@ import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES, METADATA, METADATA_CONFIG } from '../../config';
+import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { MetadataConfig } from '@sinequa/components/metadata/metadata.service';
 
 @Component({
   selector: 'app-search',
@@ -23,9 +22,6 @@ import { MetadataConfig } from '@sinequa/components/metadata/metadata.service';
 })
 export class SearchComponent implements OnInit {
 
-  // Dynamic display of facets titles/icons in the multi-facet component
-  public multiFacetIcon? = "fas fa-filter fa-fw";
-  public multiFacetTitle = "msg#facet.filters.title";
 
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
@@ -111,6 +107,9 @@ export class SearchComponent implements OnInit {
           }
           this.hasAnswers = !!results?.answers?.answers?.length;
           this.hasPassages = !!results?.topPassages?.passages?.length;
+          if(results && results.records.length <= results.pageSize) {
+            window.scrollTo({top: 0, behavior: 'auto'});
+          }
         })
       );
   }
@@ -140,30 +139,6 @@ export class SearchComponent implements OnInit {
    */
   public get metadata(): string[] {
     return this.appService.app?.data?.metadata as string[] || METADATA;
-  }
-
-  /**
-   * Returns the configuration of the metadata displayed in the facet-preview component.
-   * The configuration from the config.ts file can be overriden by configuration from
-   * the app configuration on the server
-   */
-  public get metadataConfig(): MetadataConfig[] {
-    return this.appService.app?.data?.metadataConfig as any as MetadataConfig[] || METADATA_CONFIG;
-  }
-
-  /**
-   * Responds to a change of facet in the multi facet
-   * @param facet
-   */
-  facetChanged(facet: FacetConfig<FacetParams>){
-    if(!facet) {
-      this.multiFacetIcon = "fas fa-filter fa-fw";
-      this.multiFacetTitle = "msg#facet.filters.title";
-    }
-    else {
-      this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = facet.title || facet.name || '';
-    }
   }
 
   /**

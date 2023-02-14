@@ -73,7 +73,7 @@ export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParam
 
         // Clear the current filters
         this.clearFilters = new Action({
-            icon: "far fa-minus-square",
+            icon: "sq-filter-clear",
             title: "msg#facet.clearSelects",
             action: () => {
                 const fields = this.aggregationsData.map(a => a.column);
