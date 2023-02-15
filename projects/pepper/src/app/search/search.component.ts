@@ -141,20 +141,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  // VERY SPECIFIC TO THIS APP:
-  // Make sure the click is not meant to trigger an action (from sq-result-source or sq-result-title)
+  // Make sure the click is not meant to trigger an action
   private isClickAction(event: Event): boolean {
-    if (event.type !== 'click') {
-      return true;
-    }
-    const target = event.target as HTMLElement;
-    if (!target) {
-      return false;
-    }
-    return event.type !== 'click' ||
-        target.tagName === "A" ||
-        target.tagName === "INPUT" ||
-        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
+    const target = event.target as HTMLElement|null;
+    return event.type !== 'click' || !!target?.matches("a, a *, input, input *, button, button *");
   }
 
   /**
