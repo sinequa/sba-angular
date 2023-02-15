@@ -93,6 +93,7 @@ export default {
         },
 
         "filters":{
+            "title": "Filters",
             "add":"Add facet",
             "addAll": "Add all facets",
             "remove":"Remove facet",
