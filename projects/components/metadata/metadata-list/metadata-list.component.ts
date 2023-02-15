@@ -1,5 +1,6 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
-import { Query } from "@sinequa/core/app-utils";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import { SearchService } from "@sinequa/components/search";
+import { Query, ValueItem } from "@sinequa/core/app-utils";
 import { Record } from "@sinequa/core/web-services";
 import { MetadataService } from "../metadata.service";
 
@@ -18,7 +19,11 @@ export class MetadataListComponent implements OnChanges {
     @Input() showIcons = true;
     @Input() showCounts = true;
 
-    constructor(private metadataService: MetadataService) {
+    @Output() filter = new EventEmitter();
+    @Output() exclude = new EventEmitter();
+
+    constructor(private metadataService: MetadataService,
+        private searchService: SearchService) {
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -26,5 +31,17 @@ export class MetadataListComponent implements OnChanges {
         if (!!changes.record && !this.record.$metadataValues) {
             this.metadataService.setMetadata(this.record);
         }
+    }
+
+    filterItem(item: string, valueItem: ValueItem) {
+        this.searchService.addFieldSelect(item, valueItem);
+        this.searchService.search();
+        this.filter.emit();
+    }
+
+    excludeItem(item: string, valueItem: ValueItem) {
+        this.searchService.addFieldSelect(item, valueItem, {not: true});
+        this.searchService.search();
+        this.exclude.emit();
     }
 }

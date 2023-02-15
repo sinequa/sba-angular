@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges } from "@angular/core";
-import { AppService, Query } from "@sinequa/core/app-utils";
+import { Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
+import { AppService, Query, ValueItem } from "@sinequa/core/app-utils";
 import { Record } from "@sinequa/core/web-services";
 import { IconService } from "../../icon.service";
 import { MetadataValue } from "../../metadata.service";
@@ -20,6 +20,9 @@ export class MetadataComponent implements OnChanges {
     @Input() showFormatIcon = true;
     @Input() showTitle = true;
     @Input() showCounts = true;
+
+    @Output() filter = new EventEmitter();
+    @Output() exclude = new EventEmitter();
 
     display = false;
     valueIcon: string;
@@ -51,8 +54,22 @@ export class MetadataComponent implements OnChanges {
         }
     }
 
-    select(index, subindex?) {
-        console.log(index, subindex);
+    filterItem(valueItem: ValueItem) {
+        if (this.isClickable) {
+            this.filter.emit({
+                item: this.config.item,
+                valueItem: valueItem
+            });
+        }
+    }
+
+    excludeItem(valueItem: ValueItem) {
+        if (this.isClickable) {
+            this.exclude.emit({
+                item: this.config.item,
+                valueItem: valueItem
+            });
+        }
     }
 
 }

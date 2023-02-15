@@ -188,10 +188,13 @@ export const METADATA_CONFIG: MetadataConfig[] = [
     },
     {
         item: "treepath",
-        icon: "fas fa-folder-open"
+        icon: "fas fa-folder-open",
+        filterable: true,
+        excludable: true
     },
     {
         item: "filename",
-        icon: "far fa-file-alt"
+        icon: "far fa-file-alt",
+        excludable: true
     },
 ];

@@ -1,8 +1,9 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import { AppService, ValueItem } from '@sinequa/core/app-utils';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { AppService } from '@sinequa/core/app-utils';
+import { Utils } from '@sinequa/core/base';
 import { CCColumn, Record } from '@sinequa/core/web-services';
 import { TreeValueItem } from '../../metadata-item/metadata-item';
-import { MetadataConfig } from '../../metadata.service';
+import { MetadataValue } from '../../metadata.service';
 
 @Component({
   selector: 'sq-metadata-tree',
@@ -14,11 +15,14 @@ import { MetadataConfig } from '../../metadata.service';
 export class MetadataTreeComponent implements OnChanges {
 
   @Input() record: Record;
-  @Input() config: MetadataConfig;
+  @Input() config: MetadataValue;
   @Input() clickable: boolean;
   @Input() column: CCColumn | undefined;
 
-  valueItems: (ValueItem | TreeValueItem)[];
+  @Output() filter = new EventEmitter();
+  @Output() exclude = new EventEmitter();
+
+  valueItems: TreeValueItem[];
 
   constructor(private appService: AppService) { }
 
@@ -43,8 +47,27 @@ export class MetadataTreeComponent implements OnChanges {
     }
   }
 
-  select(index, subIndex): void {
+  filterItem(valueItem: TreeValueItem, partIndex: number): void {
+    if (this.clickable) {
+      const path = this.generatePath(valueItem, partIndex);
+      this.filter.emit({ item: this.config.item, valueItem: { value: path + "*", display: Utils.treepathLast(path) } });
+    }
+  }
 
+  excludeItem(valueItem: TreeValueItem, partIndex: number): void {
+    if (this.clickable) {
+      const path = this.generatePath(valueItem, partIndex);
+      this.exclude.emit({ item: this.config.item, valueItem: { value: path + "*", display: Utils.treepathLast(path) } });
+    }
+  }
+
+  private generatePath(valueItem: TreeValueItem, partIndex: number): string {
+    const parts = valueItem.parts.map((item) => item.value).slice(0, partIndex + 1);
+      if (parts.length > 0) {
+        parts.unshift("");
+        parts.push("");
+      }
+      return parts.join("/");
   }
 
 }

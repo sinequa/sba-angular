@@ -7,6 +7,8 @@
         [customClass]="customClass"
         [showIcon]="showIcons"
         [showTitle]="showTitles"
-        [showCounts]="showCounts">
+        [showCounts]="showCounts"
+        (filter)="filterItem($event.item, $event.valueItem)"
+        (exclude)="excludeItem($event.item, $event.valueItem)">
     </sq-metadata-2>
 </div>
