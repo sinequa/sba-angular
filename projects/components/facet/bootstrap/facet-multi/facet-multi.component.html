@@ -41,8 +41,8 @@
 
   <ng-container *ngIf="!openedFacet">
     <div class="py-1">
-      <i class="fas fa-filter me-2"></i>
-      <span class="text-truncate">{{'msg#facet.filters.title' | sqMessage}}</span>
+      <i class="{{icon}} me-2"></i>
+      <span class="text-truncate">{{title | sqMessage}}</span>
     </div>
   </ng-container>
 </ng-template>

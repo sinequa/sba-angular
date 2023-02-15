@@ -30,6 +30,8 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges, O
   @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
   @Input() showCount: boolean = true;
   @Input() name = "facet-multi";
+  @Input() icon = "fas fa-filter";
+  @Input() title = "msg#facet.filters.title";
 
   @Output() events = new EventEmitter<FacetMultiConfig|undefined>();
 

@@ -17,9 +17,6 @@
     },
 
     "facet": {
-        "filters": {
-            "title" : "Filter"
-        },
         "preview": {
             "title": "Vorschau"
         }
