@@ -1,3 +1,5 @@
-<a *ngIf="thumbnailUrl" href="{{href}}" target="{{target}}" (click)="click()">
-    <img src="{{thumbnailUrl}}">
+<a *ngIf="thumbnailUrl && href" href="{{href}}" target="_blank" (click)="onClick()">
+  <img src="{{thumbnailUrl}}">
 </a>
+
+<img *ngIf="thumbnailUrl && !href" src="{{thumbnailUrl}}">
