@@ -2,7 +2,8 @@
     <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
         <li *ngFor="let part of valueItem.parts; let $subIndex = index" sqPopper
             [target]="clickable ? tooltip : undefined" placement="top">
-            <span [class.clickable]="clickable" [ngClass]="'sq-metadata-item-' + config.item">
+            <span [class.clickable]="clickable" [ngClass]="'sq-metadata-item-' + config.item"
+                [style.background-color]="showFiltersHighlights && part.filtered ? 'yellow': showFiltersHighlights && part.excluded ? 'red' : 'transparent'">
                 {{part | sqValue:column}}
             </span>
             <span *ngIf="$subIndex < valueItem.parts.length - 1" class="sq-metadata-item-tree-node-separator">

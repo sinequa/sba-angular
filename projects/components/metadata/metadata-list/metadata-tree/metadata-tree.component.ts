@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { AppService } from '@sinequa/core/app-utils';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, Record } from '@sinequa/core/web-services';
 import { TreeValueItem } from '../../metadata-item/metadata-item';
@@ -15,9 +15,11 @@ import { MetadataValue } from '../../metadata.service';
 export class MetadataTreeComponent implements OnChanges {
 
   @Input() record: Record;
+  @Input() query: Query;
   @Input() config: MetadataValue;
   @Input() clickable: boolean;
   @Input() column: CCColumn | undefined;
+  @Input() showFiltersHighlights = true;
 
   @Output() filter = new EventEmitter();
   @Output() exclude = new EventEmitter();
@@ -32,15 +34,23 @@ export class MetadataTreeComponent implements OnChanges {
     if (this.record) {
       const paths: string[] = this.record[this.appService.getColumnAlias(this.column, this.config.item)];
       if (paths) {
+        const filter = !this.query || !this.query.filters || !this.column ? undefined
+          : this.query.filters['filters'].find((f: any) => f.field === this.column!.name);
+        const filterValuePath = filter?.value.split('/');
+        if (filterValuePath) {
+          this.removeUnnecessaryPathElements(filterValuePath);
+        }
+
         for (const path of paths) {
           const parts = path.split("/");
-          if (parts.length > 0 && parts[0] === "") {
-            parts.splice(0, 1);
-          }
-          if (parts.length > 0 && parts[parts.length - 1] === "") {
-            parts.splice(parts.length - 1, 1);
-          }
-          const item: TreeValueItem = { value: path, parts: parts.map(value => ({ value: value })) };
+          this.removeUnnecessaryPathElements(parts);
+          const item: TreeValueItem = {
+            value: path, parts: parts.map((value, index) => {
+              const filtered = !!filterValuePath && filterValuePath[index] === value && (!filter.operator || filter.operator !== 'neq');
+              const excluded = !!filterValuePath && filterValuePath[index] === value && filter.operator === 'neq';
+              return { value: value, filtered, excluded };
+            })
+          };
           this.valueItems.push(item);
         }
       }
@@ -63,11 +73,20 @@ export class MetadataTreeComponent implements OnChanges {
 
   private generatePath(valueItem: TreeValueItem, partIndex: number): string {
     const parts = valueItem.parts.map((item) => item.value).slice(0, partIndex + 1);
-      if (parts.length > 0) {
-        parts.unshift("");
-        parts.push("");
-      }
-      return parts.join("/");
+    if (parts.length > 0) {
+      parts.unshift("");
+      parts.push("");
+    }
+    return parts.join("/");
+  }
+
+  private removeUnnecessaryPathElements(paths: string[]): void {
+    if (paths.length > 0 && paths[0] === "") {
+      paths.splice(0, 1);
+    }
+    if (paths.length > 0 && paths[paths.length - 1] === "") {
+      paths.splice(paths.length - 1, 1);
+    }
   }
 
 }

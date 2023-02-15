@@ -196,10 +196,12 @@
                         ({{style}})</button>
                     <button class="btn btn-primary" (click)="showTitles=!showTitles">Titles</button>
                     <button class="btn btn-primary" (click)="showIcons=!showIcons">Icons</button>
-                    <button class="btn btn-primary" (click)="showCounts=!showCounts">Counts</button>
+                    <button class="btn btn-primary" (click)="showFormatIcons=!showFormatIcons">Format Icons</button>
+                    <button class="btn btn-primary" (click)="showFiltersHighlights=!showFiltersHighlights">Filters Highlights</button>
                     <hr>
-                    <sq-metadata-list [record]="openedDoc" [style]="style" [showTitles]="showTitles"
-                        [showIcons]="showIcons" [showCounts]="showCounts"></sq-metadata-list>
+                    <sq-metadata-list [record]="openedDoc" [style]="style" [showTitles]="showTitles" [query]="searchService.query"
+                        [showIcons]="showIcons" [showFormatIcons]="showFormatIcons"
+                        [showFiltersHighlights]="showFiltersHighlights"></sq-metadata-list>
                 </ng-template>
 
                 <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">

@@ -17,9 +17,9 @@ export class MetadataComponent implements OnChanges {
     @Input() customClass?: string;
 
     @Input() showIcon = true;
-    @Input() showFormatIcon = true;
+    @Input() showFormatIcons = true;
     @Input() showTitle = true;
-    @Input() showCounts = true;
+    @Input() showFiltersHighlights = true;
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();

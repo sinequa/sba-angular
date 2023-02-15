@@ -15,9 +15,22 @@ export class MetadataListComponent implements OnChanges {
     @Input() customClass?: string;
     @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
 
+    /**
+     * Whether the metadata title should be displayed
+     */
     @Input() showTitles = true;
+    /**
+     * Whether the format icon should be displayed for the docformat metadata
+     */
+    @Input() showFormatIcons = true;
+    /**
+     * Whether the metadata icon should be shown
+     */
     @Input() showIcons = true;
-    @Input() showCounts = true;
+    /**
+     * Whether the metadata applied in the filters should be highlighted
+     */
+    @Input() showFiltersHighlights = true;
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
@@ -29,7 +42,9 @@ export class MetadataListComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
         if (!!changes.record && !this.record.$metadataValues) {
-            this.metadataService.setMetadata(this.record);
+            this.metadataService.setMetadata(this.record, this.query);
+        } else if (!!changes.query) {
+            this.metadataService.setMetadata(this.record, this.query);
         }
     }
 

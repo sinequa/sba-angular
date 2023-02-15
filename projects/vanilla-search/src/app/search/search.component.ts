@@ -54,7 +54,8 @@ export class SearchComponent implements OnInit {
   style = 'tabular';
   showTitles = true;
   showIcons = true;
-  showCounts = true;
+  showFormatIcons = true;
+  showFiltersHighlights = true;
 
   constructor(
     private previewService: PreviewService,
