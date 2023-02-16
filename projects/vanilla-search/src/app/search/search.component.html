@@ -1,15 +1,15 @@
 <div class="nav-wrapper">
     <!-- Navbar with app icon, search form, and menus -->
-    <nav class="navbar navbar-expand-sm" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
+    <nav class="navbar navbar-expand-sm {{ isDark()? 'navbar-dark bg-dark' : 'navbar-light bg-light' }}">
         <div class="container-xl flex-nowrap">
 
             <div class="col-lg-3 col-xl-2" *ngIf="showLogo">
                 <!-- Application logo -->
                 <a [routerLink]="['/home']" title="Home">
-                    <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('sm')">
-                    <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('sm')">
-                    <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('sm')">
-                    <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('sm')">
+                    <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" class="d-none d-lg-inline sq-light-mode">
+                    <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" class="d-inline d-lg-none sq-light-mode">
+                    <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" class="d-none d-lg-inline sq-dark-mode">
+                    <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" class="d-inline d-lg-none sq-dark-mode">
                 </a>
             </div>
 
@@ -20,7 +20,7 @@
             </button>
 
             <!-- Search form -->
-            <div class="app-search-form col-sm-5 ps-1 pe-2" *ngIf="showForm">
+            <div class="app-search-form col-10 col-sm-5 ps-1 pe-2" *ngIf="showForm">
                 <app-search-form [autocompleteSources]="features"></app-search-form>
             </div>
 
@@ -37,7 +37,7 @@
                 </ul>
 
                 <!-- Non mobile feedback button -->
-                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
+                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="d-none d-md-block ms-1" *ngIf="loginService.complete"></sq-feedback-menu>
             </div>
 
             <button *ngIf="!showForm" class="btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showMenu' | sqMessage }}"
@@ -74,7 +74,7 @@
         </div>
 
         <!-- Result selection toolbar -->
-        <div class="card-action-bar rounded text-white bg-primary position-fixed w-auto" *ngIf="ui.screenSizeIsGreater('sm')">
+        <div class="card-action-bar rounded text-white bg-primary position-fixed w-auto d-none d-md-block">
             <div class="p-2">
                 <sq-results-selector [style]="'primary'"></sq-results-selector>
             </div>
@@ -127,10 +127,14 @@
             <!-- List of documents (for loop) -->
             <div *ngFor="let record of results.records" class="record d-flex"
                 (click)="onDocumentClicked(record, $event)"
-                [ngClass]="{'selected': record.$selected || record === openedDoc}">
+                [ngClass]="{
+                  'selected': record.$selected || record === openedDoc,
+                  'duplicate': record.$isDuplicate
+                }">
+                <sq-result-duplicates-spacer [record]="record"></sq-result-duplicates-spacer>
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center">
-                        <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record"></sq-result-selector>
+                        <sq-result-selector class="d-none d-md-block" [record]="record"></sq-result-selector>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
@@ -139,6 +143,8 @@
 
                     <sq-labels [record]="record" [public]="true"></sq-labels>
                     <sq-labels [record]="record" [public]="false"></sq-labels>
+
+                    <sq-result-duplicates [record]="record"></sq-result-duplicates>
                 </div>
                 <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="false"
                     class="d-none d-sm-block align-self-center ms-3">
@@ -193,6 +199,15 @@
                 <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="!!passageId"
                     *ngIf="openedDoc.$hasPassages" #passagesList>
                     <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{text: 'Duplicates'}" *ngIf="openedDoc.groupcount && openedDoc.groupcount > 1">
+                    <sq-result-duplicates-list [record]="openedDoc">
+                      <ng-template let-duplicate>
+                        <sq-result-title [record]="duplicate" (titleClicked)="openPreviewIfNoUrl(duplicate, $event)"></sq-result-title>
+                        <sq-result-source [record]="duplicate" [displayTreepath]="true"></sq-result-source>
+                      </ng-template>
+                    </sq-result-duplicates-list>
                 </ng-template>
             </sq-facet-card>
         </div>

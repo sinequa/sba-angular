@@ -3,7 +3,7 @@ import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from "
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, finalize} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation} from "@sinequa/core/web-services";
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation, Aggregation} from "@sinequa/core/web-services";
 import {AppService, FormatService, ValueItem, Query} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
@@ -23,6 +23,14 @@ export interface SearchOptions {
     preventQueryNameChanges?: boolean;
     /** Whether to detect query intents synchronously (blocking the execution of the query until we know the intent). By default, query intents are detected asynchronously. */
     queryIntentsSync?: boolean;
+    /** A function that test whether 2 records should be considered duplicates */
+    testDuplicates?: (a: Record, b: Record) => boolean;
+    /** A function called when results are received from the server; can be used to post-process results before they are displayed */
+    initializeResults?: (query: Query, results: Results) => void;
+    /** A function called when a record is received from the server; can be used to post-process a record before it is displayed */
+    initializeRecord?: (query: Query, record: Record) => void;
+    /** A function called when an aggregation is received from the server; can be used to post-process an aggregation before it is displayed */
+    initializeAggregation?: (query: Query, aggregation: Aggregation) => void;
 }
 
 export const SEARCH_OPTIONS = new InjectionToken<SearchOptions>("SEARCH_OPTIONS");
@@ -382,12 +390,29 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
       // Initialize aggregations
       this.initializeAggregations(query, results);
+
+      // Custom initialization
+      this.options.initializeResults?.(query, results);
     }
 
     initializeRecords(query: Query, results: Results) {
       if(results.records) {
-        for(let record of results.records) {
+        let duplicate: Record|undefined = undefined;
+        for(let i=0; i<results.records.length; i++) {
+          const record = results.records[i];
           record.$hasPassages = !!record.matchingpassages?.passages?.length;
+          if(this.options.testDuplicates) {
+            duplicate ||= results.records[i-1];
+            record.$isDuplicate = i>0 && this.options.testDuplicates(record, duplicate);
+            record.$duplicateCount = 0;
+            if(record.$isDuplicate) {
+              duplicate.$duplicateCount!++;
+            }
+            else {
+              duplicate = undefined;
+            }
+          }
+          this.options.initializeRecord?.(query, record);
         }
       }
     }
@@ -422,6 +447,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         else {
           this.initializeTreeAggregation(aggregation);
         }
+
+        // Custom initialization
+        this.options.initializeAggregation?.(query, aggregation);
       }
     }
 

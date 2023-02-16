@@ -1,0 +1,16 @@
+:host.sq-duplicate {
+  --sq-v-offset: 2rem;  // Position of horizontal line
+  --sq-h-offset: 15px;    // Length of horizontal line
+  --sq-border: 1px solid lightgray;
+
+  height: var(--sq-v-offset);
+  border-left: var(--sq-border);
+
+  &::before {
+    display: block;
+    content: ' ';
+    width: var(--sq-h-offset);
+    height: var(--sq-v-offset);
+    border-bottom: var(--sq-border);
+  }
+}

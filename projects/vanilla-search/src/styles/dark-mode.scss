@@ -9,7 +9,15 @@ $dark-background-hover: rgb(255,255,255,0.08);
 $dark-borders: #777373;
 $dark-link: #9bccff;
 
+body:not(.dark) .sq-dark-mode {
+  display: none !important;
+}
+
 body.dark {
+
+    .sq-light-mode {
+        display: none !important;
+    }
 
     background-color: $dark-background;
     color: $dark-color;
@@ -253,8 +261,12 @@ body.dark {
             }
         }
 
+        sq-result-duplicates {
+            color: $dark-secondary;
+        }
+
         sq-result-missing-terms {
-            color: #b8b2b2;
+            color: $dark-secondary;
         }
     }
 
