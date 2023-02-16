@@ -3,7 +3,7 @@ import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, Record } from '@sinequa/core/web-services';
 import { TreeValueItem } from '../../metadata-item/metadata-item';
-import { MetadataValue } from '../../metadata.service';
+import { MetadataService, MetadataValue } from '../../metadata.service';
 
 @Component({
   selector: 'sq-metadata-tree',
@@ -26,7 +26,8 @@ export class MetadataTreeComponent implements OnChanges {
 
   valueItems: TreeValueItem[];
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService,
+    private metadataService: MetadataService) { }
 
   ngOnChanges(): void {
     this.valueItems = [];
@@ -34,8 +35,7 @@ export class MetadataTreeComponent implements OnChanges {
     if (this.record) {
       const paths: string[] = this.record[this.appService.getColumnAlias(this.column, this.config.item)];
       if (paths) {
-        const filter = !this.query || !this.query.filters || !this.column ? undefined
-          : this.query.filters['filters'].find((f: any) => f.field === this.column!.name);
+        const filter = this.metadataService.getFilter(this.column, this.query);
         const filterValuePath = filter?.value.split('/');
         if (filterValuePath) {
           this.removeUnnecessaryPathElements(filterValuePath);

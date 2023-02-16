@@ -71,6 +71,17 @@ export class MetadataService {
     });
   }
 
+  getFilter(column: CCColumn | undefined, query?: Query | undefined): any {
+    if (!query || !query.filters || !column) return undefined;
+    if (query.filters['filters']) {
+      return query.filters['filters'].find((f: any) => f.field === column!.name);
+    }
+    if (query.filters['field'] && query.filters['field'] === column.name) {
+      return query.filters;
+    }
+    return undefined;
+  }
+
   private setEntityValues(entityItems: EntityItem[], valueItems: (ValueItem | TreeValueItem)[], showEntityTooltip: boolean,
     entityTooltip?: (entity: EntityItem, record: Record, query: Query) => Observable<string | undefined>): void {
     if (entityItems) {
@@ -82,7 +93,7 @@ export class MetadataService {
   }
 
   private setCsvValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
-    const filter = !query || !query.filters || !column ? undefined : query.filters['filters'].find((f: any) => f.field === column!.name);
+    const filter = this.getFilter(column, query);
     if (values && values instanceof Array) {
       valueItems.push(...values.map<ValueItem>(value => {
         const filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === value;
@@ -100,13 +111,9 @@ export class MetadataService {
   private setValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
     const value = this.ensureScalarValue(values, column);
     if (!Utils.isEmpty(value)) {
-      let filtered = false;
-      let excluded = false;
-      if (query && query.filters && column) {
-        const filter = query.filters['filters'].find((f: any) => f.field === column.name);
-        filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === value;
-        excluded = !!filter && filter.operator === 'neq' && filter.value === value;
-      }
+      const filter = this.getFilter(column, query);
+      const filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === value;
+      const excluded = !!filter && filter.operator === 'neq' && filter.value === value;
       valueItems.push({ value: value, filtered, excluded });
     }
   }
