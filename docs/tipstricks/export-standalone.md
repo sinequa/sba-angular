@@ -17,9 +17,9 @@ To install Angular Elements, run `npm install @angular/elements --save` at the r
 
 An Angular Elements project is very similar to a regular Angular application project, with a few small differences.
 
-For example, if you want to base our project on the [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) application, simply copy and rename the Vanilla Search project. You will also need to copy (and rename) the project declared in the `angular.json` file, and add a build command to the `package.json` file.
+For example, if you want to base your project on the [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) application, simply copy and rename the Vanilla Search project. You will also need to copy (and rename) the project declared in the `angular.json` file, and add a build command to the `package.json` file.
 
-At this point the project is equivalent to Vanilla Search.
+At this point the project is a clone of Vanilla Search.
 
 Now the key difference between an "Application project" and an "Elements project" is what happens on startup. If you have a look at the `main.ts` file, you can see that it does essentially one thing: Bootstrap your `AppModule` (defined in `app.module.ts`). And if you look at the `AppModule`, you can see that it declares one `bootstrap` component, the **`AppComponent`**.
 
