@@ -33,7 +33,12 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     @Input() width: string = '100%';
     @Input() height: string = '350';
     @Input() type: string = 'Column2D';
+    /** List of possible views allowed to switch to */
     @Input() types?: {type: string, display: string}[];
+    /** List of non-native fusionCharts views allowed to switch to, for example "grid"
+     * This is needed to prevent ChartObj errors when selecting such types of view
+     */
+    @Input() externalTypes?: {type: string, display: string}[];
     @Input() chart: any = defaultChart;
     @Input() autohide = true;
 
@@ -54,7 +59,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     // A flag to wait for the parent component to actually display this child, since creating
     // the fusionchart component without displaying causes strange bugs...
     ready = false;
-
+    isExternalType: boolean;
     chartObj: any;
 
     data?: Aggregation;
@@ -130,7 +135,10 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
                                 text: t.display,
                                 action : (item, event) => {
                                     this.type = t.type;
-                                    this.chartObj.chartType(this.type);
+                                    this.isExternalType = !!this.externalTypes?.find(t => t.type === this.type);
+                                    if (!this.isExternalType) {
+                                      this.chartObj.chartType(this.type);
+                                    }
                                     this.typeChange.next(t.type);
                                     this.selectType.update();
                                 }
@@ -175,6 +183,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         if(changes.chart || !this.dataSource.chart) {
             this.dataSource = {...this.dataSource, chart: this.chart};
         }
+        this.isExternalType = !!this.externalTypes?.find(t => t.type === this.type);
         this.selectField.update();
         this.selectType.update();
     }
@@ -204,7 +213,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
                 value: ""+item.count,
                 color: isFiltered? this.filteredColor : isSelected? this.selectedColor : this.defaultColor
             };
-         })
+          })
         };
         this.cardComponent.updateActions();
     }
