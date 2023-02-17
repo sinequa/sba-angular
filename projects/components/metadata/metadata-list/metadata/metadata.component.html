@@ -20,7 +20,7 @@
             <span *ngFor="let valueItem of config.valueItems; let $index = index" [class.clickable]="isClickable"
                 class="sq-metadata-item {{'sq-metadata-item-' + config.item}} me-1"
                 [attr.title]="(showTitle || config.entityTooltip) ? null : (label | sqMessage)"
-                [sqTooltip]="config.entityTooltip" [sqTooltipData]="valueItem" sqPopper
+                [sqTooltip]="config.entityTooltip" [sqTooltipData]="{entity: valueItem, record: record, query: query}" sqPopper
                 [target]="isClickable ? tooltip : undefined" [placement]="placement"
                 [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : 'transparent'">
                 <span *ngIf="showFormatIcons && valueIcon" class="{{valueIcon}}"></span>

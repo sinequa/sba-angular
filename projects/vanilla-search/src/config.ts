@@ -197,4 +197,9 @@ export const METADATA_CONFIG: MetadataConfig[] = [
         icon: "far fa-file-alt",
         excludable: true
     },
+    {
+        item: "person",
+        icon: "far fa-file-alt",
+        showEntityTooltip: true
+    },
 ];

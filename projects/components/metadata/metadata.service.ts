@@ -24,7 +24,7 @@ export interface MetadataValue {
   isCsv: boolean; // if is csv
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
-  entityTooltip?: (entity: EntityItem, record: Record, query: Query) => Observable<string | undefined>;
+  entityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
 }
 
 @Injectable({
@@ -43,12 +43,18 @@ export class MetadataService {
       const isTree = !!column && AppService.isTree(column);
       const isEntity = !!column && AppService.isEntity(column);
       const isCsv = !!column && AppService.isCsv(column);
-      let entityTooltip: ((entity: EntityItem, record: Record, query: Query) => Observable<string | undefined>) | undefined;
+      let entityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
 
       const values = record[this.appService.getColumnAlias(column, config.item)];
+
       if (isEntity) {
         const entityItems: EntityItem[] = values;
-        this.setEntityValues(entityItems, valueItems, config.showEntityTooltip || false, entityTooltip);
+        if (entityItems) {
+          valueItems.push(...entityItems);
+          if (config.showEntityTooltip && entityItems[0]?.locations) {
+            entityTooltip = this.getEntitySentence
+          }
+        }
       }
       else if (isCsv) {
         this.setCsvValues(values, valueItems, column, query);
@@ -66,7 +72,8 @@ export class MetadataService {
         isEntity,
         isCsv,
         filterable: config.filterable,
-        excludable: config.excludable
+        excludable: config.excludable,
+        entityTooltip
       }
     });
   }
@@ -80,16 +87,6 @@ export class MetadataService {
       return query.filters;
     }
     return undefined;
-  }
-
-  private setEntityValues(entityItems: EntityItem[], valueItems: (ValueItem | TreeValueItem)[], showEntityTooltip: boolean,
-    entityTooltip?: (entity: EntityItem, record: Record, query: Query) => Observable<string | undefined>): void {
-    if (entityItems) {
-      valueItems.push(...entityItems);
-      if (showEntityTooltip && entityItems[0]?.locations) {
-        entityTooltip = this.getEntitySentence
-      }
-    }
   }
 
   private setCsvValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
@@ -130,7 +127,8 @@ export class MetadataService {
     return value;
   }
 
-  private getEntitySentence = (entity: EntityItem, record: Record, query: Query) => {
+  private getEntitySentence = (data: { entity: EntityItem, record: Record, query: Query }) => {
+    const { entity, record, query } = data;
     // Get entity location
     const location = this.getEntityLocation(entity);
     if (!location) return of(undefined);
