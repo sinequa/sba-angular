@@ -31,6 +31,10 @@ export class MetadataListComponent implements OnChanges {
      * Whether the metadata applied in the filters should be highlighted
      */
     @Input() showFiltersHighlights = true;
+    /**
+     * Whether multiple rows item should be collapsed
+     */
+    @Input() collapseRows: boolean = true;
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();

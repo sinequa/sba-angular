@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { UIService } from "@sinequa/components/utils";
 import { AppService, Query, ValueItem } from "@sinequa/core/app-utils";
-import { Record } from "@sinequa/core/web-services";
+import { DocumentAccessLists, Record } from "@sinequa/core/web-services";
 import { IconService } from "../../icon.service";
 import { MetadataValue } from "../../metadata.service";
 
@@ -20,6 +21,7 @@ export class MetadataComponent implements OnChanges {
     @Input() showFormatIcons = true;
     @Input() showTitle = true;
     @Input() showFiltersHighlights = true;
+    @Input() collapseRows: boolean = true;
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
@@ -27,6 +29,11 @@ export class MetadataComponent implements OnChanges {
     display = false;
     valueIcon: string;
     itemLabelMessageParams: any;
+
+    @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
+    lineHeight: number;
+    valuesMaxHeight: number;
+    valuesHeight: number | undefined;
 
     get isClickable(): boolean {
         return !!this.config.filterable || !!this.config.excludable;
@@ -36,15 +43,34 @@ export class MetadataComponent implements OnChanges {
         return this.appService.getLabel(this.config.item);
     }
 
+    get isAccessLists(): boolean {
+        return this.config.item === "accesslists";
+    }
+
+    get accessListsData(): DocumentAccessLists {
+        return this.record.accesslists;
+    }
+
     get placement(): string {
         return this.style === 'inline' ? 'top' : 'top-start';
     }
 
-    constructor(private iconService: IconService,
-        private appService: AppService) {
+    get collapsed(): boolean {
+        return this.valuesHeight === this.lineHeight;
     }
 
-    ngOnChanges() {
+    get needsCollapse(): boolean {
+        return this.valuesMaxHeight > this.lineHeight * 2;
+    }
+
+    constructor(private iconService: IconService,
+        private appService: AppService,
+        private el: ElementRef,
+        private ui: UIService) {
+        this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
         this.display = !!this.config.item && !!this.record && !!this.record[this.config.item];
         if (!!this.config.item) {
             if (this.config.item === 'docformat') {
@@ -52,7 +78,16 @@ export class MetadataComponent implements OnChanges {
             }
             this.itemLabelMessageParams = { values: { label: this.appService.getLabel(this.config.item) } };
         }
+        console.log('changes!!', changes);
+        if (changes.collapseRows !== undefined) {
+            this.lineHeight = parseInt(getComputedStyle(this.el.nativeElement).lineHeight);
+            this.valuesHeight = this.lineHeight; // The display starts collapsed
+            this.valuesMaxHeight = this.lineHeight; // And without the collapse icon
+            setTimeout(() => this.updateMaxHeight());
+        }
     }
+
+    onResize = () => this.updateMaxHeight()
 
     filterItem(valueItem: ValueItem) {
         if (this.isClickable) {
@@ -72,4 +107,13 @@ export class MetadataComponent implements OnChanges {
         }
     }
 
+    toggleCollapse() {
+        this.valuesHeight = this.collapsed ? this.valuesMaxHeight : this.lineHeight;
+    }
+
+    private updateMaxHeight() {
+        if (this.valuesEl) { // Display or not the collapse icon
+            this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
+        }
+    }
 }

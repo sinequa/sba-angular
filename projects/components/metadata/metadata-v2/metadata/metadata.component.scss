@@ -11,3 +11,8 @@
     --bs-btn-padding-x: .75rem;
     --bs-btn-padding-y: .5rem;
 }
+
+.collapsable {
+    display: block !important;
+    overflow: hidden;
+}
