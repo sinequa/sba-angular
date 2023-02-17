@@ -9,6 +9,7 @@ import { TreeValueItem } from './metadata-item/metadata-item';
 export interface MetadataConfig {
   item: string; // the column name
   icon: string; // the icon css class
+  itemClass?: string; // custom classes to apply to the value
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
   showEntityTooltip?: boolean; // if the entity tooltip should be displayed
@@ -22,6 +23,7 @@ export interface MetadataValue {
   isTree: boolean; // if is tree
   isEntity: boolean; // if is entity
   isCsv: boolean; // if is csv
+  itemClass?: string; // custom classes to apply to the value
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
   entityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
@@ -71,6 +73,7 @@ export class MetadataService {
         isTree,
         isEntity,
         isCsv,
+        itemClass: config.itemClass,
         filterable: config.filterable,
         excludable: config.excludable,
         entityTooltip
