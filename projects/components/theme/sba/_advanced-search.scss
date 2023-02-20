@@ -5,9 +5,9 @@
     box-shadow: 0px 4px 9px 0px rgba(0,0,0,.08);
 
     .card-header {
-        --bs-card-border-width: 0;
-        --bs-card-cap-bg: transparent;
-        --bs-card-cap-color: #{$blue-1};
+        border-width: 0;
+        background-color: transparent;
+        color: #{$blue};
         font-weight: 600;
         font-size: 1.15rem;
     }

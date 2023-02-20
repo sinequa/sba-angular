@@ -11,7 +11,7 @@ import { debounceTime, map, switchMap } from "rxjs/operators";
 
 
 @Component({
-  selector: "sq-autocomplete",
+  selector: "app-autocomplete",
   templateUrl: './autocomplete.component.html',
   styles: [`
   .list-group-item {
@@ -105,7 +105,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   getSuggests(value: string): Observable<AutocompleteItem[]> {
 
     // Methods returning (observable of) suggestions from different sources
-    let dataSources: Observable<AutocompleteItem[]>[] = this.suggestTypes.map(source => {
+    const dataSources: Observable<AutocompleteItem[]>[] = this.suggestTypes.map(source => {
       switch(source) {
         case 'suggests': return  this.suggestService.get(this.suggestQuery, value);
         case 'baskets': return from(this.searchBaskets(value));

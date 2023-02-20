@@ -19,18 +19,18 @@
   cursor: default;
 }
 
-.card {
-  ::ng-deep {
-    .list-group.list-group-flush {
-      border-bottom-left-radius: calc(var(--bs-card-inner-border-radius, .375rem) - 1px);
-      border-bottom-right-radius: calc(var(--bs-card-inner-border-radius, .375rem) - 1px);
-    }
-  }
-}
-
 :host.collapsed {
   .card-header {
     border-bottom: none;
-    border-radius: .25rem;
+    will-change: transform;
+    animation-delay: .2s;
+    animation: collapsed 0.8s ease-out forwards;
+  }
+
+  @keyframes collapsed {
+    100% {
+      border-radius: .25rem;
+      transform: none;
+    }
   }
 }

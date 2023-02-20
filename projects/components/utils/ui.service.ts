@@ -440,6 +440,13 @@ export class UIService implements OnDestroy {
         };
         attempt();
     }
+
+    /**
+     * Whether the UI is in dark or light mode
+     */
+    isDark(): boolean {
+        return document.body.classList.contains("dark");
+    }
 }
 
 export module UIService {

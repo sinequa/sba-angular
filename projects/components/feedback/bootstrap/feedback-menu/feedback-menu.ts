@@ -5,13 +5,7 @@ import {FeedbackService} from "../../feedback.service";
 @Component({
     selector: "sq-feedback-menu",
     templateUrl: "./feedback-menu.html",
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styles: [`
-        :host ::ng-deep button.btn {
-            display:flex;
-            align-items: center;
-        }
-    `]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsFeedbackMenu implements OnInit {
 
