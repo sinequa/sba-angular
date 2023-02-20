@@ -1,7 +1,7 @@
 import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges, Type, OnDestroy } from '@angular/core';
 import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
-import { FacetConfig, default_facet_components } from "../../facet-config";
+import { FacetConfig, DEFAULT_FACET_COMPONENTS } from "../../facet-config";
 import { Action } from '@sinequa/components/action';
 import { FacetEventType, FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
@@ -27,7 +27,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges, O
   @Input() results: Results;
   @Input() query?: Query;
   @Input() facets: FacetMultiConfig[];
-  @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
+  @Input() facetComponents: MapOf<Type<any>> = DEFAULT_FACET_COMPONENTS;
   @Input() showCount: boolean = true;
   @Input() name = "facet-multi";
   @Input() icon = "fas fa-filter";
