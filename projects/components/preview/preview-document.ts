@@ -1,7 +1,5 @@
 import { ElementRef } from "@angular/core";
 
-import { Utils } from "@sinequa/core/base";
-
 export enum HighlightCategoryFilterChoice {
     All, None, Value
 }
@@ -45,9 +43,7 @@ export class PreviewDocument {
     private readonly _window: Window;
     private readonly _document: Document;
 
-    private previousElement: HTMLElement | null;
-
-    constructor(element: ElementRef | Document){
+    constructor(element: ElementRef | Document) {
         if (element instanceof ElementRef) {
             this._window = element?.nativeElement?.contentWindow;
             try {
@@ -145,16 +141,35 @@ export class PreviewDocument {
      * @param categoryId Category of the entity
      * @param index Index of the entity in that category
      */
-    public selectHighlight(categoryId: string, index: number) : void {
+    public selectHighlight(categoryId: string, index: number): void {
+
+        // Move selection
+        const targetElements = this.getDocElements(categoryId + "_" + index);
+        if (!targetElements || targetElements.length === 0) {
+            return;
+        }
 
         this.clearHighlightSelection();
-        // current element becomes previous element
-        this.previousElement = this.document.getElementById(categoryId + '_' + index);
 
-        if (this.previousElement) {
-            // highlight new selected element
-            this.setHighlightSelection(this.previousElement,true, true);
-            this.previousElement.scrollIntoView({block: 'center'});
+        for (let i = 0; i < targetElements.length; i++) {
+            this.setHighlightSelection(targetElements[i], i === 0, i === targetElements.length - 1);
+        }
+
+
+        // Scroll
+        const scrollContainer: Element = this.getScrollingContainer();
+        const [x, y]: [number, number] = PreviewDocument.computeTargetScroll(targetElements, scrollContainer);
+        this._window.scrollBy(x, y);
+    }
+
+    /**
+     * scroll to a specified element by id
+     * @param id the full id of the element
+     */
+    public scrollTo(id: string): void {
+        const element = this.document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ block: 'center' });
         }
     }
 
@@ -163,9 +178,8 @@ export class PreviewDocument {
      */
     public clearHighlightSelection(): void {
         // Clear HTML elements borders
-        if (this.previousElement) {
-            this.previousElement.classList.remove(PreviewDocument.SELECTED_HIGHLIGHT_CLASS);
-        }
+        Array.from(this.document.getElementsByClassName(PreviewDocument.SELECTED_HIGHLIGHT_CLASS))
+            .forEach(element => element.classList.remove(PreviewDocument.SELECTED_HIGHLIGHT_CLASS));
         // Clear SVG elements borders
         const elements: NodeListOf<Element> = this.document.querySelectorAll("line.sq-svg");
         for (let i = 0; i < elements.length; i++) {
@@ -193,7 +207,7 @@ export class PreviewDocument {
      */
     public updateHighlightFilterState(filters: HighlightFilters): void {
         const elements = this.document.querySelectorAll("[data-entity-display], .extractslocations, .matchlocations");
-        if (Utils.isArray(filters)) {
+        if (Array.isArray(filters)) {
             forEach<Element>(elements, element => {
                 const highlight = filters.some(category => element.classList.contains(category));
                 if (highlight) {
@@ -248,6 +262,14 @@ export class PreviewDocument {
         else {
             this.setHighlightSelectionHTML(elt, isFirst, isLast);
         }
+    }
+
+    // NB https://miketaylr.com/posts/2014/11/document-body-scrollTop.html
+    private getScrollingContainer(): Element {
+        return this.document.scrollingElement ||
+            this.document.documentElement ||
+            /*contentDocument.body.parentElement ||*/ //TODO - check desirability of this (especially in Safari)
+            this.document.body;
     }
 
     private setHighlightSelectionHTML(elt: Element, isFirst: boolean, isLast: boolean): void {
@@ -382,5 +404,48 @@ export class PreviewDocument {
             }
         }
         return "";
+    }
+
+    private static computeTargetScroll(elementsToCenter: Array<Element>, container: Element): [number, number] {
+        // Check for scrollability on the container
+        const computedStyle = getComputedStyle(container);
+        if (computedStyle.overflow === "hidden") {
+            return [0, 0];
+        }
+        const elementRectangles = elementsToCenter.map(element => element.getBoundingClientRect());
+        const targetRectangle = this.computeBoundingRectangle(elementRectangles);
+        if (!targetRectangle) {
+            return [0, 0];
+        }
+        const availableWidth: number = container.clientWidth;
+        const availableHeight: number = container.clientHeight;
+        const x = computedStyle.overflowX === "hidden" ? 0 : targetRectangle.left - ((availableWidth - targetRectangle.width) / 2);
+        const y = computedStyle.overflowY === "hidden" ? 0 : targetRectangle.top - ((availableHeight - targetRectangle.height) / 2);
+        return [x, y];
+    }
+
+    private static computeBoundingRectangle(rectangles: (DOMRect | ClientRect)[]): DOMRect | ClientRect | undefined {
+        if (!rectangles || rectangles.length === 0) {
+            return undefined;
+        }
+        let result: DOMRect | ClientRect | undefined;
+        for (let i = 0; i < rectangles.length; i++) {
+            result = this.computeRectangleUnion(result, rectangles[i]);
+        }
+        return result;
+    }
+
+    private static computeRectangleUnion(rectangle1: DOMRect | ClientRect | undefined, rectangle2: DOMRect | ClientRect) {
+        if (rectangle1 == null) {
+            return rectangle2;
+        }
+        if (rectangle2 == null) {
+            return rectangle1;
+        }
+        const left = Math.min(rectangle1.left, rectangle2.left);
+        const right = Math.max(rectangle1.right, rectangle2.right);
+        const top = Math.min(rectangle1.top, rectangle2.top);
+        const bottom = Math.max(rectangle1.bottom, rectangle2.bottom);
+        return new DOMRect(left, top, right - left, bottom - top);
     }
 }
