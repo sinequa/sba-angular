@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { SearchService } from "@sinequa/components/search";
 import { Query, ValueItem } from "@sinequa/core/app-utils";
 import { Record } from "@sinequa/core/web-services";
-import { MetadataService } from "../metadata.service";
+import { MetadataConfig, MetadataService } from "../metadata.service";
 
 @Component({
     selector: "sq-metadata-list",
@@ -14,6 +14,12 @@ export class MetadataListComponent implements OnChanges {
     @Input() query?: Query;
     @Input() customClass?: string;
     @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
+
+    /**
+     * Allows to override the default METADATA_CONFIG config value if you
+     * want to have a metadata-list component with another behavior
+     */
+    @Input() config?: MetadataConfig[];
 
     /**
      * Whether the metadata title should be displayed
@@ -46,9 +52,9 @@ export class MetadataListComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
         if (!!changes.record && !this.record.$metadataValues) {
-            this.metadataService.setMetadata(this.record, this.query);
+            this.metadataService.setMetadata(this.record, this.query, this.config);
         } else if (!!changes.query) {
-            this.metadataService.setMetadata(this.record, this.query);
+            this.metadataService.setMetadata(this.record, this.query, this.config);
         }
     }
 

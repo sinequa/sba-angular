@@ -37,8 +37,8 @@ export class MetadataService {
   constructor(private textChunkWebService: TextChunksWebService,
     private appService: AppService) { }
 
-  setMetadata(record: Record, query: Query | undefined): void {
-    record.$metadataValues = METADATA_CONFIG.map(config => {
+  setMetadata(record: Record, query: Query | undefined, metadataConfig?: MetadataConfig[]): void {
+    record.$metadataValues = (metadataConfig || METADATA_CONFIG).map(config => {
       const item = config.item;
       const valueItems: (ValueItem | TreeValueItem)[] = [];
       const column = this.appService.getColumn(config.item);
