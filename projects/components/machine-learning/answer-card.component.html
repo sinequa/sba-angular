@@ -9,7 +9,7 @@
                 {{'msg#machine-learning.answers' | sqMessage }}
             </span>
         </div>
-        <div class="card-action d-flex justify-content-center align-items-center mx-2">
+        <div class="card-action d-flex justify-content-center align-items-center mx-2" *ngIf="!collapsed">
             <button class="btn btn-sm btn-link" (click)="previous()" *ngIf="answers.length > 1">
                 <i class="fas fa-chevron-left"></i>
             </button>
