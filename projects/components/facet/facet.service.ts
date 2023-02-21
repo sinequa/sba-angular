@@ -385,7 +385,7 @@ export class FacetService {
         this.searchService.search(undefined, {
           type: FacetEventType.AddFilter,
           detail: {
-            item: (filter as ValueFilter).value?.toString(),
+            item: filter.display || (filter as ValueFilter).value?.toString() || JSON.stringify(filter),
             itembox: facetName,
             itemcolumn: (filter as ValueFilter).field,
             "from-result-id": this.searchService.results?.id
