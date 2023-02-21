@@ -35,6 +35,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     @Input() type: string = 'Column2D';
     /** List of possible views allowed to switch to */
     @Input() types?: {type: string, display: string}[];
+    @Input() supportedTypes: string[] = [ 'Column2D', 'Bar2D', 'Pie2D', 'doughnut2d', 'Column3D', 'Bar3D', 'Pie3D', 'doughnut3d']
     @Input() chart: any = defaultChart;
     @Input() autohide = true;
 
@@ -60,17 +61,6 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
 
     data?: Aggregation;
     dataSource: any = {};
-
-    private readonly supportedTypes: {type: string, display: string}[] = [
-      {type: 'Column2D', display: 'Columns 2D'},
-      {type: 'Bar2D', display: 'Bars 2D'},
-      {type: 'Pie2D', display: 'Pie 2D'},
-      {type: 'doughnut2d', display: 'Doughnut 2D'},
-      {type: 'Column3D', display: 'Columns 3D'},
-      {type: 'Bar3D', display: 'Bars 3D'},
-      {type: 'Pie3D', display: 'Pie 3D'},
-      {type: 'doughnut3d', display: 'Doughnut 3D'}
-    ]
 
     private readonly selectedValues = new Set<string>();
 
@@ -142,7 +132,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
                                 text: t.display,
                                 action : (item, event) => {
                                     this.type = t.type;
-                                    this.isSupportedType = !!this.supportedTypes?.find(t => t.type === this.type);
+                                    this.isSupportedType = this.supportedTypes?.includes(this.type);
                                     if (this.isSupportedType && this.chartObj && !this.chartObj.disposed) {
                                       this.chartObj.chartType(this.type);
                                     }
@@ -190,7 +180,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         if(changes.chart || !this.dataSource.chart) {
             this.dataSource = {...this.dataSource, chart: this.chart};
         }
-        this.isSupportedType = !!this.supportedTypes?.find(t => t.type === this.type);
+        this.isSupportedType = this.supportedTypes?.includes(this.type);
         this.selectField.update();
         this.selectType.update();
     }
