@@ -17,14 +17,6 @@ import {BsActionModule} from "@sinequa/components/action";
 import {BsSearchModule} from "@sinequa/components/search";
 
 import {PreviewModule} from "../preview.module";
-import {BsPreviewHighlights} from "./preview-highlights/preview-highlights";
-import {BsPreviewLinks} from "./preview-links/preview-links";
-import {BsPreviewPopup} from "./preview-popup/preview-popup";
-import {BsPreviewPanel} from "./preview-panel/preview-panel";
-import {BsResultLinkPreview} from "./result-link-preview/result-link-preview";
-import {BsFacetPreview} from "./facet-preview/facet-preview";
-import {BsSimilarDocuments} from "./similar-documents/similar-documents";
-import {BsFacetPreviewComponent2 } from './facet-preview-2/facet-preview.component';
 import {BsPreviewEntityFacetComponent} from './preview-entity-facet/preview-entity-facet.component';
 import {BsPreviewEntityPanelComponent} from './preview-entity-panel/preview-entity-panel.component';
 import {BsPreviewExtractsPanelComponent} from './preview-extracts-panel/preview-extracts-panel.component';
@@ -33,8 +25,6 @@ import {BsPreviewPagesPanelComponent} from './preview-pages-panel/preview-pages-
 import {BsPreviewPageFormComponent} from './preview-page-form/preview-page-form.component';
 import {BsPreviewMinimapComponent} from "./preview-minimap/preview-minimap.component";
 import {BsPassageHighlightComponent} from "./preview-passage-highlight/preview-passage-highlight.component";
-
-import {PREVIEW_MODAL} from '../preview.service';
 
 @NgModule({
     imports: [
@@ -57,10 +47,6 @@ import {PREVIEW_MODAL} from '../preview.service';
         PreviewModule
     ],
     declarations: [
-        BsPreviewHighlights, BsPreviewLinks,
-        BsPreviewPopup, BsPreviewPanel, BsResultLinkPreview,
-        BsFacetPreview, BsFacetPreviewComponent2,
-        BsSimilarDocuments,
         BsPreviewEntityFacetComponent,
         BsPreviewEntityPanelComponent,
         BsPreviewExtractsPanelComponent,
@@ -72,10 +58,6 @@ import {PREVIEW_MODAL} from '../preview.service';
     ],
     exports: [
         PreviewModule,
-        BsPreviewHighlights, BsPreviewLinks,
-        BsPreviewPopup, BsPreviewPanel, BsResultLinkPreview,
-        BsFacetPreview, BsFacetPreviewComponent2,
-        BsSimilarDocuments,
         BsPreviewEntityFacetComponent,
         BsPreviewEntityPanelComponent,
         BsPreviewExtractsPanelComponent,
@@ -84,9 +66,6 @@ import {PREVIEW_MODAL} from '../preview.service';
         BsPreviewPageFormComponent,
         BsPreviewMinimapComponent,
         BsPassageHighlightComponent
-    ],
-    providers: [
-        {provide: PREVIEW_MODAL, useValue: BsPreviewPopup}
     ]
 })
 export class BsPreviewModule {

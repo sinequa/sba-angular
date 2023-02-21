@@ -119,20 +119,13 @@
                         </sq-preview-entity-panel>
                     </ng-container>
 
-                    <!-- Legacy preview highlights -->
-                    <ng-container *ngSwitchCase="'highlights'">
-                        <sq-preview-highlights class="d-flex flex-column flex-grow-1 my-2" [previewData]="previewData"
-                            [previewDocument]="previewDocument">
-                        </sq-preview-highlights>
-                    </ng-container>
-
                 </ng-container>
             </div>
 
         </div>
 
         <!-- Right panel (iframe with preview HTML) -->
-        <sq-facet-card [collapsible]="false" class="preview m-0" [actions]="actions" [actionsSize]="'md'"
+        <sq-facet-card [collapsible]="false" class="preview m-0" [actionsSize]="'md'"
             [ngClass]="{'d-none d-sm-block col-sm-6 col-md-7 col-lg-9': !collapsedPanel}">
             <ng-template #headerTpl>
                 <div class="text-truncate flex-grow-1 py-2">
@@ -145,27 +138,12 @@
                 </div>
             </ng-template>
 
-            <div class="h-100">
-                <sq-loading-bar [active]="loading"></sq-loading-bar>
-                <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl"
-                    [sandbox]="sandbox" (onPreviewReady)="onPreviewReady($event)"
-                    (pageChange)="onPreviewPageChange($event)">
-
-                    <!-- Tooltip injected in the preview -->
-                    <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData"
-                        [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions"
-                        [scalingFactor]="scaleFactor">
-                    </sq-preview-tooltip>
-
-                    <sq-preview-minimap #minimap [previewDocument]="previewDocument" [previewData]="previewData"
-                        [type]="showHighlights ? minimapType : ''" [passage]="previewDocument?.passageHighlightParams">
-                    </sq-preview-minimap>
-
-                    <sq-passage-highlight #passageHighlight
-                        [params]="previewDocument?.passageHighlightParams"></sq-passage-highlight>
-
-                </sq-preview-document-iframe>
-            </div>
+            <sq-preview #facet
+                class="h-100"
+                [id]="id"
+                [query]="query"
+                [highlights]="previewHighlights">
+            </sq-preview>
 
         </sq-facet-card>
 

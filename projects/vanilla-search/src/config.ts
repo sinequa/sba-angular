@@ -1,5 +1,6 @@
 import { FacetDateParams } from '@sinequa/analytics/timeline';
 import { FacetConfig, FacetListParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams } from '@sinequa/components/facet';
+import { PreviewHighlightColors } from '@sinequa/components/preview';
 import { HelpFolderOptions } from '@sinequa/components/user-settings';
 
 /**
@@ -162,3 +163,31 @@ export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
     useLocale: true,
     useLocaleAsPrefix: true
 }
+
+export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
+  {
+    name: 'company',
+    color: 'white',
+    bgColor: '#FF7675'
+  },
+  {
+    name: 'geo',
+    color: 'white',
+    bgColor: '#74B9FF'
+  },
+  {
+    name: 'person',
+    color: 'white',
+    bgColor: '#00ABB5'
+  },
+  {
+    name: 'extractslocations',
+    color: 'black',
+    bgColor: '#fffacd'
+  },
+  {
+    name: 'matchlocations',
+    color: 'black',
+    bgColor: '#ff0'
+  }
+]

@@ -33,9 +33,6 @@ sq-validation-message {
 // File formats & metadata icons
 @import "icons";
 
-// Preview stylings (incl. entity highlights & metadata)
-@import "preview";
-
 // Sinequa components stylesheets
 $action-menu-breakpoint: sm;
 @import "../../../components/action/bootstrap/action.scss";

@@ -185,9 +185,12 @@
                 </ng-template>
 
                 <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
-                    <sq-facet-preview-2 #facet [record]="openedDoc" [query]="searchService.query" [height]="750"
-                        (previewLoaded)="previewReady($event)">
-                    </sq-facet-preview-2>
+                    <sq-preview #facet
+                        style="height: 500px;"
+                        [id]="openedDoc.id"
+                        [query]="searchService.query"
+                        [highlights]="isDark()? [] : previewHighlights">
+                    </sq-preview>
                 </ng-template>
 
                 <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="!!passageId"

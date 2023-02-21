@@ -8,12 +8,13 @@ import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, PreviewData, Results, Tab } from '@sinequa/core/web-services';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
-import { PreviewService, PreviewDocument } from '@sinequa/components/preview';
+import { PreviewService, PreviewDocument, PreviewHighlightColors } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { MODAL_MODEL } from '@sinequa/core/modal';
 import { IntlService } from '@sinequa/core/intl';
 import { UIService } from '@sinequa/components/utils';
 import { UserPreferences } from '@sinequa/components/user-settings';
+import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 
 export interface PreviewConfig {
   initialCollapsedPanel?: boolean;
@@ -84,14 +85,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   tooltipTextActions: Action[] = [];
 
   // Preview actions
-  private minimizeAction: Action;
-  private maximizeAction: Action;
-  private displayHighlightsAction: Action;
-  private highlightType: string;
-  actions: Action[] = [];
   showHighlights: boolean;
-
-  private readonly scaleFactorThreshold = 0.2;
   scaleFactor = 1.0;
 
   constructor(
@@ -165,41 +159,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         }
       }
     }));
-
-    this.displayHighlightsAction = new Action({
-      icon: "fas fa-fw fa-highlighter",
-      title: "msg#facet.preview.toggleHighlight",
-      action: () => {
-        this.showHighlights = !this.showHighlights;
-        this.prefs.set("preview-highlights", this.showHighlights);
-        this.updateHighlights(this.showHighlights ? this.highlightType : undefined);
-        if (this.showHighlights && this.highlightType === "matchingpassages") {
-          this.previewDocument?.highlightPassage();
-        }
-      }
-    });
-
-    this.maximizeAction = new Action({
-      icon: "fas fa-fw fa-search-plus",
-      title: "msg#facet.preview.maximize",
-      action: () => {
-        this.scaleFactor = this.scaleFactor + this.scaleFactorThreshold;
-      }
-    });
-
-    this.minimizeAction = new Action({
-      icon: "fas fa-fw fa-search-minus",
-      title: "msg#facet.preview.minimize",
-      disabled: this.scaleFactor <= 0.1,
-      action: () => {
-        this.scaleFactor = Math.round(Math.max(0.1, this.scaleFactor - this.scaleFactorThreshold) * 100) / 100;
-      },
-      updater: (action) => {
-        action.disabled = this.scaleFactor <= 0.1;
-      }
-    });
-
-    this.actions.push(this.displayHighlightsAction, this.minimizeAction, this.maximizeAction);
 
     titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle"));
 
@@ -343,7 +302,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       if (!type) {
         this.previewDocument?.filterHighlights([]);
       } else {
-        this.highlightType = type;
+        //this.highlightType = type;
         const highlights = Object.keys(this.previewData.highlightsPerCategory)
           .filter(h => (type === "matchingpassages" && (h === "matchingpassages" || h === "extractslocations" || h === "matchlocations"))
             || (type === "extractslocations" && (h === "extractslocations" || h === "matchlocations"))
@@ -485,5 +444,9 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       value: panel,
       count: 1
     }
+  }
+
+  public get previewHighlights() {
+    return this.appService.app?.data?.previewHighlights as PreviewHighlightColors[] || PREVIEW_HIGHLIGHTS;
   }
 }

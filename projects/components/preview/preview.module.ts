@@ -1,33 +1,25 @@
-import {NgModule, ModuleWithProviders, Type} from "@angular/core";
+import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {IntlModule} from "@sinequa/core/intl";
 import {WebServicesModule} from "@sinequa/core/web-services";
 import {UtilsModule} from "@sinequa/components/utils";
-import {PreviewDocumentIframe} from "./preview-document-iframe.component";
+import {BsSearchModule} from "@sinequa/components/search";
 import {PreviewTooltip} from "./preview-tooltip.component";
-import {PREVIEW_MODAL} from "./preview.service";
+import {PreviewTest} from "./preview.component";
 
 @NgModule({
     imports: [
         CommonModule,
         IntlModule,
         WebServicesModule,
-        UtilsModule
+        UtilsModule,
+        BsSearchModule
     ],
     declarations: [
-        PreviewDocumentIframe, PreviewTooltip
+        PreviewTooltip, PreviewTest
     ],
     exports: [
-        PreviewDocumentIframe, PreviewTooltip
+        PreviewTooltip, PreviewTest
     ],
 })
-export class PreviewModule {
-    static forRoot(previewModal: Type<any>) : ModuleWithProviders<PreviewModule> {
-        return {
-            ngModule: PreviewModule,
-            providers: [
-                {provide: PREVIEW_MODAL, useValue: previewModal},
-            ]
-        };
-    }
-}
+export class PreviewModule {}
