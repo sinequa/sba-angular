@@ -143,23 +143,11 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
                                 action : (item, event) => {
                                     this.type = t.type;
                                     this.isSupportedType = !!this.supportedTypes?.find(t => t.type === this.type);
-                                    if (this.chartObj && !this.chartObj.disposed) {
-                                      if (this.isSupportedType) {
-                                        this.chartObj.chartType(this.type);
-                                      }
-                                      this.typeChange.next(t.type);
-                                      this.selectType.update();
-                                    } else { // When chart is removed from DOM (in case of unsupported types), its instance is disposed. So we need to wait for its re-initialization
-                                      this.initialized.subscribe(
-                                        () => {
-                                          if (this.isSupportedType) {
-                                            this.chartObj.chartType(this.type);
-                                          }
-                                          this.typeChange.next(t.type);
-                                          this.selectType.update();
-                                        }
-                                      )
+                                    if (this.isSupportedType && this.chartObj && !this.chartObj.disposed) {
+                                      this.chartObj.chartType(this.type);
                                     }
+                                    this.typeChange.next(t.type);
+                                    this.selectType.update();
                                 }
                             }));
                 }
