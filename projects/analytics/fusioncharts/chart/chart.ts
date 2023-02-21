@@ -35,10 +35,6 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     @Input() type: string = 'Column2D';
     /** List of possible views allowed to switch to */
     @Input() types?: {type: string, display: string}[];
-    /** List of non-native fusionCharts views allowed to switch to, for example "grid"
-     * This is needed to prevent ChartObj errors when selecting such types of view
-     */
-    @Input() externalTypes?: {type: string, display: string}[];
     @Input() chart: any = defaultChart;
     @Input() autohide = true;
 
@@ -59,11 +55,22 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     // A flag to wait for the parent component to actually display this child, since creating
     // the fusionchart component without displaying causes strange bugs...
     ready = false;
-    isExternalType: boolean;
+    isSupportedType: boolean;
     chartObj: any;
 
     data?: Aggregation;
     dataSource: any = {};
+
+    private readonly supportedTypes: {type: string, display: string}[] = [
+      {type: 'Column2D', display: 'Columns 2D'},
+      {type: 'Bar2D', display: 'Bars 2D'},
+      {type: 'Pie2D', display: 'Pie 2D'},
+      {type: 'doughnut2d', display: 'Doughnut 2D'},
+      {type: 'Column3D', display: 'Columns 3D'},
+      {type: 'Bar3D', display: 'Bars 3D'},
+      {type: 'Pie3D', display: 'Pie 3D'},
+      {type: 'doughnut3d', display: 'Doughnut 3D'}
+    ]
 
     private readonly selectedValues = new Set<string>();
 
@@ -135,12 +142,24 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
                                 text: t.display,
                                 action : (item, event) => {
                                     this.type = t.type;
-                                    this.isExternalType = !!this.externalTypes?.find(t => t.type === this.type);
-                                    if (!this.isExternalType) {
-                                      this.chartObj.chartType(this.type);
+                                    this.isSupportedType = !!this.supportedTypes?.find(t => t.type === this.type);
+                                    if (this.chartObj && !this.chartObj.disposed) {
+                                      if (this.isSupportedType) {
+                                        this.chartObj.chartType(this.type);
+                                      }
+                                      this.typeChange.next(t.type);
+                                      this.selectType.update();
+                                    } else { // When chart is removed from DOM (in case of unsupported types), its instance is disposed. So we need to wait for its re-initialization
+                                      this.initialized.subscribe(
+                                        () => {
+                                          if (this.isSupportedType) {
+                                            this.chartObj.chartType(this.type);
+                                          }
+                                          this.typeChange.next(t.type);
+                                          this.selectType.update();
+                                        }
+                                      )
                                     }
-                                    this.typeChange.next(t.type);
-                                    this.selectType.update();
                                 }
                             }));
                 }
@@ -183,7 +202,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         if(changes.chart || !this.dataSource.chart) {
             this.dataSource = {...this.dataSource, chart: this.chart};
         }
-        this.isExternalType = !!this.externalTypes?.find(t => t.type === this.type);
+        this.isSupportedType = !!this.supportedTypes?.find(t => t.type === this.type);
         this.selectField.update();
         this.selectType.update();
     }
