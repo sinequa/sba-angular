@@ -74,7 +74,6 @@
     "marked": "^4.0.10",
     "matchmedia-polyfill": "^0.3.2",
     "moment": "^2.29.4",
-    "ng2-ui-auth": "^10.0.1",
     "ngx-bootstrap": "^8.0.0",
     "rxjs": "~7.5.0",
     "timsort": "^0.3.0",

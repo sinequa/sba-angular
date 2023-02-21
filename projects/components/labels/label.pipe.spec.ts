@@ -4,7 +4,6 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ChangeDetectorRef } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { AuthService } from "ng2-ui-auth";
 
 import { FormatService } from "@sinequa/core/app-utils";
 import { IntlService, Locale, LocaleData, LocalesConfig, LOCALES_CONFIG } from "@sinequa/core/intl";
@@ -57,7 +56,6 @@ describe("LabelPipe", () => {
   let service: IntlService;
 
   beforeEach(waitForAsync(() => {
-    const AuthServiceFactory = () => ({});
 
     TestBed.configureTestingModule({
       imports: [
@@ -79,7 +77,6 @@ describe("LabelPipe", () => {
         { provide: MODAL_LOGIN, useValue: "MODAL_LOGIN" },
         { provide: MODAL_CONFIRM, useValue: "MODAL_CONFIRM" },
         { provide: MODAL_PROMPT, useValue: "MODAL_PROMPT" },
-        { provide: AuthService, useFactory: AuthServiceFactory },
         LabelPipe,
       ]
     });

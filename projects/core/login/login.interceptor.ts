@@ -129,7 +129,7 @@ export class LoginInterceptor implements HttpInterceptor {
             return next.handle(request);
         }
 
-        let config = {headers: request.headers, params: request.params};
+        const config = {headers: request.headers, params: request.params};
 
         const options: Options = {
             noAutoAuthentication: Utils.isTrue(config.params.get("noAutoAuthentication")) || false,
@@ -158,7 +158,7 @@ export class LoginInterceptor implements HttpInterceptor {
         this.notificationsService.enter("network");
 
         return from(this.authService.addAuthentication(config)).pipe(
-            switchMap(config => this.handleRequest(request, config, next, options, noNotify))
+            switchMap(cfg => this.handleRequest(request, cfg, next, options, noNotify))
         );
 
     }

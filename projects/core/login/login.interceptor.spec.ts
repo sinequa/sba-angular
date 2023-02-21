@@ -1,12 +1,14 @@
 import {HttpClient, HttpErrorResponse, HttpInterceptor, HttpParams, HTTP_INTERCEPTORS} from "@angular/common/http";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {inject, TestBed} from "@angular/core/testing";
+import { inject, TestBed } from "@angular/core/testing";
 
-import {HTTP_REQUEST_INITIALIZERS, LoginInterceptor} from '.';
-import {NotificationsService} from '../notification';
-import {START_CONFIG} from '../web-services';
-import {AuthenticationService} from './authentication.service';
-import {LoginService} from './login.service';
+import { NotificationsService } from "@sinequa/core/notification";
+import { START_CONFIG } from "@sinequa/core/web-services";
+
+import { AuthenticationService } from "./authentication.service";
+import { HTTP_REQUEST_INITIALIZERS, LoginInterceptor } from "./login.interceptor";
+import { LoginService } from "./login.service";
+
 
 describe("login interceptor", () => {
   let interceptorInstance: HttpInterceptor | null;
