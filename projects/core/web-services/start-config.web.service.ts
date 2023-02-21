@@ -1,7 +1,6 @@
 import {Injectable, InjectionToken, Optional, Inject} from "@angular/core";
 import {Observable} from "rxjs";
 import atomic from "atomicjs";
-import {IProviders} from "ng2-ui-auth";
 import {Utils} from "@sinequa/core/base";
 
 /**
@@ -45,10 +44,6 @@ export interface PreloginAppConfig {
      * CSRF attacks
      */
     authenticationStorage?: 'session' | 'local';
-    /**
-     * Contains the available login providers (only used for popup-based login)
-     */
-    providers?: IProviders;
     /**
      * Contains the OAuth auto login provider
      */

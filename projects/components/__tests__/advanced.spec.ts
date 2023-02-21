@@ -12,7 +12,6 @@ import { IntlService, LOCALES_CONFIG } from "@sinequa/core/intl";
 import { UntypedFormControl } from "@angular/forms";
 import { MODAL_LOGIN } from '@sinequa/core/login';
 import { MODAL_CONFIRM, MODAL_PROMPT } from '@sinequa/core/modal';
-import { AuthService } from 'ng2-ui-auth';
 import { AppLocalesConfig } from './mocks/app.locales.config';
 import { Utils } from '@sinequa/core/base';
 
@@ -29,8 +28,6 @@ describe("AdvancedService", () => {
       parseDate: () => {},
     });
 
-    const AuthServiceFactory = () => ({});
-
     TestBed.configureTestingModule({
       providers: [
         AdvancedService,
@@ -44,7 +41,6 @@ describe("AdvancedService", () => {
         { provide: MODAL_CONFIRM, useValue: "MODAL_CONFIRM" },
         { provide: MODAL_PROMPT, useValue: "MODAL_PROMPT" },
         { provide: IntlService, useFactory: IntlServiceFactory },
-        { provide: AuthService, useFactory: AuthServiceFactory },
         {provide: LOCALES_CONFIG, useClass: AppLocalesConfig},
       ],
       imports: [
