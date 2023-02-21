@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { UIService } from "@sinequa/components/utils";
 import { AppService, Query, ValueItem } from "@sinequa/core/app-utils";
-import { DocumentAccessLists, Record } from "@sinequa/core/web-services";
+import { DocumentAccessLists, EntityItem, Record } from "@sinequa/core/web-services";
 import { IconService } from "../../icon.service";
 import { MetadataValue } from "../../metadata.service";
 
@@ -21,7 +21,8 @@ export class MetadataComponent implements OnChanges {
     @Input() showFormatIcons = true;
     @Input() showTitle = true;
     @Input() showFiltersHighlights = true;
-    @Input() collapseRows: boolean = true;
+    @Input() collapseRows = true;
+    @Input() tooltipLinesNumber = 8;
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
@@ -35,8 +36,11 @@ export class MetadataComponent implements OnChanges {
     valuesMaxHeight: number;
     valuesHeight: number | undefined;
 
+    entityTemplate: any;
+    loading = false;
+
     get isClickable(): boolean {
-        return !!this.config.filterable || !!this.config.excludable;
+        return !!this.config.filterable || !!this.config.excludable || !!this.config.entityTooltip;
     }
 
     get label(): string {
@@ -63,6 +67,10 @@ export class MetadataComponent implements OnChanges {
         return this.valuesMaxHeight > this.lineHeight * 2;
     }
 
+    get hasActions(): boolean {
+        return this.config.filterable === true || this.config.excludable === true;
+    }
+
     constructor(private iconService: IconService,
         private appService: AppService,
         private el: ElementRef,
@@ -78,7 +86,6 @@ export class MetadataComponent implements OnChanges {
             }
             this.itemLabelMessageParams = { values: { label: this.appService.getLabel(this.config.item) } };
         }
-        console.log('changes!!', changes);
         if (changes.collapseRows !== undefined) {
             this.lineHeight = parseInt(getComputedStyle(this.el.nativeElement).lineHeight);
             this.valuesHeight = this.lineHeight; // The display starts collapsed
@@ -115,5 +122,20 @@ export class MetadataComponent implements OnChanges {
         if (this.valuesEl) { // Display or not the collapse icon
             this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
         }
+    }
+
+    openedPopper(valueItem: EntityItem): void {
+        this.entityTemplate = undefined;
+
+        if (!this.config.entityTooltip) return;
+
+        this.loading = true;
+        this.config.entityTooltip({ entity: valueItem, record: this.record, query: this.query! })
+            .subscribe((value: any) => {
+                this.entityTemplate = value;
+                this.loading = false;
+            }, () => {
+                this.loading = false;
+            });
     }
 }

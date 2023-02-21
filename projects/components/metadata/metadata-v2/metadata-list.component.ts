@@ -41,6 +41,10 @@ export class MetadataListComponent implements OnChanges {
      * Whether multiple rows item should be collapsed
      */
     @Input() collapseRows: boolean = true;
+    /**
+     * Number of lines to display in the entity tooltip
+     */
+    @Input() tooltipLinesNumber = 8;
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
@@ -65,7 +69,7 @@ export class MetadataListComponent implements OnChanges {
     }
 
     excludeItem(item: string, valueItem: ValueItem) {
-        this.searchService.addFieldSelect(item, valueItem, {not: true});
+        this.searchService.addFieldSelect(item, valueItem, { not: true });
         this.searchService.search();
         this.exclude.emit();
     }

@@ -1,10 +1,12 @@
 import {
     Directive,
     ElementRef,
+    EventEmitter,
     inject,
     Input,
     OnDestroy,
     OnInit,
+    Output,
     Renderer2
 } from "@angular/core";
 import { createPopper, Placement, Options, Instance } from "@popperjs/core";
@@ -21,6 +23,8 @@ export class PopperDirective implements OnInit, OnDestroy {
     @Input() placement?: Placement;
     // Optional hint target if you desire using other element than specified one
     @Input() sqPopper?: HTMLElement;
+    // Emitted when the popper is displayed
+    @Output() shown = new EventEmitter();
     // The popper instance
     protected popper: Instance;
     protected readonly defaultConfig: Options = {
@@ -97,5 +101,7 @@ export class PopperDirective implements OnInit, OnDestroy {
             ...this.defaultConfig,
             placement: this.placement || this.defaultConfig.placement
         });
+
+        this.shown.emit();
     }
 }

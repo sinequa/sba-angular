@@ -200,6 +200,8 @@ export const METADATA_CONFIG: MetadataConfig[] = [
     {
         item: "person",
         icon: "far fa-file-alt",
+        filterable: true,
+        excludable: true,
         showEntityTooltip: true
     }
 ];

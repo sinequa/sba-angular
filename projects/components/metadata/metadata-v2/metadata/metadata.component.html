@@ -30,21 +30,25 @@
             <ng-template #isNotTree>
                 <span *ngFor="let valueItem of config.valueItems; let $index = index" [class.clickable]="isClickable"
                     class="sq-metadata-item {{'sq-metadata-item-' + config.item}} {{config.itemClass}}"
-                    [attr.title]="(showTitle || config.entityTooltip) ? null : (label | sqMessage)"
-                    [sqTooltip]="config.entityTooltip"
-                    [sqTooltipData]="{entity: valueItem, record: record, query: query}" sqPopper
+                    [attr.title]="(showTitle || config.entityTooltip) ? null : (label | sqMessage)" sqPopper
                     [target]="isClickable ? tooltip : undefined" [placement]="placement"
+                    (shown)="openedPopper(valueItem)"
                     [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : 'transparent'">
                     <span *ngIf="showFormatIcons && valueIcon" class="{{valueIcon}}"></span>
                     {{valueItem | sqValue:config.column}}
+                    <div class="sq-metadata-tooltip p-2" [class.d-none]="loading" #tooltip>
+                        <div class="sq-metadata-tooltip-entity" *ngIf="entityTemplate" [innerHTML]="entityTemplate"
+                            [class.mb-2]="hasActions" [style.-webkit-line-clamp]="tooltipLinesNumber">
+                        </div>
 
-                    <div class="btn-group sq-metadata-btn" #tooltip>
-                        <button class="btn btn-primary" *ngIf="config.filterable" (click)="filterItem(valueItem)">
-                            <span class="fas fa-filter"></span> Filter
-                        </button>
-                        <button class="btn btn-primary" *ngIf="config.excludable" (click)="excludeItem(valueItem)">
-                            <span class="fas fa-minus-circle"></span> Exclude
-                        </button>
+                        <div class="btn-group" *ngIf="hasActions">
+                            <button class="btn btn-primary" *ngIf="config.filterable" (click)="filterItem(valueItem)">
+                                <span class="fas fa-filter"></span> Filter
+                            </button>
+                            <button class="btn btn-primary" *ngIf="config.excludable" (click)="excludeItem(valueItem)">
+                                <span class="fas fa-minus-circle"></span> Exclude
+                            </button>
+                        </div>
                     </div>
                 </span>
             </ng-template>
