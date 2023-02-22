@@ -1,86 +1,14 @@
 ﻿import {Injectable} from "@angular/core";
 import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from "@angular/common/http";
-import {Observable, timer, of, throwError, Subject, firstValueFrom, share, switchMap, map, catchError, take} from "rxjs";
-import {AuthService} from "ng2-ui-auth";
+import {Observable, of, throwError, Subject, firstValueFrom, map, catchError, take} from "rxjs";
+import { authentication } from "@microsoft/teams-js";
+
 import {HttpService, AuditWebService} from "@sinequa/core/web-services";
-import {Utils, IRef, MapOf} from "@sinequa/core/base";
+import { Utils, IRef } from "@sinequa/core/base";
+
 import {TokenService} from "./token.service";
 import {JWTService} from "./jwt.service";
-import {authentication} from "@microsoft/teams-js";
-
-interface Authentication {
-    csrfToken: string;
-    headers?: MapOf<string>;    // set in http headers
-    params?: MapOf<string>;     // added to query string
-}
-
-/**
- * Describes the credentials that a user would enter manually to authenticate
- */
-export interface Credentials {
-    userName?: string;
-    password?: string;
-}
-
-const LEGACY_PROCESSED_CREDENTIALS_KIND = 0;
-
-/**
- * Describes the object created after successful authentication. The form of this object
- * is designed to maintain compatibility with previous SBA libraries
- */
-export interface ProcessedCredentials {
-    /**
-     * An unused "kind" value - always set to 0
-     */
-    kind: number;
-    /**
-     * The user name of the authenticated user
-     */
-    userName?: string;
-    /**
-     * Additional data containing the associated CSRF token that is sent with
-     * authenticated web service requests and the provider for informational
-     * purposes only. The provider will be `Sinequa` for form-based authentication
-     * and the name of the auto-login provider in the Sinequa configuration for
-     * OAuth and SAML authentication
-     */
-    data: {
-        csrfToken: string, // the web token itself is stored in the sinequa-web-token cookie
-        provider: string
-    };
-}
-
-/**
- * Describes the object used by an administrator to authenticate as another user
- */
-export interface UserOverride {
-    /**
-     * The user name of the user to authenticate as
-     */
-    userName: string;
-    /**
-     * The Sinequa domain name containing the user
-     */
-    domain: string;
-}
-
-/**
- * Describes a JWT object
- */
-export interface JsonWebToken {
-    header: {
-        typ: string,
-        alg: string
-    };
-    payload: {
-        iss: string,
-        iat: string,
-        exp: string,
-        sub: string,
-        hash: string
-    };
-    signature: string;
-}
+import { Authentication, Credentials, LEGACY_PROCESSED_CREDENTIALS_KIND, ProcessedCredentials, UserOverride } from "./typings";
 
 /**
  * A service to authenticate a user with a Sinequa server. Authentication can be automatic (OAuth/SAML), if configured in the
@@ -109,8 +37,7 @@ export class AuthenticationService extends HttpService {
     constructor(
         private tokenService: TokenService,
         private auditService: AuditWebService,
-        private jWTService: JWTService,
-        private authService: AuthService) {
+        private jWTService: JWTService) {
         super();
         this.init();
     }
@@ -397,37 +324,6 @@ export class AuthenticationService extends HttpService {
         return config.headers;
     }
 
-    /**
-     * Initiate authentication using the ng2-ui-auth library. The authentication process will be performed
-     * in a browser popup window
-     *
-     * @param provider The name of the provider to use. This is the name configured in the Sinequa administration
-     * console
-     */
-    authenticateWithProvider(provider: string): Observable<any> {
-        // AuthService.authenticate opens a popup. On some platforms (Firefox) this is asynchronous
-        // so we add a delay (timer(0)) so the caller can create a promise from the returned observable
-        // without yielding
-        const observable = timer(0).pipe(switchMap((value) => {
-            const observable1 = this.authService.authenticate(provider, true).pipe(share());
-            Utils.subscribe(observable1,
-                (response) => {
-                    // NB response should be the return value from JOAuth/JSaml json methods
-                    // It can be undefined eg if the popup fails to open
-                    if (response) {
-                        this.processedCredentials = {
-                            kind: LEGACY_PROCESSED_CREDENTIALS_KIND,
-                            data: {
-                                csrfToken: response.csrfToken,
-                                provider
-                            }
-                        };
-                    }
-                });
-            return observable1;
-        }));
-        return observable;
-    }
 
     private setCsrfToken(csrfToken: string, provider = "Sinequa"): boolean {
         if (!csrfToken) {

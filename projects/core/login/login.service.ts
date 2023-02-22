@@ -1,4 +1,4 @@
-import {Injectable, Inject, OnDestroy, Type, InjectionToken, Optional} from "@angular/core";
+import {Injectable, Inject, OnDestroy, Type, Optional} from "@angular/core";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {BehaviorSubject, Observable, forkJoin, of, throwError, firstValueFrom, switchMap} from "rxjs";
@@ -8,44 +8,9 @@ import {START_CONFIG, StartConfig, CCApp, PrincipalWebService, Principal,
 import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {NotificationsService} from "@sinequa/core/notification";
 import {AppService} from "@sinequa/core/app-utils";
-import {AuthenticationService, ProcessedCredentials, Credentials, UserOverride} from "./authentication.service";
+import {AuthenticationService} from "./authentication.service";
+import { Credentials, LoginData, MODAL_LOGIN, ProcessedCredentials, SessionEvent, UserOverride } from "./typings";
 
-/**
- * Describes the different session events that are emitted by the {@link LoginService}
- * * `session-start`: emitted after successful login
- * * `session-end`: emitted after logout and also when the {@link LoginService} is destroyed
- * * `session-changed`: emitted whenever the login state changes - login, logout and user override
- */
-export interface SessionEvent {
-    type: "session-start" | "session-end" | "session-changed" | "login-complete" | "login-failed" | "logout-complete";
-}
-
-
-/**
- * An `InjectionToken` to set the component to use for the login modal dialog which is displayed
- * by the {@link LoginService} when performing a manual login. This makes the service independent
- * of any particular UI framework. If manual login is to be used a component must be configured by
- * providing this token.
- */
-export const MODAL_LOGIN = new InjectionToken<Type<any>>('MODAL_LOGIN');
-
-/**
- * Describes the data retrieved during the login process.
- */
-export interface LoginData {
-    /**
-     * The application configuration.
-     */
-    app: CCApp;
-    /**
-     * The principal corresponding to the logged in user.
-     */
-    principal: Principal;
-    /**
-     * The user settings for the logged in user.
-     */
-    userSettings: UserSettings;
-}
 
 /**
  * A high-level service to manage user login
@@ -252,15 +217,6 @@ export class LoginService implements OnDestroy {
         return observable;
     }
 
-    private getAutomaticProvider(): string | undefined {
-        if (this.startConfig.providers) {
-            return Object.keys(this.startConfig.providers).find((value) => {
-                const provider = this.startConfig.providers && this.startConfig.providers[value];
-                return !!provider && (provider as any).automatic;
-            });
-        }
-        return undefined;
-    }
 
     /**
      * Called by the {@link HttpInterceptor} on reception of an `HTTP 401` response.
@@ -290,28 +246,6 @@ export class LoginService implements OnDestroy {
                 });
         }
         let firstCaller = false;
-        const automaticProvider = this.getAutomaticProvider();
-        if (automaticProvider) {
-            if (!this.automaticLoginPromise) {
-                this.automaticLoginPromise = this.authenticationService.authenticateWithProvider(automaticProvider).toPromise();
-                firstCaller = true;
-            }
-            return this.automaticLoginPromise
-                .then((result) => {
-                    // NB response should be the return value from JOAuth/JSaml json methods
-                    // It can be undefined eg if the popup fails to open
-                    this.automaticLoginPromise = undefined;
-                    return result ? Promise.resolve() : Promise.reject("popup failed?");
-                })
-                .catch((reason) => {
-                    this.automaticLoginPromise = undefined;
-                    const error = new SqError(SqErrorCode.autoLoginError);
-                    if (firstCaller) {
-                        this.notificationsService.error(error.message);
-                    }
-                    throw error;
-                });
-        }
         const credentials: Credentials = {};
         if (this.authenticationService.processedCredentials) {
             credentials.userName = this.authenticationService.processedCredentials.userName;

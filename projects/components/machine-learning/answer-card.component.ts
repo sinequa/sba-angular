@@ -28,7 +28,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   @Input() collapsed: boolean;
   @Input() showLikeButtons: boolean;
   @Input() hideDate: boolean = false;
-  @Input() dateFormat: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'short', day: 'numeric'};
+  @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
   @Output() previewOpened = new EventEmitter<Answer>();
   @Output() titleClicked = new EventEmitter<{ item: Answer, isLink: boolean }>();
   selectedAnswer: number;
@@ -79,15 +79,17 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   setAnswer() {
     const answer = this.answers[this.selectedAnswer];
-    this.notifyAnswer(AuditEventType.Answer_Display, answer);
-    if (!!answer.$record) {
-      this.answer$ = of(answer);
-    } else {
-      // Get the missing record
-      this.answer$ = this.searchService.getRecords([answer.recordId]).pipe(map(records => {
-        answer.$record = records[0];
-        return answer;
-      }));
+    if (!!answer) {
+      this.notifyAnswer(AuditEventType.Answer_Display, answer);
+      if (!!answer.$record) {
+        this.answer$ = of(answer);
+      } else {
+        // Get the missing record
+        this.answer$ = this.searchService.getRecords([answer.recordId]).pipe(map(records => {
+          answer.$record = records[0];
+          return answer;
+        }));
+      }
     }
   }
 

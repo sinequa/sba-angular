@@ -3,7 +3,7 @@ import { FacetConfig } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { FacetParams } from "../../config";
-import { default_facet_components } from '@sinequa/components/facet';
+import { DEFAULT_FACET_COMPONENTS } from '@sinequa/components/facet';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { SearchFormComponent } from "@sinequa/components/search-form";
 
@@ -24,7 +24,7 @@ export class AppSearchFormComponent {
   /** Mapping of facet types to facet components */
   @Input()
   facetComponents = {
-    ...default_facet_components,
+    ...DEFAULT_FACET_COMPONENTS,
     "date": BsFacetDate
   }
 
