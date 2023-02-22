@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Action } from '@sinequa/components/action';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, Record } from '@sinequa/core/web-services';
@@ -21,8 +22,14 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() column: CCColumn | undefined;
   @Input() showFiltersHighlights = true;
 
-  @Output() filter = new EventEmitter();
-  @Output() exclude = new EventEmitter();
+  @Input() loading: boolean;
+  @Input() entityTemplate: any;
+  @Input() actions: Action[];
+  @Input() actionsButtonsStyle: string;
+  @Input() actionsButtonsSize: string;
+  @Input() tooltipLinesNumber: number;
+
+  @Output("openedPopper") _openedPopper = new EventEmitter();
 
   valueItems: TreeValueItem[];
 
@@ -35,7 +42,7 @@ export class MetadataTreeComponent implements OnChanges {
     if (this.record) {
       const paths: string[] = this.record[this.appService.getColumnAlias(this.column, this.config.item)];
       if (paths) {
-        const filter = this.metadataService.getFilter(this.column, this.query);
+        const filter = this.metadataService.getFilters(this.column, this.query)[0];
         const filterValuePath = filter?.value.split('/');
         if (filterValuePath) {
           this.removeUnnecessaryPathElements(filterValuePath);
@@ -57,17 +64,10 @@ export class MetadataTreeComponent implements OnChanges {
     }
   }
 
-  filterItem(valueItem: TreeValueItem, partIndex: number): void {
+  openedPopper(valueItem: TreeValueItem, partIndex: number): void {
     if (this.clickable) {
       const path = this.generatePath(valueItem, partIndex);
-      this.filter.emit({ item: this.config.item, valueItem: { value: path + "*", display: Utils.treepathLast(path) } });
-    }
-  }
-
-  excludeItem(valueItem: TreeValueItem, partIndex: number): void {
-    if (this.clickable) {
-      const path = this.generatePath(valueItem, partIndex);
-      this.exclude.emit({ item: this.config.item, valueItem: { value: path + "*", display: Utils.treepathLast(path) } });
+      this._openedPopper.emit({ value: path + "*", display: Utils.treepathLast(path) });
     }
   }
 

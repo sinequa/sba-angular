@@ -15,6 +15,7 @@ import { IconService } from "./icon.service";
 import { MetadataService } from "./metadata.service";
 import { MetadataTreeComponent } from './metadata-v2/metadata/metadata-tree/metadata-tree.component';
 import { BsActionModule } from "../action";
+import { MetadataTooltipComponent } from './metadata-v2/metadata/metadata-tooltip/metadata-tooltip.component';
 
 @NgModule({
     imports: [
@@ -27,7 +28,7 @@ import { BsActionModule } from "../action";
     declarations: [
         Metadata, MetadataItem,
         MetadataAccessListsItem, MetadataAccessListsItemSingleAccessList,
-        MetadataListComponent, MetadataComponent, MetadataTreeComponent
+        MetadataListComponent, MetadataComponent, MetadataTreeComponent, MetadataTooltipComponent
     ],
     exports: [
         Metadata, MetadataItem,

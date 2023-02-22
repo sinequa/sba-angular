@@ -1,7 +1,7 @@
 <ng-container *ngFor="let valueItem of valueItems; let $index = index">
     <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
         <li *ngFor="let part of valueItem.parts; let $subIndex = index" sqPopper
-            [target]="clickable ? tooltip : undefined" placement="top">
+            [target]="clickable ? tooltip : undefined" placement="top" (shown)="openedPopper(valueItem, $subIndex)">
             <span [class.clickable]="clickable" class="sq-metadata-item {{'sq-metadata-item-' + config.item}} {{config.itemClass}}"
                 [style.background-color]="showFiltersHighlights && part.filtered ? 'yellow': showFiltersHighlights && part.excluded ? 'red' : 'transparent'">
                 {{part | sqValue:column}}
@@ -9,13 +9,11 @@
             <span *ngIf="$subIndex < valueItem.parts.length - 1" class="sq-metadata-item-tree-node-separator">
                 {{'msg#metadata.item.treeNodeSeparator' | sqMessage}}
             </span>
-            <div class="btn-group sq-metadata-btn" #tooltip>
-                <button class="btn btn-primary" *ngIf="config.filterable" (click)="filterItem(valueItem, $subIndex)">
-                    <span class="fas fa-filter"></span> Filter
-                </button>
-                <button class="btn btn-primary" *ngIf="config.excludable" (click)="excludeItem(valueItem, $subIndex)">
-                    <span class="fas fa-minus-circle"></span> Exclude
-                </button>
+
+            <div #tooltip>
+                <sq-metadata-tooltip [loading]="loading" [entityTemplate]="entityTemplate" [actions]="actions"
+                    [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
+                    [tooltipLinesNumber]="tooltipLinesNumber"></sq-metadata-tooltip>
             </div>
         </li>
     </ol>

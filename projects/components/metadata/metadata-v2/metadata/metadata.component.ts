@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { Action } from "@sinequa/components/action";
 import { UIService } from "@sinequa/components/utils";
-import { AppService, Query, ValueItem } from "@sinequa/core/app-utils";
+import { AppService, Query } from "@sinequa/core/app-utils";
 import { DocumentAccessLists, EntityItem, Record } from "@sinequa/core/web-services";
 import { IconService } from "../../icon.service";
 import { MetadataValue } from "../../metadata.service";
@@ -24,12 +25,16 @@ export class MetadataComponent implements OnChanges {
     @Input() collapseRows = true;
     @Input() tooltipLinesNumber = 8;
 
+    @Input() actionsButtonsStyle = 'btn btn-primary';
+    @Input() actionsButtonsSize = 'sm';
+
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
 
     display = false;
     valueIcon: string;
     itemLabelMessageParams: any;
+    actions: Action[];
 
     @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
     lineHeight: number;
@@ -37,10 +42,11 @@ export class MetadataComponent implements OnChanges {
     valuesHeight: number | undefined;
 
     entityTemplate: any;
+    currentItem: EntityItem;
     loading = false;
 
     get isClickable(): boolean {
-        return !!this.config.filterable || !!this.config.excludable || !!this.config.entityTooltip;
+        return !!this.config.filterable || !!this.config.excludable || !!this.config.entityTooltip || !!this.config.actions?.length;
     }
 
     get label(): string {
@@ -92,40 +98,36 @@ export class MetadataComponent implements OnChanges {
             this.valuesMaxHeight = this.lineHeight; // And without the collapse icon
             setTimeout(() => this.updateMaxHeight());
         }
+        this.setActions();
     }
 
     onResize = () => this.updateMaxHeight()
 
-    filterItem(valueItem: ValueItem) {
+    filterItem(): void {
         if (this.isClickable) {
             this.filter.emit({
                 item: this.config.item,
-                valueItem: valueItem
+                valueItem: this.currentItem
             });
         }
     }
 
-    excludeItem(valueItem: ValueItem) {
+    excludeItem(): void {
         if (this.isClickable) {
             this.exclude.emit({
                 item: this.config.item,
-                valueItem: valueItem
+                valueItem: this.currentItem
             });
         }
     }
 
-    toggleCollapse() {
+    toggleCollapse(): void {
         this.valuesHeight = this.collapsed ? this.valuesMaxHeight : this.lineHeight;
-    }
-
-    private updateMaxHeight() {
-        if (this.valuesEl) { // Display or not the collapse icon
-            this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
-        }
     }
 
     openedPopper(valueItem: EntityItem): void {
         this.entityTemplate = undefined;
+        this.currentItem = valueItem;
 
         if (!this.config.entityTooltip) return;
 
@@ -137,5 +139,34 @@ export class MetadataComponent implements OnChanges {
             }, () => {
                 this.loading = false;
             });
+    }
+
+    private updateMaxHeight(): void {
+        if (this.valuesEl) { // Display or not the collapse icon
+            this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
+        }
+    }
+
+    private setActions(): void {
+        this.actions = [];
+
+        if (this.config.actions) {
+            this.actions.push(...this.config.actions);
+        }
+        if (this.config.filterable) {
+            this.actions.push(new Action({
+                icon: "fas fa-filter",
+                title: "Filter",
+                action: () => this.filterItem()
+            }));
+        }
+        if (this.config.excludable) {
+            this.actions.push(new Action({
+                icon: "fas fa-minus-circle",
+                title: "Exclude",
+                action: () => this.excludeItem()
+            }));
+        }
+        console.log('setActions', this.config.item, this.actions);
     }
 }

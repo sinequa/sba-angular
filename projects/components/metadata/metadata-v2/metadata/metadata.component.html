@@ -22,8 +22,10 @@
         <ng-template #default>
             <ng-container *ngIf="config.isTree; else isNotTree">
                 <sq-metadata-tree [record]="record" [config]="config" [query]="query" [clickable]="isClickable"
-                    [column]="config.column" [showFiltersHighlights]="showFiltersHighlights"
-                    (filter)="filter.emit($event)" (exclude)="exclude.emit($event)"></sq-metadata-tree>
+                    [column]="config.column" [showFiltersHighlights]="showFiltersHighlights" [loading]="loading"
+                    [entityTemplate]="entityTemplate" [actions]="actions" [actionsButtonsStyle]="actionsButtonsStyle"
+                    [actionsButtonsSize]="actionsButtonsSize" [tooltipLinesNumber]="tooltipLinesNumber"
+                    (openedPopper)="currentItem=$event"></sq-metadata-tree>
             </ng-container>
 
             <!-- Not a Tree-->
@@ -36,19 +38,11 @@
                     [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : 'transparent'">
                     <span *ngIf="showFormatIcons && valueIcon" class="{{valueIcon}}"></span>
                     {{valueItem | sqValue:config.column}}
-                    <div class="sq-metadata-tooltip p-2" [class.d-none]="loading" #tooltip>
-                        <div class="sq-metadata-tooltip-entity" *ngIf="entityTemplate" [innerHTML]="entityTemplate"
-                            [class.mb-2]="hasActions" [style.-webkit-line-clamp]="tooltipLinesNumber">
-                        </div>
 
-                        <div class="btn-group" *ngIf="hasActions">
-                            <button class="btn btn-primary" *ngIf="config.filterable" (click)="filterItem(valueItem)">
-                                <span class="fas fa-filter"></span> Filter
-                            </button>
-                            <button class="btn btn-primary" *ngIf="config.excludable" (click)="excludeItem(valueItem)">
-                                <span class="fas fa-minus-circle"></span> Exclude
-                            </button>
-                        </div>
+                    <div #tooltip>
+                        <sq-metadata-tooltip [loading]="loading" [entityTemplate]="entityTemplate" [actions]="actions"
+                            [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
+                            [tooltipLinesNumber]="tooltipLinesNumber"></sq-metadata-tooltip>
                     </div>
                 </span>
             </ng-template>

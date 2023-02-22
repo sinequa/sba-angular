@@ -45,6 +45,14 @@ export class MetadataListComponent implements OnChanges {
      * Number of lines to display in the entity tooltip
      */
     @Input() tooltipLinesNumber = 8;
+    /**
+     * Class for the tooltip buttons
+     */
+    @Input() actionsButtonsStyle = 'btn btn-primary';
+    /**
+     * Size for the tooltip buttons
+     */
+    @Input() actionsButtonsSize = 'sm';
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();

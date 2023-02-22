@@ -4,6 +4,7 @@ import { Utils } from '@sinequa/core/base';
 import { CCColumn, EntityItem, Record, TextChunksWebService, TextLocation } from '@sinequa/core/web-services';
 import { METADATA_CONFIG } from '@sinequa/vanilla/config';
 import { map, Observable, of } from 'rxjs';
+import { Action } from '../action';
 import { TreeValueItem } from './metadata-item/metadata-item';
 
 export interface MetadataConfig {
@@ -13,6 +14,7 @@ export interface MetadataConfig {
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
   showEntityTooltip?: boolean; // if the entity tooltip should be displayed
+  actions?: Action[]; // additional custom actions to add with the filtering and excluding
 };
 
 export interface MetadataValue {
@@ -27,6 +29,7 @@ export interface MetadataValue {
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
   entityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
+  actions?: Action[]; // additional custom actions to add with the filtering and excluding
 }
 
 @Injectable({
@@ -45,6 +48,7 @@ export class MetadataService {
       const isTree = !!column && AppService.isTree(column);
       const isEntity = !!column && AppService.isEntity(column);
       const isCsv = !!column && AppService.isCsv(column);
+      const actions = config.actions;
       let entityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
 
       const values = record[this.appService.getColumnAlias(column, config.item)];
@@ -52,7 +56,13 @@ export class MetadataService {
       if (isEntity) {
         const entityItems: EntityItem[] = values;
         if (entityItems) {
-          valueItems.push(...entityItems);
+          const filters = this.getFilters(column, query);
+          valueItems.push(...entityItems.map(i => {
+            const filter = filters.find(f => f.value === i.value);
+            const filtered = !!filter && (!filter.operator || filter.operator !== 'neq');
+            const excluded = !!filter && filter.operator === 'neq';
+            return { ...i, filtered, excluded };
+          }));
           if (config.showEntityTooltip && entityItems[0]?.locations) {
             entityTooltip = this.getEntitySentence
           }
@@ -76,32 +86,35 @@ export class MetadataService {
         itemClass: config.itemClass,
         filterable: config.filterable,
         excludable: config.excludable,
-        entityTooltip
+        entityTooltip,
+        actions
       }
     });
   }
 
-  getFilter(column: CCColumn | undefined, query?: Query | undefined): any {
-    if (!query || !query.filters || !column) return undefined;
+  getFilters(column: CCColumn | undefined, query?: Query | undefined): any[] {
+    if (!query || !query.filters || !column) return [];
     if (query.filters['filters']) {
-      return query.filters['filters'].find((f: any) => f.field === column!.name);
+      return query.filters['filters'].filter((f: any) => f.field === column!.name);
     }
     if (query.filters['field'] && query.filters['field'] === column.name) {
-      return query.filters;
+      return [query.filters];
     }
-    return undefined;
+    return [];
   }
 
   private setCsvValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
-    const filter = this.getFilter(column, query);
+    const filters = this.getFilters(column, query);
     if (values && values instanceof Array) {
       valueItems.push(...values.map<ValueItem>(value => {
-        const filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === value;
+        const filter = filters.find(f => f.value === value);
+        const filtered = !!filter && (!filter.operator || filter.operator !== 'neq');
         const excluded = !!filter && filter.operator === 'neq' && filter.value === value;
         return { value: value, filtered, excluded };
       }));
     }
     else if (!Utils.isEmpty(values)) {
+      const filter = filters[0];
       const filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === values;
       const excluded = !!filter && filter.operator === 'neq' && filter.value === values;
       valueItems.push({ value: values, filtered, excluded });
@@ -111,7 +124,7 @@ export class MetadataService {
   private setValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
     const value = this.ensureScalarValue(values, column);
     if (!Utils.isEmpty(value)) {
-      const filter = this.getFilter(column, query);
+      const filter = this.getFilters(column, query)[0];
       const filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === value;
       const excluded = !!filter && filter.operator === 'neq' && filter.value === value;
       valueItems.push({ value: value, filtered, excluded });

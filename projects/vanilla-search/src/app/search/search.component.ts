@@ -14,6 +14,7 @@ import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sineq
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { MetadataConfig } from '@sinequa/components/metadata/metadata.service';
 
 @Component({
   selector: 'app-search',
@@ -56,6 +57,54 @@ export class SearchComponent implements OnInit {
   showIcons = true;
   showFormatIcons = true;
   showFiltersHighlights = true;
+  config: MetadataConfig[] = [
+    {
+      item: "authors",
+      icon: "fas fa-user-edit",
+      filterable: true,
+      excludable: true
+    },
+    {
+      item: "docformat",
+      icon: "fas fa-info-circle",
+      filterable: true,
+      excludable: true,
+      actions: [
+        new Action({
+          icon: "fas fa-inbox",
+          title: "Test",
+          action: () => { }
+        })
+      ]
+    },
+    {
+      item: "modified",
+      icon: "far fa-calendar-alt",
+      filterable: true
+    },
+    {
+      item: "size",
+      icon: "fas fa-weight-hanging"
+    },
+    {
+      item: "treepath",
+      icon: "fas fa-folder-open",
+      filterable: true,
+      excludable: true
+    },
+    {
+      item: "filename",
+      icon: "far fa-file-alt",
+      excludable: true
+    },
+    {
+      item: "person",
+      icon: "far fa-file-alt",
+      filterable: true,
+      excludable: true,
+      showEntityTooltip: true
+    }
+  ];
 
   constructor(
     private previewService: PreviewService,

@@ -1,0 +1,9 @@
+<div class="sq-metadata-tooltip p-2" [class.d-none]="loading" #tooltip>
+    <div class="sq-metadata-tooltip-entity" *ngIf="entityTemplate" [innerHTML]="entityTemplate"
+        [class.mb-2]="actions?.length" [style.-webkit-line-clamp]="tooltipLinesNumber">
+    </div>
+
+    <div *ngIf="actions?.length" class="btn-group"
+        [sq-action-buttons]="{items: actions, style: actionsButtonsStyle, size: actionsButtonsSize, rightAligned: true}">
+    </div>
+</div>
