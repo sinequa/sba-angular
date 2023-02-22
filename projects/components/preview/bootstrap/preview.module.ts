@@ -20,9 +20,6 @@ import {PreviewModule} from "../preview.module";
 import {BsPreviewEntityFacetComponent} from './preview-entity-facet/preview-entity-facet.component';
 import {BsPreviewEntityPanelComponent} from './preview-entity-panel/preview-entity-panel.component';
 import {BsPreviewExtractsPanelComponent} from './preview-extracts-panel/preview-extracts-panel.component';
-import {BsPreviewSearchFormComponent} from './preview-search-form/preview-search-form.component';
-import {BsPreviewPagesPanelComponent} from './preview-pages-panel/preview-pages-panel.component';
-import {BsPreviewPageFormComponent} from './preview-page-form/preview-page-form.component';
 import {BsPreviewMinimapComponent} from "./preview-minimap/preview-minimap.component";
 import {BsPassageHighlightComponent} from "./preview-passage-highlight/preview-passage-highlight.component";
 
@@ -50,9 +47,6 @@ import {BsPassageHighlightComponent} from "./preview-passage-highlight/preview-p
         BsPreviewEntityFacetComponent,
         BsPreviewEntityPanelComponent,
         BsPreviewExtractsPanelComponent,
-        BsPreviewSearchFormComponent,
-        BsPreviewPagesPanelComponent,
-        BsPreviewPageFormComponent,
         BsPreviewMinimapComponent,
         BsPassageHighlightComponent
     ],
@@ -61,9 +55,6 @@ import {BsPassageHighlightComponent} from "./preview-passage-highlight/preview-p
         BsPreviewEntityFacetComponent,
         BsPreviewEntityPanelComponent,
         BsPreviewExtractsPanelComponent,
-        BsPreviewSearchFormComponent,
-        BsPreviewPagesPanelComponent,
-        BsPreviewPageFormComponent,
         BsPreviewMinimapComponent,
         BsPassageHighlightComponent
     ]

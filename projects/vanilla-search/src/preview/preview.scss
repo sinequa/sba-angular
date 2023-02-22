@@ -1,9 +1,39 @@
 
-body.company {
+// Currently selected highlights
+.sq-current {
+  border: 2px dashed rgb(5,5,5) !important;
+  animation: 0.3s linear shadowfocus;
+  // raise above other span   s so the border is not overlapped
+  // position: relative;
+  z-index: 1;
+}
 
-  span.company {
-    color: var(--sq-color-company, white) !important;
-    background-color: var(--sq-bg-color-company, #ff7675) !important;
+@keyframes shadowfocus {
+  0% {
+      box-shadow: 0px 0px 50px 11px #0000008a;
   }
+  100% {
+      box-shadow: 0px 0px 10px 1px #0000008a;
+  }
+}
 
+.sq-current:not(.sq-first) {
+  border-left-color: transparent !important;
+}
+
+.sq-current:not(.sq-last) {
+  border-right-color: transparent !important;
+}
+
+
+// SVG highlights
+
+rect.sq-inactive {
+  fill: rgba(0,0,0,0) !important;
+}
+
+line.sq-svg {
+  stroke: rgb(5, 5, 5);
+  stroke-width: 2;
+  stroke-dasharray: 2, 2;
 }

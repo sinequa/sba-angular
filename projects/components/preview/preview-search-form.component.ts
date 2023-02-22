@@ -4,10 +4,19 @@ import { Query } from '@sinequa/core/app-utils';
 
 @Component({
   selector: 'sq-preview-search-form',
-  templateUrl: './preview-search-form.component.html',
-  styleUrls: ['./preview-search-form.component.scss']
+  template: `
+<form novalidate [formGroup]="form">
+  <div class="input-group">
+    <input id="search-input" type="text" placeholder="{{ 'msg#searchForm.searchFor' | sqMessage }}" formControlName="search" class="form-control" sqAutofocus>
+
+    <button class="btn btn-primary" type="submit" (click)="search()" title="{{ 'msg#searchForm.search' | sqMessage }}">
+      <i class="fas fa-fw fa-search"></i>
+    </button>
+  </div>
+</form>
+  `,
 })
-export class BsPreviewSearchFormComponent implements OnChanges {
+export class PreviewSearchFormComponent implements OnChanges {
   @Input() query: Query;
   @Output() searchText = new EventEmitter<string>();
 

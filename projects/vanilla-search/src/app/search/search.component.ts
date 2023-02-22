@@ -134,8 +134,8 @@ export class SearchComponent implements OnInit {
     return this.appService.app?.data?.metadata as string[] || METADATA;
   }
 
-  public get previewHighlights() {
-    return this.appService.app?.data?.previewHighlights as PreviewHighlightColors[] || PREVIEW_HIGHLIGHTS;
+  public get previewHighlights(): PreviewHighlightColors[] {
+    return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
   }
 
   /**

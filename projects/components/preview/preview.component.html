@@ -1,0 +1,20 @@
+
+<sq-loading-bar [active]="loading"></sq-loading-bar>
+
+<iframe *ngIf="safeUrl"
+  #preview
+  [src]="safeUrl"
+  [attr.sandbox]="_sandbox"
+  [style.--sq-scale]="scale">
+</iframe>
+
+<sq-preview-tooltip2 *ngIf="tooltip$ | async as tooltip"
+  [position]="tooltip.position"
+  [entity]="tooltip.entity"
+  [text]="tooltip.selectedText"
+  [actions]="tooltip.actions"
+  [scale]="scale"
+  (preventHide)="cancelHideTooltip()"
+  (resumeHide)="initHideTooltip()"
+  (selectEntity)="selectEntity($event)">
+</sq-preview-tooltip2>

@@ -14,7 +14,7 @@
                 <i class="fas fa-file-pdf"></i>
             </a>
             <!-- Application logo -->
-            <a [routerLink]="['/home']" title="Home" class="d-flex">
+            <a [routerLink]="[homeRoute]" title="Home" class="d-flex">
                 <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" *ngIf="!isDark()">
                 <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" *ngIf="isDark()">
             </a>
@@ -71,17 +71,12 @@
             </div>
 
             <div class="flex-grow-1 d-flex flex-column">
-                <ng-container *ngIf="!loading && !collapsedPanel" [ngSwitch]="subpanel">
+                <ng-container *ngIf="!collapsedPanel" [ngSwitch]="subpanel">
                     <div class="pt-2 pt-lg-4 px-2 px-lg-4">
                         <!-- Search form allowing the search preview -->
                         <sq-preview-search-form *ngIf="previewSearchable" [query]="query"
                             (searchText)="searchText($event)">
                         </sq-preview-search-form>
-
-                        <!-- Page form allowing to go to an arbitrary page number (when the document is splitted)-->
-                        <sq-preview-page-form [pageNumber]="previewData?.record?.$page" (gotopage)="gotoPage($event)">
-                        </sq-preview-page-form>
-
                     </div>
 
                     <!-- Navigation between the active sub panels -->
@@ -93,30 +88,26 @@
 
                         <!-- Expanded panel different subpanels available -->
                         <!-- Extracts/Pages panel -->
-                        <sq-preview-extracts-panel *ngIf="!pagesResults" class="flex-scroll" [extractsNumber]="10"
+                        <!-- <sq-preview-extracts-panel class="flex-scroll" [extractsNumber]="10"
                             [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument">
-                        </sq-preview-extracts-panel>
-
-                        <sq-preview-pages-panel *ngIf="pagesResults" class="flex-scroll" [previewData]="previewData"
-                            [previewDocument]="previewDocument" [pages]="pagesResults" (gotopage)="gotoPage($event)">
-                        </sq-preview-pages-panel>
+                        </sq-preview-extracts-panel> -->
 
                     </ng-container>
 
                     <!-- Neural Search preview passages -->
                     <ng-container *ngSwitchCase="'passages'">
-                        <sq-preview-extracts-panel class="flex-scroll" [downloadUrl]="currentUrl"
+                        <!-- <sq-preview-extracts-panel class="flex-scroll" [downloadUrl]="currentUrl"
                             [previewData]="previewData" [previewDocument]="previewDocument" [extractsNumber]="10"
                             type="matchingpassages">
-                        </sq-preview-extracts-panel>
+                        </sq-preview-extracts-panel> -->
                     </ng-container>
 
                     <!-- Entities panel -->
                     <ng-container *ngSwitchCase="'entities'">
-                        <sq-preview-entity-panel class="flex-scroll px-2" [previewData]="previewData"
+                        <!-- <sq-preview-entity-panel class="flex-scroll px-2" [previewData]="previewData"
                             [previewDocument]="previewDocument" [startUnchecked]="entitiesStartUnchecked"
                             (facetChecked)="entitiesChecked($event)">
-                        </sq-preview-entity-panel>
+                        </sq-preview-entity-panel> -->
                     </ng-container>
 
                 </ng-container>
@@ -138,11 +129,16 @@
                 </div>
             </ng-template>
 
-            <sq-preview #facet
+            <sq-preview #facet *ngIf="id"
                 class="h-100"
                 [id]="id"
                 [query]="query"
-                [highlights]="previewHighlights">
+                [highlights]="previewHighlights"
+                [showTooltip]="true"
+                [entityActions]="tooltipEntityActions"
+                [textActions]="tooltipTextActions"
+                [showMinimap]="true"
+                (ready)="onPreviewReady()">
             </sq-preview>
 
         </sq-facet-card>
@@ -150,7 +146,7 @@
     </div>
 
     <ng-template #logo>
-        <a [routerLink]="['/home']" title="Home" class="d-flex">
+        <a [routerLink]="[homeRoute]" title="Home" class="d-flex">
             <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo"
                 *ngIf="(!collapsedPanel || ui.screenSizeIsLess('lg')) && !isDark()">
             <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo"

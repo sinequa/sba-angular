@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", function() {
   // A <style> element we can use to inject dynamic CSS in the preview
   let styleElement: HTMLStyleElement;
 
+  // A <div> element used to highlight long passages
+  let passageHighlighter: HTMLDivElement;
+
   // For document with SVG, resize the rect elements
   setSvgBackgroundPositionAndSize();
 
@@ -80,9 +83,13 @@ document.addEventListener("DOMContentLoaded", function() {
    */
   function init(origin: string, highlights?: PreviewHighlightColors[]) {
     parentOrigin = origin;
-    const head = document.head || document.getElementsByTagName('head')[0]
+
     styleElement = document.createElement('style');
-    head.appendChild(styleElement);
+    document.head.appendChild(styleElement);
+
+    passageHighlighter = document.createElement('div');
+    document.body.appendChild(passageHighlighter);
+    passageHighlighter.style.position = 'absolute';
 
     document.addEventListener("mouseup", () => onMouseUp());
     document.addEventListener("mousemove", e => onMouseMove(e));
@@ -109,21 +116,26 @@ document.addEventListener("DOMContentLoaded", function() {
   /**
    * Select a highlight (apply additional classes and scroll to the view the element)
    */
-  function select(id: string) {
+  function select(id: string, usePassageHighlighter = false) {
     unselect();
     const elements = getElements(id);
-    elements.forEach((el, i) => {
-      const first = i === 0;
-      const last = i === elements.length - 1;
-      if (el instanceof SVGElement) {
-        setHighlightSelectionSVG(el, first, last);
-      }
-      else {
-        el.classList.add('sq-current');
-        if (first) el.classList.add('sq-first');
-        if (last) el.classList.add('sq-last');
-      }
-    });
+    if(usePassageHighlighter) {
+
+    }
+    else {
+      elements.forEach((el, i) => {
+        const first = i === 0;
+        const last = i === elements.length - 1;
+        if (el instanceof SVGElement) {
+          setHighlightSelectionSVG(el, first, last);
+        }
+        else {
+          el.classList.add('sq-current');
+          if (first) el.classList.add('sq-first');
+          if (last) el.classList.add('sq-last');
+        }
+      });
+    }
     elements.item(0).scrollIntoView({ block: 'center', behavior: 'auto' });
   }
 
