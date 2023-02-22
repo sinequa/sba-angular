@@ -9,7 +9,7 @@
 				{{'msg#machine-learning.passages' | sqMessage }}
 			</span>
 		</div>
-		<div class="card-action d-flex justify-content-center align-items-center mx-2">
+		<div class="card-action d-flex justify-content-center align-items-center mx-2" *ngIf="!collapsed">
 			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+pageNumber-1) % pageNumber"
 				*ngIf="pageNumber > 1">
 				<i class="fas fa-chevron-left"></i>
