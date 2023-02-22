@@ -1,10 +1,10 @@
 export default {
   "machine-learning": {
-    "passage": "{items, plural, =1 {Passage} other {Passages}} {current}/{length, number}",
-    "passages": "Passages",
-    "passagesCollapsed": "J'ai trouvé {passagesNb, number} passages possibles",
-    "answers": "Réponses",
-    "answersCollapsed": "J'ai trouvé {answersNb, number} réponses possibles",
-    "answer": "Réponse"
+    "passage": "{items, plural, =1 {Réponse} other {Réponses}} {current}/{length, number}",
+    "passages": "Réponses",
+    "passagesCollapsed": "J'ai trouvé {passagesNb, number} réponses possibles",
+    "answers": "Réponses suggérées",
+    "answersCollapsed": "J'ai trouvé {answersNb, number} réponses suggérées",
+    "answer": "Réponse suggérée"
   }
 }
