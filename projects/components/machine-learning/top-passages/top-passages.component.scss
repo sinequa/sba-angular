@@ -38,9 +38,9 @@
     &:hover {
         background-color: rgb(0, 0, 0, 0.03);
     }
-}
 
-.passage-text ::ng-deep .matchlocations {
-    background-color: transparent !important;
-    font-weight: bold;
+    ::ng-deep .matchlocations {
+        background-color: transparent !important;
+        font-weight: bold;
+    }
 }
