@@ -1,42 +1,23 @@
 <ng-template #headerTpl>
 	<div class="d-flex flex-grow-1 align-items-center text-truncate">
-		<div class="card-icon primary-icon fas fa-list me-2" aria-hidden="true"></div>
+		<div class="card-icon primary-icon fas fa-brain me-2" aria-hidden="true"></div>
 		<div class="card-title text-truncate mb-0 py-1 me-auto">
-			<span *ngIf="collapsed">
-				{{'msg#machine-learning.passagesCollapsed' | sqMessage:{values: {passagesNb: passages.length} } }}
-			</span>
-			<span *ngIf="!collapsed">
-				{{'msg#machine-learning.passages' | sqMessage }}
-			</span>
-		</div>
-		<div class="card-action d-flex justify-content-center align-items-center mx-2" *ngIf="!collapsed">
-			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+pageNumber-1) % pageNumber"
-				*ngIf="pageNumber > 1">
-				<i class="fas fa-chevron-left"></i>
-			</button>
-			{{'msg#machine-learning.passage' | sqMessage:{items: itemsPerPage, current: currentRange, length: passages.length} }}
-			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+1) % pageNumber"
-				*ngIf="pageNumber > 1">
-				<i class="fas fa-chevron-right"></i>
-			</button>
+			{{'msg#machine-learning.passages' | sqMessage }}
 		</div>
 	</div>
 </ng-template>
 
 <div class="card-body">
 	<div *ngFor="let passage of currentPassages$ | async" (click)="openPreview(passage)" class="passage">
-		<sq-result-title *ngIf="passage.$record" [record]="passage.$record" titleLinkBehavior="action"
+		<div class="sq-passage-text my-2">
+			<span *ngIf="passage.$record?.modified && !hideDate" class="extracts-date">{{passage.$record.modified |
+				sqDate:dateFormat }} - </span>
+			<span [innerHTML]="passage.highlightedText"></span>
+		</div>
+		<div class="sq-passage-title d-flex align-content-center" *ngIf="passage.$record">
+			<sq-result-icon [record]="passage.$record" class="me-1"></sq-result-icon>
+			<sq-result-title [record]="passage.$record" titleLinkBehavior="action"
 			(titleClicked)="onTitleClicked($event, passage)" class="d-block text-truncate"></sq-result-title>
-		<div class="d-flex my-2">
-			<div class="sq-text-ellipsis" #psg [ngClass]="{'expanded': selected === passage.id}">
-				<span *ngIf="passage.$record?.modified && !hideDate" class="extracts-date">{{passage.$record.modified | sqDate:dateFormat }} - </span>
-				<span [innerHTML]="passage.highlightedText"></span>
-			</div>
-			<i class="fas btn-toggle ms-2 passages-toggle" [ngClass]="{
-						'fa-chevron-down': selected !== passage.id,
-						'fa-chevron-up': selected === passage.id ,
-						'btn-toggle--hidden': psg.scrollHeight <= MIN_HEIGHT }"
-						(click)="$event.stopPropagation(); expand(passage)"></i>
 		</div>
 	</div>
 </div>

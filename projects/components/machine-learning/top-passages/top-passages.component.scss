@@ -4,29 +4,14 @@
     cursor: pointer;
 }
 
-.sq-text-ellipsis {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: var(--line-clamp, 3);
-    -webkit-box-orient: vertical;
-    white-space: normal;
+.sq-passage-text {
     font-size: 0.875em;
-
-    &.expanded {
-        --line-clamp: 0;
-    }
+    line-height: 1.2rem;
 }
 
-.btn-toggle {
-    position: relative;
-    top: .2rem;
-    opacity: 1;
-    width: 4%;
-    color: rgba(0, 0, 0, .5);
-
-    &--hidden {
-        opacity: 0;
+.sq-passage-title {
+    i:before {
+        vertical-align: sub;
     }
 }
 

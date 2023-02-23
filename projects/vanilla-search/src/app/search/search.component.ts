@@ -40,6 +40,7 @@ export class SearchComponent implements OnInit {
   public hasAnswers: boolean;
   public hasPassages: boolean;
   public passageId?: string;
+  public documentsScrollAction: Action;
 
   public readonly facetComponents = {
       ...DEFAULT_FACET_COMPONENTS,
@@ -60,6 +61,17 @@ export class SearchComponent implements OnInit {
     public auditService: AuditWebService,
     public ui: UIService,
   ) {
+
+    this.documentsScrollAction = new Action({
+      text: "Jump to Documents",
+      selected: true,
+      action: () => {
+        const documentElt = document.getElementById('documents');
+        if (documentElt) {
+          documentElt.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    });
 
     const expandAction = new Action({
       icon: "fas fa-fw fa-expand-alt",
