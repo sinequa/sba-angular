@@ -38,4 +38,10 @@
       content: "- ";
     }
   }
+
+  &.unexpandable {
+    .sq-passage-icon::before {
+      content: "  ";
+    }
+  }
 }

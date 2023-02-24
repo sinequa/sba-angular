@@ -770,6 +770,8 @@ export interface MatchingPassage extends Passage {
   score: number;
   /** Front end parameter to store the state of expansion/collapse of this passage */
   $expanded?: boolean;
+  /** Front end parameter to store the state of expansion/collapse of this passage */
+  $expandable?: boolean;
 }
 
 /**

@@ -1,7 +1,6 @@
 .card-body {
     padding-left: 0;
     padding-right: 0;
-    cursor: pointer;
 }
 
 .sq-passage-text {
@@ -19,6 +18,11 @@
     padding-left: var(--bs-card-spacer-x);
     padding-right: var(--bs-card-spacer-x);
     padding-bottom: 0.1rem;
+    cursor: pointer;
+
+    &:not(:last-of-type) {
+        border-bottom: lightgray solid 1px;
+    }
 
     &:hover {
         background-color: rgb(0, 0, 0, 0.03);
@@ -28,4 +32,17 @@
         background-color: transparent !important;
         font-weight: bold;
     }
+
+    ::ng-deep .answer {
+        background-color: lightyellow !important;
+        font-weight: bold;
+    }
+}
+
+.sq-passage-count {
+    display: block;
+    width: 100%;
+    font-size: 0.875em;
+    color: #515960;
+    text-align: right;
 }

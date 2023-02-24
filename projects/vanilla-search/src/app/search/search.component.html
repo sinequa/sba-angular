@@ -132,6 +132,7 @@
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center">
                         <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record"></sq-result-selector>
+                        <sq-result-icon [record]="record" class="me-1"></sq-result-icon>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>

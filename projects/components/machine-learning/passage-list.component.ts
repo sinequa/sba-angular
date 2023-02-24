@@ -1,13 +1,13 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, QueryList, SimpleChanges, ViewChildren } from "@angular/core";
 import { MatchingPassage, Record } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-passage-list',
   template: `
 <ol class="list-group list-group-flush" *ngIf="record.matchingpassages?.passages?.length">
-  <li class="list-group-item list-group-item-action sq-passage" #list [id]="'li-'+index" [ngClass]="{expanded: passage.$expanded}"
+  <li class="list-group-item list-group-item-action sq-passage" #list [id]="'li-'+index" [class.expanded]="passage.$expanded"
       *ngFor="let passage of record.matchingpassages?.passages|slice:0:maxPassages; let index = index"
-      (click)="expand(passage)">
+      [class.unexpandable]="!passage.$expandable" (click)="expand(passage, index)">
       <div class="sq-passage-icon"></div>
       <div class="sq-passage-text" [innerHtml]="passage.highlightedText || passage.text"></div>
   </li>
@@ -21,24 +21,43 @@ export class PassageListComponent implements OnChanges, AfterViewInit {
   @Input() maxPassages?: number;
   @Input() passageId?: string;
 
-  @ViewChildren("list", ) viewChildren!: QueryList<ElementRef>;
+  @ViewChildren("list") viewChildren!: QueryList<ElementRef>;
+
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     const passages = this.record.matchingpassages?.passages;
     // invalidate all $expanded property except for the first passage
     passages?.forEach((p, index) => p.$expanded = this.passageId
       ? p.id === Number(this.passageId) : index === 0);
+    this.setExpandable();
   }
 
   ngAfterViewInit(): void {
     this.setMaximumHeight();
-    this.viewChildren.changes.subscribe(r => this.setMaximumHeight());
+    this.viewChildren.changes.subscribe(r => {
+      this.setMaximumHeight();
+      this.setExpandable();
+    });
   }
 
-  expand(passage: MatchingPassage) {
+  setExpandable(): void {
+    setTimeout(() => {
+      this.viewChildren.forEach((el, index) => {
+        const passage = this.record.matchingpassages?.passages[index];
+        if (passage) {
+          passage.$expandable = passage.$expanded || el.nativeElement.clientHeight < el.nativeElement.scrollHeight;
+        }
+      });
+    });
+  }
+
+  expand(passage: MatchingPassage, index: number) {
+    if (!passage.$expandable) return;
     const state = !passage.$expanded;
     this.record.matchingpassages?.passages.forEach(p => p.$expanded = false);
     passage.$expanded = state;
+    this.cdr.detectChanges();
   }
 
   /**

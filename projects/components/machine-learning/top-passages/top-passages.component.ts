@@ -24,6 +24,7 @@ export class TopPassagesComponent extends AbstractFacet {
 
   passages: TopPassage[];
   currentPassages$: BehaviorSubject<TopPassage[]> = new BehaviorSubject<TopPassage[]>([]);
+  documentsNb: number;
 
   constructor(private auditService: AuditWebService,
     private searchService: SearchService) {
@@ -31,11 +32,16 @@ export class TopPassagesComponent extends AbstractFacet {
   }
 
   fetchPassagesRecords(): void {
+    this.documentsNb = 0;
     this.searchService.getRecords(this.passages.filter(p => !p.$record).map(p => p.recordId))
       .subscribe((records) => {
         this.passages.map(passage => passage.$record = passage.$record || records.find(record => record.id === passage?.recordId));
         this.notifyTopPassagesDisplay(this.passages);
         this.currentPassages$.next(this.passages);
+
+        // Set the numbers of unique documents
+        const uniqueRecords = [...new Set(this.passages.map(p => p.recordId))];
+        this.documentsNb = uniqueRecords.length;
       });
   }
 
