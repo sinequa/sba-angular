@@ -18,7 +18,7 @@ export interface PreviewEntityOccurrence {
 
 
 @Component({
-  selector: 'sq-preview-tooltip2',
+  selector: 'sq-preview-tooltip',
   template: `
   <ng-template>
 

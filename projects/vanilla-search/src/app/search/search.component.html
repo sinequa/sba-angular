@@ -189,7 +189,8 @@
                         style="height: 500px;"
                         [id]="openedDoc.id"
                         [query]="searchService.query"
-                        [highlights]="isDark()? [] : previewHighlights">
+                        [highlightColors]="previewHighlights"
+                        [preferenceName]="'mini-preview'">
                     </sq-preview>
                 </ng-template>
 

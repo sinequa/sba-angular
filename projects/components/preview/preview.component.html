@@ -8,7 +8,7 @@
   [style.--sq-scale]="scale">
 </iframe>
 
-<sq-preview-tooltip2 *ngIf="tooltip$ | async as tooltip"
+<sq-preview-tooltip *ngIf="tooltip$ | async as tooltip"
   [position]="tooltip.position"
   [entity]="tooltip.entity"
   [text]="tooltip.selectedText"
@@ -17,4 +17,11 @@
   (preventHide)="cancelHideTooltip()"
   (resumeHide)="initHideTooltip()"
   (selectEntity)="selectEntity($event)">
-</sq-preview-tooltip2>
+</sq-preview-tooltip>
+
+<sq-preview-minimap *ngIf="minimap$ | async as minimap"
+  [locations]="minimap.locations"
+  [passageLocation]="minimap.passageLocation"
+  [selectedId]="selectedId$ | async"
+  (select)="select($event)">
+</sq-preview-minimap>

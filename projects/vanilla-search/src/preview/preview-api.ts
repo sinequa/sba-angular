@@ -4,7 +4,8 @@ type PreviewMessage =
   | { action: 'get-text', ids: string[] }
   | { action: 'get-positions', highlight: string }
   | { action: 'highlight', highlights: PreviewHighlightColors[] }
-  | { action: 'select', id: string }
+  | { action: 'select', id: string, usePassageHighlighter?: boolean }
+  | { action: 'unselect' }
   | { action: 'paging' };
 
 interface PreviewHighlightColors {
@@ -63,7 +64,8 @@ document.addEventListener("DOMContentLoaded", function() {
       case 'get-text': getText(data.ids); break;
       case 'get-positions': getPositions(data.highlight); break;
       case 'highlight': highlight(data.highlights); break;
-      case 'select': select(data.id); break;
+      case 'select': select(data.id, data.usePassageHighlighter); break;
+      case 'unselect': unselect(); break;
       case 'paging': break;
     }
   }
@@ -88,8 +90,10 @@ document.addEventListener("DOMContentLoaded", function() {
     document.head.appendChild(styleElement);
 
     passageHighlighter = document.createElement('div');
-    document.body.appendChild(passageHighlighter);
+    passageHighlighter.id = 'sq-passage-highlighter';
     passageHighlighter.style.position = 'absolute';
+    passageHighlighter.style.display = 'none';
+    document.body.appendChild(passageHighlighter);
 
     document.addEventListener("mouseup", () => onMouseUp());
     document.addEventListener("mousemove", e => onMouseMove(e));
@@ -120,23 +124,43 @@ document.addEventListener("DOMContentLoaded", function() {
     unselect();
     const elements = getElements(id);
     if(usePassageHighlighter) {
-
+      selectPassage(elements);
     }
     else {
-      elements.forEach((el, i) => {
-        const first = i === 0;
-        const last = i === elements.length - 1;
-        if (el instanceof SVGElement) {
-          setHighlightSelectionSVG(el, first, last);
-        }
-        else {
-          el.classList.add('sq-current');
-          if (first) el.classList.add('sq-first');
-          if (last) el.classList.add('sq-last');
-        }
-      });
+      selectHighlight(elements);
     }
     elements.item(0).scrollIntoView({ block: 'center', behavior: 'auto' });
+  }
+
+  function selectPassage(elements: NodeListOf<Element>) {
+    // Hide the passage so it does not interfer with window size
+    passageHighlighter.style.display = 'none';
+    const pos: DOMRect[] = [];
+    elements.forEach(el => pos.push(el.getBoundingClientRect()));
+    const left = Math.min(...pos.map(p => p.left));
+    const top = Math.min(...pos.map(p => p.top));
+    const margin = 4;
+    passageHighlighter.style.left = `${window.scrollX + left - margin }px`;
+    passageHighlighter.style.top = `${window.scrollY + top - margin }px`;
+    passageHighlighter.style.width = (Math.max(...pos.map(p => p.right)) - left + margin) + 'px';
+    passageHighlighter.style.height = (Math.max(...pos.map(p => p.bottom)) - top + margin) + 'px';
+    passageHighlighter.style.display = 'block';
+  }
+
+
+  function selectHighlight(elements: NodeListOf<Element>) {
+    elements.forEach((el, i) => {
+      const first = i === 0;
+      const last = i === elements.length - 1;
+      if (el instanceof SVGElement) {
+        selectHighlightSVG(el, first, last);
+      }
+      else {
+        el.classList.add('sq-current');
+        if (first) el.classList.add('sq-first');
+        if (last) el.classList.add('sq-last');
+      }
+    });
   }
 
   /**
@@ -146,7 +170,8 @@ document.addEventListener("DOMContentLoaded", function() {
     removeAllClasses('sq-current');
     removeAllClasses('sq-first');
     removeAllClasses('sq-last');
-    removeAllElements('svg line.sq-svg')
+    removeAllElements('svg line.sq-svg');
+    passageHighlighter.style.display = 'none';
   }
 
   /**
@@ -246,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (valueTransform) rect.setAttribute("transform", valueTransform);
   }
 
-  function setHighlightSelectionSVG(elt: SVGElement, isFirst: boolean, isLast: boolean): void {
+  function selectHighlightSVG(elt: SVGElement, isFirst: boolean, isLast: boolean): void {
     const bgId = elt.getAttribute("data-entity-background");
     if (!bgId) return;
     const rect = document.querySelector(bgId) as SVGRectElement;
@@ -299,16 +324,20 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function getHighlightPositions(highlight: string) {
-    const positions: {top: number, height: number, text: string}[] = [];
-    const height = document.body.scrollHeight;
+    const positions: {top: number, height: number, text: string, id: string}[] = [];
+    // The body might be smaller than the viewport for small docs
+    const height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+    const offset = -document.documentElement.getBoundingClientRect().top;
     document.querySelectorAll(`span.${highlight},tspan.${highlight}`).forEach(el => {
       const box = el.getBoundingClientRect();
       positions.push({
-        top: box.top / height,
-        height: box.height / height,
-        text: el.textContent || ''
+        id: el.id,
+        top: 100 * (offset+box.top) / height,
+        height: 100 * box.height / height,
+        text: (el.textContent || '')
       });
     });
+    return positions;
   }
 
   function removeAllClasses(classname: string) {

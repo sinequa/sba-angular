@@ -44,7 +44,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   homeRoute = "/home";
   showBackButton = true;
   subpanels = ["entities"];
-  subpanel = 'entities';
+  subpanel: string;
   previewSearchable = true;
   minimapType = "extractslocations";
   tabs: Tab[];

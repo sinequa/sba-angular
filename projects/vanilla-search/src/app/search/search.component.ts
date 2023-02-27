@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Observable, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
-import { PreviewDocument, PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
+import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { UIService } from '@sinequa/components/utils';
@@ -187,17 +187,6 @@ export class SearchComponent implements OnInit {
         this._showFilters = true; // Show filters on medium screen when document is closed
       }
     }
-  }
-
-  /**
-   * Document is loaded and displayed on screen. It could be manipulated easily.
-   *
-   * eg: scroll to a specific location
-   * document.getContentWindow().scrollTo(0, 3000);
-   * @param document the document currently in preview
-   */
-  previewReady(document: PreviewDocument) {
-    // document.getContentWindow().scrollTo(0, Math.random() * 4000);
   }
 
   // Make sure the click is not meant to trigger an action

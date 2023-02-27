@@ -37,3 +37,12 @@ line.sq-svg {
   stroke-width: 2;
   stroke-dasharray: 2, 2;
 }
+
+
+#sq-passage-highlighter {
+  position: absolute;
+  pointer-events: none;
+  border: 3px solid rgb(11 117 255 / 50%);
+  box-shadow: 0 0 1rem 0px rgb(11 117 255 / 20%);
+  border-radius: 5px;
+}

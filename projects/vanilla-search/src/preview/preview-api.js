@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var parentOrigin = '*';
     // A <style> element we can use to inject dynamic CSS in the preview
     var styleElement;
+    // A <div> element used to highlight long passages
+    var passageHighlighter;
     // For document with SVG, resize the rect elements
     setSvgBackgroundPositionAndSize();
     // Listen to messages from the SBA
@@ -42,7 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 highlight(data.highlights);
                 break;
             case 'select':
-                select(data.id);
+                select(data.id, data.usePassageHighlighter);
+                break;
+            case 'unselect':
+                unselect();
                 break;
             case 'paging': break;
         }
@@ -59,9 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
      */
     function init(origin, highlights) {
         parentOrigin = origin;
-        var head = document.head || document.getElementsByTagName('head')[0];
         styleElement = document.createElement('style');
-        head.appendChild(styleElement);
+        document.head.appendChild(styleElement);
+        passageHighlighter = document.createElement('div');
+        passageHighlighter.id = 'sq-passage-highlighter';
+        passageHighlighter.style.position = 'absolute';
+        passageHighlighter.style.display = 'none';
+        document.body.appendChild(passageHighlighter);
         document.addEventListener("mouseup", function () { return onMouseUp(); });
         document.addEventListener("mousemove", function (e) { return onMouseMove(e); });
         window.addEventListener("scroll", function () { return returnMessage("scroll", { x: window.scrollX, y: window.scrollY }); });
@@ -82,14 +91,38 @@ document.addEventListener("DOMContentLoaded", function () {
     /**
      * Select a highlight (apply additional classes and scroll to the view the element)
      */
-    function select(id) {
+    function select(id, usePassageHighlighter) {
+        if (usePassageHighlighter === void 0) { usePassageHighlighter = false; }
         unselect();
         var elements = getElements(id);
+        if (usePassageHighlighter) {
+            selectPassage(elements);
+        }
+        else {
+            selectHighlight(elements);
+        }
+        elements.item(0).scrollIntoView({ block: 'center', behavior: 'auto' });
+    }
+    function selectPassage(elements) {
+        // Hide the passage so it does not interfer with window size
+        passageHighlighter.style.display = 'none';
+        var pos = [];
+        elements.forEach(function (el) { return pos.push(el.getBoundingClientRect()); });
+        var left = Math.min.apply(Math, pos.map(function (p) { return p.left; }));
+        var top = Math.min.apply(Math, pos.map(function (p) { return p.top; }));
+        var margin = 4;
+        passageHighlighter.style.left = "".concat(window.scrollX + left - margin, "px");
+        passageHighlighter.style.top = "".concat(window.scrollY + top - margin, "px");
+        passageHighlighter.style.width = (Math.max.apply(Math, pos.map(function (p) { return p.right; })) - left + margin) + 'px';
+        passageHighlighter.style.height = (Math.max.apply(Math, pos.map(function (p) { return p.bottom; })) - top + margin) + 'px';
+        passageHighlighter.style.display = 'block';
+    }
+    function selectHighlight(elements) {
         elements.forEach(function (el, i) {
             var first = i === 0;
             var last = i === elements.length - 1;
             if (el instanceof SVGElement) {
-                setHighlightSelectionSVG(el, first, last);
+                selectHighlightSVG(el, first, last);
             }
             else {
                 el.classList.add('sq-current');
@@ -99,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     el.classList.add('sq-last');
             }
         });
-        elements.item(0).scrollIntoView({ block: 'center', behavior: 'auto' });
     }
     /**
      * Unselect the currently selected element
@@ -109,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
         removeAllClasses('sq-first');
         removeAllClasses('sq-last');
         removeAllElements('svg line.sq-svg');
+        passageHighlighter.style.display = 'none';
     }
     /**
      * Return the HTML content of a list of elements (by id)
@@ -195,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (valueTransform)
             rect.setAttribute("transform", valueTransform);
     }
-    function setHighlightSelectionSVG(elt, isFirst, isLast) {
+    function selectHighlightSVG(elt, isFirst, isLast) {
         var bgId = elt.getAttribute("data-entity-background");
         if (!bgId)
             return;
@@ -245,15 +278,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     function getHighlightPositions(highlight) {
         var positions = [];
-        var height = document.body.scrollHeight;
+        // The body might be smaller than the viewport for small docs
+        var height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+        var offset = -document.documentElement.getBoundingClientRect().top;
         document.querySelectorAll("span.".concat(highlight, ",tspan.").concat(highlight)).forEach(function (el) {
             var box = el.getBoundingClientRect();
             positions.push({
-                top: box.top / height,
-                height: box.height / height,
-                text: el.textContent || ''
+                id: el.id,
+                top: 100 * (offset + box.top) / height,
+                height: 100 * box.height / height,
+                text: (el.textContent || '')
             });
         });
+        return positions;
     }
     function removeAllClasses(classname) {
         var selected = document.querySelectorAll(".".concat(classname));

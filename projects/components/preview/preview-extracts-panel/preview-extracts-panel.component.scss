@@ -1,0 +1,29 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+.spinner-grow {
+    width: 3rem;
+    height: 3rem
+}
+
+.active {
+    background-color: #f8f9fa;
+    color: black;
+}
+
+.list-group {
+    --bs-list-group-border-width: 0;
+
+    .list-group-item {
+        border-radius: .3rem;
+    }
+}
+
+:host-context(.dark) {
+    .active {
+        background-color: #e9ecef;
+        color: #768883;
+    }
+}

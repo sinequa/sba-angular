@@ -38,23 +38,31 @@
         <div class="side-menu h-100 d-flex flex-column justify-content-between"
             *ngIf="ui.screenSizeIsGreaterOrEqual('lg') || !collapsedPanel"
             [ngClass]="{'col-xs-12 col-sm-6 col-md-5 col-lg-3': !collapsedPanel, 'w-auto': collapsedPanel}">
-            <div class="side-menu-header d-flex justify-content-between px-2 px-lg-4 pt-2 pt-lg-4"
-                *ngIf="ui.screenSizeIsGreaterOrEqual('lg')" [ngClass]="{'collapsed': collapsedPanel}">
+            <div *ngIf="ui.screenSizeIsGreaterOrEqual('lg')"
+                class="side-menu-header d-flex justify-content-between px-2 px-lg-4 pt-2 pt-lg-4"
+                [ngClass]="{'collapsed': collapsedPanel}">
+
                 <!-- Application logo at first position (template below)-->
                 <ng-container *ngIf="(!collapsedPanel || !ui.screenSizeIsGreaterOrEqual('lg')) else logo">
                 </ng-container>
 
                 <div>
                     <!-- Back button (go back to /search route) -->
-                    <button class="btn btn-link btn-lg" [sqTooltip]="'msg#preview.back' | sqMessage" (click)="back()"
-                        *ngIf="showBackButton" [ngClass]="{'mt-2': collapsedPanel}">
+                    <button *ngIf="showBackButton"
+                        class="btn btn-link btn-lg"
+                        [ngClass]="{'mt-2': collapsedPanel}"
+                        [sqTooltip]="'msg#preview.back' | sqMessage"
+                        (click)="back()">
                         <i class="fas fa-arrow-left"></i>
                     </button>
 
                     <!-- PDF version link -->
-                    <a [href]="previewData?.record?.pdfUrl" target="_blank" class="btn btn-link btn-lg my-1"
-                        [sqTooltip]="'msg#preview.downloadPdf' | sqMessage" (click)="notifyPdf()"
-                        *ngIf="previewData?.record?.pdfUrl">
+                    <a *ngIf="previewData?.record?.pdfUrl as url"
+                        [href]="url"
+                        target="_blank"
+                        class="btn btn-link btn-lg my-1"
+                        [sqTooltip]="'msg#preview.downloadPdf' | sqMessage"
+                        (click)="notifyPdf()">
                         <i class="fas fa-file-pdf"></i>
                     </a>
                 </div>
@@ -74,40 +82,55 @@
                 <ng-container *ngIf="!collapsedPanel" [ngSwitch]="subpanel">
                     <div class="pt-2 pt-lg-4 px-2 px-lg-4">
                         <!-- Search form allowing the search preview -->
-                        <sq-preview-search-form *ngIf="previewSearchable" [query]="query"
+                        <sq-preview-search-form *ngIf="previewSearchable"
+                            [query]="query"
                             (searchText)="searchText($event)">
                         </sq-preview-search-form>
                     </div>
 
                     <!-- Navigation between the active sub panels -->
-                    <sq-tabs [customtabs]="tabs" [showCounts]="false" [selectedTab]="subpanel"
-                        class="d-block mb-2 mb-lg-3 pt-2 pt-lg-4 px-2 px-lg-4" (events)="openPanel($event)">
+                    <sq-tabs class="d-block mb-2 mb-lg-3 pt-2 pt-lg-4 px-2 px-lg-4"
+                        [customtabs]="tabs"
+                        [showCounts]="false"
+                        [selectedTab]="subpanel"
+                        (events)="openPanel($event)">
                     </sq-tabs>
 
                     <ng-container *ngSwitchCase="'extracts'">
 
                         <!-- Expanded panel different subpanels available -->
                         <!-- Extracts/Pages panel -->
-                        <!-- <sq-preview-extracts-panel class="flex-scroll" [extractsNumber]="10"
-                            [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument">
-                        </sq-preview-extracts-panel> -->
+                        <sq-preview-extracts-panel
+                            class="flex-scroll"
+                            [previewData]="previewData"
+                            [preview]="preview"
+                            [extractsNumber]="10"
+                            [highlights]="previewHighlights"
+                            type="extractslocations">
+                        </sq-preview-extracts-panel>
 
                     </ng-container>
 
                     <!-- Neural Search preview passages -->
                     <ng-container *ngSwitchCase="'passages'">
-                        <!-- <sq-preview-extracts-panel class="flex-scroll" [downloadUrl]="currentUrl"
-                            [previewData]="previewData" [previewDocument]="previewDocument" [extractsNumber]="10"
+                        <sq-preview-extracts-panel
+                            class="flex-scroll"
+                            [previewData]="previewData"
+                            [preview]="preview"
+                            [extractsNumber]="10"
+                            [highlights]="previewHighlights"
                             type="matchingpassages">
-                        </sq-preview-extracts-panel> -->
+                        </sq-preview-extracts-panel>
                     </ng-container>
 
                     <!-- Entities panel -->
                     <ng-container *ngSwitchCase="'entities'">
-                        <!-- <sq-preview-entity-panel class="flex-scroll px-2" [previewData]="previewData"
-                            [previewDocument]="previewDocument" [startUnchecked]="entitiesStartUnchecked"
-                            (facetChecked)="entitiesChecked($event)">
-                        </sq-preview-entity-panel> -->
+                        <sq-preview-entity-panel
+                            class="flex-scroll px-3"
+                            [previewData]="previewData"
+                            [preview]="preview"
+                            [highlights]="previewHighlights">
+                        </sq-preview-entity-panel>
                     </ng-container>
 
                 </ng-container>
@@ -116,14 +139,22 @@
         </div>
 
         <!-- Right panel (iframe with preview HTML) -->
-        <sq-facet-card [collapsible]="false" class="preview m-0" [actionsSize]="'md'"
-            [ngClass]="{'d-none d-sm-block col-sm-6 col-md-7 col-lg-9': !collapsedPanel}">
+        <sq-facet-card
+            [collapsible]="false"
+            [actionsSize]="'md'"
+            [ngClass]="{'d-none d-sm-block col-sm-6 col-md-7 col-lg-9': !collapsedPanel}"
+            class="preview m-0">
+
             <ng-template #headerTpl>
                 <div class="text-truncate flex-grow-1 py-2">
                     <div class="preview-title text-truncate">{{previewData?.record.title}}</div>
                     <!-- Link to the original document -->
-                    <a *ngIf="getOriginalDocUrl() as url" [sqTooltip]="'msg#preview.original' | sqMessage"
-                        target="_blank" href="{{url}}" (click)="notifyOriginalDoc()" class="mt-1">
+                    <a *ngIf="getOriginalDocUrl() as url"
+                        [sqTooltip]="'msg#preview.original' | sqMessage"
+                        class="mt-1"
+                        target="_blank"
+                        href="{{url}}"
+                        (click)="notifyOriginalDoc()">
                         {{url}}
                     </a>
                 </div>
@@ -133,7 +164,7 @@
                 class="h-100"
                 [id]="id"
                 [query]="query"
-                [highlights]="previewHighlights"
+                [highlightColors]="previewHighlights"
                 [showTooltip]="true"
                 [entityActions]="tooltipEntityActions"
                 [textActions]="tooltipTextActions"

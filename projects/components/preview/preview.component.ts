@@ -7,8 +7,10 @@ import { AppService, Query } from "@sinequa/core/app-utils";
 import { AuditEventType, PreviewData, PreviewWebService } from "@sinequa/core/web-services";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { PreviewFrameService } from "./preview-frames.service";
-import { Observable, of, Subject } from "rxjs";
-import { PreviewEntityOccurrence } from "./preview-tooltip";
+import { BehaviorSubject, Observable, of, Subject, Subscription } from "rxjs";
+import { PreviewEntityOccurrence } from "./preview-tooltip.component";
+import { UIService } from "@sinequa/components/utils";
+import { MinimapItem } from "./preview-minimap.component";
 
 export interface PreviewHighlightColors {
   name: string;
@@ -26,7 +28,10 @@ interface PreviewTooltipData {
   position: DOMRect;
 }
 
-export const DEFAULT_EXTRACTS = ["matchlocations", "extractslocations", "matchingpassages"];
+interface MinimapData {
+  locations: MinimapItem[];
+  passageLocation?: MinimapItem;
+}
 
 export const DEFAULT_SANDBOX = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
 
@@ -38,27 +43,56 @@ export const DEFAULT_SANDBOX = "allow-forms allow-modals allow-orientation-lock 
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
+
+  // Document management
   @Input() id: string;
   @Input() query: Query;
 
+  // Scale management
+  /** Default scale */
   @Input() scale = 1;
+  /** Increment/decrement of scale (additive) */
   @Input() scaleIncrement = 0.1;
-  @Input() highlights: PreviewHighlightColors[];
 
+  // Highlight management
+  /** Highlights configuration */
+  @Input() highlightColors: PreviewHighlightColors[] = [];
+  /** Default highlight to turn on (defaults to the ones present in highlightColors) */
+  @Input() defaultHighlights?: string[];
+  /** Whether to display the highlight actions */
+  @Input() highlightActions = true;
+  /** List of highlights considered as "extracts" */
+  @Input() extracts = ["matchlocations", "extractslocations", "matchingpassages"];
+  /** List of highlights considered as "entities" */
+  get entities() {
+    return this.allHighlights.filter(name => !this.extracts.includes(name));
+  }
+  /** Name of the preference property used to stored the highlight preferences */
+  @Input() preferenceName = 'preview';
+
+
+  // Tooltip management
+  /** Whether to display a tooltip when hovering entities or selecting text */
   @Input() showTooltip = false;
+  /** Actions to display above a hovered entity */
   @Input() entityActions?: Action[];
+  /** Actions to display above a selected text */
   @Input() textActions?: Action[];
 
+  // Minimap management
+  /** Whether to display the minimap next to the preview iframe */
   @Input() showMinimap = false;
+  /** Which highlight type should the minimap display */
+  @Input() minimapType = 'extractslocations';
+  /** Spacing for the minimap, which is positioned absolutely */
+  @HostBinding("style.padding-right.rem")
+  get minimapSpace() {
+    return this.showMinimap? 1 : 0;
+  }
 
+  //Misc
+  /** Whether to show an action to download the PDF version of the document (if it exists) */
   @Input() downloadablePdf = true;
-  @Input() highlightActions = true;
-  @Input() highlightEntities = false;
-  @Input() highlightExtracts = false;
-  /** List of highlights to be shown when turning "extracts" on (should be a subset of allExtracts) */
-  @Input() extracts = DEFAULT_EXTRACTS;
-  /** List of highlights returned by the server considered as "extracts" (but not necessarily displayed), all the others being considered "entities" */
-  @Input() allExtracts = DEFAULT_EXTRACTS;
 
   /**
    * Three possible sandbox configurations:
@@ -70,34 +104,47 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   set sandbox(sb: string|null|undefined) {
     this._sandbox = sb === null? undefined : sb || DEFAULT_SANDBOX;
   }
-
-  @Output() ready = new EventEmitter();
-
-  @HostBinding("style.padding-right.rem")
-  get minimapSpace() {
-    return this.showMinimap? 1 : 0;
-  }
-
   _sandbox: string|undefined;
 
+  /** Emits an event when the preview is ready for any interaction via this component */
+  @Output() ready = new EventEmitter();
+
+  // Reference to the iframe's window
   @ViewChild("preview") iframe: ElementRef<HTMLIFrameElement>;
   get preview(): Window | null {
     return this.iframe?.nativeElement?.contentWindow;
   }
 
-  tooltip$ = new Subject<PreviewTooltipData | undefined>();
+  /** Subject emitting a value when the "selected highlight" changes */
+  public selectedId$ = new BehaviorSubject<string|undefined>(undefined);
 
-  loading = false;
-  url?: string;
-  safeUrl?: SafeResourceUrl;
-  data?: PreviewData;
+  /** Subject emitting an object triggering the display of a tooltip, or undefined to hide it */
+  public tooltip$ = new Subject<PreviewTooltipData | undefined>();
+
+  /** Subject emitting data to display the minimap */
+  public minimap$ = new Subject<MinimapData>();
+
+  /** Subject emitting the list of highlights when it changes */
+  public highlights$ = new BehaviorSubject<string[]>([]);
+
+  // Actions
 
   zoomInAction: Action;
   zoomOutAction: Action;
   toggleEntitiesAction: Action;
   toggleExtractsAction: Action;
   pdfDownloadAction: Action;
+
   _actions: Action[];
+  override get actions() { return this._actions; }
+
+
+  // Other state
+
+  loading = false;
+  url?: string;               // URL as a string
+  safeUrl?: SafeResourceUrl;  // Sanitized URL, ready for the iframe
+  data?: PreviewData;         // The preview data returned by the /api/v1/preview web service
 
   constructor(
     public previewWS: PreviewWebService,
@@ -106,9 +153,13 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     public appService: AppService,
     public searchService: SearchService,
     public prefs: UserPreferences,
-    public cdRef: ChangeDetectorRef
+    public cdRef: ChangeDetectorRef,
+    public ui: UIService
   ) {
     super();
+
+    // When the iframe is resized, the div can be badly positioned
+    this.sub = this.ui.resizeEvent.subscribe(() => this.onResize());
 
     this.zoomOutAction = new Action({
       icon: "fas fa-fw fa-search-minus",
@@ -117,6 +168,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
         this.scale -= this.scaleIncrement;
         this.updateActions();
         this.cdRef.detectChanges();
+        this.onResize();
       },
       updater: action => action.disabled = this.scale <= 0.2
     });
@@ -128,6 +180,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
         this.scale += this.scaleIncrement;
         this.updateActions();
         this.cdRef.detectChanges();
+        this.onResize();
       },
       updater: action => action.disabled = this.scale >= 3
     });
@@ -135,23 +188,15 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     this.toggleEntitiesAction = new Action({
       icon: "fas fa-fw fa-lightbulb",
       title: "msg#facet.preview.toggleEntities",
-      action: (action) => {
-        this.highlightEntitiesPref = !this.highlightEntitiesPref;
-        this.updateHighlights();
-        action.update();
-      },
-      updater: action => action.selected = this.highlightEntitiesPref
+      action: (action) => this.toggleEntities(!action.selected),
+      updater: action => action.selected = this.entities.some(e => this.highlightsPref.includes(e))
     });
 
     this.toggleExtractsAction = new Action({
       icon: "fas fa-fw fa-highlighter",
       title: "msg#facet.preview.toggleExtracts",
-      action: (action) => {
-        this.highlightExtractsPref = !this.highlightExtractsPref;
-        this.updateHighlights();
-        action.update();
-      },
-      updater: action => action.selected = this.highlightExtractsPref
+      action: (action) => this.toggleExtracts(!action.selected),
+      updater: action => action.selected = this.extracts.some(e => this.highlightsPref.includes(e))
     });
 
     this.pdfDownloadAction = new Action({
@@ -167,7 +212,6 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
       this.loading = true;
       this.previewWS.get(this.id, this.query).subscribe(data => {
-        this.data = data;
         if(this.url) {
           this.previewFrames.unsubscribe(this.url);
         }
@@ -178,43 +222,50 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
           this.cdRef.detectChanges(); // Destruct and reconstruct the iframe to prevent navigation issues
         }
         this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
-        this.previewFrames.subscribe(this.url, 'ready', () => this.onReady());
+        this.previewFrames.subscribe(this.url, 'ready', () => this.onReady(data));
         this.cdRef.detectChanges();
       });
     }
 
     // Update the preview highlights
     if(changes.highlights) {
-      this.sendMessage({ action: 'highlight', highlights: this.highlights });
+      this.sendMessage({ action: 'highlight', highlights: this.highlightColors });
     }
 
     this.updateActions();
   }
 
+  sub: Subscription;
   ngOnDestroy(): void {
     if(this.url) {
       this.previewFrames.unsubscribe(this.url);
     }
+    this.sub.unsubscribe();
   }
 
   sendMessage(message: any) {
     this.preview?.postMessage(message, this.appService.origin);
   }
 
-  onReady() {
+  onReady(data: PreviewData) {
+    this.data = data;
     const highlights = this.getHighlights();
     this.sendMessage({ action: 'init', highlights });
+    this.highlights$.next(this.highlightsPref);
     this.updateActions();
-    if(this.showTooltip) {
-      this.initTooltip();
-    }
+    this.initTooltip();
+    this.initMinimap();
     this.loading = false;
     this.ready.emit();
     this.cdRef.detectChanges();
   }
 
-  override get actions() {
-    return this._actions;
+  onResize() {
+    const id = this.selectedId$.getValue();
+    if(id) {
+      this.select(id); // Reselect the item to force a redraw of the passage highlighter
+    }
+    this.initMinimap(); // Redraw minimap to match new scale
   }
 
   /**
@@ -234,43 +285,93 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     }
   }
 
+
+  /**
+   * Update the preview highlights, based on the user settings or defaults.
+   */
   updateHighlights() {
-    this.highlight(this.getHighlights());
-  }
-
-  getHighlights() {
-    return this.highlights.filter(highlight => {
-      // Either a highlight is part of the "extracts", or it is part of the "entities"
-      const allExtracts = this.allExtracts || DEFAULT_EXTRACTS;
-      const extracts = this.extracts || DEFAULT_EXTRACTS;
-      const isExtract = allExtracts.includes(highlight.name);
-      return ( isExtract && this.highlightExtractsPref && extracts.includes(highlight.name))
-          || (!isExtract && this.highlightEntitiesPref);
-    });
-  }
-
-  highlight(highlights: PreviewHighlightColors[]) {
+    const highlights = this.getHighlights();
     this.sendMessage({ action: 'highlight', highlights });
+    this.highlights$.next(this.highlightsPref);
+  }
+
+  /**
+   * Return highlight colors based on user settings or defaults.
+   */
+  getHighlights(): PreviewHighlightColors[] {
+    return this.highlightColors.filter(
+      hl => this.highlightsPref.includes(hl.name)
+    );
+  }
+
+  /**
+   * Toggle highlight of entities via the user preferences
+   */
+  toggleEntities(showEntities: boolean) {
+    this.highlightsPref = showEntities?
+      this.highlightsPref.concat(this.entities.filter(e => this.highlightsPref.indexOf(e) === -1)) :
+      this.highlightsPref.filter(hl => !this.entities.includes(hl));
+    this.updateHighlights();
+    this.toggleEntitiesAction.update();
+  }
+
+  /**
+   * Toggle highlight of extracts via the user preferences
+   */
+  toggleExtracts(showExtracts: boolean) {
+    this.highlightsPref = showExtracts?
+      this.highlightsPref.concat(this.extracts.filter(e => this.highlightsPref.indexOf(e) === -1)) :
+      this.highlightsPref.filter(hl => !this.extracts.includes(hl));
+    this.updateHighlights();
+    this.toggleExtractsAction.update();
+  }
+
+  /**
+   * Toggle the highlight of a specific type
+   */
+  toggleHighlight(highlight: string) {
+    if(this.highlightsPref.includes(highlight)) {
+      this.highlightsPref = this.highlightsPref.filter(hl => hl !== highlight);
+    }
+    else {
+      this.highlightsPref = this.highlightsPref.concat(highlight);
+    }
+    this.updateHighlights();
+    this.toggleEntitiesAction.update();
+    this.toggleExtractsAction.update();
   }
 
   selectMostRelevant() {
     if(this.data?.highlightsPerCategory['matchingpassages']?.values.length) {
-      this.select('matchingpassages_0');
+      this.select(this.getMostRelevantId('matchingpassages'));
     }
     else if(this.data?.highlightsPerCategory['extractslocations']?.values.length) {
-      this.select('extractslocations_0');
+      this.select(this.getMostRelevantId('extractslocations'));
     }
   }
 
+  getMostRelevantId(type: string) {
+    const passages = this.data?.highlightsPerCategory[type]?.values[0].locations.map(l => l.start).sort((a,b) => a-b);
+    const idx = passages?.findIndex(start => start === this.data?.highlightsPerCategory[type]?.values[0].locations[0].start);
+    return `${type}_${idx}`;
+  }
+
   select(id: string) {
-    this.sendMessage({ action: 'select', id});
+    const usePassageHighlighter = id.startsWith('matchingpassages') || id.startsWith('extractslocations')
+    this.sendMessage({ action: 'select', id, usePassageHighlighter});
+    this.selectedId$.next(id);
+  }
+
+  unselect() {
+    this.sendMessage({action: 'unselect'});
+    this.selectedId$.next(undefined);
   }
 
   getHtml(highlight: string): Observable<string[]> {
     if(this.preview && this.data && this.url) {
 
       // Generate the list of items we want to retrieve
-      const ids = this.data.highlightsPerCategory[highlight]?.values[0].locations.map(
+      const ids = this.data.highlightsPerCategory[highlight]?.values[0]?.locations.map(
         (_,i) => `${highlight}_${i}`
       );
 
@@ -288,7 +389,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   // Tooltip management
 
   initTooltip() {
-    if(this.url) {
+    if(this.url && this.showTooltip) {
       this.previewFrames.subscribe<EntityHoverEvent|undefined>(this.url, 'highlight-hover',
         (event) => this.onHighlightHover(event)
       );
@@ -388,23 +489,32 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     }
   }
 
+  // Minimap management
+
+  initMinimap() {
+    if(this.url && this.showMinimap) {
+      this.sendMessage({action: 'get-positions', highlight: this.minimapType});
+      this.previewFrames.subscribe<MinimapItem[]>(this.url, 'get-positions-results',
+        locations => this.minimap$.next({ locations })
+      );
+    }
+  }
+
 
   // Manage user preferences for entity/extract highlighting
 
-  get highlightEntitiesPref(): boolean {
-    return this.prefs.get("mini-preview-highlight-entities") ?? this.highlightEntities;
+  get allHighlights(): string[] {
+    return this.highlightColors.map(hl => hl.name);
   }
 
-  set highlightEntitiesPref(pref: boolean) {
-    this.prefs.set("mini-preview-highlight-entities", pref);
+  get highlightsPref(): string[] {
+    return this.prefs.get(`${this.preferenceName}-highlights`)  // Get preferences from user settings
+      ?? this.defaultHighlights                                 // Or from input settings
+      ?? this.allHighlights;               // Or from the highlight colors
   }
 
-  get highlightExtractsPref(): boolean {
-    return this.prefs.get("mini-preview-highlight-extracts") ?? this.highlightExtracts;
-  }
-
-  set highlightExtractsPref(pref: boolean) {
-    this.prefs.set("mini-preview-highlight-extracts", pref);
+  set highlightsPref(pref: string[]) {
+    this.prefs.set(`${this.preferenceName}-highlights`, pref);
   }
 
 }

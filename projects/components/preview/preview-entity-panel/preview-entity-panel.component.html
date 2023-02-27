@@ -1,0 +1,14 @@
+<sq-facet-card *ngFor="let entity of entities"
+  class="my-3"
+  [collapsible]="false"
+  [buttonsStyle]="style">
+  <sq-preview-entity-facet #facet
+    [entity]="entity.type"
+    [data]="entity.values"
+    [preview]="preview"
+    [previewData]="previewData"
+    [label]="entity.display"
+    [icon]="entity.icon"
+    [highlights]="entity.highlights">
+  </sq-preview-entity-facet>
+</sq-facet-card>
