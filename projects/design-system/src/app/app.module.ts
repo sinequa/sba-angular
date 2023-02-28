@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BsFacetModule, FacetConfig, FacetListParams, FacetState, FacetTreeParams } from "@sinequa/components/facet";
+import { BsFacetModule, FacetState, NamedFacetConfig } from "@sinequa/components/facet";
 import { IntlModule, Locale, LocaleData, LocalesConfig } from "@sinequa/core/intl";
 import { WebServicesModule, StartConfig, StartConfigWebService } from "@sinequa/core/web-services";
 import { LoginInterceptor } from "@sinequa/core/login";
@@ -123,7 +123,6 @@ import { ManageAlertsComponent } from './modules/alerts-module/manage-alerts/man
 import { AlertsMenuComponent } from './modules/alerts-module/alerts-menu/alerts-menu.component';
 import { AutocompleteModuleComponent } from './modules/autocomplete-module/autocomplete-module.component';
 import { AutocompleteListComponent } from './modules/autocomplete-module/autocomplete-list/autocomplete-list.component';
-import { FieldSearchItemsComponent } from './modules/autocomplete-module/field-search-items/field-search-items.component';
 import { ModalModuleComponent } from './modules/modal-module/modal-module.component';
 import { ModalComponent } from './modules/modal-module/modal/modal.component';
 import { ModalHeaderComponent } from './modules/modal-module/modal-header/modal-header.component';
@@ -155,7 +154,6 @@ import { FacetSavedQueriesComponent } from './modules/saved-queries-module/facet
 import { FacetRecentQueriesComponent } from './modules/saved-queries-module/facet-recent-queries/facet-recent-queries.component';
 import { FacetRecentDocumentsComponent } from './modules/saved-queries-module/facet-recent-documents/facet-recent-documents.component';
 import { DidYouMeanComponent } from './modules/search-module/did-you-mean/did-you-mean.component';
-import { BreadcrumbsComponent } from './modules/search-module/breadcrumbs/breadcrumbs.component';
 import { PagerComponent } from './modules/search-module/pager/pager.component';
 import { PageSizeSelectorComponent } from './modules/search-module/page-size-selector/page-size-selector.component';
 import { SortSelectorComponent } from './modules/search-module/sort-selector/sort-selector.component';
@@ -207,33 +205,27 @@ export const searchOptions: SearchOptions = {
 };
 
 // List of facet configurations (of type list and tree)
-export const allFacets: FacetConfig<FacetListParams | FacetTreeParams>[] = [
+export const namedFacetConfig: NamedFacetConfig[] = [
     {
         name: "facet1",
         title: "Modified",
         type: "list",
         icon: "fas fa-calendar-day",
-        parameters: {
-            aggregation: "Modified"
-        }
+        aggregation: 'modified'
     },
     {
         name: "facet2",
         title: "Tree path",
         type: "tree",
         icon: "fas fa-sitemap",
-        parameters: {
-            aggregation: "Treepath"
-        }
+        aggregation: "Treepath"
     },
     {
         name: "facet3",
         title: "Person",
         type: "list",
         icon: "fas fa-user",
-        parameters: {
-            aggregation: "Person"
-        }
+        aggregation: "Person"
     }
 ];
 
@@ -254,7 +246,7 @@ const data: LocaleData = {
 const resultsView: ResultsView = {
     name: 'name',
     type: 'type'
-  };
+};
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -363,7 +355,6 @@ export class AppLocalesConfig implements LocalesConfig {
         AlertsMenuComponent,
         AutocompleteModuleComponent,
         AutocompleteListComponent,
-        FieldSearchItemsComponent,
         ModalModuleComponent,
         ModalComponent,
         ModalHeaderComponent,
@@ -393,7 +384,6 @@ export class AppLocalesConfig implements LocalesConfig {
         FacetRecentQueriesComponent,
         FacetRecentDocumentsComponent,
         DidYouMeanComponent,
-        BreadcrumbsComponent,
         PagerComponent,
         PageSizeSelectorComponent,
         SortSelectorComponent,
@@ -427,7 +417,7 @@ export class AppLocalesConfig implements LocalesConfig {
         BrowserAnimationsModule,
         AppRoutingModule,
         WebServicesModule.forRoot(startConfig),
-        BsFacetModule.forRoot(allFacets, defaultFacets),
+        BsFacetModule.forRoot(namedFacetConfig, defaultFacets),
         IntlModule.forRoot(AppLocalesConfig),
         BsSearchModule.forRoot(searchOptions),
         BsTimelineModule,

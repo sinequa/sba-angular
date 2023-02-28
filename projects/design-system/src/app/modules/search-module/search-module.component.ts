@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { DidYouMeanComponent } from './did-you-mean/did-you-mean.component';
 import { LoadMoreComponent } from './load-more/load-more.component';
 import { LoadingBarComponent } from './loading-bar/loading-bar.component';
@@ -19,7 +18,6 @@ export class SearchModuleComponent {
   title = 'Search Module';
 
   components = [
-    BreadcrumbsComponent,
     DidYouMeanComponent,
     LoadMoreComponent,
     LoadingBarComponent,

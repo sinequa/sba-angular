@@ -66,8 +66,6 @@ export class SearchComponent {
     </button>
 </div>`;
 
-    code4: string = `<sq-breadcrumbs></sq-breadcrumbs>`;
-
     constructor() {
     }
 

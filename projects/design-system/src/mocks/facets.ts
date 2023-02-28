@@ -1,8 +1,9 @@
 import { FacetDateParams } from "@sinequa/analytics/timeline";
-import { FacetConfig, FacetListParams, FacetMySearchParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams, FacetTreeParams } from '@sinequa/components/facet';
+import { FacetConfig, FacetListParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams } from '@sinequa/components/facet';
 
-export type FacetParams = FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams;
-export const FACETS: FacetConfig<FacetParams>[] = [
+export type FacetParams = FacetListParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams;
+export const FACETS: FacetConfig<FacetParams>[] = [];
+/* export const FACETS: FacetConfig<FacetParams>[] = [
     {
         name: "geo",
         title: "Places",
@@ -11,10 +12,10 @@ export const FACETS: FacetConfig<FacetParams>[] = [
         parameters: {
             aggregation: "Geo",
             showCount: true,
-            searchable: true,
-            allowExclude: true,
-            allowOr: true,
-            allowAnd: false,
+            searchable: undefined,
+            allowExclude: undefined,
+            allowOr: undefined,
+            allowAnd: fundefinedalse,
             displayEmptyDistributionIntervals: false
         }
     },
@@ -124,4 +125,4 @@ export const FACETS: FacetConfig<FacetParams>[] = [
             displayEmptyDistributionIntervals: false
         }
     }
-];
+]; */
