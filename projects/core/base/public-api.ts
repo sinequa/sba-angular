@@ -1,7 +1,5 @@
-export * from "./array-view";
 export * from "./error";
 export * from "./field-value";
-export * from "./item-array-view";
 export * from "./iterator-adaptor";
 export * from "./json";
 export * from "./keyboard";
@@ -11,3 +9,4 @@ export * from "./pattern-matcher";
 export * from "./utils";
 export * from "./base.module";
 export * from "./strict-union";
+export * from "./diacritics";

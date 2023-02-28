@@ -5,7 +5,7 @@ import {UserSettingsWebService, UserSettings, Suggestion,
 } from "@sinequa/core/web-services";
 import {IntlService} from "@sinequa/core/intl";
 import {Query, AppService, FormatService} from "@sinequa/core/app-utils";
-import {FieldValue, Utils} from "@sinequa/core/base";
+import {diacriticsInsensitiveRegexp, FieldValue, Utils} from "@sinequa/core/base";
 import {Subject, Observable, map, tap} from "rxjs";
 import {FirstPageService, SearchService} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
@@ -729,7 +729,7 @@ export class FacetService {
 
             // searchTerm should be escaped
             const term = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const searchPattern = new RegExp(`\\b${term}`, 'i');
+            const searchPattern = diacriticsInsensitiveRegexp(term, '\\b', '', 'i');
             const column = this.appService.getColumn(aggregation?.column);
             suggests.forEach(suggest => {
                 if(suggest.display.length > 1) {
