@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { PreviewData } from '@sinequa/core/web-services';
-import {Action} from "@sinequa/components/action";
+import { Action } from "@sinequa/components/action";
 
 import { PreviewDocument } from '../../preview-document';
 import { PreviewService, Extract } from '../../preview.service';
@@ -20,11 +19,22 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() downloadUrl: string;
   @Input() type = "extractslocations";
   @Input() style: "light" | "dark" = "light";
-  @ViewChild("scrollViewport") cdkScrollViewport: CdkVirtualScrollViewport;
 
-  sortAction : Action;
+  /**
+   * Whether the extracts pagination should be displayed at the footer of the side menu
+   */
+  @Input() showPagination = true;
+
+  /**
+   * The number of items per page
+   */
+  @Input() extractsNumber: number = 10;
+
   extracts: Extract[] = [];
+  displayedExtracts: Extract[] = [];
+  sortAction: Action;
   currentIndex = -1;
+  scrollIndex: number;
   loading = false;
 
   constructor(
@@ -36,13 +46,13 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   ngOnChanges(changes: SimpleChanges) {
     this.extracts = [];
-    if(this.previewData) {
+    if (this.previewData) {
       // HTML document already available
-      if(this.previewDocument) {
+      if (this.previewDocument) {
         this.extractAll(this.previewData, this.previewDocument);
       }
       // This component can also directly download and parse the HTML itself
-      else if(this.downloadUrl) {
+      else if (this.downloadUrl) {
         this.loading = true;
         this.previewService.getHtmlPreview(this.downloadUrl)
           .subscribe((value) => {
@@ -74,7 +84,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
     this.buildSortAction();
 
     this.loading = false;
-    this.currentIndex = -1;
+    this.currentIndex = this.extracts.length ? this.extracts[0].relevanceIndex : -1;
     this.cdr.detectChanges();
   }
 
@@ -82,11 +92,12 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    * Build Sort Action for Extracts
    * @param i
    */
-  buildSortAction(){
+  buildSortAction() {
     this.sortAction = new Action({
+      icon: 'fas fa-sort-amount-down',
       title: "msg#sortSelector.sortByTitle",
-      messageParams: {values: {text: "msg#preview.relevanceSortHighlightButtonText"}},
-      text:  "msg#preview.relevanceSortHighlightButtonText",
+      messageParams: { values: { text: "msg#preview.relevanceSortHighlightButtonText" } },
+      text: "msg#preview.relevanceSortHighlightButtonText",
       children: [
         new Action({
           icon: 'fas fa-sort-amount-down',
@@ -95,19 +106,19 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
             // return a new map to re-render the collection
             this.extracts = this.extracts.map(el => el).sort((a, b) => a.relevanceIndex - b.relevanceIndex);
             this.sortAction.text = item.text;
-            this.sortAction.messageParams = {values: {text: item.text} };
-            this.currentIndex = -1;
-            }
+            this.sortAction.messageParams = { values: { text: item.text } };
+            this.currentIndex = 0;
+          }
         }),
         new Action({
           icon: 'fas fa-sort-amount-down',
           text: "msg#preview.textOrderSortHighlightButtonText",
           action: (item: Action, event: Event) => {
             // return a new map to re-render the collection
-            this.extracts = this.extracts.map(el => el).sort((a,b) => a.textIndex-b.textIndex);
+            this.extracts = this.extracts.map(el => el).sort((a, b) => a.textIndex - b.textIndex);
             this.sortAction.text = item.text;
-            this.sortAction.messageParams = {values: {text: item.text} };
-            this.currentIndex = -1;
+            this.sortAction.messageParams = { values: { text: item.text } };
+            this.currentIndex = 0;
           }
         })
       ]
@@ -135,22 +146,18 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   /**
    * Select the previous extract in the list
    */
-  previousExtract(){
+  previousExtract() {
     this.currentIndex--;
-    this.scrollTo();
+    this.scrollIndex = this.currentIndex;
+    this.scrollExtract(this.displayedExtracts[this.currentIndex]);
   }
 
   /**
    * Select the next extract in the list
    */
-  nextExtract(){
+  nextExtract() {
     this.currentIndex++;
-    this.scrollTo();
-  }
-
-  private scrollTo() {
-    this.cdkScrollViewport.scrollToIndex(this.currentIndex);
-    const extract = this.extracts[this.currentIndex];
-    this.scrollExtract(extract);
+    this.scrollIndex = this.currentIndex;
+    this.scrollExtract(this.displayedExtracts[this.currentIndex]);
   }
 }

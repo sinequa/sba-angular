@@ -10,17 +10,21 @@ import { Record } from "@sinequa/core/web-services";
 export class SlideTileComponent {
     @Input() record: Record;
     @Input() dateFormat: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'short', day: 'numeric'};
-    
+
     constructor(
         public searchService: SearchService
     ) {}
-    
-    onSlideFilterClick(record:Record, event) {
+
+    onSlideFilterClick(record:Record, event: Event) {
         event.stopPropagation(); // stop progation to avoid adding this slide to the slide deck
         const tab = this.searchService.query.tab;
         this.searchService.query.clear();
         this.searchService.query.tab = tab; // Stay on same tab
-        this.searchService.query.addSelect('title`'+ record.filename +'`:`' + record.title +'`');
+        this.searchService.query.addFilter({
+          field: 'title',
+          value: record.title,
+          display: record.filename || record.title
+        });
         this.searchService.query.sort = "id";
         this.searchService.search();
     }

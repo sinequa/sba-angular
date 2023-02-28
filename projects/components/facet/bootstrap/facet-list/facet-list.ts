@@ -1,27 +1,25 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnInit, OnDestroy} from "@angular/core";
-import {Results, Aggregation, AggregationItem} from "@sinequa/core/web-services";
-import {Utils} from "@sinequa/core/base";
-import {FacetService} from "../../facet.service";
-import {Action} from "@sinequa/components/action";
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef, AfterViewInit} from "@angular/core";
+import {Results, Aggregation, AggregationItem, Suggestion, TreeAggregationNode, ListAggregation, TreeAggregation} from "@sinequa/core/web-services";
+import {AddFilterOptions, FacetService} from "../../facet.service";
 import {AbstractFacet} from "../../abstract-facet";
-import {BehaviorSubject, Observable, of, Subscription, catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs';
-import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
+import {Observable, debounceTime, distinctUntilChanged, switchMap, finalize, Subscription, of, Subject} from 'rxjs';
+import {FormControl, FormGroup} from '@angular/forms';
 import { FacetConfig } from "../../facet-config";
+import { Query } from "@sinequa/core/app-utils";
+import { SearchService } from "@sinequa/components/search";
+import { Utils } from "@sinequa/core/base";
 
 export interface FacetListParams {
-    aggregation: string;
-    showCheckbox?: boolean;
     showCount?: boolean;
     searchable?: boolean;
+    focusSearch?: boolean;
     allowExclude?: boolean;
     allowOr?: boolean;
     allowAnd?: boolean;
     displayEmptyDistributionIntervals?: boolean;
     acceptNonAggregationItemFilter?: boolean;
-    displayActions?: boolean;
-    showProgressBar?: boolean;
     replaceCurrent?: boolean;
-    alwaysShowSearch?: boolean;
+    suggestQuery?: string;
 }
 
 export interface FacetListConfig extends FacetConfig<FacetListParams> {
@@ -34,161 +32,59 @@ export interface FacetListConfig extends FacetConfig<FacetListParams> {
     styleUrls: ["./facet-list.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsFacetList extends AbstractFacet implements FacetListParams, OnChanges, OnInit, OnDestroy {
+export class BsFacetList extends AbstractFacet implements FacetListParams, OnChanges, OnDestroy, AfterViewInit {
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
+    @Input() query?: Query;
     @Input() aggregation: string;
-    @Input() showCheckbox: boolean = true;
     @Input() showCount: boolean = true; // Show the number of occurrences
     @Input() searchable: boolean = true; // Allow to search for items in the facet
+    @Input() focusSearch: boolean = false;
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
-    @Input() allowAnd: boolean = true; // Allow to search various items in AND mode
+    @Input() allowAnd: boolean = false; // Allow to search various items in AND mode
     @Input() displayEmptyDistributionIntervals: boolean = false; // If the aggregration is a distribution, then this property controls whether empty distribution intervals will be displayed
-    @Input() displayActions = false;
-    @Input() showProgressBar = false; // Allow to display item count as progress bar
     @Input() acceptNonAggregationItemFilter = true; // when false, filtered items which don't match an existing aggregation item, should not be added to filtered list
     @Input() replaceCurrent = false; // if true, the previous "select" is removed first
-    @Input() alwaysShowSearch = false;
+    // Specific to tree facets
+    @Input() expandedLevel: number = 2;
 
-    // Aggregation from the Results object
-    data$ = new BehaviorSubject<Aggregation | undefined>(undefined)
-    items$ = new BehaviorSubject<AggregationItem[]>([]);
-    data = () => this.data$.getValue();
-    subscriptions: Subscription[] = [];
+    @ViewChild("searchInput") searchInput: ElementRef<HTMLInputElement>;
 
-    filtering: boolean = false;
+    items: (AggregationItem | TreeAggregationNode)[] = [];
 
-    // Search
-    myGroup: UntypedFormGroup;
-    searchQuery: UntypedFormControl; // ngModel for textarea
-    suggestDelay = 200;
-    noResults = false;
-    searchActive = false;
-    suggestions$: BehaviorSubject<AggregationItem[]> = new BehaviorSubject<AggregationItem[]>([]);
-
-    /** Sum of all items count value */
-    sumOfCount: number;
-
-    /** List of selected items */
+    data: ListAggregation | TreeAggregation | undefined;
+    suggests: Suggestion[] | undefined;
     selected: AggregationItem[] = [];
 
-    /** Selected items that are not visible in the current aggregation (or suggestions in search mode) */
-    hiddenSelected: AggregationItem[] = [];
+    // Search
+    searchGroup: FormGroup<{searchQuery: FormControl<string>}>;
+    suggestDelay = 200;
+    searchActive = new Subject<boolean>();
 
-    /** List of excluded/filtered items */
-    filtered: AggregationItem[] = [];
-
-
-    // Loading more data
-    private skip = 0;
-    /** num of items currently displayed in the facet */
-    private count = 0;
-    /** Does facet has more items to display ? */
-    loadingMore = false;
-
-    // Actions (displayed in facet menu)
-    // All actions are built in the constructor
-    private readonly filterItemsOr: Action;
-    private readonly filterItemsAnd: Action;
-    private readonly excludeItems: Action;
-    private readonly clearFilters: Action;
-    public readonly searchItems: Action;
+    showCheckbox = false;
 
     constructor(
-        private facetService: FacetService,
-        private changeDetectorRef: ChangeDetectorRef) {
+        protected searchService: SearchService,
+        protected facetService: FacetService,
+        protected changeDetectorRef: ChangeDetectorRef
+    ) {
         super();
 
-        this.myGroup = new UntypedFormGroup({
-            searchQuery: new UntypedFormControl()
-        });
+        const searchQuery = new FormControl("", {nonNullable: true});
+        this.searchGroup = new FormGroup({searchQuery});
 
-        this.searchQuery = this.myGroup.get("searchQuery") as UntypedFormControl;
-        this.subscriptions["suggest"] = this.suggest$(this.searchQuery.valueChanges)
-            .subscribe(values => {
-                // Update the "selected" status of new suggestion items
-                for(const i of values) {
-                  if(this.isSelected(i)) {
-                    i.$selected = true;
-                  }
-                }
-                this.suggestions$.next(values);
-                // Refresh hiddenSelected list when the list of items is updated
-                this.refreshHiddenSelected();
-                this.searchActive = false;
-                this.changeDetectorRef.markForCheck();
-            });
+        this.sub.add(
+            searchQuery.valueChanges.pipe(
+                debounceTime(this.suggestDelay),
+                distinctUntilChanged(),
+                switchMap(text => this.onSearch(text))
+            ).subscribe(suggests => {
+                this.suggests = suggests;
+                this.updateItems()
+            })
+        );
 
-        // Keep documents with ANY of the selected items
-        this.filterItemsOr = new Action({
-            icon: "fas fa-filter",
-            title: "msg#facet.filterItems",
-            action: () => {
-                if (this.data()) {
-                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.selected, {replaceCurrent: this.replaceCurrent});
-                }
-            }
-        });
-
-        // Keep documents with ALL the selected items
-        this.filterItemsAnd = new Action({
-            icon: "fas fa-bullseye",
-            title: "msg#facet.filterItemsAnd",
-            action: () => {
-                if (this.data()) {
-                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.selected, {and: true, replaceCurrent: this.replaceCurrent});
-                }
-            }
-        });
-
-        // Exclude document with selected items
-        this.excludeItems = new Action({
-            icon: "fas fa-times",
-            title: "msg#facet.excludeItems",
-            action: () => {
-                if (this.data()) {
-                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.selected, {not: true, replaceCurrent: this.replaceCurrent});
-                }
-            }
-        });
-
-        // Clear the current filters
-        this.clearFilters = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facet.clearSelects",
-            action: () => {
-                this.facetService.clearFiltersSearch(this.getName(), true);
-            }
-        });
-
-        // Search for a value in this list
-        this.searchItems = new Action({
-            icon: "fas fa-search",
-            title: "msg#facet.searchItems",
-            action: (item, event) => {
-                item.selected = !item.selected;
-                if(!item.selected){
-                    this.clearSearch();
-                }
-                event.stopPropagation();
-                this.changeDetectorRef.markForCheck();
-            }
-        });
-    }
-
-    clearSearch() {
-        this.searchQuery.setValue(""); // Remove suggestions if some remain
-        this.noResults = false;
-        this.suggestions$.next([]);
-    }
-
-    /**
-     * Name of the facet, used to create and retrieve selections
-     * through the facet service.
-     */
-    getName() : string {
-        return this.name || this.aggregation;
     }
 
     /**
@@ -201,184 +97,143 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         if (this.searchable === undefined) this.searchable = true;
         if (this.allowExclude === undefined) this.allowExclude = true;
         if (this.allowOr === undefined) this.allowOr = true;
-        if (this.allowAnd === undefined) this.allowAnd = true;
+        if (this.allowAnd === undefined) this.allowAnd = false;
+        this.showCheckbox = this.allowOr || this.allowAnd || this.allowExclude;
 
         if (changes.results || changes.aggregation) {     // New data from the search service
-            const agg = this.facetService.getAggregation(this.aggregation, this.results);
-            if(!this.count){
-                const max = this.facetService.getAggregationCount(this.aggregation);
-                this.count = max < 0 ? (agg?.items?.length || - 1) + 1 : max;
+            this.data = this.facetService.getAggregation(this.aggregation, this.results);
+            if(this.data?.isTree && this.data.items) {
+                this.expandItems(this.data.items);
             }
-            this.filtered.length = 0;
-            this.selected.length = 0;
-            this.hiddenSelected.length = 0;
-            this.skip = 0;
-            this.searchItems.selected = !!this.alwaysShowSearch;
+            this.data?.items?.forEach(item => item.$selected = false); // Reinitialize the source aggregation's selected items
+            this.selected = [];
             this.clearSearch();
-            this.data$.next(agg);
+            this.updateItems();
         }
     }
 
-    ngOnInit() {
-        this.subscriptions["data"] = this.data$.pipe(
-            map(data => {
-                const nonFilteredItems = this.refreshFiltered(data);
+    sub: Subscription = new Subscription();
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
+    }
 
-                return !data?.isDistribution || this.displayEmptyDistributionIntervals?
-                    nonFilteredItems : nonFilteredItems.filter(item => item.count > 0);
-            }),
-        ).subscribe(items => {
-            this.sumOfCount = items.length > 0 ? items.map(item => item.count).reduce((acc, value) => acc += value) / 100 : 0;
-            this.items$.next(items);
-            // Refresh hiddenSelected list when the list of items is updated
-            this.refreshHiddenSelected();
+    ngAfterViewInit(): void {
+        if(this.focusSearch) {
+            this.searchInput?.nativeElement.focus();
+        }
+    }
+
+    updateItems() {
+        if(!this.data) {
+            this.items = [];
+            return;
+        }
+
+        if (this.searchable && this.suggests) {
+            if(this.data.isTree) {
+                this.items = this.facetService.suggestionsToTreeAggregationNodes(this.suggests, this.searchControl.value, this.data);
+            }
+            else {
+                this.items = this.suggests.slice(0, this.data.$cccount)
+                    .map(item => this.facetService.suggestionToAggregationItem(item));
+            }
+        }
+        else {
+            this.items = this.data.items || [];
+        }
+
+        const selected = this.selected.slice();
+        const filtered = this.data.$filtered.slice();
+
+        if(this.data.isTree) {
+            this.updateTreeItems(filtered, selected);
+        }
+        else {
+            this.updateListItems(filtered, selected);
+        }
+
+        this.changeDetectorRef.detectChanges();
+    }
+
+    protected updateTreeItems(filtered: AggregationItem[], selected: AggregationItem[]) {
+        // Set the $selected and $filtered flags
+        Utils.traverse(this.items as TreeAggregationNode[], (lineage, node) => {
+            node.$selected = this.findAndSplice(selected, node);
+            node.$filtered = this.findAndSplice(filtered, node);
+            if(node.$selected || node.$filtered) {
+                lineage.filter(n => n.items?.length).forEach(n => n.$opened = true);
+            }
+            return false;
         });
     }
 
-    ngOnDestroy() {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    }
+    protected updateListItems(filtered: AggregationItem[], selected: AggregationItem[]) {
 
-    /**
-     * Returns all the actions that are relevant in the current context
-     */
-    override get actions(): Action[] {
-
-        const actions: Action[] = [];
-
-        if (this.selected.length > 0) {
-            if(this.allowOr){
-                actions.push(this.filterItemsOr);
-            }
-            if(this.allowAnd && this.selected.length > 1){
-                actions.push(this.filterItemsAnd);
-            }
-            if(this.allowExclude){
-                actions.push(this.excludeItems);
-            }
+        if(this.data?.isDistribution && !this.displayEmptyDistributionIntervals) {
+            this.items = this.items.filter(item => item.count > 0);
         }
 
-        if(!this.hasSuggestions() && this.hasFiltered()) {
-            actions.push(this.clearFilters);
+        // Set the $selected and $filtered flags
+        for(const item of this.items) {
+            item.$selected = this.findAndSplice(selected, item);
+            item.$filtered = this.findAndSplice(filtered, item);
         }
 
-        if(this.searchable && !this.alwaysShowSearch){
-            actions.push(this.searchItems);
-        }
-
-        return actions;
+        this.items = [
+            ...filtered, // Remaining filtered items not found in this.items
+            ...selected, // Remaining selected items not found in this.items
+            ...this.items
+        ];
     }
 
 
     // Filtered items
 
     /**
-     * Actualize the state of filtered items (note that excluded terms are not in the distribution, so the equivalent cannot be done)
-     */
-    refreshFiltered(data: Aggregation | undefined): AggregationItem[] {
-        // refresh filters from breadcrumbs
-        const items = this.facetService.getAggregationItemsFiltered(this.getName(), data?.valuesAreExpressions);
-        items.forEach(item => {
-            if (!this.isFiltered(data, item)) {
-                if (this.acceptNonAggregationItemFilter || (data?.items && this.facetService.filteredIndex(data, data?.items, item) !== -1)) {
-                    this.filtered.push(item);
-                }
-            }
-        });
-
-        const nonFilteredItems: AggregationItem[] = [];
-        data?.items?.forEach(item => {
-            const indx = this.facetService.filteredIndex(data, this.filtered, item);
-            if (this.facetService.itemFiltered(this.getName(), data, item)) {
-                if (indx === -1) {
-                    this.filtered.push(item);
-                } else {
-                    this.filtered[indx].count = item.count;
-                }
-            } else {
-                // sometime facetService.itemFiltered() could returns false but item is present in breadcrumbs
-                if (indx !== -1) {
-                    this.filtered[indx].count = item.count;
-                } else {
-                    nonFilteredItems.push(item);
-                }
-            }
-        });
-        return nonFilteredItems;
-    }
-
-    refreshHiddenSelected() {
-        this.hiddenSelected = this.selected.filter(item => {
-            const idx = this.hasSuggestions()
-                ? this.facetService.findAggregationItemIndex(this.suggestions$.getValue(), item)
-                : this.facetService.findAggregationItemIndex(this.items$.getValue() || [], item);
-            return idx === -1;
-        });
-    }
-
-    /**
-     * Returns true if the given AggregationItem is filtered
-     * @param item
-     */
-    isFiltered(data: Aggregation | undefined, item: AggregationItem): boolean {
-        return this.facetService.filteredIndex(data, this.filtered, item) !== -1;
-    }
-
-    /**
-     * Returns true if there is an active selection (or exclusion) from this facet
-     */
-    hasFiltered(): boolean {
-        return this.facetService.hasFiltered(this.getName());
-    }
-
-    /**
      * Called when clicking on a facet item text
      * @param item
      * @param event
      */
-    filterItem(item: AggregationItem, event) {
-        const data = this.data();
-        if (data) {
-            this.filtering = true;
-            if (!this.isFiltered(data, item)) {
-                this.facetService.addFilterSearch(this.getName(), data, item, {replaceCurrent: this.replaceCurrent});
-            }
-            else {
-                this.facetService.removeFilterSearch(this.getName(), data, item);
-                this.filtering = false;
-            }
+    filterItem(item: AggregationItem, event?: Event) {
+        if (!item.$filtered) {
+            this.addFilter(item);
         }
-        event.preventDefault();
+        else {
+            this.removeFilter(item);
+        }
+        event?.stopPropagation();
+        return false;
     }
 
-
-    // Selected items
-
-    /**
-     * Returns true if the given AggregationItem is selected
-     * @param item
-     */
-    isSelected(item: AggregationItem) : boolean {
-        return this.facetService.findAggregationItemIndex(this.selected, item) !== -1;
+    addFilter(item: AggregationItem|AggregationItem[], options: AddFilterOptions = {}) {
+        if(this.data) {
+            options.replaceCurrent = this.replaceCurrent;
+            if(!this.allowOr && this.allowAnd) {
+              options.and = true; // The default mode is OR, unless explicitly forbidden
+            }
+            this.facetService.addFilterSearch(this.data, item, options, this.query, this.name);
+        }
     }
 
+    removeFilter(item: AggregationItem) {
+        if(this.data) {
+            this.facetService.removeFilterSearch(this.data, item, this.query, this.name);
+        }
+    }
+
+    clearAllFilters() {
+        if(this.data) {
+            this.facetService.clearFiltersSearch(this.data.column, true, this.query, this.name);
+        }
+    }
 
     /**
      * Called when selecting/unselecting an item in the facet
      * @param item
      */
-    selectItem(item: AggregationItem, e: Event) {
-        e.preventDefault();
-        if(!this.filtering) {
-            this.updateSelected(item);
-            e.stopPropagation();
-        }
-        this.filtering = false;
-    }
-
-    private updateSelected(item: AggregationItem) {
-        if (!this.isFiltered(this.data(), item)) {
-            const index = this.facetService.findAggregationItemIndex(this.selected, item);
+    selectItem(item: AggregationItem) {
+        if (!item.$filtered) {
+            const index = this.selected.findIndex(i => this.compareItems(item, i));
             if (index === -1) {
                 this.selected.push(item);
                 item.$selected = true;
@@ -386,107 +241,116 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
                 this.selected.splice(index, 1);
                 delete item.$selected;
             }
-            this.refreshHiddenSelected();
+            this.updateItems();
         }
-    }
-
-
-    // Loading more items
-
-    /**
-     * Returns true if this facet can get more data from the server
-     * (The only way to guess is to check if the facet is "full", it capacity being the (skip+)count)
-     * In case the aggregation items are calculated using a distrbution, no limit can be applied and MUST always return the whole list
-     */
-    get hasMore(): boolean {
-        return (this.resultsLength >= this.skip + this.count) && !this.data()?.isDistribution;
-    }
-
-    get resultsLength() {
-        return this.items$.getValue().length + this.filtered.length
+        // Filtered items cannot be selected.
+        // So, the behavior becomes equivalent to a click on the item.
+        else {
+            this.filterItem(item);
+        }
     }
 
     /**
      * Called on loadMore button click
      */
-    loadMore(e: Event) {
-        e.stopPropagation();
-        if (this.data()) {
-            const skip = this.resultsLength;    // avoid hasMore() to return false when fetching data
-            this.loadingMore = true;
-            this.changeDetectorRef.markForCheck();
-
-            Utils.subscribe(this.facetService.loadData(this.aggregation, skip, this.count),
-                agg => {
-                    this.skip = skip;
-                    if (agg?.items && this.data()) {
-                        agg.items = this.items$.getValue().concat(agg.items);
-                        this.data$.next(agg);
-                    }
-                },
-                undefined,
-                () => {
-                    this.loadingMore = false;
-                    this.changeDetectorRef.markForCheck();
-                });
+    loadMore() {
+        if (this.data) {
+            const query = this.facetService.getDataQuery(this.results, this.query);
+            const data$ = this.facetService.loadData(this.data, query)
+            this.whileSearchActive(data$)
+                .subscribe(() => this.updateItems());
         }
         return false; // Avoids following href
     }
 
 
+    /**
+     * Expand/Collapse a Tree node (the data may need to downloaded from the server)
+     * @param item
+     */
+     open(item: TreeAggregationNode, event: Event){
+        if (this.data && item.hasChildren) {
+            item.$opened = !item.$opened;
+            if (!item.items || item.items.length === 0) {
+                item.$opening = true;
+                const query = this.facetService.getDataQuery(this.results, this.query);
+                this.facetService.open(this.data as TreeAggregation, item, query, true, this.name)
+                    .subscribe(() => {
+                        item.$opening= false;
+                        this.updateItems();
+                    });
+            }
+        }
+        event.stopPropagation();
+        return false; // Prevent default action
+    }
+
+    expandItems(items: TreeAggregationNode[]) {
+        Utils.traverse(items, (lineage, node, level) => {
+            node.$selected = false;
+            if(!node.$opened && node.items?.length >= 0 && level < this.expandedLevel){
+                node.$opened = true;
+            }
+            return false;
+        });
+    }
+
     // Suggest / Search
 
-    /**
-     * Returns true if the search mode is active (ie. there are suggestions to display in place of the aggregation)
-     */
-    hasSuggestions(): boolean {
-        return this.suggestions$.getValue().length > 0 || this.noResults;
+    get searchControl(): FormControl {
+        return this.searchGroup.get("searchQuery") as FormControl;
+    }
+
+    onSearch(text: string): Observable<Suggestion[] | undefined> {
+        if(text.trim() === '' || !this.data) {
+            return of(undefined);
+        }
+        return this.getSuggests(text, this.data);
+    }
+
+    clearSearch() {
+        if(this.searchControl?.value) {
+            this.searchControl.setValue(""); // Remove suggestions if some remain
+        }
     }
 
     /**
-     * Called on NgModel change (searchQuery)
      * Uses the suggestfield API to retrieve suggestions from the server
      * The suggestions "override" the data from the distribution (until search results are cleared)
      */
-    suggest$ = (text$: Observable<string>) => text$.pipe(
-        debounceTime(this.suggestDelay),
-        distinctUntilChanged(),
-        switchMap(term => {
-            if (term.trim() === "") {
-                this.noResults = false;
-                return of([]);
-            }
-            this.searchActive = true;
-            this.changeDetectorRef.markForCheck();
-            return this.facetService.suggest(term, this.data()?.column || '').pipe(
-                catchError(err => {
-                    console.log(err);
-                    this.noResults = false;
-                    return of([]);
-                }),
-                map(items => {
-                    const suggestions = items.slice(0, this.count)
-                        .map(item => this.facetService.suggestionToAggregationItem(item))
-                        .filter(item => !this.isFiltered(this.data(), item));
+    getSuggests(text: string, data: Aggregation): Observable<Suggestion[]> {
+        const query = this.facetService.getDataQuery(this.results, this.query);
+        const suggests$ = this.facetService.suggest(text, data.column, query);
+        return this.whileSearchActive(suggests$);
+    }
 
-                    this.noResults = suggestions.length === 0 && term.trim() !== "";
-                    return suggestions;
-                })
-            )
-        })
-    )
+
+    protected whileSearchActive<T>(observable: Observable<T>) {
+        this.searchActive.next(true);
+        return observable.pipe(
+            finalize(() => this.searchActive.next(false))
+        );
+    }
+
+    protected compareItems(a: AggregationItem, b: AggregationItem) {
+        // If the aggregation is a tree, we must compare paths, as "value" has a the value for a single node
+        if(this.data?.isTree) {
+            return (a as TreeAggregationNode).$path === (b as TreeAggregationNode).$path;
+        }
+        return a.value === b.value;
+    }
+
+    protected findAndSplice(items: AggregationItem[], item: AggregationItem) {
+        const index = items.findIndex(i => this.compareItems(i, item));
+        if(index !== -1) {
+            items.splice(index, 1);
+        }
+        return index !== -1;
+    }
 
     /* AbstractFacet abstract methods */
     override isHidden(): boolean {
-        return !this.data();
+        return !this.data?.items?.length;
     }
 
-    /**
-     * Convert facet item count to percentage width
-     * @param count item count
-     * @returns a % string representation
-     */
-    getPercent(count: number): string {
-        return `${100 - (count / this.sumOfCount)}%`;
-    }
 }

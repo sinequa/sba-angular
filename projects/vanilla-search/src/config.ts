@@ -1,5 +1,5 @@
 import { FacetDateParams } from '@sinequa/analytics/timeline';
-import { FacetConfig, FacetListParams, FacetMySearchParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams, FacetTreeParams } from '@sinequa/components/facet';
+import { FacetConfig, FacetListParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams } from '@sinequa/components/facet';
 import { HelpFolderOptions } from '@sinequa/components/user-settings';
 
 /**
@@ -22,75 +22,79 @@ export const FEATURES: string[] = [
     //"voice-recognition",            // Display a button to trigger voice recognition (supported only on Chrome-based browsers and uses Google servers for processing)
 ];
 
-export type FacetParams = FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams;
+export type FacetParams = FacetListParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams;
 export const FACETS: FacetConfig<FacetParams>[] = [
     {
         name: "geo",
+        aggregation: "Geo",
         title: "msg#facet.geo.title",
         type: "list",
-        icon: "fas fa-globe-americas",
+        icon: "fas fa-fw fa-globe-americas",
         parameters: {
-            aggregation: "Geo",
             showCount: true,
             searchable: true,
+            focusSearch: true,
             allowExclude: true,
             allowOr: true,
             allowAnd: false,
-            displayEmptyDistributionIntervals: false
+            displayEmptyDistributionIntervals: false,
         }
     },
     {
         name: "company",
+        aggregation: "Company",
         title: "msg#facet.company.title",
         type: "list",
-        icon: "fas fa-building",
+        icon: "fas fa-fw fa-building",
         parameters: {
-            aggregation: "Company",
             showCount: true,
             searchable: true,
+            focusSearch: true,
             allowExclude: true,
             allowOr: true,
             allowAnd: false,
-            displayEmptyDistributionIntervals: false
+            displayEmptyDistributionIntervals: false,
         }
     },
     {
         name: "person",
+        aggregation: "Person",
         title: "msg#facet.person.title",
         type: "list",
-        icon: "fas fa-user",
+        icon: "fas fa-fw fa-user",
         parameters: {
-            aggregation: "Person",
             showCount: true,
             searchable: true,
+            focusSearch: true,
             allowExclude: true,
             allowOr: true,
             allowAnd: false,
-            displayEmptyDistributionIntervals: false
+            displayEmptyDistributionIntervals: false,
         }
     },
     {
         name: "docformat",
+        aggregation: "DocFormat",
         title: "msg#facet.docformat.title",
         type: "list",
-        icon: "far fa-file-word",
+        icon: "far fa-fw fa-file-word",
         parameters: {
-            aggregation: "DocFormat",
             showCount: true,
-            searchable: true,
+            searchable: false,
+            focusSearch: true,
             allowExclude: true,
             allowOr: true,
             allowAnd: false,
-            displayEmptyDistributionIntervals: false
+            displayEmptyDistributionIntervals: false,
         }
     },
     {
         name: "modified",
+        aggregation: "Modified",
         title: "msg#facet.modified.title",
         type: "date",
-        icon: "fas fa-calendar-day",
+        icon: "fas fa-fw fa-calendar-day",
         parameters: {
-            aggregation: "Modified",
             timelineAggregation: "Timeline",
             showCount: true,
             allowPredefinedRange: true,
@@ -102,11 +106,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [
     },
     {
         name: "size",
+        aggregation: "Size",
         title: "msg#facet.size.title",
         type: "list",
-        icon: "fas fa-sort-amount-up-alt",
+        icon: "fas fa-fw fa-sort-amount-up-alt",
         parameters: {
-            aggregation: "Size",
             showCount: true,
             searchable: false,
             allowExclude: true,
@@ -117,26 +121,26 @@ export const FACETS: FacetConfig<FacetParams>[] = [
     },
     {
         name: "documentlanguages",
+        aggregation: "DocumentLanguages",
         title: "msg#facet.documentlanguages.title",
         type: "list",
-        icon: "far fa-comment",
+        icon: "far fa-fw fa-comment",
         parameters: {
-            aggregation: "DocumentLanguages",
             showCount: true,
-            searchable: true,
+            searchable: false,
             allowExclude: true,
             allowOr: true,
             allowAnd: false,
-            displayEmptyDistributionIntervals: false
+            displayEmptyDistributionIntervals: false,
         }
     },
     {
         name: "concepts",
+        aggregation: "Concepts",
         title: "msg#facet.concepts.title",
         type: "list",
-        icon: "fas fa-comment-dots",
+        icon: "fas fa-fw fa-comment-dots",
         parameters: {
-            aggregation: "Concepts",
             showCount: true,
             searchable: false,
             allowExclude: true,

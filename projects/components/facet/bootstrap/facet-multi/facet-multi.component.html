@@ -1,16 +1,23 @@
-<div *ngIf="!openedFacet" class="list-group list-group-flush m-1">
+<div *ngIf="!openedFacet" class="list-group list-group-flush">
     <ng-container *ngFor="let facet of facets">
-        <div *ngIf="!facet.$hidden" [ngClass]="facet.className" (click)="openFacet(facet)"
-            class="d-flex flex-row list-group-item list-group-item-action align-items-center"
-            [ngClass]="{'sq-filtered':facet.$hasFiltered, 'disabled':!facet.$hasData }">
+        <div *ngIf="!facet.$hidden"
+            class="list-group-item list-group-item-action d-flex flex-row align-items-center"
+            [ngClass]="facet.className"
+            [ngClass]="{'sq-filtered':facet.$hasFiltered, 'disabled':facet.$count === 0 }"
+            role="button"
+            (click)="openFacet(facet)">
             <span class="flex-grow-1">{{ facet.title | sqMessage }}</span>
-            <span class="far fa-minus-square ms-2" sqTooltip="{{ 'msg#facet.filters.clear' | sqMessage }}" (click)="clearFacetFilters(facet, $event)" *ngIf="facet.$hasFiltered"></span>
+            <a *ngIf="facet.$hasFiltered"
+                sqTooltip="{{ 'msg#facet.clearSelects' | sqMessage }}"
+                role="button" (click)="clearFacetFilters(facet, $event)">
+                <i class="sq-filter-clear text-muted ms-2"></i>
+            </a>
             <span
                 *ngIf="showCount"
                 class="mx-2 text-muted small"
-                title="{{ 'msg#facet.filterItemCountTooltip' | sqMessage:{ values: { count: facet.$count } } }}"
+                title="{{ 'msg#facet.filterItemCountTooltip' | sqMessage:{ values: { count: facet.$count + (facet.$hasMore? '+' : '') } } }}"
             >
-                {{ facet.$count | sqNumber }}
+                {{ facet.$count }}{{ facet.$hasMore? '+' : '' }}
             </span>
             <i class="fas fa-caret-right"></i>
         </div>
@@ -22,3 +29,20 @@
     [sqLoadComponent]="{component: component, inputs: facetComponentInputs}"
     (sqLoadComponent)="onFacetLoad($event)">
 </ng-container>
+
+<ng-template #headerTpl>
+  <ng-container *ngIf="openedFacet">
+    <button class="btn btn-light btn-sm sq-back-button" type="button" [sqTooltip]="'msg#facet.filters.back' | sqMessage" (click)="close()">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="text-truncate flex-grow-1 my-1">{{openedFacet.title | sqMessage}}</span>
+    <ng-container *ngTemplateOutlet="facetComponent?.headerTpl"></ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="!openedFacet">
+    <div class="py-1">
+      <i class="{{icon}} me-2"></i>
+      <span class="text-truncate">{{title | sqMessage}}</span>
+    </div>
+  </ng-container>
+</ng-template>

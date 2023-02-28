@@ -11,12 +11,12 @@
   }
 
   &:checked {
-    background-color: var(--primary, $blue-1);
-    border-color: var(--primary, $blue-1);
+    background-color: var(--primary, #{$blue-1});
+    border-color: var(--primary, #{$blue-1});
 
     &:hover {
-      background-color: var(--primary-400, $darker-blue);
-      border-color: var(--primary-400, $darker-blue);
+      background-color: var(--primary-400, #{$darker-blue});
+      border-color: var(--primary-400, #{$darker-blue});
     }
 
   }

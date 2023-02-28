@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from "@angular/core";
+import {Component, Input, ChangeDetectionStrategy, OnChanges} from "@angular/core";
 import {Record} from "@sinequa/core/web-services";
 import {AppService} from "@sinequa/core/app-utils";
 import {SearchService} from "@sinequa/components/search";
@@ -8,43 +8,30 @@ import {SearchService} from "@sinequa/components/search";
     templateUrl: "./result-thumbnail.html",
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResultThumbnail {
+export class ResultThumbnail implements OnChanges {
     @Input() record: Record;
-    @Input() linkBehavior: "open" | "action" = "open";
+    @Input() linkBehavior = true;
     @Input() thumbnailColumn: string;
     @Input() defaultThumbnail: string;
     @Input() urlColumn = "url1";
-    @Output() thumbnailClicked = new EventEmitter<boolean>();
+
+    thumbnailUrl?: string;
+    href?: string;
 
     constructor(
         private appService: AppService,
         private searchService: SearchService) {
     }
 
-    get thumbnailUrl(): string {
+    ngOnChanges(): void {
         let url = this.record[this.thumbnailColumn] // Custom column, if any
-            || this.record.thumbnailUrl // Standard column
-            || this.defaultThumbnail; // Default column
-        return this.appService.updateUrlForCors(url);
+               || this.record.thumbnailUrl // Standard column
+               || this.defaultThumbnail; // Default column
+        this.thumbnailUrl = this.appService.updateUrlForCors(url);
+        this.href = this.linkBehavior? this.record[this.urlColumn] : undefined;
     }
 
-    get hasLinkBehaviour(): boolean {
-        return this.linkBehavior === "open";
-    }
-
-    public get href(): string {
-        return (this.hasLinkBehaviour && this.record[this.urlColumn]) || "#";
-    }
-
-    public get target(): string {
-        return (this.hasLinkBehaviour && this.record[this.urlColumn]) ? "_blank" : "_self";
-    }
-
-    public click() : boolean {
-        const isLink = this.hasLinkBehaviour && !!this.record[this.urlColumn]; // true if this is a regular link (performs the default action)
-        if(isLink)
-            this.searchService.notifyOpenOriginalDocument(this.record);
-        this.thumbnailClicked.emit(isLink); // Can be use to trigger actions
-        return isLink;
+    onClick() {
+        this.searchService.notifyOpenOriginalDocument(this.record);
     }
 }

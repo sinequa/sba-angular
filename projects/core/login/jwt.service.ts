@@ -1,7 +1,8 @@
 import {Injectable} from "@angular/core";
+import { Observable, map } from "rxjs";
+
 import {HttpService} from "@sinequa/core/web-services";
-import {Observable, map} from "rxjs";
-import {Credentials} from "./authentication.service";
+import { Credentials } from "./typings";
 
 /**
  * A service to retrieve a JWT (JSON Web Token) from the Sinequa server.

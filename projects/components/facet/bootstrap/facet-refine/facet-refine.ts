@@ -1,11 +1,12 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef} from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {UntypedFormGroup, UntypedFormBuilder, AbstractControl} from "@angular/forms";
-import {Results} from "@sinequa/core/web-services";
+import {AuditEventType, Results} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {SearchService} from "@sinequa/components/search";
 import {AbstractFacet} from "../../abstract-facet";
-import {ParseResult} from '@sinequa/components/autocomplete';
-import { FacetConfig } from "../../facet-config";
+import {FacetConfig} from "../../facet-config";
+import { AppService, Query } from "@sinequa/core/app-utils";
+import { FacetService } from "../../facet.service";
 
 export interface FacetRefineParams {
     suggestQuery?: string;
@@ -28,15 +29,17 @@ export class BsRefine extends AbstractFacet implements FacetRefineParams, OnChan
      */
     @Input() results: Results;
 
+    @Input("query") _query?: Query;
+
     /**
      * Whether or not to enable autocompletion
      */
-    @Input() autocompleteEnabled: boolean;
+    @Input() autocompleteEnabled = true;
 
     /**
      * Suggest query with which to perform autocompletion
      */
-    @Input() suggestQuery: string;
+    @Input("suggestQuery") _suggestQuery: string;
 
     /**
      * Minimum delay (in ms) between suggest queries
@@ -44,42 +47,54 @@ export class BsRefine extends AbstractFacet implements FacetRefineParams, OnChan
     @Input() suggestDelay: number = 200;
 
     form: UntypedFormGroup;
-    searchControl: AbstractControl | null;
+    searchControl: AbstractControl;
 
     inputErrorMessage: string;
 
+    get query(): Query {
+        return this._query || this.searchService.query;
+    }
+
+    get suggestQuery() {
+        return this._suggestQuery || this.appService.suggestQueries[0];
+    }
+
     constructor(
         public formBuilder: UntypedFormBuilder,
+        public appService: AppService,
         public searchService: SearchService,
-        private changeDetectorRef: ChangeDetectorRef) {
+        public facetService: FacetService) {
         super();
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (!this.form) {
             this.form = this.formBuilder.group({
-                "search": ""
+                search: ""
             });
-            this.searchControl = this.form.get("search");
+            this.searchControl = this.form.get("search")!;
         }
-        if (!!changes["results"] && this.searchControl) {
-            this.searchControl.setValue(this.searchService.lastRefineText);
+        if (changes.results) {
+            const refines = this.query.getRefines();
+            this.searchControl.setValue(refines[refines.length-1] || '');
         }
     }
 
     doRefine = () => {
-        if (this.searchControl) {
-            const text = Utils.trim(this.searchControl.value);
-            if (text) {
-                this.searchService.searchRefine(text);
+        const text = Utils.trim(this.searchControl.value);
+        if (text) {
+            this.query.addRefine(text);
+            if(this.facetService.canSearch(this.query)) {
+                this.searchService.search(undefined, {
+                    type: AuditEventType.Search_Refine,
+                    detail: {
+                        text: text,
+                        itembox: "refine",
+                        fromresultid: this.results?.id || null
+                    }
+                });
             }
         }
     }
 
-    setError(parseResult: ParseResult = {}){
-        if(parseResult.error !== this.inputErrorMessage){
-            this.inputErrorMessage = parseResult.error || "";
-            this.changeDetectorRef.markForCheck();
-        }
-    }
 }

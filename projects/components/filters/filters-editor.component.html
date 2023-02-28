@@ -1,0 +1,42 @@
+<div *ngIf="filter" class="d-flex align-items-center">
+
+  <i class="sq-grip fas fa-grip-vertical text-muted me-1" [title]="'msg#filters.drag' | sqMessage" *ngIf="canDrag"></i>
+
+  <!-- Filter is an expression (with AND/OR/NOT) -->
+  <ng-container *ngIf="exprFilter && !filter.display">
+    <!-- Display AND/OR/NOT -->
+    <div class="sq-filter-operator">
+      <li class="list-inline-item" [sq-action-item]="options"></li>
+    </div>
+    <div class="sq-expr-container ms-2 ps-2 border-3 rounded-3 border-start"
+      cdkDropList
+      [cdkDropListData]="exprFilter.filters"
+      dragAndDropManager
+      (cdkDropListDropped)="drop($event)">
+      <sq-filters-editor *ngFor="let f of exprFilter.filters"
+        cdkDrag
+        class="d-block my-1"
+        [query]="query"
+        [filter]="f"
+        [showField]="showField"
+        [showOperator]="showOperator"
+        [allowRemove]="allowRemove"
+        [allowNesting]="allowNesting"
+        [canDrag]="true"
+        [onDragDrop]="onDragDrop$"
+        (filterEdit)="filterEdit.next(query)">
+      </sq-filters-editor>
+    </div>
+  </ng-container>
+
+  <!-- Filter is a direct value -->
+  <sq-filters *ngIf="!exprFilter || filter.display"
+    [query]="query"
+    [filter]="filter"
+    [showField]="showField"
+    [showOperator]="showOperator"
+    [allowRemove]="allowRemove"
+    [allowNesting]="allowNesting"
+    (filterEdit)="filterEdit.next(query)">
+  </sq-filters>
+</div>

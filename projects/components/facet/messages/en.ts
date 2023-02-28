@@ -1,24 +1,12 @@
 export default {
     "facet": {
-        "showFacetTextView": "Show text",
-        "showFacetChartView": "Show chart",
-        "itemExclude": "Exclude",
-        "applyFilters": "{selections, plural, one {Apply filter} other {Apply filters}}",
-        "clearFilters": "{selected, plural, one {Clear filter} other {Clear filters}}",
+        "apply": "Apply",
+        "applyOr": "Apply with OR (default)",
+        "applyAnd": "Apply with AND",
+        "applyNot": "Apply with NOT",
         "loadMore": "Load more",
-        "showMore": "Show more",
-        "showLess": "Show less",
-        "displayed": "Displayed",
-        "removeAll": "Remove all",
         "searchPlaceholder": "Search...",
-        "itemSelect": "Select this value",
-        "itemUnselect": "Unselect this value",
-        "filterItem": "Keep documents with {terme}",
-        "filterItems" : "Keep documents with ANY of the selected items",
-        "filterItemsAnd": "Keep documents with ALL the selected items",
-        "excludeItems" : "Exclude document with selected items",
         "clearSelects" : "Clear the current filters",
-        "searchItems" : "Search for a value in this list",
         "searchNoResult": "No results",
         "openItem": "Open",
         "closeItem": "Close",
@@ -105,6 +93,7 @@ export default {
         },
 
         "filters":{
+            "title": "Filters",
             "add":"Add facet",
             "addAll": "Add all facets",
             "remove":"Remove facet",
@@ -125,6 +114,17 @@ export default {
         "previous": "Previous",
         "next": "Next",
         "filterItemCountTooltip": "{count} possible values for this filter",
+
+        "container": {
+            "close": "Close this filter",
+            "help": "Narrow your search down with filters:",
+            "filterFor": "{title} in:",
+            "current": "Current results",
+            "currentTitle": "Filters are computed for the list of results currently displayed",
+            "all": "All data",
+            "allTitle": "Filters are computed for all possible results (applying filters may yield no result)",
+            "noData": "No data for this filter"
+        },
     },
 
     "facetCard": {

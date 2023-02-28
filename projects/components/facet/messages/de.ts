@@ -1,22 +1,12 @@
 export default {
     "facet": {
-        "show_text_view": "Text anzeigen",
-        "show_chart_view": "Chart anzeigen",
-        "itemExclude": "Exkludieren",
-        "applyFilters": "{selections, plural, one {Filter anwenden} other {Filter anwenden}}",
-        "clearFilters": "{selected, plural, one {Filter löschen} other {Filter löschen}}",
+        "apply": "Anwenden",
+        "applyOr": "Anwenden mit ODER (Standard)",
+        "applyAnd": "Anwenden mit UND",
+        "applyNot": "Anwenden mit NICHT",
         "loadMore": "Mehr laden",
-        "showMore": "Mehr anzeigen",
-        "showLess": "Weniger anzeigen",
-        "displayed": "Angezeigt",
-        "removeAll": "Alle entfernen",
         "searchPlaceholder": "Suche...",
-        "itemSelect": "Diesen Wert auswählen",
-        "filterItems" : "Behalte Dokumente mit MINDESTENS EINEM der ausgewählten Werte",
-        "filterItemsAnd": "Behalte Dokumente mit ALLEN ausgewählten Werten",
-        "excludeItems" : "Exckludiere Dokumente mit den ausgewählten Werten",
         "clearSelects" : "Entferne die aktuellen Filter",
-        "searchItems" : "Suche nach eniem Wert in dieser Liste",
         "searchNoResult": "Keine Ergebnisse",
         "openItem": "Öffnen",
         "closeItem": "Schließen",
@@ -103,6 +93,7 @@ export default {
         },
 
         "filters":{
+            "title": "Filter",
             "add":"Filter hinzufügen",
             "addAll": "Alle Facetten hinzufügen",
             "remove":"Filter entfernen",
@@ -123,6 +114,17 @@ export default {
         "previous": "Zurück",
         "next": "Weiter",
         "filterItemCountTooltip": "{count} mögliche Werte für diesen Filter",
+
+        "container": {
+            "close": "Schließen Sie diesen Filter",
+            "help": "Grenzen Sie Ihre Suche mit Filtern ein:",
+            "filterFor": "{title} für:",
+            "current": "Aktuelle Ergebnisse",
+            "currentTitle": "Filter werden für die aktuell angezeigte Ergebnisliste berechnet",
+            "all": "Alle Daten",
+            "allTitle": "Filter werden für alle möglichen Ergebnisse berechnet (das Anwenden von Filtern führt möglicherweise zu keinem Ergebnis)",
+            "noData": "Keine Daten für diesen Filter"
+        },
     },
 
     "facetCard": {

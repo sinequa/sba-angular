@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { Router } from "@angular/router";
 import { HttpHandler } from "@angular/common/http";
 
-import { SearchService } from "@sinequa/components/search";
+import { FirstPageService, SearchService } from "@sinequa/components/search";
 import { IntlService, LOCALES_CONFIG } from "@sinequa/core/intl";
 import { AggregationItem, Results, START_CONFIG } from "@sinequa/core/web-services";
 import { SelectionService, SELECTION_OPTIONS } from "@sinequa/components/selection";
@@ -12,7 +12,6 @@ import { SearchServiceFactory } from "@testing/factories";
 import { RouterStub } from "@testing/stubs";
 
 import { BsFacetTimelineComponent, TimelineRecords } from "./facet-timeline.component";
-import { BsTimelineComponent } from "./timeline.component";
 
 describe('BsFacetTimelineComponent', () => {
   let context: BsFacetTimelineComponent;
@@ -20,16 +19,17 @@ describe('BsFacetTimelineComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [BsFacetTimelineComponent, BsTimelineComponent],
+      declarations: [BsFacetTimelineComponent],
       imports: [],
       providers: [
         HttpHandler,
-        IntlService,
+        {provide: IntlService, useFactory: () => {}},
         SelectionService,
         { provide: START_CONFIG, useValue: { app: "testing_app" } },
         { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
         { provide: SELECTION_OPTIONS, useValue: {} },
         { provide: SearchService, useFactory: SearchServiceFactory },
+        { provide: FirstPageService, useFactory: () => {}},
         { provide: Router, useClass: RouterStub }
       ]
     }).compileComponents();

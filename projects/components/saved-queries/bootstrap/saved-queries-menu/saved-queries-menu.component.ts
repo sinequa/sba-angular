@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
   @Input() searchRoute: string = "/search";
-  @Input() icon: string = "far fa-save";
+  @Input() icon: string = "fas fa-save";
   @Input() autoAdjust: boolean = true;
   @Input() autoAdjustBreakpoint: string = 'xl';
   @Input() collapseBreakpoint: string = 'sm';

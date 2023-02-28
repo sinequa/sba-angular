@@ -85,7 +85,7 @@ export class BsManageSavedQueries implements OnInit {
                 type: SavedQueryEventType.Rename,
                 detail: {
                     query: name,
-                    "old-name": savedQuery.name
+                    oldname: savedQuery.name
                 }
             });
             savedQuery.name = name;
@@ -105,7 +105,7 @@ export class BsManageSavedQueries implements OnInit {
     }
 
     export(savedQuery: SavedQuery) {
-        this.savedQueriesService.exportModal(ExportSourceType.SavedQuery, savedQuery);
+        this.savedQueriesService.exportModal(ExportSourceType.SavedQuery, savedQuery, savedQuery.name);
         return false;
     }
 

@@ -19,6 +19,6 @@
     "jssha": "^2.4.2",
     "lodash": "^4.17.21",
     "matchmedia-polyfill": "^0.3.2",
-    "ng2-ui-auth": "^10.0.1"
+    "rxjs":"~7.5.0"
   }
 }

@@ -168,11 +168,11 @@ export class AuditWebService extends HttpService {
         evt: AuditEventType, sl: LinkResult, resultId: string,
         parameters?: MapOf<string | number | boolean | undefined>): Observable<void>  {
         const detail: JsonObject = {
-            "link-id": sl.id,
+            linkid: sl.id,
             rank: sl.rank || 0,
             title: sl.title,
             url: sl.url,
-            "result-id": resultId
+            resultid: resultId
         };
         if (parameters) {
             Object.keys(parameters).forEach(key => detail[key] = parameters[key]);
@@ -208,18 +208,18 @@ export class AuditWebService extends HttpService {
         }
         const detail: JsonObject = {
             app: this.appName,
-            "doc-id": doc.id,
+            docid: doc.id,
             rank: doc.rank,
             title: doc.title,
             source: Utils.treeFirstNode(doc.collection[0]),
             collection: doc.collection[0],
-            "result-id": resultId,
+            resultid: resultId,
             filename: doc.filename,
             fileext: doc.fileext,
             index: doc.databasealias
         };
         if (results) {
-            detail["result-count"] = results.totalRowCount;
+            detail["resultcount"] = results.totalRowCount;
         }
         if (parameters) {
             Object.keys(parameters).forEach(key => detail[key] = parameters[key]);
@@ -251,7 +251,7 @@ export class AuditWebService extends HttpService {
         const collection = id.substr(0, id.indexOf("|"));
         const detail: JsonObject = {
             app: this.appName,
-            "doc-id": id,
+            docid: id,
             rank: -1,
             source: Utils.treeFirstNode(collection),
             collection

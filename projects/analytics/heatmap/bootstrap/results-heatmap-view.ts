@@ -31,7 +31,7 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
                 action.update();
             },
             updater: (action) => {
-                action.icon = this.showSettings ? "far fa-save" : "fas fa-cog";
+                action.icon = this.showSettings ? "fas fa-save" : "fas fa-cog";
                 action.text = this.showSettings ? "msg#facetCard.saveSettings" : "msg#facetCard.openSettings";
                 action.title = this.showSettings ? "msg#facetCard.saveSettings" : "msg#facetCard.openSettings";
                 action.selected = this.showSettings;
@@ -49,7 +49,7 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
 
     override onItemClicked(item: HeatmapItem){
         if(this.aggregationData){
-            this.facetService.addFilterSearch(this._name, this.aggregationData, item).then(_ => {
+            this.facetService.addFilterSearch(this.aggregationData, item, undefined, this.query, this._name).then(_ => {
                 if(this.selectView){
                     this.resultsViewService.selectResultsViewName(this.selectView);
                 }

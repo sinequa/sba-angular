@@ -90,7 +90,7 @@ export class BsManageBaskets implements OnInit {
                 type: BasketEventType.Rename,
                 detail: {
                     basket: name,
-                    "old-name": basket.name
+                    oldname: basket.name
                 }
             });
             basket.name = name;
@@ -115,7 +115,7 @@ export class BsManageBaskets implements OnInit {
 
     export(basket: Basket) {
         this.basketsService.searchBasket(basket).then(_ =>
-            this.savedQueryService.exportModal(ExportSourceType.Result)
+            this.savedQueryService.exportModal(ExportSourceType.Result, undefined, basket.name)
         );
         return false;
     }

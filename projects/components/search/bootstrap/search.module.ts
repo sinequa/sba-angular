@@ -10,7 +10,6 @@ import {BsActionModule} from "@sinequa/components/action";
 import {SearchOptions, SEARCH_OPTIONS} from "../search.service";
 
 import {BsDidYouMean} from "./did-you-mean/did-you-mean";
-import {BsBreadcrumbs} from "./breadcrumbs/breadcrumbs";
 import {BsPager} from "./pager/pager";
 import {BsPageSizeSelector} from "./page-size-selector/page-size-selector";
 import {BsSortSelector} from "./sort-selector/sort-selector";
@@ -34,14 +33,14 @@ import {BsScopeComponent} from "./scope/scope.component";
     ],
     declarations: [
         BsDidYouMean,
-        BsBreadcrumbs, BsPager, BsPageSizeSelector, BsSortSelector,
+        BsPager, BsPageSizeSelector, BsSortSelector,
         BsTabs, BsLoadingBar,
         BsScroller, BsLoadMore,
         BsScopeComponent
     ],
     exports: [
         BsDidYouMean,
-        BsBreadcrumbs, BsPager, BsPageSizeSelector, BsSortSelector,
+        BsPager, BsPageSizeSelector, BsSortSelector,
         BsTabs, BsLoadingBar,
         BsScroller, BsLoadMore,
         BsScopeComponent

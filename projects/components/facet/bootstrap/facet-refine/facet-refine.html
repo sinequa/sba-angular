@@ -1,32 +1,30 @@
 <div class="card-body">
     <form role="search" novalidate [formGroup]="form">
-        
-        <div class="d-flex flex-column flex-grow-1 position-relative">        
+
+        <div class="d-flex flex-column flex-grow-1 position-relative">
             <div class="input-group">
                 <label class="visually-hidden">{{'msg#facet.refine.input.label' | sqMessage}}</label>
-                
+
                 <input type="text"
-                    formControlName="search" 
-                    class="form-control {{inputErrorMessage ? 'is-invalid' : ''}}"
+                    formControlName="search"
+                    class="form-control"
                     spellcheck="false"
                     autocomplete="off"
-                    [title]="inputErrorMessage"
 
                     sqAutocomplete
                     [placeholder]="'msg#facet.refine.input.placeholder' | sqMessage"
-                    [dropdown]="dropdown" 
+                    [dropdown]="dropdown"
                     [suggestQuery]="suggestQuery"
                     [off]="!autocompleteEnabled"
-                    [suggestDelay]="suggestDelay"                    
+                    [suggestDelay]="suggestDelay"
 
-                    (submit)="doRefine()"
-                    (parse)="setError($event)">
-    
+                    (submit)="doRefine()">
+
                 <button class="btn btn-outline-secondary" type="button" (click)="doRefine()" title="{{'msg#facet.refine.input.buttonTitle' | sqMessage}}">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-    
+
             <sq-autocomplete-list #dropdown>
                 <ng-template #itemTpl let-item>
                     <div class="py-2" style="padding-left:0.75rem;">{{item.display}}
@@ -35,6 +33,5 @@
                 </ng-template>
             </sq-autocomplete-list>
         </div>
-    </form>    
-    <sq-did-you-mean [results]="results" [context]="'refine'"></sq-did-you-mean>
+    </form>
 </div>

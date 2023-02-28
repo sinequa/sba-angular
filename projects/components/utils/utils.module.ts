@@ -6,7 +6,6 @@ import {IntlModule} from "@sinequa/core/intl";
 
 // Formatting pipes
 import {DatePipe} from "./pipes/date-pipe";
-import {ExprPipe} from "./pipes/expr-pipe";
 import {MemorySizePipe} from "./pipes/memory-size-pipe";
 import {MomentPipe} from "./pipes/moment-pipe";
 import {NumberPipe} from "./pipes/number-pipe";
@@ -24,6 +23,7 @@ import {ResizeEventDirective} from "./directives/resize-event.directive";
 import {StickyComponent} from "./directives/sticky";
 import {TooltipComponent} from "./directives/tooltip/tooltip.component";
 import {TooltipDirective} from "./directives/tooltip/tooltip.directive";
+import {BsVirtualScroller} from "./virtual-scroller/virtual-scroller";
 
 // UI Service
 import {SCREEN_SIZE_RULES} from "./ui.service";
@@ -44,14 +44,14 @@ export const defaultScreenSizeRules = {
         IntlModule
     ],
     declarations: [
-        DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
-        Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective, 
-        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
+        DatePipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
+        Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, BsVirtualScroller
     ],
     exports: [
-        DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
+        DatePipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
-        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective, BsVirtualScroller
     ],
     providers: [
         {

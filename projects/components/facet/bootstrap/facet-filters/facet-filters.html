@@ -1,10 +1,41 @@
-<div class="facet-filters-bar" *ngIf="!hidden">
-    <sq-action-menu
-        [items]="filters"
-        [autoAdjust]="autoAdjust"
-        [autoAdjustBreakpoint]="autoAdjustBreakpoint"
-        [collapseBreakpoint]="collapseBreakpoint"
-        [right]="rightAligned"
-        [size]="size">
-    </sq-action-menu>
-</div>
+<ul class="navbar-nav">
+
+  <!-- List of filters-->
+  <li class="nav-item" *ngFor="let item of filters; trackBy:trackByData">
+    <!-- Button that opens the facet -->
+    <a href="#" role="button" class="nav-link dropdown-toggle" [ngClass]="{'disabled': item.disabled}" data-bs-toggle="dropdown" (click)="item.action(item)" [title]="item.title | sqMessage:item.messageParams">
+      <span [ngClass]="item.styles">
+        <i  *ngIf="item.icon" [ngClass]="item.icon" aria-hidden="true"></i>
+        <span class="ms-1 d-inline-block d-{{collapseBreakpoint}}-none d-{{autoAdjustBreakpoint}}-inline-block">{{item.text | sqMessage:item.messageParams}}</span>
+      </span>
+    </a>
+
+    <!-- Facet displayed dynamically within dropdown -->
+    <div class="dropdown-menu" (click)="$event.stopPropagation()" [ngClass]="{'d-none': isFacetEmpty}">
+      <ng-container *ngIf="item.data === openedFacet">
+
+        <!-- Actions and header of this facet -->
+        <div class="d-flex justify-content-end p-1" *ngIf="facetInstance">
+          <ng-container *ngTemplateOutlet="facetInstance.headerTpl"></ng-container>
+          <div class="ms-1 btn-group" [sq-action-buttons]="{items: facetInstance.actions, rightAligned: true, size: 'sm'}"></div>
+        </div>
+
+        <div class="facet-wrapper">
+          <ng-container
+            [sqLoadComponent]="{
+              component: item.component,
+              inputs: item.componentInputs
+            }"
+            (sqLoadComponent)="onLoadFacet($event)">
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </li>
+
+  <!-- Optional facet customization menu -->
+  <li class="nav-item" *ngIf="facetMenu"
+    [sq-action-item]="{item: facetMenu, size: size, autoAdjust: autoAdjust, autoAdjustBreakpoint: autoAdjustBreakpoint, inMenu: true}"
+    [collapseBreakpoint]="collapseBreakpoint">
+  </li>
+</ul>

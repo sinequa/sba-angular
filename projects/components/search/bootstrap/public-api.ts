@@ -1,4 +1,3 @@
-export * from "./breadcrumbs/breadcrumbs";
 export * from "./did-you-mean/did-you-mean";
 export * from "./page-size-selector/page-size-selector";
 export * from "./pager/pager";

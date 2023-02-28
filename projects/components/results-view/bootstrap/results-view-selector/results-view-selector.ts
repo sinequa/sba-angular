@@ -40,7 +40,7 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
 
     private setCurrentViewAction() {
         if (!!this.viewAction && !!this.resultsViewService.resultsView) {
-            if (!Utils.isArray(this.viewAction)) {
+            if (!Array.isArray(this.viewAction)) {
                 const view = this.resultsViewService.views.find(view => Utils.eqNC(this.resultsViewService.resultsView.name, view.name));
                 if (view) {
                     this.viewAction.text = view.display || view.name;

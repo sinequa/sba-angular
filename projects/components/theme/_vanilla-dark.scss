@@ -47,17 +47,7 @@
 
     // Facet header buttons
     sq-facet-card .card-header .btn-light {
-        &:hover {
-            background-color: #d3d4d5;
-            border-color: #d3d4d5;
-            color: $black;
-        }
-
-        &.active {
-            background-color: #c6c7c8;
-            border-color: #babbbc;
-            color: $black;
-        }
+        --bs-btn-color: #{$white};
     }
 
     .sq-view-actions .btn-outline-primary {
@@ -120,5 +110,19 @@
 
     sq-scope button {
         filter: none !important;
+    }
+
+    // Extracts list
+    sq-preview-extracts-panel {
+        .list-group-item {
+            &:active {
+                background-color: $dark-background-hover !important;
+            }
+
+            &.active {
+                background-color: $dark-background-highlight !important;
+                color: $dark-link !important;
+            }
+        }
     }
 }

@@ -6,12 +6,6 @@ import { ActionItemOptions, ActionSize, DropdownMenuOptions } from "../../typing
 @Component({
     selector: "[sq-action-item]",
     templateUrl: "./action-item.html",
-    styles: [`
-    :host-context(.dark)
-        button.btn-light {
-            filter: invert(0.76);
-        }
-    `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsActionItem implements OnInit, OnDestroy, AfterViewInit {

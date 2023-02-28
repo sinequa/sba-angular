@@ -43,7 +43,6 @@ module.exports = {
             "lodash/snakeCase":                 "lodash.snakeCase",
             "lodash/unescape":                  "lodash.unescape",
             "moment":                           "moment",
-            "ng2-ui-auth":                      "ng2-ui-auth",
             "@angular-slider/ngx-slider":       "ngx-slider",
             "ngx-bootstrap/datepicker":         "ngx-bootstrap.datepicker",
             "@popperjs/core":                   "popperjs.core",

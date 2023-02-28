@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
-import { BsFacetCard, default_facet_components, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
+import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
@@ -12,8 +12,8 @@ import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
-import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { TopPassage } from '@sinequa/core/web-services';
+import { BsFacetDate } from '@sinequa/analytics/timeline';
 
 @Component({
   selector: 'app-search',
@@ -22,9 +22,6 @@ import { TopPassage } from '@sinequa/core/web-services';
 })
 export class SearchComponent implements OnInit {
 
-  // Dynamic display of facets titles/icons in the multi-facet component
-  public multiFacetIcon? = "fas fa-filter fa-fw";
-  public multiFacetTitle = "msg#facet.filters.title";
 
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
@@ -45,7 +42,7 @@ export class SearchComponent implements OnInit {
   public passageId?: string;
 
   public readonly facetComponents = {
-      ...default_facet_components,
+      ...DEFAULT_FACET_COMPONENTS,
       "date": BsFacetDate
   }
 
@@ -103,6 +100,9 @@ export class SearchComponent implements OnInit {
           }
           this.hasAnswers = !!results?.answers?.answers?.length;
           this.hasPassages = !!results?.topPassages?.passages?.length;
+          if(results && results.records.length <= results.pageSize) {
+            window.scrollTo({top: 0, behavior: 'auto'});
+          }
         })
       );
   }
@@ -135,21 +135,6 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-   * Responds to a change of facet in the multi facet
-   * @param facet
-   */
-  facetChanged(facet: FacetConfig<FacetParams>){
-    if(!facet) {
-      this.multiFacetIcon = "fas fa-filter fa-fw";
-      this.multiFacetTitle = "msg#facet.filters.title";
-    }
-    else {
-      this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = facet.title || facet.name || facet.parameters?.aggregation || '';
-    }
-  }
-
-  /**
    * Responds to a click on a document (setting openedDoc will open the preview facet)
    * @param record
    * @param event
@@ -162,7 +147,6 @@ export class SearchComponent implements OnInit {
 
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
-    this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
     this.passageId = passageId?.toString();
     if (this.passageId) {
       if (this.previewFacet && this.passagesList) {
@@ -212,20 +196,10 @@ export class SearchComponent implements OnInit {
     // document.getContentWindow().scrollTo(0, Math.random() * 4000);
   }
 
-  // VERY SPECIFIC TO THIS APP:
-  // Make sure the click is not meant to trigger an action (from sq-result-source or sq-result-title)
+  // Make sure the click is not meant to trigger an action
   private isClickAction(event: Event): boolean {
-    if (event.type !== 'click') {
-      return true;
-    }
-    const target = event.target as HTMLElement;
-    if (!target) {
-      return false;
-    }
-    return event.type !== 'click' ||
-      target.tagName === "A" ||
-      target.tagName === "INPUT" ||
-      target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
+    const target = event.target as HTMLElement|null;
+    return event.type !== 'click' || !!target?.matches("a, a *, input, input *, button, button *");
   }
 
 
