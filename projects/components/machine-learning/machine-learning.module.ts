@@ -9,6 +9,8 @@ import { IntlModule } from "@sinequa/core/intl";
 import { AnswerCardComponent } from "./answer-card.component";
 import { PassageListComponent } from "./passage-list.component";
 import { TopPassagesComponent } from "./top-passages/top-passages.component";
+import { FormsModule } from "@angular/forms";
+import { BsSearchModule } from "../search";
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { TopPassagesComponent } from "./top-passages/top-passages.component";
         ResultModule,
         IntlModule,
         UtilsModule,
-        BsFacetModule
+        BsFacetModule,
+        FormsModule,
+        BsSearchModule.forRoot({})
     ],
     declarations: [
         AnswerCardComponent,

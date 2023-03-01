@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { BehaviorSubject } from "rxjs";
@@ -10,7 +10,7 @@ import { SearchService } from "@sinequa/components/search";
   styleUrls: ['./top-passages.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TopPassagesComponent extends AbstractFacet {
+export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   @Input() set results(results: Results) {
     // extract top passages from Results object
     this.passages = results.topPassages?.passages || [];
@@ -18,29 +18,47 @@ export class TopPassagesComponent extends AbstractFacet {
   }
   @Input() hideDate: boolean = false;
   @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-  @Input() answersFirst: boolean
+  @Input() answersFirst: boolean;
+  @Input() passagesToSummarize: TopPassage[];
 
+  @Output() checkedPassages = new EventEmitter<TopPassage[]>();
   @Output() previewOpened = new EventEmitter<TopPassage>();
   @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
 
   passages: TopPassage[];
   currentPassages$: BehaviorSubject<TopPassage[]> = new BehaviorSubject<TopPassage[]>([]);
   documentsNb: number;
+  summary: string;
+
+  loading = false;
 
   constructor(private auditService: AuditWebService,
     private searchService: SearchService) {
     super();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.passagesToSummarize?.currentValue) {
+      this.fetchSummary();
+    }
+  }
+
   fetchPassagesRecords(): void {
     this.documentsNb = 0;
     this.searchService.getRecords(this.passages.filter(p => !p.$record).map(p => p.recordId))
       .subscribe((records) => {
-        this.passages.map(passage => passage.$record = passage.$record || records.find(record => record.id === passage?.recordId));
         setTimeout(() => { // to make sure answersFirst is resolved
           if (this.answersFirst) {
             this.passages.sort(this.comparePassages);
           }
+
+          this.passages.map((passage, index) => {
+            passage.$record = passage.$record || records.find(record => record.id === passage?.recordId);
+            passage.$checked = index < 10;
+            return passage;
+          });
+
+          this.checkedPassages.emit(this.passages.filter(p => p.$checked));
           this.notifyTopPassagesDisplay(this.passages);
           this.currentPassages$.next(this.passages);
 
@@ -61,6 +79,13 @@ export class TopPassagesComponent extends AbstractFacet {
   onTitleClicked(isLink: boolean, passage: TopPassage) {
     this.notifyTopPassagesClick(passage);
     this.titleClicked.next({ item: passage, isLink });
+  }
+
+  passageChecked(event: Event): void {
+    event.stopPropagation();
+    setTimeout(() => {
+      this.checkedPassages.emit(this.passages.filter(p => p.$checked));
+    });
   }
 
   private notifyTopPassagesClick(passage: TopPassage) {
@@ -102,5 +127,10 @@ export class TopPassagesComponent extends AbstractFacet {
       return a.answerScore! > b.answerScore! ? -1 : 1;
     }
     return 0;
+  }
+
+  private fetchSummary(): void {
+    this.summary = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    // this.loading = true;
   }
 }

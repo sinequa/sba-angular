@@ -1,6 +1,6 @@
-import {Component, Input, OnChanges} from "@angular/core";
-import {Utils} from "@sinequa/core/base";
-import {Record} from "@sinequa/core/web-services";
+import { Component, Input, OnChanges } from "@angular/core";
+import { Utils } from "@sinequa/core/base";
+import { Record } from "@sinequa/core/web-services";
 
 @Component({
     selector: "sq-result-extracts",
@@ -16,6 +16,11 @@ p, ul {
 }
 .extracts-text {
     word-break: break-word;
+
+    ::ng-deep .matchlocations {
+        background-color: transparent !important;
+        font-weight: 600;
+    }
 }
 .sq-matching-passage {
     max-height: 6em;
@@ -29,7 +34,7 @@ export class ResultExtracts implements OnChanges {
     @Input() showLongExtracts: boolean;
     @Input() hideDate: boolean;
     @Input() maxLongExtracts: number;
-    @Input() dateFormat: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'short', day: 'numeric'};
+    @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
     text: string | undefined;
     longExtracts: string[] | undefined;
     extractsClass: string;
@@ -44,13 +49,13 @@ export class ResultExtracts implements OnChanges {
         else {
             if (this.showLongExtracts && this.record.extracts) {
                 this.longExtracts = this.record.extracts
-                    .filter((extract,i) => (!this.maxLongExtracts || i < this.maxLongExtracts) && !!extract.highlighted) // Note: keep only extracts with 11.7 format - older format not supported
+                    .filter((extract, i) => (!this.maxLongExtracts || i < this.maxLongExtracts) && !!extract.highlighted) // Note: keep only extracts with 11.7 format - older format not supported
                     .map(extract => extract.highlighted.replace(/\{b\}/g, "<strong>").replace(/\{nb\}/g, "</strong>"));
                 this.extractsClass = "sq-long-extracts";
             }
             else if (this.record.matchingpassages?.passages?.[0]) {
-              this.text = this.record.matchingpassages.passages?.[0].highlightedText;
-              this.extractsClass = "sq-matching-passage";
+                this.text = this.record.matchingpassages.passages?.[0].highlightedText;
+                this.extractsClass = "sq-matching-passage";
             }
             else if (this.record.relevantExtracts) {
                 this.text = this.record.relevantExtracts;

@@ -798,6 +798,7 @@ export interface TopPassage {
     answer?: string;
     answerScore?: number;
     $record?: Record;
+    $checked?: boolean;
 }
 
 /**
