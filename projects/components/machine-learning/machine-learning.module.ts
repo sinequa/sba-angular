@@ -10,7 +10,7 @@ import { AnswerCardComponent } from "./answer-card.component";
 import { PassageListComponent } from "./passage-list.component";
 import { TopPassagesComponent } from "./top-passages/top-passages.component";
 import { FormsModule } from "@angular/forms";
-import { BsSearchModule } from "../search";
+import { BsSearchModule } from "@sinequa/components/search";
 
 
 @NgModule({
