@@ -8,8 +8,9 @@
 
 .list-group-item {
   cursor: pointer;
-  line-height: 1.8rem;
-  font-weight: 300;
+  line-height: 1.2rem;
+  font-size: 0.875em;
+  font-weight: 400;
   white-space: break-spaces;
   padding: .4rem 0;
 
@@ -21,7 +22,7 @@
     width: 1.25rem;
 
     &::before {
-      font-size: large;
+      // font-size: large;
       font-weight: bold;
       font-family: monospace;
       content: "+ ";
@@ -32,6 +33,12 @@
     display: -webkit-box;
     -webkit-line-clamp: var(--line-clamp, 3);
     -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    ::ng-deep .matchlocations {
+      background-color: transparent !important;
+      font-weight: 600;
+  }
   }
 
   &.expanded {
@@ -41,12 +48,6 @@
 
     .sq-passage-text {
       --line-clamp: 0;
-    }
-  }
-
-  &.unexpandable {
-    .sq-passage-icon::before {
-      content: "  ";
     }
   }
 }

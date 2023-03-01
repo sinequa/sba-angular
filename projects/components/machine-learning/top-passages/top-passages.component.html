@@ -8,17 +8,19 @@
 </ng-template>
 
 <div class="card-body p-0">
-	<span *ngIf="passages && documentsNb" class="sq-passage-count p-2">{{passages.length}} answers found in {{documentsNb}} documents</span>
+	<span *ngIf="passages && documentsNb" class="sq-passage-count p-2">{{'msg#machine-learning.passagesFound' | sqMessage:{passagesNb: passages.length, documentsNb: documentsNb} }}</span>
 	<div *ngFor="let passage of currentPassages$ | async" (click)="openPreview(passage)" class="passage pt-2">
+		<div class="sq-passage-title align-content-center mb-1" *ngIf="passage.$record">
+			<sq-result-title [record]="passage.$record" titleLinkBehavior="action"
+			(titleClicked)="onTitleClicked($event, passage)" class="d-block text-truncate"></sq-result-title>
+		</div>
+		<div class="sq-passage-answer align-content-center mb-1" *ngIf="passage.answer">
+			<span [innerHTML]="passage.answer"></span>
+		</div>
 		<div class="sq-passage-text mb-2">
 			<span *ngIf="passage.$record?.modified && !hideDate" class="extracts-date">{{passage.$record.modified |
 				sqDate:dateFormat }} - </span>
 			<span [innerHTML]="passage.highlightedText"></span>
-		</div>
-		<div class="sq-passage-title d-flex align-content-center mb-1" *ngIf="passage.$record">
-			<sq-result-icon [record]="passage.$record" class="me-1"></sq-result-icon>
-			<sq-result-title [record]="passage.$record" titleLinkBehavior="action"
-			(titleClicked)="onTitleClicked($event, passage)" class="d-block text-truncate"></sq-result-title>
 		</div>
 	</div>
 </div>

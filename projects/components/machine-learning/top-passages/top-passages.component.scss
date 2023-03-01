@@ -3,15 +3,21 @@
     padding-right: 0;
 }
 
-.sq-passage-text {
+.sq-passage-text,
+.sq-passage-answer {
     font-size: 0.875em;
     line-height: 1.2rem;
 }
 
-.sq-passage-title {
-    i:before {
-        vertical-align: sub;
-    }
+::ng-deep .sq-result-title {
+    font-size: 0.875em !important;
+    line-height: 1.2rem !important;
+    font-weight: 400 !important;
+    color: initial !important;
+}
+
+.sq-passage-title i:before {
+    vertical-align: sub;
 }
 
 .passage {
@@ -30,12 +36,14 @@
 
     ::ng-deep .matchlocations {
         background-color: transparent !important;
-        font-weight: bold;
+        font-weight: 600;
     }
 
     ::ng-deep .answer {
-        background-color: lightyellow !important;
-        font-weight: bold;
+        background-color: palegreen !important;
+        padding: 0 .5rem;
+        border-radius: .5rem;
+        font-weight: 600;
     }
 }
 

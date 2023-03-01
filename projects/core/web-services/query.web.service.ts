@@ -795,6 +795,8 @@ export interface TopPassage {
     score: number;
     text: string;
     recordId: string;
+    answer?: string;
+    answerScore?: number;
     $record?: Record;
 }
 
