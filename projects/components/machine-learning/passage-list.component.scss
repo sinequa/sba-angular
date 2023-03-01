@@ -32,6 +32,7 @@
     display: -webkit-box;
     -webkit-line-clamp: var(--line-clamp, 3);
     -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   &.expanded {
