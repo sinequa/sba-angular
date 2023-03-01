@@ -25,6 +25,7 @@ export class SearchComponent implements OnInit {
 
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
+  public openedDocPassages?: {recordId: string, id: number, index: string}[];
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
@@ -67,7 +68,6 @@ export class SearchComponent implements OnInit {
 
     this.documentsScrollAction = new Action({
       text: "Jump to Documents",
-      selected: true,
       action: () => {
         const documentElt = document.getElementById('documents');
         if (documentElt) {
@@ -78,8 +78,6 @@ export class SearchComponent implements OnInit {
 
     this.summarizePassagesAction = new Action({
       text: "Summarize",
-      selected: false,
-      disabled: !this._selectedPassages || !this._selectedPassages.length,
       action: () => {
         this.selectedPassages = [...this._selectedPassages];
       },
@@ -123,6 +121,7 @@ export class SearchComponent implements OnInit {
           this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
           if (!this.showResults) {
             this.openedDoc = undefined;
+            this.openedDocPassages = undefined;
             this._showFilters = false;
           }
           this.hasAnswers = !!results?.answers?.answers?.length;
@@ -174,6 +173,9 @@ export class SearchComponent implements OnInit {
 
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
+    this.openedDocPassages = record.matchingpassages?.passages
+      .slice(0,10)
+      .map(p => ({recordId: record.id, id: p.id, index: record.databasealias}))
     this.passageId = passageId?.toString();
     if (this.passageId) {
       if (this.previewFacet && this.passagesList) {
@@ -206,6 +208,7 @@ export class SearchComponent implements OnInit {
         detail: this.previewService.getAuditPreviewDetail(this.openedDoc.id, this.searchService.query, this.openedDoc, this.searchService.results?.id)
       });
       this.openedDoc = undefined;
+      this.openedDocPassages = undefined;
       if(this.ui.screenSizeIsEqual('md')){
         this._showFilters = true; // Show filters on medium screen when document is closed
       }
@@ -244,6 +247,7 @@ export class SearchComponent implements OnInit {
     this._showFilters = !this._showFilters;
     if(this._showFilters){ // Close document if filters are displayed
       this.openedDoc = undefined;
+      this.openedDocPassages = undefined;
     }
   }
 

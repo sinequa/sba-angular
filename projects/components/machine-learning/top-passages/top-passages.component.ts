@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { BehaviorSubject } from "rxjs";
@@ -10,7 +10,7 @@ import { SearchService } from "@sinequa/components/search";
   styleUrls: ['./top-passages.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TopPassagesComponent extends AbstractFacet implements OnChanges {
+export class TopPassagesComponent extends AbstractFacet {
   @Input() set results(results: Results) {
     // extract top passages from Results object
     this.passages = results.topPassages?.passages || [];
@@ -28,19 +28,12 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   passages: TopPassage[];
   currentPassages$: BehaviorSubject<TopPassage[]> = new BehaviorSubject<TopPassage[]>([]);
   documentsNb: number;
-  summary: string;
 
-  loading = false;
-
-  constructor(private auditService: AuditWebService,
-    private searchService: SearchService) {
+  constructor(
+    private auditService: AuditWebService,
+    private searchService: SearchService
+  ) {
     super();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.passagesToSummarize?.currentValue) {
-      this.fetchSummary();
-    }
   }
 
   fetchPassagesRecords(): void {
@@ -129,8 +122,4 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
     return 0;
   }
 
-  private fetchSummary(): void {
-    this.summary = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-    // this.loading = true;
-  }
 }
