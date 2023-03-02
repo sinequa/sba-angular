@@ -52,10 +52,9 @@ import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
-    app: "vanilla",
-    url: "http://localhost",
+    app: "training",
     production: environment.production,
-    //autoSAMLProvider: environment.autoSAMLProvider,
+    autoSAMLProvider: environment.autoSAMLProvider,
     auditEnabled: true
 };
 
