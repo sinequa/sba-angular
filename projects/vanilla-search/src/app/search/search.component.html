@@ -157,12 +157,12 @@
         <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 96, bottom: 30}">
 
             <!-- Without selected document -->
-            <sq-facet-card *ngIf="!openedDoc" [collapsible]="false" [title]="'msg#facet.preview.documentPreview'"
+            <sq-facet-card *ngIf="!openedDoc" [collapsible]="false" [title]="'msg#preview.documentPreview'"
                 class="mb-3">
                 <div class="no-record">
                     <img src="assets/sinequa-empty-preview.png" class="mb-3">
-                    <p class="fw-bold">{{'msg#facet.preview.documentPreviewTitle' | sqMessage}}</p>
-                    <p>{{'msg#facet.preview.documentPreviewDescription' | sqMessage}}</p>
+                    <p class="fw-bold">{{'msg#preview.documentPreviewTitle' | sqMessage}}</p>
+                    <p>{{'msg#preview.documentPreviewDescription' | sqMessage}}</p>
                 </div>
             </sq-facet-card>
 
@@ -184,17 +184,18 @@
                     </sq-metadata>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewPreview'}">
                     <sq-preview #facet
-                        style="height: 500px;"
+                        style="height: calc(100vh - 250px);"
                         [id]="openedDoc.id"
                         [query]="searchService.query"
                         [highlightColors]="previewHighlights"
+                        [highlightEntities]="false"
                         [preferenceName]="'mini-preview'">
                     </sq-preview>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="!!passageId"
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewPassages'}" [default]="!!passageId"
                     *ngIf="openedDoc.$hasPassages" #passagesList>
                     <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
                 </ng-template>

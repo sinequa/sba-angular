@@ -6,10 +6,10 @@
       <ng-container *ngIf="item.current">{{ item.current }} / </ng-container>
       {{ item.ids.length }}
     </span>
-    <span class="text-muted px-1" role="button" (click)="prevEntity(item)" title="{{ 'msg#preview.previousHighlightButtonAltText' | sqMessage }}">
+    <span class="text-muted px-1" role="button" (click)="prevEntity(item)" title="{{ 'msg#preview.previous' | sqMessage }}">
       <i class="fas fa-chevron-left"></i>
     </span>
-    <span class="text-muted px-1" role="button" (click)="nextEntity(item)" title="{{ 'msg#preview.nextHighlightButtonAltText' | sqMessage }}">
+    <span class="text-muted px-1" role="button" (click)="nextEntity(item)" title="{{ 'msg#preview.next' | sqMessage }}">
       <i class="fas fa-chevron-right"></i>
     </span>
   </div>

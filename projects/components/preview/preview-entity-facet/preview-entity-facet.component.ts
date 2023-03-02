@@ -15,24 +15,7 @@ interface PreviewEntity {
 @Component({
   selector: 'sq-preview-entity-facet',
   templateUrl: './preview-entity-facet.component.html',
-  styles: [`
-  div.header {
-    padding: 0 0.75rem;
-    border-radius: 1rem;
-    background-color: rgb(0,0,0,0.08);
-    transition: background-color 0.2s ease-in-out;
-    &:hover {
-      background-color: rgb(0,0,0,0.15);
-    }
-    &.highlighted {
-      color: var(--sq-entity-color);
-      background-color: var(--sq-entity-bg-color);
-      &:hover {
-        opacity: 0.75;
-      }
-    }
-  }
-  `],
+  styleUrls: ['./preview-entity-facet.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewEntityFacetComponent extends AbstractFacet implements OnChanges, OnDestroy {
@@ -45,6 +28,8 @@ export class PreviewEntityFacetComponent extends AbstractFacet implements OnChan
   @Input() label?: string;
   @Input() icon?: string;
   @Input() highlights?: PreviewHighlightColors;
+
+  _actions: Action[];
 
   items: PreviewEntity[];
 
@@ -61,29 +46,23 @@ export class PreviewEntityFacetComponent extends AbstractFacet implements OnChan
   ) {
     super();
 
-    this.sortAlphaAction = new Action({
-      icon: "fas fa-fw fa-sort-alpha-down",
-      title: "msg#preview.sortAlphabetically",
-      action: () => {
-        this.sortFreq = false;
-        this.updateSort();
-      }
-    });
-
-    this.sortFreqAction = new Action({
-      icon: "fas fa-fw fa-sort-amount-down",
-      title: "msg#preview.sortFrequency",
-      action: () => {
-        this.sortFreq = true;
-        this.updateSort();
-      }
-    });
+    this._actions = [
+      new Action({
+        action: () => {
+          this.sortFreq = !this.sortFreq;
+          this.updateSort();
+          this.cdRef.detectChanges();
+        },
+        updater: action => {
+          action.icon = this.sortFreq? "fas fa-fw fa-sort-amount-down" : "fas fa-fw fa-sort-alpha-down";
+          action.title = this.sortFreq? "msg#preview.sortFrequency" : "msg#preview.sortAlphabetically";
+        }
+      })
+    ];
   }
 
   override get actions(): Action[]{
-    const actions: Action[] = [];
-    actions.push(this.sortFreq? this.sortAlphaAction : this.sortFreqAction);
-    return actions;
+    return this._actions;
   }
 
   /**
@@ -144,6 +123,7 @@ export class PreviewEntityFacetComponent extends AbstractFacet implements OnChan
       const d = b.ids.length - a.ids.length;
       return this.sortFreq && d !== 0?  d : a.display.localeCompare(b.display);
     });
+    this._actions[0].update();
   }
 
   updateSelected(selectedId: string|undefined) {

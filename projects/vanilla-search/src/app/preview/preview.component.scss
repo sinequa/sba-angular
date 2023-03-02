@@ -4,85 +4,54 @@
 
 @import "../../../../components/theme/bootstrap-variables";
 
-:host ::ng-deep sq-facet-card .card {
-  height: 100%;
-
-  sq-collapse {
-    flex: 1;
-
-    .sq-collapse {
-      height: 100%;
-    }
-  }
-}
-
-nav {
-  padding-left: .5rem;
-  padding-right: .5rem;
-  box-shadow: 0 0 1.25rem 0 rgba(0, 0, 0, .15);
-  z-index: 99;
-}
-
-.preview-container {
-  height: calc(100% - 3.5rem);
+:host {
   width: 100%;
-
-  @include media-breakpoint-up(sm) {
-    height: calc(100% - 4.5rem);
-  }
-
-  @include media-breakpoint-up(lg) {
-    height: 100%;
-  }
-}
-
-.preview {
-  flex: 1;
-
-  @include media-breakpoint-up(lg) {
-    padding: 1.25rem 2.5rem 1.25rem 1.25rem;
-  }
-}
-
-.preview-content {
-  --bs-gutter-x: 0;
-  --bs-gutter-y: 0;
   height: 100%;
+  display: flex;
   background-color: #efefef;
-}
 
-.side-menu {
-  padding-right: 0;
-  background-color: white;
-  z-index: 9;
-  -webkit-animation: slide 0.5s forwards;
-  -webkit-animation-delay: 2s;
-  animation: slide 0.5s forwards;
-  animation-delay: 2s;
-  flex-direction: column;
+  .side-menu {
+    padding-right: 0;
+    background-color: white;
+    z-index: 9;
+    flex-direction: column;
 
-  .side-menu-header {
-    &.collapsed {
-      @include media-breakpoint-up(lg) {
-        flex-direction: column;
+    img {
+      height: 2.5rem;
+      display: block;
+      margin: auto;
+    }
+
+    sq-tabs {
+      z-index: 20;
+      & ::ng-deep .nav-item {
+        flex: 1 1 auto; // "Flex fill"
       }
     }
   }
 
-  sq-tabs {
-    z-index: 20;
-  }
+  sq-facet-card.preview {
 
-  .card {
     flex: 1;
-  }
-}
 
-nav img,
-.side-menu img {
-  height: 2.5rem;
-  display: block;
-  margin: auto;
+    @include media-breakpoint-up(lg) {
+      padding: 1.25rem;
+    }
+
+    & ::ng-deep .card {
+      height: 100%;
+
+      sq-collapse {
+        flex: 1;
+
+        .sq-collapse {
+          height: 100%;
+        }
+      }
+    }
+
+  }
+
 }
 
 .flex-scroll {
@@ -96,8 +65,8 @@ nav img,
 }
 
 :host-context(.dark) {
-  .preview-content {
-    background-color: black;
+  :host {
+    background-color: #1c1e21;
   }
 
   .side-menu {

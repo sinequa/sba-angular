@@ -63,7 +63,7 @@ export class SearchComponent implements OnInit {
 
     const expandAction = new Action({
       icon: "fas fa-fw fa-expand-alt",
-      title: "msg#facet.preview.expandTitle",
+      title: "msg#preview.expandTitle",
       action: () => {
         if (this.openedDoc) {
           this.previewService.openRoute(this.openedDoc, this.searchService.query);
@@ -73,7 +73,7 @@ export class SearchComponent implements OnInit {
 
     const closeAction = new Action({
       icon: "fas fa-fw fa-times",
-      title: "msg#facet.preview.closeTitle",
+      title: "msg#preview.closeTitle",
       action: () => {
         this.closeDocument();
       }

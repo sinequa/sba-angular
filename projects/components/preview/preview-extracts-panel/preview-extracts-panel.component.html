@@ -36,7 +36,7 @@
     <div class="d-flex align-items-center justify-content-between p-4 pt-0" *ngIf="showPagination && extracts?.length > 0">
         <button class="btn btn-primary" (click)="previousExtract()" [disabled]="currentIndex < 1">
             <div class="d-flex align-items-center"><i class="fas fa-arrow-left"></i>
-                <span class="d-none d-md-block ms-md-2">{{ 'msg#preview.previousDocument' | sqMessage}}</span>
+                <span class="d-none d-md-block ms-md-2">{{ 'msg#preview.previous' | sqMessage}}</span>
             </div>
         </button>
         <div *ngIf="currentIndex >= 0" class="extracts-counter">
@@ -44,7 +44,7 @@
         </div>
         <button class="btn btn-primary" (click)="nextExtract()" [disabled]="currentIndex >= extracts.length-1">
             <div class="d-flex align-items-center">
-                <span class="d-none d-md-block me-md-2">{{ 'msg#preview.nextDocument' | sqMessage}}</span><i
+                <span class="d-none d-md-block me-md-2">{{ 'msg#preview.next' | sqMessage}}</span><i
                     class="fas fa-arrow-right"></i>
             </div>
         </button>

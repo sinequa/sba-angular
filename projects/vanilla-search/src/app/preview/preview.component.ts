@@ -10,7 +10,6 @@ import { Action } from '@sinequa/components/action';
 import { PreviewService, PreviewHighlightColors, Preview } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { IntlService } from '@sinequa/core/intl';
-import { UIService } from '@sinequa/components/utils';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 
 export interface EntitiesState {
@@ -43,9 +42,9 @@ export class PreviewComponent implements OnInit, OnDestroy {
   collapsedPanel = false;
   homeRoute = "/home";
   showBackButton = true;
-  subpanels = ["entities"];
   subpanel: string;
   previewSearchable = true;
+  extractsType: string;
   minimapType = "extractslocations";
   tabs: Tab[];
 
@@ -68,7 +67,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected titleService: Title,
     protected _location: Location,
-    public ui: UIService,
 
     protected intlService: IntlService,
     protected previewService: PreviewService,
@@ -91,7 +89,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.getPreviewDataFromUrl();
-    this.collapsedPanel = this.ui.screenSizeIsLessOrEqual('xs');
   }
 
   ngOnDestroy() {
@@ -117,48 +114,20 @@ export class PreviewComponent implements OnInit, OnDestroy {
   onPreviewReady() {
     if (this.id && this.previewData) {
       this.preview.selectMostRelevant();
-      this.subpanels = ["entities"];
       this.tabs = [
+        this.getTab('extracts'),
         this.getTab('entities')
       ];
-      if (this.previewData.highlightsPerCategory['matchingpassages']?.values.length) {
-        this.subpanels.unshift("passages");
-        this.tabs.unshift(this.getTab('passages'));
-        this.subpanel = "passages";
-        this.minimapType = "extractslocations";
-      } else {
-        this.subpanels.unshift("extracts");
-        this.tabs.unshift(this.getTab('extracts'));
-        this.subpanel = "extracts";
-        this.minimapType = "extractslocations";
-      }
+      this.subpanel = "extracts";
+      this.extractsType = this.previewData.highlightsPerCategory['matchingpassages']?.values.length?
+        'matchingpassages' : 'extractslocations';
       this.sandbox = ["xlsx", "xls"].includes(this.previewData.record.docformat) ? null : undefined;
       this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", { title: this.previewData.record?.title || "" }));
     }
   }
 
   openPanel(tab: Tab) {
-    const panel = tab.value;
-    this.subpanel = panel;
-    // Change the type of extract highlighted by the minimap in function of the current tab
-    if (panel === "passages") {
-      this.minimapType = "extractslocations";
-      // if (this.previewData && this.previewDocument) {
-      //   this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")
-      // }
-    } else {
-      // this.previewDocument?.clearPassageHighlight();
-    }
-    if (panel === "extracts") {
-      this.minimapType = "extractslocations";
-      // if (this.previewData && this.previewDocument) {
-      //   this.highlightMostRelevant(this.previewData, this.previewDocument, "extractslocations")
-      // }
-    }
-    if (panel === 'entities') {
-      this.minimapType = "none";
-      //this.updateHighlights('entities');
-    }
+    this.subpanel = tab.value;
   }
 
   /**

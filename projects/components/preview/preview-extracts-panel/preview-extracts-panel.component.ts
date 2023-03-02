@@ -47,8 +47,8 @@ export class PreviewExtractsPanelComponent implements OnChanges, OnDestroy {
    * Extracts the list of extracts from the preview document
    */
   ngOnChanges(changes: SimpleChanges) {
-    if(changes.previewData) {
-      this.fetchExtracts();
+    if(changes.previewData && this.previewData) {
+      this.fetchExtracts(this.previewData);
     }
     if(this.preview && !this.sub) {
       this.sub = this.preview.selectedId$.subscribe(() => this.updateCurrentIndex());
@@ -60,12 +60,12 @@ export class PreviewExtractsPanelComponent implements OnChanges, OnDestroy {
     this.sub?.unsubscribe();
   }
 
-  private fetchExtracts() {
+  private fetchExtracts(data: PreviewData) {
     this.loading = true;
     this.preview.getHtml(this.type).subscribe(extracts => {
       // extracts contains the html of extracts in chronological order
       // locations contains the list of start positions sorted by score
-      const locations = this.previewData.highlightsPerCategory[this.type]?.values[0]?.locations || [];
+      const locations = data.highlightsPerCategory[this.type]?.values[0]?.locations || [];
 
       this.extracts = locations.map((l, relevanceIndex) => ({
         startIndex: l.start,

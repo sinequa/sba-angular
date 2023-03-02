@@ -7,10 +7,11 @@ import { AppService, Query } from "@sinequa/core/app-utils";
 import { AuditEventType, PreviewData, PreviewWebService } from "@sinequa/core/web-services";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { PreviewFrameService } from "./preview-frames.service";
-import { BehaviorSubject, Observable, of, Subject, Subscription } from "rxjs";
+import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { PreviewEntityOccurrence } from "./preview-tooltip.component";
 import { UIService } from "@sinequa/components/utils";
 import { MinimapItem } from "./preview-minimap.component";
+import { Utils } from "@sinequa/core/base";
 
 export interface PreviewHighlightColors {
   name: string;
@@ -57,8 +58,10 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   // Highlight management
   /** Highlights configuration */
   @Input() highlightColors: PreviewHighlightColors[] = [];
-  /** Default highlight to turn on (defaults to the ones present in highlightColors) */
-  @Input() defaultHighlights?: string[];
+  /** Whether to highlight entities by default */
+  @Input() highlightEntities = true;
+  /** Whether to highlight extracts by default */
+  @Input() highlightExtracts = true;
   /** Whether to display the highlight actions */
   @Input() highlightActions = true;
   /** List of highlights considered as "extracts" */
@@ -154,16 +157,14 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     public searchService: SearchService,
     public prefs: UserPreferences,
     public cdRef: ChangeDetectorRef,
-    public ui: UIService
+    public ui: UIService,
+    public el: ElementRef
   ) {
     super();
 
-    // When the iframe is resized, the div can be badly positioned
-    this.sub = this.ui.resizeEvent.subscribe(() => this.onResize());
-
     this.zoomOutAction = new Action({
       icon: "fas fa-fw fa-search-minus",
-      title: "msg#facet.preview.minimize",
+      title: "msg#preview.minimize",
       action: () => {
         this.scale -= this.scaleIncrement;
         this.updateActions();
@@ -175,7 +176,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
     this.zoomInAction = new Action({
       icon: "fas fa-fw fa-search-plus",
-      title: "msg#facet.preview.maximize",
+      title: "msg#preview.maximize",
       action: () => {
         this.scale += this.scaleIncrement;
         this.updateActions();
@@ -187,21 +188,21 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
     this.toggleEntitiesAction = new Action({
       icon: "fas fa-fw fa-lightbulb",
-      title: "msg#facet.preview.toggleEntities",
+      title: "msg#preview.toggleEntities",
       action: (action) => this.toggleEntities(!action.selected),
       updater: action => action.selected = this.entities.some(e => this.highlightsPref.includes(e))
     });
 
     this.toggleExtractsAction = new Action({
       icon: "fas fa-fw fa-highlighter",
-      title: "msg#facet.preview.toggleExtracts",
+      title: "msg#preview.toggleExtracts",
       action: (action) => this.toggleExtracts(!action.selected),
       updater: action => action.selected = this.extracts.some(e => this.highlightsPref.includes(e))
     });
 
     this.pdfDownloadAction = new Action({
       icon: "fas fa-fw fa-file-pdf",
-      title: "msg#facet.preview.downloadPdf",
+      title: "msg#preview.downloadPdf",
       action: () => this.searchService.notifyOpenOriginalDocument(this.data!.record, undefined, AuditEventType.Doc_CachePdf)
     });
   }
@@ -224,23 +225,23 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
         this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
         this.previewFrames.subscribe(this.url, 'ready', () => this.onReady(data));
         this.cdRef.detectChanges();
+        this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
       });
     }
-
-    // Update the preview highlights
-    if(changes.highlights) {
-      this.sendMessage({ action: 'highlight', highlights: this.highlightColors });
+    else if(changes.preferenceName || changes.highlights) {
+      this.updateHighlights();
     }
 
     this.updateActions();
   }
 
-  sub: Subscription;
   ngOnDestroy(): void {
     if(this.url) {
       this.previewFrames.unsubscribe(this.url);
     }
-    this.sub.unsubscribe();
+    if(this.iframe) {
+      this.ui.removeElementResizeListener(this.el.nativeElement, this.onResize);
+    }
   }
 
   sendMessage(message: any) {
@@ -260,13 +261,13 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  onResize() {
+  onResize = Utils.debounce(() => {
     const id = this.selectedId$.getValue();
     if(id) {
       this.select(id); // Reselect the item to force a redraw of the passage highlighter
     }
     this.initMinimap(); // Redraw minimap to match new scale
-  }
+  }, 100);
 
   /**
    * Update the facet actions (PDF, highlight toggle, Zoom In/Out)
@@ -292,7 +293,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   updateHighlights() {
     const highlights = this.getHighlights();
     this.sendMessage({ action: 'highlight', highlights });
-    this.highlights$.next(this.highlightsPref);
+    setTimeout(() => this.highlights$.next(this.highlightsPref)); // Fire asynchronously to avoid "change after checked" errors
   }
 
   /**
@@ -505,6 +506,12 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
   get allHighlights(): string[] {
     return this.highlightColors.map(hl => hl.name);
+  }
+
+  get defaultHighlights(): string[] {
+    return this.allHighlights.filter(
+      hl => this.extracts.includes(hl)? this.highlightExtracts : this.highlightEntities
+    );
   }
 
   get highlightsPref(): string[] {
