@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { FullscreenActivatorComponent } from './fullscreen-activator/fullscreen-activator.component';
-import { NetworkActivityComponent } from './network-activity/network-activity.component';
+import { DocFullscreenActivatorComponent } from './fullscreen-activator/fullscreen-activator.component';
+import { DocNetworkActivityComponent } from './network-activity/network-activity.component';
 
 @Component({
-  selector: 'app-status-bar-module',
+  selector: 'doc-status-bar-module',
   templateUrl: '../../module-template.html'
 })
-export class StatusBarModuleComponent {
+export class DocStatusBarModuleComponent {
 
   title = 'Status Bar Module';
 
   components = [
-    FullscreenActivatorComponent,
-    NetworkActivityComponent
+    DocFullscreenActivatorComponent,
+    DocNetworkActivityComponent
   ];
 
   constructor() { }

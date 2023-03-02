@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-facet-recent-queries',
+  selector: 'doc-facet-recent-queries',
   templateUrl: './facet-recent-queries.component.html'
 })
-export class FacetRecentQueriesComponent {
+export class DocFacetRecentQueriesComponent {
 
   code = `<sq-facet-recent-queries></sq-facet-recent-queries>`;
 

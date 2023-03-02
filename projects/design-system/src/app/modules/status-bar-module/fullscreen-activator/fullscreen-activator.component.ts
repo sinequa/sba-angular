@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-fullscreen-activator',
+  selector: 'doc-fullscreen-activator',
   templateUrl: './fullscreen-activator.component.html'
 })
-export class FullscreenActivatorComponent {
+export class DocFullscreenActivatorComponent {
 
   code = `<sq-fullscreen-activator></sq-fullscreen-activator>`;
 

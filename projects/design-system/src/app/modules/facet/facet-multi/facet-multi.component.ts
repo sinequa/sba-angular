@@ -3,10 +3,10 @@ import { FACETS } from 'src/mocks/facets';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-facet-multi',
+  selector: 'doc-facet-multi',
   templateUrl: './facet-multi.component.html'
 })
-export class FacetMultiComponent {
+export class DocFacetMultiComponent {
 
   FACETS = FACETS;
 

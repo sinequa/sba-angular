@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-result-missing-terms',
+  selector: 'doc-result-missing-terms',
   templateUrl: './result-missing-terms.component.html'
 })
-export class ResultMissingTermsComponent {
+export class DocResultMissingTermsComponent {
 
   code = `<sq-result-missing-terms
     [record]="record">

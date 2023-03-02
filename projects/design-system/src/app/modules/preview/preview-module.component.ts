@@ -1,43 +1,42 @@
 import { Component } from '@angular/core';
-import { FacetPreviewComponentComponent } from './facet-preview-component/facet-preview-component.component';
-import { PreviewEntityFacetComponent } from './preview-entity-facet/preview-entity-facet.component';
-import { PreviewEntityPanelComponent } from './preview-entity-panel/preview-entity-panel.component';
-import { PreviewExtractsPanelComponent } from './preview-extracts-panel/preview-extracts-panel.component';
-import { PreviewHighlightsComponent } from './preview-highlights/preview-highlights.component';
-import { PreviewLinksComponent } from './preview-links/preview-links.component';
-import { PreviewMinimapComponent } from './preview-minimap/preview-minimap.component';
-import { PreviewPageFormComponent } from './preview-page-form/preview-page-form.component';
-import { PreviewPagesPanelComponent } from './preview-pages-panel/preview-pages-panel.component';
-import { PreviewPanelComponent } from './preview-panel/preview-panel.component';
-import { PreviewPopupComponent } from './preview-popup/preview-popup.component';
-import { PreviewSearchFormComponent } from './preview-search-form/preview-search-form.component';
-import { ResultLinkPreviewComponent } from './result-link-preview/result-link-preview.component';
-import { SimilarDocumentsComponent } from './similar-documents/similar-documents.component';
+import { DocFacetPreviewComponentComponent } from './facet-preview-component/facet-preview-component.component';
+import { DocPreviewEntityFacetComponent } from './preview-entity-facet/preview-entity-facet.component';
+import { DocPreviewEntityPanelComponent } from './preview-entity-panel/preview-entity-panel.component';
+import { DocPreviewExtractsPanelComponent } from './preview-extracts-panel/preview-extracts-panel.component';
+import { DocPreviewHighlightsComponent } from './preview-highlights/preview-highlights.component';
+import { DocPreviewLinksComponent } from './preview-links/preview-links.component';
+import { DocPreviewMinimapComponent } from './preview-minimap/preview-minimap.component';
+import { DocPreviewPageFormComponent } from './preview-page-form/preview-page-form.component';
+import { DocPreviewPagesPanelComponent } from './preview-pages-panel/preview-pages-panel.component';
+import { DocPreviewPanelComponent } from './preview-panel/preview-panel.component';
+import { DocPreviewPopupComponent } from './preview-popup/preview-popup.component';
+import { DocPreviewSearchFormComponent } from './preview-search-form/preview-search-form.component';
+import { DocResultLinkPreviewComponent } from './result-link-preview/result-link-preview.component';
+import { DocSimilarDocumentsComponent } from './similar-documents/similar-documents.component';
 
 @Component({
-  selector: 'app-preview-module',
+  selector: 'doc-preview-module',
   templateUrl: '../../module-template.html'
 })
-export class PreviewModuleComponent {
+export class DocPreviewModuleComponent {
 
   title = 'Preview Module';
 
   components = [
-    // FacetPreviewComponent,
-    FacetPreviewComponentComponent,
-    PreviewEntityFacetComponent,
-    PreviewEntityPanelComponent,
-    PreviewExtractsPanelComponent,
-    PreviewHighlightsComponent,
-    PreviewLinksComponent,
-    PreviewMinimapComponent,
-    PreviewPageFormComponent,
-    PreviewPagesPanelComponent,
-    PreviewPanelComponent,
-    PreviewPopupComponent,
-    PreviewSearchFormComponent,
-    ResultLinkPreviewComponent,
-    SimilarDocumentsComponent
+    DocFacetPreviewComponentComponent,
+    DocPreviewEntityFacetComponent,
+    DocPreviewEntityPanelComponent,
+    DocPreviewExtractsPanelComponent,
+    DocPreviewHighlightsComponent,
+    DocPreviewLinksComponent,
+    DocPreviewMinimapComponent,
+    DocPreviewPageFormComponent,
+    DocPreviewPagesPanelComponent,
+    DocPreviewPanelComponent,
+    DocPreviewPopupComponent,
+    DocPreviewSearchFormComponent,
+    DocResultLinkPreviewComponent,
+    DocSimilarDocumentsComponent
   ];
 
   constructor() { }

@@ -3,10 +3,10 @@ import {Tab} from "@sinequa/core/web-services";
 import {BsPager} from "@sinequa/components/search";
 
 @Component({
-    selector: 'app-search',
+    selector: 'doc-search',
     templateUrl: './search.component.html'
 })
-export class SearchComponent {
+export class DocSearchComponent {
 
 
     /**

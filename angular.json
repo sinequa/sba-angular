@@ -564,7 +564,7 @@
       },
       "root": "projects/design-system",
       "sourceRoot": "projects/design-system/src",
-      "prefix": "app",
+      "prefix": "doc",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

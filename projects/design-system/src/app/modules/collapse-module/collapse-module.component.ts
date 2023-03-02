@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { CollapseButtonComponent } from './collapse-button/collapse-button.component';
-import { CollapseComponent } from './collapse/collapse.component';
+import { DocCollapseButtonComponent } from './collapse-button/collapse-button.component';
+import { DocCollapseComponent } from './collapse/collapse.component';
 
 @Component({
-  selector: 'app-collapse-module',
+  selector: 'doc-collapse-module',
   templateUrl: '../../module-template.html'
 })
-export class CollapseModuleComponent {
+export class DocCollapseModuleComponent {
 
   title = 'Collapse Module';
 
   components = [
-    CollapseComponent,
-    CollapseButtonComponent
+    DocCollapseComponent,
+    DocCollapseButtonComponent
   ];
 
   constructor() { }

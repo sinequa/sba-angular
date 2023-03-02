@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
+import { DocThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 
 @Component({
-  selector: 'app-theme-toggle-module',
+  selector: 'doc-theme-toggle-module',
   templateUrl: '../../module-template.html'
 })
-export class ThemeToggleModuleComponent {
+export class DocThemeToggleModuleComponent {
 
   title = 'Theme Toggle Module';
 
   components = [
-    ThemeToggleComponent
+    DocThemeToggleComponent
   ];
 
   constructor() { }

@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-rfm-action',
+  selector: 'doc-rfm-action',
   templateUrl: './rfm-action.component.html'
 })
-export class RfmActionComponent {
+export class DocRfmActionComponent {
 
   code = `<sq-rfm-action
     [results]="results"

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-edit-label',
+  selector: 'doc-edit-label',
   templateUrl: './edit-label.component.html',
 })
-export class EditLabelComponent {
+export class DocEditLabelComponent {
 
   code = `NullInjectorError: No provider for ModalRef!`;
 

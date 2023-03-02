@@ -4,10 +4,10 @@ import { ModalService } from '@sinequa/core/modal';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-preview-popup',
+  selector: 'doc-preview-popup',
   templateUrl: './preview-popup.component.html'
 })
-export class PreviewPopupComponent {
+export class DocPreviewPopupComponent {
 
   code = `this.modalService.open(BsPreviewPopup, {
     model: {

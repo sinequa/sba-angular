@@ -5,10 +5,10 @@ import { MapOf } from '@sinequa/core/base';
 import { IntlService, Locale } from '@sinequa/core/intl/intl.service';
 
 @Component({
-  selector: 'app-user-settings-editor',
+  selector: 'doc-user-settings-editor',
   templateUrl: './user-settings-editor.component.html'
 })
-export class UserSettingsEditorComponent {
+export class DocUserSettingsEditorComponent {
 
   code = `<sq-user-settings-editor
     [form]="form"

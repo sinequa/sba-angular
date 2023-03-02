@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-alerts-menu',
+  selector: 'doc-alerts-menu',
   templateUrl: './alerts-menu.component.html'
 })
-export class AlertsMenuComponent {
+export class DocAlertsMenuComponent {
 
   code = `<sq-alerts-menu></sq-alerts-menu>`;
 

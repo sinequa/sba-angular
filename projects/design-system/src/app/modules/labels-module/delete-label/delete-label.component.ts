@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-delete-label',
+  selector: 'doc-delete-label',
   templateUrl: './delete-label.component.html'
 })
-export class DeleteLabelComponent {
+export class DocDeleteLabelComponent {
 
   code = `NullInjectorError: No provider for ModalRef!`;
 

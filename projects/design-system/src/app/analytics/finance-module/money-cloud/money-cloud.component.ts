@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-money-cloud',
+  selector: 'doc-money-cloud',
   templateUrl: './money-cloud.component.html'
 })
-export class MoneyCloudComponent {
+export class DocMoneyCloudComponent {
 
   code = ``;
 

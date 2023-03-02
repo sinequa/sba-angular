@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { DateRangePickerOptions } from '@sinequa/components/advanced';
 
 @Component({
-  selector: 'app-date-range-picker',
+  selector: 'doc-date-range-picker',
   templateUrl: './date-range-picker.component.html'
 })
-export class DateRangePickerComponent {
+export class DocDateRangePickerComponent {
 
   options: DateRangePickerOptions;
   options2: DateRangePickerOptions;

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-edit-basket',
+  selector: 'doc-edit-basket',
   templateUrl: './edit-basket.component.html'
 })
-export class EditBasketComponent {
+export class DocEditBasketComponent {
 
   code = `NullInjectorError: No provider for ModalRef!`;
 

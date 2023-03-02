@@ -8,11 +8,11 @@ const userOverride: UserOverride = {
 };
 
 @Component({
-  selector: 'app-override-user',
+  selector: 'doc-override-user',
   templateUrl: './override-user.component.html',
   providers: [{ provide: MODAL_MODEL, useValue: userOverride }]
 })
-export class OverrideUserComponent {
+export class DocOverrideUserComponent {
 
   code = `<sq-override-user></sq-override-user>`;
 

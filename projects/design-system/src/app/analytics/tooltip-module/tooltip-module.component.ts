@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { Tooltip2Component } from './tooltip-2/tooltip-2.component';
+import { DocTooltip2Component } from './tooltip-2/tooltip-2.component';
 
 @Component({
-  selector: 'app-tooltip-module',
+  selector: 'doc-tooltip-module',
   templateUrl: '../../module-template.html'
 })
-export class TooltipModuleComponent {
+export class DocTooltipModuleComponent {
 
   title = 'Tooltip Module';
 
   components = [
-    Tooltip2Component
+    DocTooltip2Component
   ];
 
   constructor() { }

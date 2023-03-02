@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
+import { Widget } from '@sinequa/analytics/dashboard';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'doc-dashboard',
   templateUrl: './dashboard.component.html'
 })
-export class DashboardComponent {
+export class DocDashboardComponent {
 
   code = ``;
+
+  dashboard: Widget[]
 
   constructor() { }
 

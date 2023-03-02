@@ -9,11 +9,11 @@ const confirmOptions: ConfirmOptions = {
 };
 
 @Component({
-  selector: 'app-confirm',
+  selector: 'doc-confirm',
   templateUrl: './confirm.component.html',
   providers: [{ provide: MODAL_MODEL, useValue: confirmOptions }]
 })
-export class ConfirmComponent {
+export class DocConfirmComponent {
 
   code = `<sq-confirm></sq-confirm>`;
 

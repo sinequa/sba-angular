@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { ResultSelectorComponent } from './result-selector/result-selector.component';
-import { ResultsSelectorComponent } from './results-selector/results-selector.component';
-import { SelectionArrangerComponent } from './selection-arranger/selection-arranger.component';
+import { DocResultSelectorComponent } from './result-selector/result-selector.component';
+import { DocResultsSelectorComponent } from './results-selector/results-selector.component';
+import { DocSelectionArrangerComponent } from './selection-arranger/selection-arranger.component';
 
 @Component({
-  selector: 'app-selection-module',
+  selector: 'doc-selection-module',
   templateUrl: '../../module-template.html'
 })
-export class SelectionModuleComponent {
+export class DocSelectionModuleComponent {
 
   title = 'Selection Module';
 
   components = [
-    ResultSelectorComponent,
-    ResultsSelectorComponent,
-    SelectionArrangerComponent
+    DocResultSelectorComponent,
+    DocResultsSelectorComponent,
+    DocSelectionArrangerComponent
   ];
 
   constructor() { }

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-scroller',
+  selector: 'doc-scroller',
   templateUrl: './scroller.component.html'
 })
-export class ScrollerComponent {
+export class DocScrollerComponent {
 
   code = `<sq-scroller></sq-scroller>`;
 

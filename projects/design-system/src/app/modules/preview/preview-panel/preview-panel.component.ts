@@ -5,10 +5,10 @@ import { MODAL_MODEL } from '@sinequa/core/modal';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-preview-panel',
+  selector: 'doc-preview-panel',
   templateUrl: './preview-panel.component.html'
 })
-export class PreviewPanelComponent {
+export class DocPreviewPanelComponent {
 
   code = `<sq-preview-panel
     [query]="model.query"

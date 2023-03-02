@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-user-menu',
+  selector: 'doc-user-menu',
   templateUrl: './user-menu.component.html'
 })
-export class UserMenuComponent {
+export class DocUserMenuComponent {
 
   code = `<sq-user-menu
     [showText]="true">

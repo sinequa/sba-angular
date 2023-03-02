@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-passage-list',
+  selector: 'doc-passage-list',
   templateUrl: './passage-list.component.html'
 })
-export class PassageListComponent {
+export class DocPassageListComponent {
 
   code = `<sq-passage-list
     [record]="record">

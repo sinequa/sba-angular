@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-facet-saved-queries',
+  selector: 'doc-facet-saved-queries',
   templateUrl: './facet-saved-queries.component.html'
 })
-export class FacetSavedQueriesComponent {
+export class DocFacetSavedQueriesComponent {
 
   code = ``;
 

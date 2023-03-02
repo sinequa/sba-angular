@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { AgGridViewComponent } from './ag-grid-view/ag-grid-view.component';
+import { DocAgGridViewComponent } from './ag-grid-view/ag-grid-view.component';
 
 @Component({
-  selector: 'app-ag-grid-module',
+  selector: 'doc-ag-grid-module',
   templateUrl: '../../module-template.html'
 })
-export class AgGridModuleComponent {
+export class DocAgGridModuleComponent {
 
   title = 'AG Grid Module';
 
   components = [
-    AgGridViewComponent
+    DocAgGridViewComponent
   ];
 
   constructor() { }

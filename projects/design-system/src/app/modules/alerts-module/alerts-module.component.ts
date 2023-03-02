@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { AlertsMenuComponent } from './alerts-menu/alerts-menu.component';
-import { AlertsComponent } from './alerts/alerts.component';
-import { EditAlertComponent } from './edit-alert/edit-alert.component';
-import { ManageAlertsComponent } from './manage-alerts/manage-alerts.component';
+import { DocAlertsMenuComponent } from './alerts-menu/alerts-menu.component';
+import { DocAlertsComponent } from './alerts/alerts.component';
+import { DocEditAlertComponent } from './edit-alert/edit-alert.component';
+import { DocManageAlertsComponent } from './manage-alerts/manage-alerts.component';
 
 @Component({
-  selector: 'app-alerts-module',
+  selector: 'doc-alerts-module',
   templateUrl: '../../module-template.html'
 })
-export class AlertsModuleComponent {
+export class DocAlertsModuleComponent {
 
   title = 'Alerts Module';
 
   components = [
-    AlertsComponent,
-    AlertsMenuComponent,
-    EditAlertComponent,
-    ManageAlertsComponent
+    DocAlertsComponent,
+    DocAlertsMenuComponent,
+    DocEditAlertComponent,
+    DocManageAlertsComponent
   ];
 
   constructor() { }

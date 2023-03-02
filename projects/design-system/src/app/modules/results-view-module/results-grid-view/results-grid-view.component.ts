@@ -3,10 +3,10 @@ import { GridView } from '@sinequa/components/results-view';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-results-grid-view',
+  selector: 'doc-results-grid-view',
   templateUrl: './results-grid-view.component.html'
 })
-export class ResultsGridViewComponent {
+export class DocResultsGridViewComponent {
 
   gridView: GridView = {
     columns: [{

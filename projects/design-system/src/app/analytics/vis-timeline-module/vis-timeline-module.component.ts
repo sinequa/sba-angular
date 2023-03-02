@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { ResultTimelineComponent } from './result-timeline/result-timeline.component';
+import { DocResultTimelineComponent } from './result-timeline/result-timeline.component';
 
 @Component({
-  selector: 'app-vis-timeline-module',
+  selector: 'doc-vis-timeline-module',
   templateUrl: '../../module-template.html'
 })
-export class VisTimelineModuleComponent {
+export class DocVisTimelineModuleComponent {
 
   title = 'Vis Timeline Module';
 
   components = [
-    ResultTimelineComponent
+    DocResultTimelineComponent
   ];
 
   constructor() { }

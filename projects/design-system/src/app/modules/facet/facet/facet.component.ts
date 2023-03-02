@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { Action } from '@sinequa/components/action';
 
 @Component({
-    selector: 'app-facet',
+    selector: 'doc-facet',
     templateUrl: './facet.component.html'
 })
-export class FacetComponent {
+export class DocFacetComponent {
 
     code1 = `<sq-facet-card
     title="With a list-group"

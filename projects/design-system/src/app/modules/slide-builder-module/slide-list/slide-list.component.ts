@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-slide-list',
+  selector: 'doc-slide-list',
   templateUrl: './slide-list.component.html'
 })
-export class SlideListComponent {
+export class DocSlideListComponent {
 
   code = `<sq-slide-list
     [results]="results">

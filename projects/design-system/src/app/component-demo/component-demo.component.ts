@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-component-demo',
+  selector: 'doc-component-demo',
   templateUrl: './component-demo.component.html'
 })
-export class ComponentDemoComponent {
+export class DocComponentDemoComponent {
 
   @Input() title: string;
   @Input() code: string | string[];

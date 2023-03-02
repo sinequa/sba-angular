@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import {NotificationsService} from "@sinequa/core/notification";
 
 @Component({
-  selector: 'app-alerts',
+  selector: 'doc-alerts',
   templateUrl: './alerts.component.html'
 })
-export class AlertsComponent {
+export class DocAlertsComponent {
 
   code: string = `<button class="btn btn-primary mx-2"
       (click)="notificationsService.error('Lorem ipsum', undefined, 'ALERT');">

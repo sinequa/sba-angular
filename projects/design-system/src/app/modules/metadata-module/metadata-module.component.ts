@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { MetadataComponent } from './metadata/metadata.component';
+import { DocMetadataComponent } from './metadata/metadata.component';
 
 @Component({
-  selector: 'app-metadata-module',
+  selector: 'doc-metadata-module',
   templateUrl: '../../module-template.html'
 })
-export class MetadataModuleComponent {
+export class DocMetadataModuleComponent {
 
   title = 'Metadata Module';
 
   components = [
-    MetadataComponent
+    DocMetadataComponent
   ];
 
   constructor() { }

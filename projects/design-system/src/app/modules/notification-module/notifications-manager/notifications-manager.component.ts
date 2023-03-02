@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-notifications-manager',
+  selector: 'doc-notifications-manager',
   templateUrl: './notifications-manager.component.html'
 })
-export class NotificationsManagerComponent {
+export class DocNotificationsManagerComponent {
 
   code = `<sq-notifications-manager></sq-notifications-manager>`;
 

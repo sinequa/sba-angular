@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdvancedService } from '@sinequa/components/advanced';
 
 @Component({
-  selector: 'app-advanced-form-multi-input',
+  selector: 'doc-advanced-form-multi-input',
   templateUrl: './advanced-form-multi-input.component.html'
 })
-export class AdvancedFormMultiInputComponent implements OnInit {
+export class DocAdvancedFormMultiInputComponent implements OnInit {
 
   form: FormGroup;
 

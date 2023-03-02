@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { MoneyCloudComponent } from './money-cloud/money-cloud.component';
-import { MoneyTimelineComponent } from './money-timeline/money-timeline.component';
+import { DocMoneyCloudComponent } from './money-cloud/money-cloud.component';
+import { DocMoneyTimelineComponent } from './money-timeline/money-timeline.component';
 
 @Component({
-  selector: 'app-finance-module',
+  selector: 'doc-finance-module',
   templateUrl: '../../module-template.html'
 })
-export class FinanceModuleComponent {
+export class DocFinanceModuleComponent {
 
   title = 'Finance Module';
 
   components = [
-    MoneyCloudComponent,
-    MoneyTimelineComponent
+    DocMoneyCloudComponent,
+    DocMoneyTimelineComponent
   ];
 
   constructor() { }

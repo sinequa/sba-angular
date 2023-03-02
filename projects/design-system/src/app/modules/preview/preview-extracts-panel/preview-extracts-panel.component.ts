@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-preview-extracts-panel',
+  selector: 'doc-preview-extracts-panel',
   templateUrl: './preview-extracts-panel.component.html'
 })
-export class PreviewExtractsPanelComponent {
+export class DocPreviewExtractsPanelComponent {
 
   code = `<sq-preview-extracts-panel
     [previewData]="previewData"

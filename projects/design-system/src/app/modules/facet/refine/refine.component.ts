@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-refine',
+  selector: 'doc-refine',
   templateUrl: './refine.component.html'
 })
-export class RefineComponent {
+export class DocRefineComponent {
 
   code = `<sq-refine [results]="results"></sq-refine>`;
 

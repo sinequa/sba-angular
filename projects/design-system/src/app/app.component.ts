@@ -4,10 +4,10 @@ import { GlobalService } from './global.service';
 
 
 @Component({
-  selector: 'app-root',
+  selector: 'doc-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements AfterViewInit {
+export class DocAppComponent implements AfterViewInit {
 
   constructor(private loginService: LoginService,
     public globalService: GlobalService) {

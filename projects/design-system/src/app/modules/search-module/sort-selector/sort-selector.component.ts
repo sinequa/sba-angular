@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-sort-selector',
+  selector: 'doc-sort-selector',
   templateUrl: './sort-selector.component.html'
 })
-export class SortSelectorComponent {
+export class DocSortSelectorComponent {
 
   code = `<sq-sort-selector
     [results]="results">

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-autocomplete-list',
+  selector: 'doc-autocomplete-list',
   templateUrl: './autocomplete-list.component.html'
 })
-export class AutocompleteListComponent {
+export class DocAutocompleteListComponent {
 
   code = `Error 500 for the suggest query call
 
-  
+
 <input
     sqAdvancedFormAutocomplete
     [off]="false"

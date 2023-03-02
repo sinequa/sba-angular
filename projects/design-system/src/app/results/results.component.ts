@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../global.service';
 
 @Component({
-  selector: 'app-results',
+  selector: 'doc-results',
   templateUrl: './results.component.html'
 })
-export class ResultsComponent {
+export class DocResultsComponent {
 
   constructor(public globalService: GlobalService) { }
 

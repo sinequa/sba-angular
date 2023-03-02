@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { FacetChartComponent } from './facet-chart/facet-chart.component';
+import { DocFacetChartComponent } from './facet-chart/facet-chart.component';
 
 @Component({
-  selector: 'app-ngx-charts-module',
+  selector: 'doc-ngx-charts-module',
   templateUrl: '../../module-template.html'
 })
-export class NgxChartsModuleComponent {
+export class DocNgxChartsModuleComponent {
 
   title = 'Ngx Charts Module';
 
   components = [
-    FacetChartComponent
+    DocFacetChartComponent
   ];
 
   constructor() { }

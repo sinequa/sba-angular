@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { FacetDateComponent } from './facet-date/facet-date.component';
-import { FacetTimelineComponent } from './facet-timeline/facet-timeline.component';
-import { TimelineLegendComponent } from './timeline-legend/timeline-legend.component';
-import { TimelineComponent } from './timeline/timeline.component';
+import { DocFacetDateComponent } from './facet-date/facet-date.component';
+import { DocFacetTimelineComponent } from './facet-timeline/facet-timeline.component';
+import { DocTimelineLegendComponent } from './timeline-legend/timeline-legend.component';
+import { DocTimelineComponent } from './timeline/timeline.component';
 
 @Component({
-  selector: 'app-timeline-module',
+  selector: 'doc-timeline-module',
   templateUrl: '../../module-template.html'
 })
-export class TimelineModuleComponent {
+export class DocTimelineModuleComponent {
 
   title = 'Timeline Module';
 
   components = [
-    FacetDateComponent,
-    FacetTimelineComponent,
-    TimelineComponent,
-    TimelineLegendComponent
+    DocFacetDateComponent,
+    DocFacetTimelineComponent,
+    DocTimelineComponent,
+    DocTimelineLegendComponent
   ];
 
   constructor() { }

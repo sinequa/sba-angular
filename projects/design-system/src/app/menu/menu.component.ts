@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
-    selector: 'app-menu',
+    selector: 'doc-menu',
     templateUrl: './menu.component.html',
     styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent {
+export class DocMenuComponent {
 
     fontSize: number;
     currentRoute: string;

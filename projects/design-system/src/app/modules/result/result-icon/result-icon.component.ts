@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-result-icon',
+  selector: 'doc-result-icon',
   templateUrl: './result-icon.component.html'
 })
-export class ResultIconComponent {
+export class DocResultIconComponent {
 
   code = `<sq-result-icon
     [record]="record">

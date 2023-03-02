@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { RfmActionComponent } from './rfm-action/rfm-action.component';
+import { DocRfmActionComponent } from './rfm-action/rfm-action.component';
 
 @Component({
-  selector: 'app-rfm-module',
+  selector: 'doc-rfm-module',
   templateUrl: '../../module-template.html'
 })
-export class RfmModuleComponent {
+export class DocRfmModuleComponent {
 
   title = 'RFM Module';
 
   components = [
-    RfmActionComponent
+    DocRfmActionComponent
   ];
 
   constructor() { }

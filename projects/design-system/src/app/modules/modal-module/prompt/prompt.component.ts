@@ -10,11 +10,11 @@ const promptOptions: PromptOptions = {
 };
 
 @Component({
-  selector: 'app-prompt',
+  selector: 'doc-prompt',
   templateUrl: './prompt.component.html',
   providers: [{ provide: MODAL_MODEL, useValue: promptOptions }]
 })
-export class PromptComponent {
+export class DocPromptComponent {
 
   code = `<sq-prompt></sq-prompt>`;
 

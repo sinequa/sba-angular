@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-facet-range',
+  selector: 'doc-facet-range',
   templateUrl: './facet-range.component.html'
 })
-export class FacetRangeComponent {
+export class DocFacetRangeComponent {
 
   code = `<sq-facet-card
     title="Range

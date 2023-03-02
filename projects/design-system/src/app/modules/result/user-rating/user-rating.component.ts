@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-user-rating',
+  selector: 'doc-user-rating',
   templateUrl: './user-rating.component.html'
 })
-export class UserRatingComponent {
+export class DocUserRatingComponent {
 
   code = `<sq-user-rating
     [record]="record"

@@ -5,9 +5,9 @@
         </div>
         <div [ngClass]="codeClass">
             <ng-container *ngIf="isArray">
-                <app-code *ngFor="let c of code; let i = index;" [code]="c" [addSpacer]="i < code.length-1"></app-code>
+                <doc-code *ngFor="let c of code; let i = index;" [code]="c" [addSpacer]="i < code.length-1"></doc-code>
             </ng-container>
-            <app-code *ngIf="!isArray" [code]="code"></app-code>
+            <doc-code *ngIf="!isArray" [code]="code"></doc-code>
         </div>
     </div>
 </sq-facet-card>

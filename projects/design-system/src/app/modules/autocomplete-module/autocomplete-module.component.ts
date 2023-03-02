@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { AutocompleteListComponent } from './autocomplete-list/autocomplete-list.component';
+import { DocAutocompleteListComponent } from './autocomplete-list/autocomplete-list.component';
 
 @Component({
-  selector: 'app-autocomplete-module',
+  selector: 'doc-autocomplete-module',
   templateUrl: '../../module-template.html'
 })
-export class AutocompleteModuleComponent {
+export class DocAutocompleteModuleComponent {
 
   title = 'Autocomplete Module';
 
   components = [
-    AutocompleteListComponent
+    DocAutocompleteListComponent
   ];
 
   constructor() { }

@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-facet-tag-cloud',
+  selector: 'doc-facet-tag-cloud',
   templateUrl: './facet-tag-cloud.component.html'
 })
-export class FacetTagCloudComponent {
+export class DocFacetTagCloudComponent {
 
   code = `<sq-facet-tag-cloud
     [results]="results"

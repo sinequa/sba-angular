@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-preview-highlights',
+  selector: 'doc-preview-highlights',
   templateUrl: './preview-highlights.component.html'
 })
-export class PreviewHighlightsComponent {
+export class DocPreviewHighlightsComponent {
 
   code = `<sq-preview-highlights
     [previewData]="previewData"

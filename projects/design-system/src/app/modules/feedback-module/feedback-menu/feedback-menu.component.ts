@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-feedback-menu',
+  selector: 'doc-feedback-menu',
   templateUrl: './feedback-menu.component.html'
 })
-export class FeedbackMenuComponent {
+export class DocFeedbackMenuComponent {
 
   code = `<sq-feedback-menu
     [style]="'primary'">

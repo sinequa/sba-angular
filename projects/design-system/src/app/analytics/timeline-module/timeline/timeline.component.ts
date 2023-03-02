@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-timeline',
+  selector: 'doc-timeline',
   templateUrl: './timeline.component.html'
 })
-export class TimelineComponent {
+export class DocTimelineComponent {
 
   code = ``;
 

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-facet-timeline',
+  selector: 'doc-facet-timeline',
   templateUrl: './facet-timeline.component.html'
 })
-export class FacetTimelineComponent {
+export class DocFacetTimelineComponent {
 
   code = ``;
 

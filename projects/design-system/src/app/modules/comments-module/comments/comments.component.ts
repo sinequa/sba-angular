@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-comments',
+  selector: 'doc-comments',
   templateUrl: './comments.component.html'
 })
-export class CommentsComponent {
+export class DocCommentsComponent {
 
   code = `<sq-comments
     [docid]="record.id">

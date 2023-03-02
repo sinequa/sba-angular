@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-sticky',
+  selector: 'doc-sticky',
   templateUrl: './sticky.component.html'
 })
-export class StickyComponent {
+export class DocStickyComponent {
 
   code = `<div
     [style.height]="'400px'"

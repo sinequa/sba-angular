@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-collapse',
+  selector: 'doc-collapse',
   templateUrl: './collapse.component.html'
 })
-export class CollapseComponent {
+export class DocCollapseComponent {
 
   collapsed = false;
 

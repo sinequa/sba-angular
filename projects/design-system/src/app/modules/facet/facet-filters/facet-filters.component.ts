@@ -3,10 +3,10 @@ import { FACETS } from 'src/mocks/facets';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-facet-filters',
+  selector: 'doc-facet-filters',
   templateUrl: './facet-filters.component.html'
 })
-export class FacetFiltersComponent {
+export class DocFacetFiltersComponent {
 
   FACETS = FACETS;
 

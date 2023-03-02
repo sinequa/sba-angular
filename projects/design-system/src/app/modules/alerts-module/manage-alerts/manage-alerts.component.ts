@@ -39,11 +39,11 @@ const modalModel: ManageAlertsModel = {
 };
 
 @Component({
-  selector: 'app-manage-alerts',
+  selector: 'doc-manage-alerts',
   templateUrl: './manage-alerts.component.html',
   providers: [{ provide: MODAL_MODEL, useValue: modalModel }]
 })
-export class ManageAlertsComponent {
+export class DocManageAlertsComponent {
 
   code = `<sq-manage-alerts></sq-manage-alerts>`;
 

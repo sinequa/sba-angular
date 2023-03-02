@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-code',
+  selector: 'doc-code',
   template: `<pre [innerText]="code"></pre>
   <hr *ngIf="addSpacer">`,
   styles: [`
@@ -11,7 +11,7 @@ import { Component, Input } from '@angular/core';
 }
   `]
 })
-export class CodeComponent {
+export class DocCodeComponent {
 
   @Input() code: string;
   @Input() addSpacer = false;

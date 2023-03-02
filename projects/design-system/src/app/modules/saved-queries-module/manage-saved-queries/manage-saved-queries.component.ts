@@ -11,13 +11,13 @@ const manageSavedQueriesModel: ManageSavedQueriesModel = {
 };
 
 @Component({
-  selector: 'app-manage-saved-queries',
+  selector: 'doc-manage-saved-queries',
   templateUrl: './manage-saved-queries.component.html',
   providers: [
     { provide: MODAL_MODEL, useValue: manageSavedQueriesModel }
   ]
 })
-export class ManageSavedQueriesComponent {
+export class DocManageSavedQueriesComponent {
 
   code = `<sq-manage-saved-queries></sq-manage-saved-queries>`;
 

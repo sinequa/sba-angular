@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-metadata',
+  selector: 'doc-metadata',
   templateUrl: './metadata.component.html'
 })
-export class MetadataComponent {
+export class DocMetadataComponent {
 
   metadata: string[] = [
     "authors", "docformat", "modified", "size", "treepath", "filename"

@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { AddWidgetModalComponent } from './add-widget-modal/add-widget-modal.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DocAddWidgetModalComponent } from './add-widget-modal/add-widget-modal.component';
+import { DocDashboardComponent } from './dashboard/dashboard.component';
 
 @Component({
-  selector: 'app-dashboard-module',
+  selector: 'doc-dashboard-module',
   templateUrl: '../../module-template.html'
 })
-export class DashboardModuleComponent {
+export class DocDashboardModuleComponent {
 
   title = 'Dashboard Module';
 
   components = [
-    AddWidgetModalComponent,
-    DashboardComponent
+    DocAddWidgetModalComponent,
+    DocDashboardComponent
   ];
 
   constructor() { }

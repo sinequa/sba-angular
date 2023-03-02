@@ -1,32 +1,32 @@
 import { Component } from '@angular/core';
-import { FacetBarComponent } from './facet-bar/facet-bar.component';
-import { FacetFiltersComponent } from './facet-filters/facet-filters.component';
-import { FacetListComponent } from './facet-list/facet-list.component';
-import { FacetMultiComponent } from './facet-multi/facet-multi.component';
-import { FacetRangeComponent } from './facet-range/facet-range.component';
-import { FacetTagCloudComponent } from './facet-tag-cloud/facet-tag-cloud.component';
-import { FacetTestingComponent } from './facet-testing/facet-testing.component';
-import { FacetComponent } from './facet/facet.component';
-import { RefineComponent } from './refine/refine.component';
+import { DocFacetBarComponent } from './facet-bar/facet-bar.component';
+import { DocFacetFiltersComponent } from './facet-filters/facet-filters.component';
+import { DocFacetListComponent } from './facet-list/facet-list.component';
+import { DocFacetMultiComponent } from './facet-multi/facet-multi.component';
+import { DocFacetRangeComponent } from './facet-range/facet-range.component';
+import { DocFacetTagCloudComponent } from './facet-tag-cloud/facet-tag-cloud.component';
+import { DocFacetTestingComponent } from './facet-testing/facet-testing.component';
+import { DocFacetComponent } from './facet/facet.component';
+import { DocRefineComponent } from './refine/refine.component';
 
 @Component({
-  selector: 'app-facet-module',
+  selector: 'doc-facet-module',
   templateUrl: '../../module-template.html'
 })
-export class FacetModuleComponent {
+export class DocFacetModuleComponent {
 
   title = 'Facet Module';
 
   components = [
-    FacetComponent,
-    FacetBarComponent,
-    FacetFiltersComponent,
-    FacetListComponent,
-    FacetMultiComponent,
-    FacetRangeComponent,
-    FacetTagCloudComponent,
-    RefineComponent,
-    FacetTestingComponent
+    DocFacetComponent,
+    DocFacetBarComponent,
+    DocFacetFiltersComponent,
+    DocFacetListComponent,
+    DocFacetMultiComponent,
+    DocFacetRangeComponent,
+    DocFacetTagCloudComponent,
+    DocRefineComponent,
+    DocFacetTestingComponent
   ];
 
   constructor() { }

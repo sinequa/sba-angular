@@ -1,32 +1,32 @@
 import { Component } from '@angular/core';
-import { ResultExtractsComponent } from './result-extracts/result-extracts.component';
-import { ResultIconComponent } from './result-icon/result-icon.component';
-import { ResultMissingTermsComponent } from './result-missing-terms/result-missing-terms.component';
-import { ResultSourceComponent } from './result-source/result-source.component';
-import { ResultThumbnailComponent } from './result-thumbnail/result-thumbnail.component';
-import { ResultTitleComponent } from './result-title/result-title.component';
-import { ResultsCounterComponent } from './results-counter/results-counter.component';
-import { SponsoredResultsComponent } from './sponsored-results/sponsored-results.component';
-import { UserRatingComponent } from './user-rating/user-rating.component';
+import { DocResultExtractsComponent } from './result-extracts/result-extracts.component';
+import { DocResultIconComponent } from './result-icon/result-icon.component';
+import { DocResultMissingTermsComponent } from './result-missing-terms/result-missing-terms.component';
+import { DocResultSourceComponent } from './result-source/result-source.component';
+import { DocResultThumbnailComponent } from './result-thumbnail/result-thumbnail.component';
+import { DocResultTitleComponent } from './result-title/result-title.component';
+import { DocResultsCounterComponent } from './results-counter/results-counter.component';
+import { DocSponsoredResultsComponent } from './sponsored-results/sponsored-results.component';
+import { DocUserRatingComponent } from './user-rating/user-rating.component';
 
 @Component({
-  selector: 'app-result-module',
+  selector: 'doc-result-module',
   templateUrl: '../../module-template.html'
 })
-export class ResultModuleComponent {
+export class DocResultModuleComponent {
 
   title = 'Result Module';
 
   components = [
-    ResultExtractsComponent,
-    ResultIconComponent,
-    ResultMissingTermsComponent,
-    ResultSourceComponent,
-    ResultThumbnailComponent,
-    ResultTitleComponent,
-    ResultsCounterComponent,
-    SponsoredResultsComponent,
-    UserRatingComponent
+    DocResultExtractsComponent,
+    DocResultIconComponent,
+    DocResultMissingTermsComponent,
+    DocResultSourceComponent,
+    DocResultThumbnailComponent,
+    DocResultTitleComponent,
+    DocResultsCounterComponent,
+    DocSponsoredResultsComponent,
+    DocUserRatingComponent
   ];
 
   constructor() { }

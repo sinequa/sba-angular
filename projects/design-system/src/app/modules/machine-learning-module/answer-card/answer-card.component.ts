@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-answer-card',
+  selector: 'doc-answer-card',
   templateUrl: './answer-card.component.html'
 })
-export class AnswerCardComponent {
+export class DocAnswerCardComponent {
 
   code = `<sq-answer-card
     [results]="results"

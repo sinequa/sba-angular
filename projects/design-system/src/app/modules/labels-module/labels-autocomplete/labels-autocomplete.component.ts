@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-labels-autocomplete',
+  selector: 'doc-labels-autocomplete',
   templateUrl: './labels-autocomplete.component.html'
 })
-export class LabelsAutocompleteComponent {
+export class DocLabelsAutocompleteComponent {
 
   labels: string[] = ['label1', 'label2', 'label3', 'label4'];
   code = `<sq-labels-autocomplete

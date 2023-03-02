@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { StickyComponent } from './sticky/sticky.component';
-import { TooltipComponent } from './tooltip/tooltip.component';
+import { DocStickyComponent } from './sticky/sticky.component';
+import { DocTooltipComponent } from './tooltip/tooltip.component';
 
 // Keeping the custom template to force a bigger height to test the sticky component
 @Component({
-  selector: 'app-utils-module',
+  selector: 'doc-utils-module',
   templateUrl: './utils-module.component.html'
 })
-export class UtilsModuleComponent {
+export class DocUtilsModuleComponent {
 
   components = [
-    StickyComponent,
-    TooltipComponent
+    DocStickyComponent,
+    DocTooltipComponent
   ];
 
   constructor() { }

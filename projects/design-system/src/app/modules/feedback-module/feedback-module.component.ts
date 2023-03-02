@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { FeedbackMenuComponent } from './feedback-menu/feedback-menu.component';
+import { DocFeedbackMenuComponent } from './feedback-menu/feedback-menu.component';
 
 @Component({
-  selector: 'app-feedback-module',
+  selector: 'doc-feedback-module',
   templateUrl: '../../module-template.html'
 })
-export class FeedbackModuleComponent {
+export class DocFeedbackModuleComponent {
 
   title = 'Feedback Module';
 
   components = [
-    FeedbackMenuComponent
+    DocFeedbackMenuComponent
   ];
 
   constructor() { }

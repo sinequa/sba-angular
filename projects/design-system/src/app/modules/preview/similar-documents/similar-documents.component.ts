@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-similar-documents',
+  selector: 'doc-similar-documents',
   templateUrl: './similar-documents.component.html'
 })
-export class SimilarDocumentsComponent {
+export class DocSimilarDocumentsComponent {
 
   code = `<sq-similar-documents
     [sourceDocumentId]="previewData.record.id"

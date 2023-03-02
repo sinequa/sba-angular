@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { CommentsComponent } from './comments/comments.component';
+import { DocCommentsComponent } from './comments/comments.component';
 
 @Component({
-  selector: 'app-comments-module',
+  selector: 'doc-comments-module',
   templateUrl: '../../module-template.html'
 })
-export class CommentsModuleComponent {
+export class DocCommentsModuleComponent {
 
   title = 'Comments Module';
 
   components = [
-    CommentsComponent
+    DocCommentsComponent
   ];
 
   constructor() { }

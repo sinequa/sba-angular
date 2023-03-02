@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { AnswerCardComponent } from './answer-card/answer-card.component';
-import { PassageListComponent } from './passage-list/passage-list.component';
-import { TopPassagesComponent } from './top-passages/top-passages.component';
+import { DocAnswerCardComponent } from './answer-card/answer-card.component';
+import { DocPassageListComponent } from './passage-list/passage-list.component';
+import { DocTopPassagesComponent } from './top-passages/top-passages.component';
 
 @Component({
-  selector: 'app-machine-learning-module',
+  selector: 'doc-machine-learning-module',
   templateUrl: '../../module-template.html'
 })
-export class MachineLearningModuleComponent {
+export class DocMachineLearningModuleComponent {
 
   title = 'Machine Learning Module';
 
   components = [
-    AnswerCardComponent,
-    PassageListComponent,
-    TopPassagesComponent
+    DocAnswerCardComponent,
+    DocPassageListComponent,
+    DocTopPassagesComponent
   ];
 
   constructor() { }

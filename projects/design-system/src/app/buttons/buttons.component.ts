@@ -43,10 +43,10 @@ const dropdownAction = new Action({
 });
 
 @Component({
-    selector: 'app-buttons',
+    selector: 'doc-buttons',
     templateUrl: './buttons.component.html'
 })
-export class ButtonsComponent {
+export class DocButtonsComponent {
 
     buttonClass: string = 'normal';
     showIcon: boolean = false;

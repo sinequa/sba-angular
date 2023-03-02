@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-    selector: 'app-facet-bar',
+    selector: 'doc-facet-bar',
     templateUrl: './facet-bar.component.html'
 })
-export class FacetBarComponent {
+export class DocFacetBarComponent {
 
     index = 0;
 

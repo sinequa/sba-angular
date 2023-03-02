@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-selection-arranger',
+  selector: 'doc-selection-arranger',
   templateUrl: './selection-arranger.component.html'
 })
-export class SelectionArrangerComponent {
+export class DocSelectionArrangerComponent {
 
   code = `<sq-selection-arranger
     [records]="records">

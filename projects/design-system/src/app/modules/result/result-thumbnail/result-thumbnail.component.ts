@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-result-thumbnail',
+  selector: 'doc-result-thumbnail',
   templateUrl: './result-thumbnail.component.html'
 })
-export class ResultThumbnailComponent {
+export class DocResultThumbnailComponent {
 
   code = `<sq-result-thumbnail
     [record]="record">

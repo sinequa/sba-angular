@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-results-selector',
+  selector: 'doc-results-selector',
   templateUrl: './results-selector.component.html'
 })
-export class ResultsSelectorComponent {
+export class DocResultsSelectorComponent {
 
   code = `<sq-results-selector></sq-results-selector>`;
 

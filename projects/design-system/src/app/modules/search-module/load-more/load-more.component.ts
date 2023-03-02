@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-load-more',
+  selector: 'doc-load-more',
   templateUrl: './load-more.component.html'
 })
-export class LoadMoreComponent {
+export class DocLoadMoreComponent {
 
   code = `<sq-load-more></sq-load-more>`;
 

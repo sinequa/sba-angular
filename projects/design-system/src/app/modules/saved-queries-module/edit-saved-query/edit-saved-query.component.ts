@@ -9,13 +9,13 @@ const savedQuery: SavedQuery = {
 };
 
 @Component({
-  selector: 'app-edit-saved-query',
+  selector: 'doc-edit-saved-query',
   templateUrl: './edit-saved-query.component.html',
   providers: [
     { provide: MODAL_MODEL, useValue: savedQuery }
   ]
 })
-export class EditSavedQueryComponent {
+export class DocEditSavedQueryComponent {
 
   code = `<sq-edit-saved-query></sq-edit-saved-query>`;
 

@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { SearchService } from '@sinequa/components/search';
 
 @Component({
-  selector: 'app-results-counter',
+  selector: 'doc-results-counter',
   templateUrl: './results-counter.component.html'
 })
-export class ResultsCounterComponent {
+export class DocResultsCounterComponent {
 
   code = `<sq-results-counter
     [rowCount]="searchService.rowCount">

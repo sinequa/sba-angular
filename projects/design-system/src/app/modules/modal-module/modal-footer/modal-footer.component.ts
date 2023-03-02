@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { buttons } from '../modal.mock';
 
 @Component({
-  selector: 'app-modal-footer',
+  selector: 'doc-modal-footer',
   templateUrl: './modal-footer.component.html'
 })
-export class ModalFooterComponent {
+export class DocModalFooterComponent {
 
   buttons = buttons;
 

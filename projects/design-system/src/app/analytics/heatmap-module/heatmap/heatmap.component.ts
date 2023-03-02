@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-heatmap',
+  selector: 'doc-heatmap',
   templateUrl: './heatmap.component.html'
 })
-export class HeatmapComponent {
+export class DocHeatmapComponent {
 
   code = ``;
 

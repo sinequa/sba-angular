@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-did-you-mean',
+  selector: 'doc-did-you-mean',
   templateUrl: './did-you-mean.component.html'
 })
-export class DidYouMeanComponent {
+export class DocDidYouMeanComponent {
 
   code = `<sq-did-you-mean
     [results]="results">

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-editable',
+  selector: 'doc-editable',
   templateUrl: './editable.component.html'
 })
-export class EditableComponent {
+export class DocEditableComponent {
 
   code = `<sq-editable
     [name]="'name'"

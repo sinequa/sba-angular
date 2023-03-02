@@ -18,11 +18,11 @@ const alert: Alert = {
 };
 
 @Component({
-  selector: 'app-edit-alert',
+  selector: 'doc-edit-alert',
   templateUrl: './edit-alert.component.html',
   providers: [{ provide: MODAL_MODEL, useValue: { alert } }]
 })
-export class EditAlertComponent {
+export class DocEditAlertComponent {
 
   code = `<sq-edit-alert></sq-edit-alert>`;
 

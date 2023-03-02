@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-pager',
+  selector: 'doc-pager',
   templateUrl: './pager.component.html'
 })
-export class PagerComponent {
+export class DocPagerComponent {
 
   code = `<sq-pager
     [results]="results">

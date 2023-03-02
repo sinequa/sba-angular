@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-rename-label',
+  selector: 'doc-rename-label',
   templateUrl: './rename-label.component.html'
 })
-export class RenameLabelComponent {
+export class DocRenameLabelComponent {
 
   code = `NullInjectorError: No provider for ModalRef!`;
 

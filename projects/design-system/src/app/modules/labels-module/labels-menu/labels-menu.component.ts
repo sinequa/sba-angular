@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-labels-menu',
+  selector: 'doc-labels-menu',
   templateUrl: './labels-menu.component.html'
 })
-export class LabelsMenuComponent {
+export class DocLabelsMenuComponent {
 
   code = `<sq-labels-menu
     [results]="results">

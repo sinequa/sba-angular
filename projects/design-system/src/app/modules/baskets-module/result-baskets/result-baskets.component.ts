@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-result-baskets',
+  selector: 'doc-result-baskets',
   templateUrl: './result-baskets.component.html'
 })
-export class ResultBasketsComponent {
+export class DocResultBasketsComponent {
 
   code = `<sq-result-baskets
     [record]="record">

@@ -2,10 +2,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { GlobalService } from '../global.service';
 
 @Component({
-  selector: 'app-search-bar',
+  selector: 'doc-search-bar',
   templateUrl: './search-bar.component.html'
 })
-export class SearchBarComponent implements OnChanges {
+export class DocSearchBarComponent implements OnChanges {
 
   @Input() search: string;
 

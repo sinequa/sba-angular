@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-facet-list',
+  selector: 'doc-facet-list',
   templateUrl: './facet-list.component.html'
 })
-export class FacetListComponent {
+export class DocFacetListComponent {
 
   code = `<sq-facet-card
     title="List"

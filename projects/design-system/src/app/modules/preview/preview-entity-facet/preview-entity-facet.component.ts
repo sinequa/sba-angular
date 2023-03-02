@@ -3,10 +3,10 @@ import { HighlightValue } from '@sinequa/core/web-services';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-preview-entity-facet',
+  selector: 'doc-preview-entity-facet',
   templateUrl: './preview-entity-facet.component.html'
 })
-export class PreviewEntityFacetComponent {
+export class DocPreviewEntityFacetComponent {
 
   entity = 'person';
 

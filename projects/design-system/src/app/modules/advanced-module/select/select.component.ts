@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { ValueItem } from '@sinequa/core/app-utils';
 
 @Component({
-  selector: 'app-select',
+  selector: 'doc-select',
   templateUrl: './select.component.html'
 })
-export class SelectComponent {
+export class DocSelectComponent {
 
   items: ValueItem[] = [
     {value: 'value1', display: 'value1'},

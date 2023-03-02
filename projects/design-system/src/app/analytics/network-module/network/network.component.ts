@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-network',
+  selector: 'doc-network',
   templateUrl: './network.component.html'
 })
-export class NetworkComponent {
+export class DocNetworkComponent {
 
   code = ``;
 

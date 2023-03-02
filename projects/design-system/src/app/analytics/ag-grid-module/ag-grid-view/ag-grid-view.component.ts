@@ -3,10 +3,10 @@ import { SearchService } from '@sinequa/components/search';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-ag-grid-view',
+  selector: 'doc-ag-grid-view',
   templateUrl: './ag-grid-view.component.html'
 })
-export class AgGridViewComponent {
+export class DocAgGridViewComponent {
 
   code = `<sq-ag-grid-view
     [results]="results"

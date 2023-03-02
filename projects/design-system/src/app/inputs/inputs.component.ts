@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 
 @Component({
-    selector: 'app-inputs',
+    selector: 'doc-inputs',
     templateUrl: './inputs.component.html'
 })
-export class InputsComponent {
+export class DocInputsComponent {
 
     /**
      * Text input variables

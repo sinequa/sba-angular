@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdvancedService } from '@sinequa/components/advanced';
 
 @Component({
-  selector: 'app-advanced-form-checkbox',
+  selector: 'doc-advanced-form-checkbox',
   templateUrl: './advanced-form-checkbox.component.html'
 })
-export class AdvancedFormCheckboxComponent implements OnInit {
+export class DocAdvancedFormCheckboxComponent implements OnInit {
 
   form: FormGroup;
 

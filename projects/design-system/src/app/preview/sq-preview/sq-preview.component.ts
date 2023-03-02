@@ -3,11 +3,11 @@ import { Action } from '@sinequa/components/action';
 import { AbstractFacet } from '@sinequa/components/facet';
 
 @Component({
-  selector: 'app-sq-preview',
+  selector: 'doc-sq-preview',
   templateUrl: './sq-preview.component.html',
   styleUrls: ['./sq-preview.component.scss']
 })
-export class SqPreviewComponent extends AbstractFacet {
+export class DocSqPreviewComponent extends AbstractFacet {
 
   record: any;
   query: any;

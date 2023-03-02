@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-tooltip',
+  selector: 'doc-tooltip',
   templateUrl: './tooltip.component.html'
 })
-export class TooltipComponent {
+export class DocTooltipComponent {
 
   code = `<sqx-tooltip></sqx-tooltip>`;
 

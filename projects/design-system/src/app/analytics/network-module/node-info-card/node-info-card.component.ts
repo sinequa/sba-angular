@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-node-info-card',
+  selector: 'doc-node-info-card',
   templateUrl: './node-info-card.component.html'
 })
-export class NodeInfoCardComponent {
+export class DocNodeInfoCardComponent {
 
   code = ``;
 

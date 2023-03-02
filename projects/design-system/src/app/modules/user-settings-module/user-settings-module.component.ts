@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { EditUserSettingsComponent } from './edit-user-settings/edit-user-settings.component';
-import { UserMenuComponent } from './user-menu/user-menu.component';
-import { UserSettingsEditorComponent } from './user-settings-editor/user-settings-editor.component';
+import { DocEditUserSettingsComponent } from './edit-user-settings/edit-user-settings.component';
+import { DocUserMenuComponent } from './user-menu/user-menu.component';
+import { DocUserSettingsEditorComponent } from './user-settings-editor/user-settings-editor.component';
 
 @Component({
-  selector: 'app-user-settings-module',
+  selector: 'doc-user-settings-module',
   templateUrl: '../../module-template.html'
 })
-export class UserSettingsModuleComponent {
+export class DocUserSettingsModuleComponent {
 
   title = 'User Settings Module';
 
   components = [
-    EditUserSettingsComponent,
-    UserMenuComponent,
-    UserSettingsEditorComponent
+    DocEditUserSettingsComponent,
+    DocUserMenuComponent,
+    DocUserSettingsEditorComponent
   ];
 
   constructor() { }

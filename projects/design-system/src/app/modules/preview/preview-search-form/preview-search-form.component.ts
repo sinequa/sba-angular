@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-preview-search-form',
+  selector: 'doc-preview-search-form',
   templateUrl: './preview-search-form.component.html'
 })
-export class PreviewSearchFormComponent {
+export class DocPreviewSearchFormComponent {
 
   code = `<sq-preview-search-form
     [query]="query">

@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { GlobalService } from 'src/app/global.service';
 
 @Component({
-  selector: 'app-scope',
+  selector: 'doc-scope',
   templateUrl: './scope.component.html'
 })
-export class ScopeComponent {
+export class DocScopeComponent {
 
   code = `<sq-scope
     [query]="query">

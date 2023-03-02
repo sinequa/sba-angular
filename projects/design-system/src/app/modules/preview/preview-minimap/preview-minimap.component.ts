@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { GlobalService } from '../../../global.service';
 
 @Component({
-  selector: 'app-preview-minimap',
+  selector: 'doc-preview-minimap',
   templateUrl: './preview-minimap.component.html',
   styleUrls: ['./preview-minimap.component.scss']
 })
-export class PreviewMinimapComponent {
+export class DocPreviewMinimapComponent {
 
   code = `<sq-preview-minimap
     [previewDocument]="previewDocument"
