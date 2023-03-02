@@ -1,6 +1,6 @@
 import {Injectable, InjectionToken, Inject, Type, Optional} from "@angular/core";
 import {Router} from "@angular/router";
-import {Observable, Subject} from "rxjs";
+import {Observable, Subject, tap} from "rxjs";
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {AuthenticationService} from "@sinequa/core/login";
 import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent, Results} from "@sinequa/core/web-services";
@@ -83,19 +83,10 @@ export class PreviewService {
             };
         }
         query = this.makeQuery(query);
-        const observable = this.previewWebService.get(id, query, auditEvent);
-        Utils.subscribe(observable,
-            (previewData) => {
-                previewData.resultId = resultId || "";
-                return previewData;
-            });
         this._events.next({type: PreviewEventType.Data, record, query});
-
-        return observable;
-    }
-
-    public makeDownloadUrl(url: string | undefined): string | undefined {
-        return url ? this.appService.updateUrlForCors(url) : undefined;
+        return this.previewWebService.get(id, query, auditEvent).pipe(
+          tap(data => data.resultId = resultId || "")
+        );
     }
 
     openModal(record: Record, query: Query, model: any) {

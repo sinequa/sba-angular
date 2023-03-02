@@ -10,10 +10,10 @@ import { BsFacetModule } from "@sinequa/components/facet";
 import { BsSearchModule } from "@sinequa/components/search";
 
 import { Preview } from "./preview.component";
-import { PreviewSearchFormComponent } from './preview-search-form.component';
-import { PreviewTooltipComponent } from "./preview-tooltip.component";
+import { PreviewSearchFormComponent } from './preview-search-form/preview-search-form.component';
+import { PreviewTooltipComponent } from "./preview-tooltip/preview-tooltip.component";
 import { PreviewExtractsPanelComponent } from './preview-extracts-panel/preview-extracts-panel.component';
-import { PreviewMinimapComponent } from "./preview-minimap.component";
+import { PreviewMinimapComponent } from "./preview-minimap/preview-minimap.component";
 import { PreviewEntityFacetComponent } from "./preview-entity-facet/preview-entity-facet.component";
 import { PreviewEntityPanelComponent } from "./preview-entity-panel/preview-entity-panel.component";
 

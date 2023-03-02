@@ -4,14 +4,15 @@ import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import { AppService, Query } from "@sinequa/core/app-utils";
-import { AuditEventType, PreviewData, PreviewWebService } from "@sinequa/core/web-services";
+import { AuditEventType, PreviewData } from "@sinequa/core/web-services";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { PreviewFrameService } from "./preview-frames.service";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
-import { PreviewEntityOccurrence } from "./preview-tooltip.component";
+import { PreviewEntityOccurrence } from "./preview-tooltip/preview-tooltip.component";
 import { UIService } from "@sinequa/components/utils";
-import { MinimapItem } from "./preview-minimap.component";
+import { MinimapItem } from "./preview-minimap/preview-minimap.component";
 import { Utils } from "@sinequa/core/base";
+import { PreviewService } from "./preview.service";
 
 export interface PreviewHighlightColors {
   name: string;
@@ -150,7 +151,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   data?: PreviewData;         // The preview data returned by the /api/v1/preview web service
 
   constructor(
-    public previewWS: PreviewWebService,
+    public previewService: PreviewService,
     public previewFrames: PreviewFrameService,
     public sanitizer: DomSanitizer,
     public appService: AppService,
@@ -212,7 +213,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     if(changes.id || changes.query) {
 
       this.loading = true;
-      this.previewWS.get(this.id, this.query).subscribe(data => {
+      this.previewService.getPreviewData(this.id, this.query).subscribe(data => {
         if(this.url) {
           this.previewFrames.unsubscribe(this.url);
         }

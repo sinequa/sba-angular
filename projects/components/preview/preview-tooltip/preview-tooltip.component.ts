@@ -19,27 +19,7 @@ export interface PreviewEntityOccurrence {
 
 @Component({
   selector: 'sq-preview-tooltip',
-  template: `
-  <ng-template>
-
-    <div *ngIf="entity"
-      class="d-flex align-items-center"
-      (mouseenter)="preventHide.emit()"
-      (mouseleave)="resumeHide.emit()">
-      <span class="text-truncate">
-        <b>{{entity.display}}</b> ({{entity.label | sqMessage}})
-      </span>
-      <span class="ms-1 text-nowrap"> {{entity.index+1}} / {{entity.count}}</span>
-      <div class="btn-group btn-group-sm ms-3" [sq-action-buttons]="{items: entityNavActions, style:'secondary'}"></div>
-      <div class="btn-group btn-group-sm ms-2" [sq-action-buttons]="{items: actions, style:'secondary'}" *ngIf="actions"></div>
-    </div>
-
-    <div *ngIf="text && actions">
-      <div class="btn-group btn-group-sm" [sq-action-buttons]="{items: actions, style:'secondary'}"></div>
-    </div>
-
-  </ng-template>
-  `,
+  templateUrl: './preview-tooltip.component.html',
   styles: [`
   :host {
     position: absolute;
