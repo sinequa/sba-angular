@@ -14,12 +14,13 @@ export class TopPassagesComponent extends AbstractFacet {
   @Input() set results(results: Results) {
     // extract top passages from Results object
     this.passages = results.topPassages?.passages || [];
+    delete this.passagesToSummarize;
     this.fetchPassagesRecords();
   }
   @Input() hideDate: boolean = false;
   @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
   @Input() answersFirst: boolean;
-  @Input() passagesToSummarize: TopPassage[];
+  @Input() passagesToSummarize?: TopPassage[];
 
   @Output() checkedPassages = new EventEmitter<TopPassage[]>();
   @Output() previewOpened = new EventEmitter<TopPassage>();

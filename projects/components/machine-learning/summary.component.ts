@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from "@angular/core";
 import { JsonMethodPluginService, TopPassage } from "@sinequa/core/web-services";
+import { SearchService } from "@sinequa/components/search";
 import { map, Observable, tap } from "rxjs";
 
 @Component({
@@ -23,12 +24,17 @@ export class SummaryComponent implements OnChanges {
   summary$?: Observable<string>;
 
   constructor(
-    public jsonMethodWebService: JsonMethodPluginService
+    public jsonMethodWebService: JsonMethodPluginService,
+    public searchService: SearchService
   ){}
 
   ngOnChanges() {
     if(this.passages) {
       this.fetchSummary(this.passages);
+    }
+    else {
+      delete this.summary$;
+      this.loading = false;
     }
   }
 
@@ -40,6 +46,7 @@ export class SummaryComponent implements OnChanges {
       extendAfter: 0,
       removeOverlap: true,
       removeDuplicates: true,
+      queryText: this.searchService.query.text || '',
       passages: passages.map(p => ({docId: p.recordId, passageIndex: p.id, index: p.index}))
     }
     this.summary$ = this.jsonMethodWebService.post("OpenAITextDavinci3", data).pipe(
