@@ -11,7 +11,7 @@ import { TabsComponent } from './tabs/tabs.component';
 
 @Component({
   selector: 'app-search-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class SearchModuleComponent {
 

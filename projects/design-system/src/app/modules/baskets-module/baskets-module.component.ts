@@ -8,7 +8,7 @@ import { SelectBasketsComponent } from './select-baskets/select-baskets.componen
 
 @Component({
   selector: 'app-baskets-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class BasketsModuleComponent {
 

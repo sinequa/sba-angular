@@ -27,6 +27,17 @@ import { SelectionModuleComponent } from './modules/selection-module/selection-m
 import { ThemeToggleModuleComponent } from './modules/theme-toggle-module/theme-toggle-module.component';
 import { UserSettingsModuleComponent } from './modules/user-settings-module/user-settings-module.component';
 import { UtilsModuleComponent } from './modules/utils-module/utils-module.component';
+import { AgGridModuleComponent } from './analytics/ag-grid-module/ag-grid-module.component';
+import { DashboardModuleComponent } from './analytics/dashboard-module/dashboard-module.component';
+import { FinanceModuleComponent } from './analytics/finance-module/finance-module.component';
+import { FusionchartsModuleComponent } from './analytics/fusioncharts-module/fusioncharts-module.component';
+import { GooglemapsModuleComponent } from './analytics/googlemaps-module/googlemaps-module.component';
+import { HeatmapModuleComponent } from './analytics/heatmap-module/heatmap-module.component';
+import { NetworkModuleComponent } from './analytics/network-module/network-module.component';
+import { NgxChartsModuleComponent } from './analytics/ngx-charts-module/ngx-charts-module.component';
+import { TimelineModuleComponent } from './analytics/timeline-module/timeline-module.component';
+import { TooltipModuleComponent } from './analytics/tooltip-module/tooltip-module.component';
+import { VisTimelineModuleComponent } from './analytics/vis-timeline-module/vis-timeline-module.component';
 
 const routes: Routes = [
   { path: 'buttons', component: ButtonsComponent },
@@ -56,6 +67,17 @@ const routes: Routes = [
   { path: 'theme-toggle', component: ThemeToggleModuleComponent },
   { path: 'user-settings', component: UserSettingsModuleComponent },
   { path: 'utils', component: UtilsModuleComponent },
+  { path: 'ag-grid', component: AgGridModuleComponent },
+  { path: 'dashboard', component: DashboardModuleComponent },
+  { path: 'finance', component: FinanceModuleComponent },
+  { path: 'fusioncharts', component: FusionchartsModuleComponent },
+  { path: 'googlemaps', component: GooglemapsModuleComponent },
+  { path: 'heatmap', component: HeatmapModuleComponent },
+  { path: 'network', component: NetworkModuleComponent },
+  { path: 'ngx-charts', component: NgxChartsModuleComponent },
+  { path: 'timeline', component: TimelineModuleComponent },
+  { path: 'tooltip', component: TooltipModuleComponent },
+  { path: 'vis-timeline', component: VisTimelineModuleComponent },
   { path: '**', redirectTo: '/buttons' }
 ];
 

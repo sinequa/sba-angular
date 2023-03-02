@@ -4,7 +4,7 @@ import { CollapseComponent } from './collapse/collapse.component';
 
 @Component({
   selector: 'app-collapse-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class CollapseModuleComponent {
 

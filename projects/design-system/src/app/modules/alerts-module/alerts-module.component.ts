@@ -6,7 +6,7 @@ import { ManageAlertsComponent } from './manage-alerts/manage-alerts.component';
 
 @Component({
   selector: 'app-alerts-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class AlertsModuleComponent {
 

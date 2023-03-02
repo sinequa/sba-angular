@@ -185,6 +185,39 @@ import { SlideBuilderModule } from '@sinequa/components/slide-builder';
 import { BsStatusBarModule } from '@sinequa/components/status-bar';
 import { BsThemeToggleModule } from '@sinequa/components/theme-toggle';
 import { BsUserSettingsModule } from '@sinequa/components/user-settings';
+import { AgGridModuleComponent } from './analytics/ag-grid-module/ag-grid-module.component';
+import { DashboardModuleComponent } from './analytics/dashboard-module/dashboard-module.component';
+import { FinanceModuleComponent } from './analytics/finance-module/finance-module.component';
+import { FusionchartsModuleComponent } from './analytics/fusioncharts-module/fusioncharts-module.component';
+import { GooglemapsModuleComponent } from './analytics/googlemaps-module/googlemaps-module.component';
+import { HeatmapModuleComponent } from './analytics/heatmap-module/heatmap-module.component';
+import { NetworkModuleComponent } from './analytics/network-module/network-module.component';
+import { NgxChartsModuleComponent } from './analytics/ngx-charts-module/ngx-charts-module.component';
+import { TimelineModuleComponent } from './analytics/timeline-module/timeline-module.component';
+import { TooltipModuleComponent } from './analytics/tooltip-module/tooltip-module.component';
+import { VisTimelineModuleComponent } from './analytics/vis-timeline-module/vis-timeline-module.component';
+import { AgGridViewComponent } from './analytics/ag-grid-module/ag-grid-view/ag-grid-view.component';
+import { AgGridModule } from '@sinequa/analytics/ag-grid';
+import { AddWidgetModalComponent } from './analytics/dashboard-module/add-widget-modal/add-widget-modal.component';
+import { DashboardComponent } from './analytics/dashboard-module/dashboard/dashboard.component';
+import { MoneyCloudComponent } from './analytics/finance-module/money-cloud/money-cloud.component';
+import { MoneyTimelineComponent } from './analytics/finance-module/money-timeline/money-timeline.component';
+import { ChartComponent } from './analytics/fusioncharts-module/chart/chart.component';
+import { MultiLevelPieChartComponent } from './analytics/fusioncharts-module/multi-level-pie-chart/multi-level-pie-chart.component';
+import { MapComponent } from './analytics/googlemaps-module/map/map.component';
+import { FacetHeatmapComponent } from './analytics/heatmap-module/facet-heatmap/facet-heatmap.component';
+import { HeatmapComponent } from './analytics/heatmap-module/heatmap/heatmap.component';
+import { ResultsHeatmapViewComponent } from './analytics/heatmap-module/results-heatmap-view/results-heatmap-view.component';
+import { EdgeInfoCardComponent } from './analytics/network-module/edge-info-card/edge-info-card.component';
+import { NetworkComponent } from './analytics/network-module/network/network.component';
+import { NodeInfoCardComponent } from './analytics/network-module/node-info-card/node-info-card.component';
+import { FacetChartComponent } from './analytics/ngx-charts-module/facet-chart/facet-chart.component';
+import { FacetDateComponent } from './analytics/timeline-module/facet-date/facet-date.component';
+import { FacetTimelineComponent } from './analytics/timeline-module/facet-timeline/facet-timeline.component';
+import { TimelineLegendComponent } from './analytics/timeline-module/timeline-legend/timeline-legend.component';
+import { TimelineComponent } from './analytics/timeline-module/timeline/timeline.component';
+import { ResultTimelineComponent } from './analytics/vis-timeline-module/result-timeline/result-timeline.component';
+import { Tooltip2Component } from './analytics/tooltip-module/tooltip-2/tooltip-2.component';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -410,7 +443,39 @@ export class AppLocalesConfig implements LocalesConfig {
         UserMenuComponent,
         UtilsModuleComponent,
         StickyComponent,
-        TooltipComponent
+        TooltipComponent,
+        AgGridModuleComponent,
+        DashboardModuleComponent,
+        FinanceModuleComponent,
+        FusionchartsModuleComponent,
+        GooglemapsModuleComponent,
+        HeatmapModuleComponent,
+        NetworkModuleComponent,
+        NgxChartsModuleComponent,
+        TimelineModuleComponent,
+        TooltipModuleComponent,
+        VisTimelineModuleComponent,
+        AgGridViewComponent,
+        AddWidgetModalComponent,
+        DashboardComponent,
+        MoneyCloudComponent,
+        MoneyTimelineComponent,
+        ChartComponent,
+        MultiLevelPieChartComponent,
+        MapComponent,
+        FacetHeatmapComponent,
+        HeatmapComponent,
+        ResultsHeatmapViewComponent,
+        EdgeInfoCardComponent,
+        NetworkComponent,
+        NodeInfoCardComponent,
+        FacetChartComponent,
+        FacetDateComponent,
+        FacetTimelineComponent,
+        TimelineLegendComponent,
+        TimelineComponent,
+        Tooltip2Component,
+        ResultTimelineComponent
     ],
     imports: [
         BrowserModule,
@@ -447,7 +512,8 @@ export class AppLocalesConfig implements LocalesConfig {
         SlideBuilderModule,
         BsStatusBarModule,
         BsThemeToggleModule,
-        BsUserSettingsModule
+        BsUserSettingsModule,
+        AgGridModule
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },

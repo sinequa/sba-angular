@@ -3,7 +3,7 @@ import { MetadataComponent } from './metadata/metadata.component';
 
 @Component({
   selector: 'app-metadata-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class MetadataModuleComponent {
 

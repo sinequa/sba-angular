@@ -16,7 +16,7 @@ import { SimilarDocumentsComponent } from './similar-documents/similar-documents
 
 @Component({
   selector: 'app-preview-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class PreviewModuleComponent {
 

@@ -5,7 +5,7 @@ import { SelectionArrangerComponent } from './selection-arranger/selection-arran
 
 @Component({
   selector: 'app-selection-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class SelectionModuleComponent {
 

@@ -11,7 +11,7 @@ import { RefineComponent } from './refine/refine.component';
 
 @Component({
   selector: 'app-facet-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class FacetModuleComponent {
 

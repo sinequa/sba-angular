@@ -4,7 +4,7 @@ import { NetworkActivityComponent } from './network-activity/network-activity.co
 
 @Component({
   selector: 'app-status-bar-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class StatusBarModuleComponent {
 

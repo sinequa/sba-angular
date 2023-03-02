@@ -3,7 +3,7 @@ import { RfmActionComponent } from './rfm-action/rfm-action.component';
 
 @Component({
   selector: 'app-rfm-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class RfmModuleComponent {
 

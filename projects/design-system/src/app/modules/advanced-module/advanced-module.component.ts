@@ -10,7 +10,7 @@ import { SelectComponent } from './select/select.component';
 
 @Component({
   selector: 'app-advanced-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class AdvancedModuleComponent {
 

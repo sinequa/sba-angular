@@ -3,7 +3,7 @@ import { CommentsComponent } from './comments/comments.component';
 
 @Component({
   selector: 'app-comments-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class CommentsModuleComponent {
 

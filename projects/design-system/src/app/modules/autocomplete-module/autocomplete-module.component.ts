@@ -3,7 +3,7 @@ import { AutocompleteListComponent } from './autocomplete-list/autocomplete-list
 
 @Component({
   selector: 'app-autocomplete-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class AutocompleteModuleComponent {
 

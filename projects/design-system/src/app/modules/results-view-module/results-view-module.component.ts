@@ -4,7 +4,7 @@ import { ResultsViewSelectorComponent } from './results-view-selector/results-vi
 
 @Component({
   selector: 'app-results-view-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class ResultsViewModuleComponent {
 

@@ -11,7 +11,7 @@ import { PromptComponent } from './prompt/prompt.component';
 
 @Component({
   selector: 'app-modal-module',
-  templateUrl: '../module-template.html'
+  templateUrl: '../../module-template.html'
 })
 export class ModalModuleComponent {
 
