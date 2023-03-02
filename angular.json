@@ -390,7 +390,7 @@
                 "bundleName": "app"
               },
               {
-                "input": "projects/pepper/src/styles/preview.scss",
+                "input": "projects/vanilla-search/src/preview/preview.scss",
                 "bundleName": "preview",
                 "inject": false
               }

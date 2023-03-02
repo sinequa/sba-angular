@@ -5,7 +5,8 @@
   #preview
   [src]="safeUrl"
   [attr.sandbox]="_sandbox"
-  [style.--sq-scale]="scale">
+  [style.--sq-scale]="scale"
+  (load)="onLoad()">
 </iframe>
 
 <sq-preview-tooltip *ngIf="tooltip$ | async as tooltip"

@@ -40,9 +40,6 @@ sq-validation-message {
 // to modifying it in the Vanilla Search project.
 @import "../../../vanilla-search/src/styles/icons";
 
-// Preview stylings (incl. entity highlights & metadata)
-@import "preview";
-
 // Sinequa components stylesheets
 $action-menu-breakpoint: sm;
 @import "../../../components/action/bootstrap/action.scss";

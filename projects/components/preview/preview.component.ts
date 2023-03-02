@@ -262,6 +262,10 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     this.cdRef.detectChanges();
   }
 
+  onLoad() {
+    this.loading = false;
+  }
+
   onResize = Utils.debounce(() => {
     const id = this.selectedId$.getValue();
     if(id) {
