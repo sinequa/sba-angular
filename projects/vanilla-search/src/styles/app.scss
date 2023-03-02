@@ -55,6 +55,7 @@ sq-validation-message {
 // are now with this class
 span.matchlocations:not(.sq-inactive) {
     font-weight: 600;
+    color: inherit !important;
     background-color: transparent !important;
 }
 
