@@ -11,9 +11,16 @@
     </li>
 </ul>
 
-<h6>Modules</h6>
+<h6>Components</h6>
 <ul>
     <li *ngFor="let item of components" [class.active]="currentRoute === item">
+        <a [routerLink]="item">{{item}}</a>
+    </li>
+</ul>
+
+<h6>Analytics</h6>
+<ul>
+    <li *ngFor="let item of analyticsComponents" [class.active]="currentRoute === item">
         <a [routerLink]="item">{{item}}</a>
     </li>
 </ul>

@@ -44,6 +44,20 @@ export class MenuComponent {
         'utils'
     ];
 
+    analyticsComponents: string[] = [
+        'ag-grid',
+        'dashboard',
+        'finance',
+        'fusioncharts',
+        'googlemaps',
+        'heatmap',
+        'network',
+        'ngx-charts',
+        'timeline',
+        'tooltip',
+        'vis-timeline'
+    ];
+
     constructor(_router: Router) {
         const fontSize = localStorage.getItem('fontSize');
         this.fontSize = fontSize ? Number(fontSize) : 14;
