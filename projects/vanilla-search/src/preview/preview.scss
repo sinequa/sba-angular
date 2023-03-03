@@ -38,6 +38,9 @@ line.sq-svg {
   stroke-dasharray: 2, 2;
 }
 
+
+// Passage highlighter
+
 #sq-passage-highlighter {
   position: absolute;
   pointer-events: none;
@@ -45,3 +48,41 @@ line.sq-svg {
   box-shadow: 0 0 1rem 0px rgb(11 117 255 / 20%);
   border-radius: 5px;
 }
+
+
+// Converter-specific styling
+
+// pdfAdvanced
+.stl_ {
+  content-visibility: auto;
+  display: inline-block;
+  background-color: white;
+  border: solid 1px lightgrey;
+  margin: 24px;
+}
+
+// sinequePdfToHtml
+// add a shadow on page navigator
+body.bd {
+  background-color: #eee;
+
+  > div.ph {
+      box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  }
+
+  // as style is inline, this selector is very specific to overrides it
+  > div:not(.ph, .phe) {
+      margin: 24px;
+      content-visibility: visible;
+
+      > img {
+          background-color: white;
+          border: 1px solid lightgrey;
+          box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+          margin-bottom: 16px;
+          margin-right: 16px;
+      }
+
+  }
+}
+
