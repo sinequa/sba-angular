@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function highlight(highlights) {
         styleElement.textContent = highlights
             .map(function (highlight) {
-            return "span.".concat(highlight.name, " {\n          color: ").concat(highlight.color, ";\n          background-color: ").concat(highlight.bgColor, ";\n        }");
+            return "span.".concat(highlight.name, " {\n          color: ").concat(highlight.color, ";\n          background-color: ").concat(highlight.bgColor, ";\n        }\n        tspan.").concat(highlight.name, " {\n          fill: ").concat(highlight.color, ";\n        }\n        rect.").concat(highlight.name, " {\n          fill: ").concat(highlight.bgColor, ";\n        }\n        ");
         })
             .join('\n');
     }

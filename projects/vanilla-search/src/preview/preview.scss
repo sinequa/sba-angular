@@ -28,8 +28,8 @@
 
 // SVG highlights
 
-rect.sq-inactive {
-  fill: rgba(0,0,0,0) !important;
+rect.sinequaSVGBg {
+  fill: transparent;
 }
 
 line.sq-svg {
@@ -37,7 +37,6 @@ line.sq-svg {
   stroke-width: 2;
   stroke-dasharray: 2, 2;
 }
-
 
 #sq-passage-highlighter {
   position: absolute;

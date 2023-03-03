@@ -112,7 +112,14 @@ document.addEventListener("DOMContentLoaded", function() {
         `span.${highlight.name} {
           color: ${highlight.color};
           background-color: ${highlight.bgColor};
-        }`)
+        }
+        tspan.${highlight.name} {
+          fill: ${highlight.color};
+        }
+        rect.${highlight.name} {
+          fill: ${highlight.bgColor};
+        }
+        `)
       .join('\n');
   }
 
