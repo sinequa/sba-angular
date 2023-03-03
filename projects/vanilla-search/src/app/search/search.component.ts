@@ -42,9 +42,6 @@ export class SearchComponent implements OnInit {
   public hasPassages: boolean;
   public passageId?: string;
   public documentsScrollAction: Action;
-  public summarizePassagesAction: Action;
-  private _selectedPassages: TopPassage[];
-  public selectedPassages: TopPassage[];
 
   public readonly facetComponents = {
       ...DEFAULT_FACET_COMPONENTS,
@@ -73,16 +70,6 @@ export class SearchComponent implements OnInit {
         if (documentElt) {
           documentElt.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-      }
-    });
-
-    this.summarizePassagesAction = new Action({
-      text: "Summarize",
-      action: () => {
-        this.selectedPassages = [...this._selectedPassages];
-      },
-      updater: (action) => {
-        action.disabled = !this._selectedPassages || !this._selectedPassages.length;
       }
     });
 
@@ -307,10 +294,5 @@ export class SearchComponent implements OnInit {
     if (value.item.$record) {
       this.openPreviewIfNoUrl(value.item.$record, value.isLink);
     }
-  }
-
-  checkedPassages(passages: TopPassage[]): void {
-    this._selectedPassages = passages;
-    this.summarizePassagesAction.update();
   }
 }

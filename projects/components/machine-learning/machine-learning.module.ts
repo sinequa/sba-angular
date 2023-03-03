@@ -12,6 +12,7 @@ import { AnswerCardComponent } from "./answer-card.component";
 import { PassageListComponent } from "./passage-list.component";
 import { TopPassagesComponent } from "./top-passages/top-passages.component";
 import { SummaryComponent } from "./summary.component";
+import { SummarySettingsComponent } from "./summary-settings.component";
 
 
 
@@ -29,7 +30,8 @@ import { SummaryComponent } from "./summary.component";
         AnswerCardComponent,
         PassageListComponent,
         TopPassagesComponent,
-        SummaryComponent
+        SummaryComponent,
+        SummarySettingsComponent
     ],
     exports: [
         AnswerCardComponent,

@@ -11,22 +11,38 @@
 	<span *ngIf="passages && documentsNb" class="sq-passage-count p-2">{{'msg#machine-learning.passagesFound' |
 		sqMessage:{passagesNb: passages.length, documentsNb: documentsNb} }}</span>
 
-	<sq-summary [passages]="passagesToSummarize" [ngClass]="{'d-block p-3 border-top border-bottom': passagesToSummarize}"></sq-summary>
+	<sq-summary
+    [passages]="passagesToSummarize"
+    [config]="summarizerConfig"
+    [ngClass]="{'d-block p-3 border-top border-bottom': passagesToSummarize}">
+  </sq-summary>
 
-	<div *ngFor="let passage of currentPassages$ | async" (click)="openPreview(passage)" class="passage pt-2">
-		<div class="sq-passage-title d-flex align-content-center mb-1" *ngIf="passage.$record">
-			<input type="checkbox" class="form-check-input me-2" [(ngModel)]="passage.$checked"
-				(click)="passageChecked($event)">
-			<sq-result-title [record]="passage.$record" titleLinkBehavior="action"
-				(titleClicked)="onTitleClicked($event, passage)" class="d-block text-truncate"></sq-result-title>
+	<div *ngFor="let passage of passages" (click)="openPreview(passage)" class="passage pt-2">
+
+    <div class="sq-passage-title d-flex align-content-center mb-1" *ngIf="passage.$record">
+			<input type="checkbox"
+        class="form-check-input me-2"
+        [(ngModel)]="passage.$checked"
+				(ngModelChange)="passageChecked()"
+        (click)="$event.stopPropagation()">
+			<sq-result-title
+        [record]="passage.$record"
+        titleLinkBehavior="action"
+				(titleClicked)="onTitleClicked($event, passage)"
+        class="d-block text-truncate">
+      </sq-result-title>
 		</div>
-		<div class="sq-passage-answer align-content-center mb-1" *ngIf="passage.answer">
-			<span [innerHTML]="passage.answer"></span>
-		</div>
+
 		<div class="sq-passage-text mb-2">
-			<span *ngIf="passage.$record?.modified && !hideDate" class="extracts-date">{{passage.$record.modified |
-				sqDate:dateFormat }} - </span>
+			<span *ngIf="passage.$record?.modified && !hideDate" class="extracts-date">
+        {{passage.$record.modified | sqDate:dateFormat }} -
+      </span>
 			<span [innerHTML]="passage.highlightedText"></span>
 		</div>
+
 	</div>
 </div>
+
+<ng-template #settingsTpl>
+  <sq-summary-settings [config]="summarizerConfigEdit"></sq-summary-settings>
+</ng-template>

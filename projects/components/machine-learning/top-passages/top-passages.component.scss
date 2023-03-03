@@ -34,15 +34,10 @@
         background-color: rgb(0, 0, 0, 0.03);
     }
 
-    ::ng-deep .matchlocations {
-        background-color: transparent !important;
-        font-weight: 600;
-    }
-
     ::ng-deep .answer {
         background-color: palegreen !important;
         padding: 0 .5rem;
-        font-weight: 600;
+        font-weight: bold;
 
         &:first-of-type {
             border-top-left-radius: .5rem;
@@ -62,9 +57,4 @@
     font-size: 0.875em;
     color: #515960;
     text-align: right;
-}
-
-.sq-passages-summary {
-    border-bottom: lightgray solid 1px;
-    border-top: lightgray solid 1px;
 }
