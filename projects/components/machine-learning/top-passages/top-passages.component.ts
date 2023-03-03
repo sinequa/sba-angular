@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
-import { BehaviorSubject } from "rxjs";
 import { SearchService } from "@sinequa/components/search";
+import { Action } from "@sinequa/components/action";
 
 @Component({
   selector: 'sq-top-passages',
@@ -10,56 +10,72 @@ import { SearchService } from "@sinequa/components/search";
   styleUrls: ['./top-passages.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TopPassagesComponent extends AbstractFacet {
-  @Input() set results(results: Results) {
-    // extract top passages from Results object
-    this.passages = results.topPassages?.passages || [];
-    delete this.passagesToSummarize;
-    this.fetchPassagesRecords();
-  }
+export class TopPassagesComponent extends AbstractFacet implements OnChanges {
+  @Input() results: Results;
   @Input() hideDate: boolean = false;
   @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
   @Input() answersFirst: boolean;
-  @Input() passagesToSummarize?: TopPassage[];
 
-  @Output() checkedPassages = new EventEmitter<TopPassage[]>();
   @Output() previewOpened = new EventEmitter<TopPassage>();
   @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
 
-  passages: TopPassage[];
-  currentPassages$: BehaviorSubject<TopPassage[]> = new BehaviorSubject<TopPassage[]>([]);
+  passages?: TopPassage[];
+  passagesToSummarize?: TopPassage[];
   documentsNb: number;
+
+  summarizeAction = new Action({
+    text: "Summarize",
+    disabled: true,
+    action: () => {
+      this.passagesToSummarize = this.passages?.filter(p => p.$checked);
+      this.summarizeAction.disabled = true;
+      this.cdRef.detectChanges();
+    }
+  });
+  _actions: Action[] = [this.summarizeAction];
+  override get actions() { return this._actions; }
 
   constructor(
     private auditService: AuditWebService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    public cdRef: ChangeDetectorRef
   ) {
     super();
   }
 
-  fetchPassagesRecords(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     this.documentsNb = 0;
-    this.searchService.getRecords(this.passages.filter(p => !p.$record).map(p => p.recordId))
+    this.passagesToSummarize = undefined;
+    this.passages = undefined;
+    if(this.results.topPassages?.passages?.length) {
+      this.fetchPassagesRecords(this.results.topPassages.passages);
+    }
+  }
+
+  fetchPassagesRecords(passages: TopPassage[]): void {
+    const ids = passages.filter(p => !p.$record).map(p => p.recordId);
+    this.searchService.getRecords(ids)
       .subscribe((records) => {
-        setTimeout(() => { // to make sure answersFirst is resolved
-          if (this.answersFirst) {
-            this.passages.sort(this.comparePassages);
-          }
+        this.passages = passages;
 
-          this.passages.map((passage, index) => {
-            passage.$record = passage.$record || records.find(record => record.id === passage?.recordId);
-            passage.$checked = index < 10;
-            return passage;
-          });
+        if (this.answersFirst) {
+          this.passages.sort(this.comparePassages);
+        }
 
-          this.checkedPassages.emit(this.passages.filter(p => p.$checked));
-          this.notifyTopPassagesDisplay(this.passages);
-          this.currentPassages$.next(this.passages);
-
-          // Set the numbers of unique documents
-          const uniqueRecords = [...new Set(this.passages.map(p => p.recordId))];
-          this.documentsNb = uniqueRecords.length;
+        this.passages.forEach((passage) => {
+          passage.$record = passage.$record || records.find(record => record.id === passage?.recordId);
+          passage.$checked = true;
         });
+
+        this.passageChecked();
+
+        this.notifyTopPassagesDisplay(this.passages);
+
+        // Set the numbers of unique documents
+        const uniqueRecords = [...new Set(this.passages.map(p => p.recordId))];
+        this.documentsNb = uniqueRecords.length;
+
+        this.cdRef.detectChanges();
       });
   }
 
@@ -75,11 +91,12 @@ export class TopPassagesComponent extends AbstractFacet {
     this.titleClicked.next({ item: passage, isLink });
   }
 
-  passageChecked(event: Event): void {
-    event.stopPropagation();
-    setTimeout(() => {
-      this.checkedPassages.emit(this.passages.filter(p => p.$checked));
-    });
+  passageChecked() {
+    const count = this.passages?.filter(p => p.$checked).length;
+    this.summarizeAction.disabled = !count;
+    if(count) {
+      this.summarizeAction.text = `Summarize (${count})`;
+    }
   }
 
   private notifyTopPassagesClick(passage: TopPassage) {
@@ -94,7 +111,7 @@ export class TopPassagesComponent extends AbstractFacet {
   }
 
   private makeAuditEvent(type: string, passage: TopPassage): AuditEvent {
-    const rank = this.passages.indexOf(passage);
+    const rank = this.passages?.indexOf(passage);
     return {
       type,
       detail: {
