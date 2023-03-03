@@ -12,3 +12,7 @@
     [highlights]="entity.highlights">
   </sq-preview-entity-facet>
 </sq-facet-card>
+
+<div class="d-flex justify-content-center align-items-center h-100" *ngIf="!entities">
+  <div class="spinner-grow" role="status"></div>
+</div>

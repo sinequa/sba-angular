@@ -38,7 +38,7 @@
       padding: 1.25rem;
     }
 
-    & ::ng-deep .card {
+    ::ng-deep .card {
       height: 100%;
 
       sq-collapse {
@@ -65,11 +65,7 @@
 }
 
 :host-context(.dark) {
-  :host {
-    background-color: #1c1e21;
-  }
-
-  .side-menu {
+  :host, .side-menu {
     background-color: #1c1e21;
   }
 }

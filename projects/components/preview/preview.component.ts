@@ -206,6 +206,8 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       title: "msg#preview.downloadPdf",
       action: () => this.searchService.notifyOpenOriginalDocument(this.data!.record, undefined, AuditEventType.Doc_CachePdf)
     });
+
+    this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -214,6 +216,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
       this.loading = true;
       this.previewService.getPreviewData(this.id, this.query).subscribe(data => {
+        this.data = data;
         if(this.url) {
           this.previewFrames.unsubscribe(this.url);
         }
@@ -224,9 +227,8 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
           this.cdRef.detectChanges(); // Destruct and reconstruct the iframe to prevent navigation issues
         }
         this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
-        this.previewFrames.subscribe(this.url, 'ready', () => this.onReady(data));
+        this.previewFrames.subscribe(this.url, 'ready', () => this.onReady());
         this.cdRef.detectChanges();
-        this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
       });
     }
     else if(changes.preferenceName || changes.highlights) {
@@ -240,17 +242,14 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     if(this.url) {
       this.previewFrames.unsubscribe(this.url);
     }
-    if(this.iframe) {
-      this.ui.removeElementResizeListener(this.el.nativeElement, this.onResize);
-    }
+    this.ui.removeElementResizeListener(this.el.nativeElement, this.onResize);
   }
 
   sendMessage(message: any) {
     this.preview?.postMessage(message, this.appService.origin);
   }
 
-  onReady(data: PreviewData) {
-    this.data = data;
+  onReady() {
     const highlights = this.getHighlights();
     this.sendMessage({ action: 'init', highlights });
     this.highlights$.next(this.highlightsPref);
@@ -263,15 +262,21 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   }
 
   onLoad() {
-    this.loading = false;
+    if(this.iframe && this.loading) { // onload is called a first time even before we have a reference to the iframe
+      this.loading = false;
+      this.updateActions();
+      this.ready.emit();
+    }
   }
 
   onResize = Utils.debounce(() => {
-    const id = this.selectedId$.getValue();
-    if(id) {
-      this.select(id); // Reselect the item to force a redraw of the passage highlighter
+    if(!this.loading) {
+      const id = this.selectedId$.getValue();
+      if(id) {
+        this.select(id); // Reselect the item to force a redraw of the passage highlighter
+      }
+      this.initMinimap(); // Redraw minimap to match new scale
     }
-    this.initMinimap(); // Redraw minimap to match new scale
   }, 100);
 
   /**

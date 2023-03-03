@@ -241,7 +241,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/vanilla-search/src/assets",
-              "projects/vanilla-search/src/preview/preview-api.js"
+              "projects/vanilla-search/src/preview/preview.js"
             ],
             "styles": [
               {

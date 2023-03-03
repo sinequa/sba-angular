@@ -13,6 +13,6 @@
         "src/environments/*",
         "**/*.spec.ts",
         "src/test.ts",
-        "src/preview/preview-api.ts"
+        "src/preview/preview.ts"
     ]
 }

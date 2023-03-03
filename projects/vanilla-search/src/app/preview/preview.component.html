@@ -1,14 +1,13 @@
 
 <!-- Left panel (navigation, extracts and entities) -->
 <div class="side-menu h-100 d-none d-md-flex flex-column justify-content-between"
-    [ngClass]="{'col-md-4 col-lg-3': !collapsedPanel, 'w-auto': collapsedPanel}">
+    [ngClass]="{'col-md-4 col-lg-3': !collapsedPanel}">
 
     <div class="side-menu-header d-flex justify-content-between px-2 px-lg-4 pt-2 pt-lg-4"
         [ngClass]="{'flex-column': collapsedPanel}">
 
         <!-- Back button (go back to /search route) -->
-        <button *ngIf="showBackButton"
-            class="btn btn-link btn-lg order-1"
+        <button class="btn btn-link btn-lg order-1"
             [ngClass]="{'mt-2': collapsedPanel}"
             [sqTooltip]="'msg#preview.back' | sqMessage"
             (click)="back()">
@@ -35,11 +34,11 @@
 
     </div>
 
-    <div *ngIf="!collapsedPanel && id && previewData" [ngSwitch]="subpanel"
+    <div *ngIf="!collapsedPanel && id" [ngSwitch]="subpanel"
         class="flex-grow-1 d-flex flex-column" >
 
         <!-- Search form allowing the search preview -->
-        <sq-preview-search-form *ngIf="previewSearchable"
+        <sq-preview-search-form
             class="pt-2 pt-lg-4 px-2 px-lg-4"
             [query]="query"
             (searchText)="searchText($event)">
@@ -84,10 +83,10 @@
     class="preview m-0">
 
     <ng-template #headerTpl>
-        <div class="text-truncate flex-grow-1 py-2">
-            <div class="preview-title text-truncate">{{previewData?.record.title}}</div>
+        <div class="text-truncate flex-grow-1 py-2" *ngIf="preview?.data?.record as record">
+            <div class="preview-title text-truncate">{{record.title}}</div>
             <!-- Link to the original document -->
-            <a *ngIf="getOriginalDocUrl() as url"
+            <a *ngIf="(record.url1 || record.originalUrl) as url"
                 [sqTooltip]="'msg#preview.original' | sqMessage"
                 class="mt-1"
                 target="_blank"
@@ -98,7 +97,7 @@
         </div>
     </ng-template>
 
-    <sq-preview #facet *ngIf="id"
+    <sq-preview #facet
         class="h-100"
         [id]="id"
         [query]="query"

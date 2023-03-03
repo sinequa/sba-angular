@@ -14,7 +14,7 @@ export class PreviewEntityPanelComponent implements OnChanges {
   @Input() ignored = ["extractslocations", "matchingpassages"];
   @Input() highlights?: PreviewHighlightColors[];
 
-  entities: {
+  entities?: {
     type: string,
     icon: string,
     display: string,
@@ -28,7 +28,7 @@ export class PreviewEntityPanelComponent implements OnChanges {
   ngOnChanges() {
 
     if(!this.previewData) {
-      this.entities = [];
+      delete this.entities;
       return;
     }
 

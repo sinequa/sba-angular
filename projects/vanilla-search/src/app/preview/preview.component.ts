@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
@@ -23,13 +23,17 @@ export interface EntitiesState {
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
-  styleUrls: ['./preview.component.scss']
+  styleUrls: ['./preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PreviewComponent implements OnInit, OnDestroy {
+export class PreviewComponent implements OnDestroy {
 
   @ViewChild(Preview) preview: Preview;
 
   get previewData(): PreviewData|undefined {
+    if(this.preview?.loading) {
+      return undefined;
+    }
     return this.preview?.data;
   }
 
@@ -41,9 +45,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
   // State of the preview
   collapsedPanel = false;
   homeRoute = "/home";
-  showBackButton = true;
-  subpanel: string;
-  previewSearchable = true;
+  subpanel = "extracts";
   extractsType: string;
   minimapType = "extractslocations";
   tabs: Tab[];
@@ -63,15 +65,15 @@ export class PreviewComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    protected route: ActivatedRoute,
-    protected router: Router,
-    protected titleService: Title,
-    protected _location: Location,
-
-    protected intlService: IntlService,
-    protected previewService: PreviewService,
-    protected searchService: SearchService,
+    public route: ActivatedRoute,
+    public router: Router,
+    public titleService: Title,
+    public _location: Location,
+    public intlService: IntlService,
+    public previewService: PreviewService,
+    public searchService: SearchService,
     public appService: AppService,
+    public cdRef: ChangeDetectorRef
   ) {
 
     // The URL can be changed when searching within the page
@@ -81,14 +83,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
 
     titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle"));
 
-  }
-
-  /**
-   * Initializes the configuration and potentially loads the preview data from the URL
-   * (in the case where the id and query are not provided via the Input bindings)
-   */
-  ngOnInit() {
-    this.getPreviewDataFromUrl();
   }
 
   ngOnDestroy() {
@@ -106,6 +100,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
     if(query) {
       this.query.fromJson(query);
     }
+    this.cdRef.detectChanges();
   }
 
   /**
@@ -118,11 +113,11 @@ export class PreviewComponent implements OnInit, OnDestroy {
         this.getTab('extracts'),
         this.getTab('entities')
       ];
-      this.subpanel = "extracts";
       this.extractsType = this.previewData.highlightsPerCategory['matchingpassages']?.values.length?
         'matchingpassages' : 'extractslocations';
       this.sandbox = ["xlsx", "xls"].includes(this.previewData.record.docformat) ? null : undefined;
       this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", { title: this.previewData.record?.title || "" }));
+      this.cdRef.detectChanges();
     }
   }
 
@@ -135,13 +130,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
    */
   back() {
     this._location.back();
-  }
-
-  /**
-   * @returns URL of the original document, if any
-   */
-  getOriginalDocUrl(): string | undefined {
-    return this.previewData?.record.url1 || this.previewData?.record.originalUrl;
   }
 
   /**
