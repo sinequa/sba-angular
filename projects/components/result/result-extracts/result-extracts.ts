@@ -16,11 +16,6 @@ p, ul {
 }
 .extracts-text {
     word-break: break-word;
-
-    ::ng-deep .matchlocations {
-        background-color: transparent !important;
-        font-weight: 600;
-    }
 }
 .sq-matching-passage {
     max-height: 6em;

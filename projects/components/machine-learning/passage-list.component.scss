@@ -34,11 +34,6 @@
     -webkit-line-clamp: var(--line-clamp, 3);
     -webkit-box-orient: vertical;
     overflow: hidden;
-
-    ::ng-deep .matchlocations {
-      background-color: transparent !important;
-      font-weight: 600;
-    }
   }
 
   &.expanded {

@@ -34,16 +34,11 @@
         background-color: rgb(0, 0, 0, 0.03);
     }
 
-    ::ng-deep .matchlocations {
-        background-color: transparent !important;
-        font-weight: 600;
-    }
-
     ::ng-deep .answer {
         background-color: palegreen !important;
         padding: 0 .5rem;
         border-radius: .5rem;
-        font-weight: 600;
+        font-weight: bold;
     }
 }
 
