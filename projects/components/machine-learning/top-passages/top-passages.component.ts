@@ -3,6 +3,8 @@ import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from
 import { AbstractFacet } from '@sinequa/components/facet';
 import { SearchService } from "@sinequa/components/search";
 import { Action } from "@sinequa/components/action";
+import { defaultConfig, SummarizerConfig } from "../summary.component";
+import { UserPreferences } from "@sinequa/components/user-settings";
 
 @Component({
   selector: 'sq-top-passages',
@@ -15,6 +17,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   @Input() hideDate: boolean = false;
   @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
   @Input() answersFirst: boolean;
+  @Input() defaultSummarizerConfig?: SummarizerConfig;
 
   @Output() previewOpened = new EventEmitter<TopPassage>();
   @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
@@ -38,6 +41,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   constructor(
     private auditService: AuditWebService,
     private searchService: SearchService,
+    public prefs: UserPreferences,
     public cdRef: ChangeDetectorRef
   ) {
     super();
@@ -140,4 +144,24 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
     return 0;
   }
 
+  get summarizerConfig(): SummarizerConfig {
+    return this.prefs.get("summarizer-config")
+      || this.defaultSummarizerConfig
+      || defaultConfig;
+  }
+
+  set summarizerConfig(config: SummarizerConfig) {
+    this.prefs.set("summarizer-config", config);
+  }
+
+  summarizerConfigEdit: SummarizerConfig;
+  override onOpenSettings(open: boolean) {
+    console.log(open);
+    if(open) {
+      this.summarizerConfigEdit = {...this.summarizerConfig}; // Initialize edited object
+    }
+    else {
+      this.summarizerConfig = this.summarizerConfigEdit;
+    }
+  }
 }

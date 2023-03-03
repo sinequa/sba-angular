@@ -11,7 +11,11 @@
 	<span *ngIf="passages && documentsNb" class="sq-passage-count p-2">{{'msg#machine-learning.passagesFound' |
 		sqMessage:{passagesNb: passages.length, documentsNb: documentsNb} }}</span>
 
-	<sq-summary [passages]="passagesToSummarize" [ngClass]="{'d-block p-3 border-top border-bottom': passagesToSummarize}"></sq-summary>
+	<sq-summary
+    [passages]="passagesToSummarize"
+    [config]="summarizerConfig"
+    [ngClass]="{'d-block p-3 border-top border-bottom': passagesToSummarize}">
+  </sq-summary>
 
 	<div *ngFor="let passage of passages" (click)="openPreview(passage)" class="passage pt-2">
 
@@ -38,3 +42,7 @@
 
 	</div>
 </div>
+
+<ng-template #settingsTpl>
+  <sq-summary-settings [config]="summarizerConfigEdit"></sq-summary-settings>
+</ng-template>
