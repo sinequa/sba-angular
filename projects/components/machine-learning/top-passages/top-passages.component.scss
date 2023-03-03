@@ -42,8 +42,17 @@
     ::ng-deep .answer {
         background-color: palegreen !important;
         padding: 0 .5rem;
-        border-radius: .5rem;
         font-weight: 600;
+
+        &:first-of-type {
+            border-top-left-radius: .5rem;
+            border-bottom-left-radius: .5rem;
+        }
+
+        &:last-of-type {
+            border-top-right-radius: .5rem;
+            border-bottom-right-radius: .5rem;
+        }
     }
 }
 
