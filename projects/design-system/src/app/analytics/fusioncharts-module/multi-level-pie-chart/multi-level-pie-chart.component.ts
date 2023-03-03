@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-multi-level-pie-chart',
@@ -6,8 +7,10 @@ import { Component } from '@angular/core';
 })
 export class DocMultiLevelPieChartComponent {
 
-  code = ``;
+  code = `<sq-multi-level-pie-chart
+    [results]="results">
+</sq-multi-level-pie-chart>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
 }

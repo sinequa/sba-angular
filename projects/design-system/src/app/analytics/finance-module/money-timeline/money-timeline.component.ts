@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-money-timeline',
@@ -6,8 +7,10 @@ import { Component } from '@angular/core';
 })
 export class DocMoneyTimelineComponent {
 
-  code = ``;
+  code = `<sq-money-timeline
+    [results]="results">
+</sq-money-timeline>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-facet-timeline',
@@ -6,8 +7,12 @@ import { Component } from '@angular/core';
 })
 export class DocFacetTimelineComponent {
 
-  code = ``;
+  code = `<sq-facet-timeline
+    [results]="results"
+    [timeseries]="[{aggregation:'AggDateTimeline', primary: true}]"
+    [width]="200">
+</sq-facet-timeline>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
 }

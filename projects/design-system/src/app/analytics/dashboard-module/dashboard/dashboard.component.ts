@@ -7,9 +7,34 @@ import { Widget } from '@sinequa/analytics/dashboard';
 })
 export class DocDashboardComponent {
 
-  code = ``;
+  code = `<sq-dashboard
+    [dashboard]="dashboard">
+</sq-dashboard>`;
 
-  dashboard: Widget[]
+  dashboard: Widget[] = [
+    {
+      state: {
+        type: 'timeline',
+        x: 1,
+        y: 1,
+        cols: 1,
+        rows: 1,
+        title: 'title'
+      },
+      icon: 'fas fa-chart-line fa-fw',
+    },
+    {
+      state: {
+        type: 'map',
+        x: 1,
+        y: 1,
+        cols: 1,
+        rows: 1,
+        title: 'title'
+      },
+      icon: 'fas fa-globe-americas fa-fw'
+    }
+  ];
 
   constructor() { }
 

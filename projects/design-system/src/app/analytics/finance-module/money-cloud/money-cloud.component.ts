@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SearchService } from '@sinequa/components/search';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-money-cloud',
@@ -6,8 +8,11 @@ import { Component } from '@angular/core';
 })
 export class DocMoneyCloudComponent {
 
-  code = ``;
+  code = `<sq-money-cloud
+    [results]="results">
+</sq-money-cloud>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService,
+    public searchService: SearchService) { }
 
 }

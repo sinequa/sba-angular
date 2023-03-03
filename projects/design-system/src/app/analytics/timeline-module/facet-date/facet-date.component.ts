@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-facet-date',
@@ -6,8 +7,15 @@ import { Component } from '@angular/core';
 })
 export class DocFacetDateComponent {
 
-  code = ``;
+  code = `<sq-facet-date
+    [results]="results"
+    [aggregation]="'AggDateDist'"
+    [timelineAggregation]="'AggDateTimeline'"
+    [allowPredefinedRange]="true"
+    [allowCustomRange]="true"
+    [showCustomRange]="true">
+</sq-facet-date>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
 }

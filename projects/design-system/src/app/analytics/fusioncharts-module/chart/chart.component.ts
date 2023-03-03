@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-chart',
@@ -6,8 +7,10 @@ import { Component } from '@angular/core';
 })
 export class DocChartComponent {
 
-  code = ``;
+  code = `<sq-fusion-chart
+    [results]="results">
+</sq-fusion-chart>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
 }

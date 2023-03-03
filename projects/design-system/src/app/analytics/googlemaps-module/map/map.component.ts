@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-map',
@@ -6,8 +7,10 @@ import { Component } from '@angular/core';
 })
 export class DocMapComponent {
 
-  code = ``;
+  code = `<sq-googlemaps
+    [results]="results">
+</sq-googlemaps>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
 }

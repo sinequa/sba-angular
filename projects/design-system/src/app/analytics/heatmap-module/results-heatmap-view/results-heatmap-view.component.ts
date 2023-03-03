@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class DocResultsHeatmapViewComponent {
 
-  code = ``;
+  code = `<sq-results-heatmap-view></sq-results-heatmap-view>`;
 
   constructor() { }
 

@@ -218,6 +218,15 @@ import { DocTimelineLegendComponent } from './analytics/timeline-module/timeline
 import { DocTimelineComponent } from './analytics/timeline-module/timeline/timeline.component';
 import { DocResultTimelineComponent } from './analytics/vis-timeline-module/result-timeline/result-timeline.component';
 import { DocTooltip2Component } from './analytics/tooltip-module/tooltip-2/tooltip-2.component';
+import { DashboardComponent } from '@sinequa/analytics/dashboard';
+import { FinanceModule } from '@sinequa/analytics/finance';
+import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
+import { GoogleMapsModule } from '@sinequa/analytics/googlemaps';
+import { BsHeatmapModule } from '@sinequa/analytics/heatmap';
+import { NetworkModule } from '@sinequa/analytics/network';
+import { NgxChartsModule } from '@sinequa/analytics/ngx-charts';
+import { BsTooltipComponent } from '@sinequa/analytics/tooltip';
+import { VisTimelineModule } from '@sinequa/analytics/vis-timeline';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -513,7 +522,16 @@ export class AppLocalesConfig implements LocalesConfig {
         BsStatusBarModule,
         BsThemeToggleModule,
         BsUserSettingsModule,
-        AgGridModule
+        AgGridModule,
+        DashboardComponent,
+        FinanceModule,
+        FusionChartsModule,
+        GoogleMapsModule,
+        BsHeatmapModule,
+        NetworkModule,
+        NgxChartsModule,
+        BsTooltipComponent,
+        VisTimelineModule
     ],
     providers: [
         { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },

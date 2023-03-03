@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-network',
@@ -6,8 +7,11 @@ import { Component } from '@angular/core';
 })
 export class DocNetworkComponent {
 
-  code = ``;
+  code = `<sq-network
+    [results]="results"
+    [providers]="providers">
+</sq-network>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
 }

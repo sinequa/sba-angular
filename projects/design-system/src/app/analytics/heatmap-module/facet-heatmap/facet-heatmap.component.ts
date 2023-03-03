@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-facet-heatmap',
@@ -6,8 +7,10 @@ import { Component } from '@angular/core';
 })
 export class DocFacetHeatmapComponent {
 
-  code = ``;
+  code = `<sq-facet-heatmap
+    [results]="results">
+</sq-facet-heatmap>`;
 
-  constructor() { }
+  constructor(public globalService: GlobalService) { }
 
 }
