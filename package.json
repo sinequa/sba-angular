@@ -17,6 +17,7 @@
     "buildvanilla": "ng build vanilla-search --configuration production",
     "buildpepper": "ng build pepper --configuration production",
     "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildanalytics && npm run buildvanilla && npm run buildpepper",
+    "buildpreview": "npx tsc projects/components/preview/preview.ts -outFile projects/vanilla-search/src/preview/preview.js -removeComments true",
     "makedoc-core": "cd projects/core && node ../../scripts/makedoc.js -d ../../docs/core -p tsconfig.doc.json -n \"Core\"",
     "makedoc-components": "cd projects/components && node ../../scripts/makedoc.js -d ../../docs/components -p tsconfig.doc.json -n \"Components\"",
     "makedoc-analytics": "cd projects/analytics && node ../../scripts/makedoc.js -d ../../docs/analytics -p tsconfig.doc.json -n \"Analytics\""

@@ -382,7 +382,8 @@
             "inlineStyleLanguage": "scss",
             "preserveSymlinks": true,
             "assets": [
-              "projects/pepper/src/assets"
+              "projects/pepper/src/assets",
+              { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
             ],
             "styles": [
               {

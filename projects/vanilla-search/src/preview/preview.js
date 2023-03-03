@@ -1,27 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Add the origin of your application (localhost:4200 is included for development purposes)
     var TRUSTED_ORIGINS = [
         'http://localhost:4200',
         'https://localhost:4200',
-        'https://vm-su-sba.sinequa.com:13343',
-        'http://localhost'
+        window.origin
     ];
-    // Until we get the first message from the SBA, we don't know which origin it has (among the trusted origins)
     var parentOrigin = '*';
-    // A <style> element we can use to inject dynamic CSS in the preview
     var styleElement;
-    // A <div> element used to highlight long passages
     var passageHighlighter;
-    // For document with SVG, resize the rect elements
     setSvgBackgroundPositionAndSize();
-    // Listen to messages from the SBA
     window.addEventListener("message", receiveMessage);
-    // Send the "ready" message to the SBA
     returnMessage("ready");
-    // Functions
-    /**
-     * Handle messages from the SBA
-     */
     function receiveMessage(event) {
         if (!TRUSTED_ORIGINS.includes(event.origin)) {
             return;
@@ -52,16 +40,9 @@ document.addEventListener("DOMContentLoaded", function () {
             case 'paging': break;
         }
     }
-    /**
-     * Return messages/data to the SBA
-     */
     function returnMessage(type, data) {
         parent.postMessage({ type: type, data: data, url: window.location.href }, parentOrigin);
     }
-    // Actions from the SBA
-    /**
-     * Initialize the preview
-     */
     function init(origin, highlights) {
         parentOrigin = origin;
         styleElement = document.createElement('style');
@@ -78,9 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
             highlight(highlights);
         }
     }
-    /**
-     * Specify which highlights to display
-     */
     function highlight(highlights) {
         styleElement.textContent = highlights
             .map(function (highlight) {
@@ -88,9 +66,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .join('\n');
     }
-    /**
-     * Select a highlight (apply additional classes and scroll to the view the element)
-     */
     function select(id, usePassageHighlighter) {
         if (usePassageHighlighter === void 0) { usePassageHighlighter = false; }
         unselect();
@@ -104,7 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
         elements.item(0).scrollIntoView({ block: 'center', behavior: 'auto' });
     }
     function selectPassage(elements) {
-        // Hide the passage so it does not interfer with window size
         passageHighlighter.style.display = 'none';
         var pos = [];
         elements.forEach(function (el) { return pos.push(el.getBoundingClientRect()); });
@@ -133,9 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-    /**
-     * Unselect the currently selected element
-     */
     function unselect() {
         removeAllClasses('sq-current');
         removeAllClasses('sq-first');
@@ -143,30 +114,18 @@ document.addEventListener("DOMContentLoaded", function () {
         removeAllElements('svg line.sq-svg');
         passageHighlighter.style.display = 'none';
     }
-    /**
-     * Return the HTML content of a list of elements (by id)
-     */
     function getHtml(ids) {
         var data = ids.map(function (id) { return getHighlightHtml(id); });
         returnMessage('get-html-results', data);
     }
-    /**
-     * Return the text content of a list of elements (by id)
-     */
     function getText(ids) {
         var data = ids.map(function (id) { return getHighlightText(id); });
         returnMessage('get-text-results', data);
     }
-    /**
-     * Return the positions and text of a specific highlight type
-     */
     function getPositions(highlight) {
         var data = getHighlightPositions(highlight);
         returnMessage('get-positions-results', data);
     }
-    /**
-     * Emit a message on mouse up with the selected text and its position in the document
-     */
     function onMouseUp() {
         var selection = document.getSelection();
         var selectedText = selection ? selection.toString().trim() : "";
@@ -191,10 +150,6 @@ document.addEventListener("DOMContentLoaded", function () {
             returnMessage('highlight-hover');
         }
     }
-    // SVG Utils
-    /**
-     * Update the location of the entities' SVG background (for some converters)
-     */
     function setSvgBackgroundPositionAndSize() {
         document.querySelectorAll("svg").forEach(function (svg) {
             svg.querySelectorAll("tspan").forEach(function (tspan) {
@@ -262,7 +217,6 @@ document.addEventListener("DOMContentLoaded", function () {
             line.setAttribute("transform", transform);
         group.appendChild(line);
     }
-    // Utils
     function getElements(id) {
         return document.querySelectorAll("#".concat(id));
     }
@@ -278,7 +232,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     function getHighlightPositions(highlight) {
         var positions = [];
-        // The body might be smaller than the viewport for small docs
         var height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
         var offset = -document.documentElement.getBoundingClientRect().top;
         document.querySelectorAll("span.".concat(highlight, ",tspan.").concat(highlight)).forEach(function (el) {

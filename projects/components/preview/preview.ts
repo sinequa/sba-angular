@@ -24,8 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const TRUSTED_ORIGINS = [
     'http://localhost:4200',
     'https://localhost:4200',
-    'https://vm-su-sba.sinequa.com:13343',
-    'http://localhost'
+    window.origin
   ];
 
   // Until we get the first message from the SBA, we don't know which origin it has (among the trusted origins)
