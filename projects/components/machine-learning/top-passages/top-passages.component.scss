@@ -38,15 +38,19 @@
         background-color: palegreen !important;
         padding: 0 .5rem;
         font-weight: bold;
+        border-top-right-radius: .5rem;
+        border-bottom-right-radius: .5rem;
+        border-top-left-radius: .5rem;
+        border-bottom-left-radius: .5rem;
 
-        &:first-of-type {
-            border-top-left-radius: .5rem;
-            border-bottom-left-radius: .5rem;
+        &:has(+.answer) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
         }
 
-        &:last-of-type {
-            border-top-right-radius: .5rem;
-            border-bottom-right-radius: .5rem;
+        &+.answer {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
         }
     }
 }
@@ -57,4 +61,20 @@
     font-size: 0.875em;
     color: #515960;
     text-align: right;
+}
+
+.sq-passage-text .sq-test {
+    background-color: red !important;
+    padding: 0 .5rem;
+    font-weight: bold;
+
+    &:first-of-type {
+        border-top-left-radius: .5rem;
+        border-bottom-left-radius: .5rem;
+    }
+
+    &:last-of-type {
+        border-top-right-radius: .5rem;
+        border-bottom-right-radius: .5rem;
+    }
 }
