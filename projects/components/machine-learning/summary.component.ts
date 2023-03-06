@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
 import { JsonMethodPluginService, TopPassage } from "@sinequa/core/web-services";
 import { SearchService } from "@sinequa/components/search";
 import { map, Observable, tap } from "rxjs";
@@ -37,6 +37,8 @@ export class SummaryComponent implements OnChanges {
   @Input() passages?: TopPassage[];
   @Input() config = defaultConfig;
 
+  @Output() summary = new EventEmitter<string>();
+
   loading = false;
   summary$?: Observable<string>;
 
@@ -68,7 +70,8 @@ export class SummaryComponent implements OnChanges {
       passages: passages.map(p => ({docId: p.recordId, passageIndex: p.id, index: p.index}))
     }
     this.summary$ = this.jsonMethodWebService.post("OpenAITextDavinci3", data).pipe(
-      map((res) => res.summary),
+      map(res => res.summary),
+      tap(summary => this.summary.emit(summary)),
       tap(() => this.loading = false)
     );
   }
