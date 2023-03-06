@@ -49,19 +49,24 @@ export type OpenAIModelMessage = {
 
     <ng-container *ngFor="let message of messages; let i = index">
       <li class="list-group-item border-bottom d-flex" *ngIf="message.display">
-        <span class="col-2 fw-bold text-end pe-3">{{message.role | titlecase}}</span>
-        <p [innerHTML]="message.content | sqMarkdown" class="col-10 mb-0"></p>
+        <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
+          <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
+          <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
+        </span>
+        <p [innerHTML]="message.content | sqMarkdown" class="mb-0"></p>
       </li>
     </ng-container>
 
     <li class="list-group-item d-flex" [ngClass]="{'align-items-center': !loadingAnswer, 'border-bottom': loadingAnswer}">
-      <span class="col-2 fw-bold text-end pe-3">User</span>
+      <span class="me-3">
+        <i class="fas fa-2x fa-user-circle text-muted"></i>
+      </span>
       <input type="text" class="form-control" placeholder="Your answer" autofocus
         [(ngModel)]="question"
         (keyup.enter)="submitQuestion()"
         (keyup.shift.enter)="submitQuestion()"
         *ngIf="!loadingAnswer">
-      <span class="col-10" *ngIf="loadingAnswer">{{question}}</span>
+      <span *ngIf="loadingAnswer">{{question}}</span>
     </li>
 
     <li class="list-group-item" *ngIf="loadingAnswer">
