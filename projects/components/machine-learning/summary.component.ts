@@ -88,7 +88,7 @@ export class SummaryComponent implements OnChanges {
 
   loading = false;
   loadingAnswer = false;
-  messages$ = new BehaviorSubject<OpenAIModelMessage[]|undefined>([]);
+  messages$ = new BehaviorSubject<OpenAIModelMessage[]|undefined>(undefined);
 
   question = '';
 
