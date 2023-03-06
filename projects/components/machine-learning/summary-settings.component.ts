@@ -55,7 +55,7 @@ export class SummarySettingsComponent implements OnInit {
 
   ngOnInit() {
     if(!this.config.modelMaxTokens) {
-      this.config = defaultSummarizerConfig;
+      Object.assign(this.config, defaultSummarizerConfig);
     }
   }
 }

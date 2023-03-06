@@ -98,6 +98,11 @@ export class SummaryComponent implements OnChanges {
   ){}
 
   ngOnChanges() {
+    // Auto-migrate from older versions
+    if(!this.config.modelMaxTokens) {
+      Object.assign(this.config, defaultSummarizerConfig);
+    }
+
     if(this.passages) {
       this.fetchData(this.passages);
     }

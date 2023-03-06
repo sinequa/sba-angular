@@ -156,7 +156,6 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
 
   summarizerConfigEdit: SummarizerConfig;
   override onOpenSettings(open: boolean) {
-    console.log(open);
     if(open) {
       this.summarizerConfigEdit = {...this.summarizerConfig}; // Initialize edited object
     }
