@@ -50,7 +50,7 @@ export type OpenAIModelMessage = {
     <ng-container *ngFor="let message of messages; let i = index">
       <li class="list-group-item border-bottom d-flex" *ngIf="message.display">
         <span class="col-2 fw-bold text-end pe-3">{{message.role | titlecase}}</span>
-        <p [innerHTML]="message.content" class="col-10 mb-0"></p>
+        <p [innerHTML]="message.content | sqMarkdown" class="col-10 mb-0"></p>
       </li>
     </ng-container>
 

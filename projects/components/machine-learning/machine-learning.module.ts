@@ -7,6 +7,7 @@ import { ResultModule } from "@sinequa/components/result";
 import { UtilsModule } from "@sinequa/components/utils";
 import { BsFacetModule } from "@sinequa/components/facet";
 import { IntlModule } from "@sinequa/core/intl";
+import { CommentsModule } from "@sinequa/components/comments";
 
 import { AnswerCardComponent } from "./answer-card.component";
 import { PassageListComponent } from "./passage-list.component";
@@ -24,6 +25,7 @@ import { SummarySettingsComponent } from "./summary-settings.component";
         UtilsModule,
         BsFacetModule,
         FormsModule,
+        CommentsModule,
         BsSearchModule.forRoot({})
     ],
     declarations: [

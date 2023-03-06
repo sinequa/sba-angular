@@ -15,7 +15,7 @@
     [passages]="passagesToSummarize"
     [config]="summarizerConfig"
     [ngClass]="{'d-block border-top border-bottom': passagesToSummarize}"
-    (summary)="summarizeAction.disabled = false">
+    (data)="summarizeAction.disabled = false">
   </sq-summary>
 
 	<div *ngFor="let passage of passages" (click)="openPreview(passage)" class="passage pt-2">
