@@ -922,7 +922,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
      *
      * They are first searched on the result records, and we make a query for those we cannot find
      */
-    getRecords(ids: string[]): Observable<Record[]> {
+    getRecords(ids: string[]): Observable<(Record|undefined)[]> {
         const records = ids.map(id => {
             return {
                 id,
@@ -944,7 +944,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         });
 
         return this.getResults(query, undefined, {searchInactive: true})
-            .pipe(map(res => records.map(r => r.record || res.records.find(rec => rec.id === r.id)!)));
+            .pipe(map(res => records.map(r => r.record || res.records.find(rec => rec.id === r.id))));
     }
 }
 

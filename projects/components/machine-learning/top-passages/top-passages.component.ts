@@ -67,7 +67,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
         }
 
         this.passages.forEach((passage) => {
-          passage.$record = passage.$record || records.find(record => record.id === passage?.recordId);
+          passage.$record = passage.$record || records.find(record => record?.id === passage.recordId);
           passage.$checked = true;
         });
 
