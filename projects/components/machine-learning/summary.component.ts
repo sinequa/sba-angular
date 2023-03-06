@@ -4,19 +4,30 @@ import { SearchService } from "@sinequa/components/search";
 import { BehaviorSubject, map, tap } from "rxjs";
 
 export interface SummarizerConfig {
+  modelTemperature: number;
+  modelTopP: number;
+  modelMaxTokens: number;
+
+  removeOverlap: boolean;
+  removeDuplicates: boolean;
+  promptInsertBeforePassages: string;
+  promptInsertAfterPassages: string;
   extendBefore: number;
   extendAfter: number;
-  modelTemperature: number;
-  promptBefore: string;
-  promptAfter: string;
+  topPassages: number;
 }
 
-export const defaultConfig: SummarizerConfig = {
+export const defaultSummarizerConfig: SummarizerConfig = {
   extendBefore: 0,
   extendAfter: 0,
+  removeOverlap: true,
+  removeDuplicates: true,
+  topPassages: 10,
   modelTemperature: 0.7,
-  promptBefore: "The below passages are extracts from documents returned by a search engine. Your job is to summarize these passages in order to provide an answer to the following query: {queryText}",
-  promptAfter: ""
+  modelTopP: 1.0,
+  modelMaxTokens: 512,
+  promptInsertBeforePassages: "The below passages are extracts from documents returned by a search engine. Your job is to summarize these passages in order to provide an answer to the following query: {queryText}",
+  promptInsertAfterPassages: ""
 }
 
 export type OpenAIModel = "OpenAITextDavinci3" | "OpenAIgpt35Turbo";
@@ -70,7 +81,7 @@ export type OpenAIModelMessage = {
 })
 export class SummaryComponent implements OnChanges {
   @Input() passages?: TopPassage[];
-  @Input() config = defaultConfig;
+  @Input() config = defaultSummarizerConfig;
   @Input() model: OpenAIModel = "OpenAIgpt35Turbo";
 
   @Output() data = new EventEmitter<OpenAIModelMessage>();
@@ -104,13 +115,13 @@ export class SummaryComponent implements OnChanges {
 
   private fetchData(passages: TopPassage[]): void {
     this.loading = true;
+    const queryText = this.searchService.query.text || '';
     const data = {
       ...this.config,
-      removeOverlap: true,
-      removeDuplicates: true,
-      promptInsertBeforePassages: this.config.promptBefore.replace(/{queryText}/g, this.searchService.query.text || ''),
-      promptInsertAfterPassages: this.config.promptAfter.replace(/{queryText}/g, this.searchService.query.text || ''),
-      queryText: this.searchService.query.text || '',
+      promptInsertBeforePassages: this.config.promptInsertBeforePassages.replace(/{queryText}/g, queryText),
+      promptInsertAfterPassages: this.config.promptInsertAfterPassages.replace(/{queryText}/g, queryText),
+
+      queryText,
       passages: passages.map(p => ({docId: p.recordId, passageIndex: p.id, index: p.index}))
     }
     this.jsonMethodWebService.post(this.model, data).pipe(
@@ -124,7 +135,10 @@ export class SummaryComponent implements OnChanges {
   private fetchAnswer(question: string, previousMessages: OpenAIModelMessage[]) {
     this.loadingAnswer = true;
     const data = {
+      ...this.config,
       promptInsertBeforePassages: question,
+      promptInsertAfterPassages: '',
+
       previousMessages,
       passages: [],
       queryText: '...'

@@ -3,7 +3,7 @@ import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from
 import { AbstractFacet } from '@sinequa/components/facet';
 import { SearchService } from "@sinequa/components/search";
 import { Action } from "@sinequa/components/action";
-import { defaultConfig, SummarizerConfig } from "../summary.component";
+import { defaultSummarizerConfig, SummarizerConfig } from "../summary.component";
 import { UserPreferences } from "@sinequa/components/user-settings";
 
 @Component({
@@ -147,7 +147,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   get summarizerConfig(): SummarizerConfig {
     return this.prefs.get("summarizer-config")
       || this.defaultSummarizerConfig
-      || defaultConfig;
+      || defaultSummarizerConfig;
   }
 
   set summarizerConfig(config: SummarizerConfig) {
