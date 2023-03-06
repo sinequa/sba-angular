@@ -14,14 +14,15 @@
 	<sq-summary
     [passages]="passagesToSummarize"
     [config]="summarizerConfig"
-    [ngClass]="{'d-block p-3 border-top border-bottom': passagesToSummarize}">
+    [ngClass]="{'d-block p-3 border-top border-bottom': passagesToSummarize}"
+    (summary)="summarizeAction.disabled = false">
   </sq-summary>
 
 	<div *ngFor="let passage of passages" (click)="openPreview(passage)" class="passage pt-2">
 
     <div class="sq-passage-title d-flex align-content-center mb-1" *ngIf="passage.$record">
 			<input type="checkbox"
-        class="form-check-input me-2"
+        class="form-check-input me-2 flex-shrink-0"
         [(ngModel)]="passage.$checked"
 				(ngModelChange)="passageChecked()"
         (click)="$event.stopPropagation()">
