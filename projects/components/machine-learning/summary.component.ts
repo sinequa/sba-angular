@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
 import { JsonMethodPluginService, TopPassage } from "@sinequa/core/web-services";
 import { SearchService } from "@sinequa/components/search";
-import { BehaviorSubject, map, tap } from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 
 export interface SummarizerConfig {
   modelTemperature: number;
@@ -38,6 +38,17 @@ export type OpenAIModelMessage = {
   display: boolean;
 }
 
+export type OpenAIModelTokens = {
+  used: number;
+  model: number;
+  left: number;
+}
+
+export type OpenAIResponse = {
+  messagesHistory: OpenAIModelMessage[];
+  tokens: OpenAIModelTokens;
+}
+
 @Component({
   selector: 'sq-summary',
   template: `
@@ -57,16 +68,23 @@ export type OpenAIModelMessage = {
       </li>
     </ng-container>
 
-    <li class="list-group-item d-flex" [ngClass]="{'align-items-center': !loadingAnswer, 'border-bottom': loadingAnswer}">
-      <span class="me-3">
-        <i class="fas fa-2x fa-user-circle text-muted"></i>
-      </span>
-      <input type="text" class="form-control" placeholder="Your answer" autofocus
-        [(ngModel)]="question"
-        (keyup.enter)="submitQuestion()"
-        (keyup.shift.enter)="submitQuestion()"
-        *ngIf="!loadingAnswer">
-      <span *ngIf="loadingAnswer">{{question}}</span>
+    <li class="d-block">
+      <div class="progress" style="height: 3px;" *ngIf="!loadingAnswer">
+        <div class="progress-bar" role="progressbar" [ngStyle]="{'width.%': tokensPercentage}" title="Tokens used {{tokensAbsolute}}/{{tokens?.model}}"></div>
+      </div>
+      <div class="list-group-item d-flex" [ngClass]="{'align-items-center': !loadingAnswer, 'border-bottom': loadingAnswer}">
+        <span class="me-3">
+          <i class="fas fa-2x fa-user-circle text-muted"></i>
+        </span>
+        <input type="text" class="form-control" placeholder="Your answer" autofocus
+          [(ngModel)]="question"
+          (ngModelChange)="updateTokensPercentage()"
+          (keyup.enter)="submitQuestion()"
+          (keyup.shift.enter)="submitQuestion()"
+          [disabled]="tokensPercentage >= 100"
+          *ngIf="!loadingAnswer">
+        <span *ngIf="loadingAnswer">{{question}}</span>
+      </div>
     </li>
 
     <li class="list-group-item" *ngIf="loadingAnswer">
@@ -96,6 +114,9 @@ export class SummaryComponent implements OnChanges {
   messages$ = new BehaviorSubject<OpenAIModelMessage[]|undefined>(undefined);
 
   question = '';
+  tokensPercentage = 0;
+  tokensAbsolute = 0;
+  tokens?: OpenAIModelTokens;
 
   constructor(
     public jsonMethodWebService: JsonMethodPluginService,
@@ -123,6 +144,14 @@ export class SummaryComponent implements OnChanges {
     }
   }
 
+  updateTokensPercentage() {
+    if(this.tokens) {
+      const questionTokens = Math.floor(this.question.trim().length / 3.5);
+      this.tokensAbsolute = (this.tokens.used || 0) + questionTokens;
+      this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / this.tokens.model);
+    }
+  }
+
   private fetchData(passages: TopPassage[]): void {
     this.loading = true;
     this.messages$.next(undefined);
@@ -135,12 +164,7 @@ export class SummaryComponent implements OnChanges {
       queryText,
       passages: passages.map(p => ({docId: p.recordId, passageIndex: p.id, index: p.index}))
     }
-    this.jsonMethodWebService.post(this.model, data).pipe(
-      map((res: {messagesHistory: OpenAIModelMessage[]}) => res.messagesHistory),
-      tap(res => this.messages$.next(res)),
-      tap(res => this.data.emit(res.at(-1))),
-      tap(() => this.loading = false)
-    ).subscribe();
+    this.fetch(data).subscribe();
   }
 
   private fetchAnswer(question: string, previousMessages: OpenAIModelMessage[]) {
@@ -154,12 +178,20 @@ export class SummaryComponent implements OnChanges {
       passages: [],
       queryText: '...'
     }
-    this.jsonMethodWebService.post(this.model, data).pipe(
-      map((res: {messagesHistory: OpenAIModelMessage[]}) => res.messagesHistory),
-      tap(res => this.messages$.next(res)),
-      tap(res => this.data.emit(res.at(-1))),
-      tap(() => this.loadingAnswer = false),
-      tap(() => this.question = '')
-    ).subscribe();
+    this.fetch(data).subscribe();
+  }
+
+  private fetch(data: any): Observable<OpenAIResponse> {
+    return this.jsonMethodWebService.post(this.model, data).pipe(
+      tap((res: OpenAIResponse) => {
+        this.messages$.next(res.messagesHistory);
+        this.data.emit(res.messagesHistory.at(-1));
+        this.loading = false;
+        this.loadingAnswer = false;
+        this.question = '';
+        this.tokens = res.tokens;
+        this.updateTokensPercentage();
+      })
+    )
   }
 }
