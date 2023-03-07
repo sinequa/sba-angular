@@ -53,7 +53,7 @@ export type OpenAIModelMessage = {
           <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
           <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
         </span>
-        <p [innerHTML]="message.content | sqMarkdown" class="mb-0"></p>
+        <div [innerHTML]="message.content | sqMarkdown"></div>
       </li>
     </ng-container>
 
@@ -125,6 +125,7 @@ export class SummaryComponent implements OnChanges {
 
   private fetchData(passages: TopPassage[]): void {
     this.loading = true;
+    this.messages$.next(undefined);
     const queryText = this.searchService.query.text || '';
     const data = {
       ...this.config,
@@ -154,7 +155,7 @@ export class SummaryComponent implements OnChanges {
       queryText: '...'
     }
     this.jsonMethodWebService.post(this.model, data).pipe(
-      map((res: {messagesHistory: OpenAIModelMessage[]}) => res.messagesHistory.filter(m => m.display)),
+      map((res: {messagesHistory: OpenAIModelMessage[]}) => res.messagesHistory),
       tap(res => this.messages$.next(res)),
       tap(res => this.data.emit(res.at(-1))),
       tap(() => this.loadingAnswer = false),
