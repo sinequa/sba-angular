@@ -119,28 +119,32 @@
 
     <div class="col-6 h-100 d-flex flex-column">
       <div class="d-flex p-3 sticky-top">
-        <i class="sq-chatgpt"></i>
-        <h3 class="ms-3">ChatGPT</h3>
+        <div class="d-flex sq-chatgpt-logo" (click)="settingsView=savedChatView=false">
+          <i class="sq-chatgpt"></i>
+          <h3 class="ms-3">ChatGPT</h3>
+        </div>
         <div class="ms-auto d-flex sq-chatgpt-menu" *ngIf="loginService.complete">
-          <ul class="nav nav-pills">
-            <li class="nav-item">
-              <a class="nav-link" [ngClass]="{active: !settingsView && !savedChatView}"
-                (click)="settingsView=savedChatView=false">Chat</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" [ngClass]="{active: settingsView}" (click)="toggleChatSettings()">Settings</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" [ngClass]="{active: savedChatView}" (click)="toggleSavedChats()">Saved chats</a>
-            </li>
-          </ul>
-          <button class="ms-1 btn btn-outline-primary" [sqTooltip]="'Save all the current chat'"
-            [disabled]="messages?.length <= 4" (click)="saveChat()">
-            <i class="fas fa-save"></i>
-          </button>
+          <div class="btn-group" *ngIf="!settingsView && !savedChatView">
+            <button class="ms-1 btn btn-outline-primary" [sqTooltip]="'Reset the chat session'" [disabled]="messages?.length <= 4"
+              (click)="resetChat()">
+              <i class="fas fa-sync"></i>
+            </button>
+            <button class="btn btn-outline-primary" [sqTooltip]="'Save all the current chat'" [disabled]="messages?.length <= 4"
+              (click)="saveChat()">
+              <i class="fas fa-save"></i>
+            </button>
+            </div>
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a class="nav-link" [ngClass]="{active: savedChatView}" (click)="toggleSavedChats()">Saved chats</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [ngClass]="{active: settingsView}" (click)="toggleChatSettings()">Settings</a>
+              </li>
+            </ul>
         </div>
       </div>
-      <sq-chat [config]="chatConfig" [savedChat]="savedChat" (messages)="messages = $event"
+      <sq-chat #sqChat [config]="chatConfig" [savedChat]="savedChat" (messages)="messages = $event"
         *ngIf="!settingsView && !savedChatView && loginService.complete"></sq-chat>
       <sq-chat-settings [config]="chatConfig" *ngIf="settingsView && loginService.complete"></sq-chat-settings>
       <sq-saved-chats [savedChats]="savedChatService.savedChats" *ngIf="savedChatView && loginService.complete"
