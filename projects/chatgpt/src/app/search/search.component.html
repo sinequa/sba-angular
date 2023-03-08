@@ -70,7 +70,9 @@
             (click)="attachDocument(record, $event)">
             <div class="d-flex align-items-center">
               <sq-result-title [record]="record" class="d-block py-1"></sq-result-title>
-              <button class="btn btn-sm btn-primary ms-auto text-nowrap" (click)="attachDocument(record, $event)">
+              <button *ngIf="!record.$selected"
+                class="btn btn-sm btn-primary ms-auto text-nowrap"
+                (click)="attachDocument(record, $event)">
                 <i class="fas fa-fw fa-paperclip"></i> Attach document
               </button>
             </div>
