@@ -1,18 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { SearchService } from '@sinequa/components/search';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { ModalResult, ModalService, PromptOptions } from '@sinequa/core/modal';
 import { Results, Record, TopPassage } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES } from '../../config';
-import { ChatComponent, defaultChatConfig, OpenAIModelMessage } from '../chat/chat.component';
+import { ChatComponent, defaultChatConfig } from '../chat/chat.component';
 import { ChatAttachment, ChatService } from '../chat/chat.service';
-import { SavedChat, SavedChatService } from '../chat/saved-chat.service';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
@@ -35,9 +32,6 @@ export class SearchComponent implements OnInit {
   // Chat options
   settingsView = false;
   savedChatView = false;
-
-  savedChat: SavedChat;
-  messages: OpenAIModelMessage[];
 
   get neuralSearchEnabled() {
     return this.appService.isNeural() && this.searchService.query.neuralSearch !== false;
@@ -62,9 +56,7 @@ export class SearchComponent implements OnInit {
     public titleService: Title,
     public intlService: IntlService,
     public chatService: ChatService,
-    public prefs: UserPreferences,
-    public savedChatService: SavedChatService,
-    public modalService: ModalService
+    public prefs: UserPreferences
   ) { }
 
 
@@ -208,31 +200,11 @@ export class SearchComponent implements OnInit {
   }
 
   resetChat() {
-    this.sqChat.fetchInitial();
+    this.sqChat?.fetchInitial();
   }
 
   saveChat() {
-    const model: PromptOptions = {
-      title: 'Save Chat',
-      message: 'Enter a name for the chat',
-      buttons: [],
-      output: '',
-      validators: [Validators.required]
-    };
-    this.modalService.prompt(model).then(res => {
-      if (res === ModalResult.OK) {
-        const savedChat: SavedChat = { name: model.output, messages: this.messages };
-        this.savedChatService.save(savedChat);
-      }
-    });
+    this.sqChat.saveChat();
   }
 
-  loadSavedChat(savedChat: SavedChat): void {
-    this.savedChatView = false;
-    this.savedChat = savedChat;
-  }
-
-  deleteSavedChat(savedChat: SavedChat): void {
-    this.savedChatService.delete(savedChat.name);
-  }
 }

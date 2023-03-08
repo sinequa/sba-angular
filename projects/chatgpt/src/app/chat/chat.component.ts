@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
+import { BehaviorSubject, Subscription } from "rxjs";
 import { ChatAttachment, ChatService } from "./chat.service";
-import { SavedChat } from "./saved-chat.service";
+import { SavedChatService } from "./saved-chat.service";
 
 export interface ChatConfig {
   modelTemperature: number;
@@ -50,12 +50,9 @@ export type OpenAIResponse = {
   styleUrls: ['./chat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   @Input() config = defaultChatConfig;
-  @Input() savedChat: SavedChat;
-
   @Output() data = new EventEmitter<OpenAIModelMessage>();
-  @Output() messages = new EventEmitter<OpenAIModelMessage[]>();
 
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
 
@@ -69,16 +66,30 @@ export class ChatComponent implements OnInit {
   tokens?: OpenAIModelTokens;
 
   constructor(
-    public chatService: ChatService
+    public chatService: ChatService,
+    public savedChatService: SavedChatService
   ) { }
 
   ngOnInit() {
-    this.fetchInitial();
-    this.chatService.attachments$.subscribe(attachments => {
-      this.updateTokensPercentage();
-      this.questionInput?.nativeElement.focus();
-      this.question = this.suggestQuestion(attachments);
-    })
+    if(this.savedChatService.openChat) {
+      this.openChat(this.savedChatService.openChat.messages);
+      delete this.savedChatService.openChat;
+    }
+    else {
+      this.fetchInitial();
+    }
+    this.sub.add(
+      this.chatService.attachments$.subscribe(attachments => {
+        this.updateTokensPercentage();
+        this.questionInput?.nativeElement.focus();
+        this.question = this.suggestQuestion(attachments);
+      })
+    );
+  }
+
+  sub = new Subscription();
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   submitQuestion() {
@@ -98,18 +109,14 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  fetchInitial() {
+  fetchInitial(previousMessages = defaultHistory, promptInsertBeforePassages = this.config.initialPrompt) {
     if (this.loading) return;
     this.loading = true;
-    let previousMessages = defaultHistory;
-    if (this.savedChat) {
-      previousMessages = [...this.savedChat.messages];
-      previousMessages.pop();
-    }
+    this.messages$.next(undefined);
     const data = {
       ...this.config,
       previousMessages,
-      promptInsertBeforePassages: this.savedChat ? undefined : this.config.initialPrompt,
+      promptInsertBeforePassages,
       passages: [],
       queryText: '...'
     }
@@ -143,7 +150,6 @@ export class ChatComponent implements OnInit {
       this.setAttachments(res.messagesHistory);
       this.messages$.next(res.messagesHistory);
       this.data.emit(res.messagesHistory.at(-1));
-      this.messages.emit(res.messagesHistory);
       this.loading = false;
       this.loadingAnswer = false;
       this.question = '';
@@ -174,5 +180,17 @@ export class ChatComponent implements OnInit {
       return this.config.addAttachmentsPrompt || defaultChatConfig.addAttachmentsPrompt;
     }
     return this.question;
+  }
+
+  saveChat() {
+    if(this.messages$.value) {
+      this.savedChatService.saveChat(this.messages$.value);
+    }
+  }
+
+  openChat(messages: OpenAIModelMessage[]) {
+    const previousMessages = [...messages];
+    const last = previousMessages.pop();
+    this.fetchInitial(previousMessages, last?.content);
   }
 }

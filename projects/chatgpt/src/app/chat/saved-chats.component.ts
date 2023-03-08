@@ -1,27 +1,36 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { OpenAIModelMessage } from "./chat.component";
-import { SavedChat } from "./saved-chat.service";
+import { Component, EventEmitter, Output } from "@angular/core";
+import { SavedChat, SavedChatService } from "./saved-chat.service";
 
 @Component({
   selector: 'sq-saved-chats',
   template: `
-  <div class="card-body small">
-    <div class="list-group list-group-flush">
-      <div class="sq-saved-chat d-flex list-group-item list-group-item-action" *ngFor="let chat of savedChats" (click)="load.emit(chat)">
+  <ul class="list-group">
+    <li *ngFor="let chat of savedChatService.savedChats"
+      class="d-flex list-group-item list-group-item-action">
+      <a class="flex-grow-1" role="button" (click)="onLoad(chat)">
         {{chat.name}}
-        <button class="ms-auto btn" (click)="$event.stopPropagation(); delete.emit(chat);"><i class="fas fa-times"></i></button>
-      </div>
-    </div>
-  </div>  `,
-  styles: [`
-.sq-saved-chat {
-  cursor: pointer;
-}
-  `]
+      </a>
+      <button class="btn btn-link" (click)="delete(chat);">
+        <i class="fas fa-times"></i>
+      </button>
+    </li>
+  </ul>
+  `
 })
 export class SavedChatsComponent {
-  @Input() savedChats: SavedChat[] = [];
+  @Output() load = new EventEmitter<SavedChat>();
 
-  @Output() load = new EventEmitter<OpenAIModelMessage>();
-  @Output() delete = new EventEmitter<OpenAIModelMessage>();
+  constructor(
+    public savedChatService: SavedChatService
+  ){}
+
+  onLoad(chat: SavedChat) {
+    this.load.emit(chat);
+    this.savedChatService.loadChat(chat);
+  }
+
+  delete(chat: SavedChat) {
+    this.savedChatService.delete(chat.name);
+  }
+
 }

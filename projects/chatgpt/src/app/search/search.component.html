@@ -94,6 +94,7 @@
           </div>
 
           <div *ngFor="let passage of passages$ | async as passages"
+            role="button"
             (click)="attachPassage(passage, $event)"
             class="record passage">
 
@@ -123,32 +124,39 @@
           <i class="sq-chatgpt"></i>
           <h3 class="ms-3">ChatGPT</h3>
         </div>
-        <div class="ms-auto d-flex sq-chatgpt-menu" *ngIf="loginService.complete">
-          <div class="btn-group" *ngIf="!settingsView && !savedChatView">
-            <button class="ms-1 btn btn-outline-primary" [sqTooltip]="'Reset the chat session'" [disabled]="messages?.length <= 4"
-              (click)="resetChat()">
-              <i class="fas fa-sync"></i>
-            </button>
-            <button class="btn btn-outline-primary" [sqTooltip]="'Save all the current chat'" [disabled]="messages?.length <= 4"
-              (click)="saveChat()">
-              <i class="fas fa-save"></i>
-            </button>
-            </div>
-            <ul class="nav nav-pills">
-              <li class="nav-item">
-                <a class="nav-link" [ngClass]="{active: savedChatView}" (click)="toggleSavedChats()">Saved chats</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [ngClass]="{active: settingsView}" (click)="toggleChatSettings()">Settings</a>
-              </li>
-            </ul>
+
+        <ul class="nav nav-pills ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" role="button" [ngClass]="{active: settingsView}" (click)="toggleChatSettings()">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" role="button" [ngClass]="{active: savedChatView}" (click)="toggleSavedChats()">Saved chats</a>
+          </li>
+        </ul>
+
+        <div class="btn-group" *ngIf="!settingsView && !savedChatView && sqChat?.messages$?.value?.length > 4">
+          <button class="ms-2 btn btn-primary" [sqTooltip]="'Reset the chat session'"
+            (click)="resetChat()">
+            <i class="fas fa-sync"></i>
+          </button>
+          <button class="btn btn-primary" [sqTooltip]="'Save all the current chat'"
+            (click)="saveChat()">
+            <i class="fas fa-save"></i>
+          </button>
         </div>
       </div>
-      <sq-chat #sqChat [config]="chatConfig" [savedChat]="savedChat" (messages)="messages = $event"
-        *ngIf="!settingsView && !savedChatView && loginService.complete"></sq-chat>
-      <sq-chat-settings [config]="chatConfig" *ngIf="settingsView && loginService.complete"></sq-chat-settings>
-      <sq-saved-chats [savedChats]="savedChatService.savedChats" *ngIf="savedChatView && loginService.complete"
-        (load)="loadSavedChat($event)" (delete)="deleteSavedChat($event)"></sq-saved-chats>
+
+      <sq-chat #sqChat *ngIf="!settingsView && !savedChatView && loginService.complete"
+        [config]="chatConfig">
+      </sq-chat>
+
+      <sq-chat-settings *ngIf="settingsView && loginService.complete"
+        [config]="chatConfig">
+      </sq-chat-settings>
+
+      <sq-saved-chats *ngIf="savedChatView && loginService.complete"
+        (load)="savedChatView = false">
+      </sq-saved-chats>
     </div>
 
   </div>
