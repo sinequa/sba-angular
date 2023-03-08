@@ -3,6 +3,7 @@ import { JsonMethodPluginService } from "@sinequa/core/web-services";
 import { SearchService } from "@sinequa/components/search";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { ChatAttachment, ChatService } from "./chat.service";
+import { SavedChat } from "./saved-chat.service";
 
 export interface ChatConfig {
   modelTemperature: number;
@@ -24,7 +25,7 @@ export const defaultChatConfig: ChatConfig = {
 }
 
 export const defaultHistory: OpenAIModelMessage[] = [
-  {role: 'system', display: false, content: 'You are a helpful assistant'},
+  { role: 'system', display: false, content: 'You are a helpful assistant' },
 ]
 
 export type OpenAIModel = "OpenAITextDavinci3" | "OpenAIgpt35Turbo";
@@ -56,14 +57,16 @@ export type OpenAIResponse = {
 export class ChatComponent implements OnInit {
   @Input() config = defaultChatConfig;
   @Input() model: OpenAIModel = "OpenAIgpt35Turbo";
+  @Input() savedChat: SavedChat;
 
   @Output() data = new EventEmitter<OpenAIModelMessage>();
+  @Output() messages = new EventEmitter<OpenAIModelMessage[]>();
 
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
 
   loading = false;
   loadingAnswer = false;
-  messages$ = new BehaviorSubject<OpenAIModelMessage[]|undefined>(undefined);
+  messages$ = new BehaviorSubject<OpenAIModelMessage[] | undefined>(undefined);
 
   question = '';
   tokensPercentage = 0;
@@ -74,7 +77,7 @@ export class ChatComponent implements OnInit {
     public chatService: ChatService,
     public jsonMethodWebService: JsonMethodPluginService,
     public searchService: SearchService
-  ){}
+  ) { }
 
   ngOnInit() {
     this.fetchInitial();
@@ -93,7 +96,7 @@ export class ChatComponent implements OnInit {
   }
 
   updateTokensPercentage() {
-    if(this.tokens) {
+    if (this.tokens) {
       const questionTokens = Math.floor(this.question.trim().length / 3.5);
       const attachments = this.chatService.attachments$.value;
       const attachmentTokens = attachments.reduce((prev, cur) => prev + cur.tokenCount, 0);
@@ -104,10 +107,15 @@ export class ChatComponent implements OnInit {
 
   private fetchInitial() {
     this.loading = true;
+    let previousMessages = defaultHistory;
+    if (this.savedChat) {
+      previousMessages = [...this.savedChat.messages];
+      previousMessages.pop();
+    }
     const data = {
       ...this.config,
-      previousMessages: defaultHistory,
-      promptInsertBeforePassages: this.config.initialPrompt,
+      previousMessages,
+      promptInsertBeforePassages: this.savedChat ? undefined : this.config.initialPrompt,
       passages: [],
       queryText: '...'
     }
@@ -137,11 +145,13 @@ export class ChatComponent implements OnInit {
   }
 
   private fetch(data: any): Observable<OpenAIResponse> {
+    console.log('fetch', data);
     return this.jsonMethodWebService.post(this.model, data).pipe(
       tap((res: OpenAIResponse) => {
         this.setAttachments(res.messagesHistory);
         this.messages$.next(res.messagesHistory);
         this.data.emit(res.messagesHistory.at(-1));
+        this.messages.emit(res.messagesHistory);
         this.loading = false;
         this.loadingAnswer = false;
         this.question = '';

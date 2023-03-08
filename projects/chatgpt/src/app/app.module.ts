@@ -84,6 +84,7 @@ import deLocale from "../locales/de";
 import { ChatComponent } from "./chat/chat.component";
 import { CommentsModule } from "@sinequa/components/comments";
 import { ChatSettingsComponent } from "./chat/chat-settings.component";
+import { SavedChatsComponent } from "./chat/saved-chats.component";
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -149,7 +150,8 @@ export const breakpoints = {
         AppSearchFormComponent,
         AutocompleteComponent,
         ChatComponent,
-        ChatSettingsComponent
+        ChatSettingsComponent,
+        SavedChatsComponent
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa

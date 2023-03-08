@@ -8,8 +8,9 @@ import { LoginService } from '@sinequa/core/login';
 import { Results, Record, TopPassage } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES } from '../../config';
-import { defaultChatConfig } from '../chat/chat.component';
+import { defaultChatConfig, OpenAIModelMessage } from '../chat/chat.component';
 import { ChatAttachment, ChatService } from '../chat/chat.service';
+import { SavedChat, SavedChatService } from '../chat/saved-chat.service';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
@@ -32,6 +33,10 @@ export class SearchComponent implements OnInit {
 
   // Chat options
   settingsView = false;
+  savedChatView = false;
+
+  savedChat: SavedChat;
+  messages: OpenAIModelMessage[];
 
   constructor(
     public loginService: LoginService,
@@ -40,8 +45,9 @@ export class SearchComponent implements OnInit {
     public titleService: Title,
     public intlService: IntlService,
     public chatService: ChatService,
-    public prefs: UserPreferences
-  ){}
+    public prefs: UserPreferences,
+    public savedChatService: SavedChatService
+  ) { }
 
 
   ngOnInit(): void {
@@ -80,15 +86,15 @@ export class SearchComponent implements OnInit {
    * Update page title
    */
   setTitle(search: string) {
-    this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search}));
+    this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", { search }));
   }
 
   attachDocument(record: Record, event: Event) {
     event.stopPropagation();
-    if(record.$selected) {
+    if (record.$selected) {
       const attachments = this.chatService.attachments$.value;
       const i = attachments.findIndex(a => a.type === 'document' && a.id === record.id);
-      if(i !== -1) {
+      if (i !== -1) {
         attachments.splice(i, 1);
         this.chatService.attachments$.next(attachments);
         return;
@@ -102,9 +108,9 @@ export class SearchComponent implements OnInit {
     this.chatService.addPassage(passage, this.searchService.query);
   }
 
-  updateSelected(attachments: ChatAttachment[], results: Results|undefined) {
-    if(results?.records) {
-      for(let r of results.records) {
+  updateSelected(attachments: ChatAttachment[], results: Results | undefined) {
+    if (results?.records) {
+      for (let r of results.records) {
         r.$selected = !!attachments.find(a => a.type === 'document' && a.id === r.id);
       }
     }
@@ -154,9 +160,12 @@ export class SearchComponent implements OnInit {
     return 0;
   }
 
+  // Chat settings
+
   toggleChatSettings() {
     this.settingsView = !this.settingsView;
-    if(!this.settingsView) {
+    this.savedChatView = false;
+    if (!this.settingsView) {
       this.prefs.set('chat-config', this.chatConfig);
     }
   }
@@ -171,5 +180,29 @@ export class SearchComponent implements OnInit {
       this.configPatchDone = true;
     }
     return config;
+  }
+
+  // Save chats
+
+  toggleSavedChats() {
+    this.settingsView = false;
+    this.savedChatView = !this.savedChatView;
+  }
+
+  saveChat() {
+    const name = prompt("Enter a name for the chat session to save:", "");
+    if (name) {
+      const savedChat: SavedChat = { name, messages: this.messages };
+      this.savedChatService.save(savedChat);
+    }
+  }
+
+  loadSavedChat(savedChat: SavedChat): void {
+    this.savedChatView = false;
+    this.savedChat = savedChat;
+  }
+
+  deleteSavedChat(savedChat: SavedChat): void {
+    this.savedChatService.delete(savedChat.name);
   }
 }
