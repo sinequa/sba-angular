@@ -24,7 +24,7 @@
   </ng-container>
 
   <div class="progress" style="height: 3px;" *ngIf="!loadingAnswer">
-    <div class="progress-bar" role="progressbar" [ngStyle]="{'width.%': tokensPercentage}" title="Tokens used {{tokensAbsolute}}/{{tokens?.model}}"></div>
+    <div class="progress-bar" role="progressbar" [ngStyle]="{'width.%': tokensPercentage}" title="Tokens used {{tokensAbsolute}}/{{tokens?.model - config.modelMaxTokens}}"></div>
   </div>
 
   <li class="list-group-item" *ngIf="!loadingAnswer">

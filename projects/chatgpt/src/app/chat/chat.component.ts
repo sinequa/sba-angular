@@ -29,7 +29,7 @@ export type OpenAIModelMessage = {
   role: string;
   content: string;
   display: boolean;
-  $attachments?: ChatAttachment[]
+  $attachments?: OpenAIModelMessage[]
 }
 
 export type OpenAIModelTokens = {
@@ -90,7 +90,7 @@ export class ChatComponent implements OnInit {
       const attachments = this.chatService.attachments$.value;
       const attachmentTokens = attachments.reduce((prev, cur) => prev + cur.tokenCount, 0);
       this.tokensAbsolute = (this.tokens.used || 0) + questionTokens + attachmentTokens;
-      this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / this.tokens.model);
+      this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / (this.tokens.model - this.config.modelMaxTokens));
     }
   }
 
@@ -125,16 +125,13 @@ export class ChatComponent implements OnInit {
       passages: [],
       queryText: '...'
     }
-    this.fetch(data, attachments).subscribe();
+    this.fetch(data).subscribe();
   }
 
-  private fetch(data: any, attachments?: ChatAttachment[]): Observable<OpenAIResponse> {
+  private fetch(data: any): Observable<OpenAIResponse> {
     return this.jsonMethodWebService.post(this.model, data).pipe(
       tap((res: OpenAIResponse) => {
-        const lastUserMessage = res.messagesHistory.at(-2);
-        if(lastUserMessage) {
-          lastUserMessage.$attachments = attachments;
-        }
+        this.setAttachments(res.messagesHistory);
         this.messages$.next(res.messagesHistory);
         this.data.emit(res.messagesHistory.at(-1));
         this.loading = false;
@@ -144,5 +141,19 @@ export class ChatComponent implements OnInit {
         this.chatService.attachments$.next([]); // This updates the tokensPercentage
       })
     )
+  }
+
+  setAttachments(messages: OpenAIModelMessage[]) {
+    let attachments: OpenAIModelMessage[] = [];
+    for(let i=0; i<messages.length-1; i++) {
+      const message = messages[i];
+      if(message.role === 'user' && !message.display && !message.content.startsWith('From now on')) {
+        attachments.push(message);
+      }
+      else if(message.role === 'user' && message.display && attachments.length) {
+        message.$attachments = attachments;
+        attachments = [];
+      }
+    }
   }
 }
