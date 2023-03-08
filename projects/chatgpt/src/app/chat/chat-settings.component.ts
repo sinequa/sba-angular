@@ -6,6 +6,10 @@ import { ChatConfig } from "./chat.component";
   template: `
   <div class="card-body small">
     <div class="mb-2">
+      <label for="initialPrompt" class="form-label">Initial prompt</label>
+      <input type="string" class="form-control" id="initialPrompt" [(ngModel)]="config.initialPrompt">
+    </div>
+    <div class="mb-2">
       <label for="temperature" class="form-label">Temperature: {{config.modelTemperature}}</label>
       <input type="range" class="form-range form-range-sm" min="0" max="2" step="0.1" id="temperature" [(ngModel)]="config.modelTemperature">
     </div>
