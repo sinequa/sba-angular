@@ -48,7 +48,7 @@ export class ChatService {
           ...this.attachments$.value,
           {
             type,
-            id: record.title,
+            id: record.id,
             title: record.title,
             text,
             start,

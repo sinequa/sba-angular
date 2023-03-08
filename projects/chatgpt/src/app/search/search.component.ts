@@ -9,7 +9,7 @@ import { Results, Record, TopPassage } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES } from '../../config';
 import { defaultChatConfig } from '../chat/chat.component';
-import { ChatService } from '../chat/chat.service';
+import { ChatAttachment, ChatService } from '../chat/chat.service';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
@@ -69,8 +69,11 @@ export class SearchComponent implements OnInit {
             return passages;
           })
         )
-      })
+      }),
+      tap((results) => this.updateSelected(this.chatService.attachments$.value, results))
     );
+
+    this.chatService.attachments$.subscribe(attachments => this.updateSelected(attachments, this.searchService.results));
   }
 
   /**
@@ -82,12 +85,29 @@ export class SearchComponent implements OnInit {
 
   attachDocument(record: Record, event: Event) {
     event.stopPropagation();
+    if(record.$selected) {
+      const attachments = this.chatService.attachments$.value;
+      const i = attachments.findIndex(a => a.type === 'document' && a.id === record.id);
+      if(i !== -1) {
+        attachments.splice(i, 1);
+        this.chatService.attachments$.next(attachments);
+        return;
+      }
+    }
     this.chatService.addDocument(record, this.searchService.query);
   }
 
   attachPassage(passage: TopPassage, event: Event) {
     event.stopPropagation();
     this.chatService.addPassage(passage, this.searchService.query);
+  }
+
+  updateSelected(attachments: ChatAttachment[], results: Results|undefined) {
+    if(results?.records) {
+      for(let r of results.records) {
+        r.$selected = !!attachments.find(a => a.type === 'document' && a.id === r.id);
+      }
+    }
   }
 
 
