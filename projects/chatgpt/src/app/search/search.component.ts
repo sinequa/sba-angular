@@ -32,6 +32,7 @@ export class SearchComponent implements OnInit {
   // Chat options
   settingsView = false;
   savedChatView = false;
+  showChatActions = false;
 
   get neuralSearchEnabled() {
     return this.appService.isNeural() && this.searchService.query.neuralSearch !== false;
@@ -200,6 +201,7 @@ export class SearchComponent implements OnInit {
   }
 
   resetChat() {
+    this.showChatActions = false;
     this.sqChat?.fetchInitial();
   }
 

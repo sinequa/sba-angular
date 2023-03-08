@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { BehaviorSubject, Subscription } from "rxjs";
 import { ChatAttachment, ChatService } from "./chat.service";
-import { SavedChatService } from "./saved-chat.service";
+import { SavedChat, SavedChatService } from "./saved-chat.service";
 
 export interface ChatConfig {
   modelTemperature: number;
@@ -36,7 +36,6 @@ export type OpenAIModelMessage = {
 export type OpenAIModelTokens = {
   used: number;
   model: number;
-  left: number;
 }
 
 export type OpenAIResponse = {
@@ -52,7 +51,7 @@ export type OpenAIResponse = {
 })
 export class ChatComponent implements OnInit, OnDestroy {
   @Input() config = defaultChatConfig;
-  @Output() data = new EventEmitter<OpenAIModelMessage>();
+  @Output() data = new EventEmitter<OpenAIModelMessage[]>();
 
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
 
@@ -72,8 +71,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if(this.savedChatService.openChat) {
-      this.openChat(this.savedChatService.openChat.messages);
-      delete this.savedChatService.openChat;
+      this.openChat(this.savedChatService.openChat);
     }
     else {
       this.fetchInitial();
@@ -146,16 +144,20 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   private fetch(data: any) {
-    return this.chatService.fetch(data).subscribe(res => {
-      this.setAttachments(res.messagesHistory);
-      this.messages$.next(res.messagesHistory);
-      this.data.emit(res.messagesHistory.at(-1));
-      this.loading = false;
-      this.loadingAnswer = false;
-      this.question = '';
-      this.tokens = res.tokens;
-      this.chatService.attachments$.next([]); // This updates the tokensPercentage
-    });
+    return this.chatService.fetch(data).subscribe(
+      res => this.updateData(res.messagesHistory, res.tokens)
+    );
+  }
+
+  updateData(messages: OpenAIModelMessage[], tokens: OpenAIModelTokens) {
+    this.setAttachments(messages);
+    this.messages$.next(messages);
+    this.data.emit(messages);
+    this.loading = false;
+    this.loadingAnswer = false;
+    this.question = '';
+    this.tokens = tokens;
+    this.chatService.attachments$.next([]); // This updates the tokensPercentage
   }
 
   setAttachments(messages: OpenAIModelMessage[]) {
@@ -183,14 +185,21 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   saveChat() {
-    if(this.messages$.value) {
-      this.savedChatService.saveChat(this.messages$.value);
+    if(this.messages$.value && this.tokens) {
+      this.savedChatService.saveChat(this.messages$.value, this.tokens);
     }
   }
 
-  openChat(messages: OpenAIModelMessage[]) {
-    const previousMessages = [...messages];
-    const last = previousMessages.pop();
-    this.fetchInitial(previousMessages, last?.content);
+  openChat(chat: SavedChat) {
+    const messagesHistory = chat.messages;
+    let tokens = chat.tokens;
+    if(!tokens) {
+      tokens = {
+        model: 4096,
+        used: messagesHistory.reduce((prev, cur) => prev+Math.floor(cur.content.length*3/4), 0)
+      };
+    }
+    setTimeout(() => this.updateData(messagesHistory, tokens)); // setTimeout prevents change after checked error, because the (data) event emitters fires immediately during the creation of the component
+    delete this.savedChatService.openChat;
   }
 }

@@ -4,11 +4,12 @@ import { Validators } from '@angular/forms';
 import { ModalResult, ModalService, PromptOptions } from '@sinequa/core/modal';
 import { NotificationsService } from '@sinequa/core/notification';
 import { UserSettingsWebService } from '@sinequa/core/web-services';
-import { OpenAIModelMessage } from './chat.component';
+import { OpenAIModelMessage, OpenAIModelTokens } from './chat.component';
 
 export interface SavedChat {
   name: string;
   messages: OpenAIModelMessage[];
+  tokens: OpenAIModelTokens;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -59,7 +60,7 @@ export class SavedChatService {
   }
 
 
-  saveChat(messages: OpenAIModelMessage[]) {
+  saveChat(messages: OpenAIModelMessage[], tokens: OpenAIModelTokens) {
     const model: PromptOptions = {
       title: 'Save Chat',
       message: 'Enter a name for the chat',
@@ -69,7 +70,7 @@ export class SavedChatService {
     };
     this.modalService.prompt(model).then(res => {
       if (res === ModalResult.OK) {
-        const savedChat: SavedChat = { name: model.output, messages };
+        const savedChat: SavedChat = { name: model.output, messages, tokens };
         this.save(savedChat);
       }
     });

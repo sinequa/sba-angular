@@ -134,7 +134,7 @@
           </li>
         </ul>
 
-        <div class="btn-group" *ngIf="!settingsView && !savedChatView && sqChat?.messages$?.value?.length > 4">
+        <div class="btn-group" *ngIf="!settingsView && !savedChatView && showChatActions">
           <button class="ms-2 btn btn-primary" [sqTooltip]="'Reset the chat session'"
             (click)="resetChat()">
             <i class="fas fa-sync"></i>
@@ -147,7 +147,8 @@
       </div>
 
       <sq-chat #sqChat *ngIf="!settingsView && !savedChatView && loginService.complete"
-        [config]="chatConfig">
+        [config]="chatConfig"
+        (data)="showChatActions = $event.length > 4">
       </sq-chat>
 
       <sq-chat-settings *ngIf="settingsView && loginService.complete"
