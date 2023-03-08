@@ -77,7 +77,7 @@ export class ChatComponent implements OnInit {
     this.chatService.attachments$.subscribe(attachments => {
       this.updateTokensPercentage();
       this.questionInput?.nativeElement.focus();
-      if(this.question === '' && attachments) {
+      if(this.question === '') {
         this.question = this.suggestQuestion(attachments);
       }
     })
@@ -163,9 +163,18 @@ export class ChatComponent implements OnInit {
     }
   }
 
+  removeAttachment(attachment: ChatAttachment) {
+    const attachments = this.chatService.attachments$.value;
+    const i = attachments.indexOf(attachment);
+    if(i !== -1 ) {
+      attachments.splice(i, 1);
+      this.chatService.attachments$.next(attachments);
+    }
+  }
+
   suggestQuestion(attachments: ChatAttachment[]) {
     if(attachments.find(d => d.type === 'document')) {
-      return "What do you think of this document?"
+      return "Summarize this document"
     }
     return '';
   }
