@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'doc-navbar',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class DocNavbarComponent {
+
+  isMock: boolean = environment.mock;
 
   constructor() { }
 

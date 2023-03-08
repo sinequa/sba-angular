@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SearchService } from '@sinequa/components/search';
 import { GlobalService } from '../../../global.service';
 
 @Component({
@@ -13,7 +12,6 @@ export class DocAgGridViewComponent {
     [query]="query">
 </sq-ag-grid-view>`;
 
-  constructor(public globalService: GlobalService,
-    public searchService: SearchService) { }
+  constructor(public globalService: GlobalService) { }
 
 }

@@ -227,6 +227,7 @@ import { NetworkModule } from '@sinequa/analytics/network';
 import { NgxChartsModule } from '@sinequa/analytics/ngx-charts';
 import { BsTooltipComponent } from '@sinequa/analytics/tooltip';
 import { VisTimelineModule } from '@sinequa/analytics/vis-timeline';
+import { DocInterceptor } from './doc.interceptor';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -239,6 +240,16 @@ export const startConfig: StartConfig = {
 // @sinequa/core config initializer
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
     return () => startConfigWebService.fetchPreLoginAppConfig();
+}
+
+export function startConfigInitializer(startConfigWebService: StartConfigWebService) {
+    if (environment.mock) {
+        return (): Promise<any> =>
+            new Promise<void>((resolve) => {
+                resolve();
+            });
+    }
+    return StartConfigInitializer(startConfigWebService);
 }
 
 // Search options (search service)
@@ -302,6 +313,13 @@ export class AppLocalesConfig implements LocalesConfig {
         ];
         this.defaultLocale = this.locales[0];
     }
+}
+
+export function httpInterceptor() {
+    if (environment.mock) {
+        return DocInterceptor;
+    }
+    return LoginInterceptor;
 }
 
 @NgModule({
@@ -534,8 +552,8 @@ export class AppLocalesConfig implements LocalesConfig {
         VisTimelineModule
     ],
     providers: [
-        { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
+        { provide: APP_INITIALIZER, useFactory: startConfigInitializer, deps: [StartConfigWebService], multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: httpInterceptor(), multi: true },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: MODAL_MODEL, useValue: {} },
         { provide: ModalRef, useValue: {} },

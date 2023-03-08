@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SearchService } from '@sinequa/components/search';
+import { DocSearchService } from 'src/app/search.service';
 
 @Component({
   selector: 'doc-results-counter',
@@ -11,6 +11,6 @@ export class DocResultsCounterComponent {
     [rowCount]="searchService.rowCount">
 </sq-results-counter>`;
 
-  constructor(public searchService: SearchService) { }
+  constructor(public searchService: DocSearchService) { }
 
 }

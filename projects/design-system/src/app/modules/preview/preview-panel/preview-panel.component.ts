@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { PreviewPopupModel } from '@sinequa/components/preview';
-import { SearchService } from '@sinequa/components/search';
 import { MODAL_MODEL } from '@sinequa/core/modal';
 import { GlobalService } from 'src/app/global.service';
 
@@ -22,7 +21,6 @@ code2 = `constructor(@Inject(MODAL_MODEL) public model: PreviewPopupModel,
     ) {}`;
 
   constructor(@Inject(MODAL_MODEL) public model: PreviewPopupModel,
-    public globalService: GlobalService,
-    public searchService: SearchService) { }
+    public globalService: GlobalService) { }
 
 }
