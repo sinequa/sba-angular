@@ -5,18 +5,14 @@
 <ul *ngIf="messages$ | async as messages" class="list-group py-2 shadow-lg">
 
   <ng-container *ngFor="let message of messages; let i = index">
-    <li class="list-group-item border-bottom" *ngIf="message.display">
-      <ng-container *ngTemplateOutlet="messageTpl; context:{$implicit: message}"></ng-container>
-      <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit: message.$attachments}"></ng-container>
-    </li>
+    <ng-container *ngTemplateOutlet="messageTpl; context: {$implicit: message}"></ng-container>
   </ng-container>
 
-  <div class="progress" style="height: 3px;" *ngIf="!loadingAnswer">
+  <div class="progress flex-shrink-0" *ngIf="!loadingAnswer">
     <div class="progress-bar" role="progressbar" [ngStyle]="{'width.%': tokensPercentage}" title="Tokens used {{tokensAbsolute}}/{{tokens?.model - config.modelMaxTokens}}"></div>
   </div>
 
   <ng-container *ngIf="!loadingAnswer">
-
     <ng-container *ngIf="config.textBeforeAttachments">
       <ng-container *ngTemplateOutlet="inputTpl"></ng-container>
       <ng-container *ngTemplateOutlet="attachmentListTpl"></ng-container>
@@ -26,19 +22,18 @@
       <ng-container *ngTemplateOutlet="attachmentListTpl"></ng-container>
       <ng-container *ngTemplateOutlet="inputTpl"></ng-container>
     </ng-container>
-
   </ng-container>
 
-  <li class="list-group-item border-bottom" *ngIf="loadingAnswer">
-    <ng-container *ngTemplateOutlet="messageTpl; context: {$implicit: {role: 'user', content: question}}"></ng-container>
-    <ng-container *ngIf="chatService.attachments$ | async as attachments">
-      <ng-container *ngIf="attachments.length" [ngTemplateOutlet]="attachmentTpl" [ngTemplateOutletContext]="{$implicit: attachments}"></ng-container>
+  <ng-container *ngIf="loadingAnswer">
+    <ng-container *ngTemplateOutlet="messageTpl; context: { $implicit: {
+      role: 'user', content: question, display: true, $attachments: (chatService.attachments$ | async)
+    } }">
     </ng-container>
-  </li>
 
-  <li *ngIf="loadingAnswer" class="list-group-item">
-    <ng-container *ngTemplateOutlet="loadingTpl"></ng-container>
-  </li>
+    <li class="list-group-item">
+      <ng-container *ngTemplateOutlet="loadingTpl"></ng-container>
+    </li>
+  </ng-container>
 </ul>
 
 
@@ -51,13 +46,21 @@
 </ng-template>
 
 <ng-template #messageTpl let-message>
-  <div class="d-flex">
-    <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
-      <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
-      <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
-    </span>
-    <div [innerHTML]="message.content | sqMarkdown"></div>
-  </div>
+  <li class="list-group-item" *ngIf="message.$attachments?.length && !config.textBeforeAttachments">
+    <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit: message.$attachments}"></ng-container>
+  </li>
+  <li class="list-group-item" *ngIf="message.display" [ngClass]="{'border-bottom': !message.$attachments || !config.textBeforeAttachments}">
+    <div class="d-flex">
+      <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
+        <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
+        <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
+      </span>
+      <div [innerHTML]="message.content | sqMarkdown"></div>
+    </div>
+  </li>
+  <li class="list-group-item border-bottom" *ngIf="message.$attachments?.length && config.textBeforeAttachments">
+    <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit: message.$attachments}"></ng-container>
+  </li>
 </ng-template>
 
 <ng-template #inputTpl>
@@ -105,13 +108,17 @@
       <p class="flex-grow-1 mb-0" role="button" (click)="attachment.$expanded = !attachment.$expanded">
         <span>
           <i class="fas fa-fw fa-caret-{{attachment.$expanded? 'down' : 'right'}} pe-1"></i>
-          <b>{{attachment.title}}: </b>
+          <b>{{attachment.record.title}}: </b>
           <span>{{attachment.text}}</span>
         </span>
       </p>
       <div class="ms-3 col-1 small text-muted d-flex flex-column align-items-center">
         <span title="Number of tokens">{{attachment.tokenCount}}</span>
-        <button class="btn btn-sm btn-link" sqTooltip="remove" (click)="removeAttachment(attachment)"><i class="fas fa-trash"></i></button>
+        <span>
+          <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="Fewer tokens" (click)="chatService.lessTokens(attachment)"><i class="fas fa-minus"></i></button>
+          <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="More tokens" (click)="chatService.moreTokens(attachment)"><i class="fas fa-plus"></i></button>
+        </span>
+        <button class="btn btn-sm btn-link py-0" sqTooltip="Remove" (click)="chatService.removeAttachment(attachment)"><i class="fas fa-trash"></i></button>
       </div>
     </li>
   </ng-container>

@@ -21,3 +21,6 @@ li.attachment p {
 li.attachment.expanded p {
   display: block;
 }
+.progress {
+  --bs-progress-height: 3px;
+}

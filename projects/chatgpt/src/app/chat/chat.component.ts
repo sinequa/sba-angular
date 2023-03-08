@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
-import { JsonMethodPluginService } from "@sinequa/core/web-services";
-import { SearchService } from "@sinequa/components/search";
-import { BehaviorSubject, Observable, tap } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { ChatAttachment, ChatService } from "./chat.service";
 import { SavedChat } from "./saved-chat.service";
 
@@ -27,8 +25,6 @@ export const defaultChatConfig: ChatConfig = {
 export const defaultHistory: OpenAIModelMessage[] = [
   { role: 'system', display: false, content: 'You are a helpful assistant' },
 ]
-
-export type OpenAIModel = "OpenAITextDavinci3" | "OpenAIgpt35Turbo";
 
 export type OpenAIModelMessage = {
   role: string;
@@ -56,7 +52,6 @@ export type OpenAIResponse = {
 })
 export class ChatComponent implements OnInit {
   @Input() config = defaultChatConfig;
-  @Input() model: OpenAIModel = "OpenAIgpt35Turbo";
   @Input() savedChat: SavedChat;
 
   @Output() data = new EventEmitter<OpenAIModelMessage>();
@@ -74,9 +69,7 @@ export class ChatComponent implements OnInit {
   tokens?: OpenAIModelTokens;
 
   constructor(
-    public chatService: ChatService,
-    public jsonMethodWebService: JsonMethodPluginService,
-    public searchService: SearchService
+    public chatService: ChatService
   ) { }
 
   ngOnInit() {
@@ -119,7 +112,7 @@ export class ChatComponent implements OnInit {
       passages: [],
       queryText: '...'
     }
-    this.fetch(data).subscribe();
+    this.fetch(data);
   }
 
   private fetchAnswer(question: string, previousMessages: OpenAIModelMessage[], attachments: ChatAttachment[]) {
@@ -141,24 +134,21 @@ export class ChatComponent implements OnInit {
       passages: [],
       queryText: '...'
     }
-    this.fetch(data).subscribe();
+    this.fetch(data);
   }
 
-  private fetch(data: any): Observable<OpenAIResponse> {
-    console.log('fetch', data);
-    return this.jsonMethodWebService.post(this.model, data).pipe(
-      tap((res: OpenAIResponse) => {
-        this.setAttachments(res.messagesHistory);
-        this.messages$.next(res.messagesHistory);
-        this.data.emit(res.messagesHistory.at(-1));
-        this.messages.emit(res.messagesHistory);
-        this.loading = false;
-        this.loadingAnswer = false;
-        this.question = '';
-        this.tokens = res.tokens;
-        this.chatService.attachments$.next([]); // This updates the tokensPercentage
-      })
-    )
+  private fetch(data: any) {
+    return this.chatService.fetch(data).subscribe(res => {
+      this.setAttachments(res.messagesHistory);
+      this.messages$.next(res.messagesHistory);
+      this.data.emit(res.messagesHistory.at(-1));
+      this.messages.emit(res.messagesHistory);
+      this.loading = false;
+      this.loadingAnswer = false;
+      this.question = '';
+      this.tokens = res.tokens;
+      this.chatService.attachments$.next([]); // This updates the tokensPercentage
+    });
   }
 
   setAttachments(messages: OpenAIModelMessage[]) {
@@ -172,15 +162,6 @@ export class ChatComponent implements OnInit {
         message.$attachments = attachments;
         attachments = [];
       }
-    }
-  }
-
-  removeAttachment(attachment: ChatAttachment) {
-    const attachments = this.chatService.attachments$.value;
-    const i = attachments.indexOf(attachment);
-    if(i !== -1 ) {
-      attachments.splice(i, 1);
-      this.chatService.attachments$.next(attachments);
     }
   }
 
