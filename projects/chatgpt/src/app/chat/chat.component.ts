@@ -74,7 +74,13 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.fetchInitial();
-    this.chatService.attachments$.subscribe(() => this.updateTokensPercentage())
+    this.chatService.attachments$.subscribe(attachments => {
+      this.updateTokensPercentage();
+      this.questionInput?.nativeElement.focus();
+      if(this.question === '' && attachments) {
+        this.question = this.suggestQuestion(attachments);
+      }
+    })
   }
 
   submitQuestion() {
@@ -155,5 +161,12 @@ export class ChatComponent implements OnInit {
         attachments = [];
       }
     }
+  }
+
+  suggestQuestion(attachments: ChatAttachment[]) {
+    if(attachments.find(d => d.type === 'document')) {
+      return "What do you think of this document?"
+    }
+    return '';
   }
 }
