@@ -10,7 +10,7 @@ import { ModalResult, ModalService, PromptOptions } from '@sinequa/core/modal';
 import { Results, Record, TopPassage } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES } from '../../config';
-import { defaultChatConfig, OpenAIModelMessage } from '../chat/chat.component';
+import { ChatComponent, defaultChatConfig, OpenAIModelMessage } from '../chat/chat.component';
 import { ChatAttachment, ChatService } from '../chat/chat.service';
 import { SavedChat, SavedChatService } from '../chat/saved-chat.service';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
@@ -30,6 +30,7 @@ export class SearchComponent implements OnInit {
   loading = false;
 
   @ViewChild(AppSearchFormComponent) searchForm: AppSearchFormComponent;
+  @ViewChild(ChatComponent) sqChat: ChatComponent;
 
   // Chat options
   settingsView = false;
@@ -204,6 +205,10 @@ export class SearchComponent implements OnInit {
   toggleSavedChats() {
     this.settingsView = false;
     this.savedChatView = !this.savedChatView;
+  }
+
+  resetChat() {
+    this.sqChat.fetchInitial();
   }
 
   saveChat() {

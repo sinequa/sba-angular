@@ -98,7 +98,8 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  private fetchInitial() {
+  fetchInitial() {
+    if (this.loading) return;
     this.loading = true;
     let previousMessages = defaultHistory;
     if (this.savedChat) {
