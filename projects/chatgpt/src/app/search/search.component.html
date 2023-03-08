@@ -121,15 +121,29 @@
       <div class="d-flex p-3 sticky-top">
         <i class="sq-chatgpt"></i>
         <h3 class="ms-3">ChatGPT</h3>
-        <button *ngIf="loginService.complete"
-          class="btn btn-outline-primary ms-auto"
-          [ngClass]="{active: settingsView}"
-          (click)="toggleChatSettings()">
-          Settings
-        </button>
+        <div class="ms-auto" *ngIf="loginService.complete">
+          <button class="btn btn-outline-primary"
+            [ngClass]="{active: settingsView}"
+            (click)="toggleChatSettings()">
+            Settings
+          </button>
+          <button class="ms-1 btn btn-outline-primary"
+            [ngClass]="{active: savedChatView}"
+            (click)="toggleSavedChats()">
+            Saved chats
+          </button>
+          <button class="ms-1 btn btn-outline-primary"
+            [disabled]="messages?.length <= 4"
+            (click)="saveChat()">
+            <i class="fas fa-save"></i>
+          </button>
+        </div>
       </div>
-      <sq-chat [config]="chatConfig" *ngIf="!settingsView && loginService.complete"></sq-chat>
+      <sq-chat [config]="chatConfig" [savedChat]="savedChat" (messages)="messages = $event"
+        *ngIf="!settingsView && !savedChatView && loginService.complete"></sq-chat>
       <sq-chat-settings [config]="chatConfig" *ngIf="settingsView && loginService.complete"></sq-chat-settings>
+      <sq-saved-chats [savedChats]="savedChatService.savedChats" *ngIf="savedChatView && loginService.complete"
+        (load)="loadSavedChat($event)" (delete)="deleteSavedChat($event)"></sq-saved-chats>
     </div>
 
   </div>
