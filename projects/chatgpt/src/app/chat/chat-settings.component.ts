@@ -10,6 +10,10 @@ import { ChatConfig } from "./chat.component";
       <input type="string" class="form-control" id="initialPrompt" [(ngModel)]="config.initialPrompt">
     </div>
     <div class="mb-2">
+      <input type="checkbox" class="form-check-input" id="textBeforeAttachments" [(ngModel)]="config.textBeforeAttachments">
+      <label for="textBeforeAttachments" class="form-label ms-1">Send text before attachments</label>
+    </div>
+    <div class="mb-2">
       <label for="temperature" class="form-label">Temperature: {{config.modelTemperature}}</label>
       <input type="range" class="form-range form-range-sm" min="0" max="2" step="0.1" id="temperature" [(ngModel)]="config.modelTemperature">
     </div>

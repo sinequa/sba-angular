@@ -9,6 +9,7 @@ export interface ChatConfig {
   modelTopP: number;
   modelMaxTokens: number;
   initialPrompt: string;
+  textBeforeAttachments?: boolean; // true = attachments after text, otherwise before
 }
 
 export const defaultChatConfig: ChatConfig = {
