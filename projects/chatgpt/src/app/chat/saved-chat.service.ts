@@ -33,7 +33,6 @@ export class SavedChatService {
         if (chat) {
             this.delete(chat.name, true);
         }
-        console.log('saving', savedChat);
         this.savedChats.push(savedChat);
         this.sync();
     }

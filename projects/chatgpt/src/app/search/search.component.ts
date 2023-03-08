@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { SearchService } from '@sinequa/components/search';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
+import { ModalResult, ModalService, PromptOptions } from '@sinequa/core/modal';
 import { Results, Record, TopPassage } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES } from '../../config';
@@ -29,14 +31,28 @@ export class SearchComponent implements OnInit {
 
   @ViewChild(AppSearchFormComponent) searchForm: AppSearchFormComponent;
 
-  view: 'documents' | 'passages' = 'documents';
-
   // Chat options
   settingsView = false;
   savedChatView = false;
 
   savedChat: SavedChat;
   messages: OpenAIModelMessage[];
+
+  get neuralSearchEnabled() {
+    return this.appService.isNeural() && this.searchService.query.neuralSearch !== false;
+  }
+
+  get view(): 'documents' | 'passages' {
+    if (!this.neuralSearchEnabled) {
+      return 'documents';
+    }
+    return this.prefs.get('search-view') || 'documents';
+  }
+
+  set view(view: string) {
+    console.log('view', view);
+    this.prefs.set('search-view', view);
+  }
 
   constructor(
     public loginService: LoginService,
@@ -46,7 +62,8 @@ export class SearchComponent implements OnInit {
     public intlService: IntlService,
     public chatService: ChatService,
     public prefs: UserPreferences,
-    public savedChatService: SavedChatService
+    public savedChatService: SavedChatService,
+    public modalService: ModalService
   ) { }
 
 
@@ -178,11 +195,19 @@ export class SearchComponent implements OnInit {
   }
 
   saveChat() {
-    const name = prompt("Enter a name for the chat session to save:", "");
-    if (name) {
-      const savedChat: SavedChat = { name, messages: this.messages };
-      this.savedChatService.save(savedChat);
-    }
+    const model: PromptOptions = {
+      title: 'Save Chat',
+      message: 'Enter a name for the chat',
+      buttons: [],
+      output: '',
+      validators: [Validators.required]
+    };
+    this.modalService.prompt(model).then(res => {
+      if (res === ModalResult.OK) {
+        const savedChat: SavedChat = { name: model.output, messages: this.messages };
+        this.savedChatService.save(savedChat);
+      }
+    });
   }
 
   loadSavedChat(savedChat: SavedChat): void {

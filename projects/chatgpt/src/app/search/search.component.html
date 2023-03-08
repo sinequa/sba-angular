@@ -43,7 +43,7 @@
         <ng-container *ngSwitchCase="'documents'">
           <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
           <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
-          <button class="btn btn-link btn-sm border-0 py-0 px-2" (click)="view = 'passages'" *ngIf="appService.isNeural()" sqTooltip="View the list of snippets">Snippets</button>
+          <button class="btn btn-link btn-sm border-0 py-0 px-2" (click)="view = 'passages'" *ngIf="neuralSearchEnabled" sqTooltip="View the list of snippets">Snippets</button>
         </ng-container>
         <ng-container *ngSwitchCase="'passages'">
           <span *ngIf="passages$ | async as passages" class="sq-passage-count">
@@ -121,20 +121,21 @@
       <div class="d-flex p-3 sticky-top">
         <i class="sq-chatgpt"></i>
         <h3 class="ms-3">ChatGPT</h3>
-        <div class="ms-auto" *ngIf="loginService.complete">
-          <button class="btn btn-outline-primary"
-            [ngClass]="{active: settingsView}"
-            (click)="toggleChatSettings()">
-            Settings
-          </button>
-          <button class="ms-1 btn btn-outline-primary"
-            [ngClass]="{active: savedChatView}"
-            (click)="toggleSavedChats()">
-            Saved chats
-          </button>
-          <button class="ms-1 btn btn-outline-primary"
-            [disabled]="messages?.length <= 4"
-            (click)="saveChat()">
+        <div class="ms-auto d-flex sq-chatgpt-menu" *ngIf="loginService.complete">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link" [ngClass]="{active: !settingsView && !savedChatView}"
+                (click)="settingsView=savedChatView=false">Chat</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [ngClass]="{active: settingsView}" (click)="toggleChatSettings()">Settings</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [ngClass]="{active: savedChatView}" (click)="toggleSavedChats()">Saved chats</a>
+            </li>
+          </ul>
+          <button class="ms-1 btn btn-outline-primary" [sqTooltip]="'Save all the current chat'"
+            [disabled]="messages?.length <= 4" (click)="saveChat()">
             <i class="fas fa-save"></i>
           </button>
         </div>
