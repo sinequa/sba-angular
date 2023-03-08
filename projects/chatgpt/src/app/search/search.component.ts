@@ -177,6 +177,8 @@ export class SearchComponent implements OnInit {
     return 0;
   }
 
+  // Chat settings
+
   toggleChatSettings() {
     this.settingsView = !this.settingsView;
     this.savedChatView = false;
@@ -185,13 +187,23 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  configPatchDone = false;
+
+  get chatConfig() {
+    let config = this.prefs.get('chat-config') || defaultChatConfig;
+    if(!this.configPatchDone) {
+      config = {...defaultChatConfig, ...config}; // Introduce new options
+      this.prefs.set('chat-config', config);
+      this.configPatchDone = true;
+    }
+    return config;
+  }
+
+  // Save chats
+
   toggleSavedChats() {
     this.settingsView = false;
     this.savedChatView = !this.savedChatView;
-  }
-
-  get chatConfig() {
-    return this.prefs.get('chat-config') || defaultChatConfig;
   }
 
   saveChat() {
