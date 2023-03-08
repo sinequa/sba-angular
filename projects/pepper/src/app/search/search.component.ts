@@ -1,18 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable, Subscription, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Record, Results } from '@sinequa/core/web-services';
 import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
-import { DEFAULT_FACET_COMPONENTS, FacetConfig, FacetService } from '@sinequa/components/facet';
+import { FacetService } from '@sinequa/components/facet';
 import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { BsDropdownService } from '@sinequa/components/action';
-import { FACETS, METADATA, FEATURES, FacetParams } from '../../config';
-import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { METADATA, FEATURES } from '../../config';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 import { AppDashboardComponent } from '../dashboard/dashboard.component';
 
@@ -21,16 +20,9 @@ import { AppDashboardComponent } from '../dashboard/dashboard.component';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit {
 
   public results$: Observable<Results | undefined>;
-
-  private subscriptions: Subscription[] = [];
-
-  public readonly facetComponents = {
-    ...DEFAULT_FACET_COMPONENTS,
-    "date": BsFacetDate
-  }
 
   // Used to scroll (on the results list side) to the latest document selected in a widget
   lastSelectedId?: string;
@@ -68,26 +60,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Unsubscribe from the search service
-   */
-  ngOnDestroy() {
-    this.subscriptions.forEach(s => s.unsubscribe());
-  }
-
-  /**
    * Update page title
    */
   setTitle(search: string) {
     this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search}));
-  }
-
-  /**
-   * Returns the configuration of the facets displayed in the facet-multi component.
-   * The configuration from the config.ts file can be overriden by configuration from
-   * the app configuration on the server
-   */
-  public get facets(): FacetConfig<FacetParams>[] {
-    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || FACETS;
   }
 
   /**

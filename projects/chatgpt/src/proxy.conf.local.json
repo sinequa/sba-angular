@@ -3,10 +3,9 @@
         "/api",
         "/xdownload",
         "/saml/redirect",
-        "/auth/redirect",
         "/r"
     ],
-    "target": "https://mlzilla-mini.sinequa.com:86",
+    "target": "http://localhost",
     "secure": true,
     "changeOrigin": true
 }

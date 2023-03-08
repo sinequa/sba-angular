@@ -38,9 +38,7 @@ import { FiltersModule } from "@sinequa/components/filters";
 
 // Components
 import { AppComponent } from "./app.component";
-import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
-import { PreviewComponent } from './preview/preview.component';
 import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { AutocompleteComponent } from "./search-form/autocomplete.component";
 
@@ -66,10 +64,8 @@ export function StartConfigInitializer(startConfigWebService: StartConfigWebServ
 
 // Application routes (see https://angular.io/guide/router)
 export const routes: Routes = [
-    {path: "home", component: HomeComponent},
     {path: "search", component: SearchComponent},
-    {path: "preview", component: PreviewComponent},
-    {path: "**", redirectTo: "home"}
+    {path: "**", redirectTo: "search"}
 ];
 
 
@@ -85,6 +81,9 @@ import {LocalesConfig, Locale} from "@sinequa/core/intl";
 import enLocale from "../locales/en";
 import frLocale from "../locales/fr";
 import deLocale from "../locales/de";
+import { ChatComponent } from "./chat/chat.component";
+import { CommentsModule } from "@sinequa/components/comments";
+import { ChatSettingsComponent } from "./chat/chat-settings.component";
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -142,14 +141,15 @@ export const breakpoints = {
         MLModule,
         FiltersModule,
         SearchFormComponent,
+        CommentsModule
     ],
     declarations: [
         AppComponent,
-        HomeComponent,
         SearchComponent,
-        PreviewComponent,
         AppSearchFormComponent,
-        AutocompleteComponent
+        AutocompleteComponent,
+        ChatComponent,
+        ChatSettingsComponent
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa

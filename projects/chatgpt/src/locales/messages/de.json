@@ -1,0 +1,57 @@
+{
+    "app": {
+        "name": "Sinequa x ChatGPT"
+    },
+
+    "locale": {
+        "en": "English (United States)",
+        "en-gb": "English (United Kingdom)",
+        "fr": "Français",
+        "de": "Deutsch"
+    },
+
+    "searchForm": {
+        "scopeTitle": "Suchbereich: {name}",
+        "recentQuery": "Letzte Suche",
+        "recentDocument": "Letztes Dokument"
+    },
+
+    "facet": {
+        "preview": {
+            "title": "Vorschau"
+        }
+    },
+
+    "results": {
+        "tabPeople": "Personen",
+        "tabBusiness": "Firmen",
+        "tabLocation": "Orte"
+    },
+
+    "home": {
+        "recentDocumentsTooltip": "Kürzlich geöffnete Dokumente",
+        "recentQueriesTooltip": "Letzte Suchanfragen",
+        "savedQueriesTooltip": "Gespeicherte Suchanfragen (einschließlich Filter)",
+        "basketsTooltip": "Ablagekörbe",
+        "darkMode": "Dark mode",
+        "lightMode": "Light mode"
+    },
+
+    "search": {
+        "pageTitle": "Suche - {search}"
+    },
+
+    "preview": {
+        "extracts": "Extrakte",
+        "entities": "Entitäten",
+        "passages": "Passagen",
+        "searchText": "Suche \"{text}\" im Dokument",
+        "pageTitle": "Dokument-Navigator - {title}",
+        "expand": "Erweitern",
+        "collapse": "Reduzieren",
+        "back": "Zurück",
+        "home": "Startseite",
+        "downloadPdf": "PDF-Version herunterladen",
+        "original": "Originaldokument"
+    }
+}

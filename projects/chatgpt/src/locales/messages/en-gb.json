@@ -1,0 +1,90 @@
+{
+    "app": {
+        "name": "Sinequa x ChatGPT"
+    },
+
+    "locale": {
+        "en": "English (United States)",
+        "en-gb": "English (United Kingdom)",
+        "fr": "Français",
+        "de": "Deutsch"
+    },
+
+    "searchForm": {
+        "scopeTitle": "Scope: {name}",
+        "recentQuery": "Recent query",
+        "recentDocument": "Recent document",
+        "currentFilters": "Current filters:"
+    },
+
+    "baskets": {
+        "baskets": "Collections",
+        "addToBasket": "Add to collection",
+        "removeFromBasket": "Remove from collection",
+        "removeFromAllBaskets": "Remove from all collections",
+        "removeFromAllBasketsConfirmation": "Are you sure you want to remove this result from these collections: {baskets}?",
+        "basketAlreadyExists": "A collection with that name already exists. Would you like to replace it?",
+        "noBasket": "You have not yet added a document to a collection...",
+        "createBasket": "Create Collection",
+        "manageBaskets": "Manage Collections",
+        "delete": "Delete this collection"
+    },
+
+    "editBasket": {
+        "title": "Collection"
+    },
+
+    "manageBaskets": {
+        "title": "Manage Collections",
+        "tooltip": {
+            "export": "Export this collection"
+        }
+    },
+
+    "selectBasket": {
+        "title": "Select Collection",
+        "newBasket": "New collection..."
+    },
+
+    "facet": {
+        "preview": {
+            "title": "Preview"
+        },
+        "labels": {
+            "title": "Labels"
+        }
+    },
+
+    "results": {
+        "tabPeople": "People",
+        "tabBusiness": "Companies",
+        "tabLocation": "Places"
+    },
+
+    "home": {
+        "recentDocumentsTooltip": "Recently opened documents",
+        "recentQueriesTooltip": "Recent search queries",
+        "savedQueriesTooltip": "Saved search queries (including filters)",
+        "basketsTooltip": "Collections of bookmarked documents",
+        "darkMode": "Dark mode",
+        "lightMode": "Light mode"
+    },
+
+    "search": {
+        "pageTitle": "Search - {search}"
+    },
+
+    "preview": {
+        "extracts": "Extracts",
+        "entities": "Entities",
+        "passages": "Passages",
+        "searchText": "Search \"{text}\" in the document",
+        "pageTitle": "Document Navigator - {title}",
+        "expand": "Expand",
+        "collapse": "Collapse",
+        "back": "Back",
+        "home": "Home",
+        "downloadPdf": "Download PDF version",
+        "original": "Original document"
+    }
+}

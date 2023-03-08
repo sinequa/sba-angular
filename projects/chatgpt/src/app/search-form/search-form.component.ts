@@ -34,6 +34,7 @@ export class AppSearchFormComponent {
     public appService: AppService
   ) {}
 
+
   /**
    * Returns the configuration of the facets displayed in the facet-multi component.
    * The configuration from the config.ts file can be overriden by configuration from
@@ -42,6 +43,7 @@ export class AppSearchFormComponent {
   public get facets(): FacetConfig<FacetParams>[] {
     return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || FACETS;
   }
+
 
   onFiltersChange() {
     this.searchForm.onFiltersChanged();

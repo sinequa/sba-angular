@@ -1,0 +1,90 @@
+{
+    "app": {
+        "name": "Sinequa x ChatGPT"
+    },
+
+    "locale": {
+        "en": "English (United States)",
+        "en-gb": "English (United Kingdom)",
+        "fr": "Français",
+        "de": "Deutsch"
+    },
+
+    "searchForm": {
+        "scopeTitle": "Champ d'application : {name}",
+        "recentQuery": "Recherche récente",
+        "recentDocument": "Document récent",
+        "currentFilters": "Filtres actifs:"
+    },
+
+    "baskets": {
+        "baskets": "Collections",
+        "addToBasket": "Ajouter à la collection",
+        "removeFromBasket": "Supprimer de la collection",
+        "removeFromAllBaskets": "Supprimer de toutes les collections",
+        "removeFromAllBasketsConfirmation": "Êtes-vous sûr de vouloir supprimer ce résultat de ces collections : {baskets} ?",
+        "basketAlreadyExists": "Une collection avec ce nom existe déjà. Voulez-vous le remplacer ?",
+        "noBasket": "Vous n'avez pas encore ajouté de document à une collection...",
+        "createBasket": "Créer une collection",
+        "manageBaskets": "Gérer les collections",
+        "delete": "Supprimer cette collection"
+    },
+
+    "editBasket": {
+        "title": "Collection"
+    },
+
+    "manageBaskets": {
+        "title": "Gérer les collections",
+        "tooltip": {
+            "export": "Exporter cette collection"
+        }
+    },
+
+    "selectBasket": {
+        "title": "Sélectionner une collection",
+        "newBasket": "Nouvelle collection..."
+    },
+
+    "facet": {
+        "preview": {
+            "title": "Prévisualisation"
+        },
+        "labels": {
+            "title": "Libellés"
+        }
+    },
+
+    "results": {
+        "tabPeople": "Personnes",
+        "tabBusiness": "Entreprises",
+        "tabLocation": "Lieux"
+    },
+
+    "home": {
+        "recentDocumentsTooltip": "Document récemment consultés",
+        "recentQueriesTooltip": "Requêtes de recherche récemment effectuées",
+        "savedQueriesTooltip": "Requêtes de recherche enregistrées (incluant les filtres)",
+        "basketsTooltip": "Ensembles de documents favoris",
+        "darkMode": "Mode sombre",
+        "lightMode": "Mode clair"
+    },
+
+    "search": {
+        "pageTitle": "Recherche - {search}"
+    },
+
+    "preview": {
+        "extracts": "Extraits",
+        "entities": "Entités",
+        "passages": "Passages",
+        "searchText": "Chercher \"{text}\" dans le document",
+        "pageTitle": "Navigateur de documents - {title}",
+        "expand": "Déplier",
+        "collapse": "Replier",
+        "back": "Retour",
+        "home": "Accueil",
+        "downloadPdf": "Télécharger la version PDF",
+        "original": "Document original"
+    }
+}

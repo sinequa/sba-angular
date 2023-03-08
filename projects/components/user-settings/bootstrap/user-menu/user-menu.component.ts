@@ -49,6 +49,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   @Input() showCredits = true;
   @Input() display: keyof Principal = 'fullName';
   @Input() showText = false;
+  @Input() rightAligned = true;
 
   menu: Action;
 

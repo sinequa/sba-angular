@@ -1,0 +1,72 @@
+
+<div class="spinner-grow text-success d-block mx-auto my-5" role="status" *ngIf="loading">
+  <span class="visually-hidden">Loading...</span>
+</div>
+
+<ul *ngIf="messages$ | async as messages" class="list-group pt-2 shadow-lg">
+
+  <ng-container *ngFor="let message of messages; let i = index">
+    <li class="list-group-item border-bottom d-flex" *ngIf="message.display">
+      <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
+        <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
+        <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
+      </span>
+      <div [innerHTML]="message.content | sqMarkdown"></div>
+    </li>
+  </ng-container>
+
+  <div class="progress" style="height: 3px;" *ngIf="!loadingAnswer">
+    <div class="progress-bar" role="progressbar" [ngStyle]="{'width.%': tokensPercentage}" title="Tokens used {{tokensAbsolute}}/{{tokens?.model}}"></div>
+  </div>
+
+  <li class="list-group-item" *ngIf="!loadingAnswer">
+    <div class="d-flex align-items-center">
+      <span class="me-3">
+        <i class="fas fa-2x fa-user-circle text-muted"></i>
+      </span>
+      <input type="text" class="form-control rounded-5 px-3" placeholder="Your answer" autofocus
+        [(ngModel)]="question"
+        (ngModelChange)="updateTokensPercentage()"
+        (keyup.enter)="submitQuestion()"
+        (keyup.shift.enter)="submitQuestion()"
+        [disabled]="tokensPercentage >= 100">
+    </div>
+    <div class="d-flex" *ngIf="chatService.attachments$ | async as attachments">
+      <span class="p-2" title="Attachments">
+        <i class="fas fa-paperclip text-muted"></i>
+      </span>
+      <ul class="attachments list-group list-group-flush">
+        <li class="list-group-item" *ngIf="attachments.length === 0">
+          <i class="text-muted">Attach a document, snippet or extracts from the Sinequa results</i>
+        </li>
+        <li *ngFor="let attachment of attachments"
+          class="attachment list-group-item d-flex pe-0"
+          [ngClass]="{expanded: attachment.$expanded}">
+          <p class="flex-grow-1 mb-0" role="button" (click)="attachment.$expanded = !attachment.$expanded">
+            <span>
+              <i class="fas fa-fw fa-caret-{{attachment.$expanded? 'down' : 'right'}} pe-1"></i>
+              <b>{{attachment.title}}: </b>
+              <span>{{attachment.text}}</span>
+            </span>
+          </p>
+          <div class="ms-3">
+            <span title="Number of tokens">{{attachment.tokenCount}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </li>
+
+  <li class="list-group-item d-flex border-bottom" *ngIf="loadingAnswer">
+    <span class="me-3">
+      <i class="fas fa-2x fa-user-circle text-muted"></i>
+    </span>
+    <span>{{question}}</span>
+  </li>
+
+  <li class="list-group-item" *ngIf="loadingAnswer">
+    <div class="spinner-grow text-success d-block mx-auto my-5" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </li>
+</ul>

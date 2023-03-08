@@ -1,0 +1,134 @@
+<div class="container h-100">
+  <div class="row h-100">
+    <div class="col-6 h-100 d-flex flex-column">
+      <div class="d-flex p-3 sticky-top">
+
+        <ul class="navbar-nav">
+          <sq-user-menu [display]="'fullName'" [rightAligned]="false"></sq-user-menu>
+        </ul>
+
+        <app-search-form
+          class="flex-grow-1 mx-3"
+          [autocompleteSources]="features">
+        </app-search-form>
+
+        <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark()">
+        <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark()">
+
+      </div>
+
+      <!-- Loading bar (Manages its own state and visibility via the search service) -->
+      <div class="position-relative px-3">
+        <sq-loading-bar></sq-loading-bar>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="d-flex small sq-toolbar px-3" *ngIf="results$ | async as results"
+        [ngSwitch]="view">
+
+        <div class="flex-grow-1">
+          <a href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
+            <sq-filters *ngIf="searchService.query.filters"
+              [query]="searchService.query"
+              [filter]="searchService.query.filters"
+              [showField]="false"
+              [allowRemove]="false">
+            </sq-filters>
+            <span *ngIf="!searchService.query.filters">
+              Narrow your search down with filters...
+            </span>
+          </a>
+        </div>
+
+        <ng-container *ngSwitchCase="'documents'">
+          <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
+          <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
+          <button class="btn btn-link btn-sm border-0 py-0 px-2" (click)="view = 'passages'" *ngIf="appService.isNeural()" sqTooltip="View the list of snippets">Snippets</button>
+        </ng-container>
+        <ng-container *ngSwitchCase="'passages'">
+          <span *ngIf="passages$ | async as passages" class="sq-passage-count">
+            {{ 'msg#machine-learning.passagesFound' | sqMessage:{passagesNb: passages.length,documentsNb: documentsNb} }}
+          </span>
+          <button class="btn btn-link btn-sm border-0 py-0 px-2" (click)="view = 'documents'" sqTooltip="View the list of documents">Documents</button>
+        </ng-container>
+      </div>
+
+      <div *ngIf="results$ | async as results" class="result-list shadow-lg rounded-4 my-3" [ngSwitch]="view">
+
+        <ng-container *ngSwitchCase="'documents'">
+          <!-- Did you mean -->
+          <sq-did-you-mean [results]="results"></sq-did-you-mean>
+
+          <!-- Sponsored links -->
+          <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
+
+          <!-- List of documents (for loop) -->
+          <div *ngFor="let record of results.records; index as i"
+            class="record"
+            role="button"
+            [ngClass]="{'selected': record.$selected || record.$opened}"
+            (click)="attachDocument(record, $event)">
+            <div class="d-flex align-items-center">
+              <sq-result-title [record]="record" class="d-block py-1"></sq-result-title>
+              <button class="btn btn-sm btn-primary ms-auto text-nowrap" (click)="attachDocument(record, $event)">
+                <i class="fas fa-fw fa-paperclip"></i> Attach document
+              </button>
+            </div>
+            <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
+            <sq-result-extracts [record]="record"></sq-result-extracts>
+
+            <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
+            <sq-labels [record]="record" [public]="true"></sq-labels>
+            <sq-labels [record]="record" [public]="false"></sq-labels>
+          </div>
+
+          <!-- Infinite scroll -->
+          <sq-scroller></sq-scroller>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'passages'">
+          <div class="spinner-grow text-success d-block mx-auto my-5" role="status" *ngIf="loading">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+
+          <div *ngFor="let passage of passages$ | async as passages"
+            (click)="attachPassage(passage, $event)"
+            class="record passage">
+
+            <div class="d-flex align-items-center" *ngIf="passage.$record">
+              From: <sq-result-title [record]="passage.$record" class="d-block ms-2 py-1"></sq-result-title>
+              <button class="btn btn-sm btn-primary ms-auto text-nowrap" (click)="attachPassage(passage, $event)">
+                <i class="fas fa-fw fa-paperclip"></i> Attach snippet
+              </button>
+            </div>
+
+            <div class="sq-passage-text mb-2">
+              <span *ngIf="passage.$record?.modified" class="extracts-date">
+                {{passage.$record.modified | sqDate:{ year: 'numeric', month: 'short', day: 'numeric' } }} -
+              </span>
+              <span [innerHTML]="passage.highlightedText"></span>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+
+
+    <div class="col-6 h-100 d-flex flex-column">
+      <div class="d-flex p-3 sticky-top">
+        <i class="sq-chatgpt"></i>
+        <h3 class="ms-3">ChatGPT</h3>
+        <button *ngIf="loginService.complete"
+          class="btn btn-outline-primary ms-auto"
+          [ngClass]="{active: settingsView}"
+          (click)="toggleChatSettings()">
+          Settings
+        </button>
+      </div>
+      <sq-chat [config]="chatConfig" *ngIf="!settingsView && loginService.complete"></sq-chat>
+      <sq-chat-settings [config]="chatConfig" *ngIf="settingsView && loginService.complete"></sq-chat-settings>
+    </div>
+
+  </div>
+</div>

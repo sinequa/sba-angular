@@ -1,0 +1,23 @@
+
+:host {
+  min-height: 0;
+  margin-bottom: 1rem;
+  & > ul.list-group {
+    max-height: 100%;
+    --bs-list-group-border-width: 0;
+    --bs-list-group-border-radius: 1rem;
+    overflow-y: auto;
+  }
+}
+ul.list-group {
+  font-size: 0.875rem;
+}
+li.attachment p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+}
+li.attachment.expanded p {
+  display: block;
+}
