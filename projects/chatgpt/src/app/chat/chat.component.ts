@@ -10,13 +10,17 @@ export interface ChatConfig {
   modelMaxTokens: number;
   initialPrompt: string;
   textBeforeAttachments?: boolean; // true = attachments after text, otherwise before
+  addAttachmentPrompt: string;
+  addAttachmentsPrompt: string;
 }
 
 export const defaultChatConfig: ChatConfig = {
   modelTemperature: 0.7,
   modelTopP: 1.0,
   modelMaxTokens: 512,
-  initialPrompt: "Hello, I am a user of the Sinequa search engine"
+  initialPrompt: "Hello, I am a user of the Sinequa search engine",
+  addAttachmentPrompt: "Summarize this document",
+  addAttachmentsPrompt: "Summarize these documents"
 }
 
 export const defaultHistory: OpenAIModelMessage[] = [
@@ -77,9 +81,7 @@ export class ChatComponent implements OnInit {
     this.chatService.attachments$.subscribe(attachments => {
       this.updateTokensPercentage();
       this.questionInput?.nativeElement.focus();
-      if(this.question === '') {
-        this.question = this.suggestQuestion(attachments);
-      }
+      this.question = this.suggestQuestion(attachments);
     })
   }
 
@@ -173,9 +175,12 @@ export class ChatComponent implements OnInit {
   }
 
   suggestQuestion(attachments: ChatAttachment[]) {
-    if(attachments.find(d => d.type === 'document')) {
-      return "Summarize this document"
+    if(attachments.length === 1 && this.question === '') {
+      return this.config.addAttachmentPrompt || defaultChatConfig.addAttachmentPrompt;
     }
-    return '';
+    else if(attachments.length > 1 && (this.question === '' || this.question === this.config.addAttachmentPrompt)) {
+      return this.config.addAttachmentsPrompt || defaultChatConfig.addAttachmentsPrompt;
+    }
+    return this.question;
   }
 }

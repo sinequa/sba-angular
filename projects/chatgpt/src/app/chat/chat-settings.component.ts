@@ -7,7 +7,15 @@ import { ChatConfig } from "./chat.component";
   <div class="card-body small">
     <div class="mb-2">
       <label for="initialPrompt" class="form-label">Initial prompt</label>
-      <input type="string" class="form-control" id="initialPrompt" [(ngModel)]="config.initialPrompt">
+      <textarea class="form-control" id="initialPrompt" [(ngModel)]="config.initialPrompt"></textarea>
+    </div>
+    <div class="mb-2">
+      <label for="addAttachmentPrompt" class="form-label">Default prompt when adding an attachment</label>
+      <textarea class="form-control" id="addAttachmentPrompt" [(ngModel)]="config.addAttachmentPrompt"></textarea>
+    </div>
+    <div class="mb-2">
+      <label for="addAttachmentsPrompt" class="form-label">Default prompt when adding multiple attachment</label>
+      <textarea class="form-control" id="addAttachmentsPrompt" [(ngModel)]="config.addAttachmentsPrompt"></textarea>
     </div>
     <div class="mb-2">
       <input type="checkbox" class="form-check-input" id="textBeforeAttachments" [(ngModel)]="config.textBeforeAttachments">

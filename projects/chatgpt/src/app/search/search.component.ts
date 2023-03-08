@@ -161,7 +161,15 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  configPatchDone = false;
+
   get chatConfig() {
-    return this.prefs.get('chat-config') || defaultChatConfig;
+    let config = this.prefs.get('chat-config') || defaultChatConfig;
+    if(!this.configPatchDone) {
+      config = {...defaultChatConfig, ...config}; // Introduce new options
+      this.prefs.set('chat-config', config);
+      this.configPatchDone = true;
+    }
+    return config;
   }
 }
