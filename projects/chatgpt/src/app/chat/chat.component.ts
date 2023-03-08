@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { JsonMethodPluginService } from "@sinequa/core/web-services";
 import { SearchService } from "@sinequa/components/search";
 import { BehaviorSubject, Observable, tap } from "rxjs";
-import { ChatService } from "./chat.service";
+import { ChatAttachment, ChatService } from "./chat.service";
 
 export interface ChatConfig {
   modelTemperature: number;
@@ -28,6 +28,7 @@ export type OpenAIModelMessage = {
   role: string;
   content: string;
   display: boolean;
+  $attachments?: ChatAttachment[]
 }
 
 export type OpenAIModelTokens = {
@@ -53,6 +54,8 @@ export class ChatComponent implements OnInit {
 
   @Output() data = new EventEmitter<OpenAIModelMessage>();
 
+  @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
+
   loading = false;
   loadingAnswer = false;
   messages$ = new BehaviorSubject<OpenAIModelMessage[]|undefined>(undefined);
@@ -70,18 +73,22 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.fetchInitial();
+    this.chatService.attachments$.subscribe(() => this.updateTokensPercentage())
   }
 
   submitQuestion() {
     if(this.question.trim() && this.messages$.value) {
-      this.fetchAnswer(this.question.trim(), this.messages$.value);
+      const attachments = this.chatService.attachments$.value;
+      this.fetchAnswer(this.question.trim(), this.messages$.value, attachments);
     }
   }
 
   updateTokensPercentage() {
     if(this.tokens) {
       const questionTokens = Math.floor(this.question.trim().length / 3.5);
-      this.tokensAbsolute = (this.tokens.used || 0) + questionTokens;
+      const attachments = this.chatService.attachments$.value;
+      const attachmentTokens = attachments.reduce((prev, cur) => prev + cur.tokenCount, 0);
+      this.tokensAbsolute = (this.tokens.used || 0) + questionTokens + attachmentTokens;
       this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / this.tokens.model);
     }
   }
@@ -98,8 +105,16 @@ export class ChatComponent implements OnInit {
     this.fetch(data).subscribe();
   }
 
-  private fetchAnswer(question: string, previousMessages: OpenAIModelMessage[]) {
+  private fetchAnswer(question: string, previousMessages: OpenAIModelMessage[], attachments: ChatAttachment[]) {
     this.loadingAnswer = true;
+    previousMessages = [
+      ...previousMessages,
+      ...attachments.map(a => ({
+        role: 'user',
+        content: a.payload,
+        display: false
+      }))
+    ];
     const data = {
       ...this.config,
       promptInsertBeforePassages: question,
@@ -109,19 +124,23 @@ export class ChatComponent implements OnInit {
       passages: [],
       queryText: '...'
     }
-    this.fetch(data).subscribe();
+    this.fetch(data, attachments).subscribe();
   }
 
-  private fetch(data: any): Observable<OpenAIResponse> {
+  private fetch(data: any, attachments?: ChatAttachment[]): Observable<OpenAIResponse> {
     return this.jsonMethodWebService.post(this.model, data).pipe(
       tap((res: OpenAIResponse) => {
+        const lastUserMessage = res.messagesHistory.at(-2);
+        if(lastUserMessage) {
+          lastUserMessage.$attachments = attachments;
+        }
         this.messages$.next(res.messagesHistory);
         this.data.emit(res.messagesHistory.at(-1));
         this.loading = false;
         this.loadingAnswer = false;
         this.question = '';
         this.tokens = res.tokens;
-        this.updateTokensPercentage();
+        this.chatService.attachments$.next([]); // This updates the tokensPercentage
       })
     )
   }
