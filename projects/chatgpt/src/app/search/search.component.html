@@ -104,7 +104,7 @@
                 <li *ngFor="let extract of record.extracts | slice:0:4" class="px-2 rounded" role="button" (click)="attachExtract(extract, $event)">
                   <div class="d-flex">
                     <span class="text-truncate" [innerHTML]="extract.highlighted"></span>
-                    <a class="ms-auto">
+                    <a class="ms-auto text-nowrap">
                       <i class="fas fa-fw fa-paperclip"></i> Attach extract
                     </a>
                   </div>
