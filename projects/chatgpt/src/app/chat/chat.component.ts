@@ -155,7 +155,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   setAttachments(messages: OpenAIModelMessage[]) {
     let attachments: OpenAIModelMessage[] = [];
     if(this.config.textBeforeAttachments) {
-      messages = [...messages.reverse()];
+      messages = [...messages].reverse();
     }
     for(const message of messages) {
       if(message.role === 'user' && !message.display) {
