@@ -116,7 +116,11 @@ export class SearchComponent implements OnInit {
 
   attachPassage(passage: TopPassage, event: Event) {
     event.stopPropagation();
-    this.chatService.addPassage(passage, this.searchService.query);
+    this.chatService.addPassages([passage], this.searchService.query);
+  }
+
+  attachAll(passages: TopPassage[]) {
+    this.chatService.addPassages(passages, this.searchService.query);
   }
 
   updateSelected(attachments: ChatAttachment[], results: Results | undefined) {

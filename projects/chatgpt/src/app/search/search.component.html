@@ -23,33 +23,43 @@
       </div>
 
       <!-- Toolbar -->
-      <div class="d-flex small sq-toolbar px-3" *ngIf="results$ | async as results"
-        [ngSwitch]="view">
+      <div class="small pt-2 px-3" *ngIf="searchService.query.filters">
+        <a href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
+          Filters:
+          <sq-filters
+            [query]="searchService.query"
+            [filter]="searchService.query.filters"
+            [showField]="false"
+            [allowRemove]="false">
+          </sq-filters>
+        </a>
+      </div>
 
-        <div class="flex-grow-1">
-          <a href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
-            <sq-filters *ngIf="searchService.query.filters"
-              [query]="searchService.query"
-              [filter]="searchService.query.filters"
-              [showField]="false"
-              [allowRemove]="false">
-            </sq-filters>
-            <span *ngIf="!searchService.query.filters">
-              Narrow your search down with filters...
-            </span>
-          </a>
-        </div>
-
-        <ng-container *ngSwitchCase="'documents'">
+      <div class="d-flex align-items-center small pt-2 px-3" *ngIf="results$ | async as results">
+        <ng-container *ngIf="view === 'documents'">
+          <button class="btn btn-link btn-sm ps-0" (click)="view = 'passages'" *ngIf="neuralSearchEnabled" sqTooltip="Switch to the <b>snippets</b> view">
+            Documents
+          </button>
           <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
-          <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
-          <button class="btn btn-link btn-sm border-0 py-0 px-2" (click)="view = 'passages'" *ngIf="neuralSearchEnabled" sqTooltip="View the list of snippets">Snippets</button>
+          <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'" class="ms-auto"></sq-sort-selector>
         </ng-container>
-        <ng-container *ngSwitchCase="'passages'">
-          <span *ngIf="passages$ | async as passages" class="sq-passage-count">
-            {{ 'msg#machine-learning.passagesFound' | sqMessage:{passagesNb: passages.length,documentsNb: documentsNb} }}
-          </span>
-          <button class="btn btn-link btn-sm border-0 py-0 px-2" (click)="view = 'documents'" sqTooltip="View the list of documents">Documents</button>
+
+        <ng-container *ngIf="view === 'passages'">
+          <button class="btn btn-link btn-sm me-2 ps-0" (click)="view = 'documents'" sqTooltip="Switch to the <b>documents</b> view">
+            Snippets
+          </button>
+          <ng-container *ngIf="passages$ | async as passages; else spinnerTpl">
+            <span class="sq-passage-count mx-2">
+              {{ 'msg#machine-learning.passagesFound' | sqMessage:{passagesNb: passages.length,documentsNb: documentsNb} }}
+            </span>
+            <button class="btn btn-primary btn-sm ms-auto" (click)="attachAll(passages)">
+              <i class="fas fa-paperclip"></i>
+              Attach all
+            </button>
+          </ng-container>
+          <ng-template #spinnerTpl>
+            loading...
+          </ng-template>
         </ng-container>
       </div>
 

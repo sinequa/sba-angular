@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { JsonMethodPluginService, Record, TextChunksWebService, TopPassage } from "@sinequa/core/web-services";
-import { BehaviorSubject, map, Observable } from "rxjs";
+import { BehaviorSubject, forkJoin, map, Observable } from "rxjs";
 import { OpenAIResponse } from "./chat.component";
 
 export interface ChatAttachment {
@@ -42,9 +42,17 @@ export class ChatService {
     this.addAttachment('document', record, query, 0, 2048, 0, 1);
   }
 
-  addPassage(passage: TopPassage, query: Query) {
-    const [offset, length] = passage.location;
-    this.addAttachment('passage', passage.$record!, query, offset, length);
+  addPassages(passages: TopPassage[], query: Query) {
+    forkJoin(
+      passages.map(p => {
+        const [offset, length] = p.location;
+        return this.getAttachment('passage', p.$record!, query, offset, length);
+      })
+    ).subscribe(attachments => this.attachments$.next([
+        ...this.attachments$.value,
+        ...attachments
+      ])
+    );
   }
 
   getAttachment(type: 'document' | 'passage' | 'extract', record: Record, query: Query, offset: number, length: number, sentencesBefore = 0, sentencesAfter = 0): Observable<ChatAttachment> {

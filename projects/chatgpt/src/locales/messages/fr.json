@@ -86,5 +86,9 @@
         "home": "Accueil",
         "downloadPdf": "Télécharger la version PDF",
         "original": "Document original"
+    },
+
+    "machine-learning": {
+        "passagesFound": "{passagesNb} {passagesNb, plural, =1 {extrait trouvé} other {extraits trouvés}} dans {documentsNb} {documentsNb, plural, =1 {document} other {documents}}"
     }
 }
