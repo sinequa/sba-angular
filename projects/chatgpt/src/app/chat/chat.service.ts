@@ -69,6 +69,8 @@ export class ChatService {
   }
 
   getAttachment(type: 'document' | 'passage' | 'extract', record: Record, query: Query, offset: number, length: number, sentencesBefore = 0, sentencesAfter = 0): Observable<ChatAttachment> {
+    query = query.copy();
+    delete query.page;
     return this.textChunksService.getTextChunks(record.id, [{offset, length}], [], query, sentencesBefore, sentencesAfter).pipe(
       map(chunks => {
         if(chunks?.[0]) {
