@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
-import { JsonMethodPluginService, Record, TextChunksWebService, TopPassage } from "@sinequa/core/web-services";
+import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage } from "@sinequa/core/web-services";
 import { BehaviorSubject, forkJoin, map, Observable } from "rxjs";
 import { OpenAIResponse } from "./chat.component";
 
@@ -47,6 +47,19 @@ export class ChatService {
       passages.map(p => {
         const [offset, length] = p.location;
         return this.getAttachment('passage', p.$record!, query, offset, length);
+      })
+    ).subscribe(attachments => this.attachments$.next([
+        ...this.attachments$.value,
+        ...attachments
+      ])
+    );
+  }
+
+  addExtracts(extracts: RelevantExtract[], query: Query) {
+    forkJoin(
+      extracts.map(e => {
+        const [offset, length] = e.locations.split(',');
+        return this.getAttachment('extract', e['$record'], query, +offset, +length);
       })
     ).subscribe(attachments => this.attachments$.next([
         ...this.attachments$.value,

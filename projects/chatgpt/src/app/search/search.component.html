@@ -78,7 +78,8 @@
             role="button"
             [ngClass]="{'selected': record.$selected || record.$opened}"
             (click)="attachDocument(record, $event)">
-            <div class="d-flex align-items-center">
+
+            <div class="record-header d-flex align-items-center">
               <sq-result-title [record]="record" class="d-block py-1"></sq-result-title>
               <button *ngIf="!record.$selected"
                 class="btn btn-sm btn-primary ms-auto text-nowrap"
@@ -87,7 +88,30 @@
               </button>
             </div>
             <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
-            <sq-result-extracts [record]="record"></sq-result-extracts>
+
+            <div class="sq-passage-text position-relative" *ngIf="record.matchingpassages?.passages?.[0] as passage; else extractsTpl">
+              <button class="btn btn-sm btn-primary position-absolute top-0 end-0" (click)="attachPassage(passage, $event, record)">
+                <i class="fas fa-fw fa-paperclip"></i> Attach snippet
+              </button>
+              <span *ngIf="record.modified" class="extracts-date">
+                {{record.modified | sqDate:{ year: 'numeric', month: 'short', day: 'numeric' } }} -
+              </span>
+              <span [innerHTML]="passage.highlightedText"></span>
+            </div>
+
+            <ng-template #extractsTpl>
+              <ul *ngIf="record.extracts" class="extract-list small ps-2 mb-0">
+                <li *ngFor="let extract of record.extracts | slice:0:4" class="px-2 rounded" role="button" (click)="attachExtract(extract, $event)">
+                  <div class="d-flex">
+                    <span class="text-truncate" [innerHTML]="extract.highlighted"></span>
+                    <a class="ms-auto">
+                      <i class="fas fa-fw fa-paperclip"></i> Attach extract
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </ng-template>
+
 
             <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
             <sq-labels [record]="record" [public]="true"></sq-labels>

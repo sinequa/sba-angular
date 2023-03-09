@@ -5,7 +5,7 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Results, Record, TopPassage } from '@sinequa/core/web-services';
+import { Results, Record, TopPassage, RelevantExtract } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES } from '../../config';
 import { ChatComponent, defaultChatConfig } from '../chat/chat.component';
@@ -66,6 +66,12 @@ export class SearchComponent implements OnInit {
     // Subscribe to the search service to update the page title based on the searched text
     this.results$ = this.searchService.resultsStream.pipe(
       tap(() => this.setTitle(this.searchService.query.text || "")),
+      tap(results => {
+        results?.records.forEach(r => r.extracts?.forEach(ex => {
+          ex.highlighted = ex.highlighted.replace(/{b}/g, '<b>').replace(/{nb}/g, '</b>');
+          ex['$record'] = r;
+        }))
+      }),
       tap(res => {
         const passages = res?.topPassages?.passages || [];
         const ids = passages.filter(p => !p.$record).map(p => p.recordId);
@@ -114,9 +120,17 @@ export class SearchComponent implements OnInit {
     this.chatService.addDocument(record, this.searchService.query);
   }
 
-  attachPassage(passage: TopPassage, event: Event) {
+  attachPassage(passage: TopPassage, event: Event, record?: Record) {
     event.stopPropagation();
+    if(record) {
+      passage.$record = record;
+    }
     this.chatService.addPassages([passage], this.searchService.query);
+  }
+
+  attachExtract(extract: RelevantExtract, event: Event) {
+    event.stopPropagation();
+    this.chatService.addExtracts([extract], this.searchService.query);
   }
 
   attachAll(passages: TopPassage[]) {

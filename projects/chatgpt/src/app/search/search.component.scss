@@ -12,7 +12,7 @@
 
   &:hover {
     background-color: rgb(0,0,0,0.03);
-    button {
+    .record-header button {
       display: inline-block;
     }
   }
@@ -26,9 +26,30 @@
 
 .sq-passage-text {
   font-size: 0.875rem;
+  line-height: 1.4;
 
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
+
+  &:hover {
+    button {
+      display: inline-block;
+    }
+  }
+}
+
+
+.extract-list {
+  list-style-type: '- ';
+  a {
+    display: none;
+  }
+  li:hover {
+    background: rgb(0,0,0,0.05);
+    a {
+      display: inline;
+    }
+  }
 }
