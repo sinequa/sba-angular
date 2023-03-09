@@ -39,7 +39,7 @@ export type OpenAIModelTokens = {
 }
 
 export type OpenAIResponse = {
-  messageHistory: OpenAIModelMessage[];
+  messagesHistory: OpenAIModelMessage[];
   tokens: OpenAIModelTokens;
 }
 
@@ -137,7 +137,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   private fetch(messages = defaultHistory) {
     this.chatService.fetch(messages, this.config.modelTemperature, this.config.modelMaxTokens, this.config.modelTopP).subscribe(
-      res => this.updateData(res.messageHistory, res.tokens)
+      res => this.updateData(res.messagesHistory, res.tokens)
     );
   }
 
