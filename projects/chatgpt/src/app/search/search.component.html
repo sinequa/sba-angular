@@ -186,10 +186,12 @@
       </sq-chat>
 
       <sq-chat-settings *ngIf="settingsView && loginService.complete"
+        class="card shadow-lg rounded-4 mb-3 overflow-auto"
         [config]="chatConfig">
       </sq-chat-settings>
 
       <sq-saved-chats *ngIf="savedChatView && loginService.complete"
+        class="card shadow-lg rounded-4 mb-3 overflow-auto"
         (load)="savedChatView = false">
       </sq-saved-chats>
     </div>

@@ -4,9 +4,9 @@ import { SavedChat, SavedChatService } from "./saved-chat.service";
 @Component({
   selector: 'sq-saved-chats',
   template: `
-  <ul class="list-group">
+  <ul class="list-group list-group-flush rounded-4">
     <li *ngFor="let chat of savedChatService.savedChats"
-      class="d-flex list-group-item list-group-item-action">
+      class="d-flex align-items-center list-group-item list-group-item-action">
       <a class="flex-grow-1" role="button" (click)="onLoad(chat)">
         {{chat.name}}
       </a>

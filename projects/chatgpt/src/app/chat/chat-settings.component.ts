@@ -5,6 +5,10 @@ import { ChatConfig } from "./chat.component";
   selector: 'sq-chat-settings',
   template: `
   <div class="card-body small">
+    <div class="form-check form-switch mb-2">
+      <input class="form-check-input" type="checkbox" role="switch" id="textBeforeAttachments" [(ngModel)]="config.textBeforeAttachments">
+      <label class="form-check-label" for="textBeforeAttachments">Send text before attachments</label>
+    </div>
     <div class="mb-2">
       <label for="initialPrompt" class="form-label">Initial prompt</label>
       <textarea class="form-control" id="initialPrompt" [(ngModel)]="config.initialPrompt"></textarea>
@@ -16,10 +20,6 @@ import { ChatConfig } from "./chat.component";
     <div class="mb-2">
       <label for="addAttachmentsPrompt" class="form-label">Default prompt when adding multiple attachment</label>
       <textarea class="form-control" id="addAttachmentsPrompt" [(ngModel)]="config.addAttachmentsPrompt"></textarea>
-    </div>
-    <div class="mb-2">
-      <input type="checkbox" class="form-check-input" id="textBeforeAttachments" [(ngModel)]="config.textBeforeAttachments">
-      <label for="textBeforeAttachments" class="form-label ms-1">Send text before attachments</label>
     </div>
     <div class="mb-2">
       <label for="temperature" class="form-label">Temperature: {{config.modelTemperature}}</label>

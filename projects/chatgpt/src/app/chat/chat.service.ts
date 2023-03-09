@@ -3,7 +3,7 @@ import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage } from "@sinequa/core/web-services";
 import { BehaviorSubject, forkJoin, map, Observable } from "rxjs";
-import { OpenAIResponse } from "./chat.component";
+import { OpenAIModelMessage, OpenAIResponse } from "./chat.component";
 
 export interface ChatAttachment {
   record: Record;
@@ -19,12 +19,9 @@ export interface ChatAttachment {
   $expanded?: boolean;
 }
 
-export type OpenAIModel = "OpenAITextDavinci3" | "OpenAIgpt35Turbo";
 
 @Injectable({providedIn: 'root'})
 export class ChatService {
-  model: OpenAIModel = "OpenAIgpt35Turbo";
-
   attachments$ = new BehaviorSubject<ChatAttachment[]>([]);
 
   constructor(
@@ -33,8 +30,15 @@ export class ChatService {
     public searchService: SearchService
   ) {}
 
-  fetch(data: any): Observable<OpenAIResponse> {
-    return this.jsonMethodWebService.post(this.model, data);
+  fetch(messagesHistory: OpenAIModelMessage[], temperature: number, generateTokens: number, topP: number): Observable<OpenAIResponse> {
+    const model = {
+      model: "GPT35Turbo",
+      temperature,
+      generateTokens,
+      topP
+    };
+    const data = {action: "chat", model, messagesHistory, promptProtection: false};
+    return this.jsonMethodWebService.post("OpenAI", data);
   }
 
   addDocument(record: Record, query: Query) {

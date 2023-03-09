@@ -39,7 +39,7 @@ export type OpenAIModelTokens = {
 }
 
 export type OpenAIResponse = {
-  messagesHistory: OpenAIModelMessage[];
+  messageHistory: OpenAIModelMessage[];
   tokens: OpenAIModelTokens;
 }
 
@@ -107,45 +107,37 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
   }
 
-  fetchInitial(previousMessages = defaultHistory, promptInsertBeforePassages = this.config.initialPrompt) {
+  fetchInitial() {
     if (this.loading) return;
     this.loading = true;
     this.messages$.next(undefined);
-    const data = {
-      ...this.config,
-      previousMessages,
-      promptInsertBeforePassages,
-      passages: [],
-      queryText: '...'
-    }
-    this.fetch(data);
+    const messages = [
+      ...defaultHistory,
+      {role: 'user', content: this.config.initialPrompt, display: true}
+    ]
+    this.fetch(messages);
   }
 
-  private fetchAnswer(question: string, previousMessages: OpenAIModelMessage[], attachments: ChatAttachment[]) {
+  private fetchAnswer(question: string, messages: OpenAIModelMessage[], attachments: ChatAttachment[]) {
     this.loadingAnswer = true;
-    previousMessages = [
-      ...previousMessages,
-      ...attachments.map(a => ({
-        role: 'user',
-        content: a.payload,
-        display: false
-      }))
-    ];
-    const data = {
-      ...this.config,
-      promptInsertBeforePassages: question,
-      promptInsertAfterPassages: '',
-
-      previousMessages,
-      passages: [],
-      queryText: '...'
+    messages = [...messages];
+    const attachmentMsg = attachments.map(a => ({role: 'user', content: a.payload, display: false}));
+    if(this.config.textBeforeAttachments) {
+      messages.push(
+        {role: 'user', content: question, display: true}, ...attachmentMsg
+      );
     }
-    this.fetch(data);
+    else {
+      messages.push(
+        ...attachmentMsg, {role: 'user', content: question, display: true}
+      );
+    }
+    this.fetch(messages);
   }
 
-  private fetch(data: any) {
-    return this.chatService.fetch(data).subscribe(
-      res => this.updateData(res.messagesHistory, res.tokens)
+  private fetch(messages = defaultHistory) {
+    this.chatService.fetch(messages, this.config.modelTemperature, this.config.modelMaxTokens, this.config.modelTopP).subscribe(
+      res => this.updateData(res.messageHistory, res.tokens)
     );
   }
 
@@ -162,9 +154,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   setAttachments(messages: OpenAIModelMessage[]) {
     let attachments: OpenAIModelMessage[] = [];
-    for(let i=0; i<messages.length-1; i++) {
-      const message = messages[i];
-      if(message.role === 'user' && !message.display && !message.content.startsWith('From now on')) {
+    if(this.config.textBeforeAttachments) {
+      messages = messages.reverse();
+    }
+    for(const message of messages) {
+      if(message.role === 'user' && !message.display) {
         attachments.push(message);
       }
       else if(message.role === 'user' && message.display && attachments.length) {
