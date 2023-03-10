@@ -2,12 +2,25 @@ import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage } from "@sinequa/core/web-services";
-import { BehaviorSubject, forkJoin, map, Observable } from "rxjs";
-import { OpenAIModelMessage, OpenAIResponse } from "./chat.component";
+import { BehaviorSubject, forkJoin, map, Observable, of, switchMap } from "rxjs";
+
+export interface OpenAIModelMessage {
+  role: string;
+  content: string;
+  display: boolean;
+  attachment?: Omit<ChatAttachment, '$record'|'$expanded'|'$payload'>;
+}
+
+export interface ChatMessage {
+  role: string;
+  content: string;
+  display: boolean;
+  attachment?: ChatAttachment;
+}
 
 export interface ChatAttachment {
-  record: Record;
-  query: Query;
+  recordId: string;
+  queryStr: string;
   text: string;
   type: 'document' | 'passage' | 'extract';
   offset: number;
@@ -15,10 +28,20 @@ export interface ChatAttachment {
   sentencesBefore: number;
   sentencesAfter: number;
   tokenCount: number;
-  payload: string;
+  $payload: string;
   $expanded?: boolean;
+  $record: Record;
 }
 
+export type OpenAIModelTokens = {
+  used: number;
+  model: number;
+}
+
+export type OpenAIResponse = {
+  messagesHistory: OpenAIModelMessage[];
+  tokens: OpenAIModelTokens;
+}
 
 @Injectable({providedIn: 'root'})
 export class ChatService {
@@ -30,20 +53,61 @@ export class ChatService {
     public searchService: SearchService
   ) {}
 
-  fetch(messagesHistory: OpenAIModelMessage[], temperature: number, generateTokens: number, topP: number): Observable<OpenAIResponse> {
+  fetch(messages: ChatMessage[], temperature: number, generateTokens: number, topP: number): Observable<{tokens: OpenAIModelTokens, messagesHistory: ChatMessage[]}> {
     const model = {
       model: "GPT35Turbo",
       temperature,
       generateTokens,
       topP
     };
+    const messagesHistory = this.cleanAttachments(messages);
     const data = {action: "chat", model, messagesHistory, promptProtection: false};
-    return this.jsonMethodWebService.post("OpenAI", data);
+    return this.jsonMethodWebService.post("OpenAI", data).pipe(
+      map((res: OpenAIResponse) => ({...res, messagesHistory: [...messages, res.messagesHistory.at(-1)! as ChatMessage]}))
+    );
+  }
+
+  cleanAttachments(messagesHistory: ChatMessage[]): OpenAIModelMessage[] {
+    return messagesHistory.map(message => !message.attachment? message : {
+        ...message,
+        attachment: {
+          ...message.attachment,
+          $expanded: undefined,
+          $record: undefined,
+          $payload: undefined
+        }
+      }
+    );
+  }
+
+  restoreAttachments(messageHistory: OpenAIModelMessage[]): Observable<ChatMessage[]> {
+    const ids = messageHistory.filter(m => m.attachment).map(a => a.attachment?.recordId!);
+    if(ids.length == 0) {
+      return of(messageHistory as ChatMessage[]); // Records have no attachment, we can return them as is
+    }
+    return this.searchService.getRecords(ids).pipe(
+      map(records => (messageHistory as ChatMessage[]).map(message => {
+        if(message.attachment) {
+          message.attachment.$record = records.find(r => r?.id === message.attachment?.recordId)!;
+        }
+        return message;
+      }))
+    );
+  }
+
+  count(text: string): Observable<number> {
+    const data = { action: "TokenCount", model: "GPT35Turbo", text };
+    return this.jsonMethodWebService.post("OpenAI", data).pipe(map(res => res.tokens));
   }
 
   addDocument(record: Record, query: Query) {
     // Retrieve 2048 first chars of document (+ following sentence to avoid stopping in the middle of a sentence)
-    this.addAttachment('document', record, query, 0, 2048, 0, 1);
+    this.getAttachment('document', record, query, 0, 2048, 0, 1).subscribe(
+      attachment => this.attachments$.next([
+        ...this.attachments$.value,
+        attachment
+      ])
+    );
   }
 
   addPassages(passages: TopPassage[], query: Query) {
@@ -72,38 +136,41 @@ export class ChatService {
     );
   }
 
-  getAttachment(type: 'document' | 'passage' | 'extract', record: Record, query: Query, offset: number, length: number, sentencesBefore = 0, sentencesAfter = 0): Observable<ChatAttachment> {
-    query = query.copy();
+  getAttachment(type: 'document' | 'passage' | 'extract', $record: Record, query: Query|string, offset: number, length: number, sentencesBefore = 0, sentencesAfter = 0): Observable<ChatAttachment> {
+    if(typeof query === 'string') {
+      query = this.searchService.makeQuery().fromJson(query);
+    }
+    else {
+      query = query.copy();
+    }
     delete query.page;
-    return this.textChunksService.getTextChunks(record.id, [{offset, length}], [], query, sentencesBefore, sentencesAfter).pipe(
+    const queryStr = query.toJsonForQueryString();
+
+    return this.textChunksService.getTextChunks($record.id, [{offset, length}], [], query, sentencesBefore, sentencesAfter).pipe(
       map(chunks => {
         if(chunks?.[0]) {
           const text = chunks[0].text;
-          const payload = this.formatPayload(text, type, record.title);
+          const $payload = this.formatPayload(text, type, $record.title);
           return {
             type,
-            record,
-            query,
+            recordId: $record.id,
+            queryStr,
             text,
             offset,
             length,
             sentencesBefore,
             sentencesAfter,
-            tokenCount: Math.floor(payload.length/3.5),
-            payload
+            tokenCount: 0,
+            $payload,
+            $record
           };
         }
         throw new Error("Missing text chunk in web service response");
-      })
-    );
-  }
-
-  addAttachment(type: 'document' | 'passage' | 'extract', record: Record, query: Query, offset: number, length: number, sentencesBefore = 0, sentencesAfter = 0) {
-    this.getAttachment(type, record, query, offset, length, sentencesBefore, sentencesAfter).subscribe(
-      attachment => this.attachments$.next([
-        ...this.attachments$.value,
-        attachment
-      ])
+      }),
+      switchMap(a => this.count(a.$payload).pipe(
+          map(count => ({...a, tokenCount: count}))
+        )
+      )
     );
   }
 
@@ -131,12 +198,14 @@ export class ChatService {
     if(attachment.sentencesBefore === 0) {
       attachment.length = Math.floor(attachment.length * 3/4);
     }
-    this.getAttachment(attachment.type, attachment.record, attachment.query, attachment.offset, attachment.length, Math.max(0, attachment.sentencesBefore-1), Math.max(0, attachment.sentencesAfter-1))
+    if(!attachment.$record) return;
+    this.getAttachment(attachment.type, attachment.$record, attachment.queryStr, attachment.offset, attachment.length, Math.max(0, attachment.sentencesBefore-2), Math.max(0, attachment.sentencesAfter-2))
       .subscribe(a => this.spliceAttachment(attachment, a));
   }
 
   moreTokens(attachment: ChatAttachment) {
-    this.getAttachment(attachment.type, attachment.record, attachment.query, attachment.offset, attachment.length, attachment.sentencesBefore+1, attachment.sentencesAfter+1)
+    if(!attachment.$record) return;
+    this.getAttachment(attachment.type, attachment.$record, attachment.queryStr, attachment.offset, attachment.length, attachment.sentencesBefore+2, attachment.sentencesAfter+2)
       .subscribe(a => this.spliceAttachment(attachment, a));
   }
 

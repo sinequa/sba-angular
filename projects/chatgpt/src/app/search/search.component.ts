@@ -110,7 +110,7 @@ export class SearchComponent implements OnInit {
     event.stopPropagation();
     if (record.$selected) {
       const attachments = this.chatService.attachments$.value;
-      const i = attachments.findIndex(a => a.type === 'document' && a.record.id === record.id);
+      const i = attachments.findIndex(a => a.type === 'document' && a.recordId === record.id);
       if (i !== -1) {
         attachments.splice(i, 1);
         this.chatService.attachments$.next(attachments);
@@ -140,7 +140,7 @@ export class SearchComponent implements OnInit {
   updateSelected(attachments: ChatAttachment[], results: Results | undefined) {
     if (results?.records) {
       for (let r of results.records) {
-        r.$selected = !!attachments.find(a => a.type === 'document' && a.record.id === r.id);
+        r.$selected = !!attachments.find(a => a.type === 'document' && a.recordId === r.id);
       }
     }
   }

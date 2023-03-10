@@ -4,7 +4,7 @@ import { Validators } from '@angular/forms';
 import { ModalResult, ModalService, PromptOptions } from '@sinequa/core/modal';
 import { NotificationsService } from '@sinequa/core/notification';
 import { UserSettingsWebService } from '@sinequa/core/web-services';
-import { OpenAIModelMessage, OpenAIModelTokens } from './chat.component';
+import { OpenAIModelMessage, OpenAIModelTokens } from './chat.service';
 
 export interface SavedChat {
   name: string;

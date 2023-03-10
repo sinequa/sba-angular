@@ -181,6 +181,7 @@
       </div>
 
       <sq-chat #sqChat *ngIf="!settingsView && !savedChatView && loginService.complete"
+        class="flex-grow-1 mb-3" style="min-height: 0;"
         [config]="chatConfig"
         (data)="showChatActions = $event.length > 4">
       </sq-chat>

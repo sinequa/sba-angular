@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import { BehaviorSubject, Subscription } from "rxjs";
-import { ChatAttachment, ChatService } from "./chat.service";
+import { BehaviorSubject, delay, Subscription } from "rxjs";
+import { ChatAttachment, ChatMessage, ChatService, OpenAIModelTokens } from "./chat.service";
 import { SavedChat, SavedChatService } from "./saved-chat.service";
 
 export interface ChatConfig {
@@ -22,26 +22,10 @@ export const defaultChatConfig: ChatConfig = {
   addAttachmentsPrompt: "Summarize these documents"
 }
 
-export const defaultHistory: OpenAIModelMessage[] = [
+export const defaultHistory: ChatMessage[] = [
   { role: 'system', display: false, content: 'You are a helpful assistant' },
 ]
 
-export type OpenAIModelMessage = {
-  role: string;
-  content: string;
-  display: boolean;
-  $attachments?: OpenAIModelMessage[]
-}
-
-export type OpenAIModelTokens = {
-  used: number;
-  model: number;
-}
-
-export type OpenAIResponse = {
-  messagesHistory: OpenAIModelMessage[];
-  tokens: OpenAIModelTokens;
-}
 
 @Component({
   selector: 'sq-chat',
@@ -51,13 +35,14 @@ export type OpenAIResponse = {
 })
 export class ChatComponent implements OnInit, OnDestroy {
   @Input() config = defaultChatConfig;
-  @Output() data = new EventEmitter<OpenAIModelMessage[]>();
+  @Output() data = new EventEmitter<ChatMessage[]>();
 
+  @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
 
   loading = false;
   loadingAnswer = false;
-  messages$ = new BehaviorSubject<OpenAIModelMessage[] | undefined>(undefined);
+  messages$ = new BehaviorSubject<ChatMessage[] | undefined>(undefined);
 
   question = '';
   tokensPercentage = 0;
@@ -79,8 +64,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.chatService.attachments$.subscribe(attachments => {
         this.updateTokensPercentage();
-        this.questionInput?.nativeElement.focus();
         this.question = this.suggestQuestion(attachments);
+        this.questionInput?.nativeElement.focus();
       })
     );
   }
@@ -110,7 +95,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   fetchInitial() {
     if (this.loading) return;
     this.loading = true;
-    this.messages$.next(undefined);
+    if(this.messages$.value) {
+      this.messages$.next(undefined); // Reset chat
+    }
     const messages = [
       ...defaultHistory,
       {role: 'user', content: this.config.initialPrompt, display: true}
@@ -118,10 +105,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.fetch(messages);
   }
 
-  private fetchAnswer(question: string, messages: OpenAIModelMessage[], attachments: ChatAttachment[]) {
+  private fetchAnswer(question: string, messages: ChatMessage[], attachments: ChatAttachment[]) {
     this.loadingAnswer = true;
+    const attachmentMsg = attachments.map(attachment => ({
+      role: 'user',
+      content: attachment.$payload,
+      display: true,
+      attachment
+    }));
     messages = [...messages];
-    const attachmentMsg = attachments.map(a => ({role: 'user', content: a.payload, display: false}));
     if(this.config.textBeforeAttachments) {
       messages.push(
         {role: 'user', content: question, display: true}, ...attachmentMsg
@@ -135,37 +127,21 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.fetch(messages);
   }
 
-  private fetch(messages = defaultHistory) {
-    this.chatService.fetch(messages, this.config.modelTemperature, this.config.modelMaxTokens, this.config.modelTopP).subscribe(
-      res => this.updateData(res.messagesHistory, res.tokens)
-    );
+  private fetch(messages: ChatMessage[] = defaultHistory) {
+    this.chatService.fetch(messages, this.config.modelTemperature, this.config.modelMaxTokens, this.config.modelTopP)
+      .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
+    this.scrollDown();
   }
 
-  updateData(messages: OpenAIModelMessage[], tokens: OpenAIModelTokens) {
-    this.setAttachments(messages);
+  updateData(messages: ChatMessage[], tokens: OpenAIModelTokens) {
     this.messages$.next(messages);
     this.data.emit(messages);
     this.loading = false;
     this.loadingAnswer = false;
-    this.question = '';
     this.tokens = tokens;
     this.chatService.attachments$.next([]); // This updates the tokensPercentage
-  }
-
-  setAttachments(messages: OpenAIModelMessage[]) {
-    let attachments: OpenAIModelMessage[] = [];
-    if(this.config.textBeforeAttachments) {
-      messages = [...messages].reverse();
-    }
-    for(const message of messages) {
-      if(message.role === 'user' && !message.display) {
-        attachments.push(message);
-      }
-      else if(message.role === 'user' && message.display && attachments.length) {
-        message.$attachments = attachments;
-        attachments = [];
-      }
-    }
+    this.question = '';
+    this.scrollDown();
   }
 
   suggestQuestion(attachments: ChatAttachment[]) {
@@ -178,22 +154,26 @@ export class ChatComponent implements OnInit, OnDestroy {
     return this.question;
   }
 
+  scrollDown() {
+    setTimeout(() => {
+      if(this.messageList?.nativeElement) {
+        this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight;
+      }
+    });
+  }
+
   saveChat() {
     if(this.messages$.value && this.tokens) {
-      this.savedChatService.saveChat(this.messages$.value, this.tokens);
+      const messages = this.chatService.cleanAttachments(this.messages$.value);
+      this.savedChatService.saveChat(messages, this.tokens);
     }
   }
 
   openChat(chat: SavedChat) {
-    const messagesHistory = chat.messages;
     let tokens = chat.tokens;
-    if(!tokens) {
-      tokens = {
-        model: 4096,
-        used: messagesHistory.reduce((prev, cur) => prev+Math.floor(cur.content.length*3/4), 0)
-      };
-    }
-    setTimeout(() => this.updateData(messagesHistory, tokens)); // setTimeout prevents change after checked error, because the (data) event emitters fires immediately during the creation of the component
+    this.chatService.restoreAttachments(chat.messages)
+      .pipe(delay(0)) // In case the observer completes synchronously, the delay forces async update and prevents "change after checked" error
+      .subscribe(messages => this.updateData(messages, tokens))
     delete this.savedChatService.openChat;
   }
 }
