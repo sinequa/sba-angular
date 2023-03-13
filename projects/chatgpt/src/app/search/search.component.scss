@@ -58,3 +58,33 @@
     }
   }
 }
+
+.facet-preview {
+  z-index: 10000;
+  animation: 0.3s ease-in-out slidein;
+  top: 0;
+  bottom: 0;
+
+  ::ng-deep {
+    div.card {
+      height: 100%;
+      sq-collapse {
+        flex: 1;
+        .sq-collapse {
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slidein {
+  0% {
+      top: 100%;
+      bottom: -100%;
+  }
+  100% {
+      top: 0;
+      bottom: 0;
+  }
+}

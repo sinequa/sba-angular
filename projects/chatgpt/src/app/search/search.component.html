@@ -53,7 +53,7 @@
       </sq-saved-chats>
     </div>
 
-    <div class="sq-panel col-lg-6 h-100 d-flex flex-column" *ngIf="showSearchPanel">
+    <div class="sq-panel col-lg-6 h-100 d-flex flex-column position-relative" *ngIf="showSearchPanel">
       <div class="d-flex p-3 sticky-top">
 
         <a role="button" sqTooltip="Hide the Search UI" (click)="showSearchPanel = false">
@@ -132,7 +132,7 @@
             class="record"
             role="button"
             [ngClass]="{'selected': record.$selected || record.$opened}"
-            (click)="attachDocument(record, $event)">
+            (click)="openPreview(record)">
 
             <div class="record-header d-flex align-items-center">
               <sq-result-title [record]="record" class="d-block py-1"></sq-result-title>
@@ -184,10 +184,10 @@
 
           <div *ngFor="let passage of passages$ | async as passages"
             role="button"
-            (click)="attachPassage(passage, $event)"
+            (click)="openPreview(passage.$record)"
             class="record passage">
 
-            <div class="d-flex align-items-center" *ngIf="passage.$record">
+            <div class="record-header d-flex align-items-center" *ngIf="passage.$record">
               From: <sq-result-title [record]="passage.$record" class="d-block ms-2 py-1"></sq-result-title>
               <button class="btn btn-sm btn-primary ms-auto text-nowrap" (click)="attachPassage(passage, $event)">
                 <i class="fas fa-fw fa-paperclip"></i> Attach snippet
@@ -204,6 +204,39 @@
         </ng-container>
 
       </div>
+
+      <!-- With selected document -->
+      <sq-facet-card *ngIf="openedDoc"
+        [collapsible]="false"
+        [facetActionsAreSecondary]="true"
+        [viewActionsAreSecondary]="true"
+        secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-{{isDark()? 'dark' : 'light'}} rounded shadow on-hover"
+        viewActionsClass="d-block btn-group mt-2"
+        viewButtonsStyle="outline-primary"
+        [actions]="previewCustomActions"
+        actionsSize=""
+        class="facet-preview position-absolute end-0 start-0">
+
+        <ng-template #headerTpl>
+          <sq-result-icon [record]="openedDoc" class="me-1"></sq-result-icon>
+          <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url">
+          </sq-result-title>
+        </ng-template>
+
+        <ng-template #subHeaderTpl>
+          <sq-metadata [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
+            [tabular]="false" [clickable]="false">
+          </sq-metadata>
+        </ng-template>
+
+        <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
+          <sq-facet-preview-2 #facet
+            [record]="openedDoc"
+            [query]="searchService.query"
+            style="height: 100%;">
+          </sq-facet-preview-2>
+        </ng-template>
+      </sq-facet-card>
     </div>
 
   </div>

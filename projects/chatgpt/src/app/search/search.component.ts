@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { AppService } from '@sinequa/core/app-utils';
@@ -7,7 +8,7 @@ import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Results, Record, TopPassage, RelevantExtract } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
-import { FEATURES } from '../../config';
+import { FEATURES, METADATA } from '../../config';
 import { ChatComponent, defaultChatConfig } from '../chat/chat.component';
 import { ChatAttachment, ChatService } from '../chat/chat.service';
 import { SavedChatService } from '../chat/saved-chat.service';
@@ -37,6 +38,8 @@ export class SearchComponent implements OnInit {
   savedChatView = false;
   showChatActions = false;
 
+  openedDoc: Record|undefined;
+
   get neuralSearchEnabled() {
     return this.appService.isNeural() && this.searchService.query.neuralSearch !== false;
   }
@@ -52,6 +55,13 @@ export class SearchComponent implements OnInit {
     console.log('view', view);
     this.prefs.set('search-view', view);
   }
+
+  previewCustomActions = [
+    new Action({
+      icon: 'fas fa-times',
+      action: () => this.openedDoc = undefined
+    })
+  ]
 
   constructor(
     public loginService: LoginService,
@@ -159,6 +169,10 @@ export class SearchComponent implements OnInit {
     return false;
   }
 
+  openPreview(record: Record) {
+    this.openedDoc = record;
+  }
+
   /**
    * Returns the list of features activated in the top right menus.
    * The configuration from the config.ts file can be overriden by configuration from
@@ -168,6 +182,9 @@ export class SearchComponent implements OnInit {
     return this.appService.app?.data?.features as string[] || FEATURES;
   }
 
+  public get metadata(): string[] {
+    return this.appService.app?.data?.metadata as string[] || METADATA;
+  }
 
   /**
    * Whether the UI is in dark or light mode
