@@ -63,7 +63,14 @@ export class ChatService {
     const messagesHistory = this.cleanAttachments(messages);
     const data = {action: "chat", model, messagesHistory, promptProtection: false};
     return this.jsonMethodWebService.post("OpenAI", data).pipe(
-      map((res: OpenAIResponse) => ({...res, messagesHistory: [...messages, res.messagesHistory.at(-1)! as ChatMessage]}))
+        map((res: OpenAIResponse) => ({
+            tokens: res.tokens,
+            messagesHistory: [
+              ...messages,
+              res.messagesHistory.at(-1)! as ChatMessage
+            ]
+          })
+        )
     );
   }
 
@@ -116,11 +123,12 @@ export class ChatService {
         const [offset, length] = p.location;
         return this.getAttachment('passage', p.$record!, query, offset, length);
       })
-    ).subscribe(attachments => this.attachments$.next([
+    ).subscribe(attachments => {
+      this.attachments$.next([
         ...this.attachments$.value,
         ...attachments
-      ])
-    );
+      ]);
+    });
   }
 
   addExtracts(extracts: RelevantExtract[], query: Query) {

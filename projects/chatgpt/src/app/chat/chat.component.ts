@@ -14,9 +14,9 @@ export interface ChatConfig {
 }
 
 export const defaultChatConfig: ChatConfig = {
-  modelTemperature: 0.7,
+  modelTemperature: 1.0,
   modelTopP: 1.0,
-  modelMaxTokens: 512,
+  modelMaxTokens: 800,
   initialPrompt: "Hello, I am a user of the Sinequa search engine",
   addAttachmentPrompt: "Summarize this document",
   addAttachmentsPrompt: "Summarize these documents"
@@ -107,27 +107,28 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   private fetchAnswer(question: string, messages: ChatMessage[], attachments: ChatAttachment[]) {
     this.loadingAnswer = true;
-    const attachmentMsg = attachments.map(attachment => ({
+
+    const attachmentMsg: ChatMessage[] = attachments.map(attachment => ({
       role: 'user',
       content: attachment.$payload,
       display: true,
       attachment
     }));
-    messages = [...messages];
+
+    const message = {role: 'user', content: question, display: true};
     if(this.config.textBeforeAttachments) {
-      messages.push(
-        {role: 'user', content: question, display: true}, ...attachmentMsg
-      );
+      attachmentMsg.unshift(message);
     }
     else {
-      messages.push(
-        ...attachmentMsg, {role: 'user', content: question, display: true}
-      );
+      attachmentMsg.push(message);
     }
+
+    messages = [...messages, ...attachmentMsg];
+
     this.fetch(messages);
   }
 
-  private fetch(messages: ChatMessage[] = defaultHistory) {
+  private fetch(messages: ChatMessage[]) {
     this.chatService.fetch(messages, this.config.modelTemperature, this.config.modelMaxTokens, this.config.modelTopP)
       .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
     this.scrollDown();

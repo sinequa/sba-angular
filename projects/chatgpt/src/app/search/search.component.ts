@@ -10,6 +10,7 @@ import { map, Observable, tap } from 'rxjs';
 import { FEATURES } from '../../config';
 import { ChatComponent, defaultChatConfig } from '../chat/chat.component';
 import { ChatAttachment, ChatService } from '../chat/chat.service';
+import { SavedChatService } from '../chat/saved-chat.service';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
@@ -57,7 +58,8 @@ export class SearchComponent implements OnInit {
     public titleService: Title,
     public intlService: IntlService,
     public chatService: ChatService,
-    public prefs: UserPreferences
+    public prefs: UserPreferences,
+    public savedChatService: SavedChatService
   ) { }
 
 
