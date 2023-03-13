@@ -1,4 +1,9 @@
 
+.sq-panel {
+  transition: all 0.3s ease-in-out;
+  transition-property: width, margin-left;
+}
+
 .result-list {
   overflow-y: auto;
 }

@@ -22,6 +22,8 @@ export class SearchComponent implements OnInit {
 
   results$: Observable<Results | undefined>;
 
+  showSearchPanel = false;
+
   // Passages
   passages$: Observable<TopPassage[]>;
   documentsNb: number;

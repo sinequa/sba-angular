@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage } from "@sinequa/core/web-services";
-import { BehaviorSubject, forkJoin, map, Observable, of, switchMap } from "rxjs";
+import { BehaviorSubject, forkJoin, map, Observable, of, switchMap, tap } from "rxjs";
 
 export interface OpenAIModelMessage {
   role: string;
@@ -113,9 +113,9 @@ export class ChatService {
   // Attachment API
 
   searchAttachments(text: string) {
-    const query = this.searchService.makeQuery();
-    query.text = text;
-    return this.searchService.getResults(query).pipe(
+    this.searchService.query.text = text;
+    return this.searchService.getResults(this.searchService.query).pipe(
+      tap(results => this.searchService.setResults(results)),
       map(results => {
         const passages = results.topPassages?.passages || [];
         passages.forEach(p => p.$record = results.records.find(r => r.id === p.recordId));
@@ -131,7 +131,7 @@ export class ChatService {
           })
         );
       }),
-    ).subscribe(passages => this.addPassages(passages, query));
+    ).subscribe(passages => this.addPassages(passages, this.searchService.query));
   }
 
   addDocument(record: Record, query: Query) {
