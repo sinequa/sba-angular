@@ -42,9 +42,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   loading = false;
   loadingAnswer = false;
+  loadingAttachments = false;
   messages$ = new BehaviorSubject<ChatMessage[] | undefined>(undefined);
 
+  searchBeforeSend = true;
   question = '';
+
   tokensPercentage = 0;
   tokensAbsolute = 0;
   tokens?: OpenAIModelTokens;
@@ -63,6 +66,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
     this.sub.add(
       this.chatService.attachments$.subscribe(attachments => {
+        this.loadingAttachments = false;
         this.updateTokensPercentage();
         this.question = this.suggestQuestion(attachments);
         this.questionInput?.nativeElement.focus();
@@ -78,7 +82,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   submitQuestion() {
     if(this.question.trim() && this.messages$.value) {
       const attachments = this.chatService.attachments$.value;
-      this.fetchAnswer(this.question.trim(), this.messages$.value, attachments);
+      if(this.searchBeforeSend && attachments.length === 0) {
+        this.loadingAttachments = true;
+        this.searchBeforeSend = false;
+        this.chatService.searchAttachments(this.question);
+      }
+      else {
+        this.fetchAnswer(this.question.trim(), this.messages$.value, attachments);
+      }
     }
   }
 

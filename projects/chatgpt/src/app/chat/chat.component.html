@@ -66,6 +66,10 @@
       (keyup.enter)="submitQuestion()"
       (keyup.shift.enter)="submitQuestion()"
       [disabled]="loadingAnswer || tokensPercentage >= 100">
+    <div class="form-check form-switch ms-3 mb-0 text-nowrap">
+      <input class="form-check-input" type="checkbox" role="switch" id="searchBeforeSend" [(ngModel)]="searchBeforeSend">
+      <label class="form-check-label" for="searchBeforeSend">Search Before Send</label>
+    </div>
   </div>
 </ng-template>
 
@@ -84,6 +88,8 @@
 </ng-template>
 
 <ng-template #attachmentListTpl>
+  <ng-container *ngIf="loadingAttachments" [ngTemplateOutlet]="loadingTpl"></ng-container>
+
   <ul class="list-group list-group-flush overflow-auto" *ngIf="chatService.attachments$ | async as attachments">
 
     <li *ngFor="let attachment of attachments"

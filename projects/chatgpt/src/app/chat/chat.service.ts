@@ -53,6 +53,9 @@ export class ChatService {
     public searchService: SearchService
   ) {}
 
+
+  // ChatGPT API
+
   fetch(messages: ChatMessage[], temperature: number, generateTokens: number, topP: number): Observable<{tokens: OpenAIModelTokens, messagesHistory: ChatMessage[]}> {
     const model = {
       model: "GPT35Turbo",
@@ -105,6 +108,30 @@ export class ChatService {
   count(text: string): Observable<number> {
     const data = { action: "TokenCount", model: "GPT35Turbo", text };
     return this.jsonMethodWebService.post("OpenAI", data).pipe(map(res => res.tokens));
+  }
+
+  // Attachment API
+
+  searchAttachments(text: string) {
+    const query = this.searchService.makeQuery();
+    query.text = text;
+    return this.searchService.getResults(query).pipe(
+      map(results => {
+        const passages = results.topPassages?.passages || [];
+        passages.forEach(p => p.$record = results.records.find(r => r.id === p.recordId));
+        return passages.filter(p => p.score > 0.5).slice(0,5);
+      }),
+      switchMap(passages => {
+        const ids = passages.filter(p => !p.$record).map(p => p.recordId);
+        if(ids.length === 0) return of(passages);
+        return this.searchService.getRecords(ids).pipe(
+          map(records => {
+            passages.forEach(p => p.$record = p.$record || records.find(r => r?.id === p.recordId));
+            return passages.filter(p => p.$record);
+          })
+        );
+      }),
+    ).subscribe(passages => this.addPassages(passages, query));
   }
 
   addDocument(record: Record, query: Query) {
