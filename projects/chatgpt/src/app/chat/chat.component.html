@@ -86,13 +86,6 @@
 <ng-template #attachmentListTpl>
   <ul class="list-group list-group-flush overflow-auto" *ngIf="chatService.attachments$ | async as attachments">
 
-    <li class="list-group-item d-flex" *ngIf="attachments.length === 0">
-      <span class="px-2 me-3" title="Attachments">
-        <i class="fas fa-paperclip text-muted"></i>
-      </span>
-      <span><i>Attach documents, snippets or extracts from the Sinequa results</i></span>
-    </li>
-
     <li *ngFor="let attachment of attachments"
       class="attachment list-group-item d-flex"
       [ngClass]="{expanded: attachment.$expanded}">

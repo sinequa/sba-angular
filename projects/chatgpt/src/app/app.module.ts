@@ -32,6 +32,7 @@ import { BsPreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule } from '@sinequa/components/selection';
 import { MLModule } from '@sinequa/components/machine-learning';
+import { CommentsModule } from "@sinequa/components/comments";
 
 import { SearchFormComponent } from "@sinequa/components/search-form";
 import { FiltersModule } from "@sinequa/components/filters";
@@ -41,6 +42,9 @@ import { AppComponent } from "./app.component";
 import { SearchComponent } from './search/search.component';
 import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { AutocompleteComponent } from "./search-form/autocomplete.component";
+import { ChatComponent } from "./chat/chat.component";
+import { ChatSettingsComponent } from "./chat/chat-settings.component";
+import { SavedChatsComponent } from "./chat/saved-chats.component";
 
 // Environment
 import { environment } from "../environments/environment";
@@ -71,6 +75,7 @@ export const routes: Routes = [
 
 // Search options (search service)
 export const searchOptions: SearchOptions = {
+    deactivateRouting: true,
     routes: ["search"],
     homeRoute: "home"
 };
@@ -81,10 +86,6 @@ import {LocalesConfig, Locale} from "@sinequa/core/intl";
 import enLocale from "../locales/en";
 import frLocale from "../locales/fr";
 import deLocale from "../locales/de";
-import { ChatComponent } from "./chat/chat.component";
-import { CommentsModule } from "@sinequa/components/comments";
-import { ChatSettingsComponent } from "./chat/chat-settings.component";
-import { SavedChatsComponent } from "./chat/saved-chats.component";
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;

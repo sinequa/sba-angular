@@ -1,169 +1,20 @@
 <div class="container h-100">
   <div class="row h-100">
-    <div class="col-6 h-100 d-flex flex-column">
+    <div class="col-lg-8 offset-lg-2 h-100 d-flex flex-column">
       <div class="d-flex p-3 sticky-top">
+        <i class="sq-chatgpt"></i>
+        <h3 class="ms-3 mb-0">ChatGPT</h3>
 
-        <ul class="navbar-nav">
-          <sq-user-menu [display]="'fullName'" [rightAligned]="false"></sq-user-menu>
-        </ul>
+        <i class="fas fa-plus mx-3 text-muted align-self-center"></i>
 
-        <app-search-form
-          class="flex-grow-1 mx-3"
-          [autocompleteSources]="features">
-        </app-search-form>
-
-        <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark()">
-        <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark()">
-
-      </div>
-
-      <!-- Loading bar (Manages its own state and visibility via the search service) -->
-      <div class="position-relative px-3">
-        <sq-loading-bar></sq-loading-bar>
-      </div>
-
-      <!-- Toolbar -->
-      <div class="small pt-2 px-3" *ngIf="searchService.query.filters">
-        <a href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
-          Filters:
-          <sq-filters
-            [query]="searchService.query"
-            [filter]="searchService.query.filters"
-            [showField]="false"
-            [allowRemove]="false">
-          </sq-filters>
-        </a>
-      </div>
-
-      <div class="d-flex align-items-center small pt-2 px-3" *ngIf="results$ | async as results">
-        <ng-container *ngIf="view === 'documents'">
-          <button class="btn btn-link btn-sm ps-0" (click)="view = 'passages'" *ngIf="neuralSearchEnabled" sqTooltip="Switch to the <b>snippets</b> view">
-            Documents
-          </button>
-          <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
-          <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'" class="ms-auto"></sq-sort-selector>
-        </ng-container>
-
-        <ng-container *ngIf="view === 'passages'">
-          <button class="btn btn-link btn-sm me-2 ps-0" (click)="view = 'documents'" sqTooltip="Switch to the <b>documents</b> view">
-            Snippets
-          </button>
-          <ng-container *ngIf="passages$ | async as passages; else spinnerTpl">
-            <span class="sq-passage-count mx-2">
-              {{ 'msg#machine-learning.passagesFound' | sqMessage:{passagesNb: passages.length,documentsNb: documentsNb} }}
-            </span>
-            <button class="btn btn-primary btn-sm ms-auto" (click)="attachAll(passages)">
-              <i class="fas fa-paperclip"></i>
-              Attach all
-            </button>
-          </ng-container>
-          <ng-template #spinnerTpl>
-            loading...
-          </ng-template>
-        </ng-container>
-      </div>
-
-      <div *ngIf="results$ | async as results" class="result-list shadow-lg rounded-4 my-3" [ngSwitch]="view">
-
-        <ng-container *ngSwitchCase="'documents'">
-          <!-- Did you mean -->
-          <sq-did-you-mean [results]="results"></sq-did-you-mean>
-
-          <!-- Sponsored links -->
-          <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
-
-          <!-- List of documents (for loop) -->
-          <div *ngFor="let record of results.records; index as i"
-            class="record"
-            role="button"
-            [ngClass]="{'selected': record.$selected || record.$opened}"
-            (click)="attachDocument(record, $event)">
-
-            <div class="record-header d-flex align-items-center">
-              <sq-result-title [record]="record" class="d-block py-1"></sq-result-title>
-              <button *ngIf="!record.$selected"
-                class="btn btn-sm btn-primary ms-auto text-nowrap"
-                (click)="attachDocument(record, $event)">
-                <i class="fas fa-fw fa-paperclip"></i> Attach document
-              </button>
-            </div>
-            <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
-
-            <div class="sq-passage-text position-relative" *ngIf="record.matchingpassages?.passages?.[0] as passage; else extractsTpl">
-              <button class="btn btn-sm btn-primary position-absolute top-0 end-0" (click)="attachPassage(passage, $event, record)">
-                <i class="fas fa-fw fa-paperclip"></i> Attach snippet
-              </button>
-              <span *ngIf="record.modified" class="extracts-date">
-                {{record.modified | sqDate:{ year: 'numeric', month: 'short', day: 'numeric' } }} -
-              </span>
-              <span [innerHTML]="passage.highlightedText"></span>
-            </div>
-
-            <ng-template #extractsTpl>
-              <ul *ngIf="record.extracts" class="extract-list small ps-2 mb-0">
-                <li *ngFor="let extract of record.extracts | slice:0:4" class="px-2 rounded" role="button" (click)="attachExtract(extract, $event)">
-                  <div class="d-flex">
-                    <span class="text-truncate" [innerHTML]="extract.highlighted"></span>
-                    <a class="ms-auto text-nowrap">
-                      <i class="fas fa-fw fa-paperclip"></i> Attach extract
-                    </a>
-                  </div>
-                </li>
-              </ul>
-            </ng-template>
-
-
-            <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
-            <sq-labels [record]="record" [public]="true"></sq-labels>
-            <sq-labels [record]="record" [public]="false"></sq-labels>
-          </div>
-
-          <!-- Infinite scroll -->
-          <sq-scroller></sq-scroller>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="'passages'">
-          <div class="spinner-grow text-success d-block mx-auto my-5" role="status" *ngIf="loading">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-
-          <div *ngFor="let passage of passages$ | async as passages"
-            role="button"
-            (click)="attachPassage(passage, $event)"
-            class="record passage">
-
-            <div class="d-flex align-items-center" *ngIf="passage.$record">
-              From: <sq-result-title [record]="passage.$record" class="d-block ms-2 py-1"></sq-result-title>
-              <button class="btn btn-sm btn-primary ms-auto text-nowrap" (click)="attachPassage(passage, $event)">
-                <i class="fas fa-fw fa-paperclip"></i> Attach snippet
-              </button>
-            </div>
-
-            <div class="sq-passage-text mb-2">
-              <span *ngIf="passage.$record?.modified" class="extracts-date">
-                {{passage.$record.modified | sqDate:{ year: 'numeric', month: 'short', day: 'numeric' } }} -
-              </span>
-              <span [innerHTML]="passage.highlightedText"></span>
-            </div>
-          </div>
-        </ng-container>
-
-      </div>
-    </div>
-
-
-    <div class="col-6 h-100 d-flex flex-column">
-      <div class="d-flex p-3 sticky-top">
-        <div class="d-flex sq-chatgpt-logo" (click)="settingsView=savedChatView=false">
-          <i class="sq-chatgpt"></i>
-          <h3 class="ms-3">ChatGPT</h3>
-        </div>
+        <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark()">
+        <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark()">
 
         <ul class="nav nav-pills ms-auto">
           <li class="nav-item">
             <a class="nav-link" role="button" [ngClass]="{active: settingsView}" (click)="toggleChatSettings()">Settings</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="loginService.complete && (savedChatView || savedChatService.savedChats.length)">
             <a class="nav-link" role="button" [ngClass]="{active: savedChatView}" (click)="toggleSavedChats()">Saved chats</a>
           </li>
         </ul>
@@ -178,6 +29,11 @@
             <i class="fas fa-save"></i>
           </button>
         </div>
+
+        <ul class="navbar-nav ms-3">
+          <sq-user-menu [display]="'fullName'"></sq-user-menu>
+        </ul>
+
       </div>
 
       <sq-chat #sqChat *ngIf="!settingsView && !savedChatView && loginService.complete"
