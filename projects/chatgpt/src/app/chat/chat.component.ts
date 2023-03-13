@@ -69,7 +69,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.loadingAttachments = false;
         this.updateTokensPercentage();
         this.question = this.suggestQuestion(attachments);
-        this.questionInput?.nativeElement.focus();
+        setTimeout(() => this.questionInput?.nativeElement.focus());
       })
     );
   }
@@ -187,5 +187,9 @@ export class ChatComponent implements OnInit, OnDestroy {
       .pipe(delay(0)) // In case the observer completes synchronously, the delay forces async update and prevents "change after checked" error
       .subscribe(messages => this.updateData(messages, tokens))
     delete this.savedChatService.openChat;
+  }
+
+  onSearchBeforeSendChange(value: boolean) {
+    setTimeout(() => this.questionInput?.nativeElement.focus());
   }
 }

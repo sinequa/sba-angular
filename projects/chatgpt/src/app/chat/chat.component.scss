@@ -15,6 +15,10 @@ li.attachment.expanded p {
 
 .progress {
   --bs-progress-height: 3px;
+  &.disabled {
+    --bs-progress-height: 20px;
+    --bs-progress-bar-bg: var(--bs-danger);
+  }
 }
 
 .user-input {
