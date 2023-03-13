@@ -183,7 +183,7 @@ export class SummaryComponent implements OnChanges {
       extendAfter: this.config.extendAfter,
       top: this.config.top
     };
-    const data = { action: 'summarize', model, queryText, passages };
+    const data = { action: 'summarize', model, queryText, passages, prompt: this.config.promptInsertBeforePassages };
 
     this.jsonMethodWebService.post('OpenAI', data)
       .subscribe(res => this.updateData(res));
