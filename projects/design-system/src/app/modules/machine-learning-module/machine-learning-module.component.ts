@@ -11,7 +11,7 @@ export class DocMachineLearningModuleComponent {
 
   title = 'Machine Learning Module';
   description = `#### Reference documentation
-  Please checkout the reference documentation auto-generated from source code.
+  Please checkout the *[reference documentation](https://sinequa.github.io/sba-angular/components/modules/MLModule.html)* auto-generated from source code.
 
 #### Features
 This module introduces the Neural Search components displaying Answers and Passages extracted from the documents according to your search.
