@@ -238,19 +238,19 @@ export const startConfig: StartConfig = {
 };
 
 // @sinequa/core config initializer
-export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
+export function startConfigInitializer(startConfigWebService: StartConfigWebService) {
     return () => startConfigWebService.fetchPreLoginAppConfig();
 }
 
-export function startConfigInitializer(startConfigWebService: StartConfigWebService) {
-    if (environment.mock) {
-        return (): Promise<any> =>
-            new Promise<void>((resolve) => {
-                resolve();
-            });
-    }
-    return StartConfigInitializer(startConfigWebService);
-}
+// export function startConfigInitializer(startConfigWebService: StartConfigWebService) {
+//     if (environment.mock) {
+//         return (): Promise<any> =>
+//             new Promise<void>((resolve) => {
+//                 resolve();
+//             });
+//     }
+//     return StartConfigInitializer(startConfigWebService);
+// }
 
 // Search options (search service)
 export const searchOptions: SearchOptions = {
@@ -557,7 +557,8 @@ export function httpInterceptor() {
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: MODAL_MODEL, useValue: {} },
         { provide: ModalRef, useValue: {} },
-        GlobalService
+        GlobalService,
+        ...environment.providers
     ],
     bootstrap: [DocAppComponent]
 })

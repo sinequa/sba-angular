@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FACETS } from 'src/mocks/facets';
+import { FACETS } from 'src/mocks/data/facets';
 import { GlobalService } from '../../../global.service';
 
 @Component({

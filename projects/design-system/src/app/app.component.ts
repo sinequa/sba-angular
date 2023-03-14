@@ -1,6 +1,5 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '@sinequa/core/login';
-import { environment } from 'src/environments/environment';
 import { GlobalService } from './global.service';
 
 
@@ -8,15 +7,13 @@ import { GlobalService } from './global.service';
   selector: 'doc-root',
   templateUrl: './app.component.html'
 })
-export class DocAppComponent implements AfterViewInit {
+export class DocAppComponent implements OnInit {
 
   constructor(private loginService: LoginService,
     public globalService: GlobalService) {
   }
 
-  ngAfterViewInit(): void {
-    if (!environment.mock) {
-      this.loginService.login();
-    }
+  ngOnInit(): void {
+    this.loginService.login();
   }
 }

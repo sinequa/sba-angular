@@ -6,7 +6,7 @@
         <aside class="col-3 screen-size">
             <doc-menu></doc-menu>
         </aside>
-        <section class="col-9 pt-2 screen-size pb-4" *ngIf="globalService.results">
+        <section class="col-9 pt-2 screen-size pb-4" *ngIf="!globalService.loading && globalService.results">
             <router-outlet></router-outlet>
         </section>
     </article>

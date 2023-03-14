@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
+import { SearchService } from '@sinequa/components/search';
 import { AppService, Query } from '@sinequa/core/app-utils';
-import { Utils } from '@sinequa/core/base';
-import { CCAutocomplete, CCLabels, PreviewData, Results } from '@sinequa/core/web-services';
+import { PreviewData, Results } from '@sinequa/core/web-services';
 import { Record } from "@sinequa/core/web-services";
 import { filter, map, Observable, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { APP } from 'src/mocks/app';
-import { RESULTS } from 'src/mocks/results';
-import { DocSearchService } from './search.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +13,12 @@ import { DocSearchService } from './search.service';
 export class GlobalService {
 
   query: Query = new Query('query');
+  results: Results;
   pagesResults: Results;
   previewData: PreviewData;
   previewDocument: PreviewDocument;
 
-  private _results: Results;
-
-  get results(): Results {
-    return environment.mock ? RESULTS as any : this._results;
-  }
+  loading = true;
 
   get records(): Record[] | undefined {
     return this.results?.records?.length ? this.results.records : undefined
@@ -34,7 +28,7 @@ export class GlobalService {
     return this.records ? this.records[0] : undefined;
   }
 
-  constructor(private searchService: DocSearchService,
+  constructor(private searchService: SearchService,
     private previewService: PreviewService,
     private appService: AppService) {
 
@@ -42,11 +36,14 @@ export class GlobalService {
     this.query.action = 'search';
     this.query.page = 2;
     this.query.pageSize = 2;
-    if (!environment.mock) {
-      this.search();
+    if (environment.mock) {
+      this.appService.init().subscribe(() => {
+        this.loading = false;
+      });
     } else {
-      this.mockSetApp();
+      this.loading = false;
     }
+    this.search();
   }
 
   search(): void {
@@ -54,39 +51,11 @@ export class GlobalService {
     this.searchService.getResults(this.query)
       .pipe(
         map((results => {
-          this._results = results;
-          this.results.tab = 'Tab1';
-          this.searchService.setResults(this._results);
-
-          this.appService.ccquery = {} as any;
-          if (this.appService.ccquery) {
-            this.appService.ccquery.tabSearch = {
-              isActive: true,
-              column: 'column',
-              columnIsTree: true,
-              totalIsSumOfTabTotals: true,
-              loadAggregationsForSelectedTab: true,
-              valueLevels: 5,
-              postGroupBy: false,
-              mergeGroups: false,
-              tabs: [
-                {
-                  name: 'Tab1', display: 'Tab1', value: 'value', isDefault: true, excludedIndices: '', excludedAggregations: '', sortingChoices: [
-                    { name: 'sortingChoice', description: 'description', display: 'choice1', orderByClause: 'test', isDefaultNoRelevance: true, isDefaultWithRelevance: true },
-                    { name: 'sortingChoice', description: 'description', display: 'choice2', orderByClause: 'test', isDefaultNoRelevance: true, isDefaultWithRelevance: true }
-                  ]
-                }
-              ]
-            };
-            this.appService.ccquery.scopes = [
-              { name: 'Scope1', },
-              { name: 'Scope2' },
-            ];
-          }
+          this.results = results;
           return results.records;
         })),
         filter(records => (records?.length || 0) > 0),
-        switchMap(records => this.getPreviewData())
+        switchMap(() => this.getPreviewData())
       )
       .subscribe(pageResults => {
         this.pagesResults = pageResults;
@@ -104,14 +73,5 @@ export class GlobalService {
         filter(response => response.pageNumber === undefined),
         switchMap(({ record }) => this.previewService.fetchPages(record.containerid!, this.query))
       );
-  }
-
-  mockSetApp() {
-    this.appService.app = APP as any;
-    this.appService.cclabels = this.appService.getWebService<CCLabels>(this.appService.app!.labels);
-    this.appService.ccautocomplete = this.appService.getWebService<CCAutocomplete>(this.appService.app!.autocomplete);
-    // this.initDefaultQuery();
-    // this.makeMaps();
-    this.appService.suggestQueries = Utils.split(this.appService.ccautocomplete ? this.appService.ccautocomplete.suggestQueries : "", ",");
   }
 }

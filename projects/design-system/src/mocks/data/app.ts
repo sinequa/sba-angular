@@ -1,5 +1,5 @@
 export const APP = {
-    "workspaceApp": "/_sba/_sba-angular/projects/vanilla-search/",
+    "workspaceApp": "\/_sba\/_sba-angular\/projects\/vanilla-search\/",
     "queryNames": "query",
     "autocomplete": "autocomplete",
     "labels": "_labels",
@@ -39,7 +39,7 @@ export const APP = {
             "webServiceType": "preview",
             "revision": 1,
             "docResultCss": "preview.css",
-            "docResultJs": "preview/preview.js",
+            "docResultJs": "preview\/preview.js",
             "highlights": "extractslocations,matchlocations,person,geo,company",
             "name": "_preview"
         },
@@ -101,7 +101,7 @@ export const APP = {
             "webServiceType": "Query",
             "indexList": "index,test_data",
             "inputFile": "blah",
-            "queryPlugin": "Filters/Sinequa.Plugin.CustomQueryPlugin",
+            "queryPlugin": "Filters\/Sinequa.Plugin.CustomQueryPlugin",
             "searchStrategy": "_Normal",
             "preferUseLocalEngine": false,
             "strictRefine": false,
@@ -453,7 +453,7 @@ export const APP = {
                 },
                 {
                     "name": "Heatmap",
-                    "column": "{heatmapField1}/{heatmapField2}",
+                    "column": "{heatmapField1}\/{heatmapField2}",
                     "distribution": "",
                     "count": 2000,
                     "postGroupBy": true,
@@ -1557,7 +1557,7 @@ export const APP = {
 
     },
     "apiVersion": "1.0",
-    "versionId": "96F2967EEC2247BFBAC8EC5FD9980F5E",
+    "versionId": "430FEF02780F4767B5AC52527C2B7D8C",
     "defaultQueryName": "query",
     "methodresult": "ok"
 };
