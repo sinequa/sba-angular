@@ -183,7 +183,14 @@ export class SummaryComponent implements OnChanges {
       extendAfter: this.config.extendAfter,
       top: this.config.top
     };
-    const data = { action: 'summarize', model, queryText, passages, prompt: this.config.promptInsertBeforePassages };
+    const data = {
+      action: 'summarize',
+      model,
+      queryText,
+      passages,
+      prompt: this.config.promptInsertBeforePassages,
+      debug: true
+    };
 
     this.jsonMethodWebService.post('OpenAI', data)
       .subscribe(res => this.updateData(res));
@@ -200,7 +207,13 @@ export class SummaryComponent implements OnChanges {
       ...messages,
       {role: 'user', content: question, display: true}
     ];
-    const data = { action: 'chat', model, promptProtection: this.config.promptProtection, messagesHistory };
+    const data = {
+      action: 'chat',
+      model,
+      promptProtection: this.config.promptProtection,
+      messagesHistory,
+      debug: true
+    };
 
     this.jsonMethodWebService.post('OpenAI', data)
       .subscribe(res => this.updateData(res));
