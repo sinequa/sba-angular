@@ -212,7 +212,7 @@ export class SummaryComponent implements OnChanges {
       m.$content = marked(m.content);
       m.$citations = [];
       if(m.role === 'assistant') {
-        const matches = m.$content.matchAll(/\[(\d)\]/g);
+        const matches = m.$content.matchAll(/\[(\d+)\]/g);
         const citations = new Set<number>();
         for(let match of matches) {
           citations.add(+match[1]);
@@ -220,7 +220,7 @@ export class SummaryComponent implements OnChanges {
         m.$citations = [...citations].sort((a,b)=> a-b)
                                      .map(i => this.scope?.find(ref => ref.refId === i)!)
                                      .filter(r => r);
-        m.$content = m.$content.replace(/\[(\d)\]/g, (str,ref) => {
+        m.$content = m.$content.replace(/\[(\d+)\]/g, (str,ref) => {
           const record = this.scope?.find(s => s.refId === +ref)?.$record;
           if(record) {
             return `<a class="citation" href="${record.url1}" title="${record.title}">${ref}</a>`;
