@@ -254,7 +254,8 @@ export function startConfigInitializer(startConfigWebService: StartConfigWebServ
 
 // Search options (search service)
 export const searchOptions: SearchOptions = {
-    routes: ["facet"]
+    routes: ["facet"],
+    deactivateRouting: true
 };
 
 // List of facet configurations (of type list and tree)
