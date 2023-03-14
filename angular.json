@@ -640,6 +640,14 @@
                 "fonts": true
               }
             },
+            "mock": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/design-system/src/environments/environment.ts",
+                  "with": "projects/design-system/src/environments/environment.mock.ts"
+                }
+              ]
+            },
             "development": {
               "outputPath": "dist-debug/design-system",
               "buildOptimizer": false,
@@ -662,6 +670,9 @@
           "configurations": {
             "production": {
               "browserTarget": "design-system:build:production"
+            },
+            "mock": {
+              "browserTarget": "design-system:build:mock"
             }
           }
         },
