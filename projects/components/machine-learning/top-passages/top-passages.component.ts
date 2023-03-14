@@ -14,6 +14,7 @@ import { SearchService } from "@sinequa/components/search";
 export class TopPassagesComponent extends AbstractFacet {
   @Input() set results(results: Results) {
     // extract top passages from Results object
+    console.log('results', results);
     this.passages = results.topPassages?.passages || [];
 
     // reset values
