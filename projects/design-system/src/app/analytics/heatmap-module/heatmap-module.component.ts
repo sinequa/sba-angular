@@ -10,6 +10,7 @@ import { DocResultsHeatmapViewComponent } from './results-heatmap-view/results-h
 export class DocHeatmapModuleComponent {
 
   title = 'Heatmap Module';
+  description = ``;
 
   components = [
     DocFacetHeatmapComponent,

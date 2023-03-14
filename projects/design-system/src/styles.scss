@@ -10,38 +10,3 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
 @import "../../components/theme/vanilla";
 @import "../../components/theme/vanilla-dark";
-
-:root {
-  --bs-body-bg: $bg-color;
-  --bs-body-line-height: normal;
-  --bs-body-font-weight: 400;
-  --bs-body-font-family: "Segoe UI", serif;
-  --bs-body-font-size: 14px;
-}
-
-html {
-  background-color: $bg-color;
-}
-
-.screen-size {
-  height: calc(100vh - $navbar-height);
-  overflow-y: scroll;
-}
-
-.card {
-  padding: 0;
-}
-
-.card-body {
-  padding-top: 2rem;
-}
-
-.blue-bg {
-  display: inline-flex;
-  background-color: $blue-1;
-  border: .4rem solid $blue-1
-}
-
-pre code.hljs {
-  padding: 0 !important;
-}

@@ -9,6 +9,7 @@ import { DocNotificationsComponent } from './notifications/notifications.compone
 export class DocNotificationModuleComponent {
 
   title = 'Notification Module';
+  description = ``;
 
   components = [
     DocNotificationsComponent,

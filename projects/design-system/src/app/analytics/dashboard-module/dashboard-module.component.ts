@@ -9,6 +9,7 @@ import { DocDashboardComponent } from './dashboard/dashboard.component';
 export class DocDashboardModuleComponent {
 
   title = 'Dashboard Module';
+  description = ``;
 
   components = [
     DocAddWidgetModalComponent,

@@ -8,6 +8,7 @@ import { DocMetadataComponent } from './metadata/metadata.component';
 export class DocMetadataModuleComponent {
 
   title = 'Metadata Module';
+  description = ``;
 
   components = [
     DocMetadataComponent

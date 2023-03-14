@@ -10,6 +10,7 @@ import { DocUserSettingsEditorComponent } from './user-settings-editor/user-sett
 export class DocUserSettingsModuleComponent {
 
   title = 'User Settings Module';
+  description = ``;
 
   components = [
     DocEditUserSettingsComponent,

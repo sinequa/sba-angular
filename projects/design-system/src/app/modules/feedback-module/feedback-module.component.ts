@@ -8,6 +8,7 @@ import { DocFeedbackMenuComponent } from './feedback-menu/feedback-menu.componen
 export class DocFeedbackModuleComponent {
 
   title = 'Feedback Module';
+  description = ``;
 
   components = [
     DocFeedbackMenuComponent

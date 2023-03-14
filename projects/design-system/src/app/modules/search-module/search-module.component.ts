@@ -16,6 +16,7 @@ import { DocTabsComponent } from './tabs/tabs.component';
 export class DocSearchModuleComponent {
 
   title = 'Search Module';
+  description = ``;
 
   components = [
     DocDidYouMeanComponent,

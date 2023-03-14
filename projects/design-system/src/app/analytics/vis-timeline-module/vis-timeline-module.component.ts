@@ -8,6 +8,7 @@ import { DocResultTimelineComponent } from './result-timeline/result-timeline.co
 export class DocVisTimelineModuleComponent {
 
   title = 'Vis Timeline Module';
+  description = ``;
 
   components = [
     DocResultTimelineComponent

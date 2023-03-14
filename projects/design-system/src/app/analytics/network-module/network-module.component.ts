@@ -10,6 +10,7 @@ import { DocNodeInfoCardComponent } from './node-info-card/node-info-card.compon
 export class DocNetworkModuleComponent {
 
   title = 'Network Module';
+  description = ``;
 
   components = [
     DocEdgeInfoCardComponent,

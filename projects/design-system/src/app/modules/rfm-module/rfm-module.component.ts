@@ -8,6 +8,7 @@ import { DocRfmActionComponent } from './rfm-action/rfm-action.component';
 export class DocRfmModuleComponent {
 
   title = 'RFM Module';
+  description = ``;
 
   components = [
     DocRfmActionComponent

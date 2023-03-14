@@ -15,6 +15,7 @@ import { DocSelectComponent } from './select/select.component';
 export class DocAdvancedModuleComponent {
 
   title = 'Advanced Module';
+  description = ``;
 
   components = [
     DocAdvancedFormCheckboxComponent,

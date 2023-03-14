@@ -16,6 +16,7 @@ import { DocRefineComponent } from './refine/refine.component';
 export class DocFacetModuleComponent {
 
   title = 'Facet Module';
+  description = ``;
 
   components = [
     DocFacetComponent,

@@ -8,6 +8,7 @@ import { DocFacetChartComponent } from './facet-chart/facet-chart.component';
 export class DocNgxChartsModuleComponent {
 
   title = 'Ngx Charts Module';
+  description = ``;
 
   components = [
     DocFacetChartComponent

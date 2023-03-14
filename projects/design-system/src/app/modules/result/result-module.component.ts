@@ -16,6 +16,7 @@ import { DocUserRatingComponent } from './user-rating/user-rating.component';
 export class DocResultModuleComponent {
 
   title = 'Result Module';
+  description = ``;
 
   components = [
     DocResultExtractsComponent,

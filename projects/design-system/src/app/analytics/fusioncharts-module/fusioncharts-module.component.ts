@@ -9,6 +9,7 @@ import { DocMultiLevelPieChartComponent } from './multi-level-pie-chart/multi-le
 export class DocFusionchartsModuleComponent {
 
   title = 'Fusioncharts Module';
+  description = ``;
 
   components = [
     DocChartComponent,

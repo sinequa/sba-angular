@@ -15,6 +15,7 @@ import { DocSavedQueriesMenuComponent } from './saved-queries-menu/saved-queries
 export class DocSavedQueriesModuleComponent {
 
   title = 'Saved Queries Module';
+  description = ``;
 
   components = [
     DocEditSavedQueryComponent,

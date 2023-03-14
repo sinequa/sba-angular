@@ -8,6 +8,7 @@ export class DocComponentDemoComponent {
 
   @Input() title: string;
   @Input() code: string | string[];
+  @Input() description: string;
   @Input() componentClass = 'col-5';
   @Input() codeClass = 'col-7';
 

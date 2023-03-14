@@ -8,6 +8,7 @@ import { DocAutocompleteListComponent } from './autocomplete-list/autocomplete-l
 export class DocAutocompleteModuleComponent {
 
   title = 'Autocomplete Module';
+  description = ``;
 
   components = [
     DocAutocompleteListComponent

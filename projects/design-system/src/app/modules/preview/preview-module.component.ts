@@ -21,6 +21,7 @@ import { DocSimilarDocumentsComponent } from './similar-documents/similar-docume
 export class DocPreviewModuleComponent {
 
   title = 'Preview Module';
+  description = ``;
 
   components = [
     DocFacetPreviewComponentComponent,

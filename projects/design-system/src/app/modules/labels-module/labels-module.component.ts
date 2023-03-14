@@ -13,6 +13,7 @@ import { DocRenameLabelComponent } from './rename-label/rename-label.component';
 export class DocLabelsModuleComponent {
 
   title = 'Labels Module';
+  description = ``;
 
   components = [
     DocAddLabelComponent,

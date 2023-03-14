@@ -66,6 +66,9 @@ html {
   border: .4rem solid $blue-1
 }
 
-pre code.hljs {
-  padding: 0 !important;
+.module-description {
+  pre {
+    background-color: gainsboro;
+    padding: 1rem;
+  }
 }

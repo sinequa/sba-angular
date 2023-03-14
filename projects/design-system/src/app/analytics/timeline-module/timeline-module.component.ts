@@ -11,6 +11,7 @@ import { DocTimelineComponent } from './timeline/timeline.component';
 export class DocTimelineModuleComponent {
 
   title = 'Timeline Module';
+  description = ``;
 
   components = [
     DocFacetDateComponent,

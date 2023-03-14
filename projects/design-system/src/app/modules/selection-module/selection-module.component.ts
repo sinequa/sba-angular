@@ -10,6 +10,7 @@ import { DocSelectionArrangerComponent } from './selection-arranger/selection-ar
 export class DocSelectionModuleComponent {
 
   title = 'Selection Module';
+  description = ``;
 
   components = [
     DocResultSelectorComponent,

@@ -8,6 +8,7 @@ import { DocAgGridViewComponent } from './ag-grid-view/ag-grid-view.component';
 export class DocAgGridModuleComponent {
 
   title = 'AG Grid Module';
+  description = ``;
 
   components = [
     DocAgGridViewComponent

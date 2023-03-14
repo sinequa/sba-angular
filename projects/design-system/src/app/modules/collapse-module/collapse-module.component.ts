@@ -9,6 +9,7 @@ import { DocCollapseComponent } from './collapse/collapse.component';
 export class DocCollapseModuleComponent {
 
   title = 'Collapse Module';
+  description = ``;
 
   components = [
     DocCollapseComponent,

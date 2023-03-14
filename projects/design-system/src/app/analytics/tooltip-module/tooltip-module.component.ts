@@ -8,6 +8,7 @@ import { DocTooltip2Component } from './tooltip-2/tooltip-2.component';
 export class DocTooltipModuleComponent {
 
   title = 'Tooltip Module';
+  description = ``;
 
   components = [
     DocTooltip2Component

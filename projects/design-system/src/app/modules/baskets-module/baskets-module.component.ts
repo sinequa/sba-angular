@@ -13,6 +13,7 @@ import { DocSelectBasketsComponent } from './select-baskets/select-baskets.compo
 export class DocBasketsModuleComponent {
 
   title = 'Baskets Module';
+  description = ``;
 
   components = [
     DocBasketsMenuComponent,

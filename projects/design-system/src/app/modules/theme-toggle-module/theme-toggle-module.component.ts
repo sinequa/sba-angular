@@ -8,6 +8,7 @@ import { DocThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 export class DocThemeToggleModuleComponent {
 
   title = 'Theme Toggle Module';
+  description = ``;
 
   components = [
     DocThemeToggleComponent

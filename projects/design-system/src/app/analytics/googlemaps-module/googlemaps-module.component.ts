@@ -8,6 +8,7 @@ import { DocMapComponent } from './map/map.component';
 export class DocGooglemapsModuleComponent {
 
   title = 'Googlemaps Module';
+  description = ``;
 
   components = [
     DocMapComponent

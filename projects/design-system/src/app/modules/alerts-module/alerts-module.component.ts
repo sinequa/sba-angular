@@ -11,6 +11,7 @@ import { DocManageAlertsComponent } from './manage-alerts/manage-alerts.componen
 export class DocAlertsModuleComponent {
 
   title = 'Alerts Module';
+  description = ``;
 
   components = [
     DocAlertsComponent,

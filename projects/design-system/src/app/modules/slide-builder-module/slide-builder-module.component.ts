@@ -9,6 +9,7 @@ import { DocSlideListComponent } from './slide-list/slide-list.component';
 export class DocSlideBuilderModuleComponent {
 
   title = 'Slide Builder Module';
+  description = ``;
 
   components = [
     DocSlideBuilderComponent,

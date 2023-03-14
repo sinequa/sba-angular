@@ -9,6 +9,7 @@ import { DocResultsViewSelectorComponent } from './results-view-selector/results
 export class DocResultsViewModuleComponent {
 
   title = 'Results View Module';
+  description = ``;
 
   components = [
     DocResultsGridViewComponent,

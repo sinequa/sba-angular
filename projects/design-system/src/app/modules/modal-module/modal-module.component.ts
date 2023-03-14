@@ -16,6 +16,7 @@ import { DocPromptComponent } from './prompt/prompt.component';
 export class DocModalModuleComponent {
 
   title = 'Modal Module';
+  description = ``;
 
   components = [
     DocConfirmComponent,

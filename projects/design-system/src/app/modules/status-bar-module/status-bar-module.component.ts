@@ -9,6 +9,7 @@ import { DocNetworkActivityComponent } from './network-activity/network-activity
 export class DocStatusBarModuleComponent {
 
   title = 'Status Bar Module';
+  description = ``;
 
   components = [
     DocFullscreenActivatorComponent,

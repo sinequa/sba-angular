@@ -9,6 +9,7 @@ import { DocMoneyTimelineComponent } from './money-timeline/money-timeline.compo
 export class DocFinanceModuleComponent {
 
   title = 'Finance Module';
+  description = ``;
 
   components = [
     DocMoneyCloudComponent,
