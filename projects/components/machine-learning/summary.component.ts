@@ -79,12 +79,12 @@ export type OpenAIResponse = {
           <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
           <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
         </span>
-        <div>
+        <div style="min-width: 0;">
           <div class="message-content" [innerHTML]="message.$content"></div>
           <div *ngIf="message.$citations.length" class="citations small">
             <b>Citations:</b>
             <ul class="list-group">
-              <li *ngFor="let citation of message.$citations">
+              <li *ngFor="let citation of message.$citations" class="text-truncate" [title]="citation.$record.title">
                 <span class="citation me-1">{{citation.refId}}</span> <a href="{{citation.$record.url1}}">{{citation.$record.title}}</a>
               </li>
             </ul>
@@ -212,20 +212,28 @@ export class SummaryComponent implements OnChanges {
       m.$content = marked(m.content);
       m.$citations = [];
       if(m.role === 'assistant') {
-        const matches = m.$content.matchAll(/\[(\d+)\]/g);
+        const matches = m.$content.matchAll(/\[(\d+(,[ \d]+)*)\]/g);
         const citations = new Set<number>();
         for(let match of matches) {
-          citations.add(+match[1]);
+          for(let ref of match[1].split(',')) {
+            citations.add(+ref);
+          }
         }
         m.$citations = [...citations].sort((a,b)=> a-b)
                                      .map(i => this.scope?.find(ref => ref.refId === i)!)
                                      .filter(r => r);
-        m.$content = m.$content.replace(/\[(\d+)\]/g, (str,ref) => {
-          const record = this.scope?.find(s => s.refId === +ref)?.$record;
-          if(record) {
-            return `<a class="citation" href="${record.url1}" title="${record.title}">${ref}</a>`;
+        m.$content = m.$content.replace(/\[(\d+(,[ \d]+)*)\]/g, (str,match) => {
+          let html = '';
+          for(let ref of match.split(',')) {
+            const record = this.scope?.find(s => s.refId === +ref)?.$record;
+            if(record) {
+              html += `<a class="citation" href="${record.url1}" title="${record.title}">${ref}</a>`;
+            }
+            else {
+              html += `<span class="citation">${ref}</span>`;
+            }
           }
-          return `<span class="citation">${ref}</a>`;
+          return html;
         });
       }
     }
