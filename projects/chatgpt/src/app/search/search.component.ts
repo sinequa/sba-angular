@@ -9,9 +9,7 @@ import { LoginService } from '@sinequa/core/login';
 import { Results, Record, TopPassage, RelevantExtract } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES, METADATA } from '../../config';
-import { ChatComponent, defaultChatConfig } from '../chat/chat.component';
-import { ChatAttachment, ChatService } from '../chat/chat.service';
-import { SavedChatService } from '../chat/saved-chat.service';
+import { ChatComponent, ChatAttachment, ChatService } from '@sinequa/components/machine-learning';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
@@ -71,7 +69,6 @@ export class SearchComponent implements OnInit {
     public intlService: IntlService,
     public chatService: ChatService,
     public prefs: UserPreferences,
-    public savedChatService: SavedChatService
   ) { }
 
 
@@ -223,9 +220,18 @@ export class SearchComponent implements OnInit {
   configPatchDone = false;
 
   get chatConfig() {
-    let config = this.prefs.get('chat-config') || defaultChatConfig;
+    let config = this.prefs.get('chat-config') || {};
     if(!this.configPatchDone) {
-      config = {...defaultChatConfig, ...config}; // Introduce new options
+      config = {
+        modelTemperature: 1.0, // Introduce new options
+        modelTopP: 1.0,
+        modelMaxTokens: 800,
+        addAttachmentPrompt: "Summarize this document",
+        addAttachmentsPrompt: "Summarize these documents",
+        initialUserPrompt: "Hello, I am a user of the Sinequa search engine",
+        textBeforeAttachments: false,
+        ...config
+      };
       this.prefs.set('chat-config', config);
       this.configPatchDone = true;
     }

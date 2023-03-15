@@ -11,9 +11,11 @@ import { IntlModule } from "@sinequa/core/intl";
 import { AnswerCardComponent } from "./answer-card.component";
 import { PassageListComponent } from "./passage-list.component";
 import { TopPassagesComponent } from "./top-passages/top-passages.component";
-import { SummaryComponent } from "./summary.component";
 import { SummarySettingsComponent } from "./summary-settings.component";
 
+import { ChatComponent } from "./chat/chat.component";
+import { ChatSettingsComponent } from "./chat/chat-settings.component";
+import { SavedChatsComponent } from "./chat/saved-chats.component";
 
 
 @NgModule({
@@ -30,14 +32,18 @@ import { SummarySettingsComponent } from "./summary-settings.component";
         AnswerCardComponent,
         PassageListComponent,
         TopPassagesComponent,
-        SummaryComponent,
-        SummarySettingsComponent
+        SummarySettingsComponent,
+        ChatComponent,
+        ChatSettingsComponent,
+        SavedChatsComponent
     ],
     exports: [
         AnswerCardComponent,
         PassageListComponent,
         TopPassagesComponent,
-        SummaryComponent
+        ChatComponent,
+        ChatSettingsComponent,
+        SavedChatsComponent
     ]
 })
 export class MLModule {

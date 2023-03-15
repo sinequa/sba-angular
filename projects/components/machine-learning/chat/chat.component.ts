@@ -1,30 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { BehaviorSubject, delay, Subscription } from "rxjs";
-import { ChatAttachment, ChatMessage, ChatService, OpenAIModelTokens } from "./chat.service";
-import { SavedChat, SavedChatService } from "./saved-chat.service";
-
-export interface ChatConfig {
-  modelTemperature: number;
-  modelTopP: number;
-  modelMaxTokens: number;
-  initialPrompt: string;
-  textBeforeAttachments?: boolean; // true = attachments after text, otherwise before
-  addAttachmentPrompt: string;
-  addAttachmentsPrompt: string;
-}
-
-export const defaultChatConfig: ChatConfig = {
-  modelTemperature: 1.0,
-  modelTopP: 1.0,
-  modelMaxTokens: 800,
-  initialPrompt: "Hello, I am a user of the Sinequa search engine",
-  addAttachmentPrompt: "Summarize this document",
-  addAttachmentsPrompt: "Summarize these documents"
-}
-
-export const defaultHistory: ChatMessage[] = [
-  { role: 'system', display: false, content: 'You are a helpful assistant' },
-]
+import { ChatAttachment, ChatMessage, ChatService, OpenAIModelTokens, SavedChat } from "./chat.service";
 
 
 @Component({
@@ -34,7 +10,17 @@ export const defaultHistory: ChatMessage[] = [
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  @Input() config = defaultChatConfig;
+  @Input() chat?: SavedChat;
+  @Input() searchMode = true;
+  @Input() textBeforeAttachments = false;
+  @Input() displayAttachments = true;
+  @Input() temperature = 1.0;
+  @Input() topP = 1.0;
+  @Input() maxTokens = 800;
+  @Input() initialSystemPrompt = "You are a helpful assistant";
+  @Input() initialUserPrompt = "Hello, I am a user of the Sinequa search engine";
+  @Input() addAttachmentPrompt = "Summarize this document";
+  @Input() addAttachmentsPrompt = "Summarize these documents";
   @Output() data = new EventEmitter<ChatMessage[]>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
@@ -45,21 +31,25 @@ export class ChatComponent implements OnInit, OnDestroy {
   loadingAttachments = false;
   messages$ = new BehaviorSubject<ChatMessage[] | undefined>(undefined);
 
-  searchBeforeSend = true;
   question = '';
+  searchBeforeSend = true;
 
   tokensPercentage = 0;
   tokensAbsolute = 0;
   tokens?: OpenAIModelTokens;
 
   constructor(
-    public chatService: ChatService,
-    public savedChatService: SavedChatService
+    public chatService: ChatService
   ) { }
 
   ngOnInit() {
-    if(this.savedChatService.openChat) {
-      this.openChat(this.savedChatService.openChat);
+    this.searchBeforeSend = this.searchMode;
+    if(this.chat) {
+      this.openChat(this.chat);
+    }
+    else if(this.chatService.openChat) {
+      this.openChat(this.chatService.openChat);
+      delete this.chatService.openChat;
     }
     else {
       this.fetchInitial();
@@ -99,7 +89,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       const attachments = this.chatService.attachments$.value;
       const attachmentTokens = attachments.reduce((prev, cur) => prev + cur.tokenCount, 0);
       this.tokensAbsolute = (this.tokens.used || 0) + questionTokens + attachmentTokens;
-      this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / (this.tokens.model - this.config.modelMaxTokens));
+      this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / (this.tokens.model - this.maxTokens));
     }
   }
 
@@ -109,25 +99,28 @@ export class ChatComponent implements OnInit, OnDestroy {
     if(this.messages$.value) {
       this.messages$.next(undefined); // Reset chat
     }
-    const messages = [
-      ...defaultHistory,
-      {role: 'user', content: this.config.initialPrompt, display: true}
-    ]
+    const messages: ChatMessage[] = [];
+    if(this.initialSystemPrompt) {
+      messages.push({role: 'assistant', display: false, content: this.initialSystemPrompt});
+    }
+    if(this.initialUserPrompt) {
+      messages.push({role: 'user', display: true, content: this.initialUserPrompt});
+    }
     this.fetch(messages);
   }
 
   private fetchAnswer(question: string, messages: ChatMessage[], attachments: ChatAttachment[]) {
     this.loadingAnswer = true;
 
-    const attachmentMsg: ChatMessage[] = attachments.map(attachment => ({
+    const attachmentMsg: ChatMessage[] = attachments.map($attachment => ({
       role: 'user',
-      content: attachment.$payload,
+      content: $attachment.$payload,
       display: true,
-      attachment
+      $attachment
     }));
 
     const message = {role: 'user', content: question, display: true};
-    if(this.config.textBeforeAttachments) {
+    if(this.textBeforeAttachments) {
       attachmentMsg.unshift(message);
     }
     else {
@@ -140,7 +133,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   private fetch(messages: ChatMessage[]) {
-    this.chatService.fetch(messages, this.config.modelTemperature, this.config.modelMaxTokens, this.config.modelTopP)
+    this.chatService.fetch(messages, 'GPT35Turbo', this.temperature, this.maxTokens, this.topP)
       .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
     this.scrollDown();
   }
@@ -158,10 +151,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   suggestQuestion(attachments: ChatAttachment[]) {
     if(attachments.length === 1 && this.question === '') {
-      return this.config.addAttachmentPrompt || defaultChatConfig.addAttachmentPrompt;
+      return this.addAttachmentPrompt || this.question;
     }
-    else if(attachments.length > 1 && (this.question === '' || this.question === this.config.addAttachmentPrompt)) {
-      return this.config.addAttachmentsPrompt || defaultChatConfig.addAttachmentsPrompt;
+    else if(attachments.length > 1 && (this.question === '' || this.question === this.addAttachmentPrompt)) {
+      return this.addAttachmentsPrompt || this.question;
     }
     return this.question;
   }
@@ -177,7 +170,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   saveChat() {
     if(this.messages$.value && this.tokens) {
       const messages = this.chatService.cleanAttachments(this.messages$.value);
-      this.savedChatService.saveChat(messages, this.tokens);
+      this.chatService.saveChat(messages, this.tokens);
     }
   }
 
@@ -186,7 +179,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatService.restoreAttachments(chat.messages)
       .pipe(delay(0)) // In case the observer completes synchronously, the delay forces async update and prevents "change after checked" error
       .subscribe(messages => this.updateData(messages, tokens))
-    delete this.savedChatService.openChat;
   }
 
   onSearchBeforeSendChange(value: boolean) {

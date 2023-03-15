@@ -18,7 +18,7 @@
           <li class="nav-item">
             <a class="nav-link" role="button" [ngClass]="{active: settingsView}" (click)="toggleChatSettings()">Settings</a>
           </li>
-          <li class="nav-item" *ngIf="loginService.complete && (savedChatView || savedChatService.savedChats.length)">
+          <li class="nav-item" *ngIf="loginService.complete && (savedChatView || chatService.savedChats.length)">
             <a class="nav-link" role="button" [ngClass]="{active: savedChatView}" (click)="toggleSavedChats()">Saved chats</a>
           </li>
         </ul>
@@ -37,8 +37,15 @@
       </div>
 
       <sq-chat #sqChat *ngIf="!settingsView && !savedChatView && loginService.complete"
-        class="flex-grow-1 mb-3" style="min-height: 0;"
-        [config]="chatConfig"
+        class="card h-100 shadow-lg rounded-4 flex-grow-1 mb-3 overflow-hidden"
+        [searchMode]="true"
+        [temperature]="chatConfig.modelTemperature"
+        [topP]="chatConfig.modelTopP"
+        [maxTokens]="chatConfig.modelMaxTokens"
+        [addAttachmentPrompt]="chatConfig.addAttachmentPrompt"
+        [addAttachmentsPrompt]="chatConfig.addAttachmentsPrompt"
+        [initialUserPrompt]="chatConfig.initialUserPrompt"
+        [textBeforeAttachments]="chatConfig.textBeforeAttachments"
         (data)="showChatActions = $event.length > 4">
       </sq-chat>
 

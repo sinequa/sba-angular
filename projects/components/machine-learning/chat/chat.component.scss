@@ -1,4 +1,4 @@
-.card {
+:host {
   font-size: 0.875rem;
 }
 
@@ -11,6 +11,10 @@ li.attachment p {
 
 li.attachment.expanded p {
   display: block;
+}
+
+li.list-group-item {
+  --bs-list-group-border-width: 1px !important;
 }
 
 .progress {
@@ -31,4 +35,15 @@ li.attachment.expanded p {
 
 .form-control:disabled {
   background-color: #ededed;
+}
+
+.citations .citation, .message-content ::ng-deep .citation{
+  font-size: 0.7em;
+  font-weight: bold;
+  position: relative;
+  bottom: 0.3em;
+  padding: 0 0.2em;
+  margin: 0 0.1em;
+  border-radius: 0.2em;
+  background-color: lightblue;
 }

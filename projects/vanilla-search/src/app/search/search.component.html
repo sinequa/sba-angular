@@ -206,10 +206,6 @@
                         (previewLoaded)="previewReady($event)">
                     </sq-facet-preview-2>
                 </ng-template>
-
-                <ng-template [sqFacetView]="{text: 'Summary'}" *ngIf="openedDocPassages">
-                    <sq-summary [passages]="openedDocPassages"></sq-summary>
-                </ng-template>
             </sq-facet-card>
         </div>
     </div>

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Output } from "@angular/core";
-import { SavedChat, SavedChatService } from "./saved-chat.service";
+import { SavedChat, ChatService } from "./chat.service";
 
 @Component({
   selector: 'sq-saved-chats',
   template: `
   <ul class="list-group list-group-flush rounded-4">
-    <li *ngFor="let chat of savedChatService.savedChats"
+    <li *ngFor="let chat of chatService.savedChats"
       class="d-flex align-items-center list-group-item list-group-item-action">
       <a class="flex-grow-1" role="button" (click)="onLoad(chat)">
         {{chat.name}}
@@ -21,16 +21,16 @@ export class SavedChatsComponent {
   @Output() load = new EventEmitter<SavedChat>();
 
   constructor(
-    public savedChatService: SavedChatService
+    public chatService: ChatService
   ){}
 
   onLoad(chat: SavedChat) {
     this.load.emit(chat);
-    this.savedChatService.loadChat(chat);
+    this.chatService.loadChat(chat);
   }
 
   delete(chat: SavedChat) {
-    this.savedChatService.delete(chat.name);
+    this.chatService.delete(chat.name);
   }
 
 }

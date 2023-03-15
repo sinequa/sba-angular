@@ -1,5 +1,36 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { defaultSummarizerConfig, SummarizerConfig } from "./summary.component";
+import { OpenAIModel } from "./chat/chat.service";
+
+export interface SummarizerConfig {
+  modelTemperature: number;
+  modelTopP: number;
+  modelMaxTokens: number;
+
+  promptProtection: boolean;
+
+  summarizationModel: OpenAIModel;
+  promptInsertBeforePassages: string;
+  extendBefore: number;
+  extendAfter: number;
+  top: number;
+}
+
+export const defaultSummarizerConfig: SummarizerConfig = {
+  modelTemperature: 1.0,
+  modelTopP: 1.0,
+  modelMaxTokens: 800,
+  promptProtection: true,
+  summarizationModel: 'GPT35Turbo',
+  promptInsertBeforePassages: ` The below documents contains extracts returned by a search engine. Your job is two perform 2 tasks:
+  1 - Try to answer the Query in one short sentence. If you can't or don't have enough context or information from any documents to answer the query, just say so.
+  2 - Generate a single summary of all the documents in the context of the Query, using between 5 to 12 sentences.
+  Make sure you include the reference in the form [id].
+  Answer using using markdown syntax.
+  Query: {queryText}`,
+  extendBefore: 0,
+  extendAfter: 0,
+  top: 10,
+}
 
 @Component({
   selector: 'sq-summary-settings',

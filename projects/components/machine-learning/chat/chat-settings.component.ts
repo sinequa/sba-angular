@@ -1,5 +1,4 @@
 import { Component, Input } from "@angular/core";
-import { ChatConfig } from "./chat.component";
 
 @Component({
   selector: 'sq-chat-settings',
@@ -10,8 +9,8 @@ import { ChatConfig } from "./chat.component";
       <label class="form-check-label" for="textBeforeAttachments">Send text before attachments</label>
     </div>
     <div class="mb-2">
-      <label for="initialPrompt" class="form-label">Initial prompt</label>
-      <textarea class="form-control" id="initialPrompt" [(ngModel)]="config.initialPrompt"></textarea>
+      <label for="initialUserPrompt" class="form-label">Initial user prompt</label>
+      <textarea class="form-control" id="initialUserPrompt" [(ngModel)]="config.initialUserPrompt"></textarea>
     </div>
     <div class="mb-2">
       <label for="addAttachmentPrompt" class="form-label">Default prompt when adding an attachment</label>
@@ -36,5 +35,5 @@ import { ChatConfig } from "./chat.component";
   </div>  `
 })
 export class ChatSettingsComponent {
-  @Input() config: ChatConfig;
+  @Input() config: any;
 }

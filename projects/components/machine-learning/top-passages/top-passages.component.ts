@@ -3,8 +3,10 @@ import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from
 import { AbstractFacet } from '@sinequa/components/facet';
 import { SearchService } from "@sinequa/components/search";
 import { Action } from "@sinequa/components/action";
-import { defaultSummarizerConfig, SummarizerConfig } from "../summary.component";
+import { defaultSummarizerConfig, SummarizerConfig } from "../summary-settings.component";
 import { UserPreferences } from "@sinequa/components/user-settings";
+import { ChatService } from "../chat/chat.service";
+import { SavedChat } from "../public-api";
 
 @Component({
   selector: 'sq-top-passages',
@@ -22,16 +24,32 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   @Output() previewOpened = new EventEmitter<TopPassage>();
   @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
 
+  loadingSummary = false;
+  chat?: SavedChat;
   passages?: TopPassage[];
-  passagesToSummarize?: TopPassage[];
   documentsNb: number;
 
   summarizeAction = new Action({
     text: "Summarize",
     disabled: true,
     action: () => {
-      this.passagesToSummarize = this.passages?.filter(p => p.$checked);
-      this.summarizeAction.disabled = true;
+      const passages = this.passages?.filter(p => p.$checked);
+      if(passages?.length) {
+        const conf = this.summarizerConfig;
+        this.chatService.summarize(passages, conf.summarizationModel, conf.modelTemperature, conf.modelMaxTokens, conf.modelTopP, conf.extendBefore, conf.extendAfter, conf.top, conf.promptInsertBeforePassages)
+          .subscribe(res => {
+            this.chat = {
+              name: '',
+              messages: res.messagesHistory,
+              tokens: res.tokens
+            }
+            this.loadingSummary = false;
+            this.cdRef.detectChanges();
+          });
+        this.summarizeAction.disabled = true;
+        this.loadingSummary = true;
+      }
+      this.chat = undefined;
       this.cdRef.detectChanges();
     }
   });
@@ -41,6 +59,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   constructor(
     private auditService: AuditWebService,
     private searchService: SearchService,
+    public chatService: ChatService,
     public prefs: UserPreferences,
     public cdRef: ChangeDetectorRef
   ) {
@@ -49,8 +68,8 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.documentsNb = 0;
-    this.passagesToSummarize = undefined;
     this.passages = undefined;
+    this.chat = undefined;
     if(this.results.topPassages?.passages?.length) {
       this.fetchPassagesRecords(this.results.topPassages.passages);
     }

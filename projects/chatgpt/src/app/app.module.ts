@@ -32,7 +32,6 @@ import { BsPreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule } from '@sinequa/components/selection';
 import { MLModule } from '@sinequa/components/machine-learning';
-import { CommentsModule } from "@sinequa/components/comments";
 
 import { SearchFormComponent } from "@sinequa/components/search-form";
 import { FiltersModule } from "@sinequa/components/filters";
@@ -42,9 +41,6 @@ import { AppComponent } from "./app.component";
 import { SearchComponent } from './search/search.component';
 import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { AutocompleteComponent } from "./search-form/autocomplete.component";
-import { ChatComponent } from "./chat/chat.component";
-import { ChatSettingsComponent } from "./chat/chat-settings.component";
-import { SavedChatsComponent } from "./chat/saved-chats.component";
 
 // Environment
 import { environment } from "../environments/environment";
@@ -142,17 +138,13 @@ export const breakpoints = {
         BsSelectionModule,
         MLModule,
         FiltersModule,
-        SearchFormComponent,
-        CommentsModule
+        SearchFormComponent
     ],
     declarations: [
         AppComponent,
         SearchComponent,
         AppSearchFormComponent,
-        AutocompleteComponent,
-        ChatComponent,
-        ChatSettingsComponent,
-        SavedChatsComponent
+        AutocompleteComponent
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa
