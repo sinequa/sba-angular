@@ -1,41 +1,48 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
-import { JsonMethodPluginService, TopPassage } from "@sinequa/core/web-services";
+import { JsonMethodPluginService, TopPassage, Record } from "@sinequa/core/web-services";
 import { SearchService } from "@sinequa/components/search";
-import { BehaviorSubject, Observable, tap } from "rxjs";
+import { BehaviorSubject, map, Observable } from "rxjs";
+import { marked } from "marked";
 
 export interface SummarizerConfig {
   modelTemperature: number;
   modelTopP: number;
   modelMaxTokens: number;
 
-  removeOverlap: boolean;
-  removeDuplicates: boolean;
+  promptProtection: boolean;
+
+  summarizationModel: OpenAIModel;
   promptInsertBeforePassages: string;
-  promptInsertAfterPassages: string;
   extendBefore: number;
   extendAfter: number;
-  topPassages: number;
+  top: number;
 }
 
 export const defaultSummarizerConfig: SummarizerConfig = {
+  modelTemperature: 1.0,
+  modelTopP: 1.0,
+  modelMaxTokens: 800,
+  promptProtection: true,
+  summarizationModel: 'GPT35Turbo',
+  promptInsertBeforePassages: ` The below documents contains extracts returned by a search engine. Your job is two perform 2 tasks:
+  1 - Try to answer the Query in one short sentence. If you can't or don't have enough context or information from any documents to answer the query, just say so.
+  2 - Generate a single summary of all the documents in the context of the Query, using between 5 to 12 sentences.
+  Make sure you include the reference in the form [id].
+  Answer using using markdown syntax.
+  Query: {queryText}`,
   extendBefore: 0,
   extendAfter: 0,
-  removeOverlap: true,
-  removeDuplicates: true,
-  topPassages: 10,
-  modelTemperature: 0.7,
-  modelTopP: 1.0,
-  modelMaxTokens: 512,
-  promptInsertBeforePassages: "The below passages are extracts from documents returned by a search engine. Your job is to summarize these passages in order to provide an answer to the following query: {queryText}",
-  promptInsertAfterPassages: ""
+  top: 10,
 }
 
-export type OpenAIModel = "OpenAITextDavinci3" | "OpenAIgpt35Turbo";
+export type OpenAIModel = "Davinci3" | "GPT35Turbo";
 
 export type OpenAIModelMessage = {
   role: string;
   content: string;
   display: boolean;
+  $content: string;
+  $citations: OpenAIReference[];
 }
 
 export type OpenAIModelTokens = {
@@ -44,9 +51,17 @@ export type OpenAIModelTokens = {
   left: number;
 }
 
+export type OpenAIReference = {
+  refId: number;
+  recordId: string;
+  lEnginePassages: {passage_id: number; offset: number; length: number;}[];
+  $record: Record;
+}
+
 export type OpenAIResponse = {
   messagesHistory: OpenAIModelMessage[];
   tokens: OpenAIModelTokens;
+  scope?: OpenAIReference[];
 }
 
 @Component({
@@ -64,7 +79,17 @@ export type OpenAIResponse = {
           <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
           <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
         </span>
-        <div [innerHTML]="message.content | sqMarkdown"></div>
+        <div style="min-width: 0;">
+          <div class="message-content" [innerHTML]="message.$content"></div>
+          <div *ngIf="message.$citations.length" class="citations small">
+            <b>Citations:</b>
+            <ul class="list-group">
+              <li *ngFor="let citation of message.$citations" class="text-truncate" [title]="citation.$record.title">
+                <span class="citation me-1">{{citation.refId}}</span> <a href="{{citation.$record.url1}}">{{citation.$record.title}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </li>
     </ng-container>
 
@@ -99,13 +124,22 @@ export type OpenAIResponse = {
     max-height: 100vh;
     font-size: 0.875rem;
   }
+  .citations .citation, .message-content ::ng-deep .citation{
+    font-size: 0.7em;
+    font-weight: bold;
+    position: relative;
+    bottom: 0.3em;
+    padding: 0 0.2em;
+    margin: 0 0.1em;
+    border-radius: 0.2em;
+    background-color: lightblue;
+  }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SummaryComponent implements OnChanges {
   @Input() passages?: TopPassage[];
   @Input() config = defaultSummarizerConfig;
-  @Input() model: OpenAIModel = "OpenAIgpt35Turbo";
 
   @Output() data = new EventEmitter<OpenAIModelMessage>();
 
@@ -118,6 +152,8 @@ export class SummaryComponent implements OnChanges {
   tokensAbsolute = 0;
   tokens?: OpenAIModelTokens;
 
+  scope?: OpenAIReference[];
+
   constructor(
     public jsonMethodWebService: JsonMethodPluginService,
     public searchService: SearchService
@@ -125,12 +161,14 @@ export class SummaryComponent implements OnChanges {
 
   ngOnChanges() {
     // Auto-migrate from older versions
-    if(!this.config.modelMaxTokens) {
+    if(!this.config.summarizationModel) {
       Object.assign(this.config, defaultSummarizerConfig);
     }
 
     if(this.passages) {
-      this.fetchData(this.passages);
+      this.loading = true;
+      this.messages$.next(undefined);
+      this.summarize(this.passages);
     }
     else {
       this.messages$.next(undefined);
@@ -140,58 +178,120 @@ export class SummaryComponent implements OnChanges {
 
   submitQuestion() {
     if(this.question.trim() && this.messages$.value) {
-      this.fetchAnswer(this.question.trim(), this.messages$.value);
+      this.loadingAnswer = true;
+      this.chat(this.messages$.value, this.question.trim());
     }
   }
 
   updateTokensPercentage() {
     if(this.tokens) {
       const questionTokens = Math.floor(this.question.trim().length / 3.5);
-      this.tokensAbsolute = (this.tokens.used || 0) + questionTokens;
+      this.tokensAbsolute = (this.tokens.used || 0) + questionTokens + this.config.modelMaxTokens;
       this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / this.tokens.model);
     }
   }
 
-  private fetchData(passages: TopPassage[]): void {
-    this.loading = true;
-    this.messages$.next(undefined);
+  updateData(res: OpenAIResponse) {
+    this.processMessages(res.messagesHistory, res.scope);
+    this.messages$.next(res.messagesHistory);
+    this.data.emit(res.messagesHistory.at(-1));
+    this.loading = false;
+    this.loadingAnswer = false;
+    this.question = '';
+    this.tokens = res.tokens;
+    this.updateTokensPercentage();
+  }
+
+  processMessages(messages: OpenAIModelMessage[], scope?: OpenAIReference[]) {
+    if(scope) {
+      this.scope = scope;
+      this.scope.forEach(s => s.$record = this.searchService.results?.records.find(r => r.id === s.recordId)
+          || this.passages?.find(p => p.$record?.id === s.recordId)?.$record!)
+    }
+    for(let m of messages) {
+      m.$content = marked(m.content);
+      m.$citations = [];
+      if(m.role === 'assistant') {
+        const matches = m.$content.matchAll(/\[(\d+(,[ \d]+)*)\]/g);
+        const citations = new Set<number>();
+        for(let match of matches) {
+          for(let ref of match[1].split(',')) {
+            citations.add(+ref);
+          }
+        }
+        m.$citations = [...citations].sort((a,b)=> a-b)
+                                     .map(i => this.scope?.find(ref => ref.refId === i)!)
+                                     .filter(r => r);
+        m.$content = m.$content.replace(/\[(\d+(,[ \d]+)*)\]/g, (str,match) => {
+          let html = '';
+          for(let ref of match.split(',')) {
+            const record = this.scope?.find(s => s.refId === +ref)?.$record;
+            if(record) {
+              html += `<a class="citation" href="${record.url1}" title="${record.title}">${ref}</a>`;
+            }
+            else {
+              html += `<span class="citation">${ref}</span>`;
+            }
+          }
+          return html;
+        });
+      }
+    }
+  }
+
+  public summarize(topPassages: TopPassage[]) {
     const queryText = this.searchService.query.text || '';
+    const model = {
+      model: this.config.summarizationModel,
+      temperature: this.config.modelTemperature,
+      generateTokens: this.config.modelMaxTokens,
+      topP: this.config.modelTopP
+    };
+    const passages = {
+      list: topPassages.map(p => ({docId: p.recordId, passageIndex: p.id, index: p.index})),
+      extendBefore: this.config.extendBefore,
+      extendAfter: this.config.extendAfter,
+      top: this.config.top
+    };
     const data = {
-      ...this.config,
-      promptInsertBeforePassages: this.config.promptInsertBeforePassages.replace(/{queryText}/g, queryText),
-      promptInsertAfterPassages: this.config.promptInsertAfterPassages.replace(/{queryText}/g, queryText),
-
+      action: 'summarize',
+      model,
       queryText,
-      passages: passages.map(p => ({docId: p.recordId, passageIndex: p.id, index: p.index}))
-    }
-    this.fetch(data).subscribe();
+      passages,
+      prompt: this.config.promptInsertBeforePassages,
+      debug: true
+    };
+
+    this.jsonMethodWebService.post('OpenAI', data)
+      .subscribe(res => this.updateData(res));
   }
 
-  private fetchAnswer(question: string, previousMessages: OpenAIModelMessage[]) {
-    this.loadingAnswer = true;
+  public chat(messages: OpenAIModelMessage[], question: string) {
+    const model = {
+      model: this.config.summarizationModel,
+      temperature: this.config.modelTemperature,
+      generateTokens: this.config.modelMaxTokens,
+      topP: this.config.modelTopP
+    };
+    const messagesHistory = [
+      ...messages.map(m => ({role: m.role, content: m.content, display: m.display})), // Remove the volatile props ($content, $citations)
+      {role: 'user', content: question, display: true}
+    ];
     const data = {
-      ...this.config,
-      promptInsertBeforePassages: question,
-      promptInsertAfterPassages: '',
+      action: 'chat',
+      model,
+      promptProtection: this.config.promptProtection,
+      messagesHistory,
+      debug: true
+    };
 
-      previousMessages,
-      passages: [],
-      queryText: '...'
-    }
-    this.fetch(data).subscribe();
+    this.jsonMethodWebService.post('OpenAI', data)
+      .subscribe(res => this.updateData(res));
   }
 
-  private fetch(data: any): Observable<OpenAIResponse> {
-    return this.jsonMethodWebService.post(this.model, data).pipe(
-      tap((res: OpenAIResponse) => {
-        this.messages$.next(res.messagesHistory);
-        this.data.emit(res.messagesHistory.at(-1));
-        this.loading = false;
-        this.loadingAnswer = false;
-        this.question = '';
-        this.tokens = res.tokens;
-        this.updateTokensPercentage();
-      })
+  public countTokens(text: string, model: OpenAIModel): Observable<number> {
+    return this.jsonMethodWebService.post('OpenAI', {action: 'TokenCount', model, text}).pipe(
+      map(res => res.tokens)
     )
   }
 }
