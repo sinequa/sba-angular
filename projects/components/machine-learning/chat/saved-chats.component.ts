@@ -26,7 +26,6 @@ export class SavedChatsComponent {
 
   onLoad(chat: SavedChat) {
     this.load.emit(chat);
-    this.chatService.loadChat(chat);
   }
 
   delete(chat: SavedChat) {

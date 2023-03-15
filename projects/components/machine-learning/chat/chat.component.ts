@@ -47,10 +47,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     if(this.chat) {
       this.openChat(this.chat);
     }
-    else if(this.chatService.openChat) {
-      this.openChat(this.chatService.openChat);
-      delete this.chatService.openChat;
-    }
     else {
       this.fetchInitial();
     }

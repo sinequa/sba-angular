@@ -70,8 +70,6 @@ export interface SavedChat {
 export class ChatService {
   attachments$ = new BehaviorSubject<ChatAttachment[]>([]);
 
-  openChat?: SavedChat;
-
   constructor(
     public textChunksService: TextChunksWebService,
     public jsonMethodWebService: JsonMethodPluginService,
@@ -401,10 +399,6 @@ export class ChatService {
         this.save(savedChat);
       }
     });
-  }
-
-  loadChat(savedChat: SavedChat): void {
-    this.openChat = savedChat;
   }
 
 }

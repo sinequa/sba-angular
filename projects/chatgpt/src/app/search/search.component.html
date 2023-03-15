@@ -38,6 +38,7 @@
 
       <sq-chat #sqChat *ngIf="!settingsView && !savedChatView && loginService.complete"
         class="card h-100 shadow-lg rounded-4 flex-grow-1 mb-3 overflow-hidden"
+        [chat]="chat"
         [searchMode]="true"
         [temperature]="chatConfig.modelTemperature"
         [topP]="chatConfig.modelTopP"
@@ -46,7 +47,7 @@
         [addAttachmentsPrompt]="chatConfig.addAttachmentsPrompt"
         [initialUserPrompt]="chatConfig.initialUserPrompt"
         [textBeforeAttachments]="chatConfig.textBeforeAttachments"
-        (data)="showChatActions = $event.length > 4">
+        (data)="onChatData($event)">
       </sq-chat>
 
       <sq-chat-settings *ngIf="settingsView && loginService.complete"
@@ -56,7 +57,7 @@
 
       <sq-saved-chats *ngIf="savedChatView && loginService.complete"
         class="card shadow-lg rounded-4 mb-3 overflow-auto"
-        (load)="savedChatView = false">
+        (load)="openChat($event)">
       </sq-saved-chats>
     </div>
 

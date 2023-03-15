@@ -9,7 +9,7 @@ import { LoginService } from '@sinequa/core/login';
 import { Results, Record, TopPassage, RelevantExtract } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES, METADATA } from '../../config';
-import { ChatComponent, ChatAttachment, ChatService } from '@sinequa/components/machine-learning';
+import { ChatComponent, ChatAttachment, ChatService, SavedChat, ChatMessage } from '@sinequa/components/machine-learning';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
@@ -35,6 +35,7 @@ export class SearchComponent implements OnInit {
   settingsView = false;
   savedChatView = false;
   showChatActions = false;
+  chat?: SavedChat;
 
   openedDoc: Record|undefined;
 
@@ -245,13 +246,23 @@ export class SearchComponent implements OnInit {
     this.savedChatView = !this.savedChatView;
   }
 
+  onChatData(messages: ChatMessage[]) {
+    this.showChatActions = messages.length > 4;
+    this.chat = undefined;
+  }
+
+  openChat(chat: SavedChat) {
+    this.savedChatView = false;
+    this.chat = chat;
+  }
+
   resetChat() {
     this.showChatActions = false;
     this.sqChat?.fetchInitial();
   }
 
   saveChat() {
-    this.sqChat.saveChat();
+    this.sqChat?.saveChat();
   }
 
 }
