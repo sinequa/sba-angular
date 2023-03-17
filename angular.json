@@ -555,31 +555,31 @@
         }
       }
     },
-    "design-system": {
+    "components-docs": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/design-system",
-      "sourceRoot": "projects/design-system/src",
+      "root": "projects/components-docs",
+      "sourceRoot": "projects/components-docs/src",
       "prefix": "doc",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/design-system",
-            "index": "projects/design-system/src/index.html",
-            "main": "projects/design-system/src/main.ts",
-            "polyfills": "projects/design-system/src/polyfills.ts",
-            "tsConfig": "projects/design-system/tsconfig.json",
+            "outputPath": "docs/assets/sq-doc-app",
+            "index": "projects/components-docs/src/index.html",
+            "main": "projects/components-docs/src/main.ts",
+            "polyfills": "projects/components-docs/src/polyfills.ts",
+            "tsConfig": "projects/components-docs/tsconfig.json",
             "preserveSymlinks": true,
             "assets": [
-              "projects/design-system/src/favicon.ico",
-              "projects/design-system/src/assets"
+              "projects/components-docs/src/favicon.ico",
+              "projects/components-docs/src/assets"
             ],
-            "styles": ["projects/design-system/src/styles/app.scss"],
+            "styles": ["projects/components-docs/src/styles/app.scss"],
             "scripts": [],
             "allowedCommonJsDependencies": [
               "hammerjs",
@@ -608,11 +608,11 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/design-system/src/environments/environment.ts",
-                  "with": "projects/design-system/src/environments/environment.prod.ts"
+                  "replace": "projects/components-docs/src/environments/environment.ts",
+                  "with": "projects/components-docs/src/environments/environment.prod.ts"
                 }
               ],
-              "outputPath": "dist/design-system",
+              "outputPath": "docs/assets/sq-doc-app",
               "buildOptimizer": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -643,19 +643,11 @@
             "mock": {
               "fileReplacements": [
                 {
-                  "replace": "projects/design-system/src/environments/environment.ts",
-                  "with": "projects/design-system/src/environments/environment.mock.ts"
+                  "replace": "projects/components-docs/src/environments/environment.ts",
+                  "with": "projects/components-docs/src/environments/environment.mock.ts"
                 }
-              ]
-            },
-            "development": {
-              "outputPath": "dist-debug/design-system",
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              ],
+              "outputPath": "docs/assets/sq-doc-app"
             }
           },
           "defaultConfiguration": "production"
@@ -663,38 +655,38 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "design-system:build:development",
+            "browserTarget": "components-docs:build:development",
             "ssl": true,
-            "proxyConfig": "projects/design-system/src/proxy.conf.json"
+            "proxyConfig": "projects/components-docs/src/proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "design-system:build:production"
+              "browserTarget": "components-docs:build:production"
             },
             "mock": {
-              "browserTarget": "design-system:build:mock"
+              "browserTarget": "components-docs:build:mock"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "design-system:build"
+            "browserTarget": "components-docs:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/design-system/src/test.ts",
-            "polyfills": "projects/design-system/src/polyfills.ts",
-            "tsConfig": "projects/design-system/tsconfig.spec.json",
-            "karmaConfig": "projects/design-system/karma.conf.js",
+            "main": "projects/components-docs/src/test.ts",
+            "polyfills": "projects/components-docs/src/polyfills.ts",
+            "tsConfig": "projects/components-docs/tsconfig.spec.json",
+            "karmaConfig": "projects/components-docs/karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/design-system/src/favicon.ico",
-              "projects/design-system/src/assets"
+              "projects/components-docs/src/favicon.ico",
+              "projects/components-docs/src/assets"
             ],
-            "styles": ["projects/design-system/src/styles/app.scss"],
+            "styles": ["projects/components-docs/src/styles/app.scss"],
             "scripts": []
           }
         },
@@ -702,8 +694,8 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/design-system/**/*.ts",
-              "projects/design-system/**/*.html"
+              "projects/components-docs/**/*.ts",
+              "projects/components-docs/**/*.html"
             ]
           }
         }

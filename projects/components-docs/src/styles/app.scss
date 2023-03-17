@@ -1,0 +1,67 @@
+@import "bootstrap/scss/bootstrap";
+@import 'metadata';
+
+// Fontawesome
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/brands";
+@import "@fortawesome/fontawesome-free/scss/regular";
+@import "@fortawesome/fontawesome-free/scss/solid";
+
+@import "../../../components/action/bootstrap/action.scss";
+@import "../../../components/notification/bootstrap/notification.scss";
+@import "../../../components/metadata/metadata.scss";
+@import "../../../components/advanced/bootstrap/advanced.scss";
+
+// Sinequa theme
+@import "../../../components/theme/sinequa-theme";
+
+// Custom variables
+@import "variables";
+
+:root {
+  --bs-body-bg: $bg-color;
+  --bs-body-line-height: normal;
+  --bs-body-font-weight: 400;
+  --bs-body-font-family: "Segoe UI", serif;
+  --bs-body-font-size: 14px;
+  --bs-primary-rgb: var(--primary-rgb, #{$blue-1-rgb});
+
+    .list-group {
+      --bs-list-group-bg: #{$list-group-bg};
+      --bs-list-group-action-active-bg: #{$blue-selection};
+    }
+
+    .card {
+      --bs-card-cap-bg: var(--brand-300, #{$blue-focus});
+      --bs-card-cap-color: var(--sq-text, #{$body-text-grey-1});
+      --bs-link-color: var(--text1, #{$body-text-grey-1});
+    }
+
+    .dark .card {
+      --bs-card-cap-color: #{$white};
+    }
+}
+
+html {
+  background-color: $bg-color;
+}
+
+.screen-size {
+  max-height: calc(100vh - $navbar-height);
+  overflow-y: scroll;
+}
+
+.card {
+  padding: 0;
+}
+
+.card-body {
+  padding-top: 2rem;
+}
+
+.blue-bg {
+  display: inline-flex;
+  background-color: $blue-1;
+  border: .4rem solid $blue-1
+}
