@@ -13,11 +13,11 @@
           </span>
           <div style="min-width: 0;">
             <div class="message-content" [innerHTML]="message.$content"></div>
-            <div *ngIf="message.$citations.length" class="citations small">
-              <b>Citations:</b>
+            <div *ngIf="message.$references?.length" class="references small">
+              <b>References:</b>
               <ul class="list-group">
-                <li *ngFor="let citation of message.$citations" class="text-truncate" [title]="citation.$record.title">
-                  <span class="citation me-1">{{citation.refId}}</span> <a href="{{citation.$record.url1}}">{{citation.$record.title}}</a>
+                <li *ngFor="let reference of message.$references" class="text-truncate" [title]="reference.$record.title">
+                  <span class="reference me-1">{{reference.refId}}</span> <a href="{{reference.$record.url1}}">{{reference.$record.title}}</a>
                 </li>
               </ul>
             </div>
@@ -77,11 +77,11 @@
       (ngModelChange)="updateTokensPercentage()"
       (keyup.enter)="submitQuestion()"
       (keyup.shift.enter)="submitQuestion()"
+      (keydown.tab)="searchAttachments($event)"
       [disabled]="loadingAnswer || loadingAttachments || tokensPercentage >= 100">
-    <div class="form-check form-switch ms-3 mb-0 text-nowrap" *ngIf="searchMode">
-      <input class="form-check-input" type="checkbox" role="switch" id="searchBeforeSend" [(ngModel)]="searchBeforeSend" (ngModelChange)="onSearchBeforeSendChange($event)">
-      <label class="form-check-label" for="searchBeforeSend">Search Before Send</label>
-    </div>
+    <a *ngIf="searchMode" role="button" [ngClass]="{disabled: !question}" class="ms-3 mb-0 text-nowrap" (click)="searchAttachments()" sqTooltip="Search Before Chat" placement="top">
+      <img src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="120px">
+    </a>
   </div>
 </ng-template>
 
@@ -94,7 +94,7 @@
     <span>
       <i class="fas fa-fw fa-caret-{{attachment.$expanded? 'down' : 'right'}} pe-1"></i>
       <b>{{attachment.$record?.title}}: </b>
-      <span>{{attachment.text}}</span>
+      <span>{{attachment.$text}}</span>
     </span>
   </p>
 </ng-template>
@@ -111,7 +111,7 @@
       <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit:attachment}"></ng-container>
 
       <div class="ms-3 col-1 small text-muted d-flex flex-column align-items-center">
-        <span title="Number of tokens">{{attachment.tokenCount}}</span>
+        <span title="Number of tokens">{{attachment.$tokenCount}}</span>
         <span *ngIf="!loadingAnswer">
           <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="Fewer tokens" (click)="chatService.lessTokens(attachment)"><i class="fas fa-minus"></i></button>
           <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="More tokens" (click)="chatService.moreTokens(attachment)"><i class="fas fa-plus"></i></button>

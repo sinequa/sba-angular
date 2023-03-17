@@ -11,7 +11,7 @@ import { IntlModule } from "@sinequa/core/intl";
 import { AnswerCardComponent } from "./answer-card.component";
 import { PassageListComponent } from "./passage-list.component";
 import { TopPassagesComponent } from "./top-passages/top-passages.component";
-import { SummarySettingsComponent } from "./summary-settings.component";
+import { SummarySettingsComponent } from "./top-passages/summary-settings.component";
 
 import { ChatComponent } from "./chat/chat.component";
 import { ChatSettingsComponent } from "./chat/chat-settings.component";

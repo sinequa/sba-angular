@@ -37,7 +37,7 @@ li.list-group-item {
   background-color: #ededed;
 }
 
-.citations .citation, .message-content ::ng-deep .citation{
+.references .reference, .message-content ::ng-deep .reference{
   font-size: 0.7em;
   font-weight: bold;
   position: relative;
@@ -46,4 +46,9 @@ li.list-group-item {
   margin: 0 0.1em;
   border-radius: 0.2em;
   background-color: lightblue;
+}
+
+a.disabled {
+  cursor: default;
+  opacity: 0.5;
 }

@@ -1,4 +1,4 @@
-<div class="container-fluid h-100">
+<div class="container-xl h-100">
   <div class="row flex-nowrap h-100 overflow-hidden">
     <div class="sq-panel h-100 d-flex flex-column" [ngClass]="{'col-lg-6': showSearchPanel, 'col-lg-8 offset-lg-2': !showSearchPanel}">
       <div class="d-flex p-3 sticky-top">
@@ -39,14 +39,19 @@
       <sq-chat #sqChat *ngIf="!settingsView && !savedChatView && loginService.complete"
         class="card h-100 shadow-lg rounded-4 flex-grow-1 mb-3 overflow-hidden"
         [chat]="chat"
-        [searchMode]="true"
-        [temperature]="chatConfig.modelTemperature"
-        [topP]="chatConfig.modelTopP"
-        [maxTokens]="chatConfig.modelMaxTokens"
+        [searchMode]="chatConfig.searchMode"
+        [textBeforeAttachments]="chatConfig.textBeforeAttachments"
+        [displayAttachments]="chatConfig.displayAttachments"
+        [temperature]="chatConfig.temperature"
+        [topP]="chatConfig.topP"
+        [maxTokens]="chatConfig.maxTokens"
+        [initialSystemPrompt]="chatConfig.initialSystemPrompt"
+        [initialUserPrompt]="chatConfig.initialUserPrompt"
         [addAttachmentPrompt]="chatConfig.addAttachmentPrompt"
         [addAttachmentsPrompt]="chatConfig.addAttachmentsPrompt"
-        [initialUserPrompt]="chatConfig.initialUserPrompt"
-        [textBeforeAttachments]="chatConfig.textBeforeAttachments"
+        [attachmentsHiddenPrompt]="chatConfig.attachmentsHiddenPrompt"
+        [autoSearchMinScore]="chatConfig.autoSearchMinScore"
+        [autoSearchMaxPassages]="chatConfig.autoSearchMaxPassages"
         (data)="onChatData($event)">
       </sq-chat>
 

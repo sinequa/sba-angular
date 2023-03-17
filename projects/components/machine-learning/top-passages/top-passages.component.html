@@ -11,18 +11,13 @@
 	<span *ngIf="passages && documentsNb" class="sq-passage-count p-2">{{'msg#machine-learning.passagesFound' |
 		sqMessage:{passagesNb: passages.length, documentsNb: documentsNb} }}</span>
 
-  <div class="border-top border-bottom" *ngIf="loadingSummary">
-    <div class="spinner-grow text-success d-block mx-auto my-5" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
-
 	<sq-chat *ngIf="chat"
     [chat]="chat"
     [searchMode]="false"
     [temperature]="summarizerConfig.modelTemperature"
     [topP]="summarizerConfig.modelTopP"
     [maxTokens]="summarizerConfig.modelMaxTokens"
+    [displayAttachments]="false"
     class="d-block border-top border-bottom"
     (data)="summarizeAction.disabled = false">
   </sq-chat>

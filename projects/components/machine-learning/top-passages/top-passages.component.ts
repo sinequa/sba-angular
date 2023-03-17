@@ -3,10 +3,10 @@ import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from
 import { AbstractFacet } from '@sinequa/components/facet';
 import { SearchService } from "@sinequa/components/search";
 import { Action } from "@sinequa/components/action";
-import { defaultSummarizerConfig, SummarizerConfig } from "../summary-settings.component";
+import { defaultSummarizerConfig, SummarizerConfig } from "./summary-settings.component";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { ChatService } from "../chat/chat.service";
-import { SavedChat } from "../public-api";
+import { InitChat } from "../chat/chat.component";
 
 @Component({
   selector: 'sq-top-passages',
@@ -24,8 +24,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   @Output() previewOpened = new EventEmitter<TopPassage>();
   @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
 
-  loadingSummary = false;
-  chat?: SavedChat;
+  chat?: InitChat;
   passages?: TopPassage[];
   documentsNb: number;
 
@@ -36,21 +35,16 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
       const passages = this.passages?.filter(p => p.$checked);
       if(passages?.length) {
         const conf = this.summarizerConfig;
-        this.chatService.summarize(passages, conf.summarizationModel, conf.modelTemperature, conf.modelMaxTokens, conf.modelTopP, conf.extendBefore, conf.extendAfter, conf.top, conf.promptInsertBeforePassages)
-          .subscribe(res => {
-            this.chat = {
-              name: '',
-              messages: res.messagesHistory,
-              tokens: res.tokens
-            }
-            this.loadingSummary = false;
-            this.cdRef.detectChanges();
-          });
+        this.chat = {
+          messages: [
+            {role: 'system', display: false, content: 'Assistant helps Sinequa employees with their internal question'},
+            {role: 'user', display: false, content: conf.promptInsertBeforePassages.replace("{queryText}", this.searchService.query.text || '')}
+          ],
+          attachments: this.chatService.getPassages(passages, this.searchService.query)
+        };
         this.summarizeAction.disabled = true;
-        this.loadingSummary = true;
+        this.cdRef.detectChanges();
       }
-      this.chat = undefined;
-      this.cdRef.detectChanges();
     }
   });
   _actions: Action[] = [this.summarizeAction];

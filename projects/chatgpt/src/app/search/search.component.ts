@@ -9,7 +9,7 @@ import { LoginService } from '@sinequa/core/login';
 import { Results, Record, TopPassage, RelevantExtract } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES, METADATA } from '../../config';
-import { ChatComponent, ChatAttachment, ChatService, SavedChat, ChatMessage } from '@sinequa/components/machine-learning';
+import { ChatComponent, ChatAttachment, ChatService, SavedChat, ChatMessage, ChatConfig, defaultChatConfig } from '@sinequa/components/machine-learning';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
@@ -129,7 +129,9 @@ export class SearchComponent implements OnInit {
         return;
       }
     }
-    this.chatService.addDocument(record, this.searchService.query);
+    this.chatService.addAttachments([
+      this.chatService.getDocument(record, this.searchService.query)
+    ]);
   }
 
   attachPassage(passage: TopPassage, event: Event, record?: Record) {
@@ -137,16 +139,22 @@ export class SearchComponent implements OnInit {
     if(record) {
       passage.$record = record;
     }
-    this.chatService.addPassages([passage], this.searchService.query);
+    this.chatService.addAttachments(
+      this.chatService.getPassages([passage], this.searchService.query)
+    );
   }
 
   attachExtract(extract: RelevantExtract, event: Event) {
     event.stopPropagation();
-    this.chatService.addExtracts([extract], this.searchService.query);
+    this.chatService.addAttachments(
+      this.chatService.getExtracts([extract], this.searchService.query)
+    );
   }
 
   attachAll(passages: TopPassage[]) {
-    this.chatService.addPassages(passages, this.searchService.query);
+    this.chatService.addAttachments(
+      this.chatService.getPassages(passages, this.searchService.query)
+    );
   }
 
   updateSelected(attachments: ChatAttachment[], results: Results | undefined) {
@@ -220,17 +228,11 @@ export class SearchComponent implements OnInit {
 
   configPatchDone = false;
 
-  get chatConfig() {
+  get chatConfig(): ChatConfig {
     let config = this.prefs.get('chat-config') || {};
     if(!this.configPatchDone) {
       config = {
-        modelTemperature: 1.0, // Introduce new options
-        modelTopP: 1.0,
-        modelMaxTokens: 800,
-        addAttachmentPrompt: "Summarize this document",
-        addAttachmentsPrompt: "Summarize these documents",
-        initialUserPrompt: "Hello, I am a user of the Sinequa search engine",
-        textBeforeAttachments: false,
+        ...defaultChatConfig,
         ...config
       };
       this.prefs.set('chat-config', config);
@@ -248,7 +250,6 @@ export class SearchComponent implements OnInit {
 
   onChatData(messages: ChatMessage[]) {
     this.showChatActions = messages.length > 4;
-    this.chat = undefined;
   }
 
   openChat(chat: SavedChat) {
@@ -258,7 +259,7 @@ export class SearchComponent implements OnInit {
 
   resetChat() {
     this.showChatActions = false;
-    this.sqChat?.fetchInitial();
+    this.sqChat?.resetChat(true);
   }
 
   saveChat() {
