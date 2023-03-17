@@ -1,0 +1,40 @@
+.form-control {
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    box-shadow: $input-focus-box-shadow !important;
+  }
+
+  &.was-validated:valid {
+    border-color: $success-1;
+  }
+
+  &.was-validated:invalid {
+    border-color: $error-1;
+  }
+
+  &.is-valid,
+  &.is-invalid {
+    background-image: none;
+    padding-right: calc(1.5rem - 0.75rem);
+  }
+}
+
+/**
+Label
+ */
+.form-label {
+  .info {
+    font-weight: 400;
+    color: $grey-300;
+  }
+}
+
+
+/**
+Error message
+ */
+.invalid-feedback {
+  color: $error-1;
+}
+

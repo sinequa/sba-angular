@@ -1,0 +1,325 @@
+@import "dark-colors";
+
+body.dark,
+.sinequa.dark,
+.dark {
+
+    .dark\:bg-dark {
+        // Bootstrap set !important on bg-light class
+        background-color: $dark !important;
+    }
+
+    background-color: $dark-background;
+    color: $dark-color;
+
+    a:not(.btn):not(.badge) {
+        color: $dark-link;
+    }
+
+    a.card {
+        color: inherit;
+    }
+
+    // Card
+    .card {
+        color: $white;
+        background-color: $dark-background;
+        border: 1px solid $dark-borders;
+
+        .card-header {
+            color: $white;
+            background-color: $dark-background-highlight;
+            border-color: $dark-borders;
+
+            // btn-light overrides when inside a facet card
+            .btn-light {
+                color: $dark-color;
+                background-color: $dark-focus-bg;
+                border-color: $dark-focus-bg;
+
+                &:hover,
+                &.active,
+                &[aria-expanded="true"] {
+                color: $dark-focus-color;
+                background-color: $dark-background-highlight;
+                border-color: $dark-background-highlight;
+                }
+
+                &.active:hover {
+                background-color: $dark-background-highlight;
+                opacity: .6;
+                }
+            }
+
+            .sq-secondary-actions {
+                .btn-light {
+                    color: $dark-color;
+
+                    &.active {
+                        background-color: $dark-background;
+                    }
+
+                    &:hover {
+                        color: $dark-color;
+                        background-color: $dark-focus-bg;
+                    }
+                }
+            }
+        }
+
+    }
+
+    // Nav
+    .navbar-dark {
+        &.bg-light {
+            background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+        }
+
+        .nav .nav-link {
+            color: $dark-color;
+
+            &.disabled {
+                color: $dark-secondary;
+            }
+        }
+    }
+
+    .dark\:btn-dark,
+    .btn-dark:not(:hover) {
+        color: #6c757d;
+        border-color: transparent;
+        background-color: $dark;
+    }
+
+    .btn-dark:not(:disabled):not(.disabled):active,
+    .btn-dark:not(:disabled):not(.disabled).active,
+    .show>.btn-dark.dropdown-toggle {
+        background-color: $dark-background-highlight;
+        border-color: $dark-borders;
+    }
+
+    .btn-link {
+        color: $dark-link;
+
+        &:hover {
+            color: $white;
+        }
+    }
+
+
+    .dropdown .dropdown-divider {
+        border-color: $dark-borders;
+    }
+
+    .list-group {
+
+        .list-group-item,
+        .list-group-item:nth-child(even) {
+            color: $dark-color;
+            background-color: inherit;
+
+            a {
+                color: $dark-color;
+            }
+
+            &.list-group-item-action {
+                color: $dark-color;
+                border-color: $dark-borders;
+
+                &:active {
+                    background-color: $dark-background-highlight;
+                    color: #fff;
+                }
+
+                &:focus,
+                &:hover {
+                    background-color: $dark-background-hover;
+                    color: #fbfdff;
+                }
+            }
+
+            &.list-group-item-primary {
+                color: #004085;
+                background-color: #b8daff;
+
+                a {
+                    color: inherit;
+                }
+
+            }
+
+            &.disabled,
+            &.text-muted {
+                color: #5c6e80;
+            }
+        }
+
+    }
+
+    .text-muted {
+        color: $dark-text-muted !important;
+    }
+
+    ul.dropdown-menu {
+        --bs-dropdown-bg: #{$dark-background};
+        --bs-dropdown-border-color: #{$dark-borders};
+        background: $dark-background;
+        border-color: $dark-borders;
+
+        a {
+            color: $dark-color;
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: $dark-focus-bg;
+            color: $dark-focus-color;
+        }
+    }
+
+    @include media-breakpoint-up(sm) {
+
+        .navbar-right,
+        .dropdown-menu-end {
+            .dropdown-submenu>a:before {
+                border-right-color: rgba(255, 255, 255, 0.5);
+            }
+
+            .dropdown-submenu:hover>a:before {
+                border-right-color: rgba(255, 255, 255, 0.85);
+            }
+        }
+    }
+
+    .modal-content {
+        background-color: $dark-background;
+        border-color: $dark-borders;
+
+        .modal-header {
+            border-color: $dark-borders;
+        }
+
+        .modal-footer {
+            border-color: $dark-borders;
+        }
+
+        .btn:not(.btn-primary):not(.btn-secondary) {
+            color: $dark-color;
+        }
+    }
+
+    .passages-toggle {
+        color: $dark-color;
+    }
+
+    sq-filters-view {
+        .sq-filter-operator {
+            color: $dark-secondary;
+        }
+
+        .sq-simple-mode .sq-filter-action:not(:hover) {
+            color: rgb(255, 255, 255, 0.5);
+        }
+    }
+
+    sq-results-counter {
+        color: $dark-secondary;
+    }
+
+    sq-sort-selector button.btn {
+        color: $dark-secondary;
+    }
+
+    sq-sponsored-results {
+        .sq-sponsored-link-view-summary {
+            color: $dark-secondary;
+        }
+    }
+
+    sq-facet-card {
+        &.striped {
+            .list-group-item,
+            .list-group-item:nth-child(even) {
+                background-color: transparent;
+            }
+        }
+    }
+
+    sq-pager {
+        .page-link {
+            background-color: transparent;
+            border-color: $dark-borders;
+        }
+
+        .page-item.disabled .page-link {
+            background-color: transparent;
+            border-color: $dark-borders;
+        }
+
+        .page-link:hover {
+            background-color: $dark-background-hover;
+            border-color: $dark-borders;
+        }
+    }
+
+    // Advanced search
+    .advanced-search .card-header {
+        --bs-card-cap-bg: transparent !important;
+        --bs-card-cap-color: #{$white};
+    }
+
+    .sq-view-actions {
+        .btn-outline-primary {
+            --bs-btn-hover-bg: #{$grey-600} !important;
+            --bs-btn-hover-border-color: #{$grey-600} !important;
+            --bs-btn-color: #{$white};
+            --bs-btn-border-color: #{$grey-600};
+            --bs-btn-active-bg: #{$grey-600} !important;
+            --bs-btn-active-border-color: #{$grey-600} !important;
+        }
+    }
+
+
+    // Tabs
+    sq-tabs {
+        .nav-tabs {
+            border-bottom: 1px solid $dark-borders;
+
+            .nav-item .count,
+            .nav-link.disabled {
+                color: $dark-secondary;
+            }
+
+            .nav-link.active,
+            .nav-item.show .nav-link {
+                color: $dark-color;
+                background-color: transparent;
+                border-color: $dark-borders $dark-borders $dark-background;
+            }
+
+            .nav-link:hover,
+            .nav-link:focus {
+                background-color: $dark-background-hover;
+                border-color: $dark-nav-link-focus-border-color $dark-nav-link-focus-border-color $dark-borders;
+            }
+        }
+    }
+
+    sq-scope button {
+        filter: none !important;
+    }
+
+    // Extracts list
+    sq-preview-extracts-panel {
+        .list-group-item {
+            &:active {
+                background-color: $dark-background-hover !important;
+            }
+
+            &.active {
+                background-color: $dark-background-highlight !important;
+                color: $dark-link !important;
+            }
+        }
+    }
+}
