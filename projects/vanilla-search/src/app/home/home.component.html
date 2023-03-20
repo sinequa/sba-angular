@@ -20,8 +20,10 @@
 
     </div>
 
+    <sq-chat style="max-width: 500px;" [chat]="initChat" [enableChat]="false"></sq-chat>
+
     <!-- Home facets -->
-    <div class="sq-home-facet-bar container mt-5" *ngIf="homeFacets.length">
+    <div class="sq-home-facet-bar container mt-3" *ngIf="homeFacets.length">
         <div class="row" *ngIf="loginService.complete">
 
             <!-- For each activated facet -->

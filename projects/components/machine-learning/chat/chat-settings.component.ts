@@ -6,10 +6,6 @@ import { ChatConfig, defaultChatConfig } from "./chat.component";
   template: `
   <div class="card-body small">
     <div class="form-check form-switch mb-2">
-      <input class="form-check-input" type="checkbox" role="switch" id="searchMode" [(ngModel)]="config.searchMode">
-      <label class="form-check-label" for="searchMode">Enable search mode (use search to retrieve attachments)</label>
-    </div>
-    <div class="form-check form-switch mb-2">
       <input class="form-check-input" type="checkbox" role="switch" id="textBeforeAttachments" [(ngModel)]="config.textBeforeAttachments">
       <label class="form-check-label" for="textBeforeAttachments">Send text before attachments</label>
     </div>

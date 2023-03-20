@@ -5,6 +5,7 @@ import { LoginService } from '@sinequa/core/login';
 import { IntlService } from '@sinequa/core/intl';
 import { SearchService } from '@sinequa/components/search';
 import { FEATURES } from '../../config';
+import { InitChat } from '@sinequa/components/machine-learning';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,12 @@ import { FEATURES } from '../../config';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  initChat: InitChat = {
+    messages: [
+      {role: 'system', display: false, content: "User Eric Leibenguth is on the home page of the Sinequa search engine, please write a nice short 1-sentence greeting message in French."}
+    ]
+  };
 
   constructor(
     public loginService: LoginService,

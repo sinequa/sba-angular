@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
-import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
-import { BehaviorSubject, forkJoin, map, Observable, of, switchMap, tap } from "rxjs";
+import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, UserSettingsWebService } from "@sinequa/core/web-services";
+import { BehaviorSubject, forkJoin, map, Observable, of, Subject, switchMap, tap } from "rxjs";
 import { marked } from "marked";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
@@ -343,7 +343,7 @@ export class ChatService {
   /**
    * Returns a list of snippet/passage attachments
    */
-  getPassages(passages: TopPassage[], query: Query): Observable<ChatAttachmentWithTokens>[] {
+  getPassages(passages: {$record?: Record, location: number[]}[], query: Query): Observable<ChatAttachmentWithTokens>[] {
     return passages.map(p => {
       const [offset, length] = p.location;
       return this.getAttachmentWithTokens('snippet', p.$record!, query, offset, length);
@@ -473,6 +473,8 @@ export class ChatService {
 
   // Saved chats management
 
+  savedChats$ = new Subject<SavedChat[]>();
+
   /**
    * Chats saved by the user to reopen them later
    */
@@ -488,7 +490,7 @@ export class ChatService {
    * Returns the saved chat with the given name
    */
   public get(name: string): SavedChat | undefined {
-    return this.savedChats.find((chat: SavedChat) => chat.name === name);
+    return this.savedChats.find(chat => chat.name === name);
   }
 
   /**
@@ -517,7 +519,9 @@ export class ChatService {
   }
 
   private sync() {
-    return this.userSettingsService.patch({ savedChats: this.savedChats });
+    const savedChats = this.savedChats;
+    this.savedChats$.next(savedChats);
+    return this.userSettingsService.patch({ savedChats });
   }
 
   /**

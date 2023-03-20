@@ -39,7 +39,7 @@
       <sq-chat #sqChat *ngIf="!settingsView && !savedChatView && loginService.complete"
         class="card h-100 shadow-lg rounded-4 flex-grow-1 mb-3 overflow-hidden"
         [chat]="chat"
-        [searchMode]="chatConfig.searchMode"
+        [searchMode]="true"
         [textBeforeAttachments]="chatConfig.textBeforeAttachments"
         [displayAttachments]="chatConfig.displayAttachments"
         [temperature]="chatConfig.temperature"

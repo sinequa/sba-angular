@@ -100,7 +100,7 @@
 
             <!-- nth top passages -->
             <sq-facet-card *ngIf="hasPassages" class="mt-3" [collapsible]="false"
-                [actions]="[documentsScrollAction]"
+                [actions]="[summarizeAction, documentsScrollAction]"
                 [actionsFirst]="false"
                 [actionsClass]="'d-block'"
                 buttonsStyle="primary ms-1"
@@ -167,6 +167,26 @@
         <!-- sqSticky to update if you change the header sizing -->
         <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 96, bottom: 30}">
 
+            <sq-facet-card [title]="'ChatGPT'" [collapsible]="false" [actions]="[chatSettingsAction]" class="mb-3">
+              <sq-chat #facet *ngIf="!chatSettingsAction.selected"
+                [displayAttachments]="false"
+                [textBeforeAttachments]="chatConfig.textBeforeAttachments"
+                [displayAttachments]="chatConfig.displayAttachments"
+                [temperature]="chatConfig.temperature"
+                [topP]="chatConfig.topP"
+                [maxTokens]="chatConfig.maxTokens"
+                [initialSystemPrompt]="chatConfig.initialSystemPrompt"
+                [initialUserPrompt]="chatConfig.initialUserPrompt"
+                [addAttachmentPrompt]="chatConfig.addAttachmentPrompt"
+                [addAttachmentsPrompt]="chatConfig.addAttachmentsPrompt"
+                [attachmentsHiddenPrompt]="chatConfig.attachmentsHiddenPrompt"
+                [autoSearchMinScore]="chatConfig.autoSearchMinScore"
+                [autoSearchMaxPassages]="chatConfig.autoSearchMaxPassages"
+                (data)="summarizeAction.disabled = false">
+              </sq-chat>
+              <sq-chat-settings *ngIf="chatSettingsAction.selected" [config]="chatConfig"></sq-chat-settings>
+            </sq-facet-card>
+
             <!-- Without selected document -->
             <sq-facet-card *ngIf="!openedDoc" [collapsible]="false" [title]="'msg#facet.preview.documentPreview'"
                 class="mb-3">
@@ -205,6 +225,10 @@
                     <sq-facet-preview-2 #facet [record]="openedDoc" [query]="searchService.query" [height]="750"
                         (previewLoaded)="previewReady($event)">
                     </sq-facet-preview-2>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{text: 'Summary'}" *ngIf="openedDocChat">
+                  <sq-chat [chat]="openedDocChat" [displayAttachments]="false"></sq-chat>
                 </ng-template>
             </sq-facet-card>
         </div>

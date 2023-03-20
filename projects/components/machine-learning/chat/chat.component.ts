@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
+import { Action } from "@sinequa/components/action";
+import { AbstractFacet } from "@sinequa/components/facet";
 import { BehaviorSubject, delay, forkJoin, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatService, OpenAITokens, RawMessage } from "./chat.service";
 
 export interface ChatConfig {
-  searchMode: boolean;
   textBeforeAttachments: boolean;
   displayAttachments: boolean;
   temperature: number;
@@ -19,7 +20,6 @@ export interface ChatConfig {
 }
 
 export const defaultChatConfig: ChatConfig = {
-  searchMode: true,
   textBeforeAttachments: false,
   displayAttachments: true,
   temperature: 1.0,
@@ -46,9 +46,10 @@ export interface InitChat {
   styleUrls: ['./chat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnChanges, OnDestroy {
+export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy {
   @Input() chat?: InitChat;
-  @Input() searchMode =               defaultChatConfig.searchMode;
+  @Input() enableChat = true;
+  @Input() searchMode = false;
   @Input() textBeforeAttachments =    defaultChatConfig.textBeforeAttachments;
   @Input() displayAttachments =       defaultChatConfig.displayAttachments;
   @Input() temperature =              defaultChatConfig.temperature;
@@ -77,9 +78,14 @@ export class ChatComponent implements OnChanges, OnDestroy {
   tokensAbsolute = 0;
   tokens?: OpenAITokens;
 
+  openChatAction: Action;
+  _actions: Action[] = [];
+  override get actions() { return this._actions; }
+
   constructor(
     public chatService: ChatService
   ) {
+    super();
     this.sub.add(
       this.chatService.attachments$.subscribe(attachments => {
         this.loadingAttachments = false;
@@ -88,6 +94,30 @@ export class ChatComponent implements OnChanges, OnDestroy {
         setTimeout(() => this.questionInput?.nativeElement.focus());
       })
     );
+
+    this.sub.add(
+      this.chatService.savedChats$.subscribe(() => this.updateActions())
+    )
+
+    this.openChatAction = new Action({
+      icon: 'fas fa-folder-open',
+      title: 'Open Saved chat',
+      children: []
+    });
+
+    this._actions.push(new Action({
+      icon: 'fas fa-sync',
+      title: 'Reset chat',
+      action: () => this.resetChat(true)
+    }));
+
+    this._actions.push(new Action({
+      icon: 'fas fa-save',
+      title: 'Save chat',
+      action: () => this.saveChat()
+    }));
+
+    this._actions.push(this.openChatAction);
   }
 
   ngOnChanges() {
@@ -97,6 +127,7 @@ export class ChatComponent implements OnChanges, OnDestroy {
     else {
       this.resetChat(true)
     }
+    this.updateActions();
   }
 
   sub = new Subscription();
@@ -221,12 +252,19 @@ export class ChatComponent implements OnChanges, OnDestroy {
         })
       )
       .subscribe(messages => {
-        if(messages.at(-1)?.role === 'user') {
+        if(messages.at(-1)?.role !== 'assistant') {
           this.fetch(messages); // If the last message if from a user, an answer from ChatGPT is expected
         }
         else if(tokens) {
           this.updateData(messages, tokens); // If the last message if from the assistant, we can load the conversation right away
         }
       });
+  }
+
+  updateActions() {
+    this.openChatAction.children = this.chatService.savedChats.map(chat => new Action({
+      text: chat.name,
+      action: () => this.openChat(chat.messages, chat.tokens)
+    }));
   }
 }

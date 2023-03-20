@@ -2,11 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { SearchService } from "@sinequa/components/search";
-import { Action } from "@sinequa/components/action";
-import { defaultSummarizerConfig, SummarizerConfig } from "./summary-settings.component";
-import { UserPreferences } from "@sinequa/components/user-settings";
-import { ChatService } from "../chat/chat.service";
-import { InitChat } from "../chat/chat.component";
 
 @Component({
   selector: 'sq-top-passages',
@@ -19,42 +14,16 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   @Input() hideDate: boolean = false;
   @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
   @Input() answersFirst: boolean;
-  @Input() defaultSummarizerConfig?: SummarizerConfig;
 
   @Output() previewOpened = new EventEmitter<TopPassage>();
   @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
 
-  chat?: InitChat;
   passages?: TopPassage[];
   documentsNb: number;
-
-  summarizeAction = new Action({
-    text: "Summarize",
-    disabled: true,
-    action: () => {
-      const passages = this.passages?.filter(p => p.$checked);
-      if(passages?.length) {
-        const conf = this.summarizerConfig;
-        this.chat = {
-          messages: [
-            {role: 'system', display: false, content: 'Assistant helps Sinequa employees with their internal question'},
-            {role: 'user', display: false, content: conf.promptInsertBeforePassages.replace("{queryText}", this.searchService.query.text || '')}
-          ],
-          attachments: this.chatService.getPassages(passages, this.searchService.query)
-        };
-        this.summarizeAction.disabled = true;
-        this.cdRef.detectChanges();
-      }
-    }
-  });
-  _actions: Action[] = [this.summarizeAction];
-  override get actions() { return this._actions; }
 
   constructor(
     private auditService: AuditWebService,
     private searchService: SearchService,
-    public chatService: ChatService,
-    public prefs: UserPreferences,
     public cdRef: ChangeDetectorRef
   ) {
     super();
@@ -63,7 +32,6 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.documentsNb = 0;
     this.passages = undefined;
-    this.chat = undefined;
     if(this.results.topPassages?.passages?.length) {
       this.fetchPassagesRecords(this.results.topPassages.passages);
     }
@@ -83,8 +51,6 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
           passage.$record = passage.$record || records.find(record => record?.id === passage.recordId);
           passage.$checked = true;
         });
-
-        this.passageChecked();
 
         this.notifyTopPassagesDisplay(this.passages);
 
@@ -106,14 +72,6 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   onTitleClicked(isLink: boolean, passage: TopPassage) {
     this.notifyTopPassagesClick(passage);
     this.titleClicked.next({ item: passage, isLink });
-  }
-
-  passageChecked() {
-    const count = this.passages?.filter(p => p.$checked).length;
-    this.summarizeAction.disabled = !count;
-    if(count) {
-      this.summarizeAction.text = `Summarize (${count})`;
-    }
   }
 
   private notifyTopPassagesClick(passage: TopPassage) {
@@ -157,23 +115,4 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
     return 0;
   }
 
-  get summarizerConfig(): SummarizerConfig {
-    return this.prefs.get("summarizer-config")
-      || this.defaultSummarizerConfig
-      || defaultSummarizerConfig;
-  }
-
-  set summarizerConfig(config: SummarizerConfig) {
-    this.prefs.set("summarizer-config", config);
-  }
-
-  summarizerConfigEdit: SummarizerConfig;
-  override onOpenSettings(open: boolean) {
-    if(open) {
-      this.summarizerConfigEdit = {...this.summarizerConfig}; // Initialize edited object
-    }
-    else {
-      this.summarizerConfig = this.summarizerConfigEdit;
-    }
-  }
 }

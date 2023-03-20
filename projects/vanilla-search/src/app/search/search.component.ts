@@ -14,6 +14,8 @@ import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sineq
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { ChatComponent, ChatConfig, ChatService, defaultChatConfig, InitChat } from '@sinequa/components/machine-learning';
+import { UserPreferences } from '@sinequa/components/user-settings';
 
 @Component({
   selector: 'app-search',
@@ -25,7 +27,7 @@ export class SearchComponent implements OnInit {
 
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
-  public openedDocPassages?: {recordId: string, id: number, index: string}[];
+  public openedDocChat?: InitChat;
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
@@ -42,12 +44,15 @@ export class SearchComponent implements OnInit {
   public hasPassages: boolean;
   public passageId?: string;
   public documentsScrollAction: Action;
+  public summarizeAction: Action;
+  public chatSettingsAction: Action;
 
   public readonly facetComponents = {
       ...DEFAULT_FACET_COMPONENTS,
       "date": BsFacetDate
   }
 
+  @ViewChild(ChatComponent) chat: ChatComponent;
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
@@ -60,8 +65,43 @@ export class SearchComponent implements OnInit {
     public selectionService: SelectionService,
     public loginService: LoginService,
     public auditService: AuditWebService,
+    public chatService: ChatService,
+    public prefs: UserPreferences,
     public ui: UIService,
   ) {
+
+    this.summarizeAction = new Action({
+      text: "Summarize",
+      action: () => {
+        const passages = this.searchService.results?.topPassages?.passages;
+        if(passages?.length) {
+          const prompt = ` The below documents contains extracts returned by a search engine. Your job is two perform 2 tasks:
+          1 - Try to answer the Query in one short sentence. If you can't or don't have enough context or information from any documents to answer the query, just say so.
+          2 - Generate a single summary of all the documents in the context of the Query, using between 5 to 12 sentences.
+          Make sure you include the reference in the form [id].
+          Answer using using markdown syntax.
+          Query: ${this.searchService.query.text || ''}`;
+          const messages = [
+            {role: 'system', display: false, content: 'Assistant helps Sinequa employees with their internal question'},
+            {role: 'user', display: false, content: prompt}
+          ];
+          const attachments = this.chatService.getPassages(passages, this.searchService.query);
+          this.chat.openChat(messages, undefined, attachments);
+          this.summarizeAction.disabled = true;
+        }
+      }
+    });
+
+    this.chatSettingsAction = new Action({
+      icon: 'fas fa-cog',
+      title: 'Settings',
+      action: action => {
+        action.selected = !action.selected;
+        if(!action.selected) {
+          this.prefs.set('chat-config', this.chatConfig);
+        }
+      }
+    })
 
     this.documentsScrollAction = new Action({
       text: "Jump to Documents",
@@ -108,7 +148,7 @@ export class SearchComponent implements OnInit {
           this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
           if (!this.showResults) {
             this.openedDoc = undefined;
-            this.openedDocPassages = undefined;
+            this.openedDocChat = undefined;
             this._showFilters = false;
           }
           this.hasAnswers = !!results?.answers?.answers?.length;
@@ -160,9 +200,15 @@ export class SearchComponent implements OnInit {
 
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
-    this.openedDocPassages = record.matchingpassages?.passages
-      .slice(0,10)
-      .map(p => ({recordId: record.id, id: p.id, index: record.databasealias}))
+    if(record.matchingpassages?.passages) {
+      const passages = record.matchingpassages?.passages.slice(0,10).map(p => ({$record: record, location: p.location}))
+      this.openedDocChat = {
+        messages: [
+          {role: 'system', display: false, content: `The following snippets are extracted from a document titled \"${record.title}\". Please summarize this document as best as possible, taking into account that the user's original search query was \"${this.searchService.query.text || ''}\".`}
+        ],
+        attachments: this.chatService.getPassages(passages, this.searchService.query)
+      }
+    }
     this.passageId = passageId?.toString();
     if (this.passageId) {
       if (this.previewFacet && this.passagesList) {
@@ -195,7 +241,7 @@ export class SearchComponent implements OnInit {
         detail: this.previewService.getAuditPreviewDetail(this.openedDoc.id, this.searchService.query, this.openedDoc, this.searchService.results?.id)
       });
       this.openedDoc = undefined;
-      this.openedDocPassages = undefined;
+      this.openedDocChat = undefined;
       if(this.ui.screenSizeIsEqual('md')){
         this._showFilters = true; // Show filters on medium screen when document is closed
       }
@@ -234,7 +280,7 @@ export class SearchComponent implements OnInit {
     this._showFilters = !this._showFilters;
     if(this._showFilters){ // Close document if filters are displayed
       this.openedDoc = undefined;
-      this.openedDocPassages = undefined;
+      this.openedDocChat = undefined;
     }
   }
 
@@ -294,5 +340,21 @@ export class SearchComponent implements OnInit {
     if (value.item.$record) {
       this.openPreviewIfNoUrl(value.item.$record, value.isLink);
     }
+  }
+
+  configPatchDone = false;
+
+  get chatConfig(): ChatConfig {
+    let config = this.prefs.get('chat-config') || {};
+    if(!this.configPatchDone) {
+      config = {
+        ...defaultChatConfig,
+        displayAttachments: false,
+        ...config
+      };
+      this.prefs.set('chat-config', config);
+      this.configPatchDone = true;
+    }
+    return config;
   }
 }

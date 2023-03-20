@@ -36,7 +36,7 @@
     </li>
   </ul>
 
-  <div class="user-input mt-auto">
+  <div class="user-input mt-auto" *ngIf="enableChat">
     <div class="progress" [ngClass]="{disabled: tokensPercentage >= 100}">
       <div class="progress-bar" role="progressbar" [ngStyle]="{'width.%': tokensPercentage}" title="Tokens used {{tokensAbsolute}}/{{tokens?.model - maxTokens}}">
         {{tokensPercentage >= 100? 'Maximum number of tokens reached, reset the chat or remove attachments' : ''}}
