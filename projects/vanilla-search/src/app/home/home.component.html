@@ -1,7 +1,6 @@
 <div class="d-flex flex-column align-items-center justify-content-center home">
     <!-- Home page logo -->
-    <img src="assets/vanilla-logo.png" id="logo" *ngIf="!isDark()">
-    <img src="assets/vanilla-logo-dark.png" id="logo" *ngIf="isDark()">
+    <img src="{{ (isDark$ | async) ? 'assets/vanilla-logo-dark.png' : 'assets/vanilla-logo.png' }}" id="logo">
 
     <!-- Home page title -->
     <h1>{{ 'msg#app.name' | sqMessage }}</h1>
@@ -16,7 +15,7 @@
         <span> &bull; </span>
 
         <!-- Dark mode -->
-        <button class="btn btn-link" (click)="toggleDark()">{{ (isDark()? 'msg#home.lightMode' : 'msg#home.darkMode') | sqMessage}}</button>
+        <button class="btn btn-link" (click)="toggleDark()">{{ ((isDark$ | async)? 'msg#home.lightMode' : 'msg#home.darkMode') | sqMessage}}</button>
 
     </div>
 

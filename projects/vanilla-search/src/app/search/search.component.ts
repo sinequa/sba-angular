@@ -58,21 +58,24 @@ export class SearchComponent implements OnInit, OnDestroy {
       "date": BsFacetDate
   }
 
+  public isDark: boolean;
+
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
-  private subscription = new Subscription()
+  private subscription = new Subscription();
+
 
   constructor(
     private previewService: PreviewService,
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
+    public readonly ui: UIService,
     public searchService: SearchService,
     public selectionService: SelectionService,
     public loginService: LoginService,
     public auditService: AuditWebService,
-    public ui: UIService,
   ) {
 
     const expandAction = new Action({
@@ -100,12 +103,14 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     // when size change, adjust _showFilters variable accordingly
     // To avoid weird behavior with the Toggle Filters button
-    this.subscription = this.ui.resizeEvent.subscribe(_ => {
+    this.subscription.add(this.ui.resizeEvent.subscribe(_ => {
       this.showFilterToggle = (this.ui.screenSizeIsLessOrEqual('md'));
       this.showMenu = (this.ui.screenSizeIsGreaterOrEqual('md'));
       this.showSearch = (this.ui.screenSizeIsGreaterOrEqual('sm'));
       this.showFilters = (this.ui.screenSizeIsGreaterOrEqual('md'));
-    });
+    }));
+
+    this.subscription.add(this.ui.isDarkTheme$.subscribe(value => this.isDark = value))
   }
 
   ngOnDestroy(): void {
