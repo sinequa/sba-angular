@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-did-you-mean',
   templateUrl: './did-you-mean.component.html'
 })
-export class DocDidYouMeanComponent {
+export class DocDidYouMeanComponent extends BaseComponent {
 
   code = `<sq-did-you-mean
     [results]="results">
 </sq-did-you-mean>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

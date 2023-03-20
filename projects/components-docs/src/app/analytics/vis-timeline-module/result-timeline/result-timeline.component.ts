@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { EntityItem } from '@sinequa/core/web-services';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-result-timeline',
   templateUrl: './result-timeline.component.html'
 })
-export class DocResultTimelineComponent {
+export class DocResultTimelineComponent extends BaseComponent {
 
   code = `<sq-result-timeline
     [record]="record"
@@ -15,7 +15,9 @@ export class DocResultTimelineComponent {
 
   dates: EntityItem[];
 
-  constructor(public globalService: GlobalService) {
+  constructor() {
+    super();
+
     const date1 = new Date();
     const date2 = new Date();
     const date3 = new Date();

@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-preview-minimap',
   templateUrl: './preview-minimap.component.html',
   styleUrls: ['./preview-minimap.component.scss']
 })
-export class DocPreviewMinimapComponent {
+export class DocPreviewMinimapComponent extends BaseComponent {
 
   code = `<sq-preview-minimap
     [previewDocument]="previewDocument"
     [previewData]="previewData"
     [type]="minimapType">
 </sq-preview-minimap>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

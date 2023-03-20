@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
     selector: 'doc-facet-bar',
     templateUrl: './facet-bar.component.html'
 })
-export class DocFacetBarComponent {
+export class DocFacetBarComponent extends BaseComponent {
 
     index = 0;
 
@@ -59,7 +59,5 @@ export const defaultFacets: FacetState[] = [
         ...
         BsFacetModule.forRoot(allFacets, defaultFacets),
         ...`;
-
-    constructor(public globalService: GlobalService) { }
 
 }

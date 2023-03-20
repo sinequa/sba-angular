@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-result-source',
   templateUrl: './result-source.component.html'
 })
-export class DocResultSourceComponent {
+export class DocResultSourceComponent extends BaseComponent {
 
   code = `<sq-result-source
     [record]="record">
 </sq-result-source>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

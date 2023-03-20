@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-facet-testing',
   templateUrl: './facet-testing.component.html'
 })
-export class DocFacetTestingComponent {
+export class DocFacetTestingComponent extends BaseComponent {
 
   code1 = `<sq-facet-card
     [title]="'Booleans'">
@@ -116,7 +116,5 @@ export class DocFacetTestingComponent {
             [aggregation]="'AggEntityNorm'">
         </sq-facet-list>
 </sq-facet-card>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-metadata',
   templateUrl: './metadata.component.html'
 })
-export class DocMetadataComponent {
+export class DocMetadataComponent extends BaseComponent {
 
   metadata: string[] = [
     "authors", "docformat", "modified", "size", "treepath", "filename"
@@ -22,7 +22,5 @@ export class DocMetadataComponent {
     [tabular]="true"
     [clickable]="true">
 </sq-metadata>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-pager',
   templateUrl: './pager.component.html'
 })
-export class DocPagerComponent {
+export class DocPagerComponent extends BaseComponent {
 
   code = `<sq-pager
     [results]="results">
 </sq-pager>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

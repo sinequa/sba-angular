@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-query-exporter',
   templateUrl: './query-exporter.component.html'
 })
-export class DocQueryExporterComponent {
+export class DocQueryExporterComponent extends BaseComponent {
 
   code = `<sq-query-exporter
     [results]="results">
 </sq-query-exporter>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

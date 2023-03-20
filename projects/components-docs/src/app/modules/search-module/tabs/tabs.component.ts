@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-tabs',
   templateUrl: './tabs.component.html'
 })
-export class DocTabsComponent {
+export class DocTabsComponent extends BaseComponent {
 
   code = `<sq-tabs
     [results]="results">
 </sq-tabs>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-facet-preview',
   templateUrl: './facet-preview.component.html'
 })
-export class DocFacetPreviewComponent {
-
-  constructor(public globalService: GlobalService) {}
+export class DocFacetPreviewComponent extends BaseComponent {
 
 }

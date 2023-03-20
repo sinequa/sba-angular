@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-chart',
   templateUrl: './chart.component.html'
 })
-export class DocChartComponent {
+export class DocChartComponent extends BaseComponent {
 
   code = `<sq-fusion-chart
     [results]="results">
 </sq-fusion-chart>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

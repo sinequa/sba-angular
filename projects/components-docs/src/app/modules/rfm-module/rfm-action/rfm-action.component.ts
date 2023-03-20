@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-rfm-action',
   templateUrl: './rfm-action.component.html'
 })
-export class DocRfmActionComponent {
+export class DocRfmActionComponent extends BaseComponent {
 
   code = `<sq-rfm-action
     [results]="results"
     [record]="record">
 </sq-rfm-action>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

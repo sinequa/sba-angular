@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-slide-list',
   templateUrl: './slide-list.component.html'
 })
-export class DocSlideListComponent {
+export class DocSlideListComponent extends BaseComponent {
 
   code = `<sq-slide-list
     [results]="results">
 </sq-slide-list>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

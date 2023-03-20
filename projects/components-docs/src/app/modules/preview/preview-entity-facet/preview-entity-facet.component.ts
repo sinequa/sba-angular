@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { HighlightValue } from '@sinequa/core/web-services';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-preview-entity-facet',
   templateUrl: './preview-entity-facet.component.html'
 })
-export class DocPreviewEntityFacetComponent {
+export class DocPreviewEntityFacetComponent extends BaseComponent {
 
   entity = 'person';
 
@@ -20,8 +20,6 @@ export class DocPreviewEntityFacetComponent {
     code2 = `entityValues(entity: string): HighlightValue[] {
     return this.previewData.highlightsPerCategory[entity].values;
 }`;
-
-  constructor(public globalService: GlobalService) { }
 
   entityValues(entity: string): HighlightValue[] {
     return this.globalService.previewData?.highlightsPerCategory[entity].values || [];

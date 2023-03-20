@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
+import { BaseComponent } from 'src/app/base/base.component';
 import { FACETS } from 'src/mocks/data/facets';
-import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-facet-multi',
   templateUrl: './facet-multi.component.html'
 })
-export class DocFacetMultiComponent {
+export class DocFacetMultiComponent extends BaseComponent {
 
   FACETS = FACETS;
 
@@ -18,7 +18,5 @@ export class DocFacetMultiComponent {
             [facets]="FACETS"
             #facet></sq-facet-multi>
 </sq-facet-card>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-scope',
   templateUrl: './scope.component.html'
 })
-export class DocScopeComponent {
+export class DocScopeComponent extends BaseComponent {
 
   code = `<sq-scope
     [query]="query">
 </sq-scope>`;
-
-  constructor(public globalService: GlobalService) {
-  }
 
 }

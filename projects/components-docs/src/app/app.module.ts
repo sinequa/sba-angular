@@ -31,7 +31,7 @@ import { DocAlertsComponent } from './modules/alerts-module/alerts/alerts.compon
 import { BsNotificationModule } from "@sinequa/components/notification";
 import { DocPreviewComponent } from './preview/preview.component';
 import { DocSqPreviewComponent } from './preview/sq-preview/sq-preview.component';
-import { DocCodeComponent } from './code/code.component';
+import { DocCodeComponent } from './base/code.component';
 import { DocFacetModuleComponent } from './modules/facet/facet-module.component';
 import { DocFacetListComponent } from './modules/facet/facet-list/facet-list.component';
 import { DocFacetFiltersComponent } from './modules/facet/facet-filters/facet-filters.component';
@@ -104,7 +104,7 @@ import { DocAnswerCardComponent } from './modules/machine-learning-module/answer
 import { DocPassageListComponent } from './modules/machine-learning-module/passage-list/passage-list.component';
 import { DocTopPassagesComponent } from './modules/machine-learning-module/top-passages/top-passages.component';
 import { MLModule } from '@sinequa/components/machine-learning';
-import { DocComponentDemoComponent } from './component-demo/component-demo.component';
+import { DocComponentDemoComponent } from './base/component-demo.component';
 import { DocMetadataModuleComponent } from './modules/metadata-module/metadata-module.component';
 import { DocMetadataComponent } from './modules/metadata-module/metadata/metadata.component';
 import { DocAdvancedModuleComponent } from './modules/advanced-module/advanced-module.component';

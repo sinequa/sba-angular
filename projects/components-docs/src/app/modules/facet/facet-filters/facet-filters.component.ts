@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
+import { BaseComponent } from 'src/app/base/base.component';
 import { FACETS } from 'src/mocks/data/facets';
-import { GlobalService } from '../../../global.service';
 
 @Component({
   selector: 'doc-facet-filters',
   templateUrl: './facet-filters.component.html'
 })
-export class DocFacetFiltersComponent {
+export class DocFacetFiltersComponent extends BaseComponent {
 
   FACETS = FACETS;
 
   code = `<sq-facet-filters
   [results]="results"
   [facets]="FACETS"></sq-facet-filters>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { BsPreviewPopup } from '@sinequa/components/preview';
 import { ModalService } from '@sinequa/core/modal';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-preview-popup',
   templateUrl: './preview-popup.component.html'
 })
-export class DocPreviewPopupComponent {
+export class DocPreviewPopupComponent extends BaseComponent {
 
   code = `this.modalService.open(BsPreviewPopup, {
     model: {
@@ -16,8 +16,9 @@ export class DocPreviewPopupComponent {
     }
 });`;
 
-  constructor(private globalService: GlobalService,
-    private modalService: ModalService) { }
+  constructor(private modalService: ModalService) {
+    super();
+  }
 
   openPopup() {
     this.modalService.open(BsPreviewPopup, {

@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { PreviewPopupModel } from '@sinequa/components/preview';
 import { MODAL_MODEL } from '@sinequa/core/modal';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-preview-panel',
   templateUrl: './preview-panel.component.html'
 })
-export class DocPreviewPanelComponent {
+export class DocPreviewPanelComponent extends BaseComponent {
 
   code = `<sq-preview-panel
     [query]="model.query"
@@ -20,7 +20,8 @@ code2 = `constructor(@Inject(MODAL_MODEL) public model: PreviewPopupModel,
     ...
     ) {}`;
 
-  constructor(@Inject(MODAL_MODEL) public model: PreviewPopupModel,
-    public globalService: GlobalService) { }
+  constructor(@Inject(MODAL_MODEL) public model: PreviewPopupModel) {
+    super();
+  }
 
 }

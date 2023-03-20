@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-preview-page-form',
   templateUrl: './preview-page-form.component.html'
 })
-export class DocPreviewPageFormComponent {
+export class DocPreviewPageFormComponent extends BaseComponent {
 
   code = `<sq-preview-page-form
     [pageNumber]="previewData?.record?.$page"
     (gotopage)="gotoPage($event)">
 </sq-preview-page-form>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

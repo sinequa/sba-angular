@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-preview-links',
   templateUrl: './preview-links.component.html'
 })
-export class DocPreviewLinksComponent {
+export class DocPreviewLinksComponent extends BaseComponent {
 
   code = `<sq-preview-links
     [record]="previewData.record"
     [resultId]="previewData.resultId">
 </sq-preview-links>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

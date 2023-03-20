@@ -17,7 +17,7 @@ export class DocUserSettingsEditorComponent {
 </sq-user-settings-editor>`;
 
   form: FormGroup;
-  public model: MapOf<any>;
+  public model: Record<string, any>;
   public layout: MapOf<JsonInfo.Entry>;
 
   constructor(formBuilder: FormBuilder,

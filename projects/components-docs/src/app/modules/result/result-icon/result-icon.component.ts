@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-result-icon',
   templateUrl: './result-icon.component.html'
 })
-export class DocResultIconComponent {
+export class DocResultIconComponent extends BaseComponent {
 
   code = `<sq-result-icon
     [record]="record">
 </sq-result-icon>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

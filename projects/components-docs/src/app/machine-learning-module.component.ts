@@ -1,13 +1,11 @@
-import { GlobalService } from "./global.service";
+import { BaseComponent } from "./base/base.component";
 
-export class DocBaseModule {
+export class DocBaseModule extends BaseComponent {
 
   title: string;
 
   components = [];
 
   text = ``;
-
-  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-sort-selector',
   templateUrl: './sort-selector.component.html'
 })
-export class DocSortSelectorComponent {
+export class DocSortSelectorComponent extends BaseComponent {
 
   code = `<sq-sort-selector
     [results]="results">
 </sq-sort-selector>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { GridView } from '@sinequa/components/results-view';
-import { GlobalService } from 'src/app/global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-results-grid-view',
   templateUrl: './results-grid-view.component.html'
 })
-export class DocResultsGridViewComponent {
+export class DocResultsGridViewComponent extends BaseComponent {
 
   gridView: GridView = {
     columns: [{
@@ -50,7 +50,5 @@ export class DocResultsGridViewComponent {
     name: 'name',
     type: 'type'
 };`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

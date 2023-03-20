@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-preview-pages-panel',
   templateUrl: './preview-pages-panel.component.html'
 })
-export class DocPreviewPagesPanelComponent {
+export class DocPreviewPagesPanelComponent extends BaseComponent {
 
   code = `<sq-preview-pages-panel
     [previewData]="previewData"
@@ -13,7 +13,5 @@ export class DocPreviewPagesPanelComponent {
     [pages]="pagesResults"
     (gotopage)="gotoPage($event)">
 </sq-preview-pages-panel>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }

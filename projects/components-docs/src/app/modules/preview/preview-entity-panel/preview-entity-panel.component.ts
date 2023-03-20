@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
-import { GlobalService } from '../../../global.service';
+import { BaseComponent } from 'src/app/base/base.component';
 
 @Component({
   selector: 'doc-preview-entity-panel',
   templateUrl: './preview-entity-panel.component.html'
 })
-export class DocPreviewEntityPanelComponent {
+export class DocPreviewEntityPanelComponent extends BaseComponent {
 
   code = `<sq-preview-entity-panel
     [previewData]="previewData"
     [previewDocument]="previewDocument">
 </sq-preview-entity-panel>`;
-
-  constructor(public globalService: GlobalService) { }
 
 }
