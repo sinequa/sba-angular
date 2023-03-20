@@ -5,17 +5,6 @@
 
 body.dark {
 
-    #logo {
-        content: url("/assets/sinequa-logo-dark-sm.png");
-        width: 40px;
-        max-height: 40px;
-
-        @media ( min-width: 1200px ) {
-            content: url("/assets/sinequa-logo-dark-lg.png");
-            width: 160px;
-        }
-    }
-
     app-search-form {
 
         .form-control,

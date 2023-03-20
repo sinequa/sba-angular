@@ -293,7 +293,7 @@ body.dark,
             .nav-link.active,
             .nav-item.show .nav-link {
                 color: $dark-color;
-                background-color: transparent;
+                background-color: $dark-background-hover;
                 border-color: $dark-borders $dark-borders $dark-background;
             }
 

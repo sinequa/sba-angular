@@ -1,5 +1,5 @@
 <!-- Navbar with app icon, search form, and menus -->
-<nav class="navbar navbar-expand-sm bg-light sticky-top" [ngClass]="{'navbar-dark': ui.isDark()}">
+<nav class="navbar navbar-expand-sm bg-light sticky-top" [ngClass]="{'navbar-dark': isDark}">
     <div class="container-xl flex-nowrap">
 
         <div class="col-lg-3 d-flex align-items-center">
@@ -8,7 +8,7 @@
                 <img id="logo" alt="sinequa logo">
             </a>
             <!-- Button to toggle the visibility of facets on small screens -->
-            <button *ngIf="showFilterToggle" class="btn btn-lg" [ngClass]="ui.isDark() ? 'btn-dark' : 'btn-light'" title="{{ 'msg#search.showFilters' | sqMessage }}"
+            <button *ngIf="showFilterToggle" class="btn btn-lg" [ngClass]="isDark ? 'btn-dark' : 'btn-light'" title="{{ 'msg#search.showFilters' | sqMessage }}"
                 (click)="toggleFilters()">
                 <i class="fas fa-filter text-muted"></i>
             </button>
@@ -35,7 +35,7 @@
             </ul>
         </div>
 
-        <button class="d-md-none btn btn-lg" [ngClass]="ui.isDark() ? 'btn-dark' : 'btn-light'" title="{{ 'msg#search.showMenu' | sqMessage }}"
+        <button class="d-md-none btn btn-lg" [ngClass]="isDark ? 'btn-dark' : 'btn-light'" title="{{ 'msg#search.showMenu' | sqMessage }}"
             (click)="toggleMenu()">
             <i class="fas fa-bars text-muted"></i>
         </button>

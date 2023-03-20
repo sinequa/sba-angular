@@ -31,17 +31,6 @@ body.dark .sq-light-mode {
   display: none;
 }
 
-#logo {
-  content: url("/assets/sinequa-logo-light-sm.png");
-  width: 40px;
-  max-height: 40px;
-
-  @media ( min-width: 1200px ) {
-      content: url("/assets/sinequa-logo-light-lg.png");
-      width: 160px;
-  }
-}
-
 app-search-form {
 
   // Styling for the scope component (for a clean rendering within the search form)
