@@ -9,17 +9,6 @@
     line-height: 1.2rem;
 }
 
-:host ::ng-deep .sq-result-title {
-    font-size: 0.875em !important;
-    line-height: 1.2rem !important;
-    font-weight: 400 !important;
-    color: initial !important;
-}
-
-.sq-passage-title i:before {
-    vertical-align: sub;
-}
-
 .passage {
     padding-left: var(--bs-card-spacer-x);
     padding-right: var(--bs-card-spacer-x);
@@ -57,9 +46,7 @@
 
 .sq-passage-count {
     display: block;
-    width: 100%;
     font-size: 0.875em;
-    color: #515960;
     text-align: right;
 }
 
