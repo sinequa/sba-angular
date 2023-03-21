@@ -112,7 +112,7 @@
 
       <div class="ms-3 col-1 small text-muted d-flex flex-column align-items-center">
         <span title="Number of tokens">{{attachment.$tokenCount}}</span>
-        <span *ngIf="!loadingAnswer">
+        <span *ngIf="!loadingAnswer" class="text-nowrap">
           <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="Fewer tokens" (click)="chatService.lessTokens(attachment)"><i class="fas fa-minus"></i></button>
           <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="More tokens" (click)="chatService.moreTokens(attachment)"><i class="fas fa-plus"></i></button>
         </span>

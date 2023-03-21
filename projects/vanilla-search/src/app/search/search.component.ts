@@ -43,7 +43,6 @@ export class SearchComponent implements OnInit {
   public hasAnswers: boolean;
   public hasPassages: boolean;
   public passageId?: string;
-  public documentsScrollAction: Action;
   public summarizeAction: Action;
   public chatSettingsAction: Action;
 
@@ -102,16 +101,6 @@ export class SearchComponent implements OnInit {
         }
       }
     })
-
-    this.documentsScrollAction = new Action({
-      text: "Jump to Documents",
-      action: () => {
-        const documentElt = document.getElementById('documents');
-        if (documentElt) {
-          documentElt.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
-    });
 
     const expandAction = new Action({
       icon: "fas fa-fw fa-expand-alt",

@@ -1,67 +1,24 @@
-.card-body {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.sq-passage-text,
-.sq-passage-answer {
+:host {
     font-size: 0.875em;
     line-height: 1.2rem;
 }
 
-.passage {
-    padding-left: var(--bs-card-spacer-x);
-    padding-right: var(--bs-card-spacer-x);
-    padding-bottom: 0.1rem;
-    cursor: pointer;
-
-    &:not(:last-of-type) {
-        border-bottom: lightgray solid 1px;
-    }
-
-    &:hover {
-        background-color: rgb(0, 0, 0, 0.03);
-    }
-
-    ::ng-deep .answer {
-        background-color: palegreen !important;
-        padding: 0 .5rem;
-        font-weight: bold;
-        border-top-right-radius: .5rem;
-        border-bottom-right-radius: .5rem;
-        border-top-left-radius: .5rem;
-        border-bottom-left-radius: .5rem;
-
-        &:has(+.answer) {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        &+.answer {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-    }
-}
-
-.sq-passage-count {
-    display: block;
-    font-size: 0.875em;
-    text-align: right;
-}
-
-.sq-passage-text .sq-test {
-    background-color: red !important;
+.passage ::ng-deep .answer {
+    background-color: palegreen !important;
     padding: 0 .5rem;
     font-weight: bold;
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
 
-    &:first-of-type {
-        border-top-left-radius: .5rem;
-        border-bottom-left-radius: .5rem;
+    &:has(+.answer) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
 
-    &:last-of-type {
-        border-top-right-radius: .5rem;
-        border-bottom-right-radius: .5rem;
+    &+.answer {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
 }
