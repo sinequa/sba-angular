@@ -1,0 +1,101 @@
+// sinequa custom button theme
+$theme-primary: (
+  "background": $blue-500,
+  "border": transparent,
+  "color": $white,
+  "hover-background": $blue-hover,
+  "hover-border": transparent,
+  "hover-color": $white,
+  "active-background": $darker-blue,
+  "active-border": transparent,
+  "active-color": $white,
+  "disabled-background": $blue-focus,
+  "disabled-border": none,
+  "disabled-color": $white
+  );
+
+$theme-outline: (
+  "background": transparent,
+  "border": $blue-500,
+  "color": $blue-500,
+
+  "hover-background": $blue-hover,
+  "hover-border": $blue-hover,
+  "hover-color": $white,
+
+  "active-background": $darker-blue,
+  "active-border": $darker-blue,
+  "active-color": $white,
+
+  "disabled-background": $blue-focus,
+  "disabled-border": $blue-focus,
+  "disabled-color": $white
+  );
+
+$theme-outline-light: (
+  "background": transparent,
+  "border": $grey-200,
+  "color": $grey-200,
+
+  "hover-background": $grey-200,
+  "hover-border": $grey-200,
+  "hover-color": $white,
+
+  "active-background": $grey-200,
+  "active-border": $grey-200,
+  "active-color": $white,
+
+  "disabled-background": transparent,
+  "disabled-border":$grey-100,
+  "disabled-color": $grey-100
+  );
+
+$theme: (
+  "primary": $theme-primary,
+  "outline-primary": $theme-outline,
+  "outline-light": $theme-outline-light
+);
+
+@each $color, $value in $theme {
+  .btn-#{$color} {
+      @if(type-of($value) == 'map') {
+          @include sq-button-variant(
+            map-get($value, "background"),
+            map-get($value, "border"),
+            map-get($value, "color"),
+
+            map-get($value, "hover-background"),
+            map-get($value, "hover-border"),
+            map-get($value, "hover-color"),
+
+            map-get($value, "active-background"),
+            map-get($value, "active-border"),
+            map-get($value, "active-color"),
+
+            map-get($value, "disabled-background"),
+            map-get($value, "disabled-border"),
+            map-get($value, "disabled-color")
+
+            );
+          } @else {
+              @include button-variant($value, $value);
+          }
+  }
+}
+
+/** Sinequa Floating action button */
+.btn-fab {
+  border-radius: 99rem;
+  padding-left: 1.1rem;
+  padding-right: 1.1rem;
+
+  i {
+    margin-right: 0;
+  }
+}
+
+/** Sinequa Squared button */
+.btn-square {
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}

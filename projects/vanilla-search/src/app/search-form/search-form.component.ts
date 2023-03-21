@@ -18,8 +18,8 @@ import { SearchFormComponent } from "@sinequa/components/search-form";
         border-top: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color) !important;
       }
       &:last-child {
-        // Apply margin to the last autocomplete item so that if there is none,
-        // no margin is applied and the autocomplete appears collapsed
+        /* Apply margin to the last autocomplete item so that if there is none,
+           no margin is applied and the autocomplete appears collapsed */
         margin-bottom: 1rem;
       }
     }

@@ -1,5 +1,30 @@
+.main {
+    margin-top: 1rem;
+    margin-bottom: 20px;
+}
+
 #logo {
-    height: 40px;
+    content: url("/assets/sinequa-logo-light-sm.png");
+    width: 40px;
+    max-height: 40px;
+
+    @media ( min-width: 1200px ) {
+        content: url("/assets/sinequa-logo-light-lg.png");
+        width: 160px;
+    }
+}
+
+body.dark {
+    #logo {
+        content: url("/assets/sinequa-logo-dark-sm.png");
+        width: 40px;
+        max-height: 40px;
+
+        @media ( min-width: 1200px ) {
+            content: url("/assets/sinequa-logo-dark-lg.png");
+            width: 160px;
+        }
+    }
 }
 
 .sq-facet-bar {
@@ -7,51 +32,25 @@
     z-index: 1; // This is needed for dropdown menus from the facet actions not to be masked by the sq-filters-view which has position: relative
 }
 
-sq-filters-view ::ng-deep {
-  .sq-simple-mode .sq-filter-action > span {
-    display: none; // Display only button icons
-  }
-  .sq-simple-mode:not(:hover) .sq-filter-action {
-    opacity: 0; // Hide buttons unless the component is hover
-  }
-  .sq-advanced-mode {
-    z-index: 1;
-    min-width: 100%;
-  }
-}
-
 // Styling of the result items
 .record {
+    display: flex;
+    padding: 0.5em 15px;
+    margin: 0 -15px;
+    overflow: hidden;
+    cursor: pointer;
 
     &:hover {
-        background-color: rgb(0,0,0,0.03);
+        background-color: rgb(0, 0, 0, 0.03);
     }
 
     &.selected {
-        background-color: rgb(0,0,0,0.05);
+        background-color: rgb(0, 0, 0, 0.05);
     }
-
-    padding: 0.5em 15px;
-    margin: 0 -15px;
-    cursor: pointer;
-    overflow: hidden;
 
     .flex-grow-1 {
-      min-width: 0; // force the flex item to shrink to the parent size
+        min-width: 0; // force the flex item to shrink to the parent size
     }
-}
-
-.nav-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 2;
-}
-
-.main {
-    margin-top: 70px;
-    margin-bottom: 20px;
 }
 
 // Selection / Action bar on top of results (position: fixed)
@@ -70,14 +69,22 @@ sq-filters-view ::ng-deep {
 }
 
 // The default view in the mini preview when nothing is selected
-.no-record {
-    height: 750px;
-    text-align: center;
-    padding-top: 20%;
+.no-record ::ng-deep {
+    .card {
+        height: min(100vh, 100vh - 100px);
+    }
+    sq-collapse {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: clip; // similar to hidden, but forbids all scrolling
+    }
 
     img {
         width: 10rem;
     }
+
     p {
         max-width: 50%;
         margin: auto;
@@ -85,5 +92,27 @@ sq-filters-view ::ng-deep {
 }
 
 .app-search-form {
+    flex-grow: 100;
     min-height: 41px;
+}
+
+/** ANIMATIONS **/
+nav {
+    opacity: .1;
+    animation: apparition 0.8s ease-out forwards;
+}
+
+main,
+.record {
+    will-change: transform;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: apparition 0.8s ease-out forwards;
+}
+
+@keyframes apparition {
+    100% {
+        opacity: 1;
+        transform: none;
+    }
 }

@@ -145,7 +145,6 @@
                 </div>
             </ng-template>
 
-            <div class="h-100">
                 <sq-loading-bar [active]="loading"></sq-loading-bar>
                 <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl"
                     [sandbox]="sandbox" (onPreviewReady)="onPreviewReady($event)"
@@ -165,7 +164,6 @@
                         [params]="previewDocument?.passageHighlightParams"></sq-passage-highlight>
 
                 </sq-preview-document-iframe>
-            </div>
 
         </sq-facet-card>
 

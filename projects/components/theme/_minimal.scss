@@ -1,0 +1,33 @@
+@import "@angular/cdk/overlay-prebuilt";
+
+@import "breakpoints";
+
+// contains Bootstrap's imports
+@import "bootstrap";
+
+// Sinequa components stylesheets
+@import "../action/bootstrap/action.scss";
+@import "../notification/bootstrap/notification.scss";
+
+// Fontawesome
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/brands";
+@import "@fortawesome/fontawesome-free/scss/regular";
+@import "@fortawesome/fontawesome-free/scss/solid";
+
+@import "components/root";
+
+// minimal dark mode
+@import "dark";
+
+// CDK drag & drop
+.cdk-drag-preview {
+  z-index: 2000 !important;
+}
+
+// By default z-index is 1000, but Bootstrap's navbar z-index is 1020
+// tooltips must be displayed in front of the navbar
+.cdk-overlay-container {
+  z-index: 1030;
+}

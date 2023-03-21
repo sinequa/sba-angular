@@ -241,6 +241,9 @@
             "tsConfig": "projects/vanilla-search/tsconfig.json",
             "preserveSymlinks": true,
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            },
             "assets": [
               "projects/vanilla-search/src/favicon.ico",
               "projects/vanilla-search/src/assets"
@@ -383,6 +386,9 @@
             "polyfills": "projects/pepper/src/polyfills.ts",
             "tsConfig": "projects/pepper/tsconfig.json",
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            },
             "preserveSymlinks": true,
             "assets": [
               "projects/pepper/src/favicon.ico",

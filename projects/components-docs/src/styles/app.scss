@@ -1,4 +1,4 @@
-@import "bootstrap/scss/bootstrap";
+// @import "bootstrap/scss/bootstrap";
 @import 'metadata';
 
 // Fontawesome
@@ -8,13 +8,10 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "@fortawesome/fontawesome-free/scss/regular";
 @import "@fortawesome/fontawesome-free/scss/solid";
 
-@import "../../../components/action/bootstrap/action.scss";
-@import "../../../components/notification/bootstrap/notification.scss";
 @import "../../../components/metadata/metadata.scss";
-@import "../../../components/advanced/bootstrap/advanced.scss";
 
 // Sinequa theme
-@import "../../../components/theme/sinequa-theme";
+@import "../../../components/theme/sinequa";
 
 // Custom variables
 @import "variables";
@@ -25,7 +22,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   --bs-body-font-weight: 400;
   --bs-body-font-family: "Segoe UI", serif;
   --bs-body-font-size: 14px;
-  --bs-primary-rgb: var(--primary-rgb, #{$blue-1-rgb});
+  --bs-primary-rgb: var(--primary-rgb, #{$blue});
 
     .list-group {
       --bs-list-group-bg: #{$list-group-bg};
@@ -34,8 +31,8 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
     .card {
       --bs-card-cap-bg: var(--brand-300, #{$blue-focus});
-      --bs-card-cap-color: var(--sq-text, #{$body-text-grey-1});
-      --bs-link-color: var(--text1, #{$body-text-grey-1});
+      --bs-card-cap-color: var(--sq-text, #{$body-text-grey});
+      --bs-link-color: var(--text1, #{$body-text-grey});
     }
 
     .dark .card {
@@ -61,7 +58,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 
   .blue-bg {
     display: inline-flex;
-    background-color: $blue-1;
-    border: .4rem solid $blue-1
+    background-color: $blue-100;
+    border: .4rem solid $blue-100;
   }
 }

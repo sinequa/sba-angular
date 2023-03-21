@@ -2,16 +2,18 @@
 @import "bootstrap/scss/_variables";
 @import "bootstrap/scss/_mixins";
 
-@import "../../../../components/theme/bootstrap-variables";
+@import "../../../../components/theme/breakpoints";
 
-:host ::ng-deep sq-facet-card .card {
-  height: 100%;
+:host ::ng-deep {
+  sq-facet-card .card {
+    height: 100%;
 
-  sq-collapse {
-    flex: 1;
+    sq-collapse {
+      flex: 1;
 
-    .sq-collapse {
-      height: 100%;
+      .sq-collapse {
+        height: 100%;
+      }
     }
   }
 }
