@@ -6,6 +6,7 @@ import { IntlService } from '@sinequa/core/intl';
 import { SearchService } from '@sinequa/components/search';
 import { FEATURES } from '../../config';
 import { InitChat } from '@sinequa/components/machine-learning';
+import { PrincipalWebService } from '@sinequa/core/web-services';
 
 @Component({
   selector: 'app-home',
@@ -14,15 +15,12 @@ import { InitChat } from '@sinequa/components/machine-learning';
 })
 export class HomeComponent implements OnInit {
 
-  initChat: InitChat = {
-    messages: [
-      {role: 'system', display: false, content: "User Eric Leibenguth is on the home page of the Sinequa search engine, please write a nice short 1-sentence greeting message in French."}
-    ]
-  };
+  initChat: InitChat;
 
   constructor(
     public loginService: LoginService,
     public searchService: SearchService,
+    public principalWebService: PrincipalWebService,
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService) { }
@@ -32,6 +30,19 @@ export class HomeComponent implements OnInit {
    */
   ngOnInit() {
     this.titleService.setTitle(this.intlService.formatMessage("msg#app.name"));
+    this.loginService.events.subscribe(() => {
+      if(this.principalWebService.principal) {
+        this.initChat = {
+          messages: [
+            {
+              role: 'system',
+              display: false,
+              content: `User ${this.principalWebService.principal.fullName} is on the home page of the Sinequa search engine, please write a nice short 1-sentence greeting message in ${this.intlService.currentLocale.display}.`
+            }
+          ]
+        }
+      }
+    })
   }
 
   /**
