@@ -143,7 +143,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   }
 
   searchAttachments(event?: Event) {
-    if(this.question.trim()) {
+    if(this.searchMode && this.question.trim()) {
       event?.preventDefault();
       this.loadingAttachments = true;
       this.chatService.searchAttachments(this.question, this.autoSearchMinScore, this.autoSearchMaxPassages);

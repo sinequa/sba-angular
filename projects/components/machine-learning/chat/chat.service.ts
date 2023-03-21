@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
-import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, UserSettingsWebService } from "@sinequa/core/web-services";
+import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
 import { BehaviorSubject, defaultIfEmpty, forkJoin, map, Observable, of, Subject, switchMap, tap } from "rxjs";
 import { marked } from "marked";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
@@ -37,6 +37,8 @@ export interface RawAttachment {
   length: number;
   sentencesBefore: number;
   sentencesAfter: number;
+  realOffset: number;
+  realLength: number;
 }
 
 /**
@@ -183,6 +185,8 @@ export class ChatService {
         length: attachment.length,
         sentencesBefore: attachment.sentencesBefore,
         sentencesAfter: attachment.sentencesAfter,
+        realOffset: attachment.realOffset,
+        realLength: attachment.realLength
       })),
       $refId: message.$refId
     }));
@@ -292,7 +296,7 @@ export class ChatService {
     }
 
     return Object.entries(uniqueDocs).map(([recordId, $attachment]) => {
-      $attachment.sort((a,b) => a.offset - b.offset);
+      $attachment.sort((a,b) => a.realOffset - b.realOffset);
       if(!refs.has(recordId)) {
         refs.set(recordId, ++lastRefId);
       }
@@ -320,24 +324,38 @@ export class ChatService {
     this.searchService.query.text = text;
     this.searchService.getResults(this.searchService.query).pipe(
       tap(results => this.searchService.setResults(results)),
-      map(results => {
-        const passages = results.topPassages?.passages || [];
-        passages.forEach(p => p.$record = results.records.find(r => r.id === p.recordId));
-        return passages.filter(p => p.score > minScore).slice(0,maxPassages);
+      switchMap(results => {
+        const passages = results.topPassages?.passages?.filter(p => p.score > minScore).slice(0,maxPassages);
+        if(passages?.length) {
+          // Use passages by default, as they are the most relevant data
+          return this.passagesWithRecords(passages, results.records).pipe(
+            switchMap(passages => forkJoin(this.getPassages(passages, this.searchService.query))),
+          );
+        }
+        else {
+          // Take the begining of the top-3 documents and top relevant extracts
+          const docs = results.records.slice(0, 3)
+            .flatMap(record => [
+              this.getDocument(record, this.searchService.query),
+              ...this.getExtracts(record, record.extracts?.slice(0,3) || [], this.searchService.query, 1, 3)
+            ]);
+          return forkJoin(docs);
+        }
       }),
-      switchMap(passages => {
-        const ids = passages.filter(p => !p.$record).map(p => p.recordId);
-        if(ids.length === 0) return of(passages);
-        return this.searchService.getRecords(ids).pipe(
-          map(records => {
-            passages.forEach(p => p.$record = p.$record || records.find(r => r?.id === p.recordId));
-            return passages.filter(p => p.$record);
-          })
-        );
-      }),
-      switchMap(passages => forkJoin(this.getPassages(passages, this.searchService.query))),
-      defaultIfEmpty([])
-    ).subscribe(passages => this.attachments$.next(passages));
+      defaultIfEmpty([] as ChatAttachmentWithTokens[]) // forkJoin([]) does not emit anything!
+    ).subscribe(attachments => this.attachments$.next(attachments));
+  }
+
+  private passagesWithRecords(passages: TopPassage[], records: Record[]): Observable<TopPassage[]> {
+    passages.forEach(p => p.$record = records.find(r => r.id === p.recordId));
+    const ids = passages.filter(p => !p.$record).map(p => p.recordId);
+    if(ids.length === 0) return of(passages);
+    return this.searchService.getRecords(ids).pipe(
+      map(records => {
+        passages.forEach(p => p.$record = p.$record || records.find(r => r?.id === p.recordId));
+        return passages.filter(p => p.$record);
+      })
+    );
   }
 
   /**
@@ -360,10 +378,10 @@ export class ChatService {
   /**
    * Returns a list of extract attachments
    */
-  getExtracts(extracts: RelevantExtract[], query: Query): Observable<ChatAttachmentWithTokens>[] {
+  getExtracts(record: Record, extracts: RelevantExtract[], query: Query, sentencesBefore=0, sentencesAfter=0): Observable<ChatAttachmentWithTokens>[] {
     return extracts.map(e => {
       const [offset, length] = e.locations.split(',');
-      return this.getAttachmentWithTokens('extract', e['$record'], query, +offset, +length);
+      return this.getAttachmentWithTokens('extract', record, query, +offset, +length, sentencesBefore, sentencesAfter);
     });
   }
 
@@ -397,7 +415,6 @@ export class ChatService {
     return this.textChunksService.getTextChunks($record.id, [{offset, length}], [], query, sentencesBefore, sentencesAfter).pipe(
       map(chunks => {
         if(chunks?.[0]) {
-          const $text = chunks[0].text;
           return {
             type,
             recordId: $record.id,
@@ -406,7 +423,9 @@ export class ChatService {
             length,
             sentencesBefore,
             sentencesAfter,
-            $text,
+            realOffset: chunks[0].offset,
+            realLength: chunks[0].length,
+            $text: chunks[0].text,
             $record
           };
         }

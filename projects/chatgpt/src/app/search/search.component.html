@@ -169,7 +169,7 @@
 
             <ng-template #extractsTpl>
               <ul *ngIf="record.extracts" class="extract-list small ps-2 mb-0">
-                <li *ngFor="let extract of record.extracts | slice:0:4" class="px-2 rounded" role="button" (click)="attachExtract(extract, $event)">
+                <li *ngFor="let extract of record.extracts | slice:0:4" class="px-2 rounded" role="button" (click)="attachExtract(record, extract, $event)">
                   <div class="d-flex">
                     <span class="text-truncate" [innerHTML]="extract.highlighted"></span>
                     <a class="ms-auto text-nowrap">

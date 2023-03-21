@@ -81,7 +81,6 @@ export class SearchComponent implements OnInit {
       tap(results => {
         results?.records.forEach(r => r.extracts?.forEach(ex => {
           ex.highlighted = ex.highlighted.replace(/{b}/g, '<b>').replace(/{nb}/g, '</b>');
-          ex['$record'] = r;
         }))
       }),
       tap(res => {
@@ -144,10 +143,10 @@ export class SearchComponent implements OnInit {
     );
   }
 
-  attachExtract(extract: RelevantExtract, event: Event) {
+  attachExtract(record: Record, extract: RelevantExtract, event: Event) {
     event.stopPropagation();
     this.chatService.addAttachments(
-      this.chatService.getExtracts([extract], this.searchService.query)
+      this.chatService.getExtracts(record, [extract], this.searchService.query)
     );
   }
 
