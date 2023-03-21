@@ -24,9 +24,9 @@
           </div>
         </div>
       </li>
-      <li *ngIf="displayAttachments && message.$attachment"
+      <li *ngIf="displayAttachments && message.$attachment?.length"
         class="attachment list-group-item d-flex"
-        [ngClass]="{expanded: message.$attachment.$expanded}">
+        [ngClass]="{expanded: message.$attachment[0].$expanded}">
         <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit:message.$attachment}"></ng-container>
       </li>
     </ng-container>
@@ -90,11 +90,11 @@
     <i class="fas fa-paperclip text-muted"></i>
   </span>
 
-  <p class="flex-grow-1 mb-0" role="button" (click)="attachment.$expanded = !attachment.$expanded">
+  <p class="flex-grow-1 mb-0" role="button" (click)="attachment[0].$expanded = !attachment[0].$expanded">
     <span>
-      <i class="fas fa-fw fa-caret-{{attachment.$expanded? 'down' : 'right'}} pe-1"></i>
-      <b>{{attachment.$record?.title}}: </b>
-      <span>{{attachment.$text}}</span>
+      <i class="fas fa-fw fa-caret-{{attachment[0].$expanded? 'down' : 'right'}} pe-1"></i>
+      <b>{{attachment[0].$record?.title}}: </b>
+      <span *ngFor="let a of attachment">{{a.$text}}</span>
     </span>
   </p>
 </ng-template>
@@ -108,7 +108,7 @@
       class="attachment list-group-item d-flex"
       [ngClass]="{expanded: attachment.$expanded}">
 
-      <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit:attachment}"></ng-container>
+      <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit:[attachment]}"></ng-container>
 
       <div class="ms-3 col-1 small text-muted d-flex flex-column align-items-center">
         <span title="Number of tokens">{{attachment.$tokenCount}}</span>

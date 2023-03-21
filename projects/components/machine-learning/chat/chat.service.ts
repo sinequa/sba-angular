@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, UserSettingsWebService } from "@sinequa/core/web-services";
-import { BehaviorSubject, forkJoin, map, Observable, of, Subject, switchMap, tap } from "rxjs";
+import { BehaviorSubject, defaultIfEmpty, forkJoin, map, Observable, of, Subject, switchMap, tap } from "rxjs";
 import { marked } from "marked";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
@@ -21,7 +21,7 @@ export interface RawMessage {
   content: string;
   display: boolean;
   /** Messages from the user can have attachments */
-  $attachment?: RawAttachment;
+  $attachment?: RawAttachment[];
   /** Reference of this attachment in the contexte of the conversation */
   $refId?: number;
 }
@@ -48,7 +48,7 @@ export interface ChatMessage extends RawMessage {
   /** This content is formatted to be properly displayed in the UI */
   $content: string;
   /** Messages from the user can have attachments */
-  $attachment?: ChatAttachment;
+  $attachment?: ChatAttachment[];
   /** Messages from the assistant can have references that refer to attachments ids */
   $references?: {refId: number; $record: Record}[];
 }
@@ -175,15 +175,15 @@ export class ChatService {
       role: message.role,
       content: message.content,
       display: message.display,
-      $attachment: message.$attachment? {
-        type: message.$attachment.type,
-        recordId: message.$attachment.recordId,
-        queryStr: message.$attachment.queryStr,
-        offset: message.$attachment.offset,
-        length: message.$attachment.length,
-        sentencesBefore: message.$attachment.sentencesBefore,
-        sentencesAfter: message.$attachment.sentencesAfter,
-      }: undefined,
+      $attachment: message.$attachment?.map(attachment => ({
+        type: attachment.type,
+        recordId: attachment.recordId,
+        queryStr: attachment.queryStr,
+        offset: attachment.offset,
+        length: attachment.length,
+        sentencesBefore: attachment.sentencesBefore,
+        sentencesAfter: attachment.sentencesAfter,
+      })),
       $refId: message.$refId
     }));
   }
@@ -194,25 +194,24 @@ export class ChatService {
    * and returns a list of ChatMessage objects ready to be displayed
    */
   restoreAttachments(messages: RawMessage[]): Observable<ChatMessage[]> {
-    const ids = messages.map(a => a.$attachment?.recordId!).filter(id => id);
+    const ids = messages.flatMap(m => m.$attachment?.map(a => a.recordId) || []);
     return this.searchService.getRecords(ids).pipe(
       switchMap(records => forkJoin(
-        messages.map(message => {
-          if(message.$attachment) {
-            const a = message.$attachment;
+        messages.flatMap(message => {
+          if(message.$attachment?.length) {
+            const a = message.$attachment[0];
             const record = records.find(r => r?.id === a.recordId);
-            if(record) { // record is found
-              return this.getAttachment(a.type, record, a.queryStr, a.offset, a.length, a.sentencesBefore, a.sentencesAfter);
-            }
+            return message.$attachment.map(a => record? this.getAttachment(a.type, record, a.queryStr, a.offset, a.length, a.sentencesBefore, a.sentencesAfter) : of(undefined));
           }
-          return of(undefined);
+          return [];
         })
       )),
+      defaultIfEmpty([]),
       map(attachments => {
         const chatMessages: ChatMessage[] = [];
-        for(let i=0; i<messages.length; i++) {
-          const message = messages[i];
-          const $attachment = attachments[i];
+        let i = 0;
+        for(const message of messages) {
+          const $attachment = message.$attachment?.map(() => attachments[i++]!).filter(a => a);
           chatMessages.push(this.processMessage(message, chatMessages, $attachment));
         }
         return chatMessages;
@@ -225,7 +224,7 @@ export class ChatService {
    * If the message if from the assistant, we attempt to extract references
    * from it.
    */
-  processMessage(message: RawMessage, conversation: ChatMessage[], $attachment?: ChatAttachment): ChatMessage {
+  processMessage(message: RawMessage, conversation: ChatMessage[], $attachment?: ChatAttachment[]): ChatMessage {
     const chatMessage: ChatMessage = {...message, $content: marked(message.content), $attachment};
     if(message.role === 'assistant') {
       this.extractReferences(chatMessage, conversation);
@@ -249,13 +248,13 @@ export class ChatService {
       message.$references = [...references].sort((a,b)=> a-b)
         .map(refId => ({
           refId,
-          $record: conversation.find(p => p.$refId === refId)?.$attachment?.$record!
+          $record: conversation.find(p => p.$refId === refId)?.$attachment?.[0]?.$record!
         }))
         .filter(r => r.$record);
-        message.$content = message.$content.replace(/\[(\d+(,[ \d]+)*)\]/g, (str,match) => {
+      message.$content = message.$content.replace(/\[(\d+(,[ \d]+)*)\]/g, (str,match) => {
         let html = '';
         for(let ref of match.split(',')) {
-          const record = conversation.find(p => p.$refId === +ref)?.$attachment?.$record;
+          const record = conversation.find(p => p.$refId === +ref)?.$attachment?.[0]?.$record;
           if(record) {
             html += `<a class="reference" href="${record.url1}" title="${Utils.escapeHtml(record.title)}">${Utils.escapeHtml(ref)}</a>`;
           }
@@ -278,20 +277,29 @@ export class ChatService {
   prepareAttachmentMessages(attachments: ChatAttachment[], conversation: ChatMessage[]): ChatMessage[] {
     const refs = new Map<string, number>();
     for(let msg of conversation) {
-      if(msg.$attachment) {
-        refs.set(msg.$attachment.recordId, msg.$refId!);
+      if(msg.$attachment?.length) {
+        refs.set(msg.$attachment[0].recordId, msg.$refId!);
       }
     }
     let lastRefId = [...refs.values()].sort((a,b) => a - b).at(-1) || 0; // Get the last used reference id
 
-    return attachments.map($attachment => {
-      if(!refs.has($attachment.recordId)) {
-        refs.set($attachment.recordId, ++lastRefId);
+    const uniqueDocs: {[id: string]: ChatAttachment[]} = {};
+    for(let attachment of attachments) {
+      if(!uniqueDocs[attachment.recordId]) {
+        uniqueDocs[attachment.recordId] = [];
       }
-      const $refId = refs.get($attachment.recordId)!;
+      uniqueDocs[attachment.recordId].push(attachment);
+    }
+
+    return Object.entries(uniqueDocs).map(([recordId, $attachment]) => {
+      $attachment.sort((a,b) => a.offset - b.offset);
+      if(!refs.has(recordId)) {
+        refs.set(recordId, ++lastRefId);
+      }
+      const $refId = refs.get(recordId)!;
       return {
         role: 'user',
-        content: this.formatPayload($attachment.type, $refId, $attachment.$record.title, $attachment.$text),
+        content: `<document id="${$refId}" title="${$attachment[0].$record.title}">${$attachment.map(a => a.$text).join('\n...\n')}</document>`,
         display: true,
         $content: '', // Attachment have their own template
         $attachment,
@@ -327,9 +335,8 @@ export class ChatService {
           })
         );
       }),
-      switchMap(passages => passages.length > 0?
-        forkJoin(this.getPassages(passages, this.searchService.query)) : of([])
-      ),
+      switchMap(passages => forkJoin(this.getPassages(passages, this.searchService.query))),
+      defaultIfEmpty([])
     ).subscribe(passages => this.attachments$.next(passages));
   }
 
@@ -414,17 +421,10 @@ export class ChatService {
    */
   getAttachmentWithTokens(type: 'document' | 'snippet' | 'extract', $record: Record, query: Query|string, offset: number, length: number, sentencesBefore = 0, sentencesAfter = 0): Observable<ChatAttachmentWithTokens> {
     return this.getAttachment(type, $record, query, offset, length, sentencesBefore, sentencesAfter).pipe(
-      switchMap(attachment => this.count(this.formatPayload(attachment.type, 10, attachment.$record.title, attachment.$text)).pipe(
+      switchMap(attachment => this.count(attachment.$text).pipe(
         map(count => ({...attachment, $tokenCount: count}))
       )), // Placeholder id as the real id is determined when aggregating the attachments
     );
-  }
-
-  /**
-   * Creates a formated message for ChatGPT
-   */
-  protected formatPayload(type: string, id: number, title: string, text: string) {
-    return `<${type} id="${id}" title="${title}">${text}</${type}>`;
   }
 
   /**
