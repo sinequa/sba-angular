@@ -55,11 +55,17 @@ export function asyncRecordsProviderDemo(providerFactory: ProviderFactory, searc
     )
   );
 
-  const query = searchService.makeQuery();
-  query.text = "google";
-  query.addFilter({field: "treepath", value: "/Web/Wiki/"});
-  query.addFilter({field: "category", value: "human"});
-  query.pageSize = 5;
+  const query = searchService.makeQuery({
+    text: "google",
+    pageSize: 5,
+    filters: {
+      operator: "and",
+      filters: [
+        { field: "treepath", value: "/Web/Wiki/" },
+        { field:  "category", value: "human" }
+      ]
+    }
+  });
 
   const provider = providerFactory.createAsyncRecordsProvider(doc, [], query);
   return [provider];
@@ -238,10 +244,11 @@ export function wikiAsyncConfig(providerFactory: ProviderFactory, searchService:
   const geo_company = providerFactory.createAggregationEdgeType([geo, company], "Geo_Company");
 
   // Create a query to retrieve the list of records
-  const query = searchService.makeQuery();
-  query.text = "Barack Obama";
-  query.addFilter({field: "treepath", value: "/Web/Wiki/"});
-  query.pageSize = 3;
+  const query = searchService.makeQuery({
+    text: "Barack Obama",
+    pageSize: 3,
+    filters: {field: "treepath", value: "/Web/Wiki/"}
+  });
 
   // Return list of providers
   return [
@@ -281,11 +288,18 @@ export function wikiDynEdgeConfig(providerFactory: ProviderFactory, searchServic
   // Create a dynamic edge type, that creates a query to fetch people related to that document
   const dynamicEdgeType = providerFactory.createDynamicEdgeType([doc, people], "oninsert",
     (node: Node, type: DynamicEdgeType) => {
-      const query = searchService.makeQuery();
-      query.text = node.label;
-      query.addFilter({field: "treepath", value: "/Web/Wiki/"});
-      query.addFilter({field: "category", value: "human"});
-      query.pageSize = 5;
+      const query = searchService.makeQuery({
+        text: node.label,
+        pageSize: 5,
+        filters: {
+          operator: "and",
+          filters: [
+            { field: "treepath", value: "/Web/Wiki/" },
+            { field: "category", value: "human" }
+          ]
+        }
+      });
+
       return query;
     });
 
@@ -318,11 +332,18 @@ export function wikiDynConfig(providerFactory: ProviderFactory, searchService: S
     providerFactory.createPersonNodeType(),
     // This function returns the query necessary to transform the node
     (node: Node) => {
-      const query = searchService.makeQuery();
-      query.text = node.label;
-      query.addFilter({field: "treepath", value: "/Web/Wiki/"});
-      query.addFilter({field: "category", value: "human"});
-      query.pageSize = 1;
+      const query = searchService.makeQuery({
+        text: node.label,
+        pageSize: 1,
+        filters: {
+          operator: "and",
+          filters: [
+            { field: "treepath", value: "/Web/Wiki/" },
+            { field: "category", value: "human" }
+          ]
+        }
+      });
+
       return query
     },
     // The node options to use after the node has been transformed (displaying an image instead of an icon)
@@ -369,11 +390,18 @@ export function wikiMultiDynConfig(providerFactory: ProviderFactory, searchServi
     providerFactory.createPersonNodeType(),
     // a function that returns a query to retrieve the wikipedia page of this person
     (node: Node) => {
-      const query = searchService.makeQuery();
-      query.text = node.label;
-      query.addFilter({field: "treepath", value: "/Web/Wiki/"});
-      query.addFilter({field: "category", value: "human"});
-      query.pageSize = 1;
+      const query = searchService.makeQuery({
+        text: node.label,
+        pageSize: 1,
+        filters: {
+          operator: "and",
+          filters: [
+            { field: "treepath", value: "/Web/Wiki/" },
+            { field: "category", value: "human" }
+          ]
+        }
+      });
+
       return query
     },
     // the node options used when the node has been mutated (sourcevarchar4 contains the wikipedia image URL)

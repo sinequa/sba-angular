@@ -1,4 +1,4 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { LocationStrategy } from "@angular/common";
 import { MockLocationStrategy } from "@angular/common/testing";
 import { Router } from "@angular/router";
@@ -9,11 +9,10 @@ import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
 import {IntlService} from "@sinequa/core/intl";
 
-import {AuditWebServiceFactory, LoginServiceFactory, NotificationsServiceFactory, QueryWebServiceFactory} from '@testing/factories';
+import {AuditWebServiceFactory, LoginServiceFactory, NotificationsServiceFactory, QueryIntentWebServiceFactory, QueryWebServiceFactory} from '@testing/factories';
 import {RouterStub} from '@testing/stubs';
 
-import {SearchService} from "../search/search.service";
-import { QueryIntentWebServiceFactory } from "./factories/queryIntentWebServiceFactory";
+import {SearchService} from "./search.service";
 
 describe("SearchService", () => {
   let service: SearchService;
@@ -324,4 +323,76 @@ describe("SearchService", () => {
       });
     });
   })
+
+  describe("makeQuery() non mutability", () => {
+    describe("when subscribe to 'make-query' event ", () => {
+      it('should returns the default values', waitForAsync(() => {
+        // subscribe to "make-query" event
+        service.events.subscribe((e) => {
+          expect(e.type).toEqual("make-query");
+          expect((e as SearchService.MakeQueryEvent).query.name).toBe("ccquery_name")
+        })
+
+        // call makeQuery() with default parameters
+        const query = service.makeQuery();
+        expect(query.name).toEqual("ccquery_name");
+      }))
+
+      it("should returns isFirstPage === true", waitForAsync(() => {
+        // substribe to "make-query" event
+        service.events.subscribe((e) => {
+          expect(e.type).toEqual("make-query");
+          expect((e as SearchService.MakeQueryEvent).query.isFirstPage).toBeTrue();
+        });
+
+        // set then isFirstPage to true
+        const query = service.makeQuery({ isFirstPage: true });
+        expect(query.isFirstPage).toBeTrue();
+      }))
+
+      it("should returns a query without isFirstPage attribute", waitForAsync(() => {
+        // substribe to "make-query" event
+        service.events.subscribe((e) => {
+          expect(e.type).toEqual("make-query");
+          expect((e as SearchService.MakeQueryEvent).query.isFirstPage).toBeUndefined();
+        });
+
+        // create a default query
+        const query = service.makeQuery();
+        expect(query.isFirstPage).toBeUndefined();
+      }))
+
+      it("should returns a query cloned from another query and isFirstPage === true", waitForAsync(() => {
+        service.events.subscribe((x) => {
+          const e = (x as SearchService.MakeQueryEvent);
+          expect(e.type).toEqual("make-query");
+          expect(e.query.name).toEqual("my-query");
+          expect(e.query.isFirstPage).toBeTrue();
+        });
+
+        // frist, create a dummy Query with isFirstPage set to true
+        const q = new Query("my-query");
+        q.isFirstPage = true;
+
+        // make a query based on previous query
+        const query = service.makeQuery(q);
+        expect(query.isFirstPage).toBeTrue()
+      }))
+
+      it("should returns the basket name set", waitForAsync(() => {
+        service.events.subscribe((x) => {
+          const e = (x as SearchService.MakeQueryEvent);
+          expect(e.type).toEqual("make-query");
+          expect(e.query.name).toEqual("ccquery_name");
+          expect(e.query.basket).toEqual("my-basket");
+          expect(e.query.isFirstPage).toBeUndefined();
+        });
+
+        // make a query with a specific basket name
+        const query = service.makeQuery({ basket: "my-basket" });
+        expect(query.basket).toEqual("my-basket");
+        expect(query.isFirstPage).toBeUndefined();
+      }))
+    })
+  });
 });
