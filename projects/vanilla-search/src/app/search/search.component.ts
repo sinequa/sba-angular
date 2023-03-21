@@ -208,6 +208,17 @@ export class SearchComponent implements OnInit {
         ],
         attachments: this.chatService.getPassages(passages, this.searchService.query)
       }
+      const passage = record.matchingpassages.passages.find(p => p.id === passageId);
+      if(passage) {
+        this.chatService.addAttachments(
+          this.chatService.getPassages([{$record: record, location: passage.location}], this.searchService.query)
+        );
+      }
+    }
+    if(passageId === undefined) {
+      this.chatService.addAttachments(
+        [this.chatService.getDocument(record, this.searchService.query)]
+      );
     }
     this.passageId = passageId?.toString();
     if (this.passageId) {
