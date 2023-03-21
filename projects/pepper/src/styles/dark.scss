@@ -17,11 +17,11 @@ $dark-nav-link-focus-border-color: #666363;
 
 
     #logo {
-        content: url(/assets/sinequa-logo-dark-sm.png);
+        content: url(../assets/sinequa-logo-dark-sm.png);
         width: 40px;
 
         @media (min-width: 1200px) {
-            content: url(/assets/sinequa-logo-dark-lg.png);
+            content: url(../assets/sinequa-logo-dark-lg.png);
             width: 160px;
         }
     }
