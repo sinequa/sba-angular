@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-sm bg-light sticky-top" [ngClass]="{'navbar-dark': isDark}">
     <div class="container-xl flex-nowrap">
 
-        <div class="col-lg-3 d-flex align-items-center">
+        <div class="col-lg-3 col-xl-2 d-flex align-items-center">
             <!-- Application logo -->
             <a [routerLink]="['/home']" title="Home">
                 <img id="logo" alt="sinequa logo">
@@ -51,7 +51,7 @@
     <div class="row" *ngIf="results$ | async; let results">
         <!-- Left facet bar -->
         <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-sm-12 col-md-4 col-lg-3 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 90, bottom: 10}">
+        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 90, bottom: 10}">
             <!-- Source facet -->
             <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" class="mb-3">
                 <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
@@ -141,7 +141,7 @@
 
         <!-- Right part-->
         <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-sm-12 col-lg-4" [ngClass]="{'col-md-6': !showFilters}"  [sqSticky]="{top: 80, bottom: 10}">
+        <div class="col-sm-12 col-lg-4 col-xl-5" [ngClass]="{'col-md-6': !showFilters}"  [sqSticky]="{top: 80, bottom: 10}">
 
             <!-- Without selected document -->
             <!-- hidden only on md resolution -->
