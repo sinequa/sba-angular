@@ -56,10 +56,14 @@ The [`BsNotification` component]({{site.baseurl}}components/components/BsNotific
 
 #### BsNotifications
 
+<doc-notifications></doc-notifications>
+
 The [`BsNotifications` component]({{site.baseurl}}components/components/BsNotifications.html) is the component representing the current notification list and displaying the notification on the screen.
 It is imported and used in the `app.component.html` of `vanilla-search`.
 
 #### BsNotificationsManager
+
+<doc-notifications-manager></doc-notifications-manager>
 
 The [`BsNotificationsManager` component]({{site.baseurl}}components/components/BsNotificationsManager.html) is the component
 that is used to manage the list of notifications of your application.

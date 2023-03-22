@@ -98,6 +98,8 @@ Behind the scene, the service performs a series of actions:
 
 ## Displaying Results Views
 
+<doc-results-grid-view></doc-results-grid-view>
+
 The display of results views is managed via simple Angular template syntax:
 
 ```html
@@ -144,6 +146,8 @@ With the settings above, the view renders as follows:
 ![Grid view]({{site.baseurl}}assets/modules/results-view/grid-view.png){: .d-block .mx-auto }
 
 ## Switching Between Views
+
+<doc-results-view-selector></doc-results-view-selector>
 
 To switch between results views, include the [`sq-results-view-selector`]({{site.baseurl}}components/components/BsResultsViewSelector.html) component. The component uses the [`ResultsViewService`]({{site.baseurl}}components/injectables/ResultsViewService.html) to display the current view and list of available views.
 

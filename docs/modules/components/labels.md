@@ -55,7 +55,7 @@ So far, if your component wants to know the index columns, use the following :
 
     This method returns the index column for the private labels.
 
-**Public** labels can have specific access rules. If your components need to respect users rights and the label's configuration on the server side, use the following : 
+**Public** labels can have specific access rules. If your components need to respect users rights and the label's configuration on the server side, use the following :
 
 - `allowPublicLabelsManagement(): boolean`
 
@@ -115,8 +115,8 @@ Both cases are using the same method:
 
 ### Displayed labels actions
 
-Each Document's labels are displayed just below its extracts.  
-Selecting a label will filter the current results page while keeping documents whose labels are given in the list. Here you will be using `selectLabels(labels: string[], _public: boolean): Promise<boolean>`.  
+Each Document's labels are displayed just below its extracts.
+Selecting a label will filter the current results page while keeping documents whose labels are given in the list. Here you will be using `selectLabels(labels: string[], _public: boolean): Promise<boolean>`.
 
 The `LabelsService` also provides the `LABELS_COMPONENTS` injection token which can be used to override the UI components
 used in this module.
@@ -166,9 +166,11 @@ The `LabelsService` provides here some methods that you may need:
 The `LabelsModule` comes with a set of components :
 
 - The [`LabelsMenu` component]({{site.baseurl}}components/components/BsLabelsMenuComponent.html) is used to display dropdown menu
-  that manages public and private labels.  
-  
-  You can see this menu in the navigation bar. 
+  that manages public and private labels.
+
+<doc-labels-menu></doc-labels-menu>
+
+  You can see this menu in the navigation bar.
 
   ![Labels menu in navigation bar]({{site.baseurl}}assets/modules/labels/navbar-menu-labels.PNG)
   {: .d-block .mx-auto }
@@ -185,8 +187,11 @@ The `LabelsModule` comes with a set of components :
    - `size`: The display size of the component.
 
 - The [`Labels` component]({{site.baseurl}}components/components/Labels.html) is used to display and to manage
-  the assigned labels of a document.  
-  Note the background color used to distinguish public and private labels.  
+  the assigned labels of a document.
+
+<doc-labels></doc-labels>
+
+  Note the background color used to distinguish public and private labels.
 
   ![Labels]({{site.baseurl}}assets/modules/labels/displayed-labels-of-document.PNG)
   {: .d-block .mx-auto }
@@ -200,7 +205,9 @@ The `LabelsModule` comes with a set of components :
    - `public`: Whether the labels are public.
 
 - The [`ResultLabels` component]({{site.baseurl}}components/components/ResultLabels.html) is used to display
-  the assigned labels of a document. This component is backed by `Labels` component.  
+  the assigned labels of a document. This component is backed by `Labels` component.
+
+<doc-result-labels></doc-result-labels>
 
   The inputs of the component are:
 
@@ -208,13 +215,13 @@ The `LabelsModule` comes with a set of components :
    - `caption`: The caption for the labels.
    - `public`: Whether the labels are public.
 
-- The [Modals components]() have basically a very common behavior for the different actions on the labels.  
+- The [Modals components]() have basically a very common behavior for the different actions on the labels.
 
   The standard template can be seen as a(n):
-   - Alert texts: Explicitly explain the action to be performed on labels. 
+   - Alert texts: Explicitly explain the action to be performed on labels.
    - Radio button: The type of label you want to manage. Note that it **depends on the configuration of sinequa instance**.
    - Autocomplete input: List of labels you want to manage.
-  
+
   ![Labels]({{site.baseurl}}assets/modules/labels/single-document-labels-edit.PNG){: .d-block .mx-auto }
 
   Each modal component uses the `MODAL_MODEL` injection token. The object needs to be
@@ -230,7 +237,7 @@ The `LabelsModule` comes with a set of components :
       radioButtons: ModalButton[];
   }
   ```
-  where: 
+  where:
    - `public`: Whether the labels are public.
    - `allowEditPublicLabels`: The user right to **Add, Remove, BulkAdd, BulkRemove** operations.
    - `allowManagePublicLabels`: The user right to **Create, Rename, Delete** operations.
@@ -240,7 +247,7 @@ The `LabelsModule` comes with a set of components :
    - `radioButtons`: Properties of the modal buttons .
 
 
-- The [`BsLabelsAutocomplete` component]({{site.baseurl}}components/components/BsLabelsAutocompleteComponent.html) is the main building block of the `Modals components`.  
+- The [`BsLabelsAutocomplete` component]({{site.baseurl}}components/components/BsLabelsAutocompleteComponent.html) is the main building block of the `Modals components`.
   Actually, it is an input element, hosting the `sqAutocompleteLabels` directive.
 
   Example:
@@ -264,7 +271,7 @@ The `LabelsModule` comes with a set of components :
       [off]="disableAutocomplete"
       [class.disabled]="disableAutocomplete"
       [labelsItems]="labelsItems">
-  ```  
+  ```
 
   The inputs of the component are:
 
@@ -272,7 +279,7 @@ The `LabelsModule` comes with a set of components :
    - `disableAutocomplete`: Turns off the autocomplete input.
    - `allowNewLabels`: Whether considering the selection of a **not** existing label among the suggestions.
    - `allowManagePublicLabels`: Here it means the user right to allow adding new labels.
-   - `labelsItems`: Initial labels to be displayed in the container.  
+   - `labelsItems`: Initial labels to be displayed in the container.
 
   The component also emits a `labelsUpdate` event used to synchronize the list of selected labels and their type in the parent component.
 
@@ -280,7 +287,7 @@ The `LabelsModule` comes with a set of components :
 
 ### Labels Autocomplete directive
 
-The [`LabelsAutocomplete`]({{site.baseurl}}components/directives/LabelsAutocomplete.html) provides the `sqAutocompleteLabels` directive. It extends and overrides the main [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive.  
+The [`LabelsAutocomplete`]({{site.baseurl}}components/directives/LabelsAutocomplete.html) provides the `sqAutocompleteLabels` directive. It extends and overrides the main [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive.
 Thus, the suggestions are fetched and displayed also in case of empty input. This feature **requires** the `labelsAutoSuggestWildcard` to be configured in the sinequa server.
 
 ![Labels]({{site.baseurl}}assets/modules/labels/wildcard-config.PNG){: .d-block .mx-auto }
@@ -293,7 +300,7 @@ The inputs of the directive are:
    - `labelsItemsContainer`: Container displaying the selected labels and obviously implementing `LabelsItemsContainer` interface.
    - `allowNewLabels`: Whether considering the selection of a **not** existing label among the suggestions.
    - `allowManagePublicLabels`: Here it means the user right to allow adding new labels.
-   - `initLabels`: Initial labels to be displayed in the container. 
+   - `initLabels`: Initial labels to be displayed in the container.
 
 The directive also emits an `itemsUpdate` event which is needed to synchronize the list of selected labels in the parent component.
 
