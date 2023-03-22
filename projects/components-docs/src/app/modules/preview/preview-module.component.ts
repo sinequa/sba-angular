@@ -12,6 +12,7 @@ import { DocPreviewPagesPanelComponent } from './preview-pages-panel/preview-pag
 import { DocPreviewPanelComponent } from './preview-panel/preview-panel.component';
 import { DocPreviewPopupComponent } from './preview-popup/preview-popup.component';
 import { DocPreviewSearchFormComponent } from './preview-search-form/preview-search-form.component';
+import { DocPreviewTooltipComponent } from './preview-tooltip/preview-tooltip.component';
 import { DocResultLinkPreviewComponent } from './result-link-preview/result-link-preview.component';
 import { DocSimilarDocumentsComponent } from './similar-documents/similar-documents.component';
 
@@ -38,7 +39,8 @@ export class DocPreviewModuleComponent {
     DocPreviewPopupComponent,
     DocPreviewSearchFormComponent,
     DocResultLinkPreviewComponent,
-    DocSimilarDocumentsComponent
+    DocSimilarDocumentsComponent,
+    DocPreviewTooltipComponent
   ];
 
   constructor() { }

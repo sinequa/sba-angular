@@ -38,12 +38,14 @@ import { DocNgxChartsModuleComponent } from './analytics/ngx-charts-module/ngx-c
 import { DocTimelineModuleComponent } from './analytics/timeline-module/timeline-module.component';
 import { DocTooltipModuleComponent } from './analytics/tooltip-module/tooltip-module.component';
 import { DocVisTimelineModuleComponent } from './analytics/vis-timeline-module/vis-timeline-module.component';
+import { DocActionModuleComponent } from './modules/action-module/action-module.component';
 
 const routes: Routes = [
   { path: 'buttons', component: DocButtonsComponent },
   { path: 'inputs', component: DocInputsComponent },
   { path: 'search', component: DocSearchModuleComponent },
   { path: 'alerts', component: DocAlertsModuleComponent },
+  { path: 'action', component: DocActionModuleComponent },
   { path: 'advanced', component: DocAdvancedModuleComponent },
   { path: 'autocomplete', component: DocAutocompleteModuleComponent },
   { path: 'facet', component: DocFacetModuleComponent },

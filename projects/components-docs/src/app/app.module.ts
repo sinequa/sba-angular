@@ -229,6 +229,13 @@ import { BsTooltipComponent } from '@sinequa/analytics/tooltip';
 import { VisTimelineModule } from '@sinequa/analytics/vis-timeline';
 import { DocInterceptor } from './doc.interceptor';
 import { createCustomElement } from '@angular/elements';
+import { DocLabelsComponent } from './modules/labels-module/labels/labels.component';
+import { DocResultLabelsComponent } from './modules/labels-module/result-labels/result-labels.component';
+import { DocPreviewTooltipComponent } from './modules/preview/preview-tooltip/preview-tooltip.component';
+import { DocActionButtonsComponent } from './modules/action-module/action-buttons/action-buttons.component';
+import { DocActionMenuComponent } from './modules/action-module/action-menu/action-menu.component';
+import { DocActionItemComponent } from './modules/action-module/action-item/action-item.component';
+import { DocActionModuleComponent } from './modules/action-module/action-module.component';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -504,7 +511,14 @@ export function httpInterceptor() {
         DocTimelineLegendComponent,
         DocTimelineComponent,
         DocTooltip2Component,
-        DocResultTimelineComponent
+        DocResultTimelineComponent,
+        DocLabelsComponent,
+        DocResultLabelsComponent,
+        DocPreviewTooltipComponent,
+        DocActionModuleComponent,
+        DocActionButtonsComponent,
+        DocActionMenuComponent,
+        DocActionItemComponent
     ],
     imports: [
         BrowserModule,
@@ -568,9 +582,23 @@ export function httpInterceptor() {
 export class AppModule implements DoBootstrap {
 
     constructor(private injector: Injector) {
+        this.defineComponentsElements();
+        this.defineAnalyticsElements();
     }
 
     ngDoBootstrap() {
+
+    }
+
+    private defineComponentsElements(): void {
+        // action
+        const actionButtons = createCustomElement(DocActionButtonsComponent, { injector: this.injector });
+        const actionItem = createCustomElement(DocActionItemComponent, { injector: this.injector });
+        const actionMenu = createCustomElement(DocActionMenuComponent, { injector: this.injector });
+        customElements.define('doc-action-buttons', actionButtons);
+        customElements.define('doc-action-item', actionItem);
+        customElements.define('doc-action-menu', actionMenu);
+
         // advanced
         const advancedFormCheckbox = createCustomElement(DocAdvancedFormCheckboxComponent, { injector: this.injector });
         const advancedFormInput = createCustomElement(DocAdvancedFormInputComponent, { injector: this.injector });
@@ -656,6 +684,10 @@ export class AppModule implements DoBootstrap {
         const labelsAutocomplete = createCustomElement(DocLabelsAutocompleteComponent, { injector: this.injector });
         const labelsMenu = createCustomElement(DocLabelsMenuComponent, { injector: this.injector });
         const renameLabel = createCustomElement(DocRenameLabelComponent, { injector: this.injector });
+        const labels = createCustomElement(DocLabelsComponent, { injector: this.injector });
+        const resultLabels = createCustomElement(DocResultLabelsComponent, { injector: this.injector });
+        customElements.define('doc-result-labels', resultLabels);
+        customElements.define('doc-labels', labels);
         customElements.define('doc-add-label', addLabel);
         customElements.define('doc-delete-label', deleteLabel);
         customElements.define('doc-edit-label', editLabel);
@@ -717,6 +749,8 @@ export class AppModule implements DoBootstrap {
         const previewPageForm = createCustomElement(DocPreviewPageFormComponent, { injector: this.injector });
         const previewMinimap = createCustomElement(DocPreviewMinimapComponent, { injector: this.injector });
         const facetPreviewComponent = createCustomElement(DocFacetPreviewComponentComponent, { injector: this.injector });
+        const previewTooltip = createCustomElement(DocPreviewTooltipComponent, { injector: this.injector });
+        customElements.define('doc-preview-tooltip', previewTooltip);
         customElements.define('doc-preview-highlights', previewHighlights);
         customElements.define('doc-preview-links', previewLinks);
         customElements.define('doc-preview-popup', previewPopup);
@@ -838,5 +872,71 @@ export class AppModule implements DoBootstrap {
         const tooltip = createCustomElement(DocTooltipComponent, { injector: this.injector });
         customElements.define('doc-sticky', sticky);
         customElements.define('doc-tooltip', tooltip);
+    }
+
+    private defineAnalyticsElements(): void {
+        // ag grid
+        const agGridView = createCustomElement(DocAgGridViewComponent, { injector: this.injector });
+        customElements.define('doc-ag-grid-view', agGridView);
+
+        // dashboard
+        const addWidgetModal = createCustomElement(DocAddWidgetModalComponent, { injector: this.injector });
+        const dashboard = createCustomElement(DocDashboardComponent, { injector: this.injector });
+        customElements.define('doc-add-widget', addWidgetModal);
+        customElements.define('doc-dashboard', dashboard);
+
+        // finance
+        const moneyCloud = createCustomElement(DocMoneyCloudComponent, { injector: this.injector });
+        const moneyTimeline = createCustomElement(DocMoneyTimelineComponent, { injector: this.injector });
+        customElements.define('doc-money-cloud', moneyCloud);
+        customElements.define('doc-money-timeline', moneyTimeline);
+
+        // fusion charts
+        const chart = createCustomElement(DocChartComponent, { injector: this.injector });
+        const multiLevelPieChart = createCustomElement(DocMultiLevelPieChartComponent, { injector: this.injector });
+        customElements.define('doc-chart', chart);
+        customElements.define('doc-multi-level-pie-chart', multiLevelPieChart);
+
+        // google maps
+        const map = createCustomElement(DocMapComponent, { injector: this.injector });
+        customElements.define('doc-map', map);
+
+        // heatmap
+        const facetHeatmap = createCustomElement(DocFacetHeatmapComponent, { injector: this.injector });
+        const heatmap = createCustomElement(DocHeatmapComponent, { injector: this.injector });
+        const resultsHeatmapView = createCustomElement(DocResultsHeatmapViewComponent, { injector: this.injector });
+        customElements.define('doc-facet-heatmap', facetHeatmap);
+        customElements.define('doc-heatmap', heatmap);
+        customElements.define('doc-results-heatmap-view', resultsHeatmapView);
+
+        // network
+        const edgeInfoCard = createCustomElement(DocEdgeInfoCardComponent, { injector: this.injector });
+        const network = createCustomElement(DocNetworkComponent, { injector: this.injector });
+        const nodeInfoCard = createCustomElement(DocNodeInfoCardComponent, { injector: this.injector });
+        customElements.define('doc-edge-info-card', edgeInfoCard);
+        customElements.define('doc-network', network);
+        customElements.define('doc-node-info-card', nodeInfoCard);
+
+        // ngx charts
+        const facetChart = createCustomElement(DocFacetChartComponent, { injector: this.injector });
+        customElements.define('doc-facet-chart', facetChart);
+
+        // timeline
+        const facetDate = createCustomElement(DocFacetDateComponent, { injector: this.injector });
+        const facetTimeline = createCustomElement(DocFacetTimelineComponent, { injector: this.injector });
+        const timeline = createCustomElement(DocTimelineComponent, { injector: this.injector });
+        const timelineLegend = createCustomElement(DocTimelineLegendComponent, { injector: this.injector });
+        customElements.define('doc-facet-date', facetDate);
+        customElements.define('doc-facet-timeline', facetTimeline);
+        customElements.define('doc-timeline', timeline);
+        customElements.define('doc-timeline-legend', timelineLegend);
+
+        // tooltip
+        const tooltip2 = createCustomElement(DocTooltip2Component, { injector: this.injector });
+        customElements.define('doc-tooltip-2', tooltip2);
+
+        // vis timeline
+        const resultTimeline = createCustomElement(DocResultTimelineComponent, { injector: this.injector });
+        customElements.define('doc-result-timeline', resultTimeline);
     }
 }

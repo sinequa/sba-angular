@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Action, ActionSeparator } from '@sinequa/components/action';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { AppService, Query } from '@sinequa/core/app-utils';
@@ -19,6 +20,33 @@ export class GlobalService {
   previewDocument: PreviewDocument;
 
   loading = true;
+
+  actions: Action[] = [
+    new Action({
+      icon: "fas fa-sync",
+      title: "action 2",
+      action: () => { }
+    }),
+    new Action({
+      icon: "fas fa-shield-alt",
+      title: "action 1",
+      children: [
+        new Action({
+          text: "sub action 1",
+          action: () => { }
+        }),
+        new Action({
+          text: "sub action 2",
+          action: () => { }
+        }),
+        ActionSeparator,
+        new Action({
+          text: "sub action 3",
+          action: () => { }
+        })
+      ]
+    })
+  ];
 
   get records(): Record[] | undefined {
     return this.results?.records?.length ? this.results.records : undefined

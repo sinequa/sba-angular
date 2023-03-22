@@ -8,7 +8,9 @@ import { BaseComponent } from 'src/app/base/base.component';
 export class DocScopeComponent extends BaseComponent {
 
   code = `<sq-scope
-    [query]="query">
+    *ngIf="appService.ccquery?.scopesActive"
+    [query]="searchService.query"
+    (queryChange)="searchService.search()">
 </sq-scope>`;
 
 }

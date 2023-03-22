@@ -17,6 +17,7 @@ export class DocMenuComponent {
     ];
 
     components: string[] = [
+        'action',
         'advanced',
         'alerts',
         'autocomplete',
