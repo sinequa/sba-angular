@@ -464,8 +464,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "chatgpt:build:development",
-            "ssl": true,
-            "proxyConfig": "projects/chatgpt/src/proxy.conf.json"
+            "ssl": true
           },
           "configurations": {
             "production": {

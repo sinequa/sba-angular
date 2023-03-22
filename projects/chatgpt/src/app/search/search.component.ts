@@ -10,7 +10,7 @@ import { Results, Record, TopPassage, RelevantExtract } from '@sinequa/core/web-
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES, METADATA } from '../../config';
 import { ChatComponent, ChatAttachment, ChatService, SavedChat, ChatMessage, ChatConfig, defaultChatConfig } from '@sinequa/components/machine-learning';
-import { AppSearchFormComponent } from '../search-form/search-form.component';
+import { AppSearchFormComponent } from '@sinequa/pepper/app/search-form/search-form.component';
 
 @Component({
   selector: 'app-search',

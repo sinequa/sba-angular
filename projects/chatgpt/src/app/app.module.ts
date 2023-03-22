@@ -39,8 +39,8 @@ import { FiltersModule } from "@sinequa/components/filters";
 // Components
 import { AppComponent } from "./app.component";
 import { SearchComponent } from './search/search.component';
-import { AppSearchFormComponent } from "./search-form/search-form.component";
-import { AutocompleteComponent } from "./search-form/autocomplete.component";
+import { AppSearchFormComponent } from "@sinequa/pepper/app/search-form/search-form.component";
+import { AutocompleteComponent } from '@sinequa/vanilla/app/search-form/autocomplete.component';
 
 // Environment
 import { environment } from "../environments/environment";
@@ -50,10 +50,11 @@ import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
-    app: "DemoNS_vanilla-search_eric",
-    production: environment.production,
-    autoOAuthProvider: "google-dev",
-    auditEnabled: true
+  app: "chat",
+  url: "https://dev-demo-coe-ns.eastus2.cloudapp.azure.com",
+  production: environment.production,
+  autoOAuthProvider: "google",
+  auditEnabled: true
 };
 
 // @sinequa/core config initializer
