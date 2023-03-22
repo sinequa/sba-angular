@@ -20,8 +20,12 @@
             </button>
 
             <!-- Search form -->
-            <div class="app-search-form col-sm-5 ps-1 pe-2" *ngIf="showForm">
-                <app-search-form [autocompleteSources]="features"></app-search-form>
+            <div class="app-search-form col-sm-5 ps-1 pe-2 d-flex" *ngIf="showForm">
+                <app-search-form [autocompleteSources]="features" class="flex-grow-1"></app-search-form>
+                <button class="btn btn-sm btn-link" sqTooltip="Translate the query to English" (click)="translate()" *ngIf="!translating">en</button>
+                <div class="spinner-grow spinner-grow-sm align-self-center mx-2 py-1" role="status" *ngIf="translating">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
 
             <!-- User menu which visibility can be toggled with a button on small screens -->

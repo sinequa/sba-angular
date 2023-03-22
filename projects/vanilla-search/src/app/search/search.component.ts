@@ -357,4 +357,22 @@ export class SearchComponent implements OnInit {
     }
     return config;
   }
+
+
+  translating = false;
+  translate() {
+    const text = this.searchService.query.text;
+    if(text) {
+      this.translating = true;
+      this.chatService.fetch([
+        {role: 'system', content: `Assistant translates everything the user says in English, word for word.`, display: false, $content: ''},
+        {role: 'user', content: text, display: false, $content: ''},
+      ], 'GPT35Turbo', 1.0, 1000, 1.0)
+      .subscribe(res => {
+        this.searchService.query.text = res.messagesHistory.at(-1)?.content.replace(/\"/g, '');
+        this.searchService.searchText();
+        this.translating = false;
+      })
+    }
+  }
 }
