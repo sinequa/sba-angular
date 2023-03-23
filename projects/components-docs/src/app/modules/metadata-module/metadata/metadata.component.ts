@@ -11,10 +11,7 @@ export class DocMetadataComponent extends BaseComponent {
     "authors", "docformat", "modified", "size", "treepath", "filename"
   ];
 
-  code = `metadata: string[] = [
-    "authors", "docformat", "modified", "size", "treepath", "filename"
-];`;
-  code2 = `<sq-metadata
+  code1 = `<sq-metadata
     [record]="record"
     [items]="metadata"
     [showTitles]="true"
@@ -22,5 +19,9 @@ export class DocMetadataComponent extends BaseComponent {
     [tabular]="true"
     [clickable]="true">
 </sq-metadata>`;
+
+  code2 = `metadata: string[] = [
+    "authors", "docformat", "modified", "size", "treepath", "filename"
+];`;
 
 }

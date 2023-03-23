@@ -1,10 +1,3 @@
-<sq-facet-card title="ResultIcon">
-    <div class="row p-3">
-        <div class="col-5">
-            <sq-result-icon [record]="globalService.record"></sq-result-icon>
-        </div>
-        <div class="col-7">
-            <doc-code [code]="code"></doc-code>
-        </div>
-    </div>
-</sq-facet-card>
+<doc-component-demo title="ResultIcon" [html]="code">
+    <sq-result-icon [record]="globalService.record"></sq-result-icon>
+</doc-component-demo>

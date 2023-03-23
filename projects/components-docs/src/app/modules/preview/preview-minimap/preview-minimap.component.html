@@ -1,12 +1,5 @@
-<sq-facet-card title="BsPreviewMinimapComponent">
-    <div class="row p-3">
-        <div class="col-5">
-            <sq-preview-minimap [previewDocument]="globalService.previewDocument"
-                [previewData]="globalService.previewData" [type]="'matchlocations'">
-            </sq-preview-minimap>
-        </div>
-        <div class="col-7">
-            <doc-code [code]="code"></doc-code>
-        </div>
-    </div>
-</sq-facet-card>
+<doc-component-demo title="BsPreviewMinimapComponent" [html]="code">
+    <sq-preview-minimap [previewDocument]="globalService.previewDocument" [previewData]="globalService.previewData"
+        [type]="'matchlocations'">
+    </sq-preview-minimap>
+</doc-component-demo>

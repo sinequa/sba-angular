@@ -10,7 +10,7 @@ export class DocAdvancedFormInputComponent implements OnInit {
 
   form: FormGroup;
 
-  code = `<sq-advanced-form-input
+  code1 = `<sq-advanced-form-input
     [form]="form"
     [field]="'title'">
 </sq-advanced-form-input>`;

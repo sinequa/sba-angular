@@ -10,7 +10,7 @@ export class DocAdvancedFormRangeComponent implements OnInit {
 
   form: FormGroup;
 
-  code = `<sq-advanced-form-range
+  code1 = `<sq-advanced-form-range
     [form]="form"
     [field]="'size'">
 </sq-advanced-form-range>`;

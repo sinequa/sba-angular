@@ -45,7 +45,7 @@ const modalModel: ManageAlertsModel = {
 })
 export class DocManageAlertsComponent {
 
-  code = `<sq-manage-alerts></sq-manage-alerts>`;
+  code1 = `<sq-manage-alerts></sq-manage-alerts>`;
 
   code2 = `const alert: Alert = {
     name: 'name',

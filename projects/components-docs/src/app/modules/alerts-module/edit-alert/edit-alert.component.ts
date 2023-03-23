@@ -24,7 +24,7 @@ const alert: Alert = {
 })
 export class DocEditAlertComponent {
 
-  code = `<sq-edit-alert></sq-edit-alert>`;
+  code1 = `<sq-edit-alert></sq-edit-alert>`;
 
   code2 = `{
     provide: MODAL_MODEL, useValue: {

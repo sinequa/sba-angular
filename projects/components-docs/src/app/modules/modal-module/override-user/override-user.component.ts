@@ -14,7 +14,7 @@ const userOverride: UserOverride = {
 })
 export class DocOverrideUserComponent {
 
-  code = `<sq-override-user></sq-override-user>`;
+  code1 = `<sq-override-user></sq-override-user>`;
 
   code2 = `const userOverride: UserOverride = {
     userName: 'userName',

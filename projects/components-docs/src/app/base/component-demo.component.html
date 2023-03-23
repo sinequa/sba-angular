@@ -4,10 +4,8 @@
             <ng-content></ng-content>
         </div>
         <div [ngClass]="codeClass">
-            <ng-container *ngIf="isArray">
-                <doc-code *ngFor="let c of code; let i = index;" [code]="c" [addSpacer]="i < code.length-1"></doc-code>
-            </ng-container>
-            <doc-code *ngIf="!isArray" [code]="code"></doc-code>
+            <doc-code *ngIf="html" [code]="html" language="html"></doc-code>
+            <doc-code *ngIf="ts" [code]="ts" language="typescript"></doc-code>
         </div>
     </div>
 </sq-facet-card>

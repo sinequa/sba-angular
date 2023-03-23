@@ -9,7 +9,7 @@ import { BaseComponent } from 'src/app/base/base.component';
 })
 export class DocPreviewPanelComponent extends BaseComponent {
 
-  code = `<sq-preview-panel
+  code1 = `<sq-preview-panel
     [query]="model.query"
     [previewData]="globalService.previewData"
     [displaySimilarDocuments]="model.displaySimilarDocuments"

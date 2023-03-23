@@ -9,7 +9,7 @@ export class DocDatePickerComponent {
 
   options: DatePickerOptions;
 
-  code = `<sq-date-picker
+  code1 = `<sq-date-picker
     [options]="options">
 </sq-date-picker>`;
 

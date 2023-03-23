@@ -17,7 +17,7 @@ const savedQuery: SavedQuery = {
 })
 export class DocEditSavedQueryComponent {
 
-  code = `<sq-edit-saved-query></sq-edit-saved-query>`;
+  code1 = `<sq-edit-saved-query></sq-edit-saved-query>`;
 
   code2 = `const savedQuery: SavedQuery = {
     name: 'name',

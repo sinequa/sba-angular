@@ -1,11 +1,5 @@
-<sq-facet-card title="BsPreviewExtractsPanelComponent // FINISH WHEN UP TO DATE WITH PREVIEW CHANGES">
-    <div class="row p-3">
-        <div class="col-5">
-            <sq-preview-extracts-panel [previewData]="globalService.previewData" [previewDocument]="globalService.previewDocument">
-            </sq-preview-extracts-panel>
-        </div>
-        <div class="col-7">
-            <doc-code [code]="code"></doc-code>
-        </div>
-    </div>
-</sq-facet-card>
+<doc-component-demo title="BsPreviewExtractsPanelComponent" [html]="code">
+    <sq-preview-extracts-panel [previewData]="globalService.previewData"
+        [previewDocument]="globalService.previewDocument">
+    </sq-preview-extracts-panel>
+</doc-component-demo>

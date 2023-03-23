@@ -10,7 +10,7 @@ export class DocAdvancedFormSelectComponent implements OnInit {
 
   form: FormGroup;
 
-  code = `<sq-advanced-form-select
+  code1 = `<sq-advanced-form-select
     [form]="form"
     [field]="'authors'">
 </sq-advanced-form-select>`;

@@ -16,7 +16,7 @@ const promptOptions: PromptOptions = {
 })
 export class DocPromptComponent {
 
-  code = `<sq-prompt></sq-prompt>`;
+  code1 = `<sq-prompt></sq-prompt>`;
 
   code2 = `const promptOptions: PromptOptions = {
     output: 'output',

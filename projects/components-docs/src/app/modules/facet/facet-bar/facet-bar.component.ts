@@ -9,7 +9,7 @@ export class DocFacetBarComponent extends BaseComponent {
 
     index = 0;
 
-    code = `<sq-facet-bar
+    code1 = `<sq-facet-bar
     [results]="results"
     [containerIndex]="index"></sq-facet-bar>`;
 

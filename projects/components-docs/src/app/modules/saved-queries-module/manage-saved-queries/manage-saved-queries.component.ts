@@ -19,7 +19,7 @@ const manageSavedQueriesModel: ManageSavedQueriesModel = {
 })
 export class DocManageSavedQueriesComponent {
 
-  code = `<sq-manage-saved-queries></sq-manage-saved-queries>`;
+  code1 = `<sq-manage-saved-queries></sq-manage-saved-queries>`;
 
   code2 = `const manageSavedQueriesModel: ManageSavedQueriesModel = {
     savedQueries: [

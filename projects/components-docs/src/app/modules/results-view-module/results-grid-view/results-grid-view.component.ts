@@ -27,7 +27,7 @@ export class DocResultsGridViewComponent extends BaseComponent {
     type: 'type'
   };
 
-  code = `<sq-results-grid-view
+  code1 = `<sq-results-grid-view
     [results]="results"
     [view]="gridView">
 </sq-results-grid-view>`;

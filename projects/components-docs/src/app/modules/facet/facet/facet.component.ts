@@ -38,32 +38,31 @@ code2 = `<sq-facet-card
         <ng-template [sqFacetView]="{text: 'View 2'}">
             View 2
         </ng-template>
-</sq-facet-card>
+</sq-facet-card>`;
 
-----------
-
-const expandAction = new Action({
+  code2_2 = `const expandAction = new Action({
     icon: "fas fa-fw fa-expand-alt",
     action: () => {}
-  });
+});
 
-  const closeAction = new Action({
+const closeAction = new Action({
     icon: "fas fa-fw fa-times",
     action: () => {}
-  });
+});
 
-  this.primaryActions = [ expandAction, closeAction ];
+this.primaryActions = [ expandAction, closeAction ];
 
-  const minimizeAction = new Action({
+const minimizeAction = new Action({
     icon: "fas fa-fw fa-search-minus",
     action: () => {}
-  });
+});
 
-  const maximizeAction = new Action({
+const maximizeAction = new Action({
     icon: "fas fa-fw fa-search-plus",
     action: () => {}
-  });
-  this.secondaryActions = [ minimizeAction, maximizeAction ];`;
+});
+
+this.secondaryActions = [ minimizeAction, maximizeAction ];`;
 
     primaryActions: Action[];
     secondaryActions: Action[];

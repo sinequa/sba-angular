@@ -1,12 +1,4 @@
-<sq-facet-card title="BsPreviewLinks">
-    <div class="row p-3">
-        <div class="col-5">
-            <sq-preview-links [record]="globalService.previewData?.record"
-                [resultId]="globalService.previewData?.resultId">
-            </sq-preview-links>
-        </div>
-        <div class="col-7">
-            <doc-code [code]="code"></doc-code>
-        </div>
-    </div>
-</sq-facet-card>
+<doc-component-demo title="BsPreviewLinks" [html]="code">
+    <sq-preview-links [record]="globalService.previewData?.record" [resultId]="globalService.previewData?.resultId">
+    </sq-preview-links>
+</doc-component-demo>

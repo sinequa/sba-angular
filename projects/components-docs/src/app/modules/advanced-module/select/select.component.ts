@@ -14,7 +14,7 @@ export class DocSelectComponent {
     {value: 'value4', display: 'value4'}
   ];
 
-  code = `<sq-select
+  code1 = `<sq-select
     [items]="items"
     [multiple]="true">
 </sq-select>`;

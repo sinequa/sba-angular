@@ -7,4 +7,6 @@ import { BaseComponent } from 'src/app/base/base.component';
 })
 export class DocFacetPreviewComponent extends BaseComponent {
 
+  code = ``;
+
 }

@@ -15,7 +15,7 @@ const confirmOptions: ConfirmOptions = {
 })
 export class DocConfirmComponent {
 
-  code = `<sq-confirm></sq-confirm>`;
+  code1 = `<sq-confirm></sq-confirm>`;
 
   code2 = `const confirmOptions: ConfirmOptions = {
     title: 'title',

@@ -10,7 +10,7 @@ export class DocAdvancedFormCheckboxComponent implements OnInit {
 
   form: FormGroup;
 
-  code = `<sq-advanced-form-checkbox
+  code1 = `<sq-advanced-form-checkbox
     [form]="form"
     [field]="'enabled'">
 </sq-advanced-form-checkbox>`;

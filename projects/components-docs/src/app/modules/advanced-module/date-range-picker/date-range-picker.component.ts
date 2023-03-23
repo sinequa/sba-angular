@@ -10,7 +10,7 @@ export class DocDateRangePickerComponent {
   options: DateRangePickerOptions;
   options2: DateRangePickerOptions;
 
-  code = `<sq-date-range-picker
+  code1 = `<sq-date-range-picker
     [options]="options">
 </sq-date-range-picker>
 

@@ -10,7 +10,7 @@ export class DocPreviewEntityFacetComponent extends BaseComponent {
 
   entity = 'person';
 
-  code = `<sq-preview-entity-facet
+  code1 = `<sq-preview-entity-facet
     [entity]="entity"
     [data]="entityValues(entity)"
     [previewData]="previewData"

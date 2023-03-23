@@ -1,14 +1,5 @@
-<sq-facet-card title="BsPreviewEntityFacetComponent">
-    <div class="row p-3">
-        <div class="col-5">
-            <sq-preview-entity-facet [entity]="entity" [data]="entityValues(entity)"
-                [previewData]="globalService.previewData" [previewDocument]="globalService.previewDocument">
-            </sq-preview-entity-facet>
-        </div>
-        <div class="col-7">
-            <doc-code [code]="code"></doc-code>
-            <hr>
-            <doc-code [code]="code2"></doc-code>
-        </div>
-    </div>
-</sq-facet-card>
+<doc-component-demo title="BsPreviewEntityFacetComponent" [html]="code1" [ts]="code2">
+    <sq-preview-entity-facet [entity]="entity" [data]="entityValues(entity)" [previewData]="globalService.previewData"
+        [previewDocument]="globalService.previewDocument">
+    </sq-preview-entity-facet>
+</doc-component-demo>

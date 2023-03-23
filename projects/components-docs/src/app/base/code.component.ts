@@ -1,21 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import highlightJs from 'highlight.js';
 
 @Component({
   selector: 'doc-code',
-  template: `<pre [innerText]="code"></pre>
-  <hr *ngIf="addSpacer">`,
-  styles: [`
-.sq-code {
-  font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
-  font-size: small;
-}
-  `]
+  template: `<pre><code [innerHTML]="formattedCode"></code></pre>`
 })
-export class DocCodeComponent {
+export class DocCodeComponent implements OnChanges {
 
   @Input() code: string;
-  @Input() addSpacer = false;
+  @Input() language = 'html';
 
-  constructor() { }
+  formattedCode: any;
+
+  ngOnChanges() {
+    if (this.code) {
+      this.formattedCode = highlightJs.highlight(this.code, {language: this.language}).value;
+    }
+  }
 
 }

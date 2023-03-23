@@ -18,7 +18,7 @@ const exportQuery: ExportQueryModel = {
 })
 export class DocExportQueryComponent {
 
-  code = `<sq-export-query></sq-export-query>`;
+  code1 = `<sq-export-query></sq-export-query>`;
 
   code2 = `const exportQuery: ExportQueryModel = {
     format: ExportOutputFormat.Xlsx,
