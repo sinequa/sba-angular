@@ -1,11 +1,19 @@
-<sq-facet-card [title]="title">
+<sq-facet-card [title]="title" [actions]="actions" [collapsible]="false">
     <div class="row p-3">
-        <div [ngClass]="componentClass">
-            <ng-content></ng-content>
+        <div class="col-12" *ngIf="showCode">
+            <span class="nav">
+                <span class="nav-item" (click)="codeView = 'html'" *ngIf="html">
+                    <span class="nav-link" [class.active]="!ts || codeView === 'html'">HTML</span>
+                </span>
+                <span class="nav-item" (click)="codeView = 'ts'" *ngIf="ts">
+                    <span class="nav-link" [class.active]="!html || codeView === 'ts'">TypeScript</span>
+                </span>
+            </span>
+            <doc-code *ngIf="html && codeView === 'html'" [code]="html" language="html"></doc-code>
+            <doc-code *ngIf="ts && codeView === 'ts'" [code]="ts" language="typescript"></doc-code>
         </div>
-        <div [ngClass]="codeClass">
-            <doc-code *ngIf="html" [code]="html" language="html"></doc-code>
-            <doc-code *ngIf="ts" [code]="ts" language="typescript"></doc-code>
+        <div class="col-12">
+            <ng-content></ng-content>
         </div>
     </div>
 </sq-facet-card>

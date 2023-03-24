@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, DoBootstrap, Injector, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { DocAppComponent } from './app.component';
@@ -26,37 +26,37 @@ import { BsAlertsModule } from "@sinequa/components/alerts";
 import { MetadataModule } from "@sinequa/components/metadata";
 import { CollapseModule } from "@sinequa/components/collapse";
 import { BsPreviewModule } from "@sinequa/components/preview";
-import { DocFacetComponent } from './modules/facet/facet/facet.component';
+import { DocFacetComponent } from './modules/facet-module/facet/facet.component';
 import { DocAlertsComponent } from './modules/alerts-module/alerts/alerts.component';
 import { BsNotificationModule } from "@sinequa/components/notification";
 import { DocPreviewComponent } from './preview/preview.component';
 import { DocSqPreviewComponent } from './preview/sq-preview/sq-preview.component';
 import { DocCodeComponent } from './base/code.component';
-import { DocFacetModuleComponent } from './modules/facet/facet-module.component';
-import { DocFacetListComponent } from './modules/facet/facet-list/facet-list.component';
-import { DocFacetFiltersComponent } from './modules/facet/facet-filters/facet-filters.component';
-import { DocFacetRangeComponent } from './modules/facet/facet-range/facet-range.component';
-import { DocFacetBarComponent } from './modules/facet/facet-bar/facet-bar.component';
-import { DocFacetMultiComponent } from './modules/facet/facet-multi/facet-multi.component';
-import { DocFacetTagCloudComponent } from './modules/facet/facet-tag-cloud/facet-tag-cloud.component';
-import { DocRefineComponent } from './modules/facet/refine/refine.component';
-import { DocPreviewModuleComponent } from './modules/preview/preview-module.component';
-import { DocPreviewHighlightsComponent } from './modules/preview/preview-highlights/preview-highlights.component';
-import { DocPreviewLinksComponent } from './modules/preview/preview-links/preview-links.component';
-import { DocPreviewPopupComponent } from './modules/preview/preview-popup/preview-popup.component';
-import { DocPreviewPanelComponent } from './modules/preview/preview-panel/preview-panel.component';
-import { DocResultLinkPreviewComponent } from './modules/preview/result-link-preview/result-link-preview.component';
-import { DocFacetPreviewComponent } from './modules/preview/facet-preview/facet-preview.component';
-import { DocSimilarDocumentsComponent } from './modules/preview/similar-documents/similar-documents.component';
-import { DocPreviewEntityFacetComponent } from './modules/preview/preview-entity-facet/preview-entity-facet.component';
-import { DocPreviewEntityPanelComponent } from './modules/preview/preview-entity-panel/preview-entity-panel.component';
-import { DocPreviewExtractsPanelComponent } from './modules/preview/preview-extracts-panel/preview-extracts-panel.component';
-import { DocPreviewSearchFormComponent } from './modules/preview/preview-search-form/preview-search-form.component';
-import { DocPreviewPagesPanelComponent } from './modules/preview/preview-pages-panel/preview-pages-panel.component';
-import { DocPreviewPageFormComponent } from './modules/preview/preview-page-form/preview-page-form.component';
-import { DocPreviewMinimapComponent } from './modules/preview/preview-minimap/preview-minimap.component';
-import { DocFacetPreviewComponentComponent } from './modules/preview/facet-preview-component/facet-preview-component.component';
-import { DocResultModuleComponent } from './modules/result/result-module.component';
+import { DocFacetModuleComponent } from './modules/facet-module/facet-module.component';
+import { DocFacetListComponent } from './modules/facet-module/facet-list/facet-list.component';
+import { DocFacetFiltersComponent } from './modules/facet-module/facet-filters/facet-filters.component';
+import { DocFacetRangeComponent } from './modules/facet-module/facet-range/facet-range.component';
+import { DocFacetBarComponent } from './modules/facet-module/facet-bar/facet-bar.component';
+import { DocFacetMultiComponent } from './modules/facet-module/facet-multi/facet-multi.component';
+import { DocFacetTagCloudComponent } from './modules/facet-module/facet-tag-cloud/facet-tag-cloud.component';
+import { DocRefineComponent } from './modules/facet-module/refine/refine.component';
+import { DocPreviewModuleComponent } from './modules/preview-module/preview-module.component';
+import { DocPreviewHighlightsComponent } from './modules/preview-module/preview-highlights/preview-highlights.component';
+import { DocPreviewLinksComponent } from './modules/preview-module/preview-links/preview-links.component';
+import { DocPreviewPopupComponent } from './modules/preview-module/preview-popup/preview-popup.component';
+import { DocPreviewPanelComponent } from './modules/preview-module/preview-panel/preview-panel.component';
+import { DocResultLinkPreviewComponent } from './modules/preview-module/result-link-preview/result-link-preview.component';
+import { DocFacetPreviewComponent } from './modules/preview-module/facet-preview/facet-preview.component';
+import { DocSimilarDocumentsComponent } from './modules/preview-module/similar-documents/similar-documents.component';
+import { DocPreviewEntityFacetComponent } from './modules/preview-module/preview-entity-facet/preview-entity-facet.component';
+import { DocPreviewEntityPanelComponent } from './modules/preview-module/preview-entity-panel/preview-entity-panel.component';
+import { DocPreviewExtractsPanelComponent } from './modules/preview-module/preview-extracts-panel/preview-extracts-panel.component';
+import { DocPreviewSearchFormComponent } from './modules/preview-module/preview-search-form/preview-search-form.component';
+import { DocPreviewPagesPanelComponent } from './modules/preview-module/preview-pages-panel/preview-pages-panel.component';
+import { DocPreviewPageFormComponent } from './modules/preview-module/preview-page-form/preview-page-form.component';
+import { DocPreviewMinimapComponent } from './modules/preview-module/preview-minimap/preview-minimap.component';
+import { DocFacetPreviewComponentComponent } from './modules/preview-module/facet-preview-component/facet-preview-component.component';
+import { DocResultModuleComponent } from './modules/result-module/result-module.component';
 import { environment } from "../environments/environment";
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DocSearchBarComponent } from './search-bar/search-bar.component';
@@ -64,17 +64,17 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { GlobalService } from './global.service';
 import { BsModalModule } from '@sinequa/components/modal';
 import { ModalRef, MODAL_MODEL } from '@sinequa/core/modal';
-import { DocResultTitleComponent } from './modules/result/result-title/result-title.component';
-import { DocResultExtractsComponent } from './modules/result/result-extracts/result-extracts.component';
-import { DocResultMissingTermsComponent } from './modules/result/result-missing-terms/result-missing-terms.component';
-import { DocResultThumbnailComponent } from './modules/result/result-thumbnail/result-thumbnail.component';
-import { DocUserRatingComponent } from './modules/result/user-rating/user-rating.component';
-import { DocSponsoredResultsComponent } from './modules/result/sponsored-results/sponsored-results.component';
-import { DocResultsCounterComponent } from './modules/result/results-counter/results-counter.component';
-import { DocResultIconComponent } from './modules/result/result-icon/result-icon.component';
-import { DocResultSourceComponent } from './modules/result/result-source/result-source.component';
+import { DocResultTitleComponent } from './modules/result-module/result-title/result-title.component';
+import { DocResultExtractsComponent } from './modules/result-module/result-extracts/result-extracts.component';
+import { DocResultMissingTermsComponent } from './modules/result-module/result-missing-terms/result-missing-terms.component';
+import { DocResultThumbnailComponent } from './modules/result-module/result-thumbnail/result-thumbnail.component';
+import { DocUserRatingComponent } from './modules/result-module/user-rating/user-rating.component';
+import { DocSponsoredResultsComponent } from './modules/result-module/sponsored-results/sponsored-results.component';
+import { DocResultsCounterComponent } from './modules/result-module/results-counter/results-counter.component';
+import { DocResultIconComponent } from './modules/result-module/result-icon/result-icon.component';
+import { DocResultSourceComponent } from './modules/result-module/result-source/result-source.component';
 import { BsTimelineModule } from '@sinequa/analytics/timeline';
-import { DocFacetTestingComponent } from './modules/facet/facet-testing/facet-testing.component';
+import { DocFacetTestingComponent } from './modules/facet-module/facet-testing/facet-testing.component';
 import { DocBasketsModuleComponent } from './modules/baskets-module/baskets-module.component';
 import { DocEditBasketComponent } from './modules/baskets-module/edit-basket/edit-basket.component';
 import { DocManageBasketsComponent } from './modules/baskets-module/manage-baskets/manage-baskets.component';
@@ -231,7 +231,7 @@ import { DocInterceptor } from './doc.interceptor';
 import { createCustomElement } from '@angular/elements';
 import { DocLabelsComponent } from './modules/labels-module/labels/labels.component';
 import { DocResultLabelsComponent } from './modules/labels-module/result-labels/result-labels.component';
-import { DocPreviewTooltipComponent } from './modules/preview/preview-tooltip/preview-tooltip.component';
+import { DocPreviewTooltipComponent } from './modules/preview-module/preview-tooltip/preview-tooltip.component';
 import { DocActionButtonsComponent } from './modules/action-module/action-buttons/action-buttons.component';
 import { DocActionMenuComponent } from './modules/action-module/action-menu/action-menu.component';
 import { DocActionItemComponent } from './modules/action-module/action-item/action-item.component';
@@ -249,16 +249,6 @@ export const startConfig: StartConfig = {
 export function startConfigInitializer(startConfigWebService: StartConfigWebService) {
     return () => startConfigWebService.fetchPreLoginAppConfig();
 }
-
-// export function startConfigInitializer(startConfigWebService: StartConfigWebService) {
-//     if (environment.mock) {
-//         return (): Promise<any> =>
-//             new Promise<void>((resolve) => {
-//                 resolve();
-//             });
-//     }
-//     return StartConfigInitializer(startConfigWebService);
-// }
 
 // Search options (search service)
 export const searchOptions: SearchOptions = {
@@ -579,15 +569,11 @@ export function httpInterceptor() {
     ],
     bootstrap: [DocAppComponent]
 })
-export class AppModule implements DoBootstrap {
+export class AppModule {
 
     constructor(private injector: Injector) {
         this.defineComponentsElements();
         this.defineAnalyticsElements();
-    }
-
-    ngDoBootstrap() {
-
     }
 
     private defineComponentsElements(): void {
