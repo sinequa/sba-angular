@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable, tap } from 'rxjs';
+import { forkJoin, Observable, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
@@ -10,11 +10,11 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
+import { Answer, AuditEventType, AuditWebService, MatchingPassage, Record, RelevantExtract, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { ChatComponent, ChatConfig, ChatService, defaultChatConfig, InitChat } from '@sinequa/components/machine-learning';
+import { ChatAttachment, ChatComponent, ChatConfig, ChatService, defaultChatConfig, InitChat } from '@sinequa/components/machine-learning';
 import { UserPreferences } from '@sinequa/components/user-settings';
 
 @Component({
@@ -70,7 +70,7 @@ export class SearchComponent implements OnInit {
   ) {
 
     this.summarizeAction = new Action({
-      text: "Summarize",
+      text: "Answer with ChatGPT",
       action: () => {
         const passages = this.searchService.results?.topPassages?.passages;
         if(passages?.length) {
@@ -84,7 +84,7 @@ export class SearchComponent implements OnInit {
             {role: 'system', display: false, content: 'Assistant helps Sinequa employees with their internal question'},
             {role: 'user', display: false, content: prompt}
           ];
-          const attachments = this.chatService.getPassages(passages, this.searchService.query);
+          const attachments = this.chatService.addTopPassages(passages, []);
           this.chat.openChat(messages, undefined, attachments);
           this.summarizeAction.disabled = true;
         }
@@ -145,8 +145,12 @@ export class SearchComponent implements OnInit {
           if(results && results.records.length <= results.pageSize) {
             window.scrollTo({top: 0, behavior: 'auto'});
           }
-        })
+        }),
+
+        tap((results) => this.updateSelected(this.chatService.attachments$.value, results))
       );
+
+    this.chatService.attachments$.subscribe(attachments => this.updateSelected(attachments, this.searchService.results));
   }
 
   /**
@@ -189,25 +193,17 @@ export class SearchComponent implements OnInit {
 
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
-    if(record.matchingpassages?.passages) {
-      const passages = record.matchingpassages?.passages.slice(0,10).map(p => ({$record: record, location: p.location}))
+    if(record.matchingpassages?.passages.length) {
+      const passages = record.matchingpassages.passages
+        .slice(0,10) // Limit to 10 passages
+        .map(p => ({$record: record, location: p.location})); // prepare input for the chat service
+
       this.openedDocChat = {
         messages: [
           {role: 'system', display: false, content: `The following snippets are extracted from a document titled \"${record.title}\". Please summarize this document as best as possible, taking into account that the user's original search query was \"${this.searchService.query.text || ''}\".`}
         ],
-        attachments: this.chatService.getPassages(passages, this.searchService.query)
+        attachments: forkJoin(this.chatService.addPassages(passages))
       }
-      const passage = record.matchingpassages.passages.find(p => p.id === passageId);
-      if(passage) {
-        this.chatService.addAttachments(
-          this.chatService.getPassages([{$record: record, location: passage.location}], this.searchService.query)
-        );
-      }
-    }
-    if(passageId === undefined) {
-      this.chatService.addAttachments(
-        [this.chatService.getDocument(record, this.searchService.query)]
-      );
     }
     this.passageId = passageId?.toString();
     if (this.passageId) {
@@ -358,21 +354,44 @@ export class SearchComponent implements OnInit {
     return config;
   }
 
+  attachDocument(record: Record, event: Event) {
+    event.stopPropagation();
+    if (record.$selected) {
+      const attachment = this.chatService.attachments$.getValue().find(a => a.recordId === record.id);
+      if (attachment) {
+        this.chatService.removeAttachment(attachment);
+        return;
+      }
+    }
+    this.chatService.addDocument(record)
+      .subscribe(a => this.chatService.addAttachments([a]));
+  }
 
-  translating = false;
-  translate() {
-    const text = this.searchService.query.text;
-    if(text) {
-      this.translating = true;
-      this.chatService.fetch([
-        {role: 'system', content: `Assistant translates everything the user says in English, word for word.`, display: false, $content: ''},
-        {role: 'user', content: text, display: false, $content: ''},
-      ], 'GPT35Turbo', 1.0, 1000, 1.0)
-      .subscribe(res => {
-        this.searchService.query.text = res.messagesHistory.at(-1)?.content.replace(/\"/g, '');
-        this.searchService.searchText();
-        this.translating = false;
-      })
+  attachPassage(passage: TopPassage, event: Event) {
+    event.stopPropagation();
+    this.chatService.addTopPassagesSync([passage]);
+  }
+
+  attachMatchingPassage(passage: MatchingPassage, event: Event, $record: Record) {
+    event.stopPropagation();
+    this.chatService.addPassagesSync([{$record, location: passage.location}]);
+  }
+
+  attachExtract(record: Record, extract: RelevantExtract, event: Event) {
+    event.stopPropagation();
+    this.chatService.addExtractsSync(record, [extract]);
+  }
+
+  attachAll(passages: TopPassage[]) {
+    this.chatService.addTopPassagesSync(passages, []);
+  }
+
+  updateSelected(attachments: ChatAttachment[], results: Results | undefined) {
+    if (results?.records) {
+      for (let r of results.records) {
+        r.$selected = !!attachments.find(a => a.recordId === r.id);
+      }
     }
   }
+
 }

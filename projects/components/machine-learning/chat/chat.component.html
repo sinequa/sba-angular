@@ -24,9 +24,9 @@
           </div>
         </div>
       </li>
-      <li *ngIf="displayAttachments && message.$attachment?.length"
+      <li *ngIf="message.display && message.$attachment"
         class="attachment list-group-item d-flex"
-        [ngClass]="{expanded: message.$attachment[0].$expanded}">
+        [ngClass]="{expanded: message.$attachment.$expanded}">
         <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit:message.$attachment}"></ng-container>
       </li>
     </ng-container>
@@ -90,11 +90,18 @@
     <i class="fas fa-paperclip text-muted"></i>
   </span>
 
-  <p class="flex-grow-1 mb-0" role="button" (click)="attachment[0].$expanded = !attachment[0].$expanded">
+  <p class="flex-grow-1 mb-0" role="button" (click)="attachment.$expanded = !attachment.$expanded">
     <span>
-      <i class="fas fa-fw fa-caret-{{attachment[0].$expanded? 'down' : 'right'}} pe-1"></i>
-      <b>{{attachment[0].$record?.title}}: </b>
-      <span *ngFor="let a of attachment">{{a.$text}}</span>
+      <i class="fas fa-fw fa-caret-{{attachment.$expanded? 'down' : 'right'}} pe-1"></i>
+      <b>{{attachment.$record?.title}}: </b>
+      <ng-container *ngIf="!attachment.$expanded">
+        <span *ngFor="let c of attachment.chunks">{{c.text}}</span>
+      </ng-container>
+      <ul class="list-group list-group-flush no-max-height" *ngIf="attachment.$expanded">
+        <li class="list-group-item attachment" *ngFor="let c of attachment.chunks">
+          <p class="m-0" [title]="c.text">{{c.text}}</p>
+        </li>
+      </ul>
     </span>
   </p>
 </ng-template>
@@ -108,18 +115,14 @@
       class="attachment list-group-item d-flex"
       [ngClass]="{expanded: attachment.$expanded}">
 
-      <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit:[attachment]}"></ng-container>
+      <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit:attachment}"></ng-container>
 
-      <div class="ms-3 col-1 small text-muted d-flex flex-column align-items-center">
+      <div class="ms-3 col-1 small text-muted d-flex flex-column align-items-center" *ngIf="!loadingAnswer">
         <span title="Number of tokens">{{attachment.$tokenCount}}</span>
-        <span *ngIf="!loadingAnswer" class="text-nowrap">
-          <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="Fewer tokens" (click)="chatService.lessTokens(attachment)"><i class="fas fa-minus"></i></button>
-          <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="More tokens" (click)="chatService.moreTokens(attachment)"><i class="fas fa-plus"></i></button>
-        </span>
-        <button *ngIf="!loadingAnswer"
-          class="btn btn-sm btn-link py-0"
-          sqTooltip="Remove"
-          (click)="chatService.removeAttachment(attachment)">
+        <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="More tokens" (click)="chatService.increaseChunksSync(attachment)">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button class="btn btn-sm btn-link py-0" sqTooltip="Remove" (click)="chatService.removeAttachment(attachment)">
           <i class="fas fa-trash"></i>
         </button>
       </div>

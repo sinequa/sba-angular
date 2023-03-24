@@ -2,14 +2,14 @@
   font-size: 0.875rem;
 }
 
-li.attachment p {
+li.attachment > p {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   -webkit-line-clamp: 3;
 }
 
-li.attachment.expanded p {
+li.attachment.expanded > p {
   display: block;
 }
 
@@ -52,4 +52,8 @@ li.list-group-item {
 a.disabled {
   cursor: default;
   opacity: 0.5;
+}
+
+.no-max-height {
+  max-height: initial !important;
 }

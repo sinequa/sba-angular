@@ -2,6 +2,7 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { SearchFormComponent } from "@sinequa/components/search-form";
+import { ChatService } from "@sinequa/components/machine-learning";
 
 @Component({
   selector: 'app-search-form',
@@ -36,7 +37,8 @@ export class AppSearchFormComponent {
   @ViewChild("searchForm") searchForm: SearchFormComponent;
 
   constructor(
-    public searchService: SearchService
+    public searchService: SearchService,
+    public chatService: ChatService
   ) {}
 
   onAutocompleteSearch(text: string, query: Query) {
@@ -48,4 +50,19 @@ export class AppSearchFormComponent {
     query.text = text;
   }
 
+  translating = false;
+  translate(query: Query) {
+    const text = query.text;
+    if(text) {
+      this.translating = true;
+      this.chatService.fetch([
+        {role: 'system', content: `Assistant translates everything the user says in English, word for word and nothing else. If you cannot translate it, just repeat the user's message.`, display: false, $content: ''},
+        {role: 'user', content: text, display: false, $content: ''},
+      ], 'GPT35Turbo', 1.0, 1000, 1.0)
+      .subscribe(res => {
+        query.text = res.messagesHistory.at(-1)?.content.replace(/\"/g, '');
+        this.translating = false;
+      })
+    }
+  }
 }

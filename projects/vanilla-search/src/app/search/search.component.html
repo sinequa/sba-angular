@@ -20,12 +20,8 @@
             </button>
 
             <!-- Search form -->
-            <div class="app-search-form col-sm-5 ps-1 pe-2 d-flex" *ngIf="showForm">
-                <app-search-form [autocompleteSources]="features" class="flex-grow-1"></app-search-form>
-                <button class="btn btn-sm btn-link" sqTooltip="Translate the query to English" (click)="translate()" *ngIf="!translating">en</button>
-                <div class="spinner-grow spinner-grow-sm align-self-center mx-2 py-1" role="status" *ngIf="translating">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
+            <div class="app-search-form col-sm-5 ps-1 pe-2" *ngIf="showForm">
+                <app-search-form [autocompleteSources]="features"></app-search-form>
             </div>
 
             <!-- User menu which visibility can be toggled with a button on small screens -->
@@ -134,10 +130,15 @@
                 (click)="onDocumentClicked(record, $event)"
                 [ngClass]="{'selected': record.$selected || record === openedDoc}">
                 <div class="flex-grow-1">
-                    <div class="d-flex align-items-center">
+                    <div class="record-header d-flex align-items-center">
                         <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record"></sq-result-selector>
                         <sq-result-icon [record]="record" class="me-1"></sq-result-icon>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
+                        <button
+                          class="btn btn-sm btn-link ms-auto py-0 text-nowrap"
+                          (click)="attachDocument(record, $event)">
+                          <i class="fas fa-fw fa-paperclip"></i> Attach to chat
+                        </button>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                     <sq-result-extracts [record]="record"></sq-result-extracts>

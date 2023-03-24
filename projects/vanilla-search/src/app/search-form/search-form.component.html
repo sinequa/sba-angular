@@ -15,4 +15,13 @@
 
   </ng-template>
 
+  <ng-template #toolbarTpl let-query>
+    <button class="btn p-0 text-muted me-1" sqTooltip="Translate the query to English" (click)="translate(query)" *ngIf="!translating && query.text">
+      <i class="fas fa-language"></i>
+    </button>
+    <span class="spinner-grow spinner-grow-sm mx-1" role="status" *ngIf="translating">
+      <span class="visually-hidden">Loading...</span>
+    </span>
+  </ng-template>
+
 </sq-search-form>

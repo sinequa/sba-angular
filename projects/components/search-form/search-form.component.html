@@ -19,7 +19,6 @@
       (keyup.enter)="onInputEnter()"
       (keyup.shift.enter)="onInputEnter()"> <!-- keyup.shift.enter is necessary for iOS13+: https://github.com/angular/angular/issues/32963 -->
 
-
     <!-- Clear Button (not displayed when expanded to avoid the confusion of users trying to close the box) -->
     <button type="button" *ngIf="editedQuery.text && (hasFocus || !expanded)"
       class="btn no-shadow p-0"
@@ -35,6 +34,8 @@
       (click)="toggleVoice()">
       <i class="fas fa-fw fa-microphone" [ngClass]="voiceState ? 'light-green' : 'text-muted'"></i>
     </button>
+
+    <ng-container *ngTemplateOutlet="toolbarTpl; context: {$implicit: editedQuery}"></ng-container>
 
     <!-- Neural search Button -->
     <button type="button" *ngIf="enableNeuralSearch && appService.isNeural()" class="btn p-0 me-2"
@@ -63,6 +64,8 @@
         {{filterCount}}
       </span>
     </div>
+
+    <ng-container *ngTemplateOutlet="toolbarAfterTpl; context: {$implicit: editedQuery}"></ng-container>
 
   </div>
 

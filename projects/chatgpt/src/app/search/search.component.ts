@@ -6,7 +6,7 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Results, Record, TopPassage, RelevantExtract } from '@sinequa/core/web-services';
+import { Results, Record, TopPassage, RelevantExtract, MatchingPassage } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
 import { FEATURES, METADATA } from '../../config';
 import { ChatComponent, ChatAttachment, ChatService, SavedChat, ChatMessage, ChatConfig, defaultChatConfig } from '@sinequa/components/machine-learning';
@@ -120,46 +120,39 @@ export class SearchComponent implements OnInit {
   attachDocument(record: Record, event: Event) {
     event.stopPropagation();
     if (record.$selected) {
-      const attachments = this.chatService.attachments$.value;
-      const i = attachments.findIndex(a => a.type === 'document' && a.recordId === record.id);
-      if (i !== -1) {
-        attachments.splice(i, 1);
-        this.chatService.attachments$.next(attachments);
+      const attachment = this.chatService.attachments$.getValue().find(a => a.recordId === record.id);
+      if (attachment) {
+        this.chatService.removeAttachment(attachment);
         return;
       }
     }
-    this.chatService.addAttachments([
-      this.chatService.getDocument(record, this.searchService.query)
-    ]);
+    this.chatService.addDocument(record)
+      .subscribe(a => this.chatService.addAttachments([a]));
   }
 
-  attachPassage(passage: TopPassage, event: Event, record?: Record) {
+  attachPassage(passage: TopPassage, event: Event) {
     event.stopPropagation();
-    if(record) {
-      passage.$record = record;
-    }
-    this.chatService.addAttachments(
-      this.chatService.getPassages([passage], this.searchService.query)
-    );
+    this.chatService.addTopPassagesSync([passage]);
+  }
+
+  attachMatchingPassage(passage: MatchingPassage, event: Event, $record: Record) {
+    event.stopPropagation();
+    this.chatService.addPassagesSync([{$record, location: passage.location}]);
   }
 
   attachExtract(record: Record, extract: RelevantExtract, event: Event) {
     event.stopPropagation();
-    this.chatService.addAttachments(
-      this.chatService.getExtracts(record, [extract], this.searchService.query)
-    );
+    this.chatService.addExtractsSync(record, [extract]);
   }
 
   attachAll(passages: TopPassage[]) {
-    this.chatService.addAttachments(
-      this.chatService.getPassages(passages, this.searchService.query)
-    );
+    this.chatService.addTopPassagesSync(passages, []);
   }
 
   updateSelected(attachments: ChatAttachment[], results: Results | undefined) {
     if (results?.records) {
       for (let r of results.records) {
-        r.$selected = !!attachments.find(a => a.type === 'document' && a.recordId === r.id);
+        r.$selected = !!attachments.find(a => a.recordId === r.id);
       }
     }
   }

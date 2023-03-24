@@ -936,11 +936,14 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
         // building query to get missing records
         const query = this.query.copy();
-        query.globalRelevance = 0;
+        delete query.page;
+        query.groupBy = 'id'; // Override the default group by if any
+        const recordIds = [...new Set(records.filter(r => !r.record).map(r => r.id))]; // Unique ids
+        query.pageSize = recordIds.length;
         query.addFilter({
             field: 'id',
             operator: 'in',
-            values: records.filter(r => !r.record).map(r => r.id)
+            values: recordIds
         });
 
         return this.getResults(query, undefined, {searchInactive: true})

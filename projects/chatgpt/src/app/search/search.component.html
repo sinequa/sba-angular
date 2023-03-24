@@ -158,7 +158,7 @@
             <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
 
             <div class="sq-passage-text position-relative" *ngIf="record.matchingpassages?.passages?.[0] as passage; else extractsTpl">
-              <button class="btn btn-sm btn-primary position-absolute top-0 end-0" (click)="attachPassage(passage, $event, record)">
+              <button class="btn btn-sm btn-primary position-absolute top-0 end-0" (click)="attachMatchingPassage(passage, $event, record)">
                 <i class="fas fa-fw fa-paperclip"></i> Attach snippet
               </button>
               <span *ngIf="record.modified" class="extracts-date">

@@ -29,7 +29,7 @@ export class SavedChatsComponent {
   }
 
   delete(chat: SavedChat) {
-    this.chatService.delete(chat.name);
+    this.chatService.deleteSavedChat(chat.name);
   }
 
 }

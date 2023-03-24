@@ -33,6 +33,8 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
   @Output("expanded") expandedEvent = new EventEmitter<boolean>();
 
   @ContentChild(TemplateRef, {static: false}) dropdown: TemplateRef<any>;
+  @ContentChild("toolbarTpl", {static: false}) toolbarTpl: TemplateRef<any>;
+  @ContentChild("toolbarAfterTpl", {static: false}) toolbarAfterTpl: TemplateRef<any>;
 
   @ViewChild('searchInput') searchInput: ElementRef<HTMLInputElement>;
 

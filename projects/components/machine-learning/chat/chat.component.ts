@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
-import { BehaviorSubject, delay, forkJoin, map, Observable, of, Subscription, switchMap } from "rxjs";
-import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatService, OpenAITokens, RawMessage } from "./chat.service";
+import { Utils } from "@sinequa/core/base";
+import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
+import { ChatAttachment, ChatMessage, ChatService, OpenAITokens, RawMessage } from "./chat.service";
 
 export interface ChatConfig {
   textBeforeAttachments: boolean;
@@ -37,7 +38,7 @@ export const defaultChatConfig: ChatConfig = {
 export interface InitChat {
   messages: RawMessage[];
   tokens?: OpenAITokens;
-  attachments?: Observable<ChatAttachmentWithTokens>[];
+  attachments?: Observable<ChatAttachment[]|ChatAttachment>;
 }
 
 @Component({
@@ -162,7 +163,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   private fetchAnswer(question: string, conversation: ChatMessage[], attachments: ChatAttachment[]) {
     this.loadingAnswer = true;
-    const attachmentMessages = this.chatService.prepareAttachmentMessages(attachments, conversation);
+    const attachmentMessages = this.chatService.prepareAttachmentMessages(attachments, conversation, this.displayAttachments);
     const userMsg = this.chatService.processMessage({role: 'user', content: question, display: true}, conversation);
     if(this.attachmentsHiddenPrompt) {
       attachmentMessages.push(
@@ -231,25 +232,24 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   saveChat() {
     if(this.messages$.value && this.tokens) {
-      this.chatService.saveChat(this.messages$.value, this.tokens);
+      this.chatService.saveChatModal(this.messages$.value, this.tokens);
     }
   }
 
-  openChat(messages: RawMessage[], tokens?: OpenAITokens, attachments$?: Observable<ChatAttachmentWithTokens>[]) {
+  openChat(messages: RawMessage[], tokens?: OpenAITokens, attachments$?: Observable<ChatAttachment[]|ChatAttachment>) {
     this.loading = true;
     this.resetChat();
-    this.chatService.restoreAttachments(messages)
+    this.chatService.restoreMessages(messages)
       .pipe(
         delay(0), // In case the observer completes synchronously, the delay forces async update and prevents "change after checked" error
-        switchMap(messages => {
-          if(!attachments$) return of(messages);
-          return forkJoin(attachments$).pipe(
+        switchMap(messages => attachments$?.pipe( // Process the optional attachments
+            map(attachments => Utils.asArray(attachments)),
             map(attachments => [
               ...messages,
-              ...this.chatService.prepareAttachmentMessages(attachments, messages)
+              ...this.chatService.prepareAttachmentMessages(attachments, messages, false)
             ])
-          )
-        })
+          ) ?? of(messages)
+        )
       )
       .subscribe(messages => {
         if(messages.at(-1)?.role !== 'assistant') {

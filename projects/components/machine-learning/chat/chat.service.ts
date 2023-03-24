@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
-import { Query } from "@sinequa/core/app-utils";
 import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
 import { BehaviorSubject, defaultIfEmpty, forkJoin, map, Observable, of, Subject, switchMap, tap } from "rxjs";
 import { marked } from "marked";
@@ -8,6 +7,7 @@ import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Validators } from "@angular/forms";
 import { Utils } from "@sinequa/core/base";
+import { Chunk, equalChunks, insertChunk } from "./chunk";
 
 /**
  * Individual message sent & returned by the ChatGPT API.
@@ -21,24 +21,9 @@ export interface RawMessage {
   content: string;
   display: boolean;
   /** Messages from the user can have attachments */
-  $attachment?: RawAttachment[];
+  $attachment?: RawAttachment;
   /** Reference of this attachment in the contexte of the conversation */
   $refId?: number;
-}
-
-/**
- * Minimal information necessary to reconstruct an attachment
- */
-export interface RawAttachment {
-  type: 'document' | 'snippet' | 'extract';
-  recordId: string;
-  queryStr: string;
-  offset: number;
-  length: number;
-  sentencesBefore: number;
-  sentencesAfter: number;
-  realOffset: number;
-  realLength: number;
 }
 
 /**
@@ -50,9 +35,26 @@ export interface ChatMessage extends RawMessage {
   /** This content is formatted to be properly displayed in the UI */
   $content: string;
   /** Messages from the user can have attachments */
-  $attachment?: ChatAttachment[];
+  $attachment?: ChatAttachment;
   /** Messages from the assistant can have references that refer to attachments ids */
   $references?: {refId: number; $record: Record}[];
+}
+
+/**
+ * Minimal information necessary to reconstruct an attachment
+ */
+export interface RawAttachment {
+  recordId: string;
+  chunks: DocumentChunk[];
+}
+
+/**
+ * Chunk of text extracted from a document at a specific location
+ */
+export interface DocumentChunk {
+  offset: number;
+  length: number;
+  text: string;
 }
 
 /**
@@ -60,8 +62,6 @@ export interface ChatMessage extends RawMessage {
  * record object
  */
 export interface ChatAttachment extends RawAttachment {
-  /** text of the attachment displayed in the UI */
-  $text: string;
   /** Record from which this this attachment is taken */
   $record: Record;
   /** Whether the attachment is displayed expanded of not */
@@ -118,9 +118,11 @@ export interface SavedChat {
 @Injectable({providedIn: 'root'})
 export class ChatService {
 
+  chunkMargin = 100;
+
   /**
    * Global list of attachments fed by various methods from the ChatService,
-   * such as: searchAttachments, addAttachments, removeAttachment, moreTokens, lessTokens...
+   * such as: searchAttachments, addAttachments, removeAttachment...
    */
   attachments$ = new BehaviorSubject<ChatAttachmentWithTokens[]>([]);
 
@@ -146,7 +148,7 @@ export class ChatService {
       generateTokens,
       topP
     };
-    const messagesHistory = this.cleanAttachments(messages);
+    const messagesHistory = this.cleanMessages(messages);
     const data = {action: "chat", model, messagesHistory, promptProtection: false};
     return this.jsonMethodWebService.post("OpenAI", data).pipe(
       map((res: RawResponse) => ({
@@ -168,26 +170,26 @@ export class ChatService {
   }
 
   /**
+   * Fetch document text chunks from the standard Sinequa API
+   */
+  fetchChunks(id: string, chunks: {offset: number, length: number}[], sentencesBefore = 0, sentencesAfter = 0) {
+    return this.textChunksService.getTextChunks(id, chunks, [], this.searchService.makeQuery(), sentencesBefore, sentencesAfter);
+  }
+
+  /**
    * Takes a list of ChatMessage and strips it from its
    * optional data ($content, $record, etc.) so that it can be sent
    * to the chat, or saved in the user settings
    */
-  cleanAttachments(messagesHistory: ChatMessage[]): RawMessage[] {
+  cleanMessages(messagesHistory: ChatMessage[]): RawMessage[] {
     return messagesHistory.map(message => ({
       role: message.role,
       content: message.content,
       display: message.display,
-      $attachment: message.$attachment?.map(attachment => ({
-        type: attachment.type,
-        recordId: attachment.recordId,
-        queryStr: attachment.queryStr,
-        offset: attachment.offset,
-        length: attachment.length,
-        sentencesBefore: attachment.sentencesBefore,
-        sentencesAfter: attachment.sentencesAfter,
-        realOffset: attachment.realOffset,
-        realLength: attachment.realLength
-      })),
+      $attachment: message.$attachment ? {
+        recordId: message.$attachment.recordId,
+        chunks: message.$attachment.chunks
+      } : undefined,
       $refId: message.$refId
     }));
   }
@@ -197,29 +199,20 @@ export class ChatService {
    * this function reconstructs all the necessary data (records, attachments...)
    * and returns a list of ChatMessage objects ready to be displayed
    */
-  restoreAttachments(messages: RawMessage[]): Observable<ChatMessage[]> {
-    const ids = messages.flatMap(m => m.$attachment?.map(a => a.recordId) || []);
+  restoreMessages(messages: RawMessage[]): Observable<ChatMessage[]> {
+    const ids = messages.map(m => m.$attachment?.recordId!).filter(id => id);
     return this.searchService.getRecords(ids).pipe(
-      switchMap(records => forkJoin(
-        messages.flatMap(message => {
-          if(message.$attachment?.length) {
-            const a = message.$attachment[0];
-            const record = records.find(r => r?.id === a.recordId);
-            return message.$attachment.map(a => record? this.getAttachment(a.type, record, a.queryStr, a.offset, a.length, a.sentencesBefore, a.sentencesAfter) : of(undefined));
+      map(records => messages.reduce((chatMessages, message) => {
+        let $attachment: ChatAttachment|undefined = undefined;
+        if(message.$attachment) {
+          const $record = records.find(r => r?.id === message.$attachment?.recordId);
+          if($record) {
+            $attachment = {...message.$attachment, $record};
           }
-          return [];
-        })
-      )),
-      defaultIfEmpty([]),
-      map(attachments => {
-        const chatMessages: ChatMessage[] = [];
-        let i = 0;
-        for(const message of messages) {
-          const $attachment = message.$attachment?.map(() => attachments[i++]!).filter(a => a);
-          chatMessages.push(this.processMessage(message, chatMessages, $attachment));
         }
-        return chatMessages;
-      })
+        chatMessages.push(this.processMessage(message, chatMessages, $attachment));
+        return chatMessages
+      }, [] as ChatMessage[]))
     );
   }
 
@@ -228,7 +221,7 @@ export class ChatService {
    * If the message if from the assistant, we attempt to extract references
    * from it.
    */
-  processMessage(message: RawMessage, conversation: ChatMessage[], $attachment?: ChatAttachment[]): ChatMessage {
+  processMessage(message: RawMessage, conversation: ChatMessage[], $attachment?: ChatAttachment): ChatMessage {
     const chatMessage: ChatMessage = {...message, $content: marked(message.content), $attachment};
     if(message.role === 'assistant') {
       this.extractReferences(chatMessage, conversation);
@@ -252,13 +245,13 @@ export class ChatService {
       message.$references = [...references].sort((a,b)=> a-b)
         .map(refId => ({
           refId,
-          $record: conversation.find(p => p.$refId === refId)?.$attachment?.[0]?.$record!
+          $record: conversation.find(p => p.$refId === refId)?.$attachment?.$record!
         }))
         .filter(r => r.$record);
       message.$content = message.$content.replace(/\[(\d+(,[ \d]+)*)\]/g, (str,match) => {
         let html = '';
         for(let ref of match.split(',')) {
-          const record = conversation.find(p => p.$refId === +ref)?.$attachment?.[0]?.$record;
+          const record = conversation.find(p => p.$refId === +ref)?.$attachment?.$record;
           if(record) {
             html += `<a class="reference" href="${record.url1}" title="${Utils.escapeHtml(record.title)}">${Utils.escapeHtml(ref)}</a>`;
           }
@@ -272,44 +265,26 @@ export class ChatService {
   }
 
   /**
-   * Given a list of attachments and an existing conversation, this function generates
+   * Given a list of attachments this function generates
    * a list of chat messages with the formatted attachment as content.
-   * Each attachment gets a reference id corresponding to the records ids used throughout the
-   * conversation.
-   * The messages that can be appended to the conversation and sent to the API.
    */
-  prepareAttachmentMessages(attachments: ChatAttachment[], conversation: ChatMessage[]): ChatMessage[] {
-    const refs = new Map<string, number>();
-    for(let msg of conversation) {
-      if(msg.$attachment?.length) {
-        refs.set(msg.$attachment[0].recordId, msg.$refId!);
-      }
-    }
-    let lastRefId = [...refs.values()].sort((a,b) => a - b).at(-1) || 0; // Get the last used reference id
-
-    const uniqueDocs: {[id: string]: ChatAttachment[]} = {};
-    for(let attachment of attachments) {
-      if(!uniqueDocs[attachment.recordId]) {
-        uniqueDocs[attachment.recordId] = [];
-      }
-      uniqueDocs[attachment.recordId].push(attachment);
-    }
-
-    return Object.entries(uniqueDocs).map(([recordId, $attachment]) => {
-      $attachment.sort((a,b) => a.realOffset - b.realOffset);
-      if(!refs.has(recordId)) {
-        refs.set(recordId, ++lastRefId);
-      }
-      const $refId = refs.get(recordId)!;
+  prepareAttachmentMessages(attachments: ChatAttachment[], conversation: ChatMessage[], display: boolean): ChatMessage[] {
+    const idOffset = Math.max(...conversation.map(m => m.$refId ?? 0)); // Determine the latest id used in the conversation
+    return attachments.map(($attachment, i) => {
+      const $refId = idOffset + i + 1;
       return {
         role: 'user',
-        content: `<document id="${$refId}" title="${$attachment[0].$record.title}">${$attachment.map(a => a.$text).join('\n...\n')}</document>`,
-        display: true,
+        content: this.formatContent($refId, $attachment.$record.title, $attachment.chunks.map(c => c.text)),
+        display,
         $content: '', // Attachment have their own template
         $attachment,
         $refId
       }
     });
+  }
+
+  protected formatContent(id: number, title: string, text: string[]) {
+    return `<document id="${id}" title="${title}">${text.join('\n...\n')}</document>`;
   }
 
 
@@ -328,122 +303,215 @@ export class ChatService {
         const passages = results.topPassages?.passages?.filter(p => p.score > minScore).slice(0,maxPassages);
         if(passages?.length) {
           // Use passages by default, as they are the most relevant data
-          return this.passagesWithRecords(passages, results.records).pipe(
-            switchMap(passages => forkJoin(this.getPassages(passages, this.searchService.query))),
-          );
+          return this.addTopPassages(passages, results.records);
         }
         else {
           // Take the begining of the top-3 documents and top relevant extracts
-          const docs = results.records.slice(0, 3)
-            .flatMap(record => [
-              this.getDocument(record, this.searchService.query),
-              ...this.getExtracts(record, record.extracts?.slice(0,3) || [], this.searchService.query, 1, 3)
-            ]);
-          return forkJoin(docs);
+          return this.addDocuments(results.records.slice(0,3));
         }
       }),
       defaultIfEmpty([] as ChatAttachmentWithTokens[]) // forkJoin([]) does not emit anything!
-    ).subscribe(attachments => this.attachments$.next(attachments));
+    ).subscribe(attachments => this.addAttachments(attachments));
   }
 
-  private passagesWithRecords(passages: TopPassage[], records: Record[]): Observable<TopPassage[]> {
-    passages.forEach(p => p.$record = records.find(r => r.id === p.recordId));
-    const ids = passages.filter(p => !p.$record).map(p => p.recordId);
-    if(ids.length === 0) return of(passages);
+  protected passagesWithRecords(passages: TopPassage[], records: (Record | undefined)[], retrieveRecords = true): Observable<{$record: Record, location: number[]}[]> {
+    const passagesWithRecords = passages
+      .map(p => ({...p, $record: p.$record || records.find(r => r?.id === p.recordId)!}))
+      .filter(p => p.$record);
+    if(passagesWithRecords.length === passages.length || !retrieveRecords)
+      return of(passagesWithRecords);
+    const ids = passages.filter(p => !p.$record)
+      .map(p => p.recordId);
     return this.searchService.getRecords(ids).pipe(
-      map(records => {
-        passages.forEach(p => p.$record = p.$record || records.find(r => r?.id === p.recordId));
-        return passages.filter(p => p.$record);
-      })
+      switchMap(records => this.passagesWithRecords(passages, records, false))
     );
+  }
+
+  /**
+   * Get the list of chunks currently present in the attachments for
+   * a given record id (and return an empty list if there is none)
+   */
+  protected getChunks(recordId: string): DocumentChunk[] {
+    const attachment = this.attachments$.getValue().find(a => a.recordId === recordId);
+    return attachment?.chunks ?? [];
+  }
+
+  /**
+   * Adds a list of text chunks from a record to the list of attachments.
+   * If the record was already in the attachments, it will merge
+   * the new chunks into the existing ones.
+   */
+  addChunks($record: Record, _chunks: {offset: number, length: number}[], sentencesBefore=0, sentencesAfter=0): Observable<ChatAttachmentWithTokens> {
+    let obs: Observable<{offset: number, length: number, text?: string}[]> = of(_chunks);
+    if(sentencesBefore > 0 || sentencesAfter > 0) {
+      obs = this.fetchChunks($record.id, _chunks, sentencesBefore, sentencesAfter); // if needed, perform a first request that expands the given chunks
+    }
+    return obs.pipe(
+      switchMap(chunks => {
+        const existingChunks = this.getChunks($record.id);
+        for(let chunk of chunks) {
+          insertChunk(existingChunks, chunk.offset, chunk.length, this.chunkMargin);
+        }
+        if(chunks.every(c => c.text) && equalChunks(existingChunks, chunks)) {
+          return of(chunks as DocumentChunk[]); // No need to perform another request
+        }
+        return this.fetchChunks($record.id, existingChunks);
+      }),
+      switchMap(chunks => this.count(this.formatContent(10, $record.title, chunks.map(c => c.text))).pipe(
+        map($tokenCount => ({$record, recordId: $record.id, chunks, $tokenCount}))
+      ))
+    );
+  }
+
+  addChunksSync($record: Record, _chunks: {offset: number, length: number}[], sentencesBefore=0, sentencesAfter=0) {
+    this.addChunks($record, _chunks, sentencesBefore, sentencesAfter)
+      .subscribe(a => this.addAttachments([a]));
+  }
+
+  /**
+   * Increase the size of all the chunks in an attachment
+   */
+  increaseChunks(attachment: ChatAttachmentWithTokens, sentencesBefore = 2, sentencesAfter = 4) {
+    return this.fetchChunks(attachment.recordId, attachment.chunks, sentencesBefore, sentencesAfter).pipe(
+      switchMap(newChunks => this.addChunks(attachment.$record, newChunks)),
+      tap(a => a.$expanded = attachment.$expanded)
+    );
+  }
+
+  increaseChunksSync(attachment: ChatAttachmentWithTokens, sentencesBefore = 2, sentencesAfter = 4) {
+    this.increaseChunks(attachment, sentencesBefore, sentencesAfter)
+      .subscribe(a => this.addAttachments([a]));
+  }
+
+  /**
+   * Removes a document chunk from an attachment and update the list
+   * of attachments.
+   * If this was the last chunk, the attachment is removed altogether.
+   */
+  removeChunk(attachment: ChatAttachmentWithTokens, chunk: DocumentChunk) {
+    const j = attachment.chunks.indexOf(chunk);
+    if(j !== -1) {
+      attachment.chunks.splice(j, 1);
+      if(attachment.chunks.length === 0) {
+        this.removeAttachment(attachment);
+      }
+      else {
+        this.addAttachments([attachment]); // Will take care of replacing the existing attachment if it exists (as it should)
+      };
+    }
+  }
+
+  /**
+   * Add a list of records as attachments
+   */
+  addDocuments(records: Record[], includeStart = true, includeExtracts = 3, includePassages = 2, maxLength = 2048) {
+    return forkJoin(records.map(record => this.addDocument(record, includeStart, includeExtracts, includePassages, maxLength)));
+  }
+
+  addDocumentsSync(records: Record[], includeStart = true, includeExtracts = 3, includePassages = 2, maxLength = 2048) {
+    this.addDocuments(records, includeStart, includeExtracts, includePassages, maxLength)
+      .subscribe(a => this.addAttachments(a));
   }
 
   /**
    * Returns a (truncated) document attachment
    */
-  getDocument(record: Record, query: Query, maxLength = 2048): Observable<ChatAttachmentWithTokens> {
-    return this.getAttachmentWithTokens('document', record, query, 0, maxLength, 0, 1);
+  addDocument(record: Record, includeStart = true, includeExtracts = 3, includePassages = 2, maxLength = 2048): Observable<ChatAttachmentWithTokens> {
+    const chunks: Chunk[] = [];
+    if(includeStart) {
+      chunks.push({offset: 0, length: maxLength});
+    }
+    if(includeExtracts && record.extracts) {
+      const extracts = this.getExtractChunks(record.extracts)
+        .slice(0, includeExtracts);
+      chunks.push(...extracts);
+    }
+    if(includePassages && record.matchingpassages?.passages) {
+      const passages = record.matchingpassages.passages
+        .map(p => p.location)
+        .map(([offset, length]) => ({offset, length}))
+        .slice(0, includePassages);
+      chunks.push(...passages);
+    }
+    return this.addChunks(record, chunks, 1, 3);
+  }
+
+  addDocumentSync(record: Record, includeStart = true, includeExtracts = 3, includePassages = 2, maxLength = 2048) {
+    this.addDocument(record, includeStart, includeExtracts, includePassages, maxLength)
+      .subscribe(a => this.addAttachments([a]));
   }
 
   /**
-   * Returns a list of snippet/passage attachments
+   * Preprocess top passage to ensure they have a record object and add them
+   * via the addPassages method
    */
-  getPassages(passages: {$record?: Record, location: number[]}[], query: Query): Observable<ChatAttachmentWithTokens>[] {
-    return passages.map(p => {
-      const [offset, length] = p.location;
-      return this.getAttachmentWithTokens('snippet', p.$record!, query, offset, length);
+  addTopPassages(passages: TopPassage[], records: Record[] = [], sentencesBefore=0, sentencesAfter=0): Observable<ChatAttachmentWithTokens[]> {
+    return this.passagesWithRecords(passages, records).pipe(
+      switchMap(passages => forkJoin(this.addPassages(passages, sentencesBefore, sentencesAfter))),
+    )
+  }
+
+  addTopPassagesSync(passages: TopPassage[], records: Record[] = [], sentencesBefore=0, sentencesAfter=0) {
+    this.addTopPassages(passages, records, sentencesBefore, sentencesAfter)
+      .subscribe(a => this.addAttachments(a));
+  }
+
+  /**
+   * Take a list of passages (typically "top passages"), group them by record id
+   * and for each record generate an attachment (merged with potential existing attachments)
+   */
+  addPassages(passages: {$record: Record, location: number[]}[], sentencesBefore=0, sentencesAfter=0): Observable<ChatAttachmentWithTokens>[] {
+    const passagesById: {[id: string]: {$record: Record, location: number[]}[]} = {};
+    for(let passage of passages) {
+      const group = passagesById[passage.$record.id] || [];
+      group.push(passage);
+      passagesById[passage.$record.id] = group;
+    }
+    return Object.values(passagesById).map(group => {
+      const chunks = group.map(p => p.location).map(([offset, length]) => ({offset, length}));
+      return this.addChunks(group[0].$record, chunks, sentencesBefore, sentencesAfter);
     });
   }
 
-  /**
-   * Returns a list of extract attachments
-   */
-  getExtracts(record: Record, extracts: RelevantExtract[], query: Query, sentencesBefore=0, sentencesAfter=0): Observable<ChatAttachmentWithTokens>[] {
-    return extracts.map(e => {
-      const [offset, length] = e.locations.split(',');
-      return this.getAttachmentWithTokens('extract', record, query, +offset, +length, sentencesBefore, sentencesAfter);
-    });
+  addPassagesSync(passages: {$record: Record, location: number[]}[], sentencesBefore=0, sentencesAfter=0) {
+    forkJoin(this.addPassages(passages, sentencesBefore, sentencesAfter))
+      .subscribe(a => this.addAttachments(a));
   }
 
   /**
-   * Add a list of asynchronous attachments to the attachments$
+   * Add relevant extracts to the attachments.
+   * There must be at least one extract.
    */
-  addAttachments(attachments$: Observable<ChatAttachmentWithTokens>[]) {
-    forkJoin(attachments$).subscribe(attachments =>
-      this.attachments$.next([
-        ...this.attachments$.value,
-        ...attachments
-      ])
-    );
+  addExtracts(record: Record, extracts: RelevantExtract[], sentencesBefore=0, sentencesAfter=0): Observable<ChatAttachmentWithTokens> {
+    const chunks = this.getExtractChunks(extracts);
+    return this.addChunks(record, chunks, sentencesBefore, sentencesAfter);
+  }
+
+  addExtractsSync(record: Record, extracts: RelevantExtract[], sentencesBefore=0, sentencesAfter=0) {
+    this.addExtracts(record, extracts, sentencesBefore, sentencesAfter)
+      .subscribe(a => this.addAttachments([a]));
+  }
+
+  protected getExtractChunks(extracts: RelevantExtract[]) {
+    return extracts.map(e => e.locations.split(',')).map(([offset, length]) => ({offset: +offset, length: +length}));
   }
 
   /**
-   * Construct an attachment of a given type, and given a record and a query to retrieve it.
-   * Options like offset/length/sentenceBefore/after allow to modulate the position and length
-   * of the returned attachment.
+   * Updates the list of attachments with a new attachment,
+   * replacing the existing attachment for that record if it exists
    */
-  getAttachment(type: 'document' | 'snippet' | 'extract', $record: Record, query: Query|string, offset: number, length: number, sentencesBefore = 0, sentencesAfter = 0): Observable<ChatAttachment> {
-    if(typeof query === 'string') {
-      query = this.searchService.makeQuery().fromJson(query);
+  addAttachments(attachments: ChatAttachmentWithTokens[]) {
+    const existingAttachments = this.attachments$.getValue();
+    for(let attachment of attachments) {
+      const i = existingAttachments.findIndex(a => a.recordId === attachment.recordId);
+      if(i === -1) {
+        existingAttachments.push(attachment);
+      }
+      else {
+        existingAttachments.splice(i, 1, attachment);
+      }
     }
-    else {
-      query = query.copy();
-    }
-    delete query.page;
-    const queryStr = query.toJsonForQueryString();
-
-    return this.textChunksService.getTextChunks($record.id, [{offset, length}], [], query, sentencesBefore, sentencesAfter).pipe(
-      map(chunks => {
-        if(chunks?.[0]) {
-          return {
-            type,
-            recordId: $record.id,
-            queryStr,
-            offset,
-            length,
-            sentencesBefore,
-            sentencesAfter,
-            realOffset: chunks[0].offset,
-            realLength: chunks[0].length,
-            $text: chunks[0].text,
-            $record
-          };
-        }
-        throw new Error("Missing text chunk in web service response");
-      })
-    );
-  }
-
-  /**
-   * Construct an attachment with getAttachment(), but also counts the number of tokens
-   * consumed by this attachment.
-   */
-  getAttachmentWithTokens(type: 'document' | 'snippet' | 'extract', $record: Record, query: Query|string, offset: number, length: number, sentencesBefore = 0, sentencesAfter = 0): Observable<ChatAttachmentWithTokens> {
-    return this.getAttachment(type, $record, query, offset, length, sentencesBefore, sentencesAfter).pipe(
-      switchMap(attachment => this.count(attachment.$text).pipe(
-        map(count => ({...attachment, $tokenCount: count}))
-      )), // Placeholder id as the real id is determined when aggregating the attachments
-    );
+    this.attachments$.next(existingAttachments);
   }
 
   /**
@@ -468,27 +536,6 @@ export class ChatService {
     this.spliceAttachment(attachment);
   }
 
-  /**
-   * Decrease the number of tokens of an attachment
-   */
-  lessTokens(attachment: ChatAttachmentWithTokens) {
-    if(attachment.sentencesBefore === 0) {
-      attachment.length = Math.floor(attachment.length * 3/4);
-    }
-    if(!attachment.$record) return;
-    this.getAttachmentWithTokens(attachment.type, attachment.$record, attachment.queryStr, attachment.offset, attachment.length, Math.max(0, attachment.sentencesBefore-2), Math.max(0, attachment.sentencesAfter-2))
-      .subscribe(a => this.spliceAttachment(attachment, a));
-  }
-
-  /**
-   * Increase the number of tokens of an attachment
-   */
-  moreTokens(attachment: ChatAttachmentWithTokens) {
-    if(!attachment.$record) return;
-    this.getAttachmentWithTokens(attachment.type, attachment.$record, attachment.queryStr, attachment.offset, attachment.length, attachment.sentencesBefore+2, attachment.sentencesAfter+2)
-      .subscribe(a => this.spliceAttachment(attachment, a));
-  }
-
 
   // Saved chats management
 
@@ -497,7 +544,7 @@ export class ChatService {
   /**
    * Chats saved by the user to reopen them later
    */
-  public get savedChats(): SavedChat[] {
+  get savedChats(): SavedChat[] {
     if (!this.userSettingsService.userSettings)
       this.userSettingsService.userSettings = {};
     if (!this.userSettingsService.userSettings["savedChats"])
@@ -508,36 +555,37 @@ export class ChatService {
   /**
    * Returns the saved chat with the given name
    */
-  public get(name: string): SavedChat | undefined {
+  getSavedChat(name: string): SavedChat | undefined {
     return this.savedChats.find(chat => chat.name === name);
   }
 
   /**
    * Save a agiven chat in the user settings
    */
-  public save(savedChat: SavedChat): void {
-    const chat = this.get(savedChat.name);
+  saveChat(savedChat: SavedChat): void {
+    const chat = this.getSavedChat(savedChat.name);
     if (chat) {
-      this.delete(chat.name, true);
+      this.deleteSavedChat(chat.name, true);
     }
     this.savedChats.push(savedChat);
-    this.sync().subscribe(() => this.notificationsService.success(`${savedChat.name} was saved successfully`));
+    this.syncSavedChats()
+      .subscribe(() => this.notificationsService.success(`${savedChat.name} was saved successfully`));
   }
 
   /**
    * Delete a given chat
    */
-  public delete(name: string, skipSync?: boolean): void {
-    const chat = this.get(name);
+  deleteSavedChat(name: string, skipSync?: boolean): void {
+    const chat = this.getSavedChat(name);
     if (chat) {
       this.savedChats.splice(this.savedChats.indexOf(chat), 1);
       if (!skipSync) {
-        this.sync();
+        this.syncSavedChats();
       }
     }
   }
 
-  private sync() {
+  syncSavedChats() {
     const savedChats = this.savedChats;
     this.savedChats$.next(savedChats);
     return this.userSettingsService.patch({ savedChats });
@@ -547,8 +595,8 @@ export class ChatService {
    * Open a prompt to let the user pick a name for a saved chat.
    * If the user obliges the chat is saved.
    */
-  saveChat(conversation: ChatMessage[], tokens: OpenAITokens) {
-    const messages = this.cleanAttachments(conversation);
+  saveChatModal(conversation: ChatMessage[], tokens: OpenAITokens) {
+    const messages = this.cleanMessages(conversation);
     const model: PromptOptions = {
       title: 'Save Chat',
       message: 'Enter a name for the chat',
@@ -559,7 +607,7 @@ export class ChatService {
     this.modalService.prompt(model).then(res => {
       if (res === ModalResult.OK) {
         const savedChat: SavedChat = { name: model.output, messages, tokens };
-        this.save(savedChat);
+        this.saveChat(savedChat);
       }
     });
   }
