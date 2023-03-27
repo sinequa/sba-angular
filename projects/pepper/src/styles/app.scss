@@ -26,7 +26,7 @@ $link-decoration: none;
 // override preview .matchlocations properties now that the <b> we used to have for them
 // are now with this class
 span.matchlocations:not(.sq-inactive) {
-    font-weight: 600;
+    font-weight: bold;
     color: inherit !important;
     background-color: transparent !important;
 }

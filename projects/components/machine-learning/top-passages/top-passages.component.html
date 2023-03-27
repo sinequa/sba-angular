@@ -1,42 +1,28 @@
-<ng-template #headerTpl>
-	<div class="d-flex flex-grow-1 align-items-center text-truncate">
-		<div class="card-icon primary-icon fas fa-list me-2" aria-hidden="true"></div>
-		<div class="card-title text-truncate mb-0 py-1 me-auto">
-			<span *ngIf="collapsed">
-				{{'msg#machine-learning.passagesCollapsed' | sqMessage:{values: {passagesNb: passages.length} } }}
-			</span>
-			<span *ngIf="!collapsed">
-				{{'msg#machine-learning.passages' | sqMessage }}
-			</span>
-		</div>
-		<div class="card-action d-flex justify-content-center align-items-center mx-2" *ngIf="!collapsed">
-			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+pageNumber-1) % pageNumber"
-				*ngIf="pageNumber > 1">
-				<i class="fas fa-chevron-left"></i>
-			</button>
-			{{'msg#machine-learning.passage' | sqMessage:{items: itemsPerPage, current: currentRange, length: passages.length} }}
-			<button class="btn btn-sm btn-link" (click)="currentPage = (currentPage+1) % pageNumber"
-				*ngIf="pageNumber > 1">
-				<i class="fas fa-chevron-right"></i>
-			</button>
-		</div>
-	</div>
-</ng-template>
 
-<div class="card-body">
-	<div *ngFor="let passage of currentPassages$ | async" (click)="openPreview(passage)" class="passage">
-		<sq-result-title *ngIf="passage.$record" [record]="passage.$record" titleLinkBehavior="action"
-			(titleClicked)="onTitleClicked($event, passage)" class="d-block text-truncate"></sq-result-title>
-		<div class="d-flex my-2">
-			<div class="sq-text-ellipsis" #psg [ngClass]="{'expanded': selected === passage.id}">
-				<span *ngIf="passage.$record?.modified && !hideDate" class="extracts-date">{{passage.$record.modified | sqDate:dateFormat }} - </span>
-				<span [innerHTML]="passage.highlightedText"></span>
-			</div>
-			<i class="fas btn-toggle ms-2 passages-toggle" [ngClass]="{
-						'fa-chevron-down': selected !== passage.id,
-						'fa-chevron-up': selected === passage.id ,
-						'btn-toggle--hidden': psg.scrollHeight <= MIN_HEIGHT }"
-						(click)="$event.stopPropagation(); expand(passage)"></i>
-		</div>
-	</div>
+<div *ngIf="passages && documentsNb" class="text-end text-muted px-3 py-2">{{'msg#machine-learning.passagesFound' |
+  sqMessage:{passagesNb: passages.length, documentsNb: documentsNb} }}
 </div>
+
+<ul class="list-group list-group-flush">
+
+  <li role="button" *ngFor="let passage of passages" (click)="openPreview(passage)" class="list-group-item list-group-item-action sq-passage">
+
+    <div class="sq-passage-title d-flex align-content-center mb-1" *ngIf="passage.$record">
+      <sq-result-title
+        [record]="passage.$record"
+        titleLinkBehavior="action"
+        (titleClicked)="onTitleClicked($event, passage)"
+        class="d-block text-truncate">
+      </sq-result-title>
+    </div>
+
+    <div class="sq-passage-text">
+      <span *ngIf="passage.$record?.modified && !hideDate" class="extracts-date">
+        {{passage.$record.modified | sqDate:dateFormat }} -
+      </span>
+      <span [innerHTML]="passage.highlightedText"></span>
+    </div>
+
+  </li>
+
+</ul>
