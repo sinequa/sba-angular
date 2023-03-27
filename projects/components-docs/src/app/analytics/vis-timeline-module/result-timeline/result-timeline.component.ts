@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { EntityItem } from '@sinequa/core/web-services';
-import { BaseComponent } from 'src/app/base/base.component';
+import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
   selector: 'doc-result-timeline',

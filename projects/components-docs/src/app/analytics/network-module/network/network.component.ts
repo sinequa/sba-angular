@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BaseComponent } from 'src/app/base/base.component';
+import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
   selector: 'doc-network',

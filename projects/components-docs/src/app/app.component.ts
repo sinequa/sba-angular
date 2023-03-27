@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '@sinequa/core/login';
-import { BaseComponent } from './base/base.component';
+import { BaseComponent } from './shared/base.component';
 
 
 @Component({

@@ -4,13 +4,6 @@
         (ngModelChange)="changedFontSize()" />
 </div>
 
-<h6>Basic inputs</h6>
-<ul>
-    <li *ngFor="let item of inputs" [class.active]="currentRoute === item">
-        <a [routerLink]="item">{{item}}</a>
-    </li>
-</ul>
-
 <h6>Components</h6>
 <ul>
     <li *ngFor="let item of components" [class.active]="currentRoute === item">

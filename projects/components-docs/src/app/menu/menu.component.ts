@@ -11,11 +11,6 @@ export class DocMenuComponent {
     fontSize: number;
     currentRoute: string;
 
-    inputs: string[] = [
-        'buttons',
-        'inputs',
-    ];
-
     components: string[] = [
         'action',
         'advanced',

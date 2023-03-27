@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { BaseComponent } from '../base/base.component';
+import { BaseComponent } from '../shared/base.component';
 
 @Component({
   selector: 'doc-search-bar',
