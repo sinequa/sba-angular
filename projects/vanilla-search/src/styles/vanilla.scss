@@ -66,6 +66,12 @@ app-search {
 ****************************************************/
 sq-facet-card {
   display: block;
+
+  .list-group {
+    overflow: auto;
+    max-height: 50vh;
+  }
+
   .list-group-flush > .list-group-item:last-child {
     border-end-start-radius: .35rem;
     border-end-end-radius: .35rem;
