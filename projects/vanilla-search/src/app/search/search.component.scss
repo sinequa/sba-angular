@@ -14,7 +14,7 @@
     }
 }
 
-body.dark {
+:host-context(body.dark) {
     #logo {
         content: url("../../assets/sinequa-logo-dark-sm.png");
         width: 40px;
