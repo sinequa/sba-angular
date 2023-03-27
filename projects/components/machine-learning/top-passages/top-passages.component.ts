@@ -57,7 +57,7 @@ export class TopPassagesComponent extends AbstractFacet {
     const passages = this.passages.slice(index, index + this.itemsPerPage);
     this.searchService.getRecords(passages.filter(p => !p.$record).map(p => p.recordId))
       .subscribe((records) => {
-        passages.map(passage => passage.$record = passage.$record || records.find(record => record.id === passage?.recordId));
+        passages.map(passage => passage.$record = passage.$record || records.find(record => record?.id === passage.recordId));
         this.notifyTopPassagesDisplay(passages);
         this.currentPassages$.next(passages);
       });
