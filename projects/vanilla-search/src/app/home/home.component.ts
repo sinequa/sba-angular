@@ -4,6 +4,7 @@ import { AppService } from '@sinequa/core/app-utils';
 import { LoginService } from '@sinequa/core/login';
 import { IntlService } from '@sinequa/core/intl';
 import { SearchService } from '@sinequa/components/search';
+import { UIService } from '@sinequa/components/utils';
 import { FEATURES } from '../../config';
 import { InitChat } from '@sinequa/components/machine-learning';
 import { PrincipalWebService } from '@sinequa/core/web-services';
@@ -16,11 +17,13 @@ import { PrincipalWebService } from '@sinequa/core/web-services';
 export class HomeComponent implements OnInit {
 
   initChat: InitChat;
+  isDark$= this.ui.isDarkTheme$;
 
   constructor(
     public loginService: LoginService,
     public searchService: SearchService,
     public principalWebService: PrincipalWebService,
+    private ui: UIService,
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService) { }
@@ -45,6 +48,11 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  toggleDark() {
+    this.ui.toggleDark();
+    return false;
+  }
+
   /**
    * Manage login and logout
    */
@@ -55,22 +63,6 @@ export class HomeComponent implements OnInit {
     else {
       this.loginService.login();
     }
-    return false;
-  }
-
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
-  }
-
-  /**
-   * Toggle dark mode
-   */
-  toggleDark() {
-    document.body.classList.toggle("dark");
-    localStorage.setItem('sinequa-theme', this.isDark()? 'dark' : 'normal');
     return false;
   }
 

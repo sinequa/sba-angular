@@ -5,13 +5,13 @@
 
   <ng-template let-query>
 
-    <sq-autocomplete
+    <app-autocomplete
       [inputElement]="searchForm.searchInput.nativeElement"
       [queryText]="query.text || ''"
       [suggestTypes]="autocompleteSources"
       (search)="onAutocompleteSearch($event, query)"
       (select)="onAutocompleteSelect($event, query)">
-    </sq-autocomplete>
+    </app-autocomplete>
 
   </ng-template>
 

@@ -9,7 +9,6 @@ import {SearchService} from "@sinequa/components/search";
     templateUrl: "./result-title.html",
     styles: [`
 sq-result-title {
-    font-size: 1.25rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

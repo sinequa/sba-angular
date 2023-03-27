@@ -1,14 +1,11 @@
 <!-- Navbar with app icon, search form, and menus -->
-<nav class="navbar navbar-expand flex-column" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
+<nav class="navbar navbar-expand bg-light dark:bg-dark">
     <div class="container-fluid pb-2">
 
         <!-- Application logo -->
-        <div class="col-lg-3 col-xl-2">
+        <div class="">
             <a [routerLink]="['/search']" title="Home">
-                <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
-                <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
-                <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
-                <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
+                <img id="logo" alt="sinequa logo">
             </a>
         </div>
 
@@ -18,8 +15,8 @@
         </div>
 
         <!-- User menu which visibility can be toggled with a button on small screens -->
-        <div class="col-sm-4 col-xl-5 d-flex justify-content-end flex-grow-1 flex-shrink-1 w-100">
-            <ul class="navbar-nav navbar-right">
+        <div class="d-none d-sm-block">
+            <ul class="navbar-nav">
                 <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
                     <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
                     <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
@@ -27,10 +24,10 @@
                     <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
                 </ng-container>
                 <sq-user-menu [display]="'fullName'"></sq-user-menu>
+                <!-- Non mobile feedback button -->
+                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1 d-none d-md-block" *ngIf="loginService.complete"></sq-feedback-menu>
             </ul>
 
-            <!-- Non mobile feedback button -->
-            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
         </div>
     </div>
 </nav>
@@ -40,41 +37,32 @@
 
 <!-- Main interface -->
 <ng-container *ngIf="loginService.complete">
-    <div class="flex-grow-1 container-fluid position-relative overflow-hidden" *ngIf="results$ | async as results">
+    <div class="container-fluid position-relative overflow-hidden" *ngIf="results$ | async as results">
 
         <div class="row flex-nowrap h-100">
 
             <!-- Results -->
-            <div class="results-list py-2 px-3"
+            <div class="col-4 results-list py-2"
                 [ngClass]="{'results-list--hidden': !showResults}">
-
-                <!-- Result selection toolbar -->
-                <div *ngIf="showResults" class="card text-white bg-primary position-fixed action-bar">
-                    <div class="card-header">
-                        <sq-results-selector [style]="isDark()? 'dark' : 'primary'"></sq-results-selector>
-                    </div>
-                </div>
 
                 <!-- Tabs -->
                 <sq-tabs [results]="results"></sq-tabs>
 
                 <!-- Toolbar -->
-                <div class="d-flex small sq-toolbar">
-                    <div class="flex-grow-1">
-                        <a href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
-                            <sq-filters *ngIf="searchService.query.filters"
-                                [query]="searchService.query"
-                                [filter]="searchService.query.filters"
-                                [showField]="false"
-                                [allowRemove]="false">
-                            </sq-filters>
-                            <span *ngIf="!searchService.query.filters">
-                                Narrow your search down with filters...
-                            </span>
-                        </a>
-                    </div>
+                <div class="d-flex ps-2 small my-2">
+                    <a class="flex-grow-1" href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
+                        <sq-filters *ngIf="searchService.query.filters"
+                            [query]="searchService.query"
+                            [filter]="searchService.query.filters"
+                            [showField]="false"
+                            [allowRemove]="false">
+                        </sq-filters>
+                        <span *ngIf="!searchService.query.filters">
+                            Narrow your search down with filters...
+                        </span>
+                    </a>
                     <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
-                    <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
+                    <sq-sort-selector [results]="results" [rightAligned]="true"></sq-sort-selector>
                 </div>
 
                 <!-- Did you mean -->
@@ -85,23 +73,23 @@
 
                 <!-- List of documents (for loop) -->
                 <div *ngFor="let record of results.records; index as i" class="record d-flex"
-                    (click)="onDocumentClicked(record, $event)"
                     [ngClass]="{'selected': record.$selected || record.$opened}"
+                    (click)="onDocumentClicked(record, $event)"
                     [sqScrollIntoView]="{active: record.id === lastSelectedId, first: i === 0}">
-                    <div class="flex-grow-1 overflow-hidden">
+                    <div class="flex-grow-1 overflow-hidden ps-1 pt-2">
                         <div class="d-flex align-items-center">
                             <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ms-1"></sq-result-selector>
                             <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                         </div>
                         <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
-                        <sq-result-extracts [record]="record"></sq-result-extracts>
+                        <sq-result-extracts [record]="record" class="d-block overflow-hidden"></sq-result-extracts>
                         <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
 
                         <sq-labels [record]="record" [public]="true"></sq-labels>
                         <sq-labels [record]="record" [public]="false"></sq-labels>
                     </div>
                     <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="false"
-                        class="d-none d-sm-block align-self-center ms-3">
+                        class="d-none d-lg-block align-self-center ms-3">
                     </sq-result-thumbnail>
                 </div>
 
@@ -111,12 +99,10 @@
             </div>
 
             <!-- Dashboard -->
-            <app-dashboard
-                [results]="results"
-                [theme]="isDark()? 'dark' : 'light'"
-                [showResults]="showResults"
-                class="px-0"
+            <app-dashboard class="px-0 col-8"
                 [ngClass]="{expanded: !showResults}"
+                [results]="results"
+                [showResults]="showResults"
                 (recordClicked)="onDocumentClickedFromView($event)"
                 (toggleResults)="toggleResults()">
             </app-dashboard>
@@ -124,6 +110,11 @@
         </div>
 
     </div>
+    <!-- Result selection toolbar -->
+    <div *ngIf="showResults" class="card-action-bar rounded bg-primary position-fixed w-auto p-2">
+        <sq-results-selector [style]="'primary'"></sq-results-selector>
+    </div>
+
 </ng-container>
 
 <div *ngIf="(results$ | async) === undefined" class="align-self-center my-auto text-center">

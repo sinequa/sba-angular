@@ -12,7 +12,7 @@ An additional theme is available to make Vanilla more modern with improvements s
 
 Bootstrap provides a global set of styles and utilities that are used across the SBA framework. Our components and applications often use classes like `.card`, `.list-group` or `.navbar` which give them Bootstrap's "look & feel".
 
-These styles can be customized, via SASS and CSS variables. The Sinequa Theme uses this approach by setting variables like `--bs-btn-color` to redefine the color, border, padding, and many other properties of standard Bootstrap components.
+These styles can be customized, via SASS and CSS variables. The Sinequa Theme uses this approach by setting variables like `$bg-color` to redefine the color, border, padding, and many other properties of standard Bootstrap components.
 
 ## Previews
 
@@ -34,17 +34,39 @@ With the theme:
 
 ## Importing/removing the theme
 
-In your `app.scss`, you can add or remove these imports after the one for Bootstrap:
+In your `app.scss`, just add or remove this imports:
 
 ```scss
-@import "../../../components/theme/vanilla";
-@import "../../../components/theme/vanilla-dark";
+@import "@sinequa/components/theme/sinequa";
 ```
 
-Although they're in two different files, it's recommended to import both standard and dark files for the theme to work better.
+* Sinequa theme includes Bootstrap imports.
+* Sinequa theme come with an integrated Dark theme.
 
-## Customize which component theme to import
+## Customization
 
-The theme modifications are split in many SCSS files per components you can find under `components/theme/components` so you can import them independently.
+Sinequa Theme overrides Bootstrap components using Sass files.
+If you want to customize your application, do not overrides the Sinequa Theme files. Instead:
+* overrides Bootstrap components as Sinequa Theme do [https://getbootstrap.com/docs/5.2/customize/overview/](https://getbootstrap.com/docs/5.2/customize/overview/)
 
-Note that some global Vanilla styling is done inside `components/theme/_vanilla.scss` that you may want to keep if you edit the files you wish to import.
+OR
+
+* import our `minimalist` Bootstrap files and write your custom css rules
+
+  ```scss
+  @import "@sinequa/components/theme/minimal"
+  ```
+  * contains Bootstrap imports
+  * contains recommended imports to work with SBA components
+  * does not include Dark theme
+
+OR
+
+* import our `recommended` Bootstrap files
+
+  ```scss
+  @import "@sinequa/components/theme/recommended"
+  ```
+  * contains Bootstrap imports
+  * contains recommended imports with specific scss files to notifications and avdanced components.
+  * contains also a minimalist Bootstrap Dark theme.

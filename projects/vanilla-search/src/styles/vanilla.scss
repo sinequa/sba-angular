@@ -1,0 +1,204 @@
+/****************************************************
+  VANILLA-SEARCH
+****************************************************/
+
+// SBA Components
+$dark-result-source-color: #a9c7b4;
+$dark-result-missing-temrms-color: #b8b2b2;
+
+// thin scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+
+  &:hover {
+    background-color: #b6b6b6;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f3f3f3;
+}
+
+body:not(.dark) .sq-dark-mode {
+  display: none;
+}
+
+body.dark .sq-light-mode {
+  display: none;
+}
+
+app-search-form {
+
+  // Styling for the scope component (for a clean rendering within the search form)
+  sq-scope>div {
+    height: 100%;
+
+    button.btn {
+      height: 100%;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+}
+
+app-search {
+  display: block;
+  background-color: transparent;
+  max-height: 100%;
+  overflow: auto;
+
+  nav {
+    box-shadow: 1px 3px 4px 0px rgba(0, 0, 0, .08);
+  }
+}
+
+.extracts-date {
+  font-weight: 500;
+}
+
+/****************************************************
+  SBA components overrides
+****************************************************/
+sq-facet-card {
+  display: block;
+  .list-group-flush > .list-group-item:last-child {
+    border-end-start-radius: .35rem;
+    border-end-end-radius: .35rem;
+  }
+}
+
+app-autocomplete .list-group-flush > .list-group-item:last-child {
+  border-end-start-radius: 20px;
+  border-end-end-radius: 20px;
+}
+
+sq-tabs {
+  .nav-item .count {
+    font-size: 0.875em;
+    color: $secondary;
+  }
+}
+
+sq-filters,
+sq-filters-editor {
+  .sq-filter-operator {
+    color: $secondary;
+  }
+
+  .sq-filter-value {
+    font-weight: bold;
+  }
+}
+
+sq-results-counter {
+  color: $secondary;
+}
+
+sq-sort-selector button.btn {
+  padding: 3px 5px;
+  margin: -3px 0;
+  color: $secondary;
+  background-color: inherit;
+  font-size: 1em;
+  border: none;
+
+  & > div {
+      padding: 5px 0;
+  }
+}
+
+sq-result-thumbnail img {
+  max-width: 100px;
+  max-height: 150px;
+  border-radius: 3px;
+}
+
+
+.sq-passage {
+  .sq-passage-icon {
+    color: $primary;
+  }
+
+  .sq-passage-text {
+    b {
+      font-weight: 700;
+    }
+  }
+}
+
+sq-result-extracts {
+  p {
+    color: $secondary;
+    font-size: 0.875em;
+  }
+}
+
+sq-sponsored-results {
+  .sponsored-item {
+    margin-top: 0.75em;
+  }
+
+  .sq-sponsored-link-view-summary {
+    color: $secondary;
+    font-size: 0.875em;
+  }
+}
+
+
+sq-scope .btn {
+  border: 0;
+}
+
+// Validation
+sq-validation-message {
+  @extend .invalid-feedback;
+
+  .form-group>.is-invalid~& {
+    display: block;
+  }
+}
+
+// Feedback button
+sq-feedback-menu {
+  button.btn {
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    padding-left: 10px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .dropdown-toggle::after {
+    display: none;
+  }
+}
+
+sq-filters-view {
+  .sq-simple-mode .sq-filter-action > span {
+      display: none; // Display only button icons
+  }
+  .sq-simple-mode:not(:hover) .sq-filter-action {
+      opacity: 0; // Hide buttons unless the component is hover
+  }
+  .sq-advanced-mode {
+      z-index: 1;
+      min-width: 100%;
+  }
+}
+
+/**
+  adjust facet preview's height to take 100% of the viewport minus navbar and
+  preview facet's header
+**/
+sq-facet-preview-2 {
+  height: calc(100vh - 210px) !important;
+}
+
+// Vanilla Dark mode
+@import "dark";

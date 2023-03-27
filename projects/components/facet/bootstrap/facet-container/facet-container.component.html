@@ -39,7 +39,7 @@
       <ng-container *ngTemplateOutlet="facetInstance?.headerTpl"></ng-container>
 
       <!-- Actions of the currently open facet -->
-      <div class="ms-1 btn-group" [sq-action-buttons]="{items: facetInstance?.actions, rightAligned: true, size: 'sm'}"></div>
+      <div class="ms-1 btn-group btn-group-sm" [sq-action-buttons]="{items: facetInstance?.actions, rightAligned: true, size: 'sm'}"></div>
 
       <!-- Button to close the open facet-->
       <button class="ms-1 btn btn-sm btn-primary" [sqTooltip]="'msg#facet.container.close' | sqMessage" (click)="close()">

@@ -1,0 +1,61 @@
+/****************************************************
+    DARK theme
+****************************************************/
+$dark-text-muted: #c1cad2;
+$dark-nav-link-focus-border-color: #666363;
+
+@import "../../../components/theme/dark-colors";
+
+
+// Additions specific to Pepper
+.dark {
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+
+    #logo {
+        content: url(../assets/sinequa-logo-dark-sm.png);
+        width: 40px;
+
+        @media (min-width: 1200px) {
+            content: url(../assets/sinequa-logo-dark-lg.png);
+            width: 160px;
+        }
+    }
+
+    sq-facet-container [class*="btn-outline-"] {
+        --bs-btn-bg: rgb(255 255 255 / 90%);
+    }
+
+    sq-network {
+        .vis-button {
+            background-color: #aaa;
+        }
+    }
+
+    gridster-item {
+        background-color: $dark-background;
+    }
+
+    .gridster-row {
+        border-color: $dark-background;
+    }
+
+    .gridster-column {
+        border-color: $dark-background;
+    }
+
+    sq-dashboard-add-item .modal-body .btn:not(.btn-primary):not(.btn-secondary) {
+        color: $dark-secondary !important;
+        --bs-btn-bg: #{$dark-background} !important;
+        --bs-btn-hover-bg: #{$dark-background-hover} !important;
+
+        &:hover {
+            color: $dark-color !important;
+        }
+    }
+
+}

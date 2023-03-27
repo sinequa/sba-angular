@@ -1,6 +1,12 @@
-:root {
-    --sq-tabs-bg: #{$white};
-    --sq-result-source-color: #{$blue-1};
+html {
+    height: 100%;
+}
 
-    --bs-primary-rgb: var(--primary-rgb, #{$blue-1-rgb});
+body {
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: #3434d6;
 }

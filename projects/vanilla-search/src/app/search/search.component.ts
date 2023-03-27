@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { forkJoin, Observable, tap } from 'rxjs';
+import { forkJoin, Observable, Subscription, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
@@ -22,7 +22,7 @@ import { UserPreferences } from '@sinequa/components/user-settings';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
 
   // Document "opened" via a click (opens the preview facet)
@@ -32,10 +32,22 @@ export class SearchComponent implements OnInit {
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
 
-  // Whether the left facet bar is shown
-  public _showFilters = this.ui.screenSizeIsEqual('md');
-  // Whether the menu is shown on small screens
-  public _showMenu = false;
+  /**
+   * Controls visibility of filters (small screen sizes)
+   */
+  public showFilters = this.ui.screenSizeIsGreaterOrEqual('md');
+  /**
+   * Controls visibility of menu (small screen sizes)
+   */
+  public showMenu = (this.ui.screenSizeIsGreaterOrEqual('md')) ? true : false;
+  /**
+   * Controls visibility of the search bar (small screen sizes)
+   */
+  public showSearch = true;
+  /**
+   * Controls visibility of the filters toggle button (small screen sizes)
+   */
+  public showFilterToggle = false;
 
   public results$: Observable<Results | undefined>;
 
@@ -52,8 +64,13 @@ export class SearchComponent implements OnInit {
   }
 
   @ViewChild(ChatComponent) chat: ChatComponent;
+  public isDark: boolean;
+
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
+
+  private subscription = new Subscription();
+
 
   constructor(
     private previewService: PreviewService,
@@ -120,7 +137,25 @@ export class SearchComponent implements OnInit {
       }
     });
 
-    this.previewCustomActions = [ expandAction, closeAction ];
+    this.previewCustomActions = [expandAction, closeAction];
+
+    this.showFilters = (this.ui.screenSizeIsGreater('md'));
+    this.showFilterToggle = (this.ui.screenSizeIsLessOrEqual('md'));
+
+    // when size change, adjust _showFilters variable accordingly
+    // To avoid weird behavior with the Toggle Filters button
+    this.subscription.add(this.ui.resizeEvent.subscribe(_ => {
+      this.showFilterToggle = (this.ui.screenSizeIsLessOrEqual('md'));
+      this.showMenu = (this.ui.screenSizeIsGreaterOrEqual('md'));
+      this.showSearch = (this.ui.screenSizeIsGreaterOrEqual('sm'));
+      this.showFilters = (this.ui.screenSizeIsGreaterOrEqual('md'));
+    }));
+
+    this.subscription.add(this.ui.isDarkTheme$.subscribe(value => this.isDark = value))
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**
@@ -138,7 +173,7 @@ export class SearchComponent implements OnInit {
           if (!this.showResults) {
             this.openedDoc = undefined;
             this.openedDocChat = undefined;
-            this._showFilters = false;
+            this.showFilters = false;
           }
           this.hasAnswers = !!results?.answers?.answers?.length;
           this.hasPassages = !!results?.topPassages?.passages?.length;
@@ -212,7 +247,7 @@ export class SearchComponent implements OnInit {
       }
     }
     if (this.ui.screenSizeIsLessOrEqual('md')) {
-      this._showFilters = false; // Hide filters on small screens if a document gets opened
+      this.showFilters = false; // Hide filters on small screens if a document gets opened
     }
   }
 
@@ -239,7 +274,7 @@ export class SearchComponent implements OnInit {
       this.openedDoc = undefined;
       this.openedDocChat = undefined;
       if(this.ui.screenSizeIsEqual('md')){
-        this._showFilters = true; // Show filters on medium screen when document is closed
+        this.showFilters = true; // Show filters on medium screen when document is closed
       }
     }
   }
@@ -261,37 +296,24 @@ export class SearchComponent implements OnInit {
     return event.type !== 'click' || !!target?.matches("a, a *, input, input *, button, button *");
   }
 
-
-  /**
-   * Controls visibility of filters (small screen sizes)
-   */
-  get showFilters(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('lg') || this._showFilters;
-  }
-
   /**
    * Show or hide the left facet bar (small screen sizes)
    */
   toggleFilters(){
-    this._showFilters = !this._showFilters;
-    if(this._showFilters){ // Close document if filters are displayed
+    this.showFilters = !this.showFilters;
+    if(this.showFilters){ // Close document if filters are displayed
       this.openedDoc = undefined;
       this.openedDocChat = undefined;
     }
   }
 
-  /**
-   * Controls visibility of menu (small screen sizes)
-   */
-  get showMenu(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('sm') || this._showMenu;
-  }
 
   /**
    * Show or hide the user menus (small screen sizes)
    */
   toggleMenu(){
-    this._showMenu = !this._showMenu;
+    this.showMenu = !this.showMenu;
+    this.showSearch = !this.showMenu;
   }
 
   /**
@@ -302,34 +324,6 @@ export class SearchComponent implements OnInit {
       return !this.showFilters && !this.openedDoc;
     }
     return true;
-  }
-
-  /**
-   * On small screens only show the search form when the facets are displayed
-   */
-  get showForm(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('sm') || this._showFilters;
-  }
-
-  /**
-   * On small screens, show the logo unless the filters or menu are displayed
-   */
-  get showLogo(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('sm') || !(this._showFilters || this._showMenu)
-  }
-
-  /**
-   * On medium screens, show the filter toggle, unless on mobile the menu is displayed
-   */
-  get showFilterToggle(): boolean {
-    return this.ui.screenSizeIsLess('lg') && (this.ui.screenSizeIsGreaterOrEqual('sm') || !this._showMenu);
-  }
-
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
   }
 
   onTitleClick(value: {item: Answer | TopPassage, isLink: boolean}) {
