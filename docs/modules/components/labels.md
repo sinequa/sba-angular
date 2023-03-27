@@ -168,7 +168,7 @@ The `LabelsModule` comes with a set of components :
 - The [`LabelsMenu` component]({{site.baseurl}}components/components/BsLabelsMenuComponent.html) is used to display dropdown menu
   that manages public and private labels.
 
-<doc-labels-menu></doc-labels-menu>
+<!-- <doc-labels-menu></doc-labels-menu> -->
 
   You can see this menu in the navigation bar.
 
@@ -189,7 +189,7 @@ The `LabelsModule` comes with a set of components :
 - The [`Labels` component]({{site.baseurl}}components/components/Labels.html) is used to display and to manage
   the assigned labels of a document.
 
-<doc-labels></doc-labels>
+<!-- <doc-labels></doc-labels> -->
 
   Note the background color used to distinguish public and private labels.
 
@@ -207,7 +207,7 @@ The `LabelsModule` comes with a set of components :
 - The [`ResultLabels` component]({{site.baseurl}}components/components/ResultLabels.html) is used to display
   the assigned labels of a document. This component is backed by `Labels` component.
 
-<doc-result-labels></doc-result-labels>
+<!-- <doc-result-labels></doc-result-labels> -->
 
   The inputs of the component are:
 

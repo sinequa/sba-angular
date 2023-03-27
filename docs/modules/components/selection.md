@@ -115,7 +115,7 @@ Additionally, the service includes the following properties:
 
 ### Result Selector
 
-<doc-result-selector></doc-result-selector>
+<!-- <doc-result-selector></doc-result-selector> -->
 
 The [`sq-result-selector`]({{site.baseurl}}components/components/BsResultSelector.html) component displays a simple checkbox associated to a record ([`Record`]({{site.baseurl}}core/interfaces/Record.html)).
 
@@ -129,7 +129,7 @@ It is typically meant to be displayed in a list of results for each record.
 
 ### Results Selector
 
-<doc-results-selector></doc-results-selector>
+<!-- <doc-results-selector></doc-results-selector> -->
 
 Not to be confused with the previous component, the [`sq-results-selector`]({{site.baseurl}}components/components/BsResultsSelector.html) displays a global list of actions including:
 
@@ -150,7 +150,7 @@ Options are available to customize the actions' display:
 
 ### Selection arranger
 
-<doc-selection-arranger></doc-selection-arranger>
+<!-- <doc-selection-arranger></doc-selection-arranger> -->
 
 The [`sq-selection-arranger`]({{site.baseurl}}components/components/BsSelectionArranger.html) component displays the list of selected components (using a template passed by transclusion). It allows to rearrange the selected items by changing their order (with drag & drop) or removing them.
 

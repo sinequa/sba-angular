@@ -111,7 +111,7 @@ The main methods are the following:
 
 ### Preview Tooltip
 
-<doc-preview-tooltip></doc-preview-tooltip>
+<!-- <doc-preview-tooltip></doc-preview-tooltip> -->
 
 The core API also includes [`sq-preview-tooltip`]({{site.baseurl}}components/components/PreviewTooltip.html), a customizable component which can be inserted in the HTML preview, and responds to the user's mouse movements and clicks. This enables custom features when hovering over an entity or selecting some text.
 
@@ -158,7 +158,7 @@ this.tooltipTextActions = [new Action({
 
 ### Preview Mini Map
 
-<doc-preview-minimap></doc-preview-minimap>
+<!-- <doc-preview-minimap></doc-preview-minimap> -->
 
 The component [`sq-preview-minimap`]({{site.baseurl}}components/components/BsPreviewMinimapComponent.html) could be inserted within the HTML Preview to display a highlights's minimap.
 
@@ -180,7 +180,7 @@ The minimap is inserted by transclusion:
 
 ### Preview Facet
 
-<doc-facet-preview-2></doc-facet-preview-2>
+<!-- <doc-facet-preview-2></doc-facet-preview-2> -->
 
 The [`sq-preview-facet-2`]({{site.baseurl}}components/components/BsFacetPreviewComponent2.html) displays a scaled-down preview in a facet card (See [Facet Module](facet.html)).
 
@@ -215,7 +215,7 @@ This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-searc
 
 ### Extract Panel
 
-<doc-preview-extracts-panel></doc-preview-extracts-panel>
+<!-- <doc-preview-extracts-panel></doc-preview-extracts-panel> -->
 
 The [`sq-preview-extracts-panel`]({{site.baseurl}}components/components/BsPreviewExtractsPanelComponent.html) component displays the relevant extracts extracted from the [`PreviewDocument`]({{site.baseurl}}components/classes/PreviewDocument.html). Clicking on a extract selects it in the preview (highlight and scroll).
 

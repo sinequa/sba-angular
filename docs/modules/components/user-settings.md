@@ -66,7 +66,7 @@ const messages = Utils.merge({}, ..., enAlerts, enBaskets, enSavedQueries, appMe
 
 ### User Menu
 
-<doc-saved-queries-menu></doc-saved-queries-menu>
+<!-- <doc-saved-queries-menu></doc-saved-queries-menu> -->
 
 The [`sq-saved-queries-menu`]({{site.baseurl}}components/components/BsSavedQueriesMenuComponent.html) component displays the list of saved queries, lets a user save his current query and allows to reorganize the list (See the *Manage* modal below).
 
@@ -83,7 +83,7 @@ This menu is meant to be inserted in a Bootstrap-styled navbar:
 
 ### Facet
 
-<doc-facet-saved-queries></doc-facet-saved-queries>
+<!-- <doc-facet-saved-queries></doc-facet-saved-queries> -->
 
 The [`sq-facet-saved-queries`]({{site.baseurl}}components/components/BsFacetSavedQueries.html) component displays the list of saved queries, lets a user re-play one of them, open the *Manage* modal (see below), or delete specific queries.
 
@@ -125,7 +125,7 @@ Additional methods allow to display modal dialogs:
 
 ### Facet
 
-<doc-facet-recent-queries></doc-facet-recent-queries>
+<!-- <doc-facet-recent-queries></doc-facet-recent-queries> -->
 
 The [`sq-facet-recent-queries`]({{site.baseurl}}components/components/BsFacetRecentQueries.html) component displays the list of recent queries and lets a user re-play, delete or save one of them.
 
@@ -158,7 +158,7 @@ The [`RecentQueriesService`]({{site.baseurl}}components/injectables/RecentQuerie
 
 ### Facet
 
-<doc-facet-recent-documents></doc-facet-recent-documents>
+<!-- <doc-facet-recent-documents></doc-facet-recent-documents> -->
 
 The [`sq-facet-recent-documents`]({{site.baseurl}}components/components/BsFacetRecentDocuments.html) component displays the list of recent document and lets a user re-open one, or remove it from the list.
 
@@ -190,7 +190,7 @@ The [`RecentDocumentsService`]({{site.baseurl}}components/injectables/RecentDocu
 
 ### User Menu
 
-<doc-alerts-menu></doc-alerts-menu>
+<!-- <doc-alerts-menu></doc-alerts-menu> -->
 
 The [`sq-alerts-menu`]({{site.baseurl}}components/components/BsAlertsMenuComponent.html) component displays the list of alerts, lets a user schedule an alert for the current query and allows to reorganize the list (See the *Manage* modal below).
 
@@ -227,7 +227,7 @@ Note: in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.
 
 ### User Menu
 
-<doc-baskets-menu></doc-baskets-menu>
+<!-- <doc-baskets-menu></doc-baskets-menu> -->
 
 The [`sq-baskets-menu`]({{site.baseurl}}components/components/BsBasketsMenuComponent.html) component displays the list of baskets, lets a user create a new basket and reorganize the list (See the *Manage* modal below).
 
@@ -244,7 +244,7 @@ This menu is meant to be inserted in a Bootstrap-styled navbar:
 
 ### Facet
 
-<doc-facet-baskets></doc-facet-baskets>
+<!-- <doc-facet-baskets></doc-facet-baskets> -->
 
 The [`sq-facet-baskets`]({{site.baseurl}}components/components/BsFacetBasketsComponent.html) component displays the list of baskets, lets a user open one of them, create a new one, open the *Manage* modal (see below), and delete specific baskets.
 

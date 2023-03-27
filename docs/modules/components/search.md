@@ -167,7 +167,7 @@ This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/
 
 ### Did you mean
 
-<doc-did-you-mean></doc-did-you-mean>
+<!-- <doc-did-you-mean></doc-did-you-mean> -->
 
 The [`sq-did-you-mean`]({{site.baseurl}}components/components/BsDidYouMean.html) component displays the syntaxic or phonetic corrections of the user's search query. These corrections are sent by the server via the `Results.didYouMean` object.
 
@@ -195,7 +195,7 @@ This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/
 
 ### Sort selector
 
-<doc-sort-selector></doc-sort-selector>
+<!-- <doc-sort-selector></doc-sort-selector> -->
 
 The [`sq-sort-selector`]({{site.baseurl}}components/components/BsSortSelector.html) component displays a button allowing the user to select the sorting criteria (by relevance, by date, etc.). It controls the `query.orderBy` parameter (the different values can be configured server-side in the [Query]({{site.baseurl}}gettingstarted/server-setup.html#query-web-service)). The component is based on the [Action module]({{site.baseurl}}modules/components/action.html).
 
@@ -209,7 +209,7 @@ This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/
 
 ### Pager
 
-<doc-pager></doc-pager>
+<!-- <doc-pager></doc-pager> -->
 
 The [`sq-pager`]({{site.baseurl}}components/components/BsPager.html) component displays a list of buttons allowing the user to navigate between the different pages of documents in the results. It controls the `query.page` parameter.
 
@@ -235,7 +235,7 @@ The [`sq-loading-bar`]({{site.baseurl}}components/components/BsLoadingBar.html) 
 
 ### Load More Button
 
-<doc-load-more></doc-load-more>
+<!-- <doc-load-more></doc-load-more> -->
 
 The [`sq-load-more`]({{site.baseurl}}components/components/BsLoadMore.html) component display a simple button allowing user to fetch next results.
 
@@ -247,7 +247,7 @@ Results comes from [`SearchService.ResultsStream`]({{site.baseurl}}components/in
 
 ### Lazy-loading results while scrolling down
 
-<doc-scroller></doc-scroller>
+<!-- <doc-scroller></doc-scroller> -->
 
 The [`sq-scroller`]({{site.baseurl}}components/components/BsScroller.html) component allow continuously loading results as the user scrolls down the page.
 
@@ -261,7 +261,7 @@ We are using the [`Observer API`](https://developer.mozilla.org/en-US/docs/Web/A
 
 ### Scope selector
 
-<doc-scope></doc-scope>
+<!-- <doc-scope></doc-scope> -->
 
 The [`sq-scope`]({{site.baseurl}}components/components/BsScopeComponent.html) component allows users to select a subset of sources, much like the tabs but with additional flexibility for defining the WHERE-clause returning the documents.
 

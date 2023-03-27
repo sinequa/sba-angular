@@ -283,7 +283,7 @@ And in the template:
 
 ### Facet Bar
 
-<doc-facet-bar></doc-facet-bar>
+<!-- <doc-facet-bar></doc-facet-bar> -->
 
 The [`sq-facet-bar`]({{site.baseurl}}components/components/BsFacetBar.html) component is a container which can display a dynamic list of facets.
 
@@ -344,7 +344,7 @@ It is also possible to insert static content which will be displayed at the top 
 
 ### Multiple-type Facet
 
-<doc-facet-multi></doc-facet-multi>
+<!-- <doc-facet-multi></doc-facet-multi> -->
 
 The "multiple-type" facet [`sq-facet-multi`]({{site.baseurl}}components/components/BsFacetMultiComponent.html) displays multiple types of metadata in the same facet. The user selects the type of metadata, which then changes the view of the facet into one of the classical views above.
 
@@ -360,7 +360,7 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
 
 ### Facet Filters
 
-<doc-facet-filters></doc-facet-filters>
+<!-- <doc-facet-filters></doc-facet-filters> -->
 
 The [`sq-facet-filters`]({{site.baseurl}}components/components/BsFacetFilters.html) components displays facets as a navigation bar where each item is a facet displayed as a dropdown component.
 
@@ -538,7 +538,7 @@ This component can be used in different ways :
 
 ### Refine Facet
 
-<doc-refine></doc-refine>
+<!-- <doc-refine></doc-refine> -->
 
 The [`sq-refine`]({{site.baseurl}}components/components/BsRefine.html) component displays a secondary search form, including an autocomplete, to add a fulltext search criteria to a query, without removing the active filters.
 

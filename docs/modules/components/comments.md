@@ -54,7 +54,7 @@ This component has one important dependency: the [Marked](https://marked.js.org/
 
 ## Comments component
 
-<doc-comments></doc-comments>
+<!-- <doc-comments></doc-comments> -->
 
 The [`sq-comments`]({{site.baseurl}}components/components/CommentsComponent.html) component displays a list of comments and replies attached to a specific document. This component can be displayed anywere as long as a document id is provided.
 

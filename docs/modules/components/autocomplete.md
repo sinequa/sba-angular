@@ -144,7 +144,7 @@ The `SuggestService` provides the following methods:
 
 ### Autocomplete List Component
 
-<doc-autocomplete-list></doc-autocomplete-list>
+<!-- <doc-autocomplete-list></doc-autocomplete-list> -->
 
 The `sq-autocomplete-list` component is a fairly simple component that displays the list of suggestions from the directive. This component expects a `ng-template` named `#itemTpl` to be passed by transclusion, to actually display the items:
 

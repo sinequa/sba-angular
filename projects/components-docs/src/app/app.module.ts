@@ -4,16 +4,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { DocAppComponent } from './app.component';
 import { IntlModule, Locale, LocaleData, LocalesConfig } from "@sinequa/core/intl";
 import { WebServicesModule, StartConfig, StartConfigWebService } from "@sinequa/core/web-services";
-import { LoginInterceptor } from "@sinequa/core/login";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
 import { DocMenuComponent } from './menu/menu.component';
 import { DocNavbarComponent } from './navbar/navbar.component';
 import { environment } from "../environments/environment";
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { GlobalService } from './shared/global.service';
-import { DocInterceptor } from './doc.interceptor';
 import { DocMachineLearningModule } from './components/machine-learning-module/machine-learning.module';
 import { DocActionModule } from './components/action-module/action.module';
 import { DocAdvancedModule } from './components/advanced-module/advanced.module';
@@ -88,13 +85,6 @@ export class AppLocalesConfig implements LocalesConfig {
     }
 }
 
-export function httpInterceptor() {
-    if (environment.mock) {
-        return DocInterceptor;
-    }
-    return LoginInterceptor;
-}
-
 @NgModule({
     declarations: [
         DocAppComponent,
@@ -151,7 +141,6 @@ export function httpInterceptor() {
     entryComponents: [],
     providers: [
         { provide: APP_INITIALIZER, useFactory: startConfigInitializer, deps: [StartConfigWebService], multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: httpInterceptor(), multi: true },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         GlobalService,
         ...environment.providers
