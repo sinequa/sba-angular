@@ -11,6 +11,7 @@ import { map, Observable, tap } from 'rxjs';
 import { FEATURES, METADATA } from '../../config';
 import { ChatComponent, ChatAttachment, ChatService, SavedChat, ChatMessage, ChatConfig, defaultChatConfig } from '@sinequa/components/machine-learning';
 import { AppSearchFormComponent } from '@sinequa/pepper/app/search-form/search-form.component';
+import { UIService } from '@sinequa/components/utils';
 
 @Component({
   selector: 'app-search',
@@ -70,6 +71,7 @@ export class SearchComponent implements OnInit {
     public intlService: IntlService,
     public chatService: ChatService,
     public prefs: UserPreferences,
+    public ui: UIService
   ) { }
 
 
@@ -183,14 +185,6 @@ export class SearchComponent implements OnInit {
   public get metadata(): string[] {
     return this.appService.app?.data?.metadata as string[] || METADATA;
   }
-
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
-  }
-
 
   // sort passages to have the ones with an answer first, ordered by answer score
   private comparePassages(a: TopPassage, b: TopPassage) {

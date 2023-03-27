@@ -387,17 +387,20 @@
             "tsConfig": "projects/chatgpt/tsconfig.json",
             "preserveSymlinks": true,
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            },
             "assets": [
               "projects/chatgpt/src/favicon.ico",
               "projects/chatgpt/src/assets"
             ],
             "styles": [
               {
-                "input": "projects/chatgpt/src/styles/app.scss",
+                "input": "projects/vanilla-search/src/styles/app.scss",
                 "bundleName": "app"
               },
               {
-                "input": "projects/chatgpt/src/styles/preview.scss",
+                "input": "projects/vanilla-search/src/styles/preview.scss",
                 "bundleName": "preview",
                 "inject": false
               }
@@ -493,7 +496,7 @@
               "projects/chatgpt/src/favicon.ico",
               "projects/chatgpt/src/assets"
             ],
-            "styles": ["projects/chatgpt/src/styles/app.scss"],
+            "styles": ["projects/vanilla-search/src/styles/app.scss"],
             "scripts": []
           }
         },

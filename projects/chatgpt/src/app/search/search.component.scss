@@ -1,4 +1,14 @@
 
+:host {
+  height: 100%;
+}
+
+#logo {
+  content: url("../../assets/sinequa-logo-light-lg.png");
+  width: 160px;
+  max-height: 40px;
+}
+
 .sq-panel {
   transition: all 0.3s ease-in-out;
   transition-property: width, margin-left;

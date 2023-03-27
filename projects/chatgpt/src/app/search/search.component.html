@@ -9,17 +9,16 @@
           <i class="fas fa-plus mx-3 text-muted align-self-center"></i>
 
           <a role="button" sqTooltip="Show the Search UI" (click)="showSearchPanel = true">
-            <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark()">
-            <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark()">
+            <img id="logo" alt="sinequa logo">
           </a>
         </ng-container>
 
         <ul class="nav nav-pills ms-auto">
           <li class="nav-item">
-            <a class="nav-link" role="button" [ngClass]="{active: settingsView}" (click)="toggleChatSettings()">Settings</a>
+            <a class="nav-link py-2" role="button" [ngClass]="{active: settingsView}" (click)="toggleChatSettings()">Settings</a>
           </li>
           <li class="nav-item" *ngIf="loginService.complete && (savedChatView || chatService.savedChats.length)">
-            <a class="nav-link" role="button" [ngClass]="{active: savedChatView}" (click)="toggleSavedChats()">Saved chats</a>
+            <a class="nav-link py-2" role="button" [ngClass]="{active: savedChatView}" (click)="toggleSavedChats()">Saved chats</a>
           </li>
         </ul>
 
@@ -70,8 +69,7 @@
       <div class="d-flex p-3 sticky-top">
 
         <a role="button" sqTooltip="Hide the Search UI" (click)="showSearchPanel = false">
-          <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark()">
-          <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark()">
+          <img id="logo" alt="sinequa logo">
         </a>
 
         <app-search-form
@@ -109,7 +107,7 @@
             Documents
           </button>
           <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
-          <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'" class="ms-auto"></sq-sort-selector>
+          <sq-sort-selector [results]="results" [rightAligned]="true" [style]="(ui.isDarkTheme$ |async)? 'dark' : 'light'" class="ms-auto"></sq-sort-selector>
         </ng-container>
 
         <ng-container *ngIf="view === 'passages'">
@@ -223,7 +221,7 @@
         [collapsible]="false"
         [facetActionsAreSecondary]="true"
         [viewActionsAreSecondary]="true"
-        secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-{{isDark()? 'dark' : 'light'}} rounded shadow on-hover"
+        secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-{{(ui.isDarkTheme$ |async)? 'dark' : 'light'}} rounded shadow on-hover"
         viewActionsClass="d-block btn-group mt-2"
         viewButtonsStyle="outline-primary"
         [actions]="previewCustomActions"
