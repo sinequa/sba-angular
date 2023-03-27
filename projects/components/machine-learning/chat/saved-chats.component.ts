@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from "@angular/core";
-import { SavedChat, ChatService } from "./chat.service";
+import { ChatService } from "./chat.service";
+import { SavedChat } from "./types";
 
 @Component({
   selector: 'sq-saved-chats',

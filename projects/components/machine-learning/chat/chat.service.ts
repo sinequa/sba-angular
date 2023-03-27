@@ -8,112 +8,8 @@ import { NotificationsService } from "@sinequa/core/notification";
 import { Validators } from "@angular/forms";
 import { Utils } from "@sinequa/core/base";
 import { Chunk, equalChunks, insertChunk } from "./chunk";
+import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, OpenAIModel, OpenAITokens, RawMessage, RawResponse, SavedChat } from "./types";
 
-/**
- * Individual message sent & returned by the ChatGPT API.
- * If this message is an attachment, we attach the minimal
- * information needed to reconstruct this attachment (RawAttachment)
- * as well as the reference id computed at the moment of sending
- * the attachment to the API.
- */
-export interface RawMessage {
-  role: string;
-  content: string;
-  display: boolean;
-  /** Messages from the user can have attachments */
-  $attachment?: RawAttachment;
-  /** Reference of this attachment in the contexte of the conversation */
-  $refId?: number;
-}
-
-/**
- * A chat message that has been processed to include the markdown-formatted
- * content for display, as well as detailed attachment data, and optionally
- * a list of the references extracted from that message
- */
-export interface ChatMessage extends RawMessage {
-  /** This content is formatted to be properly displayed in the UI */
-  $content: string;
-  /** Messages from the user can have attachments */
-  $attachment?: ChatAttachment;
-  /** Messages from the assistant can have references that refer to attachments ids */
-  $references?: {refId: number; $record: Record}[];
-}
-
-/**
- * Minimal information necessary to reconstruct an attachment
- */
-export interface RawAttachment {
-  recordId: string;
-  chunks: DocumentChunk[];
-}
-
-/**
- * Chunk of text extracted from a document at a specific location
- */
-export interface DocumentChunk {
-  offset: number;
-  length: number;
-  text: string;
-}
-
-/**
- * Chat attachment for which we know the text and the source
- * record object
- */
-export interface ChatAttachment extends RawAttachment {
-  /** Record from which this this attachment is taken */
-  $record: Record;
-  /** Whether the attachment is displayed expanded of not */
-  $expanded?: boolean;
-}
-
-/**
- * Chat Attachment for which we know the number
- * of tokens it consumes
- */
-export interface ChatAttachmentWithTokens extends ChatAttachment {
-  /** Number of tokens of this message */
-  $tokenCount: number;
-}
-
-/**
- * Information provided by the API about the number of tokens consumed
- * by the current conversation
- */
-export type OpenAITokens = {
-  used: number;
-  model: number;
-}
-
-/**
- * Raw response of the API
- */
-export interface RawResponse {
-  messagesHistory: RawMessage[];
-  tokens: OpenAITokens;
-}
-
-/**
- * Enriched response of the API
- */
-export interface ChatResponse extends RawResponse {
-  messagesHistory: ChatMessage[];
-}
-
-/**
- * Model names supported by the API
- */
-export type OpenAIModel = "Davinci3" | "GPT35Turbo";
-
-/**
- * Minimal data structure saved to reconstruct a conversation
- */
-export interface SavedChat {
-  name: string;
-  messages: RawMessage[];
-  tokens: OpenAITokens;
-}
 
 @Injectable({providedIn: 'root'})
 export class ChatService {
@@ -203,14 +99,14 @@ export class ChatService {
     const ids = messages.map(m => m.$attachment?.recordId!).filter(id => id);
     return this.searchService.getRecords(ids).pipe(
       map(records => messages.reduce((chatMessages, message) => {
-        let $attachment: ChatAttachment|undefined = undefined;
+        let attachment: ChatAttachment|undefined = undefined;
         if(message.$attachment) {
           const $record = records.find(r => r?.id === message.$attachment?.recordId);
           if($record) {
-            $attachment = {...message.$attachment, $record};
+            attachment = {...message.$attachment, $record};
           }
         }
-        chatMessages.push(this.processMessage(message, chatMessages, $attachment));
+        chatMessages.push(this.processMessage(message, chatMessages, attachment));
         return chatMessages
       }, [] as ChatMessage[]))
     );
@@ -295,7 +191,7 @@ export class ChatService {
    * When relevant content is retrieved, the attachments$ subject is
    * upated.
    */
-  searchAttachments(text: string, minScore = 0.5, maxPassages = 5) {
+  searchAttachmentsSync(text: string, minScore = 0.5, maxPassages = 5) {
     this.searchService.query.text = text;
     this.searchService.getResults(this.searchService.query).pipe(
       tap(results => this.searchService.setResults(results)),
