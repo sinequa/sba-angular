@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { NormalComment } from "@sinequa/components/comments";
 import { HttpService } from "@sinequa/core/web-services";
-import { Observable, of } from "rxjs";
+import { Observable, of, EMPTY } from "rxjs";
 import { COMMENTS, NORMAL_COMMENT } from "../data/comments";
 
 @Injectable({
@@ -31,7 +31,7 @@ export class MockCommentsWebService extends HttpService {
     }
 
     deleteComment(docid: string, commentid: string, markAsDeleted: boolean): Observable<void> {
-        return of();
+        return EMPTY;
     }
 
     likeComment(docid: string, commentid: string): Observable<NormalComment> {

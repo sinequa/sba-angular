@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { Subject, Observable, of } from "rxjs";
+import { Subject, Observable, of, EMPTY } from "rxjs";
 import { Utils } from "@sinequa/core/base";
 import { AuditEvents, HttpService, UserSettings, UserSettingsChangedEvent } from "@sinequa/core/web-services";
 import { USER_SETTINGS } from "../data/user-settings";
@@ -59,16 +59,16 @@ export class MockUserSettingsWebService extends HttpService implements OnDestroy
     }
 
     public save(auditEvents?: AuditEvents): Observable<void> {
-        return of();
+        return EMPTY;
     }
 
     public patch(userSettings: UserSettings, auditEvents?: AuditEvents): Observable<void> {
-        return of();
+        return EMPTY;
     }
 
     public reset() {
         this.userSettings = {};
-        return of();
+        return EMPTY;
     }
 
     public readUserSetting(paths: string[]): any {

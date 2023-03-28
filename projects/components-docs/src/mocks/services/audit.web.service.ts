@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { EMPTY, Observable } from "rxjs";
 import { MapOf } from "@sinequa/core/base";
 import { AuditEvents, AuditEventType, HttpService, Results, Record, LinkResult } from "@sinequa/core/web-services";
 
@@ -10,32 +10,32 @@ export class MockAuditWebService extends HttpService {
     notifySponsoredLink(
         evt: AuditEventType, sl: LinkResult, resultId: string,
         parameters?: MapOf<string | number | boolean | undefined>): Observable<void> {
-        return of();
+        return EMPTY;
     }
 
     notifyDocument(
         evt: AuditEventType, doc: Record, resultsOrId: Results | string,
         parameters?: MapOf<string | number | boolean | undefined>,
         rfmParameters?: MapOf<string | number | boolean | undefined>): Observable<void> {
-        return of();
+        return EMPTY;
     }
 
     notifyDocumentById(
         evt: AuditEventType, id: string,
         parameters?: MapOf<string | number | boolean | undefined>,
         rfmParameters?: MapOf<string | number | boolean | undefined>): Observable<void> {
-        return of();
+        return EMPTY;
     }
 
     notifyLogout(): Observable<void> {
-        return of();
+        return EMPTY;
     }
 
     notifyLogin(): Observable<void> {
-        return of();
+        return EMPTY;
     }
 
     notify(auditEvents: AuditEvents): Observable<void> {
-        return of();
+        return EMPTY;
     }
 }

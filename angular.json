@@ -646,6 +646,15 @@
                 "fonts": true
               }
             },
+            "development": {
+              "outputPath": "dist-debug/vanilla-search",
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "mock": {
               "fileReplacements": [
                 {
