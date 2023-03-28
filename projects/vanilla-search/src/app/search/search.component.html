@@ -79,21 +79,15 @@
             <!-- Sponsored links -->
             <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
 
-            <!-- Answer card -->
-            <!-- <sq-facet-card *ngIf="hasAnswers" class="mt-3" #answersFacet>
-                <sq-answer-card #facet [results]="results" (previewOpened)="openMiniPreview($event.$record)"
-                    (titleClicked)="onTitleClick($event)" [collapsed]="answersFacet._collapsed"></sq-answer-card>
-            </sq-facet-card> -->
-
             <!-- nth top passages -->
             <sq-facet-card *ngIf="hasPassages" class="mb-3"
                 [title]="'msg#machine-learning.passages'"
                 [icon]="'fas fa-brain primary-icon'"
-                [collapsible]="false"
-                [actions]="[summarizeAction]" buttonsStyle="primary">
+                [collapsible]="true"
+                [actions]="[summarizeAction]"
+                buttonsStyle="primary">
                 <sq-top-passages #facet
                     [results]="results"
-                    [answersFirst]="true"
                     (previewOpened)="openMiniPreview($event.$record, $event.id)"
                     (titleClicked)="onTitleClick($event)">
                 </sq-top-passages>

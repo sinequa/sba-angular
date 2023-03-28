@@ -13,7 +13,6 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   @Input() results: Results;
   @Input() hideDate: boolean = false;
   @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-  @Input() answersFirst: boolean;
 
   @Output() previewOpened = new EventEmitter<TopPassage>();
   @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
@@ -43,13 +42,8 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
       .subscribe((records) => {
         this.passages = passages;
 
-        if (this.answersFirst) {
-          this.passages.sort(this.comparePassages);
-        }
-
         this.passages.forEach((passage) => {
           passage.$record = passage.$record || records.find(record => record?.id === passage.recordId);
-          passage.$checked = true;
         });
 
         this.notifyTopPassagesDisplay(this.passages);
@@ -97,22 +91,6 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
         rank
       }
     };
-  }
-
-  // sort passages to have the ones with an answer first, ordered by answer score
-  private comparePassages(a: TopPassage, b: TopPassage) {
-    const aAnswer: boolean = !!a.answer && !!a.answerScore;
-    const bAnswer: boolean = !!b.answer && !!b.answerScore;
-    if (aAnswer && !bAnswer) {
-      return -1;
-    }
-    if (bAnswer && !aAnswer) {
-      return 1;
-    }
-    if (aAnswer && bAnswer) {
-      return a.answerScore! > b.answerScore! ? -1 : 1;
-    }
-    return 0;
   }
 
 }

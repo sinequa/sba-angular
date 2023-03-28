@@ -3,7 +3,8 @@ import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
-import { ChatAttachment, ChatMessage, ChatService, OpenAITokens, RawMessage } from "./chat.service";
+import { ChatService } from "./chat.service";
+import { ChatAttachment, ChatMessage, OpenAITokens, RawMessage } from "./types";
 
 export interface ChatConfig {
   textBeforeAttachments: boolean;
@@ -83,6 +84,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   _actions: Action[] = [];
   override get actions() { return this._actions; }
 
+  sub = new Subscription();
+
   constructor(
     public chatService: ChatService
   ) {
@@ -131,7 +134,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.updateActions();
   }
 
-  sub = new Subscription();
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
@@ -147,7 +149,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     if(this.searchMode && this.question.trim()) {
       event?.preventDefault();
       this.loadingAttachments = true;
-      this.chatService.searchAttachments(this.question, this.autoSearchMinScore, this.autoSearchMaxPassages);
+      this.chatService.searchAttachmentsSync(this.question, this.autoSearchMinScore, this.autoSearchMaxPassages);
     }
   }
 
@@ -165,7 +167,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.loadingAnswer = true;
     const attachmentMessages = this.chatService.prepareAttachmentMessages(attachments, conversation, this.displayAttachments);
     const userMsg = this.chatService.processMessage({role: 'user', content: question, display: true}, conversation);
-    if(this.attachmentsHiddenPrompt) {
+    if(this.attachmentsHiddenPrompt && attachmentMessages.length > 0) {
       attachmentMessages.push(
         this.chatService.processMessage({role: 'user', content: this.attachmentsHiddenPrompt, display: false}, conversation)
       );
@@ -174,7 +176,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         [...conversation, userMsg, ...attachmentMessages]
       : [...conversation, ...attachmentMessages, userMsg];
     this.fetch(messages);
-    this.scrollDown();
   }
 
   private fetch(messages: ChatMessage[]) {
