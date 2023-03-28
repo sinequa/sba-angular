@@ -167,7 +167,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.loadingAnswer = true;
     const attachmentMessages = this.chatService.prepareAttachmentMessages(attachments, conversation, this.displayAttachments);
     const userMsg = this.chatService.processMessage({role: 'user', content: question, display: true}, conversation);
-    if(this.attachmentsHiddenPrompt) {
+    if(this.attachmentsHiddenPrompt && attachmentMessages.length > 0) {
       attachmentMessages.push(
         this.chatService.processMessage({role: 'user', content: this.attachmentsHiddenPrompt, display: false}, conversation)
       );
