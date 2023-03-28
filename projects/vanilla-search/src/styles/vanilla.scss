@@ -31,6 +31,10 @@ body.dark .sq-light-mode {
   display: none;
 }
 
+:root {
+  --primary: rgb(12, 117, 255);
+}
+
 app-search-form {
 
   // Styling for the scope component (for a clean rendering within the search form)
