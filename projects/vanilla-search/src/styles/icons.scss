@@ -159,6 +159,20 @@ $sq-icon-families: ("s", "b", "r", "l") !default;
 .sq-logo:before {
     content: url('../assets/favicon.png');
 }
+
+.sq-chatgpt {
+    --sq-size: 40px;
+    &:before {
+      content: "";
+      display:block;
+      height: var(--sq-size);
+      width: var(--sq-size);
+      background-size: var(--sq-size) var(--sq-size);
+      background-image: url('../assets/chatgpt.svg');
+      background-repeat: no-repeat;
+    }
+}
+
 .sq-logo {
     height: 1rem;
     align-self: center;
