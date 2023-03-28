@@ -51,7 +51,7 @@
     <div class="row" *ngIf="results$ | async; let results">
         <!-- Left facet bar -->
         <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 90, bottom: 10}">
+        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 80, bottom: 10}">
             <!-- Source facet -->
             <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" class="mb-3">
                 <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
