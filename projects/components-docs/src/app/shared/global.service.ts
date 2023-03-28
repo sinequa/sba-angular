@@ -60,7 +60,7 @@ export class GlobalService {
     private previewService: PreviewService,
     private appService: AppService) {
 
-    this.query.text = '';
+    this.query.text = environment.mock ? 'text' : '';
     this.query.action = 'search';
     this.query.page = 2;
     this.query.pageSize = 2;

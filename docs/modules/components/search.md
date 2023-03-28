@@ -235,7 +235,7 @@ The [`sq-loading-bar`]({{site.baseurl}}components/components/BsLoadingBar.html) 
 
 ### Load More Button
 
-<!-- <doc-load-more></doc-load-more> -->
+<doc-load-more></doc-load-more>
 
 The [`sq-load-more`]({{site.baseurl}}components/components/BsLoadMore.html) component display a simple button allowing user to fetch next results.
 
@@ -261,7 +261,7 @@ We are using the [`Observer API`](https://developer.mozilla.org/en-US/docs/Web/A
 
 ### Scope selector
 
-<!-- <doc-scope></doc-scope> -->
+<doc-scope></doc-scope>
 
 The [`sq-scope`]({{site.baseurl}}components/components/BsScopeComponent.html) component allows users to select a subset of sources, much like the tabs but with additional flexibility for defining the WHERE-clause returning the documents.
 

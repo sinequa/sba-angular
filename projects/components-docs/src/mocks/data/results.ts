@@ -1,3 +1,5 @@
+import { TermPresence } from "@sinequa/core/web-services";
+
 const didYouMean: any = {
   spellingCorrectionMode: 'Correct',
   text: {
@@ -5,6 +7,17 @@ const didYouMean: any = {
     corrected: 'corrected text'
   }
 };
+
+const termspresence: TermPresence[] = [
+  {
+    "term": "Paris",
+    "presence": "found"
+  },
+  {
+    "term": "France",
+    "presence": "missing"
+  },
+];
 
 export const RESULTS = {
   didYouMean,
@@ -589,12 +602,8 @@ export const RESULTS = {
       "matchingpartnames": [
         "text"
       ],
-      "termspresence": [
-        {
-          "term": "Paris",
-          "presence": "found"
-        }
-      ],
+      termspresence,
+      "thumbnailUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg/402px-La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques%2C_Paris_ao%C3%BBt_2014_%282%29.jpg",
       "documentweight": "default",
       "wordsrelevance": "0.787109",
       "wordproximityrelevance": "1",
@@ -1554,1174 +1563,1174 @@ export const RESULTS = {
       "relevantExtracts": "Founded in Mountain View, California , LinkedIn is currently ... , Dublin , Amsterdam , Graz , Milan , <b>Paris <\/b>, Munich , Madrid , Stockholm , Singapore , ... Japan , Australia , Canada , India and Dubai "
     },
     {
-      "id":"\/I_NS1_Internet\/I_Sinequa\/|https:\/\/www.sinequa.com\/assets\/videos\/digital-business-collaboration-making-knowledge-discoverable\/",
-      "databasealias":"I_NS1_Sinequa_Website",
-      "flags":[
+      "id": "\/I_NS1_Internet\/I_Sinequa\/|https:\/\/www.sinequa.com\/assets\/videos\/digital-business-collaboration-making-knowledge-discoverable\/",
+      "databasealias": "I_NS1_Sinequa_Website",
+      "flags": [
         "h",
         "id"
       ],
-      "globalrelevance":1.919175,
-      "matchingpartnames":[
+      "globalrelevance": 1.919175,
+      "matchingpartnames": [
         "text",
         "title"
       ],
-      "termspresence":[
+      "termspresence": [
         {
-          "term":"CEO",
-          "presence":"found"
+          "term": "CEO",
+          "presence": "found"
         },
         {
-          "term":"Sinequa",
-          "presence":"found"
+          "term": "Sinequa",
+          "presence": "found"
         }
       ],
-      "documentweight":"default",
-      "wordsrelevance":"0.919434",
-      "wordproximityrelevance":"0.904785",
-      "wordscorerelevance":"0.811035",
-      "wordcountrelevance":"2",
-      "meaningrelevance":"1",
-      "extracts":[
+      "documentweight": "default",
+      "wordsrelevance": "0.919434",
+      "wordproximityrelevance": "0.904785",
+      "wordscorerelevance": "0.811035",
+      "wordcountrelevance": "2",
+      "meaningrelevance": "1",
+      "extracts": [
         {
-          "highlighted":"Listen to Alexandre Bilger, {b}Sinequa{nb}'s {b}CEO{nb}, and discover how {b}Sinequa{nb} is continuously innovating with its new solutions and capabilities.",
-          "locations":"3487,135",
-          "originalLocations":"114586,135",
-          "score":"65280"
+          "highlighted": "Listen to Alexandre Bilger, {b}Sinequa{nb}'s {b}CEO{nb}, and discover how {b}Sinequa{nb} is continuously innovating with its new solutions and capabilities.",
+          "locations": "3487,135",
+          "originalLocations": "114586,135",
+          "score": "65280"
         },
         {
-          "highlighted":"Making Knowledge Discoverable - {b}Sinequa{nb}",
-          "locations":"4349,39,37,39",
-          "originalLocations":"135757,39,917,39",
-          "score":"4480"
+          "highlighted": "Making Knowledge Discoverable - {b}Sinequa{nb}",
+          "locations": "4349,39,37,39",
+          "originalLocations": "135757,39,917,39",
+          "score": "4480"
         },
         {
-          "highlighted":"Discover the power of {b}Sinequa{nb}",
-          "locations":"4210,29",
-          "originalLocations":"128692,29",
-          "score":"1344"
+          "highlighted": "Discover the power of {b}Sinequa{nb}",
+          "locations": "4210,29",
+          "originalLocations": "128692,29",
+          "score": "1344"
         },
         {
-          "highlighted":"{b}Sinequa{nb} on Github",
-          "locations":"270,17,1692,17",
-          "originalLocations":"24581,17,90977,17",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} on Github",
+          "locations": "270,17,1692,17",
+          "originalLocations": "24581,17,90977,17",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} University",
-          "locations":"305,18,1727,18",
-          "originalLocations":"25316,18,91984,18",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} University",
+          "locations": "305,18,1727,18",
+          "originalLocations": "25316,18,91984,18",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} Overflow",
-          "locations":"325,16,1747,16",
-          "originalLocations":"25696,16,92490,16",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} Overflow",
+          "locations": "325,16,1747,16",
+          "originalLocations": "25696,16,92490,16",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} for Azure",
-          "locations":"438,17,1115,17",
-          "originalLocations":"30253,17,63972,17",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} for Azure",
+          "locations": "438,17,1115,17",
+          "originalLocations": "30253,17,63972,17",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} Partners",
-          "locations":"774,16",
-          "originalLocations":"38766,16",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} Partners",
+          "locations": "774,16",
+          "originalLocations": "38766,16",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} Partners \u2192",
-          "locations":"1533,18",
-          "originalLocations":"84579,134",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} Partners \u2192",
+          "locations": "1533,18",
+          "originalLocations": "84579,134",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} at Digital Business Collaboration Europe 2021 - the digital event around innovative digital collaboration tools and platforms.",
-          "locations":"1991,134",
-          "originalLocations":"107708,136",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} at Digital Business Collaboration Europe 2021 - the digital event around innovative digital collaboration tools and platforms.",
+          "locations": "1991,134",
+          "originalLocations": "107708,136",
+          "score": "896"
         }
       ],
-      "matchlocationsperpartname":[
+      "matchlocationsperpartname": [
         {
-          "matchlocations":[
+          "matchlocations": [
             {
-              "partname":"title",
-              "data":"4381,7;135789,7"
+              "partname": "title",
+              "data": "4381,7;135789,7"
             }
           ]
         }
       ],
-      "matchingpassages":{
-        "schemas":[
+      "matchingpassages": {
+        "schemas": [
           {
-            "function":"matchlocations",
-            "schema":{
-              "format":"StringWithSeparators",
-              "separator":";",
-              "innerseparator":",",
-              "schema":[
+            "function": "matchlocations",
+            "schema": {
+              "format": "StringWithSeparators",
+              "separator": ";",
+              "innerseparator": ",",
+              "schema": [
                 {
-                  "name":"columns",
-                  "type":"array",
-                  "fields":[
+                  "name": "columns",
+                  "type": "array",
+                  "fields": [
                     {
-                      "name":"MatchLocations"
+                      "name": "MatchLocations"
                     }
                   ]
                 },
                 {
-                  "name":"locations",
-                  "type":"string",
-                  "subtype":"location"
+                  "name": "locations",
+                  "type": "string",
+                  "subtype": "location"
                 }
               ]
             }
           }
         ],
-        "passages":[
+        "passages": [
           {
-            "id":3,
-            "score":0.9995,
-            "rm.score":0.9995,
-            "kw.score":0.85375,
-            "vect.score":0.09936,
-            "location":[
+            "id": 3,
+            "score": 0.9995,
+            "rm.score": 0.9995,
+            "kw.score": 0.85375,
+            "vect.score": 0.09936,
+            "location": [
               2839,
               813
             ],
-            "rlocation":[
+            "rlocation": [
               108866,
               6914
             ],
-            "matchlocations":"2843,7,2966,7,3103,7,3275,7,3468,7,3515,7,3525,3,3547,7",
-            "highlightedText":"how <span class=\"matchlocations\">Sinequa<\/span>'s Intelligent Search Platform helps to access information in a single source  how others like Soci\u00e9t\u00e9 G\u00e9n\u00e9rale use <span class=\"matchlocations\">Sinequa<\/span> as part of their Intranet solution to improve productivity  how the partnership with Microsoft supports our customers to provide <span class=\"matchlocations\">Sinequa<\/span> within MS Teams  Alana Cento  Sr. Product Marketing Manager at  Watch the video now  \"Digital Business Collaboration: Making Knowledge Discoverable\"  Discover what <span class=\"matchlocations\">Sinequa<\/span> can do for your business.  Let's have a quick overview of the benefits that our product can give to your company.  Contact us  Get started  Related videos.  Replay Inform Online 2022 - <span class=\"matchlocations\">Sinequa<\/span>'s Roadmap  Listen to Alexandre Bilger, <span class=\"matchlocations\">Sinequa<\/span>'s <span class=\"matchlocations\">CEO<\/span>, and discover how <span class=\"matchlocations\">Sinequa<\/span> is continuously innovating with its new solutions and capabilities.  Play video  KM World Keynote"
+            "matchlocations": "2843,7,2966,7,3103,7,3275,7,3468,7,3515,7,3525,3,3547,7",
+            "highlightedText": "how <span class=\"matchlocations\">Sinequa<\/span>'s Intelligent Search Platform helps to access information in a single source  how others like Soci\u00e9t\u00e9 G\u00e9n\u00e9rale use <span class=\"matchlocations\">Sinequa<\/span> as part of their Intranet solution to improve productivity  how the partnership with Microsoft supports our customers to provide <span class=\"matchlocations\">Sinequa<\/span> within MS Teams  Alana Cento  Sr. Product Marketing Manager at  Watch the video now  \"Digital Business Collaboration: Making Knowledge Discoverable\"  Discover what <span class=\"matchlocations\">Sinequa<\/span> can do for your business.  Let's have a quick overview of the benefits that our product can give to your company.  Contact us  Get started  Related videos.  Replay Inform Online 2022 - <span class=\"matchlocations\">Sinequa<\/span>'s Roadmap  Listen to Alexandre Bilger, <span class=\"matchlocations\">Sinequa<\/span>'s <span class=\"matchlocations\">CEO<\/span>, and discover how <span class=\"matchlocations\">Sinequa<\/span> is continuously innovating with its new solutions and capabilities.  Play video  KM World Keynote"
           }
         ]
       },
-      "title":"Digital Business Collaboration 2021: Making Knowledge Discoverable - Sinequa",
-      "language":[
+      "title": "Digital Business Collaboration 2021: Making Knowledge Discoverable - Sinequa",
+      "language": [
         "en"
       ],
-      "modified":"2022-08-01 10:33:18",
-      "indexationtime":"2022-08-01 10:33:18",
-      "version":"ifWX520M4\/8hhnBTIUQVIw==",
-      "size":135633,
-      "treepath":[
+      "modified": "2022-08-01 10:33:18",
+      "indexationtime": "2022-08-01 10:33:18",
+      "version": "ifWX520M4\/8hhnBTIUQVIw==",
+      "size": 135633,
+      "treepath": [
         "\/Internet\/www.sinequa.com\/"
       ],
-      "filename":"file.htm",
-      "fileext":"htm",
-      "collection":[
+      "filename": "file.htm",
+      "fileext": "htm",
+      "collection": [
         "\/I_NS1_Internet\/I_Sinequa\/"
       ],
-      "docformat":"Web",
-      "person":[
+      "docformat": "Web",
+      "person": [
         {
-          "value":"MARTIN SAUNDERS",
-          "display":"Martin Saunders",
-          "count":2
+          "value": "MARTIN SAUNDERS",
+          "display": "Martin Saunders",
+          "count": 2
         },
         {
-          "value":"ALANA CENTO",
-          "display":"Alana Cento",
-          "count":1
+          "value": "ALANA CENTO",
+          "display": "Alana Cento",
+          "count": 1
         },
         {
-          "value":"ALEXANDRE BILGER",
-          "display":"Alexandre Bilger",
-          "count":1
+          "value": "ALEXANDRE BILGER",
+          "display": "Alexandre Bilger",
+          "count": 1
         },
         {
-          "value":"SCOTT PARKER",
-          "display":"Scott Parker",
-          "count":1
+          "value": "SCOTT PARKER",
+          "display": "Scott Parker",
+          "count": 1
         }
       ],
-      "company":[
+      "company": [
         {
-          "value":"SINEQUA",
-          "display":"Sinequa",
-          "count":25
+          "value": "SINEQUA",
+          "display": "Sinequa",
+          "count": 25
         },
         {
-          "value":"MICROSOFT",
-          "display":"Microsoft",
-          "count":1
+          "value": "MICROSOFT",
+          "display": "Microsoft",
+          "count": 1
         },
         {
-          "value":"SOCIETE GENERALE",
-          "display":"Soci\u00e9t\u00e9 G\u00e9n\u00e9rale",
-          "count":1
+          "value": "SOCIETE GENERALE",
+          "display": "Soci\u00e9t\u00e9 G\u00e9n\u00e9rale",
+          "count": 1
         }
       ],
-      "geo":[
+      "geo": [
         {
-          "value":"EUROPE",
-          "display":"Europe",
-          "count":1
+          "value": "EUROPE",
+          "display": "Europe",
+          "count": 1
         },
         {
-          "value":"LONDON",
-          "display":"London",
-          "count":1
+          "value": "LONDON",
+          "display": "London",
+          "count": 1
         },
         {
-          "value":"UNITED KINGDOM",
-          "display":"United Kingdom",
-          "count":1
+          "value": "UNITED KINGDOM",
+          "display": "United Kingdom",
+          "count": 1
         }
       ],
-      "wordcount":479,
-      "exacthash":"80h4rsbtoW6epE6c5nmbWg==",
-      "nearhash":"ZR9Cr73dmhfZyZQGCXl1SA==",
-      "partnamelocations":[
+      "wordcount": 479,
+      "exacthash": "80h4rsbtoW6epE6c5nmbWg==",
+      "nearhash": "ZR9Cr73dmhfZyZQGCXl1SA==",
+      "partnamelocations": [
         {
-          "value":"title",
-          "display":"title",
-          "count":1
+          "value": "title",
+          "display": "title",
+          "count": 1
         }
       ],
-      "url1":"https:\/\/www.sinequa.com\/assets\/videos\/digital-business-collaboration-making-knowledge-discoverable\/",
-      "rank":9,
-      "displayTitle":"Digital Business Collaboration 2021: Making Knowledge Discoverable - <span class=\"match-highlight\">Sinequa<\/span>",
-      "relevantExtracts":"Listen to Alexandre Bilger, <b>Sinequa<\/b>&#39;s <b>CEO<\/b>, and discover how <b>Sinequa <\/b>is continuously innovating ... capabilities.... Making Knowledge Discoverable - <b>Sinequa<\/b>... Discover the power of <b>Sinequa<\/b>... <b>Sinequa <\/b>... Github... <b>Sinequa <\/b>University... <b>Sinequa <\/b>Overflow... <b>Sinequa <\/b>... Azure... <b>Sinequa <\/b>... <b>Sinequa <\/b>... <b>Sinequa <\/b>at Digital Business "
+      "url1": "https:\/\/www.sinequa.com\/assets\/videos\/digital-business-collaboration-making-knowledge-discoverable\/",
+      "rank": 9,
+      "displayTitle": "Digital Business Collaboration 2021: Making Knowledge Discoverable - <span class=\"match-highlight\">Sinequa<\/span>",
+      "relevantExtracts": "Listen to Alexandre Bilger, <b>Sinequa<\/b>&#39;s <b>CEO<\/b>, and discover how <b>Sinequa <\/b>is continuously innovating ... capabilities.... Making Knowledge Discoverable - <b>Sinequa<\/b>... Discover the power of <b>Sinequa<\/b>... <b>Sinequa <\/b>... Github... <b>Sinequa <\/b>University... <b>Sinequa <\/b>Overflow... <b>Sinequa <\/b>... Azure... <b>Sinequa <\/b>... <b>Sinequa <\/b>... <b>Sinequa <\/b>at Digital Business "
     },
     {
-      "id":"\/I_NS1_Internet\/I_Sinequa\/|https:\/\/www.sinequa.com\/press\/sinequa-brings-intelligent-search-to-microsoft-teams\/",
-      "databasealias":"I_NS1_Sinequa_Website",
-      "flags":[
+      "id": "\/I_NS1_Internet\/I_Sinequa\/|https:\/\/www.sinequa.com\/press\/sinequa-brings-intelligent-search-to-microsoft-teams\/",
+      "databasealias": "I_NS1_Sinequa_Website",
+      "flags": [
         "h",
         "id"
       ],
-      "globalrelevance":1.919646,
-      "matchingpartnames":[
+      "globalrelevance": 1.919646,
+      "matchingpartnames": [
         "text",
         "title"
       ],
-      "termspresence":[
+      "termspresence": [
         {
-          "term":"CEO",
-          "presence":"found"
+          "term": "CEO",
+          "presence": "found"
         },
         {
-          "term":"Sinequa",
-          "presence":"found"
+          "term": "Sinequa",
+          "presence": "found"
         }
       ],
-      "documentweight":"default",
-      "wordsrelevance":"0.919922",
-      "wordproximityrelevance":"1",
-      "wordscorerelevance":"0.771729",
-      "wordcountrelevance":"2",
-      "meaningrelevance":"1",
-      "extracts":[
+      "documentweight": "default",
+      "wordsrelevance": "0.919922",
+      "wordproximityrelevance": "1",
+      "wordscorerelevance": "0.771729",
+      "wordcountrelevance": "2",
+      "meaningrelevance": "1",
+      "extracts": [
         {
-          "highlighted":"said Alexandre Bilger, {b}CEO{nb} of {b}Sinequa{nb}.",
-          "locations":"5554,38",
-          "originalLocations":"111515,38",
-          "score":"112046"
+          "highlighted": "said Alexandre Bilger, {b}CEO{nb} of {b}Sinequa{nb}.",
+          "locations": "5554,38",
+          "originalLocations": "111515,38",
+          "score": "112046"
         },
         {
-          "highlighted":"{b}Sinequa{nb} Brings Intelligent Search to Microsoft Teams - {b}Sinequa{nb}",
-          "locations":"7643,62",
-          "originalLocations":"145461,62",
-          "score":"4480"
+          "highlighted": "{b}Sinequa{nb} Brings Intelligent Search to Microsoft Teams - {b}Sinequa{nb}",
+          "locations": "7643,62",
+          "originalLocations": "145461,62",
+          "score": "4480"
         },
         {
-          "highlighted":"Unleash the power of {b}Sinequa{nb}",
-          "locations":"3252,28",
-          "originalLocations":"108651,28",
-          "score":"1344"
+          "highlighted": "Unleash the power of {b}Sinequa{nb}",
+          "locations": "3252,28",
+          "originalLocations": "108651,28",
+          "score": "1344"
         },
         {
-          "highlighted":"Building on our partnership with Microsoft and the recent release of {b}Sinequa{nb} for Azure, we are now the only leading enterprise search vendor to bring advanced Insight Apps easily accessible from Teams.",
-          "locations":"5118,201",
-          "originalLocations":"111074,201",
-          "score":"1344"
+          "highlighted": "Building on our partnership with Microsoft and the recent release of {b}Sinequa{nb} for Azure, we are now the only leading enterprise search vendor to bring advanced Insight Apps easily accessible from Teams.",
+          "locations": "5118,201",
+          "originalLocations": "111074,201",
+          "score": "1344"
         },
         {
-          "highlighted":"Discover the power of {b}Sinequa{nb}",
-          "locations":"7541,29",
-          "originalLocations":"138435,29",
-          "score":"1344"
+          "highlighted": "Discover the power of {b}Sinequa{nb}",
+          "locations": "7541,29",
+          "originalLocations": "138435,29",
+          "score": "1344"
         },
         {
-          "highlighted":"{b}Sinequa{nb} on Github",
-          "locations":"256,17",
-          "originalLocations":"24161,17",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} on Github",
+          "locations": "256,17",
+          "originalLocations": "24161,17",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} University",
-          "locations":"291,18",
-          "originalLocations":"24896,18",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} University",
+          "locations": "291,18",
+          "originalLocations": "24896,18",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} Overflow",
-          "locations":"311,16",
-          "originalLocations":"25276,16",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} Overflow",
+          "locations": "311,16",
+          "originalLocations": "25276,16",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} for Azure",
-          "locations":"424,17",
-          "originalLocations":"29832,17",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} for Azure",
+          "locations": "424,17",
+          "originalLocations": "29832,17",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} Partners",
-          "locations":"760,16",
-          "originalLocations":"38345,16",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} Partners",
+          "locations": "760,16",
+          "originalLocations": "38345,16",
+          "score": "896"
         }
       ],
-      "matchlocationsperpartname":[
+      "matchlocationsperpartname": [
         {
-          "matchlocations":[
+          "matchlocations": [
             {
-              "partname":"title",
-              "data":"7643,7,7698,7;145461,7,145516,7"
+              "partname": "title",
+              "data": "7643,7,7698,7;145461,7,145516,7"
             }
           ]
         }
       ],
-      "matchingpassages":{
-        "schemas":[
+      "matchingpassages": {
+        "schemas": [
           {
-            "function":"matchlocations",
-            "schema":{
-              "format":"StringWithSeparators",
-              "separator":";",
-              "innerseparator":",",
-              "schema":[
+            "function": "matchlocations",
+            "schema": {
+              "format": "StringWithSeparators",
+              "separator": ";",
+              "innerseparator": ",",
+              "schema": [
                 {
-                  "name":"columns",
-                  "type":"array",
-                  "fields":[
+                  "name": "columns",
+                  "type": "array",
+                  "fields": [
                     {
-                      "name":"MatchLocations"
+                      "name": "MatchLocations"
                     }
                   ]
                 },
                 {
-                  "name":"locations",
-                  "type":"string",
-                  "subtype":"location"
+                  "name": "locations",
+                  "type": "string",
+                  "subtype": "location"
                 }
               ]
             }
           }
         ],
-        "passages":[
+        "passages": [
           {
-            "id":7,
-            "score":0.99952,
-            "rm.score":0.99952,
-            "kw.score":0.85791,
-            "location":[
+            "id": 7,
+            "score": 0.99952,
+            "rm.score": 0.99952,
+            "kw.score": 0.85791,
+            "location": [
               5116,
               616
             ],
-            "rlocation":[
+            "rlocation": [
               111068,
               5679
             ],
-            "matchlocations":"5187,7,5577,3,5584,7,5621,7,5654,15,5696,7,5724,7",
-            "highlightedText":"\" Building on our partnership with Microsoft and the recent release of <span class=\"matchlocations\">Sinequa<\/span> for Azure, we are now the only leading enterprise search vendor to bring advanced Insight Apps easily accessible from Teams. It is a natural evolution of our platform based on customer demand. Teams is also a highly customizable environment that will open endless possibilities for our partners to build a new user experience for Microsoft Teams customers. \" said Alexandre Bilger, <span class=\"matchlocations\">CEO<\/span> of <span class=\"matchlocations\">Sinequa<\/span>.  For more information about <span class=\"matchlocations\">Sinequa<\/span> for Teams, please visit: <span class=\"matchlocations\">www.sinequa.com<\/span>\/product-enterprise-search\/<span class=\"matchlocations\">sinequa<\/span>-for-teams\/ .  About <span class=\"matchlocations\">Sinequa<\/span>."
+            "matchlocations": "5187,7,5577,3,5584,7,5621,7,5654,15,5696,7,5724,7",
+            "highlightedText": "\" Building on our partnership with Microsoft and the recent release of <span class=\"matchlocations\">Sinequa<\/span> for Azure, we are now the only leading enterprise search vendor to bring advanced Insight Apps easily accessible from Teams. It is a natural evolution of our platform based on customer demand. Teams is also a highly customizable environment that will open endless possibilities for our partners to build a new user experience for Microsoft Teams customers. \" said Alexandre Bilger, <span class=\"matchlocations\">CEO<\/span> of <span class=\"matchlocations\">Sinequa<\/span>.  For more information about <span class=\"matchlocations\">Sinequa<\/span> for Teams, please visit: <span class=\"matchlocations\">www.sinequa.com<\/span>\/product-enterprise-search\/<span class=\"matchlocations\">sinequa<\/span>-for-teams\/ .  About <span class=\"matchlocations\">Sinequa<\/span>."
           }
         ]
       },
-      "title":"Sinequa Brings Intelligent Search to Microsoft Teams - Sinequa",
-      "language":[
+      "title": "Sinequa Brings Intelligent Search to Microsoft Teams - Sinequa",
+      "language": [
         "en"
       ],
-      "modified":"2022-08-01 10:32:54",
-      "indexationtime":"2022-08-01 10:32:54",
-      "version":"RDymrVIulFg9ERSqVj+g5Q==",
-      "size":145374,
-      "treepath":[
+      "modified": "2022-08-01 10:32:54",
+      "indexationtime": "2022-08-01 10:32:54",
+      "version": "RDymrVIulFg9ERSqVj+g5Q==",
+      "size": 145374,
+      "treepath": [
         "\/Internet\/www.sinequa.com\/"
       ],
-      "filename":"file.htm",
-      "fileext":"htm",
-      "collection":[
+      "filename": "file.htm",
+      "fileext": "htm",
+      "collection": [
         "\/I_NS1_Internet\/I_Sinequa\/"
       ],
-      "docformat":"Web",
-      "person":[
+      "docformat": "Web",
+      "person": [
         {
-          "value":"ALEXANDRE BILGER",
-          "display":"Alexandre Bilger",
-          "count":1
+          "value": "ALEXANDRE BILGER",
+          "display": "Alexandre Bilger",
+          "count": 1
         },
         {
-          "value":"PATRICK METAIREAU",
-          "display":"Patrick M\u00e9taireau",
-          "count":1
+          "value": "PATRICK METAIREAU",
+          "display": "Patrick M\u00e9taireau",
+          "count": 1
         }
       ],
-      "company":[
+      "company": [
         {
-          "value":"SINEQUA",
-          "display":"Sinequa",
-          "count":44
+          "value": "SINEQUA",
+          "display": "Sinequa",
+          "count": 44
         },
         {
-          "value":"MICROSOFT",
-          "display":"Microsoft",
-          "count":15
+          "value": "MICROSOFT",
+          "display": "Microsoft",
+          "count": 15
         },
         {
-          "value":"AZURE",
-          "display":"Azure",
-          "count":1
+          "value": "AZURE",
+          "display": "Azure",
+          "count": 1
         }
       ],
-      "geo":[
+      "geo": [
         {
-          "value":"FRANCE",
-          "display":"France",
-          "count":1
+          "value": "FRANCE",
+          "display": "France",
+          "count": 1
         },
         {
-          "value":"NETHERLANDS",
-          "display":"Netherlands",
-          "count":1
+          "value": "NETHERLANDS",
+          "display": "Netherlands",
+          "count": 1
         },
         {
-          "value":"NEW YORK",
-          "display":"New York",
-          "count":1
+          "value": "NEW YORK",
+          "display": "New York",
+          "count": 1
         },
         {
-          "value":"PARIS",
-          "display":"Paris",
-          "count":1
+          "value": "PARIS",
+          "display": "Paris",
+          "count": 1
         },
         {
-          "value":"UNITED STATES",
-          "display":"United States",
-          "count":1
+          "value": "UNITED STATES",
+          "display": "United States",
+          "count": 1
         }
       ],
-      "wordcount":832,
-      "exacthash":"oKclCA5dpUAB2LwYPa7M7Q==",
-      "nearhash":"bvF4e1tvPpmJRiRP63pV+A==",
-      "partnamelocations":[
+      "wordcount": 832,
+      "exacthash": "oKclCA5dpUAB2LwYPa7M7Q==",
+      "nearhash": "bvF4e1tvPpmJRiRP63pV+A==",
+      "partnamelocations": [
         {
-          "value":"title",
-          "display":"title",
-          "count":1
+          "value": "title",
+          "display": "title",
+          "count": 1
         }
       ],
-      "url1":"https:\/\/www.sinequa.com\/press\/sinequa-brings-intelligent-search-to-microsoft-teams\/",
-      "rank":8,
-      "displayTitle":"<span class=\"match-highlight\">Sinequa<\/span> Brings Intelligent Search to Microsoft Teams - <span class=\"match-highlight\">Sinequa<\/span>",
-      "relevantExtracts":"said Alexandre Bilger, <b>CEO <\/b>of <b>Sinequa<\/b>... <b>Sinequa <\/b>Brings Intelligent Search ... Microsoft Teams - <b>Sinequa<\/b>... Unleash the power of <b>Sinequa<\/b>... Building on our ... recent release of <b>Sinequa <\/b>for Azure, we ... Teams.... Discover the power of <b>Sinequa<\/b>... <b>Sinequa <\/b>... Github... <b>Sinequa <\/b>University... <b>Sinequa <\/b>Overflow... <b>Sinequa <\/b>... Azure... <b>Sinequa <\/b>"
+      "url1": "https:\/\/www.sinequa.com\/press\/sinequa-brings-intelligent-search-to-microsoft-teams\/",
+      "rank": 8,
+      "displayTitle": "<span class=\"match-highlight\">Sinequa<\/span> Brings Intelligent Search to Microsoft Teams - <span class=\"match-highlight\">Sinequa<\/span>",
+      "relevantExtracts": "said Alexandre Bilger, <b>CEO <\/b>of <b>Sinequa<\/b>... <b>Sinequa <\/b>Brings Intelligent Search ... Microsoft Teams - <b>Sinequa<\/b>... Unleash the power of <b>Sinequa<\/b>... Building on our ... recent release of <b>Sinequa <\/b>for Azure, we ... Teams.... Discover the power of <b>Sinequa<\/b>... <b>Sinequa <\/b>... Github... <b>Sinequa <\/b>University... <b>Sinequa <\/b>Overflow... <b>Sinequa <\/b>... Azure... <b>Sinequa <\/b>"
     },
     {
-      "id":"\/I_NS1_Internet\/I_Sinequa\/|https:\/\/www.sinequa.com\/assets\/videos\/ambient-search-for-the-modern-digital-workplace\/",
-      "databasealias":"I_NS1_Sinequa_Website",
-      "flags":[
+      "id": "\/I_NS1_Internet\/I_Sinequa\/|https:\/\/www.sinequa.com\/assets\/videos\/ambient-search-for-the-modern-digital-workplace\/",
+      "databasealias": "I_NS1_Sinequa_Website",
+      "flags": [
         "h",
         "id"
       ],
-      "globalrelevance":1.945172,
-      "matchingpartnames":[
+      "globalrelevance": 1.945172,
+      "matchingpartnames": [
         "text",
         "title"
       ],
-      "termspresence":[
+      "termspresence": [
         {
-          "term":"CEO",
-          "presence":"found"
+          "term": "CEO",
+          "presence": "found"
         },
         {
-          "term":"Sinequa",
-          "presence":"found"
+          "term": "Sinequa",
+          "presence": "found"
         }
       ],
-      "documentweight":"default",
-      "wordsrelevance":"0.945313",
-      "wordproximityrelevance":"1",
-      "wordscorerelevance":"0.843994",
-      "wordcountrelevance":"2",
-      "meaningrelevance":"1",
-      "extracts":[
+      "documentweight": "default",
+      "wordsrelevance": "0.945313",
+      "wordproximityrelevance": "1",
+      "wordscorerelevance": "0.843994",
+      "wordcountrelevance": "2",
+      "meaningrelevance": "1",
+      "extracts": [
         {
-          "highlighted":"Sit down with Enterprise Search experts Martin White, Managing Director of Intranet Focus, and Alexandre Bilger, {b}CEO{nb} of {b}Sinequa{nb}.",
-          "locations":"3623,128",
-          "originalLocations":"116149,128",
-          "score":"112046"
+          "highlighted": "Sit down with Enterprise Search experts Martin White, Managing Director of Intranet Focus, and Alexandre Bilger, {b}CEO{nb} of {b}Sinequa{nb}.",
+          "locations": "3623,128",
+          "originalLocations": "116149,128",
+          "score": "112046"
         },
         {
-          "highlighted":"Listen to Alexandre Bilger, {b}Sinequa{nb}'s {b}CEO{nb}, and discover how {b}Sinequa{nb} is continuously innovating with its new solutions and capabilities.",
-          "locations":"3812,135",
-          "originalLocations":"117475,135",
-          "score":"65280"
+          "highlighted": "Listen to Alexandre Bilger, {b}Sinequa{nb}'s {b}CEO{nb}, and discover how {b}Sinequa{nb} is continuously innovating with its new solutions and capabilities.",
+          "locations": "3812,135",
+          "originalLocations": "117475,135",
+          "score": "65280"
         },
         {
-          "highlighted":"{b}Sinequa{nb}",
-          "locations":"4361,7,61,7",
-          "originalLocations":"136024,7,928,7",
-          "score":"4480"
+          "highlighted": "{b}Sinequa{nb}",
+          "locations": "4361,7,61,7",
+          "originalLocations": "136024,7,928,7",
+          "score": "4480"
         },
         {
-          "highlighted":"Discover the power of {b}Sinequa{nb}",
-          "locations":"4198,29",
-          "originalLocations":"128935,29",
-          "score":"1344"
+          "highlighted": "Discover the power of {b}Sinequa{nb}",
+          "locations": "4198,29",
+          "originalLocations": "128935,29",
+          "score": "1344"
         },
         {
-          "highlighted":"{b}Sinequa{nb} on Github",
-          "locations":"262,17",
-          "originalLocations":"24763,17",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} on Github",
+          "locations": "262,17",
+          "originalLocations": "24763,17",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} University",
-          "locations":"297,18",
-          "originalLocations":"25498,18",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} University",
+          "locations": "297,18",
+          "originalLocations": "25498,18",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} Overflow",
-          "locations":"317,16",
-          "originalLocations":"25878,16",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} Overflow",
+          "locations": "317,16",
+          "originalLocations": "25878,16",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} for Azure",
-          "locations":"430,17,1107,17",
-          "originalLocations":"30435,17,64154,17",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} for Azure",
+          "locations": "430,17,1107,17",
+          "originalLocations": "30435,17,64154,17",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} Partners",
-          "locations":"766,16",
-          "originalLocations":"38948,16",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} Partners",
+          "locations": "766,16",
+          "originalLocations": "38948,16",
+          "score": "896"
         },
         {
-          "highlighted":"{b}Sinequa{nb} Partners \u2192",
-          "locations":"1525,18",
-          "originalLocations":"84761,134",
-          "score":"896"
+          "highlighted": "{b}Sinequa{nb} Partners \u2192",
+          "locations": "1525,18",
+          "originalLocations": "84761,134",
+          "score": "896"
         }
       ],
-      "matchlocationsperpartname":[
+      "matchlocationsperpartname": [
         {
-          "matchlocations":[
+          "matchlocations": [
             {
-              "partname":"title",
-              "data":"4361,7;136024,7"
+              "partname": "title",
+              "data": "4361,7;136024,7"
             }
           ]
         }
       ],
-      "matchingpassages":{
-        "schemas":[
+      "matchingpassages": {
+        "schemas": [
           {
-            "function":"matchlocations",
-            "schema":{
-              "format":"StringWithSeparators",
-              "separator":";",
-              "innerseparator":",",
-              "schema":[
+            "function": "matchlocations",
+            "schema": {
+              "format": "StringWithSeparators",
+              "separator": ";",
+              "innerseparator": ",",
+              "schema": [
                 {
-                  "name":"columns",
-                  "type":"array",
-                  "fields":[
+                  "name": "columns",
+                  "type": "array",
+                  "fields": [
                     {
-                      "name":"MatchLocations"
+                      "name": "MatchLocations"
                     }
                   ]
                 },
                 {
-                  "name":"locations",
-                  "type":"string",
-                  "subtype":"location"
+                  "name": "locations",
+                  "type": "string",
+                  "subtype": "location"
                 }
               ]
             }
           }
         ],
-        "passages":[
+        "passages": [
           {
-            "id":6,
-            "score":0.99969,
-            "rm.score":0.99969,
-            "kw.score":0.86376,
-            "location":[
+            "id": 6,
+            "score": 0.99969,
+            "rm.score": 0.99969,
+            "kw.score": 0.86376,
+            "location": [
               3812,
               556
             ],
-            "rlocation":[
+            "rlocation": [
               117475,
               18556
             ],
-            "matchlocations":"3840,7,3850,3,3872,7,4135,7,4220,7,4248,7,4361,7",
-            "highlightedText":"Listen to Alexandre Bilger, <span class=\"matchlocations\">Sinequa<\/span>'s <span class=\"matchlocations\">CEO<\/span>, and discover how <span class=\"matchlocations\">Sinequa<\/span> is continuously innovating with its new solutions and capabilities.  Play video  Product  Company  Industries  Career  Solutions  Resources  Blog  Assets  Events  Press  Webinars  Help center  Download center  Technical documentation  The Partner Corner  <span class=\"matchlocations\">Sinequa<\/span> University  Technical forum  Customer support  Github  Discover the power of <span class=\"matchlocations\">Sinequa<\/span>  Get started  @2022 <span class=\"matchlocations\">Sinequa<\/span>. All rights reserved | Privacy policy  \u202e\u2064\u202d  Forrester: Ambient Search for the Modern Digital Workplace | <span class=\"matchlocations\">Sinequa<\/span>"
+            "matchlocations": "3840,7,3850,3,3872,7,4135,7,4220,7,4248,7,4361,7",
+            "highlightedText": "Listen to Alexandre Bilger, <span class=\"matchlocations\">Sinequa<\/span>'s <span class=\"matchlocations\">CEO<\/span>, and discover how <span class=\"matchlocations\">Sinequa<\/span> is continuously innovating with its new solutions and capabilities.  Play video  Product  Company  Industries  Career  Solutions  Resources  Blog  Assets  Events  Press  Webinars  Help center  Download center  Technical documentation  The Partner Corner  <span class=\"matchlocations\">Sinequa<\/span> University  Technical forum  Customer support  Github  Discover the power of <span class=\"matchlocations\">Sinequa<\/span>  Get started  @2022 <span class=\"matchlocations\">Sinequa<\/span>. All rights reserved | Privacy policy  \u202e\u2064\u202d  Forrester: Ambient Search for the Modern Digital Workplace | <span class=\"matchlocations\">Sinequa<\/span>"
           }
         ]
       },
-      "title":"Forrester: Ambient Search for the Modern Digital Workplace | Sinequa",
-      "language":[
+      "title": "Forrester: Ambient Search for the Modern Digital Workplace | Sinequa",
+      "language": [
         "en"
       ],
-      "modified":"2022-08-01 10:34:40",
-      "indexationtime":"2022-08-01 10:34:40",
-      "version":"wF3Oa6DB\/gwm5ov7cmjj2w==",
-      "size":135876,
-      "treepath":[
+      "modified": "2022-08-01 10:34:40",
+      "indexationtime": "2022-08-01 10:34:40",
+      "version": "wF3Oa6DB\/gwm5ov7cmjj2w==",
+      "size": 135876,
+      "treepath": [
         "\/Internet\/www.sinequa.com\/"
       ],
-      "filename":"file.htm",
-      "fileext":"htm",
-      "collection":[
+      "filename": "file.htm",
+      "fileext": "htm",
+      "collection": [
         "\/I_NS1_Internet\/I_Sinequa\/"
       ],
-      "docformat":"Web",
-      "person":[
+      "docformat": "Web",
+      "person": [
         {
-          "value":"ALEXANDRE BILGER",
-          "display":"Alexandre Bilger",
-          "count":2
+          "value": "ALEXANDRE BILGER",
+          "display": "Alexandre Bilger",
+          "count": 2
         },
         {
-          "value":"MARTIN WHITE",
-          "display":"Martin White",
-          "count":1
+          "value": "MARTIN WHITE",
+          "display": "Martin White",
+          "count": 1
         },
         {
-          "value":"MIKE GAULTIERI",
-          "display":"Mike Gaultieri",
-          "count":1
+          "value": "MIKE GAULTIERI",
+          "display": "Mike Gaultieri",
+          "count": 1
         }
       ],
-      "company":[
+      "company": [
         {
-          "value":"SINEQUA",
-          "display":"Sinequa",
-          "count":21
+          "value": "SINEQUA",
+          "display": "Sinequa",
+          "count": 21
         }
       ],
-      "wordcount":469,
-      "exacthash":"yfCIYJDm8Ng42n2mHV9cPA==",
-      "nearhash":"urrj2LhsodLTHM4NZxLe+Q==",
-      "partnamelocations":[
+      "wordcount": 469,
+      "exacthash": "yfCIYJDm8Ng42n2mHV9cPA==",
+      "nearhash": "urrj2LhsodLTHM4NZxLe+Q==",
+      "partnamelocations": [
         {
-          "value":"title",
-          "display":"title",
-          "count":1
+          "value": "title",
+          "display": "title",
+          "count": 1
         }
       ],
-      "url1":"https:\/\/www.sinequa.com\/assets\/videos\/ambient-search-for-the-modern-digital-workplace\/",
-      "rank":1,
-      "displayTitle":"Forrester: Ambient Search for the Modern Digital Workplace | <span class=\"match-highlight\">Sinequa<\/span>",
-      "relevantExtracts":"Sit down with ... and Alexandre Bilger, <b>CEO <\/b>of <b>Sinequa<\/b>... Listen to Alexandre Bilger, <b>Sinequa<\/b>&#39;s <b>CEO<\/b>, and discover how <b>Sinequa <\/b>is continuously innovating ... capabilities.... <b>Sinequa<\/b>... Discover the power of <b>Sinequa<\/b>... <b>Sinequa <\/b>... Github... <b>Sinequa <\/b>University... <b>Sinequa <\/b>Overflow... <b>Sinequa <\/b>... Azure... <b>Sinequa <\/b>Partners... <b>Sinequa <\/b>Partners "
+      "url1": "https:\/\/www.sinequa.com\/assets\/videos\/ambient-search-for-the-modern-digital-workplace\/",
+      "rank": 1,
+      "displayTitle": "Forrester: Ambient Search for the Modern Digital Workplace | <span class=\"match-highlight\">Sinequa<\/span>",
+      "relevantExtracts": "Sit down with ... and Alexandre Bilger, <b>CEO <\/b>of <b>Sinequa<\/b>... Listen to Alexandre Bilger, <b>Sinequa<\/b>&#39;s <b>CEO<\/b>, and discover how <b>Sinequa <\/b>is continuously innovating ... capabilities.... <b>Sinequa<\/b>... Discover the power of <b>Sinequa<\/b>... <b>Sinequa <\/b>... Github... <b>Sinequa <\/b>University... <b>Sinequa <\/b>Overflow... <b>Sinequa <\/b>... Azure... <b>Sinequa <\/b>Partners... <b>Sinequa <\/b>Partners "
     },
     {
-      "id":"\/I_NS1_Tools\/I_Confluence\/|1398145029",
-      "databasealias":"I_NS1_Confluence",
-      "flags":[
+      "id": "\/I_NS1_Tools\/I_Confluence\/|1398145029",
+      "databasealias": "I_NS1_Confluence",
+      "flags": [
         "h",
         "id"
       ],
-      "globalrelevance":1.936338,
-      "matchingpartnames":[
+      "globalrelevance": 1.936338,
+      "matchingpartnames": [
         "text"
       ],
-      "termspresence":[
+      "termspresence": [
         {
-          "term":"CEO",
-          "presence":"found"
+          "term": "CEO",
+          "presence": "found"
         },
         {
-          "term":"Sinequa",
-          "presence":"found"
+          "term": "Sinequa",
+          "presence": "found"
         }
       ],
-      "documentweight":"default",
-      "wordsrelevance":"0.936523",
-      "wordproximityrelevance":"1",
-      "wordscorerelevance":"0.818604",
-      "wordcountrelevance":"2",
-      "meaningrelevance":"1",
-      "extracts":[
+      "documentweight": "default",
+      "wordsrelevance": "0.936523",
+      "wordproximityrelevance": "1",
+      "wordscorerelevance": "0.818604",
+      "wordcountrelevance": "2",
+      "meaningrelevance": "1",
+      "extracts": [
         {
-          "highlighted":"Who is the {b}CEO{nb} of {b}Sinequa{nb}?",
-          "locations":"1600,26",
-          "originalLocations":"9703,26",
-          "score":"165793"
+          "highlighted": "Who is the {b}CEO{nb} of {b}Sinequa{nb}?",
+          "locations": "1600,26",
+          "originalLocations": "9703,26",
+          "score": "165793"
         },
         {
-          "highlighted":"{b}CEO{nb}\", \"Name\" :",
-          "locations":"1333,14,2352,14,3577,14",
-          "originalLocations":"9146,37,11685,41,14952,39",
-          "score":"32640"
+          "highlighted": "{b}CEO{nb}\", \"Name\" :",
+          "locations": "1333,14,2352,14,3577,14",
+          "originalLocations": "9146,37,11685,41,14952,39",
+          "score": "32640"
         },
         {
-          "highlighted":"{b}CEO{nb}\", \"weight\" :",
-          "locations":"2142,16",
-          "originalLocations":"11087,39",
-          "score":"32640"
+          "highlighted": "{b}CEO{nb}\", \"weight\" :",
+          "locations": "2142,16",
+          "originalLocations": "11087,39",
+          "score": "32640"
         },
         {
-          "highlighted":"{b}CEO{nb}\", \"language\" :",
-          "locations":"2225,18",
-          "originalLocations":"11270,41",
-          "score":"32640"
+          "highlighted": "{b}CEO{nb}\", \"language\" :",
+          "locations": "2225,18",
+          "originalLocations": "11270,41",
+          "score": "32640"
         },
         {
-          "highlighted":"{b}CEO{nb}\" }, { \"text\" :",
-          "locations":"2275,18,2295,21",
-          "originalLocations":"11417,65,11489,68",
-          "score":"32640"
+          "highlighted": "{b}CEO{nb}\" }, { \"text\" :",
+          "locations": "2275,18,2295,21",
+          "originalLocations": "11417,65,11489,68",
+          "score": "32640"
         },
         {
-          "highlighted":"{b}ceo{nb}\" } ], \"slots\" :",
-          "locations":"2318,19",
-          "originalLocations":"11564,60",
-          "score":"28560"
+          "highlighted": "{b}ceo{nb}\" } ], \"slots\" :",
+          "locations": "2318,19",
+          "originalLocations": "11564,60",
+          "score": "28560"
         },
         {
-          "highlighted":"{b}Sinequa{nb}\", \"Name\" :",
-          "locations":"1433,18",
-          "originalLocations":"9368,41",
-          "score":"0"
+          "highlighted": "{b}Sinequa{nb}\", \"Name\" :",
+          "locations": "1433,18",
+          "originalLocations": "9368,41",
+          "score": "0"
         },
         {
-          "highlighted":"{b}Sinequa{nb}\", \"weight\" :",
-          "locations":"2609,20",
-          "originalLocations":"12353,43",
-          "score":"0"
+          "highlighted": "{b}Sinequa{nb}\", \"weight\" :",
+          "locations": "2609,20",
+          "originalLocations": "12353,43",
+          "score": "0"
         },
         {
-          "highlighted":"{b}Sinequa{nb}\", \"language\" :",
-          "locations":"2696,22",
-          "originalLocations":"12540,45",
-          "score":"0"
+          "highlighted": "{b}Sinequa{nb}\", \"language\" :",
+          "locations": "2696,22",
+          "originalLocations": "12540,45",
+          "score": "0"
         },
         {
-          "highlighted":"{b}Sinequa{nb}\" } ], \"entities\" :",
-          "locations":"2750,26",
-          "originalLocations":"12691,67",
-          "score":"0"
+          "highlighted": "{b}Sinequa{nb}\" } ], \"entities\" :",
+          "locations": "2750,26",
+          "originalLocations": "12691,67",
+          "score": "0"
         }
       ],
-      "matchlocationsperpartname":[
+      "matchlocationsperpartname": [
         {
-          "matchlocations":[
+          "matchlocations": [
 
           ]
         }
       ],
-      "matchingpassages":{
-        "schemas":[
+      "matchingpassages": {
+        "schemas": [
           {
-            "function":"matchlocations",
-            "schema":{
-              "format":"StringWithSeparators",
-              "separator":";",
-              "innerseparator":",",
-              "schema":[
+            "function": "matchlocations",
+            "schema": {
+              "format": "StringWithSeparators",
+              "separator": ";",
+              "innerseparator": ",",
+              "schema": [
                 {
-                  "name":"columns",
-                  "type":"array",
-                  "fields":[
+                  "name": "columns",
+                  "type": "array",
+                  "fields": [
                     {
-                      "name":"MatchLocations"
+                      "name": "MatchLocations"
                     }
                   ]
                 },
                 {
-                  "name":"locations",
-                  "type":"string",
-                  "subtype":"location"
+                  "name": "locations",
+                  "type": "string",
+                  "subtype": "location"
                 }
               ]
             }
           }
         ],
-        "passages":[
+        "passages": [
           {
-            "id":3,
-            "score":0.99974,
-            "rm.score":0.99974,
-            "kw.score":0.90795,
-            "location":[
+            "id": 3,
+            "score": 0.99974,
+            "rm.score": 0.99974,
+            "kw.score": 0.90795,
+            "location": [
               1450,
               634
             ],
-            "rlocation":[
+            "rlocation": [
               9408,
               1489
             ],
-            "matchlocations":"1611,3,1618,7",
-            "highlightedText":": \"company\", \"Offset\" : 18, \"Length\" : 7, \"Score\" : 0.944759786128998 } ], \"ServingTime\" : \"31 ms\" }, \"queryAnalysis\" : { \"initial\" : true, \"text\" : \"Who is the <span class=\"matchlocations\">CEO<\/span> of <span class=\"matchlocations\">Sinequa<\/span>?\", \"queryLanguage\" : \"en\", \"elements\" : [ { \"text\" : \"Who\", \"weight\" : 1, \"offset\" : 0, \"length\" : 3, \"stopword\" : true, \"baseform\" : \"who\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"who\" } ] }, { \"text\" : \"is\", \"weight\" : 1, \"offset\" : 4, \"length\" : 2, \"stopword\" : true, \"baseform\" : \"be\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"be\" } ] }, { \"text\" : \"the\", \"weight\" : 1, \"offset\" : 7, \"length\" : 3, \"stopword\" : true, \"baseform\" : \"the\", \"language\""
+            "matchlocations": "1611,3,1618,7",
+            "highlightedText": ": \"company\", \"Offset\" : 18, \"Length\" : 7, \"Score\" : 0.944759786128998 } ], \"ServingTime\" : \"31 ms\" }, \"queryAnalysis\" : { \"initial\" : true, \"text\" : \"Who is the <span class=\"matchlocations\">CEO<\/span> of <span class=\"matchlocations\">Sinequa<\/span>?\", \"queryLanguage\" : \"en\", \"elements\" : [ { \"text\" : \"Who\", \"weight\" : 1, \"offset\" : 0, \"length\" : 3, \"stopword\" : true, \"baseform\" : \"who\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"who\" } ] }, { \"text\" : \"is\", \"weight\" : 1, \"offset\" : 4, \"length\" : 2, \"stopword\" : true, \"baseform\" : \"be\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"be\" } ] }, { \"text\" : \"the\", \"weight\" : 1, \"offset\" : 7, \"length\" : 3, \"stopword\" : true, \"baseform\" : \"the\", \"language\""
           },
           {
-            "id":6,
-            "score":0.62031,
-            "rm.score":0.62031,
-            "kw.score":0.90869,
-            "location":[
+            "id": 6,
+            "score": 0.62031,
+            "rm.score": 0.62031,
+            "kw.score": 0.90869,
+            "location": [
               2211,
               624
             ],
-            "rlocation":[
+            "rlocation": [
               11241,
               1681
             ],
-            "matchlocations":"2225,3,2275,3,2295,6,2318,3,2352,3,2609,7,2696,7,2750,7,2815,7",
-            "highlightedText":"\"baseform\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"<span class=\"matchlocations\">CEO<\/span>\" }, { \"text\" : \"<span class=\"matchlocations\">C.E.O.<\/span>\" }, { \"text\" : \"<span class=\"matchlocations\">ceo<\/span>\" } ], \"slots\" : [ { \"Text\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"Name\" : \"job_title\", \"Offset\" : 11, \"Length\" : 3, \"Score\" : 0.996078431606293 } ] }, { \"text\" : \"of\", \"weight\" : 1, \"offset\" : 15, \"length\" : 2, \"stopword\" : true, \"baseform\" : \"of\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"of\" } ] }, { \"text\" : \"<span class=\"matchlocations\">Sinequa<\/span>\", \"weight\" : 1, \"offset\" : 18, \"length\" : 7, \"stopword\" : false, \"baseform\" : \"<span class=\"matchlocations\">Sinequa<\/span>\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"<span class=\"matchlocations\">Sinequa<\/span>\" } ], \"entities\" : [ { \"entity\" : \"itcompany\", \"text\" : \"<span class=\"matchlocations\">Sinequa<\/span>\", \"weight\" :"
+            "matchlocations": "2225,3,2275,3,2295,6,2318,3,2352,3,2609,7,2696,7,2750,7,2815,7",
+            "highlightedText": "\"baseform\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"<span class=\"matchlocations\">CEO<\/span>\" }, { \"text\" : \"<span class=\"matchlocations\">C.E.O.<\/span>\" }, { \"text\" : \"<span class=\"matchlocations\">ceo<\/span>\" } ], \"slots\" : [ { \"Text\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"Name\" : \"job_title\", \"Offset\" : 11, \"Length\" : 3, \"Score\" : 0.996078431606293 } ] }, { \"text\" : \"of\", \"weight\" : 1, \"offset\" : 15, \"length\" : 2, \"stopword\" : true, \"baseform\" : \"of\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"of\" } ] }, { \"text\" : \"<span class=\"matchlocations\">Sinequa<\/span>\", \"weight\" : 1, \"offset\" : 18, \"length\" : 7, \"stopword\" : false, \"baseform\" : \"<span class=\"matchlocations\">Sinequa<\/span>\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"<span class=\"matchlocations\">Sinequa<\/span>\" } ], \"entities\" : [ { \"entity\" : \"itcompany\", \"text\" : \"<span class=\"matchlocations\">Sinequa<\/span>\", \"weight\" :"
           },
           {
-            "id":5,
-            "score":0.00441,
-            "rm.score":0.00441,
-            "kw.score":0.86987,
-            "location":[
+            "id": 5,
+            "score": 0.00441,
+            "rm.score": 0.00441,
+            "kw.score": 0.86987,
+            "location": [
               1970,
               603
             ],
-            "rlocation":[
+            "rlocation": [
               10625,
               1597
             ],
-            "matchlocations":"2142,3,2225,3,2275,3,2295,6,2318,3,2352,3",
-            "highlightedText":"] }, { \"text\" : \"the\", \"weight\" : 1, \"offset\" : 7, \"length\" : 3, \"stopword\" : true, \"baseform\" : \"the\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"the\" } ] }, { \"text\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"weight\" : 1, \"offset\" : 11, \"length\" : 3, \"stopword\" : false, \"baseform\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"<span class=\"matchlocations\">CEO<\/span>\" }, { \"text\" : \"<span class=\"matchlocations\">C.E.O.<\/span>\" }, { \"text\" : \"<span class=\"matchlocations\">ceo<\/span>\" } ], \"slots\" : [ { \"Text\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"Name\" : \"job_title\", \"Offset\" : 11, \"Length\" : 3, \"Score\" : 0.996078431606293 } ] }, { \"text\" : \"of\", \"weight\" : 1, \"offset\" : 15, \"length\" : 2, \"stopword\" : true, \"baseform\" : \"of\", \"language\" : \"en\", \"lemmas\" : ["
+            "matchlocations": "2142,3,2225,3,2275,3,2295,6,2318,3,2352,3",
+            "highlightedText": "] }, { \"text\" : \"the\", \"weight\" : 1, \"offset\" : 7, \"length\" : 3, \"stopword\" : true, \"baseform\" : \"the\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"the\" } ] }, { \"text\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"weight\" : 1, \"offset\" : 11, \"length\" : 3, \"stopword\" : false, \"baseform\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"language\" : \"en\", \"lemmas\" : [ { \"text\" : \"<span class=\"matchlocations\">CEO<\/span>\" }, { \"text\" : \"<span class=\"matchlocations\">C.E.O.<\/span>\" }, { \"text\" : \"<span class=\"matchlocations\">ceo<\/span>\" } ], \"slots\" : [ { \"Text\" : \"<span class=\"matchlocations\">CEO<\/span>\", \"Name\" : \"job_title\", \"Offset\" : 11, \"Length\" : 3, \"Score\" : 0.996078431606293 } ] }, { \"text\" : \"of\", \"weight\" : 1, \"offset\" : 15, \"length\" : 2, \"stopword\" : true, \"baseform\" : \"of\", \"language\" : \"en\", \"lemmas\" : ["
           }
         ]
       },
-      "title":"Readme",
-      "language":[
+      "title": "Readme",
+      "language": [
         "en"
       ],
-      "authors":[
+      "authors": [
         "Ren\u00e9 Leclercq"
       ],
-      "modified":"2021-03-18 15:57:34",
-      "indexationtime":"2022-09-09 14:27:41",
-      "version":"2021-03-18T14:57:34.437Z",
-      "size":23983,
-      "treepath":[
+      "modified": "2021-03-18 15:57:34",
+      "indexationtime": "2022-09-09 14:27:41",
+      "version": "2021-03-18T14:57:34.437Z",
+      "size": 23983,
+      "treepath": [
         "\/Intranet Portals\/Confluence\/R&D\/Projects\/Query Intent V2 (QI V2)\/"
       ],
-      "filename":"Readme",
-      "fileext":"htm",
-      "collection":[
+      "filename": "Readme",
+      "fileext": "htm",
+      "collection": [
         "\/I_NS1_Tools\/I_Confluence\/"
       ],
-      "docformat":"Web",
-      "doctype":"Page",
-      "person":[
+      "docformat": "Web",
+      "doctype": "Page",
+      "person": [
         {
-          "value":"JOHN DOE",
-          "display":"John Doe",
-          "count":2
+          "value": "JOHN DOE",
+          "display": "John Doe",
+          "count": 2
         },
         {
-          "value":"RENE LE CLERCQ",
-          "display":"Ren\u00e9 Le Clercq",
-          "count":1
+          "value": "RENE LE CLERCQ",
+          "display": "Ren\u00e9 Le Clercq",
+          "count": 1
         }
       ],
-      "company":[
+      "company": [
         {
-          "value":"SINEQUA",
-          "display":"Sinequa",
-          "count":13
+          "value": "SINEQUA",
+          "display": "Sinequa",
+          "count": 13
         }
       ],
-      "geo":[
+      "geo": [
         {
-          "value":"PARIS",
-          "display":"Paris",
-          "count":3
+          "value": "PARIS",
+          "display": "Paris",
+          "count": 3
         }
       ],
-      "wordcount":828,
-      "exacthash":"AUsbB13ick466\/JIAYG0Nw==",
-      "nearhash":"WjRIxtw\/lrpdiAoGF84hRA==",
-      "partnamelocations":[
+      "wordcount": 828,
+      "exacthash": "AUsbB13ick466\/JIAYG0Nw==",
+      "nearhash": "WjRIxtw\/lrpdiAoGF84hRA==",
+      "partnamelocations": [
         {
-          "value":"title",
-          "display":"title",
-          "count":1
+          "value": "title",
+          "display": "title",
+          "count": 1
         }
       ],
-      "url1":"https:\/\/sinequa.atlassian.net\/wiki\/spaces\/PRODUCT\/pages\/1398145029\/Readme",
-      "sinequaauthors":[
+      "url1": "https:\/\/sinequa.atlassian.net\/wiki\/spaces\/PRODUCT\/pages\/1398145029\/Readme",
+      "sinequaauthors": [
         "Ren\u00e9 Leclercq"
       ],
-      "objecttype":"Documentation",
-      "objecttypeprimary":"Documentation",
-      "rank":2,
-      "displayTitle":"Readme",
-      "relevantExtracts":"Who is the <b>CEO <\/b>of <b>Sinequa<\/b>... <b>CEO<\/b>&quot;, &quot;Name&quot; ... <b>CEO<\/b>&quot;, &quot;weight&quot; ... <b>CEO<\/b>&quot;, &quot;language&quot; ... <b>CEO<\/b>&quot; }, { &quot;text&quot; ... <b>ceo<\/b>&quot; } ], &quot;slots&quot; ... <b>Sinequa<\/b>&quot;, &quot;Name&quot; ... <b>Sinequa<\/b>&quot;, &quot;weight&quot; ... <b>Sinequa<\/b>&quot;, &quot;language&quot; ... <b>Sinequa<\/b>&quot; } ], &quot;entities&quot; "
+      "objecttype": "Documentation",
+      "objecttypeprimary": "Documentation",
+      "rank": 2,
+      "displayTitle": "Readme",
+      "relevantExtracts": "Who is the <b>CEO <\/b>of <b>Sinequa<\/b>... <b>CEO<\/b>&quot;, &quot;Name&quot; ... <b>CEO<\/b>&quot;, &quot;weight&quot; ... <b>CEO<\/b>&quot;, &quot;language&quot; ... <b>CEO<\/b>&quot; }, { &quot;text&quot; ... <b>ceo<\/b>&quot; } ], &quot;slots&quot; ... <b>Sinequa<\/b>&quot;, &quot;Name&quot; ... <b>Sinequa<\/b>&quot;, &quot;weight&quot; ... <b>Sinequa<\/b>&quot;, &quot;language&quot; ... <b>Sinequa<\/b>&quot; } ], &quot;entities&quot; "
     },
     {
-      "id":"\/I_NS1_Tools\/I_Loopio\/|539277",
-      "databasealias":"I_NS1_Loopio",
-      "flags":[
+      "id": "\/I_NS1_Tools\/I_Loopio\/|539277",
+      "databasealias": "I_NS1_Loopio",
+      "flags": [
         "h",
         "id"
       ],
-      "globalrelevance":1.920726,
-      "matchingpartnames":[
+      "globalrelevance": 1.920726,
+      "matchingpartnames": [
         "text",
         "rfp_answers"
       ],
-      "termspresence":[
+      "termspresence": [
         {
-          "term":"CEO",
-          "presence":"found"
+          "term": "CEO",
+          "presence": "found"
         },
         {
-          "term":"Sinequa",
-          "presence":"found"
+          "term": "Sinequa",
+          "presence": "found"
         }
       ],
-      "documentweight":"default",
-      "wordsrelevance":"0.920898",
-      "wordproximityrelevance":"1",
-      "wordscorerelevance":"0.77417",
-      "wordcountrelevance":"2",
-      "meaningrelevance":"1",
-      "extracts":[
+      "documentweight": "default",
+      "wordsrelevance": "0.920898",
+      "wordproximityrelevance": "1",
+      "wordscorerelevance": "0.77417",
+      "wordcountrelevance": "2",
+      "meaningrelevance": "1",
+      "extracts": [
         {
-          "highlighted":"In 2006-7, our current {b}CEO{nb}, Alexandre Bilger and his associate acquired the technology and company.",
-          "locations":"676,99,4443,99",
-          "originalLocations":"1048,99,5459,99",
-          "score":"32640"
+          "highlighted": "In 2006-7, our current {b}CEO{nb}, Alexandre Bilger and his associate acquired the technology and company.",
+          "locations": "676,99,4443,99",
+          "originalLocations": "1048,99,5459,99",
+          "score": "32640"
         },
         {
-          "highlighted":"{b}Sinequa{nb} began its existence in France as a private research lab working on Natural Language Processing and Semantic analysis of large textual datasets.",
-          "locations":"298,151",
-          "originalLocations":"664,151",
-          "score":"0"
+          "highlighted": "{b}Sinequa{nb} began its existence in France as a private research lab working on Natural Language Processing and Semantic analysis of large textual datasets.",
+          "locations": "298,151",
+          "originalLocations": "664,151",
+          "score": "0"
         },
         {
-          "highlighted":"Since then, {b}Sinequa{nb} has remained focused on this singular mission with a single product, an end-to-end platform currently in its version 11",
-          "locations":"978,139",
-          "originalLocations":"1350,139",
-          "score":"0"
+          "highlighted": "Since then, {b}Sinequa{nb} has remained focused on this singular mission with a single product, an end-to-end platform currently in its version 11",
+          "locations": "978,139",
+          "originalLocations": "1350,139",
+          "score": "0"
         },
         {
-          "highlighted":"Key milestones for {b}Sinequa{nb} include year over year double-digit growth ",
-          "locations":"1119,70",
-          "originalLocations":"1509,70",
-          "score":"0"
+          "highlighted": "Key milestones for {b}Sinequa{nb} include year over year double-digit growth ",
+          "locations": "1119,70",
+          "originalLocations": "1509,70",
+          "score": "0"
         },
         {
-          "highlighted":"The core business continues to be singularly focused on the evolution of the {b}Sinequa{nb} Cognitive search and analytics platform.",
-          "locations":"1563,125",
-          "originalLocations":"1955,125",
-          "score":"0"
+          "highlighted": "The core business continues to be singularly focused on the evolution of the {b}Sinequa{nb} Cognitive search and analytics platform.",
+          "locations": "1563,125",
+          "originalLocations": "1955,125",
+          "score": "0"
         },
         {
-          "highlighted":"About 30% of {b}Sinequa{nb}'s staff works in R&D to support the constant evolution of the market and the needs of our customers, and to lead the way in applying cognitive technology in the marketplace.",
-          "locations":"1689,194",
-          "originalLocations":"2081,200",
-          "score":"0"
+          "highlighted": "About 30% of {b}Sinequa{nb}'s staff works in R&D to support the constant evolution of the market and the needs of our customers, and to lead the way in applying cognitive technology in the marketplace.",
+          "locations": "1689,194",
+          "originalLocations": "2081,200",
+          "score": "0"
         },
         {
-          "highlighted":"As a software provider, 90% of {b}Sinequa{nb}'s revenue comes from subscription licenses, the remaining 10% is generated by professional services engagements, which supports POCs and provides expertise during deployments.",
-          "locations":"1884,214",
-          "originalLocations":"2282,216",
-          "score":"0"
+          "highlighted": "As a software provider, 90% of {b}Sinequa{nb}'s revenue comes from subscription licenses, the remaining 10% is generated by professional services engagements, which supports POCs and provides expertise during deployments.",
+          "locations": "1884,214",
+          "originalLocations": "2282,216",
+          "score": "0"
         },
         {
-          "highlighted":"{b}Sinequa{nb} has an extended network of System integrators who implement the platform and deploy solutions for our customers.",
-          "locations":"2099,120",
-          "originalLocations":"2499,120",
-          "score":"0"
+          "highlighted": "{b}Sinequa{nb} has an extended network of System integrators who implement the platform and deploy solutions for our customers.",
+          "locations": "2099,120",
+          "originalLocations": "2499,120",
+          "score": "0"
         },
         {
-          "highlighted":"The Life Sciences industry has been a rapidly growing market for {b}Sinequa{nb} in the last few years.",
-          "locations":"2221,95",
-          "originalLocations":"2639,95",
-          "score":"0"
+          "highlighted": "The Life Sciences industry has been a rapidly growing market for {b}Sinequa{nb} in the last few years.",
+          "locations": "2221,95",
+          "originalLocations": "2639,95",
+          "score": "0"
         },
         {
-          "highlighted":"{b}Sinequa{nb} will continue to evolve its platform as a single end-to-end solution but there is emphasis on incorporating both IP and specialized technology from partners (such as ontologies, taxonomies) to further enrich our logical data warehouse .",
-          "locations":"2660,244",
-          "originalLocations":"3078,244",
-          "score":"0"
+          "highlighted": "{b}Sinequa{nb} will continue to evolve its platform as a single end-to-end solution but there is emphasis on incorporating both IP and specialized technology from partners (such as ontologies, taxonomies) to further enrich our logical data warehouse .",
+          "locations": "2660,244",
+          "originalLocations": "3078,244",
+          "score": "0"
         }
       ],
-      "matchlocationsperpartname":[
+      "matchlocationsperpartname": [
         {
-          "matchlocations":[
+          "matchlocations": [
 
           ]
         }
       ],
-      "matchingpassages":{
-        "schemas":[
+      "matchingpassages": {
+        "schemas": [
           {
-            "function":"matchlocations",
-            "schema":{
-              "format":"StringWithSeparators",
-              "separator":";",
-              "innerseparator":",",
-              "schema":[
+            "function": "matchlocations",
+            "schema": {
+              "format": "StringWithSeparators",
+              "separator": ";",
+              "innerseparator": ",",
+              "schema": [
                 {
-                  "name":"columns",
-                  "type":"array",
-                  "fields":[
+                  "name": "columns",
+                  "type": "array",
+                  "fields": [
                     {
-                      "name":"MatchLocations"
+                      "name": "MatchLocations"
                     }
                   ]
                 },
                 {
-                  "name":"locations",
-                  "type":"string",
-                  "subtype":"location"
+                  "name": "locations",
+                  "type": "string",
+                  "subtype": "location"
                 }
               ]
             }
           }
         ],
-        "passages":[
+        "passages": [
           {
-            "id":1,
-            "score":0.99974,
-            "rm.score":0.99974,
-            "kw.score":0.78759,
-            "vect.score":0.12963,
-            "location":[
+            "id": 1,
+            "score": 0.99974,
+            "rm.score": 0.99974,
+            "kw.score": 0.78759,
+            "vect.score": 0.12963,
+            "location": [
               298,
               816
             ],
-            "rlocation":[
+            "rlocation": [
               664,
               822
             ],
-            "matchlocations":"298,7,596,7,620,7,699,3,990,7",
-            "highlightedText":"<span class=\"matchlocations\">Sinequa<\/span> began its existence in France as a private research lab working on Natural Language Processing and Semantic analysis of large textual datasets. This research and subsequent investment in advanced information processing capability has culminated in a unique search technology at the core of <span class=\"matchlocations\">Sinequa<\/span>'s platform, the <span class=\"matchlocations\">Sinequa<\/span> Engine, representing over 20 man-years of R&D.. In 2006-7, our current <span class=\"matchlocations\">CEO<\/span>, Alexandre Bilger and his associate acquired the technology and company. The objective was to build a complete platform around the core engine to tackle the most complex cognitive search and analytics challenges for the most demanding data-driven organizations in the world. Since then, <span class=\"matchlocations\">Sinequa<\/span> has remained focused on this singular mission with a single product, an end-to-end platform currently in its version"
+            "matchlocations": "298,7,596,7,620,7,699,3,990,7",
+            "highlightedText": "<span class=\"matchlocations\">Sinequa<\/span> began its existence in France as a private research lab working on Natural Language Processing and Semantic analysis of large textual datasets. This research and subsequent investment in advanced information processing capability has culminated in a unique search technology at the core of <span class=\"matchlocations\">Sinequa<\/span>'s platform, the <span class=\"matchlocations\">Sinequa<\/span> Engine, representing over 20 man-years of R&D.. In 2006-7, our current <span class=\"matchlocations\">CEO<\/span>, Alexandre Bilger and his associate acquired the technology and company. The objective was to build a complete platform around the core engine to tackle the most complex cognitive search and analytics challenges for the most demanding data-driven organizations in the world. Since then, <span class=\"matchlocations\">Sinequa<\/span> has remained focused on this singular mission with a single product, an end-to-end platform currently in its version"
           },
           {
-            "id":9,
-            "score":0.99974,
-            "rm.score":0.99974,
-            "kw.score":0.78759,
-            "vect.score":0.12963,
-            "location":[
+            "id": 9,
+            "score": 0.99974,
+            "rm.score": 0.99974,
+            "kw.score": 0.78759,
+            "vect.score": 0.12963,
+            "location": [
               4065,
               816
             ],
-            "rlocation":[
+            "rlocation": [
               5075,
               822
             ],
-            "matchlocations":"4065,7,4363,7,4387,7,4466,3,4757,7",
-            "highlightedText":"<span class=\"matchlocations\">Sinequa<\/span> began its existence in France as a private research lab working on Natural Language Processing and Semantic analysis of large textual datasets. This research and subsequent investment in advanced information processing capability has culminated in a unique search technology at the core of <span class=\"matchlocations\">Sinequa<\/span>'s platform, the <span class=\"matchlocations\">Sinequa<\/span> Engine, representing over 20 man-years of R&D.. In 2006-7, our current <span class=\"matchlocations\">CEO<\/span>, Alexandre Bilger and his associate acquired the technology and company. The objective was to build a complete platform around the core engine to tackle the most complex cognitive search and analytics challenges for the most demanding data-driven organizations in the world. Since then, <span class=\"matchlocations\">Sinequa<\/span> has remained focused on this singular mission with a single product, an end-to-end platform currently in its version"
+            "matchlocations": "4065,7,4363,7,4387,7,4466,3,4757,7",
+            "highlightedText": "<span class=\"matchlocations\">Sinequa<\/span> began its existence in France as a private research lab working on Natural Language Processing and Semantic analysis of large textual datasets. This research and subsequent investment in advanced information processing capability has culminated in a unique search technology at the core of <span class=\"matchlocations\">Sinequa<\/span>'s platform, the <span class=\"matchlocations\">Sinequa<\/span> Engine, representing over 20 man-years of R&D.. In 2006-7, our current <span class=\"matchlocations\">CEO<\/span>, Alexandre Bilger and his associate acquired the technology and company. The objective was to build a complete platform around the core engine to tackle the most complex cognitive search and analytics challenges for the most demanding data-driven organizations in the world. Since then, <span class=\"matchlocations\">Sinequa<\/span> has remained focused on this singular mission with a single product, an end-to-end platform currently in its version"
           }
         ]
       },
-      "title":"A concise history of your company, including an overview of your company's strategy, especially with regards to Life Science industry;Summarize the history and development of the solution that you are offering.;Briefly tell us about your company\u2019s growth over the past five years.",
-      "language":[
+      "title": "A concise history of your company, including an overview of your company's strategy, especially with regards to Life Science industry;Summarize the history and development of the solution that you are offering.;Briefly tell us about your company\u2019s growth over the past five years.",
+      "language": [
         "en"
       ],
-      "authors":[
+      "authors": [
         "Fanny Bella\u00efche"
       ],
-      "modified":"2021-02-03 22:43:39",
-      "indexationtime":"2022-07-05 04:02:55",
-      "version":"2021-02-03T17:43:39-05:00",
-      "size":4571,
-      "treepath":[
+      "modified": "2021-02-03 22:43:39",
+      "indexationtime": "2022-07-05 04:02:55",
+      "version": "2021-02-03T17:43:39-05:00",
+      "size": 4571,
+      "treepath": [
         "\/Loopio\/"
       ],
-      "filename":"file.htm",
-      "fileext":"htm",
-      "collection":[
+      "filename": "file.htm",
+      "fileext": "htm",
+      "collection": [
         "\/I_NS1_Tools\/I_Loopio\/"
       ],
-      "docformat":"Web",
-      "person":[
+      "docformat": "Web",
+      "person": [
         {
-          "value":"ALEXANDRE BILGER",
-          "display":"Alexandre Bilger",
-          "count":2
+          "value": "ALEXANDRE BILGER",
+          "display": "Alexandre Bilger",
+          "count": 2
         }
       ],
-      "company":[
+      "company": [
         {
-          "value":"SINEQUA",
-          "display":"Sinequa",
-          "count":28
+          "value": "SINEQUA",
+          "display": "Sinequa",
+          "count": 28
         },
         {
-          "value":"ASTRA",
-          "display":"Astra",
-          "count":2
+          "value": "ASTRA",
+          "display": "Astra",
+          "count": 2
         },
         {
-          "value":"CELGENE",
-          "display":"Celgene",
-          "count":2
+          "value": "CELGENE",
+          "display": "Celgene",
+          "count": 2
         },
         {
-          "value":"GARTNER",
-          "display":"Gartner",
-          "count":2
+          "value": "GARTNER",
+          "display": "Gartner",
+          "count": 2
         },
         {
-          "value":"PFIZER",
-          "display":"Pfizer",
-          "count":2
+          "value": "PFIZER",
+          "display": "Pfizer",
+          "count": 2
         }
       ],
-      "geo":[
+      "geo": [
         {
-          "value":"FRANCE",
-          "display":"France",
-          "count":2
+          "value": "FRANCE",
+          "display": "France",
+          "count": 2
         }
       ],
-      "wordcount":389,
-      "exacthash":"81Rnz51oWV+TnCRC3SzX5Q==",
-      "nearhash":"Wno1EFf2FLjGyM+e8zZBjg==",
-      "partnamelocations":[
+      "wordcount": 389,
+      "exacthash": "81Rnz51oWV+TnCRC3SzX5Q==",
+      "nearhash": "Wno1EFf2FLjGyM+e8zZBjg==",
+      "partnamelocations": [
         {
-          "value":"rfp_answers",
-          "display":"rfp_answers",
-          "count":1
+          "value": "rfp_answers",
+          "display": "rfp_answers",
+          "count": 1
         },
         {
-          "value":"rfp_question",
-          "display":"rfp_question",
-          "count":1
+          "value": "rfp_question",
+          "display": "rfp_question",
+          "count": 1
         },
         {
-          "value":"title",
-          "display":"title",
-          "count":1
+          "value": "title",
+          "display": "title",
+          "count": 1
         }
       ],
-      "url1":"https:\/\/sinequa.loopio.com\/library?entry=539277",
-      "sinequaauthors":[
+      "url1": "https:\/\/sinequa.loopio.com\/library?entry=539277",
+      "sinequaauthors": [
         "Fanny Bella\u00efche"
       ],
-      "indexationNsco":"QG XS - V1_S - V1",
-      "rfplanguage":"English",
-      "rfpquestionstext":"A concise history of your company, including an overview of your company's strategy, especially with regards to Life Science industry;Summarize the history and development of the solution that you are offering.;Briefly tell us about your company\u2019s growth over the past five years.",
-      "rfpanswertext":"<p>Sinequa began its existence in France as a private research lab working on Natural Language Processing and Semantic analysis of large textual datasets. This research and subsequent investment in advanced information processing capability has culminated in a unique search technology at the core of Sinequa\u2019s platform, the Sinequa Engine, representing over 20 man-years of R&amp;D.. In 2006-7, our current CEO, Alexandre Bilger and his associate acquired the technology and company. The objective was to build a complete platform around the core engine to tackle the most complex cognitive search and analytics challenges for the most demanding data-driven organizations in the world. Since then, Sinequa has remained focused on this singular mission with a single product, an end-to-end platform currently in its version 11<\/p>\n\n<p> <\/p>\n\n<p>Key milestones for Sinequa include year over year double-digit growth; entry into the US Market in 2014 and quickly establishing a leadership position in Life Sciences; recognition as a leader in back-to-back market reports by analyst groups including Gartner (Magic Quadrant) and Forrester (Forrester Wave); and a significant expansion of the platform\u2019s cognitive capabilities with full integration of TensorFlow for machine learning in 2020. The core business continues to be singularly focused on the evolution of the Sinequa Cognitive search and analytics platform. About 30% of Sinequa\u2019s staff works in R&amp;D to support the constant evolution of the market and the needs of our customers, and to lead the way in applying cognitive technology in the marketplace. As a software provider, 90% of Sinequa\u2019s revenue comes from subscription licenses, the remaining 10% is generated by professional services engagements, which supports POCs and provides expertise during deployments. Sinequa has an extended network of System integrators who implement the platform and deploy solutions for our customers.<\/p>\n\n<p> <\/p>\n\n<p>The Life Sciences industry has been a rapidly growing market for Sinequa in the last few years. The input and guidance from key clients such as Pfizer, Astra Zeneca, Celgene, UCB, BMS and Biogen have helped us to understand better specific needs and complexities of large pharmaceutical companies. There is commonality between use cases where best practices can be shared to accelerate the benefit brought to each individual organization. Sinequa will continue to evolve its platform as a single end-to-end solution but there is emphasis on incorporating both IP and specialized technology from partners (such as ontologies, taxonomies) to further enrich our logical data warehouse . Sinequa comes to the strategy table knowing the expected outcomes for applying cognitive technology to various use cases in the Biopharma industry, and is continuing to invest in technology and resources to expand that capability.<\/p>\n\n<p> <\/p>\n\n<p>Sinequa\u2019s approach to the market and our platform has kept ahead of the trends that impact our customers and prospects through constant innovation of our technology and capabilities. For example, Sinequa invested early on to develop connectors and performance scalability to ahead of the recent energy exerted in the \u201cbig data\u201d approach to solving business problems. We are on the cutting edge of incorporating advanced cognitive capabilities and machine learning so companies can extract more value from their disparate information assets in less time than ever before.<\/p>\n",
-      "rfpcategoryname":"General Company Information",
-      "rfpstatus":"APPROVED",
-      "ticketcreationdate":"2017-12-07 13:59:40",
-      "sourceint1":27,
-      "rank":7,
-      "displayTitle":"A concise history of your company, including an overview of your company's strategy, especially with regards to Life Science industry;Summarize the history and development of the solution that you are offering.;Briefly tell us about your company\u2019s growth over the past five years.",
-      "relevantExtracts":"2006-7, our current <b>CEO<\/b>, Alexandre ... <b>Sinequa <\/b>began its ... Since then, <b>Sinequa <\/b>has remained ... Key milestones for <b>Sinequa <\/b>include year ... evolution of the <b>Sinequa <\/b>Cognitive ... About 30% of <b>Sinequa<\/b>&#39;s ... provider, 90% of <b>Sinequa<\/b>&#39;s ... <b>Sinequa <\/b>has ... growing market for <b>Sinequa <\/b>in ... <b>Sinequa <\/b>will "
+      "indexationNsco": "QG XS - V1_S - V1",
+      "rfplanguage": "English",
+      "rfpquestionstext": "A concise history of your company, including an overview of your company's strategy, especially with regards to Life Science industry;Summarize the history and development of the solution that you are offering.;Briefly tell us about your company\u2019s growth over the past five years.",
+      "rfpanswertext": "<p>Sinequa began its existence in France as a private research lab working on Natural Language Processing and Semantic analysis of large textual datasets. This research and subsequent investment in advanced information processing capability has culminated in a unique search technology at the core of Sinequa\u2019s platform, the Sinequa Engine, representing over 20 man-years of R&amp;D.. In 2006-7, our current CEO, Alexandre Bilger and his associate acquired the technology and company. The objective was to build a complete platform around the core engine to tackle the most complex cognitive search and analytics challenges for the most demanding data-driven organizations in the world. Since then, Sinequa has remained focused on this singular mission with a single product, an end-to-end platform currently in its version 11<\/p>\n\n<p> <\/p>\n\n<p>Key milestones for Sinequa include year over year double-digit growth; entry into the US Market in 2014 and quickly establishing a leadership position in Life Sciences; recognition as a leader in back-to-back market reports by analyst groups including Gartner (Magic Quadrant) and Forrester (Forrester Wave); and a significant expansion of the platform\u2019s cognitive capabilities with full integration of TensorFlow for machine learning in 2020. The core business continues to be singularly focused on the evolution of the Sinequa Cognitive search and analytics platform. About 30% of Sinequa\u2019s staff works in R&amp;D to support the constant evolution of the market and the needs of our customers, and to lead the way in applying cognitive technology in the marketplace. As a software provider, 90% of Sinequa\u2019s revenue comes from subscription licenses, the remaining 10% is generated by professional services engagements, which supports POCs and provides expertise during deployments. Sinequa has an extended network of System integrators who implement the platform and deploy solutions for our customers.<\/p>\n\n<p> <\/p>\n\n<p>The Life Sciences industry has been a rapidly growing market for Sinequa in the last few years. The input and guidance from key clients such as Pfizer, Astra Zeneca, Celgene, UCB, BMS and Biogen have helped us to understand better specific needs and complexities of large pharmaceutical companies. There is commonality between use cases where best practices can be shared to accelerate the benefit brought to each individual organization. Sinequa will continue to evolve its platform as a single end-to-end solution but there is emphasis on incorporating both IP and specialized technology from partners (such as ontologies, taxonomies) to further enrich our logical data warehouse . Sinequa comes to the strategy table knowing the expected outcomes for applying cognitive technology to various use cases in the Biopharma industry, and is continuing to invest in technology and resources to expand that capability.<\/p>\n\n<p> <\/p>\n\n<p>Sinequa\u2019s approach to the market and our platform has kept ahead of the trends that impact our customers and prospects through constant innovation of our technology and capabilities. For example, Sinequa invested early on to develop connectors and performance scalability to ahead of the recent energy exerted in the \u201cbig data\u201d approach to solving business problems. We are on the cutting edge of incorporating advanced cognitive capabilities and machine learning so companies can extract more value from their disparate information assets in less time than ever before.<\/p>\n",
+      "rfpcategoryname": "General Company Information",
+      "rfpstatus": "APPROVED",
+      "ticketcreationdate": "2017-12-07 13:59:40",
+      "sourceint1": 27,
+      "rank": 7,
+      "displayTitle": "A concise history of your company, including an overview of your company's strategy, especially with regards to Life Science industry;Summarize the history and development of the solution that you are offering.;Briefly tell us about your company\u2019s growth over the past five years.",
+      "relevantExtracts": "2006-7, our current <b>CEO<\/b>, Alexandre ... <b>Sinequa <\/b>began its ... Since then, <b>Sinequa <\/b>has remained ... Key milestones for <b>Sinequa <\/b>include year ... evolution of the <b>Sinequa <\/b>Cognitive ... About 30% of <b>Sinequa<\/b>&#39;s ... provider, 90% of <b>Sinequa<\/b>&#39;s ... <b>Sinequa <\/b>has ... growing market for <b>Sinequa <\/b>in ... <b>Sinequa <\/b>will "
     }
   ],
   "answers": {

@@ -9,7 +9,10 @@ export class DocUserRatingComponent extends BaseComponent {
 
   code = `<sq-user-rating
     [record]="record"
-    [ratingsColumn]="'column'">
+    [count]="5"
+    [caption]="'caption'"
+    [ratingsColumn]="'engineusercsv1'"
+    [averageColumn]="'enginecsv1'">
 </sq-user-rating>`;
 
 }

@@ -1,3 +1,10 @@
+import { CCScope } from "@sinequa/core/web-services";
+
+const scopes: CCScope[] = [
+    { name: 'scope 1' },
+    { name: 'scope 2' }
+];
+
 export const APP = {
     "workspaceApp": "\/_sba\/_sba-angular\/projects\/vanilla-search\/",
     "queryNames": "query",
@@ -829,7 +836,7 @@ export const APP = {
                 ],
                 "runQueryConcurrently": false
             },
-            "scopes": "",
+            scopes,
             "scopesActive": false,
             "columns": "",
             "pageSize": "",

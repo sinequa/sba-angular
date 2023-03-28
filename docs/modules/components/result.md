@@ -87,7 +87,7 @@ The [`sq-result-extracts`]({{site.baseurl}}components/components/ResultExtracts.
 
 ### Thumbnail
 
-<!-- <doc-result-thumbnail></doc-result-thumbnail> -->
+<doc-result-thumbnail></doc-result-thumbnail>
 
 The [`sq-result-thumbnail`]({{site.baseurl}}components/components/ResultThumbnail.html) component displays the thumbnail of a document, if it exists. The behavior of a thumbnail click is similar to the [title](#title) component.
 
@@ -111,7 +111,7 @@ The [`sq-result-icon`]({{site.baseurl}}components/components/ResultIcon.html) co
 
 ### Missing terms
 
-<!-- <doc-result-missing-terms></doc-result-missing-terms> -->
+<doc-result-missing-terms></doc-result-missing-terms>
 
 The [`sq-missing-terms`]({{site.baseurl}}components/components/ResultMissingTerms.html) component displays the list of terms in the user's query that are *not* found in the document.
 
@@ -123,7 +123,7 @@ The [`sq-missing-terms`]({{site.baseurl}}components/components/ResultMissingTerm
 
 ### Sponsored Results
 
-<!-- <doc-sponsored-results></doc-sponsored-results> -->
+<doc-sponsored-results></doc-sponsored-results>
 
 The [`sq-sponsored-results`]({{site.baseurl}}components/components/SponsoredResults.html) component displays the sponsored links relevant for a user query (using the [`SponsoredLinksWebService`]({{site.baseurl}}core/injectables/SponsoredLinksWebService.html)). The configuration of these links must be done in the Sinequa administration.
 
@@ -141,7 +141,7 @@ The configuration of the links is done as depicted below in the Sinequa administ
 
 ### User ratings
 
-<!-- <doc-user-rating></doc-user-rating> -->
+<doc-user-rating></doc-user-rating>
 
 The [`sq-user-rating`]({{site.baseurl}}components/components/UserRating.html) component displays the rating of a given document in the form of a number of stars. Users can assign a rating to a document by clicking on a star: This stores each user's rating (as a number) in the engine metadata store, and additionally it computes the average rating from all users (which is stored in a different column).
 
