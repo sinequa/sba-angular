@@ -14,17 +14,16 @@ This project is meant to allow easier testing for all of the library components.
 ```ts
 import { Injector } from '@angular/core';
 import { DocDidYouMeanComponent } from './components/search-module/did-you-mean/did-you-mean.component';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
-export class SearchModule extends CustomElementModule {
+export class SearchModule {
     constructor() {
-        super();
-        this.createElement('doc-did-you-mean',  DocDidYouMeanComponent);
+        createElement('doc-did-you-mean',  DocDidYouMeanComponent);
     }
 }
 ```
 
-Note that the Angular Elements definition part has been simplified using a custom function ``createElement`` available when extending the ``CustomElementModule`` class.
+Note that the Angular Elements definition part has been simplified using a custom function ``createElement`` that you can import from the shared folder.
 
 Then you can just add it like this in the `md` file:
 ```html
@@ -47,7 +46,7 @@ The basic architecture for a module is as follow:
     - example-module.component.ts _--- (the page displaying all components for this module when serving the app locally)_
     - example.module.ts _--- (the angular module)_
 
-All modules are included in their own Angular module which imports all necessary modules, and declare in its constructor all of the custom elements to export that will be used in the ``docs`` app. The declarations are slightly simplified by extending the module with the ``CustomElementModule`` class which provides a custom function to handle it.
+All modules are included in their own Angular module which imports all necessary modules, and declare in its constructor all of the custom elements to export that will be used in the ``docs`` app. The declarations are slightly simplified by using a custom function available in ``shared/create-element.ts``.
 
 Each module then has a ``component-module.component.ts`` file that uses the ``components-docs/src/app/shared/module-template.html`` template which just requires the component to define its title and components list.
 

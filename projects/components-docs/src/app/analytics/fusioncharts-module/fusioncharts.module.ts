@@ -7,7 +7,7 @@ import { DocFusionchartsModuleComponent } from './fusioncharts-module.component'
 import { DocChartComponent } from './chart/chart.component';
 import { DocMultiLevelPieChartComponent } from './multi-level-pie-chart/multi-level-pie-chart.component';
 import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocFusionchartsModuleComponent }
@@ -26,10 +26,9 @@ const routes: Routes = [
     FusionChartsModule
   ]
 })
-export class DocFusionchartsModule extends CustomElementModule {
+export class DocFusionchartsModule {
   constructor() {
-    super();
-    this.createElement('doc-chart', DocChartComponent);
-    this.createElement('doc-multi-level-pie-chart', DocMultiLevelPieChartComponent);
+    createElement('doc-chart', DocChartComponent);
+    createElement('doc-multi-level-pie-chart', DocMultiLevelPieChartComponent);
   }
 }

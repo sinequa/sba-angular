@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DocGooglemapsModuleComponent } from './googlemaps-module.component';
 import { DocMapComponent } from './map/map.component';
 import { GoogleMapsModule } from '@sinequa/analytics/googlemaps';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocGooglemapsModuleComponent }
@@ -24,9 +24,8 @@ const routes: Routes = [
     GoogleMapsModule
   ]
 })
-export class DocGooglemapsModule extends CustomElementModule {
+export class DocGooglemapsModule {
   constructor() {
-    super();
-    this.createElement('doc-map', DocMapComponent);
+    createElement('doc-map', DocMapComponent);
   }
 }

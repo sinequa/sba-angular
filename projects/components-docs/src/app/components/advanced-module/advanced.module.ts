@@ -13,7 +13,7 @@ import { DocDatePickerComponent } from './date-picker/date-picker.component';
 import { DocDateRangePickerComponent } from './date-range-picker/date-range-picker.component';
 import { DocSelectComponent } from './select/select.component';
 import { BsAdvancedModule } from '@sinequa/components/advanced';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocAdvancedModuleComponent }
@@ -38,16 +38,15 @@ const routes: Routes = [
     BsAdvancedModule
   ]
 })
-export class DocAdvancedModule extends CustomElementModule {
+export class DocAdvancedModule {
   constructor() {
-    super();
-    this.createElement('doc-advanced-form-checkbox', DocAdvancedFormCheckboxComponent);
-    this.createElement('doc-advanced-form-input', DocAdvancedFormInputComponent);
-    this.createElement('doc-advanced-form-multi-input', DocAdvancedFormMultiInputComponent);
-    this.createElement('doc-advanced-form-range', DocAdvancedFormRangeComponent);
-    this.createElement('doc-advanced-form-select', DocAdvancedFormSelectComponent);
-    this.createElement('doc-date-picker', DocDatePickerComponent);
-    this.createElement('doc-date-range-picker', DocDateRangePickerComponent);
-    this.createElement('doc-select', DocSelectComponent);
+    createElement('doc-advanced-form-checkbox', DocAdvancedFormCheckboxComponent);
+    createElement('doc-advanced-form-input', DocAdvancedFormInputComponent);
+    createElement('doc-advanced-form-multi-input', DocAdvancedFormMultiInputComponent);
+    createElement('doc-advanced-form-range', DocAdvancedFormRangeComponent);
+    createElement('doc-advanced-form-select', DocAdvancedFormSelectComponent);
+    createElement('doc-date-picker', DocDatePickerComponent);
+    createElement('doc-date-range-picker', DocDateRangePickerComponent);
+    createElement('doc-select', DocSelectComponent);
   }
 }

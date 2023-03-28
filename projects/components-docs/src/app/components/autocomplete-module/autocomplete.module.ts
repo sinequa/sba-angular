@@ -7,7 +7,7 @@ import { DocAutocompleteModuleComponent } from './autocomplete-module.component'
 import { DocAutocompleteListComponent } from './autocomplete-list/autocomplete-list.component';
 import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
 import { BsAdvancedModule } from '@sinequa/components/advanced';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocAutocompleteModuleComponent }
@@ -26,9 +26,8 @@ const routes: Routes = [
     BsAdvancedModule
   ]
 })
-export class DocAutocompleteModule extends CustomElementModule {
+export class DocAutocompleteModule {
   constructor() {
-    super();
-    this.createElement('doc-autocomplete-list', DocAutocompleteListComponent);
+    createElement('doc-autocomplete-list', DocAutocompleteListComponent);
   }
 }

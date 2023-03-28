@@ -8,7 +8,7 @@ import { DocFacetHeatmapComponent } from './facet-heatmap/facet-heatmap.componen
 import { DocResultsHeatmapViewComponent } from './results-heatmap-view/results-heatmap-view.component';
 import { DocHeatmapComponent } from './heatmap/heatmap.component';
 import { BsHeatmapModule } from '@sinequa/analytics/heatmap';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocHeatmapModuleComponent }
@@ -28,11 +28,10 @@ const routes: Routes = [
     BsHeatmapModule
   ]
 })
-export class DocHeatmapModule extends CustomElementModule {
+export class DocHeatmapModule {
   constructor() {
-    super();
-    this.createElement('doc-facet-heatmap', DocFacetHeatmapComponent);
-    this.createElement('doc-heatmap', DocHeatmapComponent);
-    this.createElement('doc-results-heatmap-view', DocResultsHeatmapViewComponent);
+    createElement('doc-facet-heatmap', DocFacetHeatmapComponent);
+    createElement('doc-heatmap', DocHeatmapComponent);
+    createElement('doc-results-heatmap-view', DocResultsHeatmapViewComponent);
   }
 }

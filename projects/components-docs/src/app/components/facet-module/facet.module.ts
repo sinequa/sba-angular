@@ -16,7 +16,7 @@ import { DocRefineComponent } from './refine/refine.component';
 import { BsFacetModule } from '@sinequa/components/facet';
 import { BsTimelineModule } from '@sinequa/analytics/timeline';
 import { FormsModule } from '@angular/forms';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocFacetModuleComponent }
@@ -44,16 +44,15 @@ const routes: Routes = [
     FormsModule
   ]
 })
-export class DocFacetModule extends CustomElementModule {
+export class DocFacetModule {
   constructor() {
-    super();
-    this.createElement('doc-facet', DocFacetComponent);
-    this.createElement('doc-facet-list', DocFacetListComponent);
-    this.createElement('doc-facet-filters', DocFacetFiltersComponent);
-    this.createElement('doc-facet-range', DocFacetRangeComponent);
-    this.createElement('doc-facet-bar', DocFacetBarComponent);
-    this.createElement('doc-facet-multi', DocFacetMultiComponent);
-    this.createElement('doc-facet-tag-cloud', DocFacetTagCloudComponent);
-    this.createElement('doc-refine', DocRefineComponent);
+    createElement('doc-facet', DocFacetComponent);
+    createElement('doc-facet-list', DocFacetListComponent);
+    createElement('doc-facet-filters', DocFacetFiltersComponent);
+    createElement('doc-facet-range', DocFacetRangeComponent);
+    createElement('doc-facet-bar', DocFacetBarComponent);
+    createElement('doc-facet-multi', DocFacetMultiComponent);
+    createElement('doc-facet-tag-cloud', DocFacetTagCloudComponent);
+    createElement('doc-refine', DocRefineComponent);
   }
 }

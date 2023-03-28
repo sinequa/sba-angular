@@ -7,7 +7,7 @@ import { DocStatusBarModuleComponent } from './status-bar-module.component';
 import { DocFullscreenActivatorComponent } from './fullscreen-activator/fullscreen-activator.component';
 import { DocNetworkActivityComponent } from './network-activity/network-activity.component';
 import { BsStatusBarModule } from '@sinequa/components/status-bar';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocStatusBarModuleComponent }
@@ -26,10 +26,9 @@ const routes: Routes = [
     BsStatusBarModule
   ]
 })
-export class DocStatusBarModule extends CustomElementModule {
+export class DocStatusBarModule {
   constructor() {
-    super();
-    this.createElement('doc-fullscreen-activator', DocFullscreenActivatorComponent);
-    this.createElement('doc-network-activity', DocNetworkActivityComponent);
+    createElement('doc-fullscreen-activator', DocFullscreenActivatorComponent);
+    createElement('doc-network-activity', DocNetworkActivityComponent);
   }
 }

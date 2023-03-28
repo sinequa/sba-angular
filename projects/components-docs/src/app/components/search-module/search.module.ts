@@ -14,7 +14,7 @@ import { DocScrollerComponent } from './scroller/scroller.component';
 import { DocSortSelectorComponent } from './sort-selector/sort-selector.component';
 import { DocTabsComponent } from './tabs/tabs.component';
 import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocSearchModuleComponent }
@@ -46,17 +46,16 @@ export const searchOptions: SearchOptions = {
     BsSearchModule.forRoot(searchOptions)
   ]
 })
-export class DocSearchModule extends CustomElementModule {
+export class DocSearchModule {
   constructor() {
-    super();
-    this.createElement('doc-did-you-mean', DocDidYouMeanComponent);
-    this.createElement('doc-load-more', DocLoadMoreComponent);
-    this.createElement('doc-loading-bar', DocLoadingBarComponent);
-    this.createElement('doc-page-size-selector', DocPageSizeSelectorComponent);
-    this.createElement('doc-pager', DocPagerComponent);
-    this.createElement('doc-scope', DocScopeComponent);
-    this.createElement('doc-scroller', DocScrollerComponent);
-    this.createElement('doc-sort-selector', DocSortSelectorComponent);
-    this.createElement('doc-tabs', DocTabsComponent);
+    createElement('doc-did-you-mean', DocDidYouMeanComponent);
+    createElement('doc-load-more', DocLoadMoreComponent);
+    createElement('doc-loading-bar', DocLoadingBarComponent);
+    createElement('doc-page-size-selector', DocPageSizeSelectorComponent);
+    createElement('doc-pager', DocPagerComponent);
+    createElement('doc-scope', DocScopeComponent);
+    createElement('doc-scroller', DocScrollerComponent);
+    createElement('doc-sort-selector', DocSortSelectorComponent);
+    createElement('doc-tabs', DocTabsComponent);
   }
 }

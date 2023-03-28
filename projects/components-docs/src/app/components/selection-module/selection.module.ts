@@ -8,7 +8,7 @@ import { DocResultSelectorComponent } from './result-selector/result-selector.co
 import { DocResultsSelectorComponent } from './results-selector/results-selector.component';
 import { DocSelectionArrangerComponent } from './selection-arranger/selection-arranger.component';
 import { BsSelectionModule } from "@sinequa/components/selection";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocSelectionModuleComponent }
@@ -28,11 +28,10 @@ const routes: Routes = [
     BsSelectionModule
   ]
 })
-export class DocSelectionModule extends CustomElementModule {
+export class DocSelectionModule {
   constructor() {
-    super();
-    this.createElement('doc-result-selector', DocResultSelectorComponent);
-    this.createElement('doc-results-selector', DocResultsSelectorComponent);
-    this.createElement('doc-selection-arranger', DocSelectionArrangerComponent);
+    createElement('doc-result-selector', DocResultSelectorComponent);
+    createElement('doc-results-selector', DocResultsSelectorComponent);
+    createElement('doc-selection-arranger', DocSelectionArrangerComponent);
   }
 }

@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DocAgGridModuleComponent } from './ag-grid-module.component';
 import { DocAgGridViewComponent } from './ag-grid-view/ag-grid-view.component';
 import { AgGridModule } from '@sinequa/analytics/ag-grid';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocAgGridModuleComponent }
@@ -24,9 +24,8 @@ const routes: Routes = [
     AgGridModule
   ]
 })
-export class DocAgGridModule extends CustomElementModule {
+export class DocAgGridModule {
   constructor() {
-    super();
-    this.createElement('doc-ag-grid-view', DocAgGridViewComponent);
+    createElement('doc-ag-grid-view', DocAgGridViewComponent);
   }
 }

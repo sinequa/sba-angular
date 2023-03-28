@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DocThemeToggleModuleComponent } from './theme-toggle-module.component';
 import { DocThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 import { BsThemeToggleModule } from '@sinequa/components/theme-toggle';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocThemeToggleModuleComponent }
@@ -24,9 +24,8 @@ const routes: Routes = [
     BsThemeToggleModule
   ]
 })
-export class DocThemeToggleModule extends CustomElementModule {
+export class DocThemeToggleModule {
   constructor() {
-    super();
-    this.createElement('doc-theme-toggle', DocThemeToggleComponent);
+    createElement('doc-theme-toggle', DocThemeToggleComponent);
   }
 }

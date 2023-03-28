@@ -13,7 +13,7 @@ import { DocLabelsMenuComponent } from './labels-menu/labels-menu.component';
 import { DocRenameLabelComponent } from './rename-label/rename-label.component';
 import { DocResultLabelsComponent } from './result-labels/result-labels.component';
 import { BsLabelsModule } from "@sinequa/components/labels";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocLabelsModuleComponent }
@@ -38,16 +38,15 @@ const routes: Routes = [
     BsLabelsModule
   ]
 })
-export class DocLabelsModule extends CustomElementModule {
+export class DocLabelsModule {
   constructor() {
-    super();
-    this.createElement('doc-add-label', DocAddLabelComponent);
-    this.createElement('doc-delete-label', DocDeleteLabelComponent);
-    this.createElement('doc-edit-label', DocEditLabelComponent);
-    this.createElement('doc-labels-autocomplete', DocLabelsAutocompleteComponent);
-    this.createElement('doc-labels-menu', DocLabelsMenuComponent);
-    this.createElement('doc-rename-label', DocRenameLabelComponent);
-    this.createElement('doc-labels', DocLabelsComponent);
-    this.createElement('doc-result-labels', DocResultLabelsComponent);
+    createElement('doc-add-label', DocAddLabelComponent);
+    createElement('doc-delete-label', DocDeleteLabelComponent);
+    createElement('doc-edit-label', DocEditLabelComponent);
+    createElement('doc-labels-autocomplete', DocLabelsAutocompleteComponent);
+    createElement('doc-labels-menu', DocLabelsMenuComponent);
+    createElement('doc-rename-label', DocRenameLabelComponent);
+    createElement('doc-labels', DocLabelsComponent);
+    createElement('doc-result-labels', DocResultLabelsComponent);
   }
 }

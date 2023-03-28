@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DocRfmModuleComponent } from './rfm-module.component';
 import { DocRfmActionComponent } from './rfm-action/rfm-action.component';
 import { BsRfmModule } from '@sinequa/components/rfm';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocRfmModuleComponent }
@@ -24,9 +24,8 @@ const routes: Routes = [
     BsRfmModule
   ]
 })
-export class DocRfmModule extends CustomElementModule {
+export class DocRfmModule {
   constructor() {
-    super();
-    this.createElement('doc-rfm-action', DocRfmActionComponent);
+    createElement('doc-rfm-action', DocRfmActionComponent);
   }
 }

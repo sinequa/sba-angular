@@ -15,7 +15,7 @@ import { DocOverrideUserComponent } from './override-user/override-user.componen
 import { DocPromptComponent } from './prompt/prompt.component';
 import { BsModalModule } from '@sinequa/components/modal';
 import { ModalRef, MODAL_MODEL } from '@sinequa/core/modal';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocModalModuleComponent }
@@ -45,17 +45,16 @@ const routes: Routes = [
     { provide: ModalRef, useValue: {} }
   ]
 })
-export class DocModalModule extends CustomElementModule {
+export class DocModalModule {
   constructor() {
-    super();
-    this.createElement('doc-confirm', DocConfirmComponent);
-    this.createElement('doc-editable', DocEditableComponent);
-    this.createElement('doc-help', DocHelpComponent);
-    this.createElement('doc-login', DocLoginComponent);
-    this.createElement('doc-modal', DocModalComponent);
-    this.createElement('doc-modal-footer', DocModalFooterComponent);
-    this.createElement('doc-modal-header', DocModalHeaderComponent);
-    this.createElement('doc-override-user', DocOverrideUserComponent);
-    this.createElement('doc-prompt', DocPromptComponent);
+    createElement('doc-confirm', DocConfirmComponent);
+    createElement('doc-editable', DocEditableComponent);
+    createElement('doc-help', DocHelpComponent);
+    createElement('doc-login', DocLoginComponent);
+    createElement('doc-modal', DocModalComponent);
+    createElement('doc-modal-footer', DocModalFooterComponent);
+    createElement('doc-modal-header', DocModalHeaderComponent);
+    createElement('doc-override-user', DocOverrideUserComponent);
+    createElement('doc-prompt', DocPromptComponent);
   }
 }

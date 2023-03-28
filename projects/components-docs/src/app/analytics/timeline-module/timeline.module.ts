@@ -9,7 +9,7 @@ import { DocFacetTimelineComponent } from './facet-timeline/facet-timeline.compo
 import { DocTimelineComponent } from './timeline/timeline.component';
 import { DocTimelineLegendComponent } from './timeline-legend/timeline-legend.component';
 import { BsTimelineModule } from '@sinequa/analytics/timeline';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocTimelineModuleComponent }
@@ -30,12 +30,11 @@ const routes: Routes = [
     BsTimelineModule
   ]
 })
-export class DocTimelineModule extends CustomElementModule {
+export class DocTimelineModule {
   constructor() {
-    super();
-    this.createElement('doc-facet-date', DocFacetDateComponent);
-    this.createElement('doc-facet-timeline', DocFacetTimelineComponent);
-    this.createElement('doc-timeline', DocTimelineComponent);
-    this.createElement('doc-timeline-legend', DocTimelineLegendComponent);
+    createElement('doc-facet-date', DocFacetDateComponent);
+    createElement('doc-facet-timeline', DocFacetTimelineComponent);
+    createElement('doc-timeline', DocTimelineComponent);
+    createElement('doc-timeline-legend', DocTimelineLegendComponent);
   }
 }

@@ -7,7 +7,7 @@ import { DocDashboardModuleComponent } from './dashboard-module.component';
 import { DocAddWidgetModalComponent } from './add-widget-modal/add-widget-modal.component';
 import { DocDashboardComponent } from './dashboard/dashboard.component';
 import { DashboardComponent } from '@sinequa/analytics/dashboard';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocDashboardModuleComponent }
@@ -26,10 +26,9 @@ const routes: Routes = [
     DashboardComponent
   ]
 })
-export class DocDashboardModule extends CustomElementModule {
+export class DocDashboardModule {
   constructor() {
-    super();
-    this.createElement('doc-add-widget', DocAddWidgetModalComponent);
-    this.createElement('doc-dashboard', DocDashboardComponent);
+    createElement('doc-add-widget', DocAddWidgetModalComponent);
+    createElement('doc-dashboard', DocDashboardComponent);
   }
 }

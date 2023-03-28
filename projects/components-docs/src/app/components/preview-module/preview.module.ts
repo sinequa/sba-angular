@@ -21,7 +21,7 @@ import { DocPreviewTooltipComponent } from './preview-tooltip/preview-tooltip.co
 import { DocResultLinkPreviewComponent } from './result-link-preview/result-link-preview.component';
 import { DocSimilarDocumentsComponent } from './similar-documents/similar-documents.component';
 import { BsPreviewModule } from "@sinequa/components/preview";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocPreviewModuleComponent }
@@ -54,24 +54,23 @@ const routes: Routes = [
     BsPreviewModule
   ]
 })
-export class DocPreviewModule extends CustomElementModule {
+export class DocPreviewModule {
   constructor() {
-    super();
-    this.createElement('doc-preview-highlights', DocPreviewHighlightsComponent);
-    this.createElement('doc-preview-links', DocPreviewLinksComponent);
-    this.createElement('doc-preview-popup', DocPreviewPopupComponent);
-    this.createElement('doc-preview-panel', DocPreviewPanelComponent);
-    this.createElement('doc-result-link-preview', DocResultLinkPreviewComponent);
-    this.createElement('doc-facet-preview', DocFacetPreviewComponent);
-    this.createElement('doc-similar-documents', DocSimilarDocumentsComponent);
-    this.createElement('doc-preview-entity-facet', DocPreviewEntityFacetComponent);
-    this.createElement('doc-preview-entity-panel', DocPreviewEntityPanelComponent);
-    this.createElement('doc-preview-extracts-panel', DocPreviewExtractsPanelComponent);
-    this.createElement('doc-preview-search-form', DocPreviewSearchFormComponent);
-    this.createElement('doc-preview-pages-panel', DocPreviewPagesPanelComponent);
-    this.createElement('doc-preview-page-form', DocPreviewPageFormComponent);
-    this.createElement('doc-preview-minimap', DocPreviewMinimapComponent);
-    this.createElement('doc-facet-preview-2', DocFacetPreviewComponentComponent);
-    this.createElement('doc-preview-tooltip', DocPreviewTooltipComponent);
+    createElement('doc-preview-highlights', DocPreviewHighlightsComponent);
+    createElement('doc-preview-links', DocPreviewLinksComponent);
+    createElement('doc-preview-popup', DocPreviewPopupComponent);
+    createElement('doc-preview-panel', DocPreviewPanelComponent);
+    createElement('doc-result-link-preview', DocResultLinkPreviewComponent);
+    createElement('doc-facet-preview', DocFacetPreviewComponent);
+    createElement('doc-similar-documents', DocSimilarDocumentsComponent);
+    createElement('doc-preview-entity-facet', DocPreviewEntityFacetComponent);
+    createElement('doc-preview-entity-panel', DocPreviewEntityPanelComponent);
+    createElement('doc-preview-extracts-panel', DocPreviewExtractsPanelComponent);
+    createElement('doc-preview-search-form', DocPreviewSearchFormComponent);
+    createElement('doc-preview-pages-panel', DocPreviewPagesPanelComponent);
+    createElement('doc-preview-page-form', DocPreviewPageFormComponent);
+    createElement('doc-preview-minimap', DocPreviewMinimapComponent);
+    createElement('doc-facet-preview-2', DocFacetPreviewComponentComponent);
+    createElement('doc-preview-tooltip', DocPreviewTooltipComponent);
   }
 }

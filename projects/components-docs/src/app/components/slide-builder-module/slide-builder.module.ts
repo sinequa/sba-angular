@@ -7,7 +7,7 @@ import { DocSlideBuilderModuleComponent } from './slide-builder-module.component
 import { DocSlideBuilderComponent } from './slide-builder/slide-builder.component';
 import { DocSlideListComponent } from './slide-list/slide-list.component';
 import { SlideBuilderModule } from '@sinequa/components/slide-builder';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocSlideBuilderModuleComponent }
@@ -26,10 +26,9 @@ const routes: Routes = [
     SlideBuilderModule
   ]
 })
-export class DocSlideBuilderModule extends CustomElementModule {
+export class DocSlideBuilderModule {
   constructor() {
-    super();
-    this.createElement('doc-slide-builder', DocSlideBuilderComponent);
-    this.createElement('doc-slide-list', DocSlideListComponent);
+    createElement('doc-slide-builder', DocSlideBuilderComponent);
+    createElement('doc-slide-list', DocSlideListComponent);
   }
 }

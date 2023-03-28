@@ -14,7 +14,7 @@ import { DocResultsCounterComponent } from './results-counter/results-counter.co
 import { DocSponsoredResultsComponent } from './sponsored-results/sponsored-results.component';
 import { DocUserRatingComponent } from './user-rating/user-rating.component';
 import { ResultModule } from "@sinequa/components/result";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocResultModuleComponent }
@@ -40,17 +40,16 @@ const routes: Routes = [
     ResultModule
   ]
 })
-export class DocResultModule extends CustomElementModule {
+export class DocResultModule {
   constructor() {
-    super();
-    this.createElement('doc-result-title', DocResultTitleComponent);
-    this.createElement('doc-result-extracts', DocResultExtractsComponent);
-    this.createElement('doc-result-missing-terms', DocResultMissingTermsComponent);
-    this.createElement('doc-result-thumbnail', DocResultThumbnailComponent);
-    this.createElement('doc-user-rating', DocUserRatingComponent);
-    this.createElement('doc-sponsored-results', DocSponsoredResultsComponent);
-    this.createElement('doc-results-counter', DocResultsCounterComponent);
-    this.createElement('doc-result-icon', DocResultIconComponent);
-    this.createElement('doc-result-source', DocResultSourceComponent);
+    createElement('doc-result-title', DocResultTitleComponent);
+    createElement('doc-result-extracts', DocResultExtractsComponent);
+    createElement('doc-result-missing-terms', DocResultMissingTermsComponent);
+    createElement('doc-result-thumbnail', DocResultThumbnailComponent);
+    createElement('doc-user-rating', DocUserRatingComponent);
+    createElement('doc-sponsored-results', DocSponsoredResultsComponent);
+    createElement('doc-results-counter', DocResultsCounterComponent);
+    createElement('doc-result-icon', DocResultIconComponent);
+    createElement('doc-result-source', DocResultSourceComponent);
   }
 }

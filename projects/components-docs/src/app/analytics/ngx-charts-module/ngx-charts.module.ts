@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DocNgxChartsModuleComponent } from './ngx-charts-module.component';
 import { DocFacetChartComponent } from './facet-chart/facet-chart.component';
 import { NgxChartsModule } from '@sinequa/analytics/ngx-charts';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocNgxChartsModuleComponent }
@@ -24,9 +24,8 @@ const routes: Routes = [
     NgxChartsModule
   ]
 })
-export class DocNgxChartsModule extends CustomElementModule {
+export class DocNgxChartsModule {
   constructor() {
-    super();
-    this.createElement('doc-facet-chart', DocFacetChartComponent);
+    createElement('doc-facet-chart', DocFacetChartComponent);
   }
 }

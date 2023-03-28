@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DocTooltipModuleComponent } from './tooltip-module.component';
 import { DocTooltip2Component } from './tooltip-2/tooltip-2.component';
 import { BsTooltipComponent } from '@sinequa/analytics/tooltip';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocTooltipModuleComponent }
@@ -24,9 +24,8 @@ const routes: Routes = [
     BsTooltipComponent
   ]
 })
-export class DocTooltipModule extends CustomElementModule {
+export class DocTooltipModule {
   constructor() {
-    super();
-    this.createElement('doc-tooltip-2', DocTooltip2Component);
+    createElement('doc-tooltip-2', DocTooltip2Component);
   }
 }

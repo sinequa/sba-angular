@@ -167,7 +167,7 @@ This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/
 
 ### Did you mean
 
-<!-- <doc-did-you-mean></doc-did-you-mean> -->
+<doc-did-you-mean></doc-did-you-mean>
 
 The [`sq-did-you-mean`]({{site.baseurl}}components/components/BsDidYouMean.html) component displays the syntaxic or phonetic corrections of the user's search query. These corrections are sent by the server via the `Results.didYouMean` object.
 

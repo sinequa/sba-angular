@@ -7,7 +7,7 @@ import { DocResultsViewModuleComponent } from './results-view-module.component';
 import { DocResultsGridViewComponent } from './results-grid-view/results-grid-view.component';
 import { DocResultsViewSelectorComponent } from './results-view-selector/results-view-selector.component';
 import { BsResultsViewModule, ResultsView } from "@sinequa/components/results-view";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocResultsViewModuleComponent }
@@ -32,10 +32,9 @@ const resultsView: ResultsView = {
     BsResultsViewModule.forRoot([resultsView], resultsView)
   ]
 })
-export class DocResultsViewModule extends CustomElementModule {
+export class DocResultsViewModule {
   constructor() {
-    super();
-    this.createElement('doc-results-grid-view', DocResultsGridViewComponent);
-    this.createElement('doc-results-view-selector', DocResultsViewSelectorComponent);
+    createElement('doc-results-grid-view', DocResultsGridViewComponent);
+    createElement('doc-results-view-selector', DocResultsViewSelectorComponent);
   }
 }

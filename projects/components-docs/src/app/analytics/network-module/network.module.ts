@@ -8,7 +8,7 @@ import { DocEdgeInfoCardComponent } from './edge-info-card/edge-info-card.compon
 import { DocNetworkComponent } from './network/network.component';
 import { DocNodeInfoCardComponent } from './node-info-card/node-info-card.component';
 import { NetworkModule } from '@sinequa/analytics/network';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocNetworkModuleComponent }
@@ -28,11 +28,10 @@ const routes: Routes = [
     NetworkModule
   ]
 })
-export class DocNetworkModule extends CustomElementModule {
+export class DocNetworkModule {
   constructor() {
-    super();
-    this.createElement('doc-edge-info-card', DocEdgeInfoCardComponent);
-    this.createElement('doc-network', DocNetworkComponent);
-    this.createElement('doc-node-info-card', DocNodeInfoCardComponent);
+    createElement('doc-edge-info-card', DocEdgeInfoCardComponent);
+    createElement('doc-network', DocNetworkComponent);
+    createElement('doc-node-info-card', DocNodeInfoCardComponent);
   }
 }

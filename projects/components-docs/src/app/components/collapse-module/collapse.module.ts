@@ -7,7 +7,7 @@ import { DocCollapseModuleComponent } from './collapse-module.component';
 import { DocCollapseComponent } from './collapse/collapse.component';
 import { DocCollapseButtonComponent } from './collapse-button/collapse-button.component';
 import { CollapseModule } from "@sinequa/components/collapse";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocCollapseModuleComponent }
@@ -26,10 +26,9 @@ const routes: Routes = [
     CollapseModule
   ]
 })
-export class DocCollapseModule extends CustomElementModule {
+export class DocCollapseModule {
   constructor() {
-    super();
-    this.createElement('doc-collapse', DocCollapseComponent);
-    this.createElement('doc-collapse-button', DocCollapseButtonComponent);
+    createElement('doc-collapse', DocCollapseComponent);
+    createElement('doc-collapse-button', DocCollapseButtonComponent);
   }
 }

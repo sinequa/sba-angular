@@ -247,6 +247,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         if (!this.results || !this.results.rowCount) {
             return 0;
         }
+        console.log('pagecount', this.results.rowCount, this.results.pageSize)
         return Math.ceil(this.results.rowCount / this.results.pageSize);
     }
 
@@ -793,6 +794,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
      * @returns true if more are available otherwise false
      */
     hasMore(): boolean {
+        console.log ('has more', this.query.page, this.page, this.pageCount);
         const page = this.query.page || this.page;
         return (page < this.pageCount);
     }

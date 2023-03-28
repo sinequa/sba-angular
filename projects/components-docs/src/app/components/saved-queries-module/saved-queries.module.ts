@@ -13,7 +13,7 @@ import { DocManageSavedQueriesComponent } from './manage-saved-queries/manage-sa
 import { DocQueryExporterComponent } from './query-exporter/query-exporter.component';
 import { DocSavedQueriesMenuComponent } from './saved-queries-menu/saved-queries-menu.component';
 import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocSavedQueriesModuleComponent }
@@ -38,16 +38,15 @@ const routes: Routes = [
     BsSavedQueriesModule
   ]
 })
-export class DocSavedQueriesModule extends CustomElementModule {
+export class DocSavedQueriesModule {
   constructor() {
-    super();
-    this.createElement('doc-edit-saved-query', DocEditSavedQueryComponent);
-    this.createElement('doc-export-query', DocExportQueryComponent);
-    this.createElement('doc-facet-recent-documents', DocFacetRecentDocumentsComponent);
-    this.createElement('doc-facet-recent-queries', DocFacetRecentQueriesComponent);
-    this.createElement('doc-facet-saved-queries', DocFacetSavedQueriesComponent);
-    this.createElement('doc-manage-saved-queries', DocManageSavedQueriesComponent);
-    this.createElement('doc-query-exporter', DocQueryExporterComponent);
-    this.createElement('doc-saved-queries-menu', DocSavedQueriesMenuComponent);
+    createElement('doc-edit-saved-query', DocEditSavedQueryComponent);
+    createElement('doc-export-query', DocExportQueryComponent);
+    createElement('doc-facet-recent-documents', DocFacetRecentDocumentsComponent);
+    createElement('doc-facet-recent-queries', DocFacetRecentQueriesComponent);
+    createElement('doc-facet-saved-queries', DocFacetSavedQueriesComponent);
+    createElement('doc-manage-saved-queries', DocManageSavedQueriesComponent);
+    createElement('doc-query-exporter', DocQueryExporterComponent);
+    createElement('doc-saved-queries-menu', DocSavedQueriesMenuComponent);
   }
 }

@@ -7,7 +7,7 @@ import { DocUtilsModuleComponent } from './utils-module.component';
 import { DocStickyComponent } from './sticky/sticky.component';
 import { DocTooltipComponent } from './tooltip/tooltip.component';
 import { UtilsModule } from "@sinequa/components/utils";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocUtilsModuleComponent }
@@ -26,10 +26,9 @@ const routes: Routes = [
     UtilsModule
   ]
 })
-export class DocUtilsModule extends CustomElementModule {
+export class DocUtilsModule {
   constructor() {
-    super();
-    this.createElement('doc-sticky', DocStickyComponent);
-    this.createElement('doc-tooltip', DocTooltipComponent);
+    createElement('doc-sticky', DocStickyComponent);
+    createElement('doc-tooltip', DocTooltipComponent);
   }
 }

@@ -1,4 +1,13 @@
+const didYouMean: any = {
+  spellingCorrectionMode: 'Correct',
+  text: {
+    original: 'original text',
+    corrected: 'corrected text'
+  }
+};
+
 export const RESULTS = {
+  didYouMean,
   "details": [
     {
       "statements": [
@@ -524,10 +533,10 @@ export const RESULTS = {
   ],
   "id": "2478133872E04857855C248C59AA1CE2",
   "queryName": "query",
-  "rowCount": 7,
-  "totalRowCount": 7,
+  "rowCount": 30,
+  "totalRowCount": 30,
   "cursorRowCount": 2,
-  "page": 2,
+  "page": 3,
   "pageSize": 2,
   "columnCount": 104,
   "groupBy": null,

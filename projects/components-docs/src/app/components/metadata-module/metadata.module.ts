@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DocMetadataModuleComponent } from './metadata-module.component';
 import { DocMetadataComponent } from './metadata/metadata.component';
 import { MetadataModule } from "@sinequa/components/metadata";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocMetadataModuleComponent }
@@ -24,9 +24,8 @@ const routes: Routes = [
     MetadataModule
   ]
 })
-export class DocMetadataModule extends CustomElementModule {
+export class DocMetadataModule {
   constructor() {
-    super();
-    this.createElement('doc-metadata', DocMetadataComponent);
+    createElement('doc-metadata', DocMetadataComponent);
   }
 }

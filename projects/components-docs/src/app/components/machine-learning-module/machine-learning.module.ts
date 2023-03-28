@@ -8,7 +8,7 @@ import { DocTopPassagesComponent } from './top-passages/top-passages.component';
 import { MLModule } from '@sinequa/components/machine-learning';
 import { DocBaseModule } from '../../shared/base.module';
 import { RouterModule, Routes } from '@angular/router';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocMachineLearningModuleComponent }
@@ -28,11 +28,10 @@ const routes: Routes = [
     DocBaseModule
   ]
 })
-export class DocMachineLearningModule extends CustomElementModule {
+export class DocMachineLearningModule {
   constructor() {
-    super();
-    this.createElement('doc-answer-card', DocAnswerCardComponent);
-    this.createElement('doc-passage-list', DocPassageListComponent);
-    this.createElement('doc-top-passages', DocTopPassagesComponent);
+    createElement('doc-answer-card', DocAnswerCardComponent);
+    createElement('doc-passage-list', DocPassageListComponent);
+    createElement('doc-top-passages', DocTopPassagesComponent);
   }
 }

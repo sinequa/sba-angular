@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DocFeedbackModuleComponent } from './feedback-module.component';
 import { DocFeedbackMenuComponent } from './feedback-menu/feedback-menu.component';
 import { BsFeedbackModule } from '@sinequa/components/feedback';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocFeedbackModuleComponent }
@@ -24,9 +24,8 @@ const routes: Routes = [
     BsFeedbackModule
   ]
 })
-export class DocFeedbackModule extends CustomElementModule {
+export class DocFeedbackModule {
   constructor() {
-    super();
-    this.createElement('doc-feedback-menu', DocFeedbackMenuComponent);
+    createElement('doc-feedback-menu', DocFeedbackMenuComponent);
   }
 }

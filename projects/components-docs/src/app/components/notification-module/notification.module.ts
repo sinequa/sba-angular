@@ -7,7 +7,7 @@ import { DocNotificationModuleComponent } from './notification-module.component'
 import { DocNotificationsComponent } from './notifications/notifications.component';
 import { DocNotificationsManagerComponent } from './notifications-manager/notifications-manager.component';
 import { BsNotificationModule } from "@sinequa/components/notification";
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocNotificationModuleComponent }
@@ -26,10 +26,9 @@ const routes: Routes = [
     BsNotificationModule
   ]
 })
-export class DocNotificationModule extends CustomElementModule {
+export class DocNotificationModule {
   constructor() {
-    super();
-    this.createElement('doc-notifications', DocNotificationsComponent);
-    this.createElement('doc-notifications-manager', DocNotificationsManagerComponent);
+    createElement('doc-notifications', DocNotificationsComponent);
+    createElement('doc-notifications-manager', DocNotificationsManagerComponent);
   }
 }

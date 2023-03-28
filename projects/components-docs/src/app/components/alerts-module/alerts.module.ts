@@ -10,7 +10,7 @@ import { DocEditAlertComponent } from './edit-alert/edit-alert.component';
 import { DocManageAlertsComponent } from './manage-alerts/manage-alerts.component';
 import { BsAlertsModule } from "@sinequa/components/alerts";
 import { BsNotificationModule } from '@sinequa/components/notification';
-import { CustomElementModule } from 'src/app/shared/custom-element-module';
+import { createElement } from 'src/app/shared/create-element';
 
 const routes: Routes = [
   { path: '', component: DocAlertsModuleComponent }
@@ -32,12 +32,11 @@ const routes: Routes = [
     BsNotificationModule
   ]
 })
-export class DocAlertsModule extends CustomElementModule {
+export class DocAlertsModule {
   constructor() {
-    super();
-    this.createElement('doc-alerts', DocAlertsComponent);
-    this.createElement('doc-alerts-menu', DocAlertsMenuComponent);
-    this.createElement('doc-edit-alert', DocEditAlertComponent);
-    this.createElement('doc-manage-alerts', DocManageAlertsComponent);
+    createElement('doc-alerts', DocAlertsComponent);
+    createElement('doc-alerts-menu', DocAlertsMenuComponent);
+    createElement('doc-edit-alert', DocEditAlertComponent);
+    createElement('doc-manage-alerts', DocManageAlertsComponent);
   }
 }
