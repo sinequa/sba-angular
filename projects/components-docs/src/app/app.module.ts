@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { DocAppComponent } from './app.component';
-import { IntlModule, Locale, LocaleData, LocalesConfig } from "@sinequa/core/intl";
+import { IntlModule, Locale, LocalesConfig } from "@sinequa/core/intl";
 import { WebServicesModule, StartConfig, StartConfigWebService } from "@sinequa/core/web-services";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
@@ -66,22 +66,15 @@ export function startConfigInitializer(startConfigWebService: StartConfigWebServ
     return () => startConfigWebService.fetchPreLoginAppConfig();
 }
 
-const data: LocaleData = {
-    intl: {
-        locale: "en-US"
-    },
-    messages: {}
-};
+// Application languages (intl service)
+import enLocale from "../locales/en";
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
     locales?: Locale[];
-
-    constructor() {
+    constructor(){
         this.locales = [
-            { name: "en", display: "msg#locale.en", data },
-            { name: "fr", display: "msg#locale.fr", data },
-            { name: "de", display: "msg#locale.de", data },
+            { name: "en", display: "msg#locale.en", data: enLocale}
         ];
         this.defaultLocale = this.locales[0];
     }
