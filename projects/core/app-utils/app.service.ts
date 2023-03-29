@@ -294,7 +294,6 @@ export class AppService implements OnDestroy {
         this.initDefaultQuery();
         this.makeMaps();
         this.suggestQueries = Utils.split(this.ccautocomplete ? this.ccautocomplete.suggestQueries : "", ",");
-        console.log('app this.suggestQueries', this.suggestQueries);
     }
 
     private verifyServerApiVersionCompatibility(app: CCApp): void {
