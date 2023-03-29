@@ -22,7 +22,7 @@
 
         <!-- User menu which visibility can be toggled with a button on small screens -->
         <div class="d-flex justify-content-end flex-grow-1 flex-shrink-1 w-100" *ngIf="showMenu" [ngClass]="{'d-none': !showMenu}">
-            <ul class="navbar-nav navbar-right mw-100">
+            <ul class="navbar-nav navbar-right align-items-center mw-100">
                 <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
                     <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
                     <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
@@ -51,7 +51,7 @@
     <div class="row" *ngIf="results$ | async; let results">
         <!-- Left facet bar -->
         <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 80, bottom: 10}">
+        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 105, bottom: 10}">
             <!-- Source facet -->
             <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" class="mb-3">
                 <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
@@ -94,7 +94,7 @@
             </sq-facet-card>
 
             <!-- Toolbar -->
-            <div class="d-flex small sq-toolbar">
+            <div class="d-flex small my-2 sq-toolbar">
                 <sq-filters-view
                   class="flex-grow-1 position-relative"
                   [query]="searchService.query"
@@ -142,7 +142,7 @@
 
         <!-- Right part-->
         <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-sm-12 col-lg-4 col-xl-5" [ngClass]="{'col-md-6': !showFilters}"  [sqSticky]="{top: 80, bottom: 10}">
+        <div class="col-sm-12 col-lg-4 col-xl-5" [ngClass]="{'col-md-6': !showFilters}"  [sqSticky]="{top: 105, bottom: 10}">
 
             <sq-facet-card [title]="'ChatGPT'" [icon]="'fas fa-comments primary-icon'" [collapsible]="false" [actions]="[chatSettingsAction]" class="mb-3">
               <sq-chat #facet *ngIf="!chatSettingsAction.selected"
@@ -188,7 +188,7 @@
                 </ng-template>
 
                 <ng-template #subHeaderTpl>
-                    <sq-metadata [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
+                    <sq-metadata class="small" [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
                         [tabular]="false" [clickable]="false">
                     </sq-metadata>
                 </ng-template>
