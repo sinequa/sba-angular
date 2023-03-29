@@ -1,19 +1,18 @@
 <div class="my-3">
-    <label for="global-font-size" class="form-label">Global font size:</label>
-    <input type="number" placeholder="Type something" id="global-font-size" [(ngModel)]="fontSize" class="form-control"
-        (ngModelChange)="changedFontSize()" />
+  <label for="global-font-size" class="form-label">Global font size:</label>
+  <input type="number"
+    placeholder="Type something"
+    id="global-font-size"
+    class="form-control"
+    [(ngModel)]="fontSize"
+    (ngModelChange)="changedFontSize()" />
 </div>
 
-<h6>Components</h6>
-<ul>
-    <li *ngFor="let item of components" [class.active]="currentRoute === item">
-        <a [routerLink]="item">{{item}}</a>
+<ng-container *ngFor="let route of routes">
+  <h6>{{route.path | titlecase}}</h6>
+  <ul>
+    <li *ngFor="let item of route.children">
+      <a [routerLink]="route.path + '/' + item.path" routerLinkActive="active">{{item.path | titlecase}}</a>
     </li>
-</ul>
-
-<h6>Analytics</h6>
-<ul>
-    <li *ngFor="let item of analyticsComponents" [class.active]="currentRoute === item">
-        <a [routerLink]="item">{{item}}</a>
-    </li>
-</ul>
+  </ul>
+</ng-container>
