@@ -922,7 +922,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
      *
      * They are first searched on the result records, and we make a query for those we cannot find
      */
-    getRecords(ids: string[]): Observable<Record[]> {
+    getRecords(ids: string[]): Observable<(Record|undefined)[]> {
         const records = ids.map(id => {
             return {
                 id,
@@ -936,15 +936,18 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
         // building query to get missing records
         const query = this.query.copy();
-        query.globalRelevance = 0;
+        delete query.page;
+        query.groupBy = 'id'; // Override the default group by if any
+        const recordIds = [...new Set(records.filter(r => !r.record).map(r => r.id))]; // Unique ids
+        query.pageSize = recordIds.length;
         query.addFilter({
             field: 'id',
             operator: 'in',
-            values: records.filter(r => !r.record).map(r => r.id)
+            values: recordIds
         });
 
         return this.getResults(query, undefined, {searchInactive: true})
-            .pipe(map(res => records.map(r => r.record || res.records.find(rec => rec.id === r.id)!)));
+            .pipe(map(res => records.map(r => r.record || res.records.find(rec => rec.id === r.id))));
     }
 }
 

@@ -9,7 +9,9 @@ import { MatchingPassage, Record } from "@sinequa/core/web-services";
       *ngFor="let passage of record.matchingpassages?.passages|slice:0:maxPassages; let index = index"
       (click)="expand(passage)">
       <div class="sq-passage-icon"></div>
-      <div class="sq-passage-text" [innerHtml]="passage.highlightedText || passage.text"></div>
+      <div class="sq-passage-text">
+        <span [innerHTML]="passage.highlightedText || passage.text"></span>
+      </div>
   </li>
 </ol>
   `,

@@ -1,9 +1,6 @@
 <div class="d-flex flex-column align-items-center justify-content-center home">
     <!-- Home page logo -->
-    <img src="{{ (isDark$ | async) ? 'assets/vanilla-logo-dark.png' : 'assets/vanilla-logo.png' }}" id="logo">
-
-    <!-- Home page title -->
-    <h1>{{ 'msg#app.name' | sqMessage }}</h1>
+    <img src="{{ (isDark$ | async) ? 'assets/sinequa-logo-dark-lg.png' : 'assets/sinequa-logo-light-lg.png' }}" id="logo" class="mb-5">
 
     <!-- Search Form (app/search-form) -->
     <app-search-form [autocompleteSources]="features"></app-search-form>
