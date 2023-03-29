@@ -31,6 +31,10 @@ body.dark .sq-light-mode {
   display: none;
 }
 
+:root {
+  --primary: rgb(12, 117, 255);
+}
+
 app-search-form {
 
   // Styling for the scope component (for a clean rendering within the search form)
@@ -203,7 +207,7 @@ sq-filters-view {
   preview facet's header
 **/
 sq-facet-preview-2 {
-  height: calc(100vh - 210px) !important;
+  height: calc(100vh - 230px) !important;
 }
 
 // Vanilla Dark mode
