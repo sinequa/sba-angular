@@ -20,6 +20,8 @@ $dark-link: #9bccff;
 
 $navbar-padding-y: 1.25rem;
 
+@import "../../../components/theme/breakpoints";
+
 // Sinequa global theme (contains Bootstrap imports)
 // @import "../../../components/theme/minimal";
 @import "../../../components/theme/sinequa";
