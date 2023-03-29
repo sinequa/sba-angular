@@ -8,8 +8,9 @@
 
 .list-group-item {
   cursor: pointer;
-  line-height: 1.8rem;
-  font-weight: 300;
+  line-height: 1.2rem;
+  font-size: 0.875em;
+  font-weight: 400;
   white-space: break-spaces;
   padding: .4rem 0;
 
@@ -21,7 +22,6 @@
     width: 1.25rem;
 
     &::before {
-      font-size: large;
       font-weight: bold;
       font-family: monospace;
       content: "+ ";

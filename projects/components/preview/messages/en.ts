@@ -50,7 +50,7 @@ export default {
             "showPassages": "Show/hide passages extracted by Neural Search",
             "downloadPdf": "Download PDF version",
             "viewPreview": "Preview",
-            "viewPassages": "Passages",
+            "viewPassages": "Snippets",
             "documentPreview": "Document preview",
             "documentPreviewTitle": "This is the document preview",
             "documentPreviewDescription": "Click on one of your search results to preview the document here."

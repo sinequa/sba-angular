@@ -4,24 +4,24 @@
 }
 
 #logo {
-    content: url("/assets/sinequa-logo-light-sm.png");
+    content: url("../../assets/sinequa-logo-light-sm.png");
     width: 40px;
     max-height: 40px;
 
     @media ( min-width: 1200px ) {
-        content: url("/assets/sinequa-logo-light-lg.png");
+        content: url("../../assets/sinequa-logo-light-lg.png");
         width: 160px;
     }
 }
 
-body.dark {
+:host-context(body.dark) {
     #logo {
-        content: url("/assets/sinequa-logo-dark-sm.png");
+        content: url("../../assets/sinequa-logo-dark-sm.png");
         width: 40px;
         max-height: 40px;
 
         @media ( min-width: 1200px ) {
-            content: url("/assets/sinequa-logo-dark-lg.png");
+            content: url("../../assets/sinequa-logo-dark-lg.png");
             width: 160px;
         }
     }

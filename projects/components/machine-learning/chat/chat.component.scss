@@ -1,0 +1,59 @@
+:host {
+  font-size: 0.875rem;
+}
+
+li.attachment > p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+}
+
+li.attachment.expanded > p {
+  display: block;
+}
+
+li.list-group-item {
+  --bs-list-group-border-width: 1px !important;
+}
+
+.progress {
+  --bs-progress-height: 3px;
+  &.disabled {
+    --bs-progress-height: 20px;
+    --bs-progress-bar-bg: var(--bs-danger);
+  }
+}
+
+.user-input {
+  z-index: 1;
+  box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.08);
+  ul.list-group {
+    max-height: 30vh;
+  }
+}
+
+.form-control:disabled {
+  background-color: #ededed;
+}
+
+.references .reference, .message-content ::ng-deep .reference{
+  font-size: 0.7em;
+  font-weight: bold;
+  position: relative;
+  bottom: 0.3em;
+  padding: 0 0.2em;
+  margin: 0 0.1em;
+  border-radius: 0.2em;
+  background-color: lightblue;
+  color: black !important;
+}
+
+a.disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.no-max-height {
+  max-height: initial !important;
+}
