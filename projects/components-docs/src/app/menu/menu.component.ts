@@ -35,7 +35,6 @@ export class DocMenuComponent {
         'selection',
         'slide-builder',
         'status-bar',
-        'theme-toggle',
         'user-settings',
         'utils'
     ];

@@ -25,7 +25,6 @@ const routes: Routes = [
   { path: 'selection', loadChildren: () => import(`./components/selection-module/selection.module`).then(m => m.DocSelectionModule) },
   { path: 'slide-builder', loadChildren: () => import(`./components/slide-builder-module/slide-builder.module`).then(m => m.DocSlideBuilderModule) },
   { path: 'status-bar', loadChildren: () => import(`./components/status-bar-module/status-bar.module`).then(m => m.DocStatusBarModule) },
-  { path: 'theme-toggle', loadChildren: () => import(`./components/theme-toggle-module/theme-toggle.module`).then(m => m.DocThemeToggleModule) },
   { path: 'user-settings', loadChildren: () => import(`./components/user-settings-module/user-settings.module`).then(m => m.DocUserSettingsModule) },
   { path: 'utils', loadChildren: () => import(`./components/utils-module/utils.module`).then(m => m.DocUtilsModule) },
   { path: 'ag-grid', loadChildren: () => import(`./analytics/ag-grid-module/ag-grid.module`).then(m => m.DocAgGridModule) },

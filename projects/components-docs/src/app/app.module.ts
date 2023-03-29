@@ -34,7 +34,6 @@ import { DocSearchModule } from './components/search-module/search.module';
 import { DocSelectionModule } from './components/selection-module/selection.module';
 import { DocSlideBuilderModule } from './components/slide-builder-module/slide-builder.module';
 import { DocStatusBarModule } from './components/status-bar-module/status-bar.module';
-import { DocThemeToggleModule } from './components/theme-toggle-module/theme-toggle.module';
 import { DocUserSettingsModule } from './components/user-settings-module/user-settings.module';
 import { DocUtilsModule } from './components/utils-module/utils.module';
 import { DocAgGridModule } from './analytics/ag-grid-module/ag-grid.module';
@@ -118,7 +117,6 @@ export class AppLocalesConfig implements LocalesConfig {
         DocSelectionModule,
         DocSlideBuilderModule,
         DocStatusBarModule,
-        DocThemeToggleModule,
         DocUserSettingsModule,
         DocUtilsModule,
         DocAgGridModule,

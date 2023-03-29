@@ -1,12 +1,5 @@
 import { NormalComment } from "@sinequa/components/comments";
 
-export const COMMENTS: Comment[] = [
-    new Comment('comment 1'),
-    new Comment('comment 2'),
-    new Comment('comment 3'),
-    new Comment('comment 4')
-];
-
 export const NORMAL_COMMENT: NormalComment = {
     message: 'comment',
     userid: 'userid',

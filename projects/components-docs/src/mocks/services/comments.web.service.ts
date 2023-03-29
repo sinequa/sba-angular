@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { NormalComment } from "@sinequa/components/comments";
+import { NormalComment, Comment } from "@sinequa/components/comments";
 import { HttpService } from "@sinequa/core/web-services";
 import { Observable, of, EMPTY } from "rxjs";
-import { COMMENTS, NORMAL_COMMENT } from "../data/comments";
+import { NORMAL_COMMENT } from "../data/comments";
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +11,7 @@ export class MockCommentsWebService extends HttpService {
     protected endpoint = 'plugin/CommentsWebService';
 
     getComments(docid: string): Observable<Comment[]> {
-        return of(COMMENTS)
+        return of([NORMAL_COMMENT])
     }
 
     getCommentCount(docid: string): Observable<number> {
@@ -27,7 +27,7 @@ export class MockCommentsWebService extends HttpService {
     }
 
     updateComment(docid: string, commentid: string, message: string) {
-        return of(COMMENTS[0]);
+        return of([NORMAL_COMMENT]);
     }
 
     deleteComment(docid: string, commentid: string, markAsDeleted: boolean): Observable<void> {
