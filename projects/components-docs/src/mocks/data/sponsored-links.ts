@@ -1,6 +1,6 @@
 import { LinksResults } from "@sinequa/core/web-services";
 
-export const linksResults: LinksResults = {
+export const LINKS_RESULTS: LinksResults = {
     sql: [''],
     links: [
         {

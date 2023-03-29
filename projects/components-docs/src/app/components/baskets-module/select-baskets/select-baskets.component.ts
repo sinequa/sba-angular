@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { BasketsService } from '@sinequa/components/baskets';
+import { environment } from 'src/environments/environment';
+import { baskets } from 'src/mocks/data/user-settings';
 
 @Component({
   selector: 'doc-select-baskets',
@@ -6,8 +9,12 @@ import { Component } from '@angular/core';
 })
 export class DocSelectBasketsComponent {
 
-  code = `NullInjectorError: No provider for ModalRef!`;
+  code = `<sq-select-basket></sq-select-basket>`;
 
-  constructor() { }
+  constructor(private basketsService: BasketsService) {
+    if (environment.mock) {
+      this.basketsService.updateBaskets(baskets);
+    }
+  }
 
 }

@@ -1,4 +1,12 @@
+import { Basket } from "@sinequa/components/baskets";
+
+export const baskets: Basket[] = [
+    {name: 'basket 1'},
+    {name: 'basket 2'},
+];
+
 export const USER_SETTINGS = {
+    baskets,
     "facets": [
         {
             "name": "facet1",

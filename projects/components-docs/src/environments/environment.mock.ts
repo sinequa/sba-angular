@@ -1,6 +1,6 @@
 import { CommentsWebService } from "@sinequa/components/comments";
 import { TokenService } from "@sinequa/core/login";
-import { AppWebService, AuditWebService, PreviewWebService, PrincipalWebService, QueryWebService, SimilarDocumentsWebService, SponsoredLinksWebService, StartConfigWebService, UserSettingsWebService } from "@sinequa/core/web-services";
+import { AppWebService, AuditWebService, PreviewWebService, PrincipalWebService, QueryWebService, SimilarDocumentsWebService, SponsoredLinksWebService, StartConfigWebService, SuggestQueryWebService, UserSettingsWebService } from "@sinequa/core/web-services";
 import { MockAppWebService } from "../mocks/services/app.web.service";
 import { MockAuditWebService } from "../mocks/services/audit.web.service";
 import { MockCommentsWebService } from "../mocks/services/comments.web.service";
@@ -12,6 +12,7 @@ import { MockStartConfigWebService } from "../mocks/services/start-config.web.se
 import { MockUserSettingsWebService } from "../mocks/services/user-settings.web.service";
 import { MockTokenService } from "../mocks/services/token.service";
 import { MockSponsoredLinksWebService } from "../mocks/services/sponsored-links.web.service";
+import { MockSuggestQueryWebService } from "../mocks/services/suggest-query.web.service";
 
 export const environment = {
   url: "https://localhost:4200",
@@ -29,6 +30,7 @@ export const environment = {
     { provide: PrincipalWebService, useClass: MockPrincipalWebService },
     { provide: AuditWebService, useClass: MockAuditWebService },
     { provide: TokenService, useClass: MockTokenService },
-    { provide: SponsoredLinksWebService, useClass: MockSponsoredLinksWebService }
+    { provide: SponsoredLinksWebService, useClass: MockSponsoredLinksWebService },
+    { provide: SuggestQueryWebService, useClass: MockSuggestQueryWebService }
   ]
 };

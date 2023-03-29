@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class DocEditBasketComponent {
 
-  code = `NullInjectorError: No provider for ModalRef!`;
+  code = `<sq-edit-basket></sq-edit-basket>`;
 
   constructor() { }
 

@@ -227,7 +227,7 @@ Note: in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.
 
 ### User Menu
 
-<!-- <doc-baskets-menu></doc-baskets-menu> -->
+<doc-baskets-menu></doc-baskets-menu>
 
 The [`sq-baskets-menu`]({{site.baseurl}}components/components/BsBasketsMenuComponent.html) component displays the list of baskets, lets a user create a new basket and reorganize the list (See the *Manage* modal below).
 
@@ -244,7 +244,7 @@ This menu is meant to be inserted in a Bootstrap-styled navbar:
 
 ### Facet
 
-<!-- <doc-facet-baskets></doc-facet-baskets> -->
+<doc-facet-baskets></doc-facet-baskets>
 
 The [`sq-facet-baskets`]({{site.baseurl}}components/components/BsFacetBasketsComponent.html) component displays the list of baskets, lets a user open one of them, create a new one, open the *Manage* modal (see below), and delete specific baskets.
 
