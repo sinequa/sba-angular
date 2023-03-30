@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FacetConfig } from '@sinequa/components/facet';
 import { BaseComponent } from 'src/app/shared/base.component';
 import { FACETS } from 'src/mocks/data/facets';
 
@@ -9,6 +10,13 @@ import { FACETS } from 'src/mocks/data/facets';
 export class DocFacetFiltersComponent extends BaseComponent {
 
   FACETS = FACETS;
+
+  facets: FacetConfig<{}>[] = [
+    {
+      type: 'boolean',
+      aggregation: 'AggBool'
+    }
+  ];
 
   code = `<sq-facet-filters
   [results]="results"

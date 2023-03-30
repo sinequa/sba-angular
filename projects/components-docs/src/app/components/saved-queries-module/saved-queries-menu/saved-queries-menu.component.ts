@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { UserSettingsWebService } from '@sinequa/core/web-services';
+import { environment } from 'src/environments/environment';
+import { savedQueries } from 'src/mocks/data/user-settings';
 
 @Component({
   selector: 'doc-saved-queries-menu',
@@ -8,6 +11,13 @@ export class DocSavedQueriesMenuComponent {
 
   code = `<sq-saved-queries-menu></sq-saved-queries-menu>`;
 
-  constructor() { }
+  constructor(private userSettingsService: UserSettingsWebService) {
+    if (environment.mock) {
+      if (!this.userSettingsService.userSettings) {
+        this.userSettingsService.userSettings = {};
+      }
+      this.userSettingsService.userSettings["savedQueries"] = savedQueries;
+    }
+  }
 
 }
