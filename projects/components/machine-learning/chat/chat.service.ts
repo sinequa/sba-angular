@@ -540,7 +540,7 @@ export class ChatService {
     this.auditService.notify({
       type: 'Chat_Messages',
       detail: {
-        message: messagesHistory.map(m => m.role + ': '+ m.$attachment? `attachment ${m.$attachment?.$record.title}` : m.$content).join('\n\n'),
+        message: messagesHistory.map(m => m.role + ': '+ (m.$attachment? `attachment ${m.$attachment?.$record.title}` : m.content)).join('\n\n'),
         numberOfUserMessages,
         numberOfAttachments,
         numberOfAssistantMessages,
