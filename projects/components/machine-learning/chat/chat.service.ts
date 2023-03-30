@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
-import { JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
+import { AuditEvent, AuditWebService, JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
 import { BehaviorSubject, defaultIfEmpty, forkJoin, map, Observable, of, Subject, switchMap, tap } from "rxjs";
 import { marked } from "marked";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
@@ -28,7 +28,8 @@ export class ChatService {
     public searchService: SearchService,
     private userSettingsService: UserSettingsWebService,
     public modalService: ModalService,
-    public notificationsService: NotificationsService
+    public notificationsService: NotificationsService,
+    public auditService: AuditWebService
   ) {}
 
 
@@ -54,6 +55,7 @@ export class ChatService {
           this.processMessage(res.messagesHistory.at(-1)!, messages)
         ]
       })),
+      tap(({tokens, messagesHistory}) => this.notifyAudit(messagesHistory, tokens))
     );
   }
 
@@ -192,8 +194,14 @@ export class ChatService {
    * upated.
    */
   searchAttachmentsSync(text: string, minScore = 0.5, maxPassages = 5) {
+    const event: AuditEvent = {
+      type: "Chat_Autosearch",
+      detail: {
+        querytext: text
+      }
+    };
     this.searchService.query.text = text;
-    this.searchService.getResults(this.searchService.query).pipe(
+    this.searchService.getResults(this.searchService.query, event).pipe(
       tap(results => this.searchService.setResults(results)),
       switchMap(results => {
         const passages = results.topPassages?.passages?.filter(p => p.score > minScore).slice(0,maxPassages);
@@ -466,6 +474,12 @@ export class ChatService {
     this.savedChats.push(savedChat);
     this.syncSavedChats()
       .subscribe(() => this.notificationsService.success(`${savedChat.name} was saved successfully`));
+    this.auditService.notify({
+      type: "Chat_Save",
+      detail: {
+        chat: savedChat.name
+      }
+    });
   }
 
   /**
@@ -477,6 +491,12 @@ export class ChatService {
       this.savedChats.splice(this.savedChats.indexOf(chat), 1);
       if (!skipSync) {
         this.syncSavedChats();
+        this.auditService.notify({
+          type: "Chat_Delete",
+          detail: {
+            chat: name
+          }
+        });
       }
     }
   }
@@ -504,6 +524,27 @@ export class ChatService {
       if (res === ModalResult.OK) {
         const savedChat: SavedChat = { name: model.output, messages, tokens };
         this.saveChat(savedChat);
+      }
+    });
+  }
+
+  notifyAudit(messagesHistory: ChatMessage[], tokens: OpenAITokens) {
+    let numberOfUserMessages = 0;
+    let numberOfAttachments = 0;
+    let numberOfAssistantMessages = 0;
+    for(let m of messagesHistory) {
+      if(m.$attachment) numberOfAttachments++;
+      else if(m.role === 'user') numberOfUserMessages++;
+      else if (m.role === 'assistant') numberOfAssistantMessages++;
+    }
+    this.auditService.notify({
+      type: 'Chat_Messages',
+      detail: {
+        message: messagesHistory.map(m => m.role + ': '+ m.$attachment? `attachment ${m.$attachment?.$record.title}` : m.$content).join('\n\n'),
+        numberOfUserMessages,
+        numberOfAttachments,
+        numberOfAssistantMessages,
+        tokens: tokens.used
       }
     });
   }
