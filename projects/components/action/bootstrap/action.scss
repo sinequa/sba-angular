@@ -276,7 +276,7 @@ ul.sq-scrollable-menu {
 	right: auto;
 	left: 9px;
 }
-*:not(.dropdown-submenu) > .dropdown-menu[data-popper-placement="top-start"]::before {
+*:not(.dropdown-submenu) > .dropdown-menu[data-popper-placement^="top"]::before {
 	top: unset;
 	bottom: -8px;
 	border-width: 8px 8px 0;
