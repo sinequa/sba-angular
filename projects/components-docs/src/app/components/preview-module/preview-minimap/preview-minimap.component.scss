@@ -1,0 +1,19 @@
+sq-preview-minimap {
+    .minimap {
+        width: 15px;
+        position: fixed;
+        top: 0px;
+        right: 3px;
+        height: 100%;
+        z-index: 100;
+
+        .minimap-section {
+            width: 100%;
+            height: 1px;
+            position: absolute;
+            border: 1px solid orange;
+            background-color: yellow;
+            cursor: pointer;
+        }
+    }
+}

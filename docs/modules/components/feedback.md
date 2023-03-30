@@ -42,6 +42,8 @@ const messages = Utils.merge({}, ..., enFeedback, appMessages);
 
 ## Feedback
 
+<doc-feedback-menu></doc-feedback-menu>
+
 The [`sq-feedback-menu`]({{site.baseurl}}components/components/BsFeedbackMenu.html) component can be displayed in an application with:
 
 ```html

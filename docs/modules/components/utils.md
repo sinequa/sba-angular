@@ -362,6 +362,8 @@ Example:
 
 #### Sticky Component
 
+<doc-sticky></doc-sticky>
+
 The [`sqSticky`]({{site.baseurl}}components/components/StickyComponent.html) component is a container that "sticks" to the top and the bottom of the screen when scrolling. For example, a sidebar containing facets will be always visible on the screen, even when scrolling down a long list of results. Additionally, if the sidebar is itself very long, it will scroll with the content until reaching the bottom of the side bar (and then "stick" to the *bottom* of the screen). Note that this behaviour is not possible when using a simple `position: sticky` or Bootstrap's `sticky-top`.
 
 The component accepts as input an object containing the offsets with respect to the top and bottom of the screen. The default value is `{top: 0, bottom: 0}`.

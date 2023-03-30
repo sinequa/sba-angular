@@ -52,6 +52,8 @@ This module exports the [`AnswerCardComponent`]({{site.baseurl}}components/compo
 
 ### Answer Component
 
+<doc-answer-card></doc-answer-card>
+
 The answers are the possible direct answers the platform supposes from your query according to the documents it searches through.
 
 **Required parameters:**
@@ -64,6 +66,8 @@ The answers are the possible direct answers the platform supposes from your quer
 * `showLikeButtons` (default: `false`): Whether the Like/Dislike buttons should be shown
 
 ### Top Passages Component
+
+<doc-top-passages></doc-top-passages>
 
 Similar as the Answer component, the Top Passages one displays the relevant passages that Neural Search has figured from your query according to your documents.
 
@@ -78,6 +82,8 @@ Similar as the Answer component, the Top Passages one displays the relevant pass
 * `lineNumber` (default: `3`): The number of lines to display per passages on collapsed state, they can be expanded afterwards
 
 ### Passage List
+
+<doc-passage-list></doc-passage-list>
 
 The passages list is used to display all of the relevant passages from the selected document in a collapsed number of lines that you can expand manually.
 

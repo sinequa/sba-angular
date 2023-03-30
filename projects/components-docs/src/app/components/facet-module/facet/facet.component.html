@@ -1,0 +1,43 @@
+<doc-component-demo title="BsFacetCard" [html]="code2" [ts]="code2_2" class="mb-4 d-block">
+    <sq-facet-card title="With secondary and view actions" [collapsible]="false" [viewActionsAreSecondary]="true"
+        [actions]="primaryActions" [secondaryActions]="secondaryActions">
+        <ng-template [sqFacetView]="{text: 'View 1'}">
+            View 1
+        </ng-template>
+
+        <ng-template [sqFacetView]="{text: 'View 2'}">
+            View 2
+        </ng-template>
+    </sq-facet-card>
+</doc-component-demo>
+
+<doc-component-demo title="BsFacetCard" [html]="code1">
+    <sq-facet-card title="With a list-group" icon="fas fa-sitemap" [collapsible]="true">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a class="list-group-item-action d-flex align-items-center">
+                    <span class="query-name me-auto text-truncate" [title]="'title'">title</span>
+                    <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">"additional
+                        text"</span>
+                    <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a class="list-group-item-action d-flex align-items-center">
+                    <span class="query-name me-auto text-truncate" [title]="'title2'">title2</span>
+                    <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">"additional
+                        text 2"</span>
+                    <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a class="list-group-item-action d-flex align-items-center">
+                    <span class="query-name me-auto text-truncate" [title]="'title3'">title3</span>
+                    <span class="query-text text-muted small fst-italic text-right text-truncate ms-2">"additional
+                        text 3"</span>
+                    <i class="query-delete ms-2 fas fa-times" [title]="'Delete'"></i>
+                </a>
+            </li>
+        </ul>
+    </sq-facet-card>
+</doc-component-demo>

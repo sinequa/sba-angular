@@ -55,6 +55,8 @@ The [`sq-collapse`]({{site.baseurl}}components/components/Collapse.html) compone
 
 Wrap the collapsible content into `<sq-collapse>` and `<ng-template>` elements (meaning the content will be instantiated only once displayed).
 
+<doc-collapse></doc-collapse>
+
 Example 1: A collapsible list of element in the HTML template
 
 ```ts
@@ -110,3 +112,5 @@ Example 2: Usage of the [`sq-collapse-button`]({{site.baseurl}}components/compon
     </ng-template>
 </sq-collapse>{% endraw %}
 ```
+
+<doc-collapse-button></doc-collapse-button>

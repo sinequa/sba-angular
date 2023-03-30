@@ -248,7 +248,7 @@ The `FacetConfig` interface has a part that is common to all facets:
 - `title` and `icon` define what is displayed in the facet header
 - `includedTabs` and `excludedTabs` allow to list the tabs (from the `results` object) in which this facet should be displayed.
 
-The `parameters` property is specific to the component `type`. In the example above, its type is [`FacetListParams`]({{site.baseurl}}components/interfaces/FacetListParams.html), which corresponds to the configuration of a `"list"` facet component. 
+The `parameters` property is specific to the component `type`. In the example above, its type is [`FacetListParams`]({{site.baseurl}}components/interfaces/FacetListParams.html), which corresponds to the configuration of a `"list"` facet component.
 
 The Angular components displayed by the containers is provided as a `MapOf<Type<any>>`. By default, the containers support the standard components from the `@sinequa/components/facet` module:
 
@@ -283,7 +283,9 @@ And in the template:
 
 ### Facet Bar
 
-The [`sq-facet-bar`]({{site.baseurl}}components/components/BsFacetBar.html) component is a container which can display a dynamic list of facets. 
+<!-- <doc-facet-bar></doc-facet-bar> -->
+
+The [`sq-facet-bar`]({{site.baseurl}}components/components/BsFacetBar.html) component is a container which can display a dynamic list of facets.
 
 The [Facet Service](#facet-service) manages the list of facets displayed in the facet bar. The service allows adding, moving and removing facets dynamically. The facets' configuration and list of facets displayed by default must be injected in the Facet Service by calling `BsFacetModule.forRoot()` in your `app.module.ts`:
 
@@ -320,7 +322,7 @@ export const defaultFacets: FacetState[] = [
 })
 ```
 
-This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input and optionally a list of custom components (`facetComponents`). 
+This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input and optionally a list of custom components (`facetComponents`).
 
 ```html
 <sq-facet-bar [results]="results" [facetComponents]="facetComponents">
@@ -342,6 +344,8 @@ It is also possible to insert static content which will be displayed at the top 
 
 ### Multiple-type Facet
 
+<!-- <doc-facet-multi></doc-facet-multi> -->
+
 The "multiple-type" facet [`sq-facet-multi`]({{site.baseurl}}components/components/BsFacetMultiComponent.html) displays multiple types of metadata in the same facet. The user selects the type of metadata, which then changes the view of the facet into one of the classical views above.
 
 ![Multi facet]({{site.baseurl}}assets/modules/facet/facet-multi.png){: .d-block .mx-auto}
@@ -356,11 +360,13 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
 
 ### Facet Filters
 
+<!-- <doc-facet-filters></doc-facet-filters> -->
+
 The [`sq-facet-filters`]({{site.baseurl}}components/components/BsFacetFilters.html) components displays facets as a navigation bar where each item is a facet displayed as a dropdown component.
 
 ![Facet Filters]({{site.baseurl}}assets/modules/facet/facet-filters.png){: .d-block .mx-auto}
 
-This component requires a: 
+This component requires a:
   - [`Results`]({{site.baseurl}}core/interfaces/Results.html) input.
   - [`FacetConfig<T>[]`]({{site.baseurl}}components/interfaces/FacetConfig.html): A list of facets' configuration. This list can be passed directly via the `[facets]` input (as for the [Multiple type facet](#multiple-type-facet)). Or it can be injected with the `BsFacetModule.forRoot()` method (as for the [Facet bar](#facet-bar)). This 2nd option is interesting when `enableCustomization` is set to `true`.
   - `facetComponents`: Optionally, a list of custom components.
@@ -397,6 +403,8 @@ The [`FacetService`]({{site.baseurl}}components/injectables/FacetService.html) p
 ## Components
 
 ### List Facet
+
+<doc-facet-list></doc-facet-list>
 
 The [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component displays a regular list of metadata (aggregation). The user can click on items in the list to filter the results.
 
@@ -467,6 +475,8 @@ This component can be used in two ways :
 
 ### Range Facet
 
+<doc-facet-range></doc-facet-range>
+
 The [`sq-facet-range`]({{site.baseurl}}components/components/BsFacetRange.html) component displays a slider to select a range of values for a numerical (eg. document size) or temporal (eg. modified date) metadata.
 
 The full list of inputs is:
@@ -528,6 +538,8 @@ This component can be used in different ways :
 
 ### Refine Facet
 
+<!-- <doc-refine></doc-refine> -->
+
 The [`sq-refine`]({{site.baseurl}}components/components/BsRefine.html) component displays a secondary search form, including an autocomplete, to add a fulltext search criteria to a query, without removing the active filters.
 
 This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input. If the autocomplete is enabled, all the parameters of the [autocomplete directive](autocomplete.html) should be provided to this component.
@@ -551,7 +563,11 @@ This component can be used in two ways :
 
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetRefineConfig` interface.
 
+
 ### Tag Cloud Facet
+
+<doc-facet-tag-cloud></doc-facet-tag-cloud>
+
 The [`sq-facet-tag-cloud`]({{site.baseurl}}components/components/BsFacetTagCloud.html) displays multiple types of metadata in the same facet. It provides a direct access to the most relevant filters, belonging to the supplied metadata.
 
 ![Tag cloud]({{site.baseurl}}assets/modules/facet/facet-tag-cloud.PNG){: .d-block .mx-auto}
@@ -579,4 +595,3 @@ This component can be used in two ways :
   ```
 
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetTagCloudConfig` interface.
-

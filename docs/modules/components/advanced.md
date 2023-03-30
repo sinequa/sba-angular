@@ -72,11 +72,11 @@ All above methods invokes the generic helper :
 
 - `createControl(value: AdvancedValue | ValueItem | ValueItem[], validators?: ValidatorFn[], asyncValidators?: AsyncValidatorFn[]): FormControl`
 
-    This method creates a generic FormControl. 
+    This method creates a generic FormControl.
 
 ### Form Validation
 
-The `AdvancedService` also enhance the FormControl creation experience with some packaged **Validators** which can be optionally passed to each one of the above methods. 
+The `AdvancedService` also enhance the FormControl creation experience with some packaged **Validators** which can be optionally passed to each one of the above methods.
 
 Those validators are accessible via the **readonly** attribute `advancedFormValidators` implementing `AdvancedFormValidators` interface :
 
@@ -93,7 +93,7 @@ Those validators are accessible via the **readonly** attribute `advancedFormVali
     range: (field: string) => ValidatorFn;
 }
 ```
- 
+
 ### Extras
 
 Actually, each created FormControl is not useful unless it is able to perform some related advanced-search lifecycle actions. For this, `AdvancedService` comes with several methods :
@@ -132,7 +132,7 @@ Actually, each created FormControl is not useful unless it is able to perform so
 
 - `setRangeSelect(field: string, range: (string | Date | number)[] | undefined, query?: Query | undefined): void`
 
-    This method updates the query with a value of a specific FormControl (range ...). 
+    This method updates the query with a value of a specific FormControl (range ...).
 - `setAdvancedSelect(field: string, expr: string | undefined, query?: Query | undefined): void`
 
     This is the helper method which update the select attribute of the query. If no expression provided, the filter of the corresponding field will be entirely removed.
@@ -186,6 +186,8 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
    - `multiple`: Whether the multiple selection is allowed or not.
    - `aggregation`: Optional input that defines the aggregation name used to fill the select options.
 
+<!-- <doc-advanced-form-select></doc-advanced-form-select> -->
+
 - The [`BsAdvancedFormInput` component]({{site.baseurl}}components/components/BsAdvancedFormInput.html) is used to display an input element compatible with any advanced-search form.
 
   The inputs of the component are :
@@ -195,6 +197,8 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
    - `label`: Optional input used to override the default label in the column definition.
    - `suggestQuery`: The string value of the suggest query to be used for the autocomplete.
 
+<doc-advanced-form-input></doc-advanced-form-input>
+
 - The [`BsAdvancedFormMultiInput` component]({{site.baseurl}}components/components/BsAdvancedFormMultiInput.html) is used to display a multi-value input element compatible with any advanced-search form.
 
   The inputs of the component are :
@@ -203,6 +207,8 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
    - `field`: The column / alias of the applied filter.
    - `label`: Optional input used to override the default label in the column definition.
    - `suggestQuery`: The string value of the suggest query to be used for the autocomplete.
+
+<doc-advanced-form-multi-input></doc-advanced-form-multi-input>
 
 - The [`BsAdvancedFormRange` component]({{site.baseurl}}components/components/BsAdvancedFormRange.html) is used to display a range input element compatible with any advanced-search form.
 
@@ -214,6 +220,8 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
    - `min`: The lowest possible limit.
    - `max`: The highest possible limit.
 
+<doc-advanced-form-range></doc-advanced-form-range>
+
 - The [`BsAdvancedFormCheckbox` component]({{site.baseurl}}components/components/BsAdvancedFormCheckbox.html) is used to display a checkbox element compatible with any advanced-search form.
 
   The inputs of the component are :
@@ -221,6 +229,8 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
    - `form`: The advanced-search form.
    - `field`: The column / alias of the applied filter.
    - `label`: Optional input used to override the default label in the column definition.
+
+<doc-advanced-form-checkbox></doc-advanced-form-checkbox>
 
 ## Directives
 
@@ -252,9 +262,9 @@ The `AdvancedModule` embeds its own directives to handle custom features of the 
 ## Sample use case
 
 A working example has been built on top of the above bricks and packaged within **vanilla-search** app.
-In this section, we will go through the main keys of how to easily instantiate an advanced-search form : 
+In this section, we will go through the main keys of how to easily instantiate an advanced-search form :
 
-1. First of all, we need to build the form according to the configuration we set above. This is done via `_instantiateAdvancedForm()` in the `search-form.component.ts`. The main idea is to add each FormControl to the form object. Here, you can easily apply validators as much as you want : 
+1. First of all, we need to build the form according to the configuration we set above. This is done via `_instantiateAdvancedForm()` in the `search-form.component.ts`. The main idea is to add each FormControl to the form object. Here, you can easily apply validators as much as you want :
 ```typescript
   this.form.addControl('treepath', this.advancedService.createSelectControl('treepath'));
   this.form.addControl('modified', this.advancedService.createRangeControl('modified',
