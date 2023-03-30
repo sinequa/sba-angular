@@ -98,12 +98,17 @@ export class SearchComponent implements OnInit, OnDestroy {
           Answer using using markdown syntax.
           Query: ${this.searchService.query.text || ''}`;
           const messages = [
-            {role: 'system', display: false, content: 'Assistant helps Sinequa employees with their internal question'},
-            {role: 'user', display: false, content: prompt}
+            {role: 'system', display: false, content: prompt}
           ];
           const attachments = this.chatService.addTopPassages(passages, []);
           this.chat.openChat(messages, undefined, attachments);
           this.summarizeAction.disabled = true;
+          this.auditService.notify({
+            type: 'Chat_Summarize_Results',
+            detail: {
+              querytext: this.searchService.query.text
+            }
+          });
         }
       }
     });
@@ -237,7 +242,12 @@ export class SearchComponent implements OnInit, OnDestroy {
         messages: [
           {role: 'system', display: false, content: `The following snippets are extracted from a document titled \"${record.title}\". Please summarize this document as best as possible, taking into account that the user's original search query was \"${this.searchService.query.text || ''}\".`}
         ],
-        attachments: forkJoin(this.chatService.addPassages(passages))
+        attachments: forkJoin(this.chatService.addPassages(passages)).pipe(
+          tap(() => this.auditService.notify({
+            type: 'Chat_Summarize_Document',
+            detail: this.previewService.getAuditPreviewDetail(record.id, this.searchService.query, record, this.searchService.results?.id)
+          }))
+        )
       }
     }
     this.passageId = passageId?.toString();

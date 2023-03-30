@@ -64,6 +64,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() attachmentsHiddenPrompt =  defaultChatConfig.attachmentsHiddenPrompt;
   @Input() autoSearchMinScore =       defaultChatConfig.autoSearchMinScore;
   @Input() autoSearchMaxPassages =    defaultChatConfig.autoSearchMaxPassages;
+  @Input() showCredits = true;
   @Output() data = new EventEmitter<ChatMessage[]>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
