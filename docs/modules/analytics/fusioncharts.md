@@ -45,6 +45,8 @@ import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
 
 ## FusionChart Component
 
+<doc-chart></doc-chart>
+
 The [`sq-fusion-chart`]({{site.baseurl}}analytics/components/FusionChart.html) component displays a chart (multiple types are supported), given at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input and the name of an aggregation (as configured in the query web service).
 
 Its most basic usage is as follow:
@@ -122,9 +124,11 @@ By default, a FusionCharts theme is used (it can be modified using the above [ch
 
 ## MultiLevelPieChart Component
 
+<doc-multi-level-pie-chart></doc-multi-level-pie-chart>
+
 The [`sq-multi-level-pie-chart`]({{site.baseurl}}analytics/components/MultiLevelPieChart.html) component displays a special type of chart that allows you to show symmetrical and asymmetrical tree structures in a consolidated pie-like structure. It presents the entire hierarchical data in a single-screen snapshot, which makes it a preferred choice over a tree view.
 
-This chart type belongs to **PowerCharts XT**. Thus, it requires an additional import : 
+This chart type belongs to **PowerCharts XT**. Thus, it requires an additional import :
 
 ```ts
 import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
@@ -152,7 +156,7 @@ Its most basic usage is as follow:
 </sq-facet-card>
 ```
 
-Which displays the following 
+Which displays the following
 
 ![Chart]({{site.baseurl}}assets/modules/fusioncharts/multi-level-pie.PNG){: .d-block .mx-auto }
 
@@ -230,7 +234,7 @@ export const defaultMultiLevelChart = {
 }
 ```
 
-Additional useful inputs can be used to customize the component's display : 
+Additional useful inputs can be used to customize the component's display :
 
    - `showLabels`: (**false** by default) Show/hide ALL plots' label.
    - `showValues`: (**false** by default) Show/hide ALL plots' value next to labels.

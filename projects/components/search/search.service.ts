@@ -3,7 +3,7 @@ import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from "
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, finalize} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation} from "@sinequa/core/web-services";
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation, IQuery} from "@sinequa/core/web-services";
 import {AppService, FormatService, ValueItem, Query} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
@@ -250,7 +250,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return Math.ceil(this.results.rowCount / this.results.pageSize);
     }
 
-    makeQuery(recentQuery?: Query): Query {
+    makeQuery(recentQuery?: Partial<IQuery> | Query) {
         const ccquery = this.appService.ccquery;
         const query = new Query(ccquery ? ccquery.name : "_unknown");
         if(recentQuery){
@@ -386,7 +386,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
     initializeRecords(query: Query, results: Results) {
       if(results.records) {
-        for(let record of results.records) {
+        for(const record of results.records) {
           record.$hasPassages = !!record.matchingpassages?.passages?.length;
         }
       }
@@ -401,7 +401,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
       const filtered = query.getFiltersAsAggregationItems();
 
-      for(let aggregation of results.aggregations) {
+      for(const aggregation of results.aggregations) {
         // Populate aggregation map
         results.$aggregationMap[aggregation.name.toLowerCase()] = aggregation;
 
@@ -429,7 +429,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
       // Aggregation items enrichment
       if(aggregation.items && aggregation.$cccount > 0) { // exclude unlimited aggregation (eg. timelines)
 
-        for(let item of aggregation.items) {
+        for(const item of aggregation.items) {
           // Include the column configuration (for formatting & labels)
           item.$column = aggregation.$cccolumn;
           // convert null value without display property to string
@@ -454,7 +454,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
     initializeTreeAggregation(aggregation: TreeAggregation) {
       // Process the filtered items
-      for(let item of aggregation.$filtered) {
+      for(const item of aggregation.$filtered) {
         item.$path = item.value.slice(0, -1); // Remove the '*' at the end of the value
       }
 
@@ -922,13 +922,11 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
      *
      * They are first searched on the result records, and we make a query for those we cannot find
      */
-    getRecords(ids: string[]): Observable<(Record|undefined)[]> {
-        const records = ids.map(id => {
-            return {
+    getRecords(ids: string[]): Observable<(Record | undefined)[]> {
+        const records = ids.map(id => ({
                 id,
                 record: this.results?.records.find(r => Utils.eq(r.id, id))
-            }
-        });
+            }));
 
         // if all records found, return them
         if (records.every(r => r.record))

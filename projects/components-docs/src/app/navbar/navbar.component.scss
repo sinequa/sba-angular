@@ -1,0 +1,33 @@
+@import "../../../../components/theme/colors";
+@import "../../styles/variables";
+
+:host {
+  display: block;
+  background-color: $white;
+  height: $navbar-height;
+  position: sticky;
+  width: 100%;
+  top: 0;
+  box-shadow: 0 0 .4rem rgba(0, 0, 0, .1);
+  padding-left: .7rem;
+
+  nav {
+    height: 100%;
+    width: 100%;
+  }
+
+  img {
+    width: 10rem;
+    margin: 0 0 0 5rem;
+    align-self: center;
+  }
+
+  .row {
+    --bs-gutter-x: 0;
+    height: 100%;
+  }
+
+  :not(.form-control) > .btn {
+    margin: .35rem 0
+  }
+}
