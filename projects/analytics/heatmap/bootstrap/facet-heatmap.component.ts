@@ -1,11 +1,11 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Optional, OnDestroy, inject, DoCheck } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
-import { Subject, distinctUntilChanged, filter, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import {Utils} from '@sinequa/core/base';
+import {FieldValue, Utils} from '@sinequa/core/base';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { AbstractFacet, BsFacetCard, FacetService } from '@sinequa/components/facet';
-import { Results, ListAggregation, AggregationItem } from '@sinequa/core/web-services';
+import { Results, ListAggregation, AggregationItem, Filter } from '@sinequa/core/web-services';
 import { SearchService } from '@sinequa/components/search';
 import { Action } from '@sinequa/components/action';
 import { UserPreferences } from '@sinequa/components/user-settings';
@@ -68,9 +68,6 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     // the heatmap component without displaying causes strange bugs...
     ready = false;
 
-    // HeatmapItem user's click stream
-    private _source$ = new Subject<HeatmapItem>();
-
     // A flag to check if the data is currently loading or not
     loading = false;
 
@@ -99,22 +96,13 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
 
                 // Update the data
                 if(this.data){
-                    this.data.forEach(item => item.selected = this.selectedItems.has(this.fieldCooc ? item.value : item.display));
+                    for(let item of this.data) {
+                        item.selected = this.isSelected(item.x.value, item.y.value);
+                    }
                     this.cdRef.markForCheck();
                 }
             }
         }));
-
-
-        // prevent multiple subscriptions at one time
-        this.subs.add(this._source$.pipe(
-                filter(() => this.aggregationData !== undefined),
-                distinctUntilChanged((prev, curr) => prev.value === curr.value),
-            )
-            .subscribe(item => {
-                this.facetService.addFilterSearch(this.aggregationData!, item, {forceAdd: true}, this.query, this._name);
-            })
-        );
 
     }
 
@@ -135,10 +123,6 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     }
 
     ngOnDestroy() {
-        // unsubscribe to avoid memory leaks
-        this._source$.complete();
-        this._source$.unsubscribe();
-
         this.subs.unsubscribe();
     }
 
@@ -176,6 +160,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     updateData() {
         this.loading = true;
         if(this.results) {
+            this.updateSelectedItems();
             this.aggregationData = this.facetService.getAggregation(this.aggregation, this.results) as ListAggregation;
             if(!this.aggregationData){
                 this.getHeatmapData();
@@ -301,21 +286,24 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      * Default parsing method for cross-distribution aggregation data
      */
     @Input() parseCrossDistributionItem: (i:AggregationItem) => HeatmapItem
-    = value => {
-        if(!value.display){
-            throw new Error(`Aggregation Item '${value.value}' has no display value`);
+    = item => {
+        if(!item.display){
+            throw new Error(`Aggregation Item '${item.value}' has no display value`);
         }
-        const parts = value.display.split("/");
-        if(parts.length < 2){
-            throw new Error(`'${value.display}' does not contain the '/' cross-distribution separator`);
+        // Default parsing, assuming cross-distribution format ("Apple/Steve Jobs")
+        const displays = item.display.split("/");
+        // Expr has following syntax `display`:(column1:`value1` AND column2:`value2`)
+        const expr = String(item.value);
+        const subExpr = expr.substring((Utils.escapeExpr(item.display)+":(").length, expr.length-1).split(" AND ");
+        const values = subExpr.map(v => Utils.unescapeExpr(v.split(':')[1]));
+        if(values.length < 2 || displays.length < 2 || !values[0] || !values[1]) {
+            throw new Error(`Incorrect aggregation item (${item.value}, ${item.display})`);
         }
+        const x = {display: displays[0], value: values[0]};
+        const y = {display: displays[1], value: values[1]};
         return {
-            x: parts[0],
-            y: parts[1],
-            count: value.count,
-            display: value.display,
-            value: value.value as string,
-            selected: this.selectedItems.has(value.display)
+            x, y, count: item.count,
+            selected: this.isSelected(x.value, y.value)
         };
     }
 
@@ -323,19 +311,19 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      * Default parsing method for cooccurrence aggregation data
      */
     @Input() parseCooccurrenceItem: (i:AggregationItem) => HeatmapItem
-    = value => {
-        const val = value.display || String(value.value);
-        const parts = val.substr(1, val.length-2).split(")#(");
-        if(parts.length < 2){
-            throw new Error(`'${val}' is not formatted as a co-occurrence: (value 1)#(value 2)`);
+    = item => {
+        const values = String(item.value);
+        const displays = item.display || values;
+        const valueParts = values.substring(1, values.length-1).split(")#(");
+        const displayParts = displays.substring(1, displays.length-1).split(")#(");
+        if(valueParts.length !== 2 || displayParts.length !== 2){
+            throw new Error(`'${values}' is not formatted as a co-occurrence: (value 1)#(value 2)`);
         }
+        const x = {display: displayParts[0], value: valueParts[0]};
+        const y = {display: displayParts[1], value: valueParts[1]};
         return {
-            x: parts[0],
-            y: parts[1],
-            count: value.count,
-            display: `${parts[0]} - ${parts[1]}`,
-            value: String(value.value),
-            selected: this.selectedItems.has(String(value.value))
+            x, y, count: item.count,
+            selected: this.isSelected(x.value, y.value)
         };
     }
 
@@ -344,16 +332,37 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      * @param item
      */
     onItemClicked(item: HeatmapItem) {
-        this._source$.next(item);
+        const display = `${item.x.display} - ${item.y.display}`;
+        let filter: Filter;
+        if(this.fieldCooc) {
+            filter = {field: this.fieldCooc, value: `(${item.x.value})#(${item.y.value})`, display};
+        }
+        else {
+            filter = {
+                operator: "and", display,
+                filters: [
+                    {field: this.fieldXPref, value: item.x.value},
+                    {field: this.fieldYPref, value: item.y.value},
+                ]
+            }
+        }
+        this.facetService.applyFilterSearch(filter, this.query, false, this._name);
     }
 
     /**
      * Callback when a value of an axis is clicked
      * @param item
      */
-    onAxisClicked(item: {value: string, axis: 'x' | 'y'}){
-        this.searchService.addFieldSelect(item.axis === 'x'? this.fieldXPref : this.fieldYPref, item);
-        this.searchService.search();
+    onAxisClicked(item: {value: string, display: string, axis: 'x' | 'y'}){
+        if(this.fieldCooc) {
+            return; // We only know the field of the cooccurrence, but we don't know the field of each axis
+        }
+        const filter: Filter = {
+            field: item.axis === 'x'? this.fieldXPref : this.fieldYPref,
+            value: item.value,
+            display: item.display
+        }
+        this.facetService.applyFilterSearch(filter, this.query, false, this._name);
     }
 
     /**
@@ -371,15 +380,15 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                 action.children = ((axis === 'x'? this.fieldsX : this.fieldsY) || [])
                     .filter(f => f !== (axis === 'x'? this.fieldXPref : this.fieldYPref))
                     .map(f => new Action({
-                            name: f,
-                            text: this.appService.getPluralLabel(f),
-                            icon: "sq-icon-"+f,
-                            action : () => {
-                                this.prefs.set(this._name+'-field-'+axis, f);
-                                this.updateActions();
-                                this.updateData();
-                            }
-                        }));
+                        name: f,
+                        text: this.appService.getPluralLabel(f),
+                        icon: "sq-icon-"+f,
+                        action : () => {
+                            this.prefs.set(this._name+'-field-'+axis, f);
+                            this.updateActions();
+                            this.updateData();
+                        }
+                    }));
             }
         });
     }
@@ -393,29 +402,39 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
 
         this.selectedItems.clear();
 
-        if(this.results){
+        for(let record of this.results.records.filter(r => r.$selected)) {
+            if(this.fieldCooc) {
+                for(let v of this.getFieldValues(record[this.fieldCooc])) {
+                    this.selectedItems.add(v.toLowerCase());
+                }
+            }
 
-            this.results.records
-                .filter(r => r.$selected)
-                .forEach(r => {
-
-                    if(this.fieldCooc) {
-                        if(r[this.fieldCooc]){
-                            r[this.fieldCooc].forEach(v => this.selectedItems.add(v.value));
-                        }
+            else {
+                const xx = this.getFieldValues(record[this.fieldXPref]);
+                const yy = this.getFieldValues(record[this.fieldYPref]);
+                for(let x of xx) {
+                    for(let y of yy) {
+                        this.selectedItems.add(`(${x})#(${y})`.toLowerCase());
                     }
-
-                    else {
-                        if(r[this.fieldXPref] && r[this.fieldYPref]){
-                            r[this.fieldXPref].forEach(x => {
-                                r[this.fieldYPref].forEach(y => {
-                                    this.selectedItems.add(x.display+"/"+y.display);
-                                });
-                            });
-                        }
-                    }
-            });
+                }
+            }
         }
+    }
+
+    getFieldValues(field: FieldValue|undefined): string[] {
+        if(!field) {
+            return [];
+        }
+        if(Array.isArray(field)) {
+            return field.map(v => Utils.isString(v)? v : v.value);
+        }
+        else {
+            return [String(field)];
+        }
+    }
+
+    isSelected(x: string, y: string) {
+        return this.selectedItems.has(`(${x})#(${y})`.toLowerCase());
     }
 
     // Accessor methods to get the preferred or default values of the heatmap parameters
