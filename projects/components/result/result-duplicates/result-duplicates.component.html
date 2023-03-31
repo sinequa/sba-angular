@@ -1,27 +1,9 @@
-<div *ngIf="exactDuplicates || nearDuplicates">
-  <ng-container *ngIf="(exactDuplicates && showList); else messageTpl">
-    <a role="button" (click)="toggle()">
-      <i class="fas fa-fw fa-caret-{{collapsed? 'right': 'down'}}"></i>
-      <ng-container *ngTemplateOutlet="messageTpl"></ng-container>
-    </a>
-
-    <sq-collapse [collapsed]="collapsed">
-      <ng-template>
-        <sq-result-duplicates-list [record]="record"></sq-result-duplicates-list>
-      </ng-template>
-    </sq-collapse>
-  </ng-container>
-
-  <ng-template #messageTpl>
-    <span *ngIf="exactDuplicates">
-      {{'msg#results.duplicates.exact' | sqMessage:{count: exactDuplicates} }}
-    </span>
-    <span *ngIf="exactDuplicates && nearDuplicates">
-      {{'msg#results.duplicates.and' | sqMessage }}
-    </span>
-    <span *ngIf="nearDuplicates">
-      {{'msg#results.duplicates.near' | sqMessage:{count: nearDuplicates} }}
-    </span>
-  </ng-template>
-</div>
-
+<span *ngIf="exactDuplicates">
+  {{'msg#results.duplicates.exact' | sqMessage:{count: exactDuplicates} }}
+</span>
+<span *ngIf="exactDuplicates && nearDuplicates">
+  {{'msg#results.duplicates.and' | sqMessage }}
+</span>
+<span *ngIf="nearDuplicates">
+  {{'msg#results.duplicates.near' | sqMessage:{count: nearDuplicates} }}
+</span>
