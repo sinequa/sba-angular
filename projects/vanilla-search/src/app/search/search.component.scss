@@ -35,8 +35,6 @@
 // Styling of the result items
 .record {
     display: flex;
-    padding: 0.5em 15px;
-    margin: 0 -15px;
     overflow: hidden;
     cursor: pointer;
 
@@ -65,9 +63,6 @@
             height: auto; // Override the default height of this component so it takes 100% height
         }
     }
-
-    cursor: pointer;
-    overflow: hidden;
 
     .flex-grow-1 {
         min-width: 0; // force the flex item to shrink to the parent size

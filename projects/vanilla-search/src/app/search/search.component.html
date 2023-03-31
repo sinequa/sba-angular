@@ -106,7 +106,7 @@
             </div>
 
             <!-- List of documents (for loop) -->
-            <div *ngFor="let record of results.records" class="record d-flex"
+            <div *ngFor="let record of results.records" class="record"
                 (click)="onDocumentClicked(record, $event)"
                 [ngClass]="{
                   'selected': record.$selected || record === openedDoc,
