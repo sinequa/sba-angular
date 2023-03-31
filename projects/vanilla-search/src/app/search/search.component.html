@@ -31,7 +31,7 @@
                 </ng-container>
                 <sq-user-menu [display]="'fullName'"></sq-user-menu>
                 <!-- Non mobile feedback button -->
-                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
+                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1 d-none d-md-block" *ngIf="loginService.complete"></sq-feedback-menu>
             </ul>
         </div>
 
