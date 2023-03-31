@@ -35,10 +35,14 @@
 // Styling of the result items
 .record {
     display: flex;
-    padding: 0.5em 15px;
-    margin: 0 -15px;
     overflow: hidden;
     cursor: pointer;
+
+    --sq-record-padding-x: 15px;
+    --sq-record-padding-y: 0.5em;
+
+    padding: var(--sq-record-padding-y) var(--sq-record-padding-x);
+    margin: 0 calc(var(--sq-record-padding-x) * -1);
 
     &:hover {
         background-color: rgb(0, 0, 0, 0.03);
@@ -46,6 +50,18 @@
 
     &.selected {
         background-color: rgb(0, 0, 0, 0.05);
+    }
+
+    &.duplicate {
+        sq-result-extracts, sq-result-duplicates, sq-missing-terms, sq-result-thumbnail {
+            display: none !important;
+        }
+        sq-result-duplicates-spacer {
+            margin: calc(var(--sq-record-padding-y) * -1) 0.5rem; // This negative margin cancels the padding from the .record, which allows the spacer to take 100% height
+        }
+        &:has(+.duplicate) sq-result-duplicates-spacer {
+            height: auto; // Override the default height of this component so it takes 100% height
+        }
     }
 
     .flex-grow-1 {

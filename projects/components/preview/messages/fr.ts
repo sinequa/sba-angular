@@ -51,6 +51,7 @@ export default {
             "downloadPdf": "Télécharger la version PDF",
             "viewPreview": "Aperçu",
             "viewPassages": "Extraits",
+            "viewDuplicates": "Doublons",
             "documentPreview": "Aperçu de document",
             "documentPreviewTitle": "Ceci est l'aperçu de document",
             "documentPreviewDescription": "Cliquez sur l'un des résultats de votre recherche pour avoir un aperçu du document ici."

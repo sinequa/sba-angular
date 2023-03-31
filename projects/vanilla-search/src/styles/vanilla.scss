@@ -4,7 +4,6 @@
 
 // SBA Components
 $dark-result-source-color: #a9c7b4;
-$dark-result-missing-temrms-color: #b8b2b2;
 
 // thin scrollbar
 ::-webkit-scrollbar {
@@ -138,6 +137,12 @@ sq-result-thumbnail img {
       font-weight: 700;
     }
   }
+}
+
+
+sq-result-duplicates {
+  color: $secondary;
+  font-size: 0.875em;
 }
 
 sq-result-extracts {
