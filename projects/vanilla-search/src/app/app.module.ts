@@ -7,13 +7,12 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 // @sinequa/core library
-import { WebServicesModule, StartConfigWebService, StartConfig, Record } from "@sinequa/core/web-services";
+import { WebServicesModule, StartConfigWebService, StartConfig } from "@sinequa/core/web-services";
 import { LoginModule, LoginInterceptor, TeamsInitializer, AuthenticationService } from "@sinequa/core/login";
 import { IntlModule } from "@sinequa/core/intl";
 import { ModalModule } from "@sinequa/core/modal";
 import { NotificationsInterceptor } from "@sinequa/core/notification";
 import { AuditInterceptor } from "@sinequa/core/app-utils";
-import { Utils } from "@sinequa/core/base";
 
 // @sinequa/components library
 import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
@@ -77,14 +76,7 @@ export const routes: Routes = [
 // Search options (search service)
 export const searchOptions: SearchOptions = {
     routes: ["search"],
-    homeRoute: "home",
-    testDuplicates: (a: Record, b: Record): boolean => {
-        const sameTitle = a.title && b.title && Utils.eqNC(a.title, b.title);
-        const sameExtracts = a.relevantExtracts && b.relevantExtracts && a.relevantExtracts.length > 50 && Utils.eqNC(a.relevantExtracts, b.relevantExtracts);
-        const similarSize = a.size && b.size && Math.abs(a.size - b.size) < 0.05 * a.size;
-        // 2 records are considered near duplicates when they have the same title, same extracts and a similar size (within 5%)
-        return !!(sameTitle && sameExtracts && similarSize);
-    }
+    homeRoute: "home"
 };
 
 
