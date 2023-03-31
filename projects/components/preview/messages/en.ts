@@ -51,6 +51,7 @@ export default {
             "downloadPdf": "Download PDF version",
             "viewPreview": "Preview",
             "viewPassages": "Snippets",
+            "viewDuplicates": "Duplicates",
             "documentPreview": "Document preview",
             "documentPreviewTitle": "This is the document preview",
             "documentPreviewDescription": "Click on one of your search results to preview the document here."

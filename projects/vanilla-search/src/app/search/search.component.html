@@ -183,7 +183,7 @@
                     </sq-facet-preview-2>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'Duplicates'}" *ngIf="openedDoc.groupcount && openedDoc.groupcount > 1">
+                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewDuplicates'}" *ngIf="openedDoc.groupcount && openedDoc.groupcount > 1">
                     <sq-result-duplicates-list [record]="openedDoc">
                       <ng-template let-duplicate>
                         <sq-result-title [record]="duplicate" (titleClicked)="openPreviewIfNoUrl(duplicate, $event)"></sq-result-title>
