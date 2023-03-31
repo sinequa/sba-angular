@@ -111,6 +111,8 @@ The main methods are the following:
 
 ### Preview Tooltip
 
+<!-- <doc-preview-tooltip></doc-preview-tooltip> -->
+
 The core API also includes [`sq-preview-tooltip`]({{site.baseurl}}components/components/PreviewTooltip.html), a customizable component which can be inserted in the HTML preview, and responds to the user's mouse movements and clicks. This enables custom features when hovering over an entity or selecting some text.
 
 ![Tooltip hover]({{site.baseurl}}assets/modules/preview/tooltip-hover.png){: .d-block .mx-auto }
@@ -156,6 +158,8 @@ this.tooltipTextActions = [new Action({
 
 ### Preview Mini Map
 
+<!-- <doc-preview-minimap></doc-preview-minimap> -->
+
 The component [`sq-preview-minimap`]({{site.baseurl}}components/components/BsPreviewMinimapComponent.html) could be inserted within the HTML Preview to display a highlights's minimap.
 
 ![minimap]({{site.baseurl}}assets/modules/preview/preview-minimap.png){: .d-block .mx-auto}*highlights mini map*{: text-center}
@@ -175,6 +179,8 @@ The minimap is inserted by transclusion:
 ## Preview Components
 
 ### Preview Facet
+
+<!-- <doc-facet-preview-2></doc-facet-preview-2> -->
 
 The [`sq-preview-facet-2`]({{site.baseurl}}components/components/BsFacetPreviewComponent2.html) displays a scaled-down preview in a facet card (See [Facet Module](facet.html)).
 
@@ -209,6 +215,8 @@ This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-searc
 
 ### Extract Panel
 
+<!-- <doc-preview-extracts-panel></doc-preview-extracts-panel> -->
+
 The [`sq-preview-extracts-panel`]({{site.baseurl}}components/components/BsPreviewExtractsPanelComponent.html) component displays the relevant extracts extracted from the [`PreviewDocument`]({{site.baseurl}}components/classes/PreviewDocument.html). Clicking on a extract selects it in the preview (highlight and scroll).
 
 ![Extract panel]({{site.baseurl}}assets/modules/preview/extracts.png){: .d-block .mx-auto width="350px"}
@@ -224,6 +232,8 @@ This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-searc
 
 ### Entity Panel
 
+<doc-preview-entity-panel></doc-preview-entity-panel>
+
 The [`sq-preview-entity-panel`]({{site.baseurl}}components/components/BsPreviewEntityPanelComponent.html) component displays the lists of entities and matches in the document. The data is available in the [`PreviewData`]({{site.baseurl}}core/interfaces/PreviewData.html) object. The facets displaying each type of highlight allow the user to navigate between the different occurrences and turn them on or off.
 
 ![Entity panel]({{site.baseurl}}assets/modules/preview/entities.png){: .d-block .mx-auto width="350px" }
@@ -238,6 +248,8 @@ The component requires a [`previewData`]({{site.baseurl}}core/interfaces/Preview
 This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
 
 ### Search Form
+
+<doc-preview-search-form></doc-preview-search-form>
 
 The [`sq-preview-search-form`]({{site.baseurl}}components/components/BsPreviewSearchFormComponent.html) component is a simple search form that lets users search for content within the preview.
 

@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, ComponentRef, Input, OnChanges, OnDestroy,
 import {Results} from "@sinequa/core/web-services";
 import {FacetService, NamedFacetConfig} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
-import { FacetConfig, default_facet_components } from "../../facet-config";
+import { FacetConfig, DEFAULT_FACET_COMPONENTS } from "../../facet-config";
 import { MapOf, Utils } from "@sinequa/core/base";
 import { Subscription } from "rxjs";
 import { AbstractFacet } from "../../abstract-facet";
@@ -15,7 +15,7 @@ import { AbstractFacet } from "../../abstract-facet";
 export class BsFacetFilters implements OnChanges, OnDestroy {
     @Input() results: Results;
     @Input() facets: FacetConfig<{}>[];
-    @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
+    @Input() facetComponents: MapOf<Type<any>> = DEFAULT_FACET_COMPONENTS;
     @Input() enableCustomization = false;
 
     @Input() autoAdjust: boolean = true;

@@ -7,7 +7,7 @@ import { LoginService } from '@sinequa/core/login';
 import { Record, Results } from '@sinequa/core/web-services';
 import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
-import { default_facet_components, FacetConfig, FacetService } from '@sinequa/components/facet';
+import { DEFAULT_FACET_COMPONENTS, FacetConfig, FacetService } from '@sinequa/components/facet';
 import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { BsDropdownService } from '@sinequa/components/action';
@@ -28,7 +28,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   public readonly facetComponents = {
-    ...default_facet_components,
+    ...DEFAULT_FACET_COMPONENTS,
     "date": BsFacetDate
   }
 
@@ -145,13 +145,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   private isClickAction(event: Event): boolean {
     const target = event.target as HTMLElement|null;
     return event.type !== 'click' || !!target?.matches("a, a *, input, input *, button, button *");
-  }
-
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
   }
 
   /**

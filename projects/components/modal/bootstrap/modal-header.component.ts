@@ -1,16 +1,10 @@
 import {Component, Input, HostBinding, Injector} from "@angular/core";
+import { UIService } from "@sinequa/components/utils";
 import {ModalService, ModalResult, ModalRef} from "@sinequa/core/modal";
 
 @Component({
     selector: "sq-modal-header",
-    templateUrl: "./modal-header.component.html",
-    styles: [`
-        /* in dark mode, invert close button color */
-        :host-context(.dark)
-        button.btn-close {
-            filter: invert(1);
-        }
-    `]
+    templateUrl: "./modal-header.component.html"
 })
 export class BsModalHeader {
     @Input() title: string;
@@ -18,7 +12,8 @@ export class BsModalHeader {
 
     constructor(
         protected modalRef: ModalRef,
-        protected injector: Injector) {
+        protected injector: Injector,
+        public readonly ui: UIService) {
     }
 
     // Avoid circular reference (via Confirm)

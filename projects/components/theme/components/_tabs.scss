@@ -1,51 +1,33 @@
-sq-tabs {
-  .nav-tabs {
-    --bs-nav-tabs-border-width: 0;
-    --bs-nav-tabs-border-radius: .3rem;
-    --bs-nav-link-font-weight: 600;
-    --bs-nav-link-color: #{$black};
-    --bs-nav-link-hover-color: #{$black};
-    --bs-nav-tabs-link-active-color: var(--sq-text, #{$black});
-    --bs-nav-tabs-link-active-bg: var(--brand, #{$blue-focus});
-    --sq-nav-tabs-link-active-bg: var(--bs-nav-tabs-link-active-bg);
+.nav-tabs {
+  border-radius: $nav-tabs-border-radius;
+  padding: $nav-tabs-padding;
+  box-shadow: $nav-tabs-box-shadow;
 
-    background-color: var(--sq-tabs-bg);
-    border-radius: .3rem;
-    padding: .2rem;
-    box-shadow: $sq-box-shadow;
+  .nav-item {
 
-    .nav-item {
-      display: block;
-
-      .count {
-        font-weight: 300;
-      }
-
-      & ~ .nav-item {
-        margin-left: .2rem;
-      }
+    .count {
+      font-weight: 300;
     }
 
-    .nav-link {
-      border-bottom-left-radius: var(--bs-nav-tabs-border-radius);
-      border-bottom-right-radius: var(--bs-nav-tabs-border-radius);
-      padding: .75rem 1rem;
+    & ~ .nav-item {
+      margin-left: $nav-tabs-padding;
+    }
+  }
 
-      @include media-breakpoint-up(xl) {
-        padding: 1rem 2rem;
-      }
+  .nav-link {
+    border-bottom-left-radius: $nav-tabs-border-radius;
+    border-bottom-right-radius: $nav-tabs-border-radius;
 
-      &.active {
-        box-shadow: 0 0 .4rem rgba(0, 0, 0, .1);
-      }
+    &.active {
+      box-shadow: $nav-tabs-link-active-box-shadow;
+    }
 
-      &.active:hover {
-        background-color: var(--brand-200, #{$blue-focus});
-      }
+    &.active:hover {
+      background-color: $nav-link-active-hover-bg;
+    }
 
-      &:hover {
-        background-color: var(--brand-100, #{$blue-focus});
-      }
+    &:hover {
+      background-color: $nav-link-hover-bg;
     }
   }
 }

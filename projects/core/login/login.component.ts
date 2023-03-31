@@ -1,9 +1,11 @@
 import {Component, OnInit, OnDestroy, Inject} from "@angular/core";
 import {UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {MODAL_MODEL, ModalResult, ModalRef} from "@sinequa/core/modal";
-import {Credentials} from "./authentication.service";
-import {Utils} from "@sinequa/core/base";
+import { Subscription } from "rxjs";
+
+import { MODAL_MODEL, ModalResult, ModalRef } from "@sinequa/core/modal";
+import { Utils } from "@sinequa/core/base";
+
+import { Credentials } from "./typings";
 
 /**
  * A basic login component that request a user name and password. It is designed to work with
@@ -33,7 +35,7 @@ import {Utils} from "@sinequa/core/base";
         </form>
     `
 })
-export class Login implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy {
     userNameControl: UntypedFormControl;
     passwordControl: UntypedFormControl;
     form: UntypedFormGroup;

@@ -1,5 +1,5 @@
-.sq-passage div {
-  display: table-cell;
+.sq-passage {
+  display: flex;
 }
 
 .list-group {
@@ -8,31 +8,40 @@
 
 .list-group-item {
   cursor: pointer;
-
-  max-height: 6.2rem;
-  line-height: 1.8rem;
-  font-weight: 300;
-  transition: max-height .3s ease-in;
-  overflow: hidden;
-  margin-bottom: 0;
+  line-height: 1.2rem;
+  font-size: 0.875em;
+  font-weight: 400;
   white-space: break-spaces;
   padding: .4rem 0;
+
+  &:hover {
+    z-index: initial;
+  }
 
   .sq-passage-icon {
     width: 1.25rem;
 
     &::before {
-      font-size: medium;
       font-weight: bold;
+      font-family: monospace;
       content: "+ ";
     }
   }
 
-  &.expanded {
-    max-height: var(--maximum);
+  .sq-passage-text {
+    display: -webkit-box;
+    -webkit-line-clamp: var(--line-clamp, 3);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
+  &.expanded {
     .sq-passage-icon::before {
       content: "- ";
+    }
+
+    .sq-passage-text {
+      --line-clamp: 0;
     }
   }
 }

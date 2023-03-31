@@ -57,6 +57,8 @@ In any case you will also need to import the following stylesheet in your app's 
 
 ## Timeline Component
 
+<doc-result-timeline></doc-result-timeline>
+
 ### Basic usage
 
 The [`sq-result-timeline`]({{site.baseurl}}analytics/components/ResultTimeline.html) component displays a timeline associated to a specific [`Record`]({{site.baseurl}}core/interfaces/Record.html) object. This record must have at least one column storing a list of "dates" or "events".

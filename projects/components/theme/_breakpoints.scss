@@ -1,0 +1,16 @@
+// Overriding Bootstrap variables
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 992px,
+        lg: 1400px,
+        xl: 1650px
+);
+
+$container-max-widths: (
+  sm: 720px,
+  md: 960px,
+  lg: 1140px,
+  xl: 1320px,
+  xxl: 1650px
+);

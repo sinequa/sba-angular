@@ -65,6 +65,8 @@ The heatmap facet and results view take care of querying the server if the heatm
 
 ## Heatmap Facet
 
+<doc-facet-heatmap></doc-facet-heatmap>
+
 The heatmap facet ([`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html)) looks as the image above. It can be displayed with:
 
 ```html
@@ -101,6 +103,8 @@ The [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComp
 
 ## Heatmap results view
 
+<doc-results-heatmap-view></doc-results-heatmap-view>
+
 The heatmap results view ([`sq-results-heatmap-view`]({{site.baseurl}}analytics/components/BsResultsHeatmapView.html)) is based directly on the [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html) component (by inheritance). The differences are the following:
 
 - To use this component it is required to import the [`BsResultsViewModule`]({{site.baseurl}}components/modules/BsResultsViewModule.html) module in your `app.module.ts` and inject a list of results views and a default one via the `forRoot()` method.
@@ -108,6 +112,8 @@ The heatmap results view ([`sq-results-heatmap-view`]({{site.baseurl}}analytics/
 - The [`sq-results-heatmap-view`]({{site.baseurl}}analytics/components/BsResultsHeatmapView.html) component accepts all the parameters of the [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html) component, plus an additional optional one: `selectView` which allows to change the current results view when an item is selected. For example, `[selectView]="'List'"` will switch to the "List" results view when a tile is clicked.
 
 ## Heatmap component
+
+<doc-heatmap></doc-heatmap>
 
 The heatmap component ([`sq-heatmap`]({{site.baseurl}}analytics/components/BsHeatmapComponent.html)) only takes care of displaying the chart. It accepts as inputs most of the graphical settings defined above, but it does not take care of querying the server for data.
 

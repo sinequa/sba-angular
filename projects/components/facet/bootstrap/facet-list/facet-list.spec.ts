@@ -9,7 +9,6 @@ import {IntlModule} from '@sinequa/core/intl';
 import {AuthenticationService, LoginService, MODAL_LOGIN} from '@sinequa/core/login';
 import {MODAL_CONFIRM, MODAL_PROMPT} from '@sinequa/core/modal';
 import {START_CONFIG} from '@sinequa/core/web-services';
-import {AuthService} from 'ng2-ui-auth';
 
 import {AppLocalesConfig} from '@testing/mocks/app.locales.config';
 import {startConfig} from '@testing/mocks/start.config';
@@ -42,7 +41,6 @@ describe('BsFacetList', () => {
                 ValuePipe,
                 NumberPipe,
                 {provide: Router, useClass: RouterStub},
-                {provide: AuthService, useValue: {}},
                 {provide: START_CONFIG, useValue: startConfig},
                 {provide: MODAL_LOGIN, useValue: {}},
                 {provide: MODAL_CONFIRM, useValue: {}},

@@ -9,6 +9,7 @@ import { BsOverrideUser } from '@sinequa/components/modal';
 import { ModalService, ModalResult, ConfirmType, ModalButton } from '@sinequa/core/modal';
 import { AppService } from '@sinequa/core/app-utils';
 import { NotificationsService, NotificationType } from '@sinequa/core/notification';
+import { UIService } from '@sinequa/components/utils';
 
 /** A token that is used to inject the help folder options.
  *
@@ -78,6 +79,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   };
 
   constructor(
+    private readonly ui: UIService,
     public principalService: PrincipalWebService,
     public authenticationService: AuthenticationService,
     public intlService: IntlService,
@@ -193,13 +195,12 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     this.darkModeAction = new Action({
       text: "msg#userMenu.darkMode",
       action: action => {
-        document.body.classList.toggle("dark");
-        localStorage.setItem('sinequa-theme', this.isDark()? 'dark' : 'normal');
+        this.ui.toggleDark();
         action.update();
       },
       updater: action => {
-        action.icon = this.isDark()? "fas fa-toggle-on" : "fas fa-toggle-off";
-        action.title = this.isDark()? "msg#userMenu.darkModeOn" : "msg#userMenu.darkModeOff";
+        action.icon = this.ui.isDark()? "fas fa-toggle-on" : "fas fa-toggle-off";
+        action.title = this.ui.isDark()? "msg#userMenu.darkModeOn" : "msg#userMenu.darkModeOff";
       }
     });
 
@@ -322,12 +323,4 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
 
     return [];
   }
-
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
-  }
-
 }

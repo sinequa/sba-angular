@@ -1,0 +1,85 @@
+.form-check-input {
+
+  &:focus {
+    outline: $form-check-input-outline;
+  }
+
+  &:hover {
+    border-color: $form-check-input-hover-border-color;
+  }
+
+  &.was-validated:valid {
+    border-color: $form-check-input-valid-border-color;
+
+    &:hover {
+      border-color: $form-check-input-valid-hover-border-color;
+    }
+
+    &:checked {
+      background-color: $form-check-input-valid-checked-bg;
+
+      &:hover {
+        background-color: $form-check-input-valid-checked-hover-bg;
+      }
+    }
+  }
+
+  &.was-validated:invalid {
+    border-color: $form-check-input-invalid-border-color;
+
+    &:hover {
+      border-color: $form-check-input-invalid-hover-border-color;
+    }
+
+    &:checked {
+      background-color: $form-check-input-invalid-checked-bg;
+
+      &:hover {
+        background-color: $form-check-input-invalid-checked-hover-bg;
+      }
+    }
+  }
+
+  &[type=checkbox] {
+
+    &:checked {
+      background-color: $form-check-input-checkbox-checked-bg;
+      border-color: $form-check-input-checkbox-checked-border-color;
+
+      &:hover {
+        background-color: $form-check-input-checkbox-checked-hover-bg;
+        border-color: $form-check-input-checkbox-checked-hover-border-color;
+      }
+    }
+
+    &:disabled, &:disabled:hover {
+      opacity: 1;
+      background-color: $form-check-input-checkbox-disabled-bg;
+      border-color: $form-check-input-checkbox-disabled-border-color;
+    }
+
+    &.was-validated:valid {
+      border-color: $form-check-input-valid-border-color;
+      &:hover {
+        border-color: $form-check-input-valid-hover-border-color;
+      }
+    }
+  }
+
+  &[type=radio] {
+    &:checked {
+      background-image: none;
+      box-shadow: $form-check-input-radio-checked-box-shadow;
+    }
+
+    &:disabled {
+      background-color: $form-check-input-radio-disabled-bg;
+      border-color: $form-check-input-radio-disabled-border-color;
+
+      &:checked {
+        background-color: $form-check-input-radio-disabled-checked-bg;
+        box-shadow: $form-check-input-radio-disabled-checked-box-shadow
+      }
+    }
+  }
+}

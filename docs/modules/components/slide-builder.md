@@ -29,11 +29,11 @@ Users can select slides from the results list to add them to their presentation.
 
 Before slide builder can be implemented on the front-end, the server-side configuration requires the following:
 
-- [Conversion Plan & Converter](#conversion-plan--converter): integral part to splitting the individual PowerPoint slides. 
+- [Conversion Plan & Converter](#conversion-plan--converter): integral part to splitting the individual PowerPoint slides.
 - [Collection](#collection): requires included extensions and the appropriate conversion plan.
 - [Query Web Service](#query-web-service): requires a specific tab configuration that displays the slide builder.
 
-### Conversion Plan & Converter 
+### Conversion Plan & Converter
 
 In order to implement slide builder, a collection requires storing PowerPoint documents locally.
 Thus, we must ensure the conversion plan satisfies the following criteria:
@@ -53,7 +53,7 @@ Thus, we must ensure the conversion plan satisfies the following criteria:
 
 ### Collection
 
-All slide builder collections should be stored in a centralized **source** and **index**. No other type of records should be stored. 
+All slide builder collections should be stored in a centralized **source** and **index**. No other type of records should be stored.
 
 There are two ways to configure a collection to index slides:
 
@@ -68,11 +68,11 @@ There are two ways to configure a collection to index slides:
 
 2. Creating a HyperIndex collection targetting an exisiting index containing other extensions
 
-    Some collections may already contain preexisting data. To avoid repetition creating a collection from scratch and reindexing data on a seperate collection, 
-    ensure that the preexisting collections satisfies the conversion plan configuration. 
+    Some collections may already contain preexisting data. To avoid repetition creating a collection from scratch and reindexing data on a seperate collection,
+    ensure that the preexisting collections satisfies the conversion plan configuration.
 
     - It is required to reindex the preexisting data if the conversion plan was not configured previously.
-    - By creating a **HyperIndex connector**, the targeted index (that contains various types of documents) will be filtered to index only PowerPoint extensions. 
+    - By creating a **HyperIndex connector**, the targeted index (that contains various types of documents) will be filtered to index only PowerPoint extensions.
 
 ### Query Web Service
 
@@ -119,6 +119,8 @@ const messages = Utils.merge({}, ..., enSlideBuilder, appMessages);
 
 ### Slide Builder component
 
+<doc-slide-builder></doc-slide-builder>
+
 The [`sq-slide-builder`]({{site.baseurl}}components/components/SlideBuilderComponent.html) component displays a list of selected slides. The component actually uses the `SelectionService` from the [Selection Module](selection.html) as a data model for the selected slides. The Drag & Drop capability is actually directly based on the [`sq-selection-arranger`](selection.html#selection-arranger) component.
 
 ![Slide arranger]({{site.baseurl}}assets/modules/slide-builder/slide-arranger.png)
@@ -153,6 +155,8 @@ It is also possible to customize the display by passing a template by transclusi
 {% endraw %}
 
 ### Slide List component
+
+<doc-slide-list></doc-slide-list>
 
 The [`sq-slide-list`]({{site.baseurl}}components/components/SlideListComponent.html) component displays a tiled view of PowerPoint slides:
 
