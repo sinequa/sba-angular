@@ -14,6 +14,4 @@ export class DocLabelsAutocompleteComponent {
     [allowManagePublicLabels]="true">
 </sq-labels-autocomplete>`;
 
-  constructor() { }
-
 }
