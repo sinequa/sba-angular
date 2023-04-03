@@ -5,6 +5,13 @@ import { ChatConfig, defaultChatConfig } from "./chat.component";
   selector: 'sq-chat-settings',
   template: `
   <div class="card-body small">
+    <div class="mb-2">
+      <label for="openaiModel" class="form-label">Model</label>
+      <select class="form-select" id="openaiModel" [(ngModel)]="config.model">
+        <option>GPT35Turbo</option>
+        <option>GPT4</option>
+      </select>
+    </div>
     <div class="form-check form-switch mb-2">
       <input class="form-check-input" type="checkbox" role="switch" id="textBeforeAttachments" [(ngModel)]="config.textBeforeAttachments">
       <label class="form-check-label" for="textBeforeAttachments">Send text before attachments</label>

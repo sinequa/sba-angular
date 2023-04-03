@@ -22,6 +22,8 @@ export class ChatService {
    */
   attachments$ = new BehaviorSubject<ChatAttachmentWithTokens[]>([]);
 
+  attachmentModel: OpenAIModel = 'GPT35Turbo';
+
   constructor(
     public textChunksService: TextChunksWebService,
     public jsonMethodWebService: JsonMethodPluginService,
@@ -62,8 +64,8 @@ export class ChatService {
   /**
    * Returns the number of tokens taken by the given text
    */
-  count(text: string): Observable<number> {
-    const data = { action: "TokenCount", model: "GPT35Turbo", text };
+  count(text: string, model: OpenAIModel): Observable<number> {
+    const data = { action: "TokenCount", model, text };
     return this.jsonMethodWebService.post("OpenAI", data).pipe(map(res => res.tokens));
   }
 
@@ -261,7 +263,7 @@ export class ChatService {
         }
         return this.fetchChunks($record.id, existingChunks);
       }),
-      switchMap(chunks => this.count(this.formatContent(10, $record.title, chunks.map(c => c.text))).pipe(
+      switchMap(chunks => this.count(this.formatContent(10, $record.title, chunks.map(c => c.text)), this.attachmentModel).pipe(
         map($tokenCount => ({$record, recordId: $record.id, chunks, $tokenCount}))
       ))
     );
