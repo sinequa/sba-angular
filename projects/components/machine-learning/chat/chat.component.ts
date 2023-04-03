@@ -4,7 +4,7 @@ import { AbstractFacet } from "@sinequa/components/facet";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatService } from "./chat.service";
-import { ChatAttachment, ChatMessage, OpenAITokens, RawMessage } from "./types";
+import { ChatAttachment, ChatMessage, OpenAIModel, OpenAITokens, RawMessage } from "./types";
 
 export interface ChatConfig {
   textBeforeAttachments: boolean;
@@ -19,6 +19,7 @@ export interface ChatConfig {
   attachmentsHiddenPrompt: string;
   autoSearchMinScore: number;
   autoSearchMaxPassages: number;
+  model: OpenAIModel;
 }
 
 export const defaultChatConfig: ChatConfig = {
@@ -33,7 +34,8 @@ export const defaultChatConfig: ChatConfig = {
   addAttachmentsPrompt: "Summarize these documents",
   attachmentsHiddenPrompt: "Refer to the above content in the form [id] (eg [2], [7])",
   autoSearchMinScore: 0.5,
-  autoSearchMaxPassages: 5
+  autoSearchMaxPassages: 5,
+  model: 'GPT35Turbo'
 }
 
 export interface InitChat {
@@ -64,6 +66,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() attachmentsHiddenPrompt =  defaultChatConfig.attachmentsHiddenPrompt;
   @Input() autoSearchMinScore =       defaultChatConfig.autoSearchMinScore;
   @Input() autoSearchMaxPassages =    defaultChatConfig.autoSearchMaxPassages;
+  @Input() model =                    defaultChatConfig.model;
   @Output() data = new EventEmitter<ChatMessage[]>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
@@ -125,6 +128,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   }
 
   ngOnChanges() {
+    this.chatService.attachmentModel = this.model;
     if(this.chat) {
       this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
     }
@@ -179,7 +183,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   }
 
   private fetch(messages: ChatMessage[]) {
-    this.chatService.fetch(messages, 'GPT35Turbo', this.temperature, this.maxTokens, this.topP)
+    this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP)
       .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
     this.scrollDown();
   }
