@@ -142,14 +142,21 @@ document.addEventListener("DOMContentLoaded", function() {
     // Hide the passage so it does not interfer with window size
     passageHighlighter.style.display = 'none';
     const pos: DOMRect[] = [];
-    elements.forEach(el => pos.push(el.getBoundingClientRect()));
-    const left = Math.min(...pos.map(p => p.left));
-    const top = Math.min(...pos.map(p => p.top));
+    elements.forEach(el => {
+      const box = el.getBoundingClientRect();
+      if(box.width && box.height) {
+        pos.push(box);
+      }
+    });
     const margin = 4;
-    passageHighlighter.style.left = `${window.scrollX + left - margin }px`;
-    passageHighlighter.style.top = `${window.scrollY + top - margin }px`;
-    passageHighlighter.style.width = (Math.max(...pos.map(p => p.right)) - left + margin) + 'px';
-    passageHighlighter.style.height = (Math.max(...pos.map(p => p.bottom)) - top + margin) + 'px';
+    const left = Math.max(0, Math.min(...pos.map(p => p.left)) - margin);
+    const top = Math.max(0, Math.min(...pos.map(p => p.top)) - margin);
+    const right = Math.max(...pos.map(p => p.right)) + margin;
+    const bottom = Math.max(...pos.map(p => p.bottom)) + margin;
+    passageHighlighter.style.left = `${window.scrollX + left }px`;
+    passageHighlighter.style.top = `${window.scrollY + top }px`;
+    passageHighlighter.style.width = (right - left) + 'px';
+    passageHighlighter.style.height = (bottom - top) + 'px';
     passageHighlighter.style.display = 'block';
   }
 

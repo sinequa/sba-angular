@@ -81,14 +81,21 @@ document.addEventListener("DOMContentLoaded", function () {
     function selectPassage(elements) {
         passageHighlighter.style.display = 'none';
         var pos = [];
-        elements.forEach(function (el) { return pos.push(el.getBoundingClientRect()); });
-        var left = Math.min.apply(Math, pos.map(function (p) { return p.left; }));
-        var top = Math.min.apply(Math, pos.map(function (p) { return p.top; }));
+        elements.forEach(function (el) {
+            var box = el.getBoundingClientRect();
+            if (box.width && box.height) {
+                pos.push(box);
+            }
+        });
         var margin = 4;
-        passageHighlighter.style.left = "".concat(window.scrollX + left - margin, "px");
-        passageHighlighter.style.top = "".concat(window.scrollY + top - margin, "px");
-        passageHighlighter.style.width = (Math.max.apply(Math, pos.map(function (p) { return p.right; })) - left + margin) + 'px';
-        passageHighlighter.style.height = (Math.max.apply(Math, pos.map(function (p) { return p.bottom; })) - top + margin) + 'px';
+        var left = Math.max(0, Math.min.apply(Math, pos.map(function (p) { return p.left; })) - margin);
+        var top = Math.max(0, Math.min.apply(Math, pos.map(function (p) { return p.top; })) - margin);
+        var right = Math.max.apply(Math, pos.map(function (p) { return p.right; })) + margin;
+        var bottom = Math.max.apply(Math, pos.map(function (p) { return p.bottom; })) + margin;
+        passageHighlighter.style.left = "".concat(window.scrollX + left, "px");
+        passageHighlighter.style.top = "".concat(window.scrollY + top, "px");
+        passageHighlighter.style.width = (right - left) + 'px';
+        passageHighlighter.style.height = (bottom - top) + 'px';
         passageHighlighter.style.display = 'block';
     }
     function selectHighlight(elements) {
