@@ -79,7 +79,7 @@
 // The default view in the mini preview when nothing is selected
 .no-record ::ng-deep {
     .card {
-        height: min(100vh, 100vh - 100px);
+        height: min(100vh, 100vh - 120px);
     }
     sq-collapse {
         height: 100%;
