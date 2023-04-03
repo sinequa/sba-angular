@@ -13,10 +13,7 @@ export class DocFacetRecentDocumentsComponent {
 
   constructor(private userSettingsService: UserSettingsWebService) {
     if (environment.mock) {
-      if (!this.userSettingsService.userSettings) {
-        this.userSettingsService.userSettings = {};
-      }
-      this.userSettingsService.userSettings["recentDocuments"] = recentDocuments;
+      this.userSettingsService.userSettings = { ...this.userSettingsService.userSettings, ...recentDocuments };
     }
   }
 

@@ -13,10 +13,7 @@ export class DocSavedQueriesMenuComponent {
 
   constructor(private userSettingsService: UserSettingsWebService) {
     if (environment.mock) {
-      if (!this.userSettingsService.userSettings) {
-        this.userSettingsService.userSettings = {};
-      }
-      this.userSettingsService.userSettings["savedQueries"] = savedQueries;
+      this.userSettingsService.userSettings = { ...this.userSettingsService.userSettings, ...savedQueries };
     }
   }
 
