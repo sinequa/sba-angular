@@ -349,7 +349,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     if(!this.configPatchDone) {
       config = {
         ...defaultChatConfig,
-        displayAttachments: false,
         ...config
       };
       this.prefs.set('chat-config', config);

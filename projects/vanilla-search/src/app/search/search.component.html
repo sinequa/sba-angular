@@ -165,6 +165,7 @@
                 [attachmentsHiddenPrompt]="chatConfig.attachmentsHiddenPrompt"
                 [autoSearchMinScore]="chatConfig.autoSearchMinScore"
                 [autoSearchMaxPassages]="chatConfig.autoSearchMaxPassages"
+                [model]="chatConfig.model"
                 (data)="summarizeAction.disabled = false">
               </sq-chat>
               <sq-chat-settings *ngIf="chatSettingsAction.selected" [config]="chatConfig"></sq-chat-settings>
