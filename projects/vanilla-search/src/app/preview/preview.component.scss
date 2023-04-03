@@ -2,7 +2,7 @@
 @import "bootstrap/scss/_variables";
 @import "bootstrap/scss/_mixins";
 
-@import "../../../../components/theme/bootstrap-variables";
+@import "../../../../components/theme/breakpoints";
 
 :host {
   width: 100%;
@@ -26,6 +26,7 @@
       z-index: 20;
       & ::ng-deep .nav-item {
         flex: 1 1 auto; // "Flex fill"
+        text-align: center;
       }
     }
   }

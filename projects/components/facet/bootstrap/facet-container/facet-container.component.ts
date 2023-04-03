@@ -117,7 +117,6 @@ export class FacetContainerComponent<T extends {}> implements OnChanges, OnDestr
       const classes = {
         ['btn-outline-'+this.buttonClass]: !filters,
         ['btn-'+this.buttonClass]: filters,
-        'me-3': filters
       };
       const disabled = !!results && count === 0;
       return {config, filters, classes, disabled};

@@ -1,0 +1,19 @@
+<sq-facet-card [title]="title" [collapsible]="false">
+
+  <div *sqFacetView="{text: 'Component'}" class="card-body">
+    <ng-content></ng-content>
+  </div>
+
+  <ng-template *ngIf="html" [sqFacetView]="{text: 'HTML'}">
+    <div class="card-body">
+      <doc-code [code]="html" language="html"></doc-code>
+    </div>
+  </ng-template>
+
+  <ng-template *ngIf="ts" [sqFacetView]="{text: 'TypeScript'}">
+    <div class="card-body">
+      <doc-code [code]="ts" language="typescript"></doc-code>
+    </div>
+  </ng-template>
+
+</sq-facet-card>

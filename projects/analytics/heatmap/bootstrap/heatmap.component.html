@@ -19,8 +19,8 @@
         <!-- Heatmap tiles -->
         <rect *ngFor="let item of dataFiltered" class="tile"
             [ngClass]="{clickable: itemsClickable, selected: item.selected}"
-            [attr.x]="x(item.x)"
-            [attr.y]="y(item.y)"
+            [attr.x]="x(item.x.value)"
+            [attr.y]="y(item.y.value)"
             [attr.width]="x.bandwidth()"
             [attr.height]="y.bandwidth()"
             [attr.fill]="color(item.count)"
@@ -40,7 +40,7 @@
 <!-- Tooltip -->
 <sq-tooltip class="text-center" [manager]="tooltipManager" [theme]="theme">
   <ng-template let-data>
-    <strong>{{data.display || data.value}}</strong>
+    <strong>{{data.y.display}} - {{data.x.display}}</strong>
     <div>{{'msg#heatmap.tooltip' | sqMessage:{values: {count: data.count} } }}</div>
   </ng-template>
 </sq-tooltip>

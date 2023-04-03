@@ -7,11 +7,9 @@ import { schemeBlues, schemeReds, schemeGreens, schemeRdBu, schemeSpectral, sche
 import { TooltipManager } from '@sinequa/analytics/tooltip';
 
 export interface HeatmapItem {
-    x: string;
-    y: string;
+    x: {value: string, display: string};
+    y: {value: string, display: string};
     count: number;
-    value: string;
-    display: string;
     selected?: boolean;
 }
 
@@ -54,7 +52,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
 
     // Events from user interactions
     @Output() itemClicked = new EventEmitter<HeatmapItem>();
-    @Output() axisClicked = new EventEmitter<{value: string, axis: 'x' | 'y'}>();
+    @Output() axisClicked = new EventEmitter<{value: string, display: string, axis: 'x' | 'y'}>();
 
     // D3 Scales
     x: d3.ScaleBand<string>;
@@ -89,9 +87,9 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
         this.data = this.data || [];
 
         // Pre-process data
-        const xLabels = Array.from(new Set(this.data.map(value => value.x))).slice(0, this.maxX);
-        const yLabels = Array.from(new Set(this.data.map(value => value.y))).slice(0, this.maxY);
-        this.dataFiltered = this.data.filter(value => xLabels.includes(value.x) && yLabels.includes(value.y));
+        const xLabels = Array.from(new Set(this.data.map(value => value.x.value))).slice(0, this.maxX);
+        const yLabels = Array.from(new Set(this.data.map(value => value.y.value))).slice(0, this.maxY);
+        this.dataFiltered = this.data.filter(value => xLabels.includes(value.x.value) && yLabels.includes(value.y.value));
 
         // Create scales
         this.x = scaleBand<string>()
@@ -135,17 +133,17 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
             const t = transition().duration(this.transition) as d3.Transition<any, any, any, any>;
 
             this.xAxis.transition(t)
-                .call(axisTop<string>(this.x).tickSize(0))
+                .call(axisTop<string>(this.x).tickSize(0).tickFormat(this.formatter('x')))
                 .on("end", () => this.xAxis.selectAll<SVGTextElement, string>('text').each(this.wrap));
 
             this.yAxis.transition(t)
-                .call(axisLeft<string>(this.y).tickSize(0))
+                .call(axisLeft<string>(this.y).tickSize(0).tickFormat(this.formatter('y')))
                 .on("end", () => this.yAxis.selectAll<SVGTextElement, string>('text').each(this.wrap));
 
         }
         else {
-            this.xAxis.call(axisTop<string>(this.x).tickSize(0));
-            this.yAxis.call(axisLeft<string>(this.y).tickSize(0));
+            this.xAxis.call(axisTop<string>(this.x).tickSize(0).tickFormat(this.formatter('x')));
+            this.yAxis.call(axisLeft<string>(this.y).tickSize(0).tickFormat(this.formatter('y')));
         }
 
         this.xAxis.selectAll(".domain").remove(); // Remove the axis line
@@ -153,12 +151,12 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
             .attr("transform", "rotate(-35)")
             .style("text-anchor", "start")
             .each(this.wrap)
-            .on("click", d => this.onAxisClicked(d, 'x'));
+            .on("click", (e,d) => this.onAxisClicked(d as any, 'x'));
 
         this.yAxis.selectAll(".domain").remove(); // Remove the axis line
         this.yAxis.selectAll<SVGTextElement, string>("text")
             .each(this.wrap)
-            .on("click", d => this.onAxisClicked(d, 'y'));
+            .on("click", (e,d) => this.onAxisClicked(d as any, 'y'));
     }
 
     /**
@@ -168,8 +166,8 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
      */
     onMouseOver(item: HeatmapItem, event: MouseEvent){
 
-        const x = this.x(item.x) as number;
-        const y = this.y(item.y) as number;
+        const x = this.x(item.x.value) as number;
+        const y = this.y(item.y.value) as number;
 
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
         // convert from the SVG coordinate system to the HTML coordinate system
@@ -210,7 +208,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
      */
     onAxisClicked(value: string, axis: 'x' | 'y'){
         if(this.axisClickable){
-            this.axisClicked.next({axis: axis, value: value});
+            this.axisClicked.next({axis: axis, value: value, display: this.formatter(axis)(value)});
         }
     }
 
@@ -250,4 +248,8 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
         }
         self.append('svg:title').text(fullText);
     };
+
+    formatter(axis: 'x' | 'y') {
+        return (v: string) => this.dataFiltered.find(d => d[axis].value === v)?.[axis].display || v;
+    }
 }

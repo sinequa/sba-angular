@@ -154,13 +154,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
-  }
-
-  /**
    * Open the search form to add/remove filters
    */
   editFilters() {

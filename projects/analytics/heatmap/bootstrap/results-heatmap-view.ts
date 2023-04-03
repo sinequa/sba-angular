@@ -48,22 +48,17 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
     }
 
     override onItemClicked(item: HeatmapItem){
-        if(this.aggregationData){
-            this.facetService.addFilterSearch(this.aggregationData, item, undefined, this.query, this._name).then(_ => {
-                if(this.selectView){
-                    this.resultsViewService.selectResultsViewName(this.selectView);
-                }
-            });
+        super.onItemClicked(item);
+        if(this.selectView){
+            this.resultsViewService.selectResultsViewName(this.selectView);
         }
     }
 
-    override onAxisClicked(item: {value: string, axis: 'x' | 'y'}){
-        this.searchService.addFieldSelect(item.axis === 'x'? this.fieldXPref : this.fieldYPref, item);
-        this.searchService.search().then(_ => {
-            if(this.selectView){
-                this.resultsViewService.selectResultsViewName(this.selectView);
-            }
-        });
+    override onAxisClicked(item: {value: string, display: string, axis: 'x' | 'y'}){
+        super.onAxisClicked(item);
+        if(this.selectView){
+            this.resultsViewService.selectResultsViewName(this.selectView);
+        }
     }
 }
 

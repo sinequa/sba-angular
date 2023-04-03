@@ -100,8 +100,8 @@ export class FirstPageService implements OnDestroy {
         if (this.firstPage) {
             return of(this.firstPage);
         }
-        const query = this.searchService.makeQuery();
-        query.isFirstPage = true;
+
+        const query = this.searchService.makeQuery({ isFirstPage: true });
 
         // side effect, set cache results, then return "results" as observable
         return this.searchService.getResults(query, { type: AuditEventType.Search_FirstPage }, { searchInactive: true })

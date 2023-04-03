@@ -239,6 +239,9 @@
             "tsConfig": "projects/vanilla-search/tsconfig.json",
             "preserveSymlinks": true,
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            },
             "assets": [
               "projects/vanilla-search/src/assets",
               "projects/vanilla-search/src/preview/preview.js"
@@ -380,6 +383,9 @@
             "polyfills": "projects/pepper/src/polyfills.ts",
             "tsConfig": "projects/pepper/tsconfig.json",
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules"]
+            },
             "preserveSymlinks": true,
             "assets": [
               "projects/pepper/src/assets",
@@ -547,6 +553,161 @@
               "projects/analytics/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "components-docs": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/components-docs",
+      "sourceRoot": "projects/components-docs/src",
+      "prefix": "doc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "docs/assets/sq-doc-app",
+            "index": "projects/components-docs/src/index.html",
+            "main": "projects/components-docs/src/main.ts",
+            "polyfills": "projects/components-docs/src/polyfills.ts",
+            "tsConfig": "projects/components-docs/tsconfig.json",
+            "preserveSymlinks": true,
+            "assets": [
+              "projects/components-docs/src/favicon.ico",
+              "projects/components-docs/src/assets"
+            ],
+            "styles": ["projects/components-docs/src/styles/app.scss"],
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "intl",
+              "jssha",
+              "lodash",
+              "element-resize-detector",
+              "batch-processor",
+              "rxjs",
+              "@formatjs/intl-relativetimeformat/polyfill",
+              "intl-pluralrules",
+              "atomicjs",
+              "fast-text-encoding",
+              "diacritics",
+              "date-fns/locale/_lib/buildFormatLongFn",
+              "@microsoft/teams-js"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/components-docs/src/environments/environment.ts",
+                  "with": "projects/components-docs/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputPath": "docs/assets/sq-doc-app",
+              "buildOptimizer": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ],
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
+            },
+            "development": {
+              "outputPath": "dist-debug/vanilla-search",
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "mock": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/components-docs/src/environments/environment.ts",
+                  "with": "projects/components-docs/src/environments/environment.mock.ts"
+                }
+              ],
+              "outputPath": "docs/assets/sq-doc-app"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "components-docs:build:development",
+            "ssl": true,
+            "proxyConfig": "projects/components-docs/src/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "components-docs:build:production"
+            },
+            "mock": {
+              "browserTarget": "components-docs:build:mock"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "components-docs:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/components-docs/src/test.ts",
+            "polyfills": "projects/components-docs/src/polyfills.ts",
+            "tsConfig": "projects/components-docs/tsconfig.spec.json",
+            "karmaConfig": "projects/components-docs/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/components-docs/src/favicon.ico",
+              "projects/components-docs/src/assets"
+            ],
+            "styles": ["projects/components-docs/src/styles/app.scss"],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/components-docs/**/*.ts",
+              "projects/components-docs/**/*.html"
+            ]
           }
         }
       }

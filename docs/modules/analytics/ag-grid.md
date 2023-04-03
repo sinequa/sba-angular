@@ -62,6 +62,8 @@ The [`sq-ag-grid-view`]({{site.baseurl}}analytics/components/AgGridViewComponent
 <sq-ag-grid-view [results]="results" [columns]="columns"></sq-ag-grid-view>
 ```
 
+<doc-ag-grid-view></doc-ag-grid-view>
+
 In the snippet above,
 
 - `results` is a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object containing the data to be displayed. A change in the results triggers a new rendering of the component.

@@ -21,7 +21,8 @@ export default {
         "entities": "Objekten",
         "downloadPdf": "PDF-Version herunterladen",
         "viewPreview": "Vorschau",
-        "viewPassages": "Passagen",
+        "viewPassages": "Ausschnitte",
+        "viewDuplicates": "Duplikate",
         "documentPreview": "Dokumentvorschau",
         "documentPreviewTitle": "Dies ist die Dokumentenvorschau",
         "documentPreviewDescription": "Klicken Sie auf eines Ihrer Suchergebnisse, um das Dokument hier in der Vorschau anzuzeigen."

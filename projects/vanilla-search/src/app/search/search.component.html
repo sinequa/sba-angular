@@ -1,63 +1,57 @@
-<div class="nav-wrapper">
-    <!-- Navbar with app icon, search form, and menus -->
-    <nav class="navbar navbar-expand-sm" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
-        <div class="container-xl flex-nowrap">
+<!-- Navbar with app icon, search form, and menus -->
+<nav class="navbar navbar-expand-sm bg-light sticky-top" [ngClass]="{'navbar-dark': isDark}">
+    <div class="container-xl flex-nowrap">
 
-            <div class="col-lg-3 col-xl-2" *ngIf="showLogo">
-                <!-- Application logo -->
-                <a [routerLink]="['/home']" title="Home">
-                    <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('sm')">
-                    <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('sm')">
-                    <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('sm')">
-                    <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('sm')">
-                </a>
-            </div>
-
+        <div class="col-lg-3 col-xl-2 d-flex align-items-center">
+            <!-- Application logo -->
+            <a [routerLink]="['/home']" title="Home">
+                <img id="logo" alt="sinequa logo">
+            </a>
             <!-- Button to toggle the visibility of facets on small screens -->
-            <button *ngIf="showFilterToggle" class="btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showFilters' | sqMessage }}"
+            <button *ngIf="showFilterToggle" class="btn btn-lg" [ngClass]="isDark ? 'btn-dark' : 'btn-light'" title="{{ 'msg#search.showFilters' | sqMessage }}"
                 (click)="toggleFilters()">
                 <i class="fas fa-filter text-muted"></i>
             </button>
-
-            <!-- Search form -->
-            <div class="app-search-form col-sm-5 ps-1 pe-2" *ngIf="showForm">
-                <app-search-form [autocompleteSources]="features"></app-search-form>
-            </div>
-
-            <!-- User menu which visibility can be toggled with a button on small screens -->
-            <div class="col-sm-4 col-xl-5 d-flex justify-content-end flex-grow-1 flex-shrink-1 w-100" *ngIf="showMenu">
-                <ul class="navbar-nav navbar-right mw-100">
-                    <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
-                        <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
-                        <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
-                        <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
-                        <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
-                    </ng-container>
-                    <sq-user-menu [display]="'fullName'"></sq-user-menu>
-                </ul>
-
-                <!-- Non mobile feedback button -->
-                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
-            </div>
-
-            <button *ngIf="!showForm" class="btn btn-lg btn-light btn-link align-self-baseline" title="{{ 'msg#search.showMenu' | sqMessage }}"
-                (click)="toggleMenu()">
-                <i class="fas fa-bars text-muted"></i>
-            </button>
-
         </div>
-    </nav>
 
-    <!-- Loading bar (Manages its own state and visibility via the search service) -->
-    <sq-loading-bar></sq-loading-bar>
-</div>
+
+        <!-- Search form -->
+        <div class="col-5 col-lg-5 app-search-form px-2" *ngIf="showSearch">
+            <app-search-form [autocompleteSources]="features"></app-search-form>
+        </div>
+
+        <!-- User menu which visibility can be toggled with a button on small screens -->
+        <div class="d-flex justify-content-end flex-grow-1 flex-shrink-1 w-100" *ngIf="showMenu" [ngClass]="{'d-none': !showMenu}">
+            <ul class="navbar-nav navbar-right align-items-center mw-100">
+                <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
+                    <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
+                    <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
+                    <sq-alerts-menu *ngSwitchCase="'alerts'" ></sq-alerts-menu>
+                    <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
+                </ng-container>
+                <sq-user-menu [display]="'fullName'"></sq-user-menu>
+                <!-- Non mobile feedback button -->
+                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1 d-none d-md-block" *ngIf="loginService.complete"></sq-feedback-menu>
+            </ul>
+        </div>
+
+        <button class="d-md-none btn btn-lg" [ngClass]="isDark ? 'btn-dark' : 'btn-light'" title="{{ 'msg#search.showMenu' | sqMessage }}"
+            (click)="toggleMenu()">
+            <i class="fas fa-bars text-muted"></i>
+        </button>
+
+    </div>
+</nav>
+
+<!-- Loading bar (Manages its own state and visibility via the search service) -->
+<sq-loading-bar></sq-loading-bar>
 
 <!-- Main interface -->
 <div class="container-xl main" *ngIf="loginService.complete">
     <div class="row" *ngIf="results$ | async; let results">
         <!-- Left facet bar -->
         <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-md-4 col-lg-3 col-xl-2 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 96, bottom: 80}">
+        <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 105, bottom: 10}">
             <!-- Source facet -->
             <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" class="mb-3">
                 <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
@@ -73,21 +67,33 @@
             </sq-facet-card>
         </div>
 
-        <!-- Result selection toolbar -->
-        <div class="card-action-bar rounded text-white bg-primary position-fixed w-auto" *ngIf="ui.screenSizeIsGreater('sm')">
-            <div class="p-2">
-                <sq-results-selector [style]="'primary'"></sq-results-selector>
-            </div>
-        </div>
-
         <!-- Results -->
-        <div class="col-lg-5" [ngClass]="{'col-md-7': !showFilters, 'col-md-8': showFilters}" *ngIf="showResults">
+        <div class="col-sm-12 col-lg-5" [ngClass]="{'col-md-8': showFilters, 'col-md-6': !showFilters}" *ngIf="showResults">
 
             <!-- Tabs -->
-            <sq-tabs [tabsClass]="'py-2 px-4'" [results]="results"></sq-tabs>
+            <sq-tabs [results]="results"></sq-tabs>
+
+            <!-- Did you mean -->
+            <sq-did-you-mean [results]="results"></sq-did-you-mean>
+
+            <!-- Sponsored links -->
+            <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
+
+            <!-- nth top passages -->
+            <sq-facet-card *ngIf="hasPassages" class="mb-3"
+                [title]="'msg#machine-learning.passages'"
+                [icon]="'fas fa-brain primary-icon'"
+                [collapsible]="true"
+                buttonsStyle="primary">
+                <sq-top-passages #facet
+                    [results]="results"
+                    (previewOpened)="openMiniPreview($event.$record, $event.id)"
+                    (titleClicked)="onTitleClick($event)">
+                </sq-top-passages>
+            </sq-facet-card>
 
             <!-- Toolbar -->
-            <div class="d-flex small sq-toolbar">
+            <div class="d-flex small my-2 sq-toolbar">
                 <sq-filters-view
                   class="flex-grow-1 position-relative"
                   [query]="searchService.query"
@@ -99,46 +105,27 @@
                 <sq-sort-selector [results]="results" [rightAligned]="true"></sq-sort-selector>
             </div>
 
-            <!-- Did you mean -->
-            <sq-did-you-mean [results]="results"></sq-did-you-mean>
-
-            <!-- Sponsored links -->
-            <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
-
-            <!-- Answer card -->
-            <sq-facet-card *ngIf="hasAnswers" class="mt-3" #answersFacet>
-                <sq-answer-card #facet [results]="results" (previewOpened)="openMiniPreview($event.$record)"
-                    (titleClicked)="onTitleClick($event)" [collapsed]="answersFacet._collapsed"></sq-answer-card>
-            </sq-facet-card>
-
-            <!-- nth top pasages -->
-            <sq-facet-card *ngIf="hasPassages" class="mt-3" #passagesFacet>
-                <sq-top-passages #facet [results]="results" (previewOpened)="openMiniPreview($event.$record, $event.id)"
-                    (titleClicked)="onTitleClick($event)" [collapsed]="passagesFacet._collapsed"></sq-top-passages>
-            </sq-facet-card>
-
-            <ng-container *ngIf="hasAnswers || hasPassages">
-                <hr class="my-4">
-                <div class="documents-title">
-                    <i class="fas fa-file me-2"></i>Documents
-                </div>
-            </ng-container>
-
             <!-- List of documents (for loop) -->
-            <div *ngFor="let record of results.records" class="record d-flex"
+            <div *ngFor="let record of results.records" class="record"
                 (click)="onDocumentClicked(record, $event)"
-                [ngClass]="{'selected': record.$selected || record === openedDoc}">
+                [ngClass]="{
+                  'selected': record.$selected || record === openedDoc,
+                  'duplicate': record.$isDuplicate
+                }">
+                <sq-result-duplicates-spacer [record]="record"></sq-result-duplicates-spacer>
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center">
-                        <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record"></sq-result-selector>
+                        <sq-result-selector class="d-none d-md-block" [record]="record"></sq-result-selector>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
-                    <sq-result-extracts [record]="record"></sq-result-extracts>
+                    <sq-result-extracts [record]="record" class="d-block overflow-hidden"></sq-result-extracts>
                     <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
 
                     <sq-labels [record]="record" [public]="true"></sq-labels>
                     <sq-labels [record]="record" [public]="false"></sq-labels>
+
+                    <sq-result-duplicates [record]="record"></sq-result-duplicates>
                 </div>
                 <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="false"
                     class="d-none d-sm-block align-self-center ms-3">
@@ -154,12 +141,12 @@
 
         <!-- Right part-->
         <!-- sqSticky to update if you change the header sizing -->
-        <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 96, bottom: 30}">
+        <div class="col-sm-12 col-lg-4 col-xl-5" [ngClass]="{'col-md-6': !showFilters}"  [sqSticky]="{top: 105, bottom: 10}">
 
             <!-- Without selected document -->
-            <sq-facet-card *ngIf="!openedDoc" [collapsible]="false" [title]="'msg#preview.documentPreview'"
-                class="mb-3">
-                <div class="no-record">
+            <!-- hidden only on md resolution -->
+            <sq-facet-card *ngIf="!openedDoc" class="d-none d-sm-block no-record" [ngClass]="{ 'd-none d-lg-block mb-3': showFilters }" [collapsible]="false" [title]="'msg#preview.documentPreview'">
+                <div class="text-center">
                     <img src="assets/sinequa-empty-preview.png" class="mb-3">
                     <p class="fw-bold">{{'msg#preview.documentPreviewTitle' | sqMessage}}</p>
                     <p>{{'msg#preview.documentPreviewDescription' | sqMessage}}</p>
@@ -169,24 +156,30 @@
             <!-- With selected document -->
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" [facetActionsAreSecondary]="true"
                 [viewActionsAreSecondary]="true"
-                secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-{{isDark()? 'dark' : 'light'}} rounded shadow on-hover"
+                secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-light rounded shadow on-hover"
                 viewActionsClass="d-block btn-group mt-2" viewButtonsStyle="outline-primary" [actions]="previewCustomActions"
                 actionsSize="" class="mb-3 facet-preview" #previewFacet>
 
                 <ng-template #headerTpl>
+                    <sq-result-icon [record]="openedDoc" class="me-1"></sq-result-icon>
                     <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url">
                     </sq-result-title>
                 </ng-template>
 
                 <ng-template #subHeaderTpl>
-                    <sq-metadata [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
+                    <sq-metadata class="small" [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
                         [tabular]="false" [clickable]="false">
                     </sq-metadata>
                 </ng-template>
 
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewPassages'}" [default]="true" *ngIf="openedDoc.$hasPassages"
+                    #passagesList>
+                    <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
+                </ng-template>
+
                 <ng-template [sqFacetView]="{text: 'msg#preview.viewPreview'}">
                     <sq-preview #facet
-                        style="height: calc(100vh - 250px);"
+                        style="height: calc(100vh - 220px);"
                         [id]="openedDoc.id"
                         [query]="searchService.query"
                         [highlightColors]="previewHighlights"
@@ -196,11 +189,20 @@
                     </sq-preview>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#preview.viewPassages'}" [default]="!!passageId"
-                    *ngIf="openedDoc.$hasPassages" #passagesList>
-                    <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewDuplicates'}" *ngIf="openedDoc.groupcount && openedDoc.groupcount > 1">
+                    <sq-result-duplicates-list [record]="openedDoc">
+                      <ng-template let-duplicate>
+                        <sq-result-title [record]="duplicate" (titleClicked)="openPreviewIfNoUrl(duplicate, $event)"></sq-result-title>
+                        <sq-result-source [record]="duplicate" [displayTreepath]="true"></sq-result-source>
+                      </ng-template>
+                    </sq-result-duplicates-list>
                 </ng-template>
             </sq-facet-card>
         </div>
     </div>
+</div>
+
+<!-- Result selection toolbar -->
+<div class="card-action-bar rounded text-white bg-primary position-fixed w-auto p-2 d-none d-md-block">
+    <sq-results-selector [style]="'primary'"></sq-results-selector>
 </div>

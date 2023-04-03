@@ -1,5 +1,5 @@
 <div class="modal-header">
     <h5 *ngIf="title" class="modal-title">{{title | sqMessage}}</h5>
     <ng-content></ng-content>
-    <button type="button" class="btn-close" (click)="cancel()" data-dismiss="modal" aria-hidden="true"></button>
+    <button type="button" class="btn-close" [ngClass]="{'btn-close-white': ui.isDark()}" (click)="cancel()" data-dismiss="modal" aria-hidden="true"></button>
 </div>

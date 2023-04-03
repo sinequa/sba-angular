@@ -1,0 +1,64 @@
+sq-facet-card {
+
+  &.striped .list-group-item:not(.unstriped) {
+    background-color: #{$facet-stripped-odd-bg};
+
+    &:nth-child(even) {
+      background-color: #{$facet-stripped-even-bg};
+    }
+  }
+
+  .card-header {
+    font-weight: $card-cap-font-weight;
+
+    .primary-icon {
+      color: $card-cap-primary-icon-color;
+    }
+
+    .card-action {
+      font-size: $card-cap-action-font-size;
+    }
+
+    // btn-light overrides when inside a facet card
+    .btn-light {
+      background-color: $facet-btn-light-bg;
+      border-color: $facet-btn-light-border-color;
+
+      &:hover,
+      &.active,
+      &[aria-expanded="true"] {
+        color: $facet-btn-light-active-color;
+        background-color: $facet-btn-light-active-bg;
+        border-color: $facet-btn-light-active-border-color;
+      }
+
+      &.active:hover {
+        background-color: $facet-btn-light-active-bg;
+        opacity: .6;
+      }
+    }
+  }
+}
+
+/**
+List elements
+*/
+sq-facet-list {
+  .list-group-item {
+    // dropdown arrow in treeview
+    .item-opener > a {
+      color: $facet-item-opener-color;
+      text-decoration: none;
+
+      &:hover {
+        color: $facet-item-opener-hover-color;
+      }
+    }
+
+    // the text on the right side (elements nb, ...)
+    span.small {
+      font-weight: 300;
+    }
+  }
+}
+

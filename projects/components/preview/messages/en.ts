@@ -21,7 +21,8 @@ export default {
         "entities": "Entities",
         "downloadPdf": "Download PDF version",
         "viewPreview": "Preview",
-        "viewPassages": "Passages",
+        "viewPassages": "Snippets",
+        "viewDuplicates": "Duplicates",
         "documentPreview": "Document preview",
         "documentPreviewTitle": "This is the document preview",
         "documentPreviewDescription": "Click on one of your search results to preview the document here."

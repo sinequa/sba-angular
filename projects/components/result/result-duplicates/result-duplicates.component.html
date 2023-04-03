@@ -1,0 +1,9 @@
+<span *ngIf="exactDuplicates">
+  {{'msg#results.duplicates.exact' | sqMessage:{count: exactDuplicates} }}
+</span>
+<span *ngIf="exactDuplicates && nearDuplicates">
+  {{'msg#results.duplicates.and' | sqMessage }}
+</span>
+<span *ngIf="nearDuplicates">
+  {{'msg#results.duplicates.near' | sqMessage:{count: nearDuplicates} }}
+</span>

@@ -5,12 +5,14 @@
     min-height: 100%;
 }
 
-.results-list {
-    max-height: 100%;
-    overflow-y: scroll;
-    width: 33%;
+nav .search-form-container {
+    // to center the search input inside it's flex item
+    position: relative;
+    top: -20px;
+}
 
-    margin-left: 0px;
+.results-list {
+    overflow-y: scroll;
     transition: margin-left .5s;
 
     &--hidden {
@@ -20,23 +22,14 @@
 }
 
 app-dashboard {
-    width: calc(100% - 33%);
-
     &.expanded {
         width: 100%;
     }
 }
 
-#logo {
-    height: 40px;
-}
-
-.sq-toolbar {
-    margin: 0.625rem 0;
-}
-
 // Styling of the result items
 .record {
+    cursor: pointer;
 
     &:hover {
         background-color: rgb(0,0,0,0.03);
@@ -45,14 +38,11 @@ app-dashboard {
     &.selected {
         background-color: rgb(0,0,0,0.05);
     }
-
-    padding: 0.5em 15px;
-    margin: 0 -15px;
-    cursor: pointer;
 }
 
 // Selection / Action bar on top of results (position: fixed)
-.card.action-bar {
+.card-action-bar {
     bottom: 10px;
+    margin-left: 15px;
     z-index: 4;
 }
