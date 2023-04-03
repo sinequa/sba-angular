@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { UserSettingsWebService } from '@sinequa/core/web-services';
+import { environment } from 'src/environments/environment';
+import { savedQueries } from 'src/mocks/data/user-settings';
 
 @Component({
   selector: 'doc-facet-saved-queries',
@@ -6,10 +9,12 @@ import { Component } from '@angular/core';
 })
 export class DocFacetSavedQueriesComponent {
 
-  code = ``;
+  code = `<sq-facet-saved-queries></sq-facet-saved-queries>`;
 
-  code2 = ``;
-
-  constructor() { }
+  constructor(private userSettingsService: UserSettingsWebService) {
+    if (environment.mock) {
+      this.userSettingsService.userSettings = { ...this.userSettingsService.userSettings, ...savedQueries };
+    }
+  }
 
 }

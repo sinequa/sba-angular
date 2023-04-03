@@ -66,7 +66,7 @@ const messages = Utils.merge({}, ..., enAlerts, enBaskets, enSavedQueries, appMe
 
 ### User Menu
 
-<!-- <doc-saved-queries-menu></doc-saved-queries-menu> -->
+<doc-saved-queries-menu></doc-saved-queries-menu>
 
 The [`sq-saved-queries-menu`]({{site.baseurl}}components/components/BsSavedQueriesMenuComponent.html) component displays the list of saved queries, lets a user save his current query and allows to reorganize the list (See the *Manage* modal below).
 
@@ -83,7 +83,7 @@ This menu is meant to be inserted in a Bootstrap-styled navbar:
 
 ### Facet
 
-<!-- <doc-facet-saved-queries></doc-facet-saved-queries> -->
+<doc-facet-saved-queries></doc-facet-saved-queries>
 
 The [`sq-facet-saved-queries`]({{site.baseurl}}components/components/BsFacetSavedQueries.html) component displays the list of saved queries, lets a user re-play one of them, open the *Manage* modal (see below), or delete specific queries.
 
@@ -125,7 +125,7 @@ Additional methods allow to display modal dialogs:
 
 ### Facet
 
-<!-- <doc-facet-recent-queries></doc-facet-recent-queries> -->
+<doc-facet-recent-queries></doc-facet-recent-queries>
 
 The [`sq-facet-recent-queries`]({{site.baseurl}}components/components/BsFacetRecentQueries.html) component displays the list of recent queries and lets a user re-play, delete or save one of them.
 
@@ -158,7 +158,7 @@ The [`RecentQueriesService`]({{site.baseurl}}components/injectables/RecentQuerie
 
 ### Facet
 
-<!-- <doc-facet-recent-documents></doc-facet-recent-documents> -->
+<doc-facet-recent-documents></doc-facet-recent-documents>
 
 The [`sq-facet-recent-documents`]({{site.baseurl}}components/components/BsFacetRecentDocuments.html) component displays the list of recent document and lets a user re-open one, or remove it from the list.
 
