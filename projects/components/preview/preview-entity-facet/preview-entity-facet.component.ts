@@ -4,7 +4,7 @@ import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 import { AppService } from '@sinequa/core/app-utils';
 import { Preview, PreviewHighlightColors } from '../preview.component';
-import { map, Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription, tap } from 'rxjs';
 
 interface PreviewEntity {
   display: string;
@@ -79,7 +79,13 @@ export class PreviewEntityFacetComponent extends AbstractFacet implements OnChan
       this.updateSort();
     }
     if(this.preview && !this.sub) {
-      this.sub =   this.preview.selectedId$.subscribe(id => this.updateSelected(id));
+
+      // Listen to changes of the preview's currently selected id, and update the state of this component accordingly
+      this.sub = this.preview.selectedId$.pipe(
+        tap(id => this.updateSelected(id))
+      ).subscribe(() => this.cdRef.detectChanges());
+
+      // Listen to changes of the preview's currently highlighted categories, and update the state of this component accordingly
       this.highlighted$ = this.preview.highlights$.pipe(
         map(hl => hl.includes(this.entity)? 'highlighted' : '')
       );
@@ -126,6 +132,11 @@ export class PreviewEntityFacetComponent extends AbstractFacet implements OnChan
     this._actions[0].update();
   }
 
+  /**
+   * selectedId is the id of the currently selected highlight
+   * in the form "company_123". If this facet displays the entity "company",
+   * then we set occurrence 123 of this entity as the "current" one
+   */
   updateSelected(selectedId: string|undefined) {
     let id = -1;
     if(selectedId) {
@@ -136,9 +147,13 @@ export class PreviewEntityFacetComponent extends AbstractFacet implements OnChan
       }
     }
     this.setCurrent(id);
-    this.cdRef.detectChanges();
   }
 
+  /**
+   * For each entity in this facet, search for an occurrence of the given id, and
+   * set the "current" property of this entity accordingly (= the index of the currently
+   * selected occurrence).
+   */
   setCurrent(id: number) {
     this.items.forEach(item => item.current = item.ids.indexOf(id)+1);
   }

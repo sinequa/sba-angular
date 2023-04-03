@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
    */
   function select(id: string, usePassageHighlighter = false) {
     unselect();
-    const elements = getElements(id);
+    const elements = getElementsById(id);
     if(usePassageHighlighter) {
       selectPassage(elements);
     }
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
    * Return the HTML content of a list of elements (by id)
    */
   function getHtml(ids: string[]) {
-    const data = ids.map(id => getHighlightHtml(id));
+    const data = ids.map(id => getHighlightHtmlById(id));
     returnMessage('get-html-results', data);
   }
 
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function() {
    * Return the text content of a list of elements (by id)
    */
   function getText(ids: string[]) {
-    const data = ids.map(id => getHighlightText(id));
+    const data = ids.map(id => getHighlightTextById(id));
     returnMessage('get-text-results', data);
   }
 
@@ -320,19 +320,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Utils
 
-  function getElements(id: string): NodeListOf<Element> {
+  function getElementsById(id: string): NodeListOf<Element> {
     return document.querySelectorAll(`#${id}`);
   }
 
-  function getHighlightText(id: string): string {
+  function getHighlightTextById(id: string): string {
     let text = "";
-    getElements(id).forEach(n => text += n.textContent + " ");
+    getElementsById(id).forEach(n => text += n.textContent + " ");
     return text;
   }
 
-  function getHighlightHtml(id: string): string {
+  function getHighlightHtmlById(id: string): string {
     let html = "";
-    getElements(id).forEach(n => html += n.innerHTML + " ");
+    getElementsById(id).forEach(n => html += n.innerHTML + " ");
     return html;
   }
 

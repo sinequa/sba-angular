@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function select(id, usePassageHighlighter) {
         if (usePassageHighlighter === void 0) { usePassageHighlighter = false; }
         unselect();
-        var elements = getElements(id);
+        var elements = getElementsById(id);
         if (usePassageHighlighter) {
             selectPassage(elements);
         }
@@ -122,11 +122,11 @@ document.addEventListener("DOMContentLoaded", function () {
         passageHighlighter.style.display = 'none';
     }
     function getHtml(ids) {
-        var data = ids.map(function (id) { return getHighlightHtml(id); });
+        var data = ids.map(function (id) { return getHighlightHtmlById(id); });
         returnMessage('get-html-results', data);
     }
     function getText(ids) {
-        var data = ids.map(function (id) { return getHighlightText(id); });
+        var data = ids.map(function (id) { return getHighlightTextById(id); });
         returnMessage('get-text-results', data);
     }
     function getPositions(highlight) {
@@ -224,17 +224,17 @@ document.addEventListener("DOMContentLoaded", function () {
             line.setAttribute("transform", transform);
         group.appendChild(line);
     }
-    function getElements(id) {
+    function getElementsById(id) {
         return document.querySelectorAll("#".concat(id));
     }
-    function getHighlightText(id) {
+    function getHighlightTextById(id) {
         var text = "";
-        getElements(id).forEach(function (n) { return text += n.textContent + " "; });
+        getElementsById(id).forEach(function (n) { return text += n.textContent + " "; });
         return text;
     }
-    function getHighlightHtml(id) {
+    function getHighlightHtmlById(id) {
         var html = "";
-        getElements(id).forEach(function (n) { return html += n.innerHTML + " "; });
+        getElementsById(id).forEach(function (n) { return html += n.innerHTML + " "; });
         return html;
     }
     function getHighlightPositions(highlight) {
