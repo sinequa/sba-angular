@@ -645,7 +645,9 @@ export const RESULTS = {
       "filename": "Internet",
       "fileext": "htm",
       "collection": [
-        "\/Web\/Wiki\/"
+        "\/Web\/Wiki\/",
+        "Test",
+        "Abcd"
       ],
       "docformat": "htm",
       "person": [

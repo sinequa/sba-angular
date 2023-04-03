@@ -39,7 +39,9 @@ export const APP = {
             "description": "default web service for labels",
             "webServiceType": "labels",
             "revision": 1,
-            "name": "_labels"
+            "name": "_labels",
+            "privateLabelsField": "collection",
+            "publicLabelsField": "collection"
         },
         "_preview": {
             "description": "default web service for document preview",
