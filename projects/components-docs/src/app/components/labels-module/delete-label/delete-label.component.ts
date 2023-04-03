@@ -6,7 +6,10 @@ import { LABELS_MODAL_MODEL } from 'src/mocks/data/labels';
   selector: 'doc-delete-label',
   templateUrl: './delete-label.component.html',
   providers: [{
-    provide: MODAL_MODEL, useValue: LABELS_MODAL_MODEL
+    provide: MODAL_MODEL, useValue: {
+      values: ["string", "test", "abcd"],
+      properties: LABELS_MODAL_MODEL
+    }
   }]
 })
 export class DocDeleteLabelComponent {

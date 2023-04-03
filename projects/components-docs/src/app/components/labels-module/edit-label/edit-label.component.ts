@@ -9,7 +9,7 @@ import { LABELS_MODAL_MODEL } from 'src/mocks/data/labels';
     provide: MODAL_MODEL, useValue: {
       valuesToBeAdded: [],
       valuesToBeRemoved: [],
-      properties: LABELS_MODAL_MODEL.properties
+      properties: LABELS_MODAL_MODEL
     }
   }]
 })
