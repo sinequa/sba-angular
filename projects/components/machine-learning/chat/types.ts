@@ -95,7 +95,7 @@ export interface ChatResponse extends RawResponse {
 /**
  * Model names supported by the API
  */
-export type OpenAIModel = "Davinci3" | "GPT35Turbo";
+export type OpenAIModel = "GPT35Turbo" | "GPT4";
 
 /**
  * Minimal data structure saved to reconstruct a conversation
