@@ -629,7 +629,7 @@ export class IntlService implements OnDestroy {
             try {
                 // escaping XML/HTML tags according to intl-messageformat documentation
                 //https://formatjs.io/docs/intl-messageformat/
-                const formatter = formatters.getMessageFormat(message.replace(/(<\/?[^>]+>)/gi, "'$1'"), this.intlLocale, this.formats, {formatters: formatters as any});
+                const formatter = formatters.getMessageFormat(message.replace(/((<\/?[^>]+>)+)/gi, "'$1'"), this.intlLocale, this.formats, {formatters: formatters as any});
                 const formattedMessage = formatter.format(values);
                 return formattedMessage;
             }
