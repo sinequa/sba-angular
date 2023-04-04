@@ -1,100 +1,100 @@
 
 <!-- Left panel (navigation, extracts and entities) -->
 <div class="side-menu h-100 d-none d-md-flex flex-column justify-content-between"
-    [ngClass]="{'col-md-4 col-lg-3': !collapsedPanel}">
+  [ngClass]="{'col-md-4 col-lg-3': !collapsedPanel}">
 
-    <div class="side-menu-header d-flex justify-content-between px-2 px-lg-4 pt-2 pt-lg-4"
-        [ngClass]="{'flex-column': collapsedPanel}">
+  <div class="side-menu-header d-flex justify-content-between px-2 px-lg-4 pt-2 pt-lg-4"
+    [ngClass]="{'flex-column': collapsedPanel}">
 
-        <!-- Back button (go back to /search route) -->
-        <button class="btn btn-link btn-lg order-1"
-            [ngClass]="{'mt-2': collapsedPanel}"
-            [sqTooltip]="'msg#preview.back' | sqMessage"
-            (click)="back()">
-            <i class="fas fa-arrow-left"></i>
-        </button>
+    <!-- Back button (go back to /search route) -->
+    <button class="btn btn-link btn-lg order-1"
+      [ngClass]="{'mt-2': collapsedPanel}"
+      [sqTooltip]="'msg#preview.back' | sqMessage"
+      (click)="back()">
+      <i class="fas fa-arrow-left"></i>
+    </button>
 
-        <a [routerLink]="[homeRoute]" title="Home" class="d-flex order-{{collapsedPanel? '0' : '2'}}">
-            <img id="logo" alt="sinequa logo" *ngIf="!collapsedPanel">
-            <img id="logo-sm" alt="sinequa logo" *ngIf="collapsedPanel">
-        </a>
+    <a [routerLink]="[homeRoute]" title="Home" class="d-flex order-{{collapsedPanel? '0' : '2'}}">
+      <img id="logo" alt="sinequa logo" *ngIf="!collapsedPanel">
+      <img id="logo-sm" alt="sinequa logo" *ngIf="collapsedPanel">
+    </a>
 
-        <!-- Toggles the left panel collapsed/expanded state -->
-        <button class="btn btn-link btn-lg order-3"
-            [sqTooltip]="(collapsedPanel ? 'msg#preview.expand' : 'msg#preview.collapse') | sqMessage"
-            (click)="collapsedPanel = !collapsedPanel">
-            <i class="fas {{collapsedPanel ? 'fa-bars' : 'fa-times'}}"></i>
-        </button>
+    <!-- Toggles the left panel collapsed/expanded state -->
+    <button class="btn btn-link btn-lg order-3"
+      [sqTooltip]="(collapsedPanel ? 'msg#preview.expand' : 'msg#preview.collapse') | sqMessage"
+      (click)="collapsedPanel = !collapsedPanel">
+      <i class="fas {{collapsedPanel ? 'fa-bars' : 'fa-times'}}"></i>
+    </button>
 
-    </div>
+  </div>
 
-    <div *ngIf="!collapsedPanel && id" [ngSwitch]="subpanel"
-        class="flex-grow-1 d-flex flex-column" >
+  <div *ngIf="!collapsedPanel && id" [ngSwitch]="subpanel"
+    class="flex-grow-1 d-flex flex-column" >
 
-        <!-- Search form allowing the search preview -->
-        <sq-preview-search-form
-            class="pt-2 pt-lg-4 px-2 px-lg-4"
-            [query]="query"
-            (searchText)="searchText($event)">
-        </sq-preview-search-form>
+    <!-- Search form allowing the search preview -->
+    <sq-preview-search-form
+      class="pt-2 pt-lg-4 px-2 px-lg-4"
+      [query]="query"
+      (searchText)="searchText($event)">
+    </sq-preview-search-form>
 
-        <!-- Navigation between the active sub panels -->
-        <sq-tabs class="d-block mb-2 mb-lg-3 pt-2 pt-lg-4 px-2 px-lg-4"
-            [customtabs]="tabs"
-            [showCounts]="false"
-            [selectedTab]="subpanel"
-            (events)="openPanel($event)">
-        </sq-tabs>
+    <!-- Navigation between the active sub panels -->
+    <sq-tabs class="d-block mb-2 mb-lg-3 pt-2 pt-lg-4 px-2 px-lg-4"
+      [customtabs]="tabs"
+      [showCounts]="false"
+      [selectedTab]="subpanel"
+      (events)="openPanel($event)">
+    </sq-tabs>
 
-        <!-- Expanded panel different subpanels available -->
-        <!-- Extracts/Pages panel -->
-        <sq-preview-extracts-panel *ngSwitchCase="'extracts'"
-            class="flex-scroll"
-            [previewData]="previewData"
-            [preview]="preview"
-            [extractsNumber]="10"
-            [highlights]="previewHighlights"
-            [type]="extractsType">
-        </sq-preview-extracts-panel>
+    <!-- Expanded panel different subpanels available -->
+    <!-- Extracts/Pages panel -->
+    <sq-preview-extracts-panel *ngSwitchCase="'extracts'"
+      class="flex-scroll"
+      [previewData]="previewData"
+      [preview]="preview"
+      [extractsNumber]="10"
+      [highlights]="previewHighlights"
+      [type]="extractsType">
+    </sq-preview-extracts-panel>
 
-        <!-- Entities panel -->
-        <sq-preview-entity-panel *ngSwitchCase="'entities'"
-            class="flex-scroll px-3"
-            [previewData]="previewData"
-            [preview]="preview"
-            [highlights]="previewHighlights">
-        </sq-preview-entity-panel>
+    <!-- Entities panel -->
+    <sq-preview-entity-panel *ngSwitchCase="'entities'"
+      class="flex-scroll px-3"
+      [previewData]="previewData"
+      [preview]="preview"
+      [highlights]="previewHighlights">
+    </sq-preview-entity-panel>
 
-    </div>
+  </div>
 
 </div>
 
 <!-- Right panel (iframe with preview HTML) -->
 <sq-facet-card *ngIf="id"
-    [collapsible]="false"
-    [actionsSize]="'md'"
-    [ngClass]="{'col-12 col-md-8 col-lg-9': !collapsedPanel}"
-    class="preview m-0">
+  [collapsible]="false"
+  [actionsSize]="'md'"
+  [ngClass]="{'col-12 col-md-8 col-lg-9': !collapsedPanel}"
+  class="preview m-0">
 
-    <ng-template #headerTpl>
-        <div class="text-truncate flex-grow-1 py-2" *ngIf="preview?.data?.record as record">
-            <div class="preview-title text-truncate">{{record.title}}</div>
-            <sq-result-source [record]="record" [displayTreepath]="false"></sq-result-source>
-        </div>
-    </ng-template>
+  <ng-template #headerTpl>
+    <div class="text-truncate flex-grow-1 py-2" *ngIf="preview?.data?.record as record">
+      <div class="preview-title text-truncate">{{record.title}}</div>
+      <sq-result-source [record]="record" [displayTreepath]="false"></sq-result-source>
+    </div>
+  </ng-template>
 
-    <sq-preview #facet
-        class="h-100"
-        [id]="id"
-        [query]="query"
-        [highlightColors]="previewHighlights"
-        [showTooltip]="true"
-        [entityActions]="tooltipEntityActions"
-        [textActions]="tooltipTextActions"
-        [showMinimap]="true"
-        [preferenceName]="'preview-'+subpanel"
-        [highlightEntities]="subpanel === 'entities'"
-        (ready)="onPreviewReady()">
-    </sq-preview>
+  <sq-preview #facet
+    class="h-100"
+    [id]="id"
+    [query]="query"
+    [highlightColors]="previewHighlights"
+    [showTooltip]="true"
+    [entityActions]="tooltipEntityActions"
+    [textActions]="tooltipTextActions"
+    [showMinimap]="true"
+    [preferenceName]="'preview-'+subpanel"
+    [highlightEntities]="subpanel === 'entities'"
+    (ready)="onPreviewReady()">
+  </sq-preview>
 
 </sq-facet-card>

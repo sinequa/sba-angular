@@ -40,8 +40,6 @@ export class PreviewComponent implements OnDestroy {
   id?: string;
   query: Query;
 
-  sandbox?: string | null;
-
   // State of the preview
   collapsedPanel = false;
   homeRoute = "/home";
@@ -115,7 +113,6 @@ export class PreviewComponent implements OnDestroy {
       ];
       this.extractsType = this.previewData.highlightsPerCategory['matchingpassages']?.values.length?
         'matchingpassages' : 'extractslocations';
-      this.sandbox = ["xlsx", "xls"].includes(this.previewData.record.docformat) ? null : undefined;
       this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", { title: this.previewData.record?.title || "" }));
       this.cdRef.detectChanges();
     }

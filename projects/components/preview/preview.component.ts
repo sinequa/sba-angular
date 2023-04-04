@@ -35,8 +35,6 @@ interface MinimapData {
   passageLocation?: MinimapItem;
 }
 
-export const DEFAULT_SANDBOX = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
-
 
 @Component({
   selector: 'sq-preview',
@@ -97,18 +95,6 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   //Misc
   /** Whether to show an action to download the PDF version of the document (if it exists) */
   @Input() downloadablePdf = true;
-
-  /**
-   * Three possible sandbox configurations:
-   * - Use a given sanbox (string)
-   * - Use the default sandbox (undefined or unbinded)
-   * - No sandbox (null)
-   */
-  @Input()
-  set sandbox(sb: string|null|undefined) {
-    this._sandbox = sb === null? undefined : sb || DEFAULT_SANDBOX;
-  }
-  _sandbox: string|undefined;
 
   /** Emits an event when the preview is ready for any interaction via this component */
   @Output() ready = new EventEmitter();
