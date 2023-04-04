@@ -129,13 +129,13 @@ document.addEventListener("DOMContentLoaded", function() {
   function select(id: string, usePassageHighlighter = false) {
     unselect();
     const elements = getElementsById(id);
+    elements.item(0).scrollIntoView({ block: 'center', behavior: 'auto' });
     if(usePassageHighlighter) {
       selectPassage(elements);
     }
     else {
       selectHighlight(elements);
     }
-    elements.item(0).scrollIntoView({ block: 'center', behavior: 'auto' });
   }
 
   function selectPassage(elements: NodeListOf<Element>) {
