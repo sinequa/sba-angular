@@ -25,7 +25,7 @@
     [ngClass]="highlighted$ | async"
     role="button"
     (click)="toggleHighlight()"
-    [sqTooltip]="'Toggle highlighting of entity' | sqMessage"
+    [sqTooltip]="'msg#preview.toggleHighlight' | sqMessage"
     [style.--sq-entity-color]="highlights?.color"
     [style.--sq-entity-bg-color]="highlights?.bgColor">
     <i [ngClass]="icon" *ngIf="icon"></i>
