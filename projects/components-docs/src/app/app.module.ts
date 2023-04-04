@@ -71,10 +71,10 @@ import enLocale from "../locales/en";
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
     locales?: Locale[];
-    constructor(){
+    constructor() {
         this.locales = [
-            { name: "en", display: "msg#locale.en", data: enLocale},
-            { name: "fr", display: "msg#locale.fr", data: enLocale },
+            { name: "en", display: "msg#locale.en", data: enLocale },
+            { name: "fr", display: "msg#locale.fr", data: enLocale }
         ];
         this.defaultLocale = this.locales[0];
     }
