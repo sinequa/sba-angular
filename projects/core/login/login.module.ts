@@ -1,44 +1,23 @@
-import {NgModule, Injectable, Inject, ModuleWithProviders, Type} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
-import {Ng2UiAuthModule, /*IPartialConfigOptions,*/ CONFIG_OPTIONS, IProviders, StorageType, OauthService, PopupService} from "ng2-ui-auth";
-import {A11yModule} from "@angular/cdk/a11y";
-import {OverlayModule} from "@angular/cdk/overlay";
-import {AuthenticationOauthService} from "./authentication-oauth.service";
-import {AuthenticationPopupService} from "./authentication-popup.service";
+import {NgModule, ModuleWithProviders, Type} from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { A11yModule } from "@angular/cdk/a11y";
+import { OverlayModule } from "@angular/cdk/overlay";
+import { BaseModule } from "@sinequa/core/base";
+import { WebServicesModule } from "@sinequa/core/web-services";
+import { ValidationModule } from "@sinequa/core/validation";
+import { IntlModule } from "@sinequa/core/intl";
+import { ModalModule } from "@sinequa/core/modal";
+import { NotificationModule } from "@sinequa/core/notification";
+import { AppUtilsModule } from "@sinequa/core/app-utils";
+import { LOGIN_MODULE_PROVIDERS } from "./module.providers";
 
 // Sinequa modules
-import {BaseModule} from "@sinequa/core/base";
-import {WebServicesModule, START_CONFIG, StartConfig} from "@sinequa/core/web-services";
-import {ValidationModule} from "@sinequa/core/validation";
-import {IntlModule} from "@sinequa/core/intl";
-import {ModalModule} from "@sinequa/core/modal";
-import {NotificationModule} from "@sinequa/core/notification";
-import {AppUtilsModule} from "@sinequa/core/app-utils";
 
 // Login
-import {MODAL_LOGIN} from "./login.service";
-import {Login} from "./login.component";
+import {LoginComponent} from "./login.component";
+import { MODAL_LOGIN } from "./typings";
 
-import {LOGIN_MODULE_PROVIDERS} from "./module.providers";
-
-export interface IPartialConfigOptions {} // until export restored to ng2-ui-auth@9
-
-/**
- * Configuration for the ng2-ui-auth library
- */
-@Injectable({
-    providedIn: "root"
-})
-export class AuthConfig implements IPartialConfigOptions {
-    storageType: StorageType;
-    providers: IProviders;
-    constructor(@Inject(START_CONFIG) startConfig: StartConfig) {
-        this.storageType = "memory" as StorageType;
-        this.providers = startConfig.providers || {};
-    }
-}
 
 /**
  * This module provides support for user authentication in the {@link AuthenticationService}. This authentication can be
@@ -60,37 +39,33 @@ export class AuthConfig implements IPartialConfigOptions {
         FormsModule,
         ReactiveFormsModule,
 
-        Ng2UiAuthModule.forRoot(undefined, false),
         ModalModule.forRoot(),
 
         // CDK
-        OverlayModule, // Needed for the modal service
+        OverlayModule,
         A11yModule,
 
         // Sinequa modules
         BaseModule,
         AppUtilsModule,
-        WebServicesModule,  // Required for start-up config (START_CONFIG token)
+        WebServicesModule,
         IntlModule,
         ValidationModule,
         NotificationModule
     ],
     declarations: [
-        Login, // Default Login components
+        LoginComponent, // Default Login components
     ],
     exports: [
+        LoginComponent
     ],
     providers: [
         // Auth module dependencies
-        {provide: CONFIG_OPTIONS, useClass: AuthConfig},
-        {provide: OauthService, useExisting: AuthenticationOauthService},
-        {provide: PopupService, useExisting: AuthenticationPopupService},
-
         ...LOGIN_MODULE_PROVIDERS
     ]
 })
 export class LoginModule {
-    static forRoot(loginModal: Type<any> = Login): ModuleWithProviders<LoginModule> {
+    static forRoot(loginModal: Type<any> = LoginComponent): ModuleWithProviders<LoginModule> {
         return {
             ngModule: LoginModule,
             providers: [

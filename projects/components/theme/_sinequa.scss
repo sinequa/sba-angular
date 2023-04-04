@@ -1,0 +1,27 @@
+@import "colors";
+@import "variables";
+
+// fontawesome and sinequa recommended imports
+// need some bootstrap mixins
+@import "_minimal";
+
+// Sinequa components stylesheets
+@import "../advanced/bootstrap/advanced.scss";
+
+@import "components/forms";
+@import "components/buttons";
+@import "components/dropdown";
+@import "components/tabs";
+@import "components/alerts";
+@import "components/pagination";
+
+@import "sba/facets";
+@import "sba/results";
+@import "sba/preview";
+
+// is advanced-search deprecated ?
+@import "sba/advanced-search";
+@import "sba/notifications";
+
+// mixed components
+@import "sba/misc";

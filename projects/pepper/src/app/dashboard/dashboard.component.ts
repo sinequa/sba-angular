@@ -11,7 +11,7 @@ import { BsFacetModule } from "@sinequa/components/facet";
 import { BsPreviewModule } from "@sinequa/components/preview";
 import { ResultModule } from "@sinequa/components/result";
 import { SearchService } from "@sinequa/components/search";
-import { UtilsModule } from "@sinequa/components/utils";
+import { UIService, UtilsModule } from "@sinequa/components/utils";
 import { IntlModule } from "@sinequa/core/intl";
 import { Results } from "@sinequa/core/web-services";
 import { map, Observable, of, tap } from "rxjs";
@@ -52,7 +52,6 @@ const defaultOptions = {
 })
 export class AppDashboardComponent implements OnChanges {
   @Input() results: Results;
-  @Input() theme: 'light'|'dark' = 'light';
 
   @Output() recordClicked = new EventEmitter<Record>();
 
@@ -90,6 +89,7 @@ export class AppDashboardComponent implements OnChanges {
     public dashboardService: DashboardService,
     public providerFactory: ProviderFactory,
     public notificationsService: NotificationsService,
+    public readonly ui: UIService,
     public prefs: UserPreferences
   ) {}
 
@@ -103,7 +103,7 @@ export class AppDashboardComponent implements OnChanges {
 
     // Update the 'opened' state of new records
     if(changes.results) {
-      for(let record of this.results.records) {
+      for(const record of this.results.records) {
         record['$opened'] = this.dashboard.some(widget => widget.state.recordId === record.id);
       }
     }

@@ -1,0 +1,20 @@
+:host.sq-duplicate {
+  --sq-v-offset: 2rem;  // Position of horizontal line
+  --sq-h-offset: 15px;    // Length of horizontal line
+  --sq-border-width: 1px;
+  --sq-border: var(--sq-border-width) solid lightgray;
+
+  height: calc(var(--sq-v-offset) - var(--sq-h-offset));
+  border-left: var(--sq-border);
+
+  &::before {
+    display: block;
+    content: ' ';
+    width: var(--sq-h-offset);
+    height: var(--sq-v-offset);
+    border-bottom: var(--sq-border);
+    border-left: var(--sq-border);
+    border-bottom-left-radius: var(--sq-h-offset);
+    margin-left: calc(-1 * var(--sq-border-width));
+  }
+}

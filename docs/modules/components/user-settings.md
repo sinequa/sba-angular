@@ -66,6 +66,8 @@ const messages = Utils.merge({}, ..., enAlerts, enBaskets, enSavedQueries, appMe
 
 ### User Menu
 
+<doc-saved-queries-menu></doc-saved-queries-menu>
+
 The [`sq-saved-queries-menu`]({{site.baseurl}}components/components/BsSavedQueriesMenuComponent.html) component displays the list of saved queries, lets a user save his current query and allows to reorganize the list (See the *Manage* modal below).
 
 ![Saved queries menu]({{site.baseurl}}assets/modules/user-settings/saved-queries-menu.png){: .d-block .mx-auto }
@@ -80,6 +82,8 @@ This menu is meant to be inserted in a Bootstrap-styled navbar:
 ```
 
 ### Facet
+
+<doc-facet-saved-queries></doc-facet-saved-queries>
 
 The [`sq-facet-saved-queries`]({{site.baseurl}}components/components/BsFacetSavedQueries.html) component displays the list of saved queries, lets a user re-play one of them, open the *Manage* modal (see below), or delete specific queries.
 
@@ -121,6 +125,8 @@ Additional methods allow to display modal dialogs:
 
 ### Facet
 
+<doc-facet-recent-queries></doc-facet-recent-queries>
+
 The [`sq-facet-recent-queries`]({{site.baseurl}}components/components/BsFacetRecentQueries.html) component displays the list of recent queries and lets a user re-play, delete or save one of them.
 
 ![Recent queries facet]({{site.baseurl}}assets/modules/user-settings/recent-queries-facet.png){: .d-block .mx-auto }
@@ -128,7 +134,7 @@ The [`sq-facet-recent-queries`]({{site.baseurl}}components/components/BsFacetRec
 This facet is meant to work with the [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) component (See [Facet Module](facet.html)):
 
 ```html
-<sq-facet-card  [title]="'msg#facet.recentQueries.title'" 
+<sq-facet-card  [title]="'msg#facet.recentQueries.title'"
                 [tooltip]="'msg#home.recentQueriesTooltip'"
                 [icon]="'fas fa-history'">
     <sq-facet-recent-queries #facet [maxQueries]="5"></sq-facet-recent-queries>
@@ -151,6 +157,8 @@ The [`RecentQueriesService`]({{site.baseurl}}components/injectables/RecentQuerie
 **Recent Documents** are a functionality that records the latest documents opened by the user in the User Settings. This list of documents can then be displayed (eg. in a facet), or used in other ways (eg. autocomplete).
 
 ### Facet
+
+<doc-facet-recent-documents></doc-facet-recent-documents>
 
 The [`sq-facet-recent-documents`]({{site.baseurl}}components/components/BsFacetRecentDocuments.html) component displays the list of recent document and lets a user re-open one, or remove it from the list.
 
@@ -181,6 +189,8 @@ The [`RecentDocumentsService`]({{site.baseurl}}components/injectables/RecentDocu
 **Alerts** are a functionality that lets a user schedule and subscribe to a search alert (which will regularly inform them of new relevant content). These alerts can then be displayed (eg. in a user menu), edited (*Edit* modal) and reorganized (*Manage* modal).
 
 ### User Menu
+
+<!-- <doc-alerts-menu></doc-alerts-menu> -->
 
 The [`sq-alerts-menu`]({{site.baseurl}}components/components/BsAlertsMenuComponent.html) component displays the list of alerts, lets a user schedule an alert for the current query and allows to reorganize the list (See the *Manage* modal below).
 
@@ -217,6 +227,8 @@ Note: in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.
 
 ### User Menu
 
+<doc-baskets-menu></doc-baskets-menu>
+
 The [`sq-baskets-menu`]({{site.baseurl}}components/components/BsBasketsMenuComponent.html) component displays the list of baskets, lets a user create a new basket and reorganize the list (See the *Manage* modal below).
 
 ![Baskets menu]({{site.baseurl}}assets/modules/user-settings/baskets-menu.png){: .d-block .mx-auto }
@@ -232,6 +244,8 @@ This menu is meant to be inserted in a Bootstrap-styled navbar:
 
 ### Facet
 
+<doc-facet-baskets></doc-facet-baskets>
+
 The [`sq-facet-baskets`]({{site.baseurl}}components/components/BsFacetBasketsComponent.html) component displays the list of baskets, lets a user open one of them, create a new one, open the *Manage* modal (see below), and delete specific baskets.
 
 ![Baskets facet]({{site.baseurl}}assets/modules/user-settings/baskets-facet.png){: .d-block .mx-auto }
@@ -239,7 +253,7 @@ The [`sq-facet-baskets`]({{site.baseurl}}components/components/BsFacetBasketsCom
 This facet is meant to work with the [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) component (See [Facet Module](facet.html)):
 
 ```html
-<sq-facet-card  [title]="'msg#baskets.baskets'" 
+<sq-facet-card  [title]="'msg#baskets.baskets'"
                 [tooltip]="'msg#home.basketsTooltip'"
                 [icon]="'fas fa-shopping-basket'">
     <sq-facet-baskets #facet [maxBaskets]="5"></sq-facet-baskets>

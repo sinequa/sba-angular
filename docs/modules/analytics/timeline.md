@@ -38,6 +38,8 @@ import { BsTimelineModule } from '@sinequa/analytics/timeline';
 
 ## Timeline Component
 
+<doc-timeline></doc-timeline>
+
 ### Time series
 
 The [`sq-timeline`]({{site.baseurl}}analytics/components/BsTimelineComponent.html) component displays a SVG built with both D3 and Angular. Its most basic usage is as follow:
@@ -243,9 +245,12 @@ Additionally you can bind the `margin` property to adjust the space around the t
 
 ## Facet Timeline Component
 
+<doc-facet-timeline></doc-facet-timeline>
+
 The [`sq-timeline`]({{site.baseurl}}analytics/components/BsTimelineComponent.html) component does a lot of work to render the timelines, events and manage the user interactions, but it does not know anything about the Sinequa services and data structures.
 
 The [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) component is in charge of "feeding" the timeline with actual data for the timeseries and events, potentially coming from different sources
+
 
 ### Time series
 
@@ -398,6 +403,8 @@ The [`TimelineRecords`]({{site.baseurl}}analytics/interfaces/TimelineRecords.htm
 The [`TimelineEventAggregation`]({{site.baseurl}}analytics/interfaces/TimelineEventAggregation.html) requires the name of the aggregation configured on the server (`aggregation`), as well as two methods, `getDate` and `getDisplay`, which respectively extract a `Date` and display (`string`) from each `AggregationItem` object. In the example above, the events from this aggregation are supposed to be formatted as `(2020-02-14)#(VALENTINES DAY)` (hence the use of `.split()` and `.replace()`). Additionally, the `size` and `styles` parameters are also optionally available and work in the same way as above, with the difference that for the dynamic values the input argument is an `AggregationItem` instead of a `Record`.
 
 ### Legend
+
+<doc-timeline-legend></doc-timeline-legend>
 
 The [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) component can display a legend sub-component. The legend's content, position and styles can be customized with the following parameters:
 

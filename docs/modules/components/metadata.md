@@ -88,6 +88,8 @@ The component also emits an event when an element of the metadata is selected / 
 
 ### Examples
 
+<doc-metadata></doc-metadata>
+
 The following metadata is displayed with all the default options:
 
 ```ts
@@ -96,7 +98,7 @@ this.metadata = ["authors", "docformat", "modified", "size", "treepath", "filena
 
 ```html
 <sq-metadata
-  [record]="record" 
+  [record]="record"
   [items]="metadata">
 </sq-metadata>
 ```
@@ -106,7 +108,7 @@ this.metadata = ["authors", "docformat", "modified", "size", "treepath", "filena
 In this other example, the same metadata is displayed with the following options:
 
 ```html
-<sq-metadata 
+<sq-metadata
   [record]="record"
   [items]="metadata"
   [showIcons]="true"

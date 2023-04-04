@@ -1,7 +1,7 @@
 <div [hidden]="isHidden()">
 
     <div *ngIf="searchable" class="p-1" [formGroup]="searchGroup">
-      <input class="form-control" #searchInput
+      <input class="form-control form-control-sm" #searchInput
           type="search" spellcheck="false" autocomplete="off"
           formControlName="searchQuery"
           [placeholder]="'msg#facet.searchPlaceholder' | sqMessage">
@@ -47,15 +47,17 @@
         </span>
 
         <!-- Checkbox for multi-selection -->
-        <input type="checkbox" class="form-check-input flex-shrink-0 me-2" tabindex="-1"
-            [checked]="item.$selected || item.$filtered"
-            [disabled]="item.$filtered"
-            (change)="selectItem(item)"
-            (click)="$event.stopPropagation()"
-            *ngIf="showCheckbox">
+        <div>
+            <input type="checkbox" class="form-check-input me-2" tabindex="-1"
+                [checked]="item.$selected || item.$filtered"
+                [disabled]="item.$filtered"
+                (change)="selectItem(item)"
+                (click)="$event.stopPropagation()"
+                *ngIf="showCheckbox">
+        </div>
 
         <!-- item display / value -->
-        <span class="text-truncate me-auto">
+        <span class="text-truncate me-auto" [title]="item | sqValue:item.$column">
             {{item | sqValue:item.$column}}
         </span>
 
@@ -83,7 +85,7 @@
         data-bs-toggle="dropdown" aria-expanded="false">
         <span class="visually-hidden">Toggle Dropdown</span>
       </button>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu dropdown-menu-end">
         <li *ngIf="allowOr && selected.length > 1">
           <a class="dropdown-item" role="button" (click)="addFilter(selected)">{{'msg#facet.applyOr' | sqMessage}}</a>
         </li>

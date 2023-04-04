@@ -1,10 +1,11 @@
 import {Component, HostBinding, OnInit, OnDestroy, Inject} from "@angular/core";
 import {UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
+import {StartConfig, START_CONFIG} from "@sinequa/core/web-services";
 import {ModalService, MODAL_MODEL, ModalRef, ModalButton, ModalResult} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
-import {AuthenticationService, Credentials} from "@sinequa/core/login";
+import { AuthenticationService, Credentials } from "@sinequa/core/login";
+
 
 @Component({
     selector: "sq-login",
@@ -56,16 +57,6 @@ export class BsLogin implements OnInit, OnDestroy {
                 result: ModalResult.Cancel
             })
         ];
-
-        if (this.startConfig.providers) {
-            Object.keys(this.startConfig.providers).forEach((providerName) => {
-                if (!this.providers) {
-                    this.providerName = "";
-                    this.providers = [{displayName: "msg#modal.login.signInWith", name: ""}];
-                }
-                this.providers.push(this.startConfig.providers![providerName]);
-            });
-        }
     }
 
     ngOnDestroy() {
@@ -77,7 +68,7 @@ export class BsLogin implements OnInit, OnDestroy {
     }
 
     authenticate() {
-        Utils.subscribe(this.authenticationService.authenticateWithProvider(this.providerName),
+        Utils.subscribe(this.authenticationService.autoAuthenticate(),
             (response) => {
                 this.yes();
             },

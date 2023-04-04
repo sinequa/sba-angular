@@ -7,7 +7,7 @@ import { LoginService } from '@sinequa/core/login';
 import { Record, Results } from '@sinequa/core/web-services';
 import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
-import { default_facet_components, FacetConfig, FacetService } from '@sinequa/components/facet';
+import { DEFAULT_FACET_COMPONENTS, FacetConfig, FacetService } from '@sinequa/components/facet';
 import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { BsDropdownService } from '@sinequa/components/action';
@@ -28,7 +28,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   public readonly facetComponents = {
-    ...default_facet_components,
+    ...DEFAULT_FACET_COMPONENTS,
     "date": BsFacetDate
   }
 
@@ -141,27 +141,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  // VERY SPECIFIC TO THIS APP:
-  // Make sure the click is not meant to trigger an action (from sq-result-source or sq-result-title)
+  // Make sure the click is not meant to trigger an action
   private isClickAction(event: Event): boolean {
-    if (event.type !== 'click') {
-      return true;
-    }
-    const target = event.target as HTMLElement;
-    if (!target) {
-      return false;
-    }
-    return event.type !== 'click' ||
-        target.tagName === "A" ||
-        target.tagName === "INPUT" ||
-        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
-  }
-
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
+    const target = event.target as HTMLElement|null;
+    return event.type !== 'click' || !!target?.matches("a, a *, input, input *, button, button *");
   }
 
   /**

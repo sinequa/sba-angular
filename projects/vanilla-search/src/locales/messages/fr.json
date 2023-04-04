@@ -46,9 +46,6 @@
     },
 
     "facet": {
-        "filters": {
-            "title": "Filtres"
-        },
         "preview": {
             "title": "Prévisualisation"
         },

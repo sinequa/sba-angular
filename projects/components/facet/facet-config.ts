@@ -25,7 +25,7 @@ export interface FacetConfig<T extends {}> {
   parameters?: StrictUnion<T>;
 }
 
-export const default_facet_components: MapOf<Type<any>> = {
+export const DEFAULT_FACET_COMPONENTS: MapOf<Type<any>> = {
   "list": BsFacetList,
   "range": BsFacetRange,
   "refine": BsRefine,

@@ -1,0 +1,60 @@
+@import "../../../vanilla-search/src/styles/vanilla";
+
+
+// large screens (> sm)
+@include media-breakpoint-up(sm) {
+
+    .sq-home-facet-bar {
+        min-height: 287px;
+    }
+
+    .card {
+        box-shadow: 0 5px 7px rgba(0,0,0,.08);
+    }
+
+    nav.navbar {
+        --bs-navbar-padding-y: 1rem;
+    }
+}
+
+
+#logo {
+    content: url("^assets/sinequa-logo-light-sm.png");
+    width: 40px;
+    max-height: 40px;
+
+    @media ( min-width: 1200px ) {
+        content: url("^assets/sinequa-logo-light-lg.png");
+        width: 160px;
+    }
+}
+
+.dashboard-actions .btn {
+    &:focus {
+        outline: none;
+    }
+}
+
+sq-dashboard-add-item .modal-body .btn {
+    --bs-btn-color: #{$black} !important;
+    --bs-btn-hover-color: #{$black} !important;
+    box-shadow: none !important;
+
+    span {
+        display: flex;
+        flex-direction: column;
+
+        i {
+            text-align-last: justify;
+        }
+    }
+}
+
+app-autocomplete .list-group-flush > .list-group-item:last-child {
+    border-end-start-radius: .85rem;
+    border-end-end-radius: .85rem;
+
+}
+
+// Pepper custom dark mode
+@import 'dark';

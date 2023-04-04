@@ -675,6 +675,18 @@ export interface Record {
      */
     termspresence: TermPresence[];
     /**
+     * Number of duplicate docs when the web service performs deduplication with a group by clause
+     */
+    groupcount?: number;
+    /**
+     * Near hash of this document
+     */
+    nearhash?: string;
+    /**
+     * Exact hash of this document
+     */
+    exacthash?: string;
+    /**
      * A client-side field that indicates whether this document is currrently selected
      */
     $selected: boolean;
@@ -692,8 +704,18 @@ export interface Record {
     matchingpassages?: {
         passages: MatchingPassage[]
     };
-
+    /**
+     * Whether this record contains Neural Search "matching passages"
+     */
     $hasPassages?: boolean;
+    /**
+     * Whether this record is considered a duplicate of its predecessor
+     */
+    $isDuplicate?: boolean;
+    /**
+     * Number of duplicates of this document
+     */
+    $duplicateCount?: number;
 
     /**
      * The metadata items
@@ -799,6 +821,9 @@ export interface TopPassage {
     score: number;
     text: string;
     recordId: string;
+    location: [number, number];
+    answer?: string;
+    answerScore?: number;
     $record?: Record;
 }
 

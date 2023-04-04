@@ -17,6 +17,9 @@ import {UserRating} from "./user-rating/user-rating";
 import {SponsoredResults} from './sponsored-results/sponsored-results';
 import {ResultsCounter} from "./results-counter/results-counter";
 import {ResultIcon} from "./result-icon/result-icon";
+import {ResultDuplicatesComponent} from "./result-duplicates/result-duplicates.component";
+import {ResultDuplicatesListComponent} from "./result-duplicates-list/result-duplicates-list.component";
+import { ResultDuplicatesSpacerComponent } from "./result-duplicates-spacer/result-duplicates-spacer.component";
 
 @NgModule({
     imports: [
@@ -34,14 +37,16 @@ import {ResultIcon} from "./result-icon/result-icon";
         ResultMissingTerms,
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
-        ResultIcon, ResultSource
+        ResultIcon, ResultSource,
+        ResultDuplicatesComponent, ResultDuplicatesListComponent, ResultDuplicatesSpacerComponent
     ],
     exports: [
         ResultTitle, ResultExtracts,
         ResultMissingTerms,
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
-        ResultIcon, ResultSource
+        ResultIcon, ResultSource,
+        ResultDuplicatesComponent, ResultDuplicatesListComponent, ResultDuplicatesSpacerComponent
     ]
 })
 export class ResultModule {

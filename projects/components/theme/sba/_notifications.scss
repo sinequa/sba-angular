@@ -1,0 +1,20 @@
+
+$theme: (
+  "danger": ("background": $error-1, "border": $error-1 ,"color":white),
+  "success": ("background": $success-2, "border": $success-2 ,"color":$body-text-grey, "icon-color": $success-1),
+  "warning": ("background": $warning-1, "border": $warning-1 ,"color":$body-text-grey, "icon-color": $warning-2),
+  "info": ("background": $info-2, "border": $info-2 ,"color":$body-text-grey, "icon-color": $info-1)
+);
+
+@each $state, $value in $theme {
+  $alert-background: map-get($value, "background");
+  $alert-border: map-get($value, "border");
+  $alert-color: map-get($value, "color");
+  $alert-icon-color: map-get($value, "icon-color");
+  .alert-#{$state} {
+    @include alert-variant($alert-background, $alert-border, $alert-color);
+    .sq-notification-icon {
+      color: #{$alert-icon-color};
+    }
+  }
+}

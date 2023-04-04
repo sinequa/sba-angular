@@ -5,7 +5,7 @@
 
   <ng-template let-query>
 
-    <div class="search-dropdown border-top mb-3">
+    <div class="search-dropdown border-top m-2">
 
       <div class="small fw-bold mb-1" *ngIf="query?.filters">
         {{'msg#searchForm.currentFilters' | sqMessage}}
@@ -27,13 +27,13 @@
 
       <hr *ngIf="query.text" />
 
-      <sq-autocomplete
+      <app-autocomplete
         [inputElement]="searchForm.searchInput.nativeElement"
         [queryText]="query.text || ''"
         [suggestTypes]="autocompleteSources"
         (search)="onAutocompleteSearch($event, query)"
         (select)="onAutocompleteSelect($event, query)">
-      </sq-autocomplete>
+      </app-autocomplete>
 
     </div>
 
