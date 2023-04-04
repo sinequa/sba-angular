@@ -320,7 +320,7 @@ describe('IntlService', () => {
   describe('formatMessage()', () => {
     it('should parse', () => {
       const message = '<span class="sq-field">{value0}</span><span class="sq-separator">{value1}</span><span class="sq-value">{value2}</span>';
-      expect(service.formatText(message, { value0: 'Meddra', value1: ': ', value2: 'Death' })).toEqual('<span class="sq-field">Meddra</span><span class="sq-separator">:</span><span class="sq-value">Death</span>');
+      expect(service.formatText(message, { value0: 'Meddra', value1: ': ', value2: 'Death' })).toEqual('<span class="sq-field">Meddra</span><span class="sq-separator">: </span><span class="sq-value">Death</span>');
     })
   })
 })
