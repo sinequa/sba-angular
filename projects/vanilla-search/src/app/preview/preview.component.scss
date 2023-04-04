@@ -4,6 +4,22 @@
 
 @import "../../../../components/theme/breakpoints";
 
+#logo {
+  content: url("^assets/sinequa-logo-light-lg.png");
+}
+#logo-sm {
+  content: url("^assets/sinequa-logo-light-sm.png");
+}
+
+:host-context(body.dark) {
+  #logo {
+    content: url("^assets/sinequa-logo-dark-lg.png");
+  }
+  #logo-sm {
+    content: url("^assets/sinequa-logo-dark-sm.png");
+  }
+}
+
 :host {
   width: 100%;
   height: 100%;

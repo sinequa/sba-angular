@@ -15,14 +15,8 @@
         </button>
 
         <a [routerLink]="[homeRoute]" title="Home" class="d-flex order-{{collapsedPanel? '0' : '2'}}">
-            <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo"
-                *ngIf="!collapsedPanel && !isDark()">
-            <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo"
-                *ngIf="!collapsedPanel && isDark()">
-            <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo"
-                *ngIf="collapsedPanel && !isDark()">
-            <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo"
-                *ngIf="collapsedPanel && isDark()">
+            <img id="logo" alt="sinequa logo" *ngIf="!collapsedPanel">
+            <img id="logo-sm" alt="sinequa logo" *ngIf="collapsedPanel">
         </a>
 
         <!-- Toggles the left panel collapsed/expanded state -->
@@ -85,15 +79,7 @@
     <ng-template #headerTpl>
         <div class="text-truncate flex-grow-1 py-2" *ngIf="preview?.data?.record as record">
             <div class="preview-title text-truncate">{{record.title}}</div>
-            <!-- Link to the original document -->
-            <a *ngIf="(record.url1 || record.originalUrl) as url"
-                [sqTooltip]="'msg#preview.original' | sqMessage"
-                class="mt-1"
-                target="_blank"
-                href="{{url}}"
-                (click)="notifyOriginalDoc()">
-                {{url}}
-            </a>
+            <sq-result-source [record]="record" [displayTreepath]="false"></sq-result-source>
         </div>
     </ng-template>
 

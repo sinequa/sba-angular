@@ -132,16 +132,6 @@ export class PreviewComponent implements OnDestroy {
     this._location.back();
   }
 
-  /**
-   * Notification for the audit service
-   */
-  notifyOriginalDoc() {
-    if (this.previewData) {
-      const type = this.previewData?.record.url1 ? AuditEventType.Doc_Url1 : AuditEventType.Doc_CacheOriginal;
-      this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, type);
-    }
-  }
-
   notifyPdf() {
     if (this.previewData) {
       this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, AuditEventType.Doc_CachePdf);
@@ -162,13 +152,6 @@ export class PreviewComponent implements OnDestroy {
         state: {}
       });
     }
-  }
-
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
   }
 
   // User preferences
