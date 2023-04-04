@@ -73,7 +73,8 @@ export class AppLocalesConfig implements LocalesConfig {
     locales?: Locale[];
     constructor(){
         this.locales = [
-            { name: "en", display: "msg#locale.en", data: enLocale}
+            { name: "en", display: "msg#locale.en", data: enLocale},
+            { name: "fr", display: "msg#locale.fr", data: enLocale },
         ];
         this.defaultLocale = this.locales[0];
     }
