@@ -1,8 +1,14 @@
 import { ConnectedPosition, Overlay, OverlayPositionBuilder, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, Output, TemplateRef, ViewChild } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { TooltipComponent } from "@sinequa/components/utils";
 import { Action } from "@sinequa/components/action";
+import { Preview } from "../preview.component";
+import { PreviewFrameService } from "../preview-frames.service";
+import { Subscription } from "rxjs";
+
+interface EntityHoverEvent {id: string, position: DOMRect};
+interface TextSelectionEvent {selectedText: string, position: DOMRect};
 
 export interface PreviewEntityOccurrence {
   id: string;
@@ -15,27 +21,25 @@ export interface PreviewEntityOccurrence {
   position: DOMRect;
 }
 
-
-
 @Component({
   selector: 'sq-preview-tooltip',
-  templateUrl: './preview-tooltip.component.html',
-  styles: [`
-  :host {
-    position: absolute;
-    display: block;
-    pointer-events: none;
-  }
-  `]
+  templateUrl: './preview-tooltip.component.html'
 })
-export class PreviewTooltipComponent implements OnChanges, OnDestroy, AfterViewInit {
-  @Input() position: DOMRect;
-  @Input() entity?: PreviewEntityOccurrence;
-  @Input() text?: string;
+export class PreviewTooltipComponent implements OnInit, OnDestroy {
+  /** Actions to display above a hovered entity */
+  @Input() entityActions?: Action[];
 
-  @Input() scale: number;
+  /** Actions to display above a selected text */
+  @Input() textActions?: Action[];
 
-  @Input() placement: ConnectedPosition = {
+  entityNavActions: Action[];
+
+  @ViewChild(TemplateRef) tooltipTpl: TemplateRef<any>;
+
+  entity?: PreviewEntityOccurrence;
+  text?: string;
+
+  placement: ConnectedPosition = {
     originX: "center",
     originY: "top",
     overlayX: "center",
@@ -43,82 +47,160 @@ export class PreviewTooltipComponent implements OnChanges, OnDestroy, AfterViewI
     offsetY: -2
   }
 
-  @Input() actions?: Action[];
-
-  @Output() preventHide = new EventEmitter();
-  @Output() resumeHide = new EventEmitter();
-  @Output() selectEntity = new EventEmitter<PreviewEntityOccurrence>();
-
-  @ViewChild(TemplateRef) tooltipTpl: TemplateRef<any>;
-
-  @HostBinding('style.top.px') top: number;
-  @HostBinding('style.left.px') left: number;
-  @HostBinding('style.width.px') width: number;
-  @HostBinding('style.height.px') height: number;
-
   overlayRef?: OverlayRef;
 
-  entityNavActions: Action[];
+  sub: Subscription;
 
   constructor(
-    public el: ElementRef,
     public overlayPositionBuilder: OverlayPositionBuilder,
-    public overlay: Overlay
+    public overlay: Overlay,
+    public previewFrames: PreviewFrameService,
+    public preview: Preview
   ) {}
 
-  ngOnChanges() {
+  ngOnInit(): void {
+    this.sub = this.preview.ready.subscribe(() => {
+      this.initTooltip(this.preview?.url!);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.detach();
+    this.sub.unsubscribe();
+  }
+
+  showTooltip(position: DOMRect) {
     this.detach();
 
-    if(this.entity) {
-      this.entityNavActions = [
-        new Action({
-          icon: 'fas fa-chevron-left',
-          disabled: this.entity.index === 0,
-          action: () => this.selectEntity.emit({...this.entity!, index: this.entity!.index-1})
-        }),
-        new Action({
-          icon: 'fas fa-chevron-right',
-          disabled: this.entity.index === this.entity.count-1,
-          action: () => this.selectEntity.emit({...this.entity!, index: this.entity!.index+1})
-        })
-      ]
+    if(!this.preview) {
+      return;
     }
 
-    this.top = this.position.y * this.scale;
-    this.left = this.position.x * this.scale;
-    this.width = this.position.width * this.scale;
-    this.height = this.position.height * this.scale;
-
+    const preview = this.preview.el.nativeElement.getBoundingClientRect();
+    const y = preview.y + position.y * this.preview.scale;
+    const x = preview.x + position.x * this.preview.scale;
+    const width = position.width * this.preview.scale;
+    const height = position.height * this.preview.scale;
 
     // set the tooltip's position strategy
     const positionStrategy = this.overlayPositionBuilder
-      .flexibleConnectedTo(this.el)
+      .flexibleConnectedTo({x, y, width, height})
       .withPositions([this.placement]);
 
     const scrollStrategy = this.overlay.scrollStrategies.close();
     this.overlayRef = this.overlay.create({positionStrategy, scrollStrategy});
 
-    this.attach();
+    const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
+    tooltipRef.instance.template = this.tooltipTpl;
   }
 
-  ngAfterViewInit(): void {
-    this.attach();
-  }
-
-  ngOnDestroy(): void {
-    this.detach();
-  }
-
-  attach() {
-    // instance of the tooltip's component
-    if(this.overlayRef && this.tooltipTpl) {
-      const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
-      tooltipRef.instance.template = this.tooltipTpl;
-    }
-  }
 
   detach() {
     this.overlayRef?.detach();
+  }
+
+
+  // Tooltip management
+
+  /**
+   * Subscribe to the preview events needed to display or hide the tooltip.
+   * The subscription is needed for a given preview URL
+   */
+  initTooltip(url: string) {
+    this.previewFrames.subscribe<EntityHoverEvent|undefined>(url, 'highlight-hover',
+      (event) => this.onHighlightHover(event)
+    );
+    this.previewFrames.subscribe<TextSelectionEvent|undefined>(url, 'text-selection',
+      (event) => this.onTextSelection(event)
+    );
+    this.previewFrames.subscribe<{x: number, y: number}>(url, 'scroll',
+      (event) => this.onScroll(event)
+    );
+  }
+
+  tooltipTimeout?: NodeJS.Timeout;
+
+  onHighlightHover(event: EntityHoverEvent|undefined) {
+    if(event) {
+      this.cancelHideTooltip();
+      this.showEntityTooltip(event);
+    }
+    else {
+      this.initHideTooltip();
+    }
+  }
+
+  onTextSelection(event: TextSelectionEvent|undefined) {
+    if(event && this.textActions) {
+      this.cancelHideTooltip();
+      this.showTextTooltip(event);
+    }
+    else {
+      this.hideTooltip();
+    }
+  }
+
+  showEntityTooltip(event: EntityHoverEvent) {
+    if(this.preview?.data) {
+      const i = event.id.lastIndexOf('_');
+      const type = event.id.substring(0, i);
+      // TODO Refactor this mess with better data structures from new web service
+      const positionInCategories = +event.id.substring(i+1);
+      const location = (this.preview?.data.highlightsPerLocation as any).find(value => value.positionInCategories[type] === positionInCategories);
+      const display = location.displayValue;
+      const category = this.preview?.data.highlightsPerCategory[type];
+      const entity = category.values.find(v => location.values.includes(v.value));
+      const occurrences = entity?.locations;
+      const count = occurrences?.length || 0;
+      const index = occurrences?.findIndex(o => o.start === location.start) || 0;
+      const value = entity?.value;
+      const label = category.categoryDisplayLabel;
+      if(value) {
+        this.text = undefined;
+        this.entity = {...event, type, index, count, value, display, label};
+        this.entityActions?.forEach(action => action.data = entity);
+        this.entityNavActions = [
+          new Action({
+            icon: 'fas fa-chevron-left',
+            disabled: this.entity.index === 0,
+            action: () => this.preview?.selectEntity({...this.entity!, index: this.entity!.index-1})
+          }),
+          new Action({
+            icon: 'fas fa-chevron-right',
+            disabled: this.entity.index === this.entity.count-1,
+            action: () => this.preview?.selectEntity({...this.entity!, index: this.entity!.index+1})
+          })
+        ];
+        this.showTooltip(event.position);
+      }
+    }
+  }
+
+  showTextTooltip(event: TextSelectionEvent) {
+    this.entity = undefined;
+    this.textActions?.forEach(action => action.data = event.selectedText);
+    this.text = event.selectedText;
+    this.showTooltip(event.position);
+  }
+
+  initHideTooltip() {
+    this.tooltipTimeout = setTimeout(() => this.hideTooltip(), 200);
+  }
+
+  hideTooltip() {
+    this.detach();
+    this.cancelHideTooltip();
+  }
+
+  cancelHideTooltip() {
+    if(this.tooltipTimeout) {
+      clearTimeout(this.tooltipTimeout);
+      delete this.tooltipTimeout;
+    }
+  }
+
+  onScroll(event: {x: number, y: number}) {
+    this.hideTooltip();
   }
 
 }

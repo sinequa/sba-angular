@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
@@ -10,7 +10,6 @@ import { PreviewFrameService } from "./preview-frames.service";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { PreviewEntityOccurrence } from "./preview-tooltip/preview-tooltip.component";
 import { UIService } from "@sinequa/components/utils";
-import { MinimapItem } from "./preview-minimap/preview-minimap.component";
 import { Utils } from "@sinequa/core/base";
 import { PreviewService } from "./preview.service";
 
@@ -19,22 +18,6 @@ export interface PreviewHighlightColors {
   color?: string;
   bgColor?: string;
 }
-
-interface EntityHoverEvent {id: string, position: DOMRect};
-interface TextSelectionEvent {selectedText: string, position: DOMRect};
-
-interface PreviewTooltipData {
-  entity?: PreviewEntityOccurrence;
-  selectedText?: string;
-  actions?: Action[];
-  position: DOMRect;
-}
-
-interface MinimapData {
-  locations: MinimapItem[];
-  passageLocation?: MinimapItem;
-}
-
 
 @Component({
   selector: 'sq-preview',
@@ -72,32 +55,14 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   /** Name of the preference property used to stored the highlight preferences */
   @Input() preferenceName = 'preview';
 
-
-  // Tooltip management
-  /** Whether to display a tooltip when hovering entities or selecting text */
-  @Input() showTooltip = false;
-  /** Actions to display above a hovered entity */
-  @Input() entityActions?: Action[];
-  /** Actions to display above a selected text */
-  @Input() textActions?: Action[];
-
-  // Minimap management
-  /** Whether to display the minimap next to the preview iframe */
-  @Input() showMinimap = false;
-  /** Which highlight type should the minimap display */
-  @Input() minimapType = 'extractslocations';
-  /** Spacing for the minimap, which is positioned absolutely */
-  @HostBinding("style.padding-right.rem")
-  get minimapSpace() {
-    return this.showMinimap? 1 : 0;
-  }
-
   //Misc
   /** Whether to show an action to download the PDF version of the document (if it exists) */
   @Input() downloadablePdf = true;
 
   /** Emits an event when the preview is ready for any interaction via this component */
   @Output() ready = new EventEmitter();
+
+  @Output() resize = new EventEmitter();
 
   // Reference to the iframe's window
   @ViewChild("preview") iframe: ElementRef<HTMLIFrameElement>;
@@ -107,12 +72,6 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
   /** Subject emitting a value when the "selected highlight" changes */
   public selectedId$ = new BehaviorSubject<string|undefined>(undefined);
-
-  /** Subject emitting an object triggering the display of a tooltip, or undefined to hide it */
-  public tooltip$ = new Subject<PreviewTooltipData | undefined>();
-
-  /** Subject emitting data to display the minimap */
-  public minimap$ = new Subject<MinimapData>();
 
   /** Subject emitting the list of highlights when it changes */
   public highlights$ = new BehaviorSubject<string[]>([]);
@@ -145,7 +104,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     public prefs: UserPreferences,
     public cdRef: ChangeDetectorRef,
     public ui: UIService,
-    public el: ElementRef
+    public el: ElementRef<HTMLElement>
   ) {
     super();
 
@@ -240,8 +199,6 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     this.sendMessage({ action: 'init', highlights });
     this.highlights$.next(this.highlightsPref);
     this.updateActions();
-    this.initTooltip();
-    this.initMinimap();
     this.loading = false;
     this.ready.emit();
     this.cdRef.detectChanges();
@@ -261,7 +218,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       if(id) {
         this.select(id); // Reselect the item to force a redraw of the passage highlighter
       }
-      this.initMinimap(); // Redraw minimap to match new scale
+      this.resize.emit();
     }
   }, 100);
 
@@ -383,96 +340,6 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   }
 
 
-  // Tooltip management
-
-  initTooltip() {
-    if(this.url && this.showTooltip) {
-      this.previewFrames.subscribe<EntityHoverEvent|undefined>(this.url, 'highlight-hover',
-        (event) => this.onHighlightHover(event)
-      );
-      this.previewFrames.subscribe<TextSelectionEvent|undefined>(this.url, 'text-selection',
-        (event) => this.onTextSelection(event)
-      );
-      this.previewFrames.subscribe<{x: number, y: number}>(this.url, 'scroll',
-        (event) => this.onScroll(event)
-      );
-    }
-  }
-
-  tooltipTimeout?: NodeJS.Timeout;
-
-  onHighlightHover(event: EntityHoverEvent|undefined) {
-    if(event) {
-      this.cancelHideTooltip();
-      this.showEntityTooltip(event);
-    }
-    else {
-      this.initHideTooltip();
-    }
-  }
-
-  onTextSelection(event: TextSelectionEvent|undefined) {
-    if(event && this.textActions) {
-      this.cancelHideTooltip();
-      this.showTextTooltip(event);
-    }
-    else {
-      this.hideTooltip();
-    }
-  }
-
-  showEntityTooltip(event: EntityHoverEvent) {
-    if(this.data) {
-      const i = event.id.lastIndexOf('_');
-      const type = event.id.substring(0, i);
-      // TODO Refactor this mess with better data structures from new web service
-      const positionInCategories = +event.id.substring(i+1);
-      const location = (this.data.highlightsPerLocation as any).find(value => value.positionInCategories[type] === positionInCategories);
-      const display = location.displayValue;
-      const category = this.data.highlightsPerCategory[type];
-      const entity = category.values.find(v => location.values.includes(v.value));
-      const occurrences = entity?.locations;
-      const count = occurrences?.length || 0;
-      const index = occurrences?.findIndex(o => o.start === location.start) || 0;
-      const value = entity?.value;
-      const label = category.categoryDisplayLabel;
-      if(value) {
-        const entity = {...event, type, index, count, value, display, label};
-        this.entityActions?.forEach(action => action.data = entity);
-        this.tooltip$.next({
-          entity,
-          actions: this.entityActions,
-          position: event.position
-        });
-      }
-    }
-  }
-
-  showTextTooltip(event: TextSelectionEvent) {
-    this.textActions?.forEach(action => action.data = event.selectedText);
-    this.tooltip$.next({...event, actions: this.textActions});
-  }
-
-  initHideTooltip() {
-    this.tooltipTimeout = setTimeout(() => this.hideTooltip(), 200);
-  }
-
-  hideTooltip() {
-    this.tooltip$.next(undefined);
-    this.cancelHideTooltip();
-  }
-
-  cancelHideTooltip() {
-    if(this.tooltipTimeout) {
-      clearTimeout(this.tooltipTimeout);
-      delete this.tooltipTimeout;
-    }
-  }
-
-  onScroll(event: {x: number, y: number}) {
-    this.hideTooltip();
-  }
-
   selectEntity(occurrence: PreviewEntityOccurrence) {
     if(this.data) {
       // TODO Refactor this mess with better data structures from new web service
@@ -480,20 +347,8 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       const start = entity?.locations[occurrence.index].start;
       const id = (this.data.highlightsPerLocation as any).find(l => l.start === start && l.values.includes(entity?.value))?.positionInCategories[occurrence.type];
       if(typeof id=== 'number') {
-        this.hideTooltip();
         this.select(`${occurrence.type}_${id}`);
       }
-    }
-  }
-
-  // Minimap management
-
-  initMinimap() {
-    if(this.url && this.showMinimap) {
-      this.sendMessage({action: 'get-positions', highlight: this.minimapType});
-      this.previewFrames.subscribe<MinimapItem[]>(this.url, 'get-positions-results',
-        locations => this.minimap$.next({ locations })
-      );
     }
   }
 

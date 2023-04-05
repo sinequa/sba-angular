@@ -9,20 +9,4 @@
   (load)="onLoad()">
 </iframe>
 
-<sq-preview-tooltip *ngIf="tooltip$ | async as tooltip"
-  [position]="tooltip.position"
-  [entity]="tooltip.entity"
-  [text]="tooltip.selectedText"
-  [actions]="tooltip.actions"
-  [scale]="scale"
-  (preventHide)="cancelHideTooltip()"
-  (resumeHide)="initHideTooltip()"
-  (selectEntity)="selectEntity($event)">
-</sq-preview-tooltip>
-
-<sq-preview-minimap *ngIf="minimap$ | async as minimap"
-  [locations]="minimap.locations"
-  [passageLocation]="minimap.passageLocation"
-  [selectedId]="selectedId$ | async"
-  (select)="select($event)">
-</sq-preview-minimap>
+<ng-content></ng-content>

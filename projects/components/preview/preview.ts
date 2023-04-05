@@ -18,6 +18,14 @@ interface PagingConfig {
 
 }
 
+interface HighlightPosition {
+  top: number;
+  height: number;
+  text: string;
+  id: string;
+  type: string;
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
   // Add the origin of your application (localhost:4200 is included for development purposes)
@@ -128,40 +136,45 @@ document.addEventListener("DOMContentLoaded", function() {
    */
   function select(id: string, usePassageHighlighter = false) {
     unselect();
-    const elements = getElementsById(id);
-    elements.item(0).scrollIntoView({ block: 'center', behavior: 'auto' });
+
+    const elements = Array.from(getElementsById(id));
+    const visibleElements = elements.filter(el => {
+      const box = el.getBoundingClientRect();
+      return box.width && box.height;
+    });
+    (visibleElements[0] || elements[0]).scrollIntoView({ block: 'center', behavior: 'auto' });
+
     if(usePassageHighlighter) {
-      selectPassage(elements);
+      selectPassage(visibleElements);
     }
     else {
       selectHighlight(elements);
     }
+
+    returnMessage('selected-position', getVerticalPositions(visibleElements)[0]);
   }
 
-  function selectPassage(elements: NodeListOf<Element>) {
+  function selectPassage(elements: Element[]) {
     // Hide the passage so it does not interfer with window size
     passageHighlighter.style.display = 'none';
-    const pos: DOMRect[] = [];
-    elements.forEach(el => {
-      const box = el.getBoundingClientRect();
-      if(box.width && box.height) {
-        pos.push(box);
-      }
-    });
-    const margin = 4;
-    const left = Math.max(0, Math.min(...pos.map(p => p.left)) - margin);
-    const top = Math.max(0, Math.min(...pos.map(p => p.top)) - margin);
-    const right = Math.max(...pos.map(p => p.right)) + margin;
-    const bottom = Math.max(...pos.map(p => p.bottom)) + margin;
-    passageHighlighter.style.left = `${window.scrollX + left }px`;
-    passageHighlighter.style.top = `${window.scrollY + top }px`;
-    passageHighlighter.style.width = (right - left) + 'px';
-    passageHighlighter.style.height = (bottom - top) + 'px';
-    passageHighlighter.style.display = 'block';
+
+    const box = getBoundingBox(elements);
+    if(box) {
+      const margin = 4;
+      const left = Math.max(0, box.left - margin);
+      const top = Math.max(0, box.top - margin);
+      const right = box.right + margin;
+      const bottom = box.bottom + margin;
+      passageHighlighter.style.left = `${window.scrollX + left }px`;
+      passageHighlighter.style.top = `${window.scrollY + top }px`;
+      passageHighlighter.style.width = (right - left) + 'px';
+      passageHighlighter.style.height = (bottom - top) + 'px';
+      passageHighlighter.style.display = 'block';
+    }
   }
 
 
-  function selectHighlight(elements: NodeListOf<Element>) {
+  function selectHighlight(elements: Element[]) {
     elements.forEach((el, i) => {
       const first = i === 0;
       const last = i === elements.length - 1;
@@ -207,7 +220,8 @@ document.addEventListener("DOMContentLoaded", function() {
    * Return the positions and text of a specific highlight type
    */
   function getPositions(highlight: string) {
-    const data = getHighlightPositions(highlight);
+    const allHighlights = Array.from(document.querySelectorAll(`span.${highlight},tspan.${highlight}`));
+    const data = getVerticalPositions(allHighlights);
     returnMessage('get-positions-results', data);
   }
 
@@ -336,21 +350,45 @@ document.addEventListener("DOMContentLoaded", function() {
     return html;
   }
 
-  function getHighlightPositions(highlight: string) {
-    const positions: {top: number, height: number, text: string, id: string}[] = [];
-    // The body might be smaller than the viewport for small docs
-    const height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+  function getVerticalPositions(elements: Element[]): HighlightPosition[] {
     const offset = -document.documentElement.getBoundingClientRect().top;
-    document.querySelectorAll(`span.${highlight},tspan.${highlight}`).forEach(el => {
-      const box = el.getBoundingClientRect();
-      positions.push({
-        id: el.id,
-        top: 100 * (offset+box.top) / height,
-        height: 100 * box.height / height,
-        text: (el.textContent || '')
-      });
-    });
+    const docHeight = Math.max(document.documentElement.scrollHeight, window.innerHeight); // Note: the body might not take the full window's height
+    const groups: Map<string, Element[]> = new Map();
+    for(let el of elements) {
+      const id = el.id;
+      if(id) {
+        if(!groups.has(id)) {
+          groups.set(id, []);
+        }
+        groups.get(id)!.push(el);
+      }
+    }
+    const positions: HighlightPosition[] = [];
+    for(let [id, el] of Array.from(groups.entries())) {
+      const box = getBoundingBox(el);
+      if(box) {
+        const top = 100 * (offset+box.top) / docHeight;
+        const height = 100 * box.height / docHeight;
+        const text = el.map(e => e.textContent).join(' ');
+        const type = id.substring(0, id.lastIndexOf('_'));
+        positions.push({id, type, top, height, text});
+      }
+    }
     return positions;
+  }
+
+  function getBoundingBox(elements: Element[]): DOMRect|undefined {
+    const boxes = elements
+      .map(el => el.getBoundingClientRect())
+      .filter(b => b.width && b.height);
+    if(boxes.length === 0) {
+      return undefined;
+    }
+    const left = Math.min(...boxes.map(p => p.left));
+    const top = Math.min(...boxes.map(p => p.top));
+    const right = Math.max(...boxes.map(p => p.right));
+    const bottom = Math.max(...boxes.map(p => p.bottom));
+    return new DOMRect(left, top, right-left, bottom-top);
   }
 
   function removeAllClasses(classname: string) {

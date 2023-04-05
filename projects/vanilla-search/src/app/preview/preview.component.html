@@ -77,10 +77,18 @@
   class="preview m-0">
 
   <ng-template #headerTpl>
-    <div class="text-truncate flex-grow-1 py-2" *ngIf="preview?.data?.record as record">
+    <div class="text-truncate flex-grow-1 py-2" *ngIf="preview?.data?.record as record; else loadingTpl">
       <div class="preview-title text-truncate">{{record.title}}</div>
       <sq-result-source [record]="record" [displayTreepath]="false"></sq-result-source>
     </div>
+
+    <!-- Placeholders displayed in the header while the document is loading -->
+    <ng-template #loadingTpl>
+      <div class="placeholder-glow flex-grow-1 py-2 px-3">
+        <h4 class="placeholder col-6"></h4>
+        <span class="placeholder col-8 small"></span>
+      </div>
+    </ng-template>
   </ng-template>
 
   <sq-preview #facet
@@ -88,13 +96,17 @@
     [id]="id"
     [query]="query"
     [highlightColors]="previewHighlights"
-    [showTooltip]="true"
-    [entityActions]="tooltipEntityActions"
-    [textActions]="tooltipTextActions"
-    [showMinimap]="true"
     [preferenceName]="'preview-'+subpanel"
     [highlightEntities]="subpanel === 'entities'"
     (ready)="onPreviewReady()">
+
+    <sq-preview-tooltip
+      [entityActions]="tooltipEntityActions"
+      [textActions]="tooltipTextActions">
+    </sq-preview-tooltip>
+
+    <sq-preview-minimap></sq-preview-minimap>
+
   </sq-preview>
 
 </sq-facet-card>

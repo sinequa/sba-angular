@@ -69,34 +69,35 @@ document.addEventListener("DOMContentLoaded", function () {
     function select(id, usePassageHighlighter) {
         if (usePassageHighlighter === void 0) { usePassageHighlighter = false; }
         unselect();
-        var elements = getElementsById(id);
-        elements.item(0).scrollIntoView({ block: 'center', behavior: 'auto' });
+        var elements = Array.from(getElementsById(id));
+        var visibleElements = elements.filter(function (el) {
+            var box = el.getBoundingClientRect();
+            return box.width && box.height;
+        });
+        (visibleElements[0] || elements[0]).scrollIntoView({ block: 'center', behavior: 'auto' });
         if (usePassageHighlighter) {
-            selectPassage(elements);
+            selectPassage(visibleElements);
         }
         else {
             selectHighlight(elements);
         }
+        returnMessage('selected-position', getVerticalPositions(visibleElements)[0]);
     }
     function selectPassage(elements) {
         passageHighlighter.style.display = 'none';
-        var pos = [];
-        elements.forEach(function (el) {
-            var box = el.getBoundingClientRect();
-            if (box.width && box.height) {
-                pos.push(box);
-            }
-        });
-        var margin = 4;
-        var left = Math.max(0, Math.min.apply(Math, pos.map(function (p) { return p.left; })) - margin);
-        var top = Math.max(0, Math.min.apply(Math, pos.map(function (p) { return p.top; })) - margin);
-        var right = Math.max.apply(Math, pos.map(function (p) { return p.right; })) + margin;
-        var bottom = Math.max.apply(Math, pos.map(function (p) { return p.bottom; })) + margin;
-        passageHighlighter.style.left = "".concat(window.scrollX + left, "px");
-        passageHighlighter.style.top = "".concat(window.scrollY + top, "px");
-        passageHighlighter.style.width = (right - left) + 'px';
-        passageHighlighter.style.height = (bottom - top) + 'px';
-        passageHighlighter.style.display = 'block';
+        var box = getBoundingBox(elements);
+        if (box) {
+            var margin = 4;
+            var left = Math.max(0, box.left - margin);
+            var top_1 = Math.max(0, box.top - margin);
+            var right = box.right + margin;
+            var bottom = box.bottom + margin;
+            passageHighlighter.style.left = "".concat(window.scrollX + left, "px");
+            passageHighlighter.style.top = "".concat(window.scrollY + top_1, "px");
+            passageHighlighter.style.width = (right - left) + 'px';
+            passageHighlighter.style.height = (bottom - top_1) + 'px';
+            passageHighlighter.style.display = 'block';
+        }
     }
     function selectHighlight(elements) {
         elements.forEach(function (el, i) {
@@ -130,7 +131,8 @@ document.addEventListener("DOMContentLoaded", function () {
         returnMessage('get-text-results', data);
     }
     function getPositions(highlight) {
-        var data = getHighlightPositions(highlight);
+        var allHighlights = Array.from(document.querySelectorAll("span.".concat(highlight, ",tspan.").concat(highlight)));
+        var data = getVerticalPositions(allHighlights);
         returnMessage('get-positions-results', data);
     }
     function onMouseUp() {
@@ -200,17 +202,17 @@ document.addEventListener("DOMContentLoaded", function () {
         var group = rect.parentNode;
         var rectPosition = rect.getBBox();
         if (group) {
-            var top_1 = rectPosition.y;
+            var top_2 = rectPosition.y;
             var bottom = rectPosition.y + rectPosition.height;
             var left = rectPosition.x;
             var right = rectPosition.x + rectPosition.width;
             var valueTransform = rect.getAttribute("transform");
-            addSvgLine(group, left, top_1, right, top_1, valueTransform);
+            addSvgLine(group, left, top_2, right, top_2, valueTransform);
             addSvgLine(group, left, bottom, right, bottom, valueTransform);
             if (isFirst)
-                addSvgLine(group, left, top_1, left, bottom, valueTransform);
+                addSvgLine(group, left, top_2, left, bottom, valueTransform);
             if (isLast)
-                addSvgLine(group, right, top_1, right, bottom, valueTransform);
+                addSvgLine(group, right, top_2, right, bottom, valueTransform);
         }
     }
     function addSvgLine(group, x1, y1, x2, y2, transform) {
@@ -237,20 +239,46 @@ document.addEventListener("DOMContentLoaded", function () {
         getElementsById(id).forEach(function (n) { return html += n.innerHTML + " "; });
         return html;
     }
-    function getHighlightPositions(highlight) {
-        var positions = [];
-        var height = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+    function getVerticalPositions(elements) {
         var offset = -document.documentElement.getBoundingClientRect().top;
-        document.querySelectorAll("span.".concat(highlight, ",tspan.").concat(highlight)).forEach(function (el) {
-            var box = el.getBoundingClientRect();
-            positions.push({
-                id: el.id,
-                top: 100 * (offset + box.top) / height,
-                height: 100 * box.height / height,
-                text: (el.textContent || '')
-            });
-        });
+        var docHeight = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+        var groups = new Map();
+        for (var _i = 0, elements_1 = elements; _i < elements_1.length; _i++) {
+            var el = elements_1[_i];
+            var id = el.id;
+            if (id) {
+                if (!groups.has(id)) {
+                    groups.set(id, []);
+                }
+                groups.get(id).push(el);
+            }
+        }
+        var positions = [];
+        for (var _a = 0, _b = Array.from(groups.entries()); _a < _b.length; _a++) {
+            var _c = _b[_a], id = _c[0], el = _c[1];
+            var box = getBoundingBox(el);
+            if (box) {
+                var top_3 = 100 * (offset + box.top) / docHeight;
+                var height = 100 * box.height / docHeight;
+                var text = el.map(function (e) { return e.textContent; }).join(' ');
+                var type = id.substring(0, id.lastIndexOf('_'));
+                positions.push({ id: id, type: type, top: top_3, height: height, text: text });
+            }
+        }
         return positions;
+    }
+    function getBoundingBox(elements) {
+        var boxes = elements
+            .map(function (el) { return el.getBoundingClientRect(); })
+            .filter(function (b) { return b.width && b.height; });
+        if (boxes.length === 0) {
+            return undefined;
+        }
+        var left = Math.min.apply(Math, boxes.map(function (p) { return p.left; }));
+        var top = Math.min.apply(Math, boxes.map(function (p) { return p.top; }));
+        var right = Math.max.apply(Math, boxes.map(function (p) { return p.right; }));
+        var bottom = Math.max.apply(Math, boxes.map(function (p) { return p.bottom; }));
+        return new DOMRect(left, top, right - left, bottom - top);
     }
     function removeAllClasses(classname) {
         var selected = document.querySelectorAll(".".concat(classname));

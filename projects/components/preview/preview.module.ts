@@ -43,7 +43,10 @@ import { PreviewEntityPanelComponent } from "./preview-entity-panel/preview-enti
     PreviewSearchFormComponent,
     PreviewExtractsPanelComponent,
     PreviewEntityFacetComponent,
-    PreviewEntityPanelComponent
+    PreviewEntityPanelComponent,
+
+    PreviewTooltipComponent,
+    PreviewMinimapComponent
   ],
 })
 export class PreviewModule { }

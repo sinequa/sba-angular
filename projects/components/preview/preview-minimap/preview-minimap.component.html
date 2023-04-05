@@ -3,17 +3,16 @@
   role="button"
   class="minimap-section"
   [ngClass]="{selected: location.id === selectedId}"
-  (click)="select.emit(location.id)"
+  (click)="preview.select(location.id)"
   [title]="location.text"
   [style.top.%]="location.top"
   [style.height.%]="location.height">
 </a>
-<a *ngIf="passageLocation"
-  role="button"
-  class="minimap-section minimap-passage"
-  [ngClass]="{selected: passageLocation.id === selectedId}"
-  (click)="select.emit(passageLocation.id)"
-  [title]="passageLocation.text"
-  [style.top.%]="passageLocation.top"
-  [style.height.%]="passageLocation.height">
-</a>
+
+<!-- Marker for the selected element (if not already in the list above) -->
+<div *ngIf="selectedLocation && selectedLocation.type !== minimapType"
+  class="minimap-section selected"
+  [title]="selectedLocation.text"
+  [style.top.%]="selectedLocation.top"
+  [style.height.%]="selectedLocation.height">
+</div>
