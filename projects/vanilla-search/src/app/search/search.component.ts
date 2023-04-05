@@ -88,7 +88,9 @@ export class SearchComponent implements OnInit, OnDestroy {
         new Action({
           icon: "fas fa-inbox",
           title: "Test",
-          action: () => { }
+          action: (action) => {
+            console.log('ACTION', action);
+           }
         })
       ]
     },
@@ -117,7 +119,16 @@ export class SearchComponent implements OnInit, OnDestroy {
       icon: "far fa-file-alt",
       filterable: true,
       excludable: true,
-      showEntityTooltip: true
+      showEntityTooltip: true,
+      actions: [
+        new Action({
+          icon: "fas fa-inbox",
+          title: "Test",
+          action: (action) => {
+            console.log('ACTION', action);
+           }
+        })
+      ]
     }
   ];
 

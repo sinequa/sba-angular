@@ -129,6 +129,15 @@ export class MetadataComponent implements OnChanges {
         this.entityTemplate = undefined;
         this.currentItem = valueItem;
 
+        // add the metadata value inside the action
+        if (this.config.actions?.length) {
+            const value = {
+                item: this.config.item,
+                value: valueItem.value
+            };
+            this.config.actions.map(action => action.data = value);
+        }
+
         if (!this.config.entityTooltip) return;
 
         this.loading = true;
