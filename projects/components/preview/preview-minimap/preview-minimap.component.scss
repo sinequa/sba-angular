@@ -14,8 +14,8 @@
     background-color: yellow;
 
     &.selected {
-      border: 3px solid rgba(11, 117, 255, 0.5);;
-      background-color: rgb(11 117 255 / 20%);
+      border: 3px solid rgba(var(--bs-primary-rgb), 0.5);
+      background-color: rgba(var(--bs-primary-rgb), 0.2);
       z-index: 1;
       pointer-events: none;
     }

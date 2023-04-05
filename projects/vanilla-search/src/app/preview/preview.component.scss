@@ -24,7 +24,7 @@
   width: 100%;
   height: 100%;
   display: flex;
-  background-color: #efefef;
+  background-color: var(--bs-gray-300);
 
   .side-menu {
     padding-right: 0;
@@ -83,6 +83,6 @@
 
 :host-context(.dark) {
   :host, .side-menu {
-    background-color: #1c1e21;
+    background-color: var(--bs-dark);
   }
 }
