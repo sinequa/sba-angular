@@ -13,10 +13,20 @@ const routes: Routes = [
   { path: '', component: DocResultsViewModuleComponent }
 ];
 
-const resultsView: ResultsView = {
-  name: 'name',
-  type: 'type'
-};
+const resultsViews: ResultsView[] = [
+  {
+    name: 'name',
+    type: 'type',
+    display: 'text',
+    icon: 'fas fa-user'
+  },
+  {
+    name: 'name2',
+    type: 'type2',
+    display: 'text2',
+    icon: 'fas fa-thumbs-up'
+  }
+];
 
 @NgModule({
   declarations: [
@@ -29,7 +39,7 @@ const resultsView: ResultsView = {
     RouterModule.forChild(routes),
     DocBaseModule,
     BsResultsViewModule,
-    BsResultsViewModule.forRoot([resultsView], resultsView)
+    BsResultsViewModule.forRoot(resultsViews, resultsViews[0])
   ]
 })
 export class DocResultsViewModule {

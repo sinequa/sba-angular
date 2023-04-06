@@ -1,0 +1,36 @@
+<div class="list-group list-group-flush entity-facet">
+  <div *ngFor="let item of items | slice:0:count"
+    class="list-group-item align-items-center border-0 py-1 px-3 d-flex">
+    <span class="mx-1 text-truncate">{{ item.display | sqValue:column }}</span>
+    <span class="text-muted small ms-auto me-1">
+      <ng-container *ngIf="item.current">{{ item.current }} / </ng-container>
+      {{ item.ids.length }}
+    </span>
+    <span class="text-muted px-1" role="button" (click)="prevEntity(item)" title="{{ 'msg#preview.previous' | sqMessage }}">
+      <i class="fas fa-chevron-left"></i>
+    </span>
+    <span class="text-muted px-1" role="button" (click)="nextEntity(item)" title="{{ 'msg#preview.next' | sqMessage }}">
+      <i class="fas fa-chevron-right"></i>
+    </span>
+  </div>
+  <div class="list-group-item border-0 py-1 text-center" *ngIf="items.length > count">
+    <a class="text-muted small" role="button" (click)="showAll()" title="{{ 'msg#preview.showAll' | sqMessage }}">
+      {{ 'msg#preview.showAll' | sqMessage }}
+    </a>
+  </div>
+</div>
+
+<ng-template #headerTpl>
+  <div class="header text-truncate py-1 me-2"
+    [ngClass]="highlighted$ | async"
+    role="button"
+    (click)="toggleHighlight()"
+    [sqTooltip]="'msg#preview.toggleHighlight' | sqMessage"
+    [style.--sq-entity-color]="highlights?.color"
+    [style.--sq-entity-bg-color]="highlights?.bgColor">
+    <i [ngClass]="icon" *ngIf="icon"></i>
+    <span class="ms-2">{{label | sqMessage}}</span>
+  </div>
+</ng-template>
+
+

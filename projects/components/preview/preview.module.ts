@@ -1,33 +1,52 @@
-import {NgModule, ModuleWithProviders, Type} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {IntlModule} from "@sinequa/core/intl";
-import {WebServicesModule} from "@sinequa/core/web-services";
-import {UtilsModule} from "@sinequa/components/utils";
-import {PreviewDocumentIframe} from "./preview-document-iframe.component";
-import {PreviewTooltip} from "./preview-tooltip.component";
-import {PREVIEW_MODAL} from "./preview.service";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { ReactiveFormsModule } from "@angular/forms";
+
+import { IntlModule } from "@sinequa/core/intl";
+import { WebServicesModule } from "@sinequa/core/web-services";
+import { UtilsModule } from "@sinequa/components/utils";
+import { BsActionModule } from "@sinequa/components/action";
+import { BsFacetModule } from "@sinequa/components/facet";
+import { BsSearchModule } from "@sinequa/components/search";
+
+import { Preview } from "./preview.component";
+import { PreviewSearchFormComponent } from './preview-search-form/preview-search-form.component';
+import { PreviewTooltipComponent } from "./preview-tooltip/preview-tooltip.component";
+import { PreviewExtractsPanelComponent } from './preview-extracts-panel/preview-extracts-panel.component';
+import { PreviewMinimapComponent } from "./preview-minimap/preview-minimap.component";
+import { PreviewEntityFacetComponent } from "./preview-entity-facet/preview-entity-facet.component";
+import { PreviewEntityPanelComponent } from "./preview-entity-panel/preview-entity-panel.component";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        IntlModule,
-        WebServicesModule,
-        UtilsModule
-    ],
-    declarations: [
-        PreviewDocumentIframe, PreviewTooltip
-    ],
-    exports: [
-        PreviewDocumentIframe, PreviewTooltip
-    ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    IntlModule,
+    WebServicesModule,
+    UtilsModule,
+    BsActionModule,
+    BsFacetModule,
+    BsSearchModule
+  ],
+  declarations: [
+    Preview,
+    PreviewSearchFormComponent,
+    PreviewExtractsPanelComponent,
+    PreviewEntityFacetComponent,
+    PreviewEntityPanelComponent,
+
+    PreviewTooltipComponent,
+    PreviewMinimapComponent,
+  ],
+  exports: [
+    Preview,
+    PreviewSearchFormComponent,
+    PreviewExtractsPanelComponent,
+    PreviewEntityFacetComponent,
+    PreviewEntityPanelComponent,
+
+    PreviewTooltipComponent,
+    PreviewMinimapComponent
+  ],
 })
-export class PreviewModule {
-    static forRoot(previewModal: Type<any>) : ModuleWithProviders<PreviewModule> {
-        return {
-            ngModule: PreviewModule,
-            providers: [
-                {provide: PREVIEW_MODAL, useValue: previewModal},
-            ]
-        };
-    }
-}
+export class PreviewModule { }

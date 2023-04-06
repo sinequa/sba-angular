@@ -9,9 +9,9 @@ import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
 import { FacetService } from '@sinequa/components/facet';
 import { UIService } from '@sinequa/components/utils';
-import { PreviewService } from '@sinequa/components/preview';
+import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { BsDropdownService } from '@sinequa/components/action';
-import { METADATA, FEATURES } from '../../config';
+import { METADATA, FEATURES, PREVIEW_HIGHLIGHTS } from '../../config';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 import { AppDashboardComponent } from '../dashboard/dashboard.component';
 
@@ -83,6 +83,12 @@ export class SearchComponent implements OnInit {
   public get metadata(): string[] {
     return this.appService.app?.data?.metadata as string[] || METADATA;
   }
+
+
+  public get previewHighlights(): PreviewHighlightColors[] {
+    return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
+  }
+
 
   /**
    * Responds to a click on a document

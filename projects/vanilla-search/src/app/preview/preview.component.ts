@@ -1,34 +1,16 @@
-import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnDestroy, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
-import { ActivatedRoute, Router, NavigationEnd, RouterEvent } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 
-import { LoginService } from '@sinequa/core/login';
-import { AuditEventType, PreviewData, Results, Tab } from '@sinequa/core/web-services';
+import { AuditEventType, PreviewData, Tab } from '@sinequa/core/web-services';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
-import { PreviewService, PreviewDocument } from '@sinequa/components/preview';
+import { PreviewService, PreviewHighlightColors, Preview } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
-import { MODAL_MODEL } from '@sinequa/core/modal';
 import { IntlService } from '@sinequa/core/intl';
-import { UIService } from '@sinequa/components/utils';
-import { UserPreferences } from '@sinequa/components/user-settings';
-
-export interface PreviewConfig {
-  initialCollapsedPanel?: boolean;
-  homeRoute?: string;
-  showBackButton?: boolean;
-  subpanels?: string[];
-  defaultSubpanel?: string;
-  previewSearchable?: boolean;
-}
-
-export interface PreviewInput {
-  config?: PreviewConfig;
-  id: string;
-  query: Query;
-}
+import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 
 export interface EntitiesState {
   count: number;
@@ -38,220 +20,70 @@ export interface EntitiesState {
   category: string;
 }
 
-export const PREVIEW_CONFIG = new InjectionToken<PreviewConfig>("PREVIEW_CONFIG");
-
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
-  styleUrls: ['./preview.component.scss']
+  styleUrls: ['./preview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
-  // Inputs can be passed via binding or the URL + deps injection (defaults are initialized below)
-  @Input() id?: string;
-  @Input() query?: Query;
-  @Input() previewConfig?: PreviewConfig;
+export class PreviewComponent implements OnDestroy {
 
-  // Set when the preview service responds
-  previewData?: PreviewData;
-  downloadUrl?: string;
-  currentUrl?: string;
-  sandbox?: string | null;
+  @ViewChild(Preview) preview: Preview;
 
-  loading = false;
+  get previewData(): PreviewData|undefined {
+    if(this.preview?.loading) {
+      return undefined;
+    }
+    return this.preview?.data;
+  }
 
-  // Set when the preview has finished loading and initializing
-  previewDocument?: PreviewDocument;
+  id?: string;
+  query: Query;
 
   // State of the preview
   collapsedPanel = false;
   homeRoute = "/home";
-  showBackButton = true;
-  subpanels = ["entities"];
-  subpanel = 'entities';
-  previewSearchable = true;
+  subpanel = "extracts";
+  extractsType: string;
   minimapType = "extractslocations";
   tabs: Tab[];
 
-  // Page management for splitted documents
-  pagesResults: Results;
-
   // Subscriptions
-  private loginSubscription: Subscription;
   private routerSubscription: Subscription;
 
   // Preview Tooltip
-  tooltipEntityActions: Action[] = [];
-  tooltipTextActions: Action[] = [];
-
-  // Preview actions
-  private minimizeAction: Action;
-  private maximizeAction: Action;
-  private displayHighlightsAction: Action;
-  private highlightType: string;
-  actions: Action[] = [];
-  showHighlights: boolean;
-
-  private readonly scaleFactorThreshold = 0.2;
-  scaleFactor = 1.0;
-
-  constructor(
-    @Optional() @Inject(PREVIEW_CONFIG) previewConfig: PreviewConfig,
-    @Optional() @Inject(MODAL_MODEL) previewInput: PreviewInput,
-    private cdr: ChangeDetectorRef,
-    protected router: Router,
-    protected route: ActivatedRoute,
-    protected titleService: Title,
-    protected _location: Location,
-    public loginService: LoginService,
-    protected intlService: IntlService,
-    protected previewService: PreviewService,
-    protected searchService: SearchService,
-    public appService: AppService,
-    public prefs: UserPreferences,
-    public ui: UIService,
-    protected activatedRoute: ActivatedRoute,
-    private zone: NgZone
-  ) {
-    this.showHighlights = this.prefs.get("preview-highlights") || true;
-
-    // If the page is refreshed login needs to happen again, then we can get the preview data
-    this.loginSubscription = this.loginService.events.subscribe({
-      next: (event) => {
-        if (event.type === "session-changed") {
-          this.getPreviewData();
-        }
-      }
-    });
-
-    // The URL can be changed when searching within the page
-    this.routerSubscription = this.router.events
-      .pipe(
-        filter(event => event instanceof RouterEvent && event.url !== this.homeRoute)
-      ).subscribe({
-        next: (event) => {
-          if (event instanceof NavigationEnd) {
-            this.getPreviewDataFromUrl();
-          }
-        }
-      });
-
-    // In case the component is loaded in a modal
-    if (previewInput) {
-      if (previewInput.config) {
-        previewConfig = previewInput.config;
-      }
-      this.id = previewInput.id;
-      this.query = previewInput.query;
-    }
-
-    // Configuration may be injected by the root app (or as above by the modal)
-    if (previewConfig) {
-      this.previewConfig = previewConfig;
-    }
-
-    this.tooltipTextActions.push(new Action({
+  tooltipEntityActions: Action[];
+  tooltipTextActions: Action[] = [
+    new Action({
       text: "msg#searchForm.search",
       title: "msg#preview.searchText",
-      icon: "sq-preview-search-icon",
-      action: (action, event) => {
-        if (this.query) {
-          this.query.text = event['text'].slice(0, 50);
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { query: this.query.toJsonForQueryString() },
-            queryParamsHandling: 'merge',
-            state: {}
-          });
-        }
-      }
-    }));
+      icon: "fas fa-search",
+      action: (action) => this.searchText(action.data.slice(0, 50))
+    })
+  ];
 
-    this.displayHighlightsAction = new Action({
-      icon: "fas fa-fw fa-highlighter",
-      title: "msg#facet.preview.toggleHighlight",
-      action: () => {
-        this.showHighlights = !this.showHighlights;
-        this.prefs.set("preview-highlights", this.showHighlights);
-        this.updateHighlights(this.showHighlights ? this.highlightType : undefined);
-        if (this.showHighlights && this.highlightType === "matchingpassages") {
-          this.previewDocument?.highlightPassage();
-        }
-      }
-    });
+  constructor(
+    public route: ActivatedRoute,
+    public router: Router,
+    public titleService: Title,
+    public _location: Location,
+    public intlService: IntlService,
+    public previewService: PreviewService,
+    public searchService: SearchService,
+    public appService: AppService,
+    public cdRef: ChangeDetectorRef
+  ) {
 
-    this.maximizeAction = new Action({
-      icon: "fas fa-fw fa-search-plus",
-      title: "msg#facet.preview.maximize",
-      action: () => {
-        this.scaleFactor = this.scaleFactor + this.scaleFactorThreshold;
-      }
-    });
-
-    this.minimizeAction = new Action({
-      icon: "fas fa-fw fa-search-minus",
-      title: "msg#facet.preview.minimize",
-      disabled: this.scaleFactor <= 0.1,
-      action: () => {
-        this.scaleFactor = Math.round(Math.max(0.1, this.scaleFactor - this.scaleFactorThreshold) * 100) / 100;
-      },
-      updater: (action) => {
-        action.disabled = this.scaleFactor <= 0.1;
-      }
-    });
-
-    this.actions.push(this.displayHighlightsAction, this.minimizeAction, this.maximizeAction);
+    // The URL can be changed when searching within the page
+    this.routerSubscription = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => this.getPreviewDataFromUrl());
 
     titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle"));
 
   }
 
-  /**
-   * Loads the preview data in the case where id and query are provided as inputs
-   * (eg. the component is inserted in a parent rather than as a route)
-   */
-  ngOnChanges() {
-    this.getPreviewData();
-  }
-
-  /**
-   * Initializes the configuration and potentially loads the preview data from the URL
-   * (in the case where the id and query are not provided via the Input bindings)
-   */
-  ngOnInit() {
-
-    if (!this.id || !this.query) { // do nothing if the parameters are already here
-      this.getPreviewDataFromUrl();
-    }
-
-    if (this.previewConfig) {
-      if (this.previewConfig.initialCollapsedPanel !== undefined) {
-        this.collapsedPanel = this.previewConfig.initialCollapsedPanel;
-      }
-      if (this.previewConfig.homeRoute !== undefined) {
-        this.homeRoute = this.previewConfig.homeRoute;
-      }
-      if (this.previewConfig.showBackButton !== undefined) {
-        this.showBackButton = this.previewConfig.showBackButton;
-      }
-      if (this.previewConfig.subpanels !== undefined) {
-        this.subpanels = this.previewConfig.subpanels;
-        this.tabs = this.subpanels.map(panel => this.getTab(panel));
-      }
-      if (this.previewConfig.defaultSubpanel !== undefined) {
-        this.subpanel = this.previewConfig.defaultSubpanel;
-      }
-      if (this.previewConfig.previewSearchable !== undefined) {
-        this.previewSearchable = this.previewConfig.previewSearchable;
-      }
-    }
-
-    if (!this.previewConfig || this.previewConfig.initialCollapsedPanel === undefined) {
-      this.collapsedPanel = this.ui.screenSizeIsLessOrEqual('xs');
-    }
-  }
-
   ngOnDestroy() {
-    this.loginSubscription.unsubscribe();
     this.routerSubscription.unsubscribe();
   }
 
@@ -262,131 +94,32 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     const map = this.route.snapshot.queryParamMap;
     this.id = map.get("id") || undefined;
     this.query = this.searchService.makeQuery();
-    this.query.fromJson(map.get("query") || "{}");
-    this.getPreviewData();
-  }
-
-  /**
-   * Performs a call to the preview service. Update the search form with the searched query text (page refresh or navigation)
-   */
-  private getPreviewData() {
-    if (!!this.id && !!this.query && this.loginService.complete) {
-      this.previewService.getPreviewData(this.id, this.query).subscribe(
-        previewData => {
-          this.previewData = previewData;
-          const url = previewData?.documentCachedContentUrl;
-          this.subpanels = ["entities"];
-          this.tabs = [
-            this.getTab('entities')
-          ];
-          if (previewData.highlightsPerCategory['matchingpassages']?.values.length) {
-            this.subpanels.unshift("passages");
-            this.tabs.unshift(this.getTab('passages'));
-            this.subpanel = "passages";
-            this.minimapType = "extractslocations";
-          } else {
-            this.subpanels.unshift("extracts");
-            this.tabs.unshift(this.getTab('extracts'));
-            this.subpanel = "extracts";
-            this.minimapType = "extractslocations";
-          }
-          // Manage splitted documents
-          const pageNumber = this.previewService.getPageNumber(previewData.record);
-          if (pageNumber) {
-            this.previewService.fetchPages(previewData.record.containerid!, this.query!)
-              .subscribe(results => this.pagesResults = results);
-          }
-          this.currentUrl = url;
-          this.downloadUrl = url ? this.previewService.makeDownloadUrl(url) : undefined;
-          this.sandbox = ["xlsx", "xls"].includes(previewData.record.docformat) ? null : undefined;
-          this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", { title: previewData?.record?.title || "" }));
-          this.loading = true;
-        }
-      );
+    const query = map.get("query");
+    if(query) {
+      this.query.fromJson(query);
     }
+    this.cdRef.detectChanges();
   }
 
   /**
    * Called when the HTML of the preview finishes loading in the iframe
-   * @param previewDocument
    */
-  onPreviewReady(previewDocument: PreviewDocument) {
-    if (this.previewData) {
-      this.loading = false;
-      // uses preferences to uncheck highlighted entities
-      const uncheckedEntities = this.entitiesStartUnchecked;
-      Object.keys(uncheckedEntities)
-        .map(key => ({ entity: key, value: uncheckedEntities[key] }))
-        .filter(item => item.value === true)
-        .map(item => previewDocument.toggleHighlight(item.entity, false));
-
-      this.previewDocument = previewDocument;
-      if (!this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")) {
-        this.highlightMostRelevant(this.previewData, this.previewDocument, "extractslocations");
-      }
-    }
-  }
-
-  highlightMostRelevant(previewData: PreviewData, previewDocument: PreviewDocument, type: string): boolean {
-    const extracts = this.previewService.getExtracts(previewData, undefined, type);
-    this.updateHighlights(type);
-    if (extracts[0]) {
-      const mostRelevantExtract = extracts[0].textIndex;
-      previewDocument.selectHighlight(type, mostRelevantExtract); // Scroll to most relevant extract
-      return true;
-    }
-    return false;
-  }
-
-  updateHighlights(type?: string) {
-    if (this.previewData) {
-      if (!type) {
-        this.previewDocument?.filterHighlights([]);
-      } else {
-        this.highlightType = type;
-        const highlights = Object.keys(this.previewData.highlightsPerCategory)
-          .filter(h => (type === "matchingpassages" && (h === "matchingpassages" || h === "extractslocations" || h === "matchlocations"))
-            || (type === "extractslocations" && (h === "extractslocations" || h === "matchlocations"))
-            || (type === 'entities' && h !== "matchingpassages" && h !== "extractslocations"));
-        this.previewDocument?.filterHighlights(highlights);
-      }
+  onPreviewReady() {
+    if (this.id && this.previewData) {
+      this.preview.selectMostRelevant();
+      this.tabs = [
+        this.getTab('extracts'),
+        this.getTab('entities')
+      ];
+      this.extractsType = this.previewData.highlightsPerCategory['matchingpassages']?.values.length?
+        'matchingpassages' : 'extractslocations';
+      this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", { title: this.previewData.record?.title || "" }));
+      this.cdRef.detectChanges();
     }
   }
 
   openPanel(tab: Tab) {
-    const panel = tab.value;
-    this.subpanel = panel;
-    // Change the type of extract highlighted by the minimap in function of the current tab
-    if (panel === "passages") {
-      this.minimapType = "extractslocations";
-      if (this.previewData && this.previewDocument) {
-        this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")
-      }
-    } else {
-      this.previewDocument?.clearPassageHighlight();
-    }
-    if (panel === "extracts") {
-      this.minimapType = "extractslocations";
-      if (this.previewData && this.previewDocument) {
-        this.highlightMostRelevant(this.previewData, this.previewDocument, "extractslocations")
-      }
-    }
-    if (panel === 'entities') {
-      this.minimapType = "none";
-      this.updateHighlights('entities');
-    }
-  }
-
-  onPreviewPageChange(event: string | PreviewDocument) {
-    if (event instanceof PreviewDocument) {
-      this.previewDocument = event;
-      this.loading = false;
-    } else {
-      this.currentUrl = event;
-      this.previewDocument = undefined;
-      this.loading = true;
-    }
-    this.cdr.detectChanges();
+    this.subpanel = tab.value;
   }
 
   /**
@@ -396,47 +129,9 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     this._location.back();
   }
 
-  /**
-   * @returns URL of the original document, if any
-   */
-  getOriginalDocUrl(): string | undefined {
-    return this.previewData?.record.url1 || this.previewData?.record.originalUrl;
-  }
-
-  /**
-   * Notification for the audit service
-   */
-  notifyOriginalDoc() {
-    if (this.previewData) {
-      const type = this.previewData?.record.url1 ? AuditEventType.Doc_Url1 : AuditEventType.Doc_CacheOriginal;
-      this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, type);
-    }
-  }
-
   notifyPdf() {
     if (this.previewData) {
       this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, AuditEventType.Doc_CachePdf);
-    }
-  }
-
-  /**
-   * Navigate to another page of this document
-   * @param id
-   */
-  gotoPage(page: number) {
-    const containerid = this.previewData?.record.containerid;
-    if (containerid) {
-      const id = `${containerid}/#${page}#`;
-
-      // we needs surround router.navigate() as we navigate outside Angular
-      // if an error occurs, this allow page navigation, broken otherwise
-      this.zone.run(() => {
-        this.router.navigate([], {
-          relativeTo: this.activatedRoute,
-          queryParams: { id }, // Assumes that we can keep the same query(!)
-          queryParamsHandling: 'merge'
-        });
-      })
     }
   }
 
@@ -456,27 +151,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
-  }
-
   // User preferences
-
-  /**
-   * Entity facets state
-   */
-  get entitiesStartUnchecked(): { [entity: string]: boolean } {
-    return this.prefs.get("preview-entities-checked") || {};
-  }
-
-  entitiesChecked(event: { entity: string, checked: boolean }) {
-    const startUnchecked = this.entitiesStartUnchecked;
-    startUnchecked[event.entity] = !event.checked;
-    this.prefs.set("preview-entities-checked", startUnchecked);
-  }
 
   private getTab(panel: string): Tab {
     return {
@@ -485,5 +160,9 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       value: panel,
       count: 1
     }
+  }
+
+  public get previewHighlights(): PreviewHighlightColors[] {
+    return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
   }
 }

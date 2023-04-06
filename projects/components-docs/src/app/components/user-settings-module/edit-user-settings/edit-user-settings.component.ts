@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class DocEditUserSettingsComponent {
 
-  code = `<sq-edit-user-settings></sq-edit-user-settings>`;
+  code = `<sq-edit-user-settings [showUILanguageSelector]="true"></sq-edit-user-settings>`;
 
   constructor() { }
 
