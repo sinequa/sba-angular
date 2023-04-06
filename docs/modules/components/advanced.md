@@ -186,7 +186,7 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
    - `multiple`: Whether the multiple selection is allowed or not.
    - `aggregation`: Optional input that defines the aggregation name used to fill the select options.
 
-<!-- <doc-advanced-form-select></doc-advanced-form-select> -->
+<doc-advanced-form-select></doc-advanced-form-select>
 
 - The [`BsAdvancedFormInput` component]({{site.baseurl}}components/components/BsAdvancedFormInput.html) is used to display an input element compatible with any advanced-search form.
 
