@@ -195,15 +195,15 @@ export class ChatService {
    * When relevant content is retrieved, the attachments$ subject is
    * upated.
    */
-  searchAttachmentsSync(text: string, minScore = 0.5, maxPassages = 5) {
+  searchAttachmentsSync(text: string, minScore = 0.5, maxPassages = 5, query = this.searchService.query) {
     const event: AuditEvent = {
       type: "Chat_Autosearch",
       detail: {
         querytext: text
       }
     };
-    this.searchService.query.text = text;
-    this.searchService.getResults(this.searchService.query, event).pipe(
+    query.text = text;
+    this.searchService.getResults(query, event).pipe(
       tap(results => this.searchService.setResults(results)),
       switchMap(results => {
         const passages = results.topPassages?.passages?.filter(p => p.score > minScore).slice(0,maxPassages);

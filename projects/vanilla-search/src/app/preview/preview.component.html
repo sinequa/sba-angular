@@ -65,6 +65,16 @@
       [highlights]="previewHighlights">
     </sq-preview-entity-panel>
 
+    <ng-container *ngSwitchCase="'chat'">
+      <sq-chat *ngIf="chat"
+        class="flex-scroll"
+        [chat]="chat"
+        [displayAttachments]="false"
+        [searchMode]="true"
+        [query]="chatQuery">
+      </sq-chat>
+    </ng-container>
+
   </div>
 
 </div>

@@ -2,7 +2,7 @@ import { Component, OnDestroy, ViewChild, ChangeDetectionStrategy, ChangeDetecto
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { Subscription, filter } from 'rxjs';
+import { Subscription, filter, forkJoin, of } from 'rxjs';
 
 import { AuditEventType, PreviewData, Tab } from '@sinequa/core/web-services';
 import { AppService, Query } from '@sinequa/core/app-utils';
@@ -11,6 +11,7 @@ import { PreviewService, PreviewHighlightColors, Preview } from '@sinequa/compon
 import { SearchService } from '@sinequa/components/search';
 import { IntlService } from '@sinequa/core/intl';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
+import { ChatService, InitChat } from '@sinequa/components/machine-learning';
 
 export interface EntitiesState {
   count: number;
@@ -43,10 +44,13 @@ export class PreviewComponent implements OnDestroy {
   // State of the preview
   collapsedPanel = false;
   homeRoute = "/home";
-  subpanel = "extracts";
+  subpanel = "chat";
   extractsType: string;
   minimapType = "extractslocations";
   tabs: Tab[];
+
+  chatQuery?: Query;
+  chat?: InitChat;
 
   // Subscriptions
   private routerSubscription: Subscription;
@@ -63,6 +67,7 @@ export class PreviewComponent implements OnDestroy {
   ];
 
   constructor(
+    public chatService: ChatService,
     public route: ActivatedRoute,
     public router: Router,
     public titleService: Title,
@@ -108,9 +113,11 @@ export class PreviewComponent implements OnDestroy {
     if (this.id && this.previewData) {
       this.preview.selectMostRelevant();
       this.tabs = [
+        this.getTab('chat'),
         this.getTab('extracts'),
         this.getTab('entities')
       ];
+      this.initChat();
       this.extractsType = this.previewData.highlightsPerCategory['matchingpassages']?.values.length?
         'matchingpassages' : 'extractslocations';
       this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", { title: this.previewData.record?.title || "" }));
@@ -148,6 +155,26 @@ export class PreviewComponent implements OnDestroy {
         queryParamsHandling: 'merge',
         state: {}
       });
+    }
+  }
+
+  initChat() {
+    if(this.previewData?.record) {
+      const content = `The text below is extracted from a document retrieved by a search engine. Generate a summary of this text in 5 sentences.`;
+      const messages = [
+        {role: 'system', display: false, content}
+      ];
+      const $record = this.previewData.record;
+      const passages = $record.matchingpassages?.passages
+        .slice(0,5)
+        .map(p => ({location: p.location, $record }));
+      const attachments =
+        passages? forkJoin(this.chatService.addPassages(passages, 2, 4)) :
+        $record.extracts? this.chatService.addExtracts($record, $record.extracts) : of([]);
+      this.chat = {messages, attachments};
+      this.chatQuery = this.searchService.makeQuery({
+        filters: {field: 'id', value: $record.id}
+      })
     }
   }
 

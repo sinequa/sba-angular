@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
+import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatService } from "./chat.service";
@@ -68,6 +69,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() autoSearchMaxPassages =    defaultChatConfig.autoSearchMaxPassages;
   @Input() model =                    defaultChatConfig.model;
   @Input() showCredits = true;
+  @Input() query?: Query;
   @Output() data = new EventEmitter<ChatMessage[]>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
@@ -154,7 +156,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     if(this.searchMode && this.question.trim()) {
       event?.preventDefault();
       this.loadingAttachments = true;
-      this.chatService.searchAttachmentsSync(this.question, this.autoSearchMinScore, this.autoSearchMaxPassages);
+      this.chatService.searchAttachmentsSync(this.question, this.autoSearchMinScore, this.autoSearchMaxPassages, this.query);
     }
   }
 

@@ -77,6 +77,7 @@
         "extracts": "Extracts",
         "entities": "Entities",
         "passages": "Passages",
+        "chat": "ChatGPT",
         "searchText": "Search \"{text}\" in the document",
         "pageTitle": "Document Navigator - {title}",
         "expand": "Expand",
