@@ -1,6 +1,4 @@
 import {LocaleData} from "@sinequa/core/intl";
-import d3Format from "../../../../node_modules/d3-format/locale/en-US.json";
-import d3Time from "../../../../node_modules/d3-time-format/locale/en-US.json";
 import {enCore} from "@sinequa/core/messages";
 import appMessages from "./messages/en.json";
 import "intl/locale-data/jsonp/en-US"; // Safari
@@ -42,8 +40,8 @@ export default <LocaleData>{
     },
     d3: {
         locale: "en-US",
-        format: d3Format,
-        time: d3Time
+        format: require('d3-format/locale/en-US'),
+        time: require('d3-time-format/locale/en-US')
     },
     messages: messages
 };

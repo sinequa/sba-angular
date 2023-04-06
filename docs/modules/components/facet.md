@@ -344,7 +344,7 @@ It is also possible to insert static content which will be displayed at the top 
 
 ### Multiple-type Facet
 
-<!-- <doc-facet-multi></doc-facet-multi> -->
+<doc-facet-multi></doc-facet-multi>
 
 The "multiple-type" facet [`sq-facet-multi`]({{site.baseurl}}components/components/BsFacetMultiComponent.html) displays multiple types of metadata in the same facet. The user selects the type of metadata, which then changes the view of the facet into one of the classical views above.
 
@@ -538,7 +538,7 @@ This component can be used in different ways :
 
 ### Refine Facet
 
-<!-- <doc-refine></doc-refine> -->
+<doc-refine></doc-refine>
 
 The [`sq-refine`]({{site.baseurl}}components/components/BsRefine.html) component displays a secondary search form, including an autocomplete, to add a fulltext search criteria to a query, without removing the active filters.
 
