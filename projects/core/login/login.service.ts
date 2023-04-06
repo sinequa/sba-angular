@@ -9,7 +9,7 @@ import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {NotificationsService} from "@sinequa/core/notification";
 import {AppService} from "@sinequa/core/app-utils";
 import {AuthenticationService} from "./authentication.service";
-import { Credentials, LoginData, MODAL_LOGIN, ProcessedCredentials, SessionEvent, UserOverride } from "./typings";
+import { CREDENTIALS, Credentials, LoginData, MODAL_LOGIN, ProcessedCredentials, SessionEvent, UserOverride } from "./typings";
 
 
 /**
@@ -33,6 +33,7 @@ export class LoginService implements OnDestroy {
     constructor(
         @Inject(START_CONFIG) protected startConfig: StartConfig,
         @Inject(MODAL_LOGIN) protected loginModal: Type<any>,
+        @Optional() @Inject(CREDENTIALS) protected credentials: Credentials|undefined,
         @Optional() protected router: Router,
         protected appService: AppService,
         protected principalService: PrincipalWebService,
@@ -251,7 +252,13 @@ export class LoginService implements OnDestroy {
             credentials.userName = this.authenticationService.processedCredentials.userName;
         }
         if (!this.loginModalPromise) {
-            this.loginModalPromise = this.modalService.open(this.loginModal, {model: credentials});
+            if (this.credentials) {
+                Object.assign(credentials, this.credentials);
+                this.loginModalPromise = Promise.resolve(ModalResult.OK);
+            }
+            else {
+                this.loginModalPromise = this.modalService.open(this.loginModal, {model: credentials});
+            }
             firstCaller = true;
         }
         return this.loginModalPromise

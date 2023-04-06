@@ -21,6 +21,8 @@ export interface SessionEvent {
 */
 export const MODAL_LOGIN = new InjectionToken<Type<any>>('MODAL_LOGIN');
 
+export const CREDENTIALS = new InjectionToken<Credentials>('CREDENTIALS');
+
 /**
 * Describes the data retrieved during the login process.
 */
