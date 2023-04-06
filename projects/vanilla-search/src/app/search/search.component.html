@@ -82,9 +82,7 @@
             <!-- nth top passages -->
             <sq-facet-card *ngIf="hasPassages" class="mb-3"
                 [title]="'msg#machine-learning.passages'"
-                [icon]="'fas fa-brain primary-icon'"
-                [collapsible]="true"
-                buttonsStyle="primary">
+                [icon]="'fas fa-brain primary-icon'">
                 <sq-top-passages #facet
                     [results]="results"
                     (previewOpened)="openMiniPreview($event.$record, $event.id)"
@@ -145,11 +143,11 @@
 
             <!-- Without selected document -->
             <!-- hidden only on md resolution -->
-            <sq-facet-card *ngIf="!openedDoc" class="d-none d-sm-block no-record" [ngClass]="{ 'd-none d-lg-block mb-3': showFilters }" [collapsible]="false" [title]="'msg#facet.preview.documentPreview'">
+            <sq-facet-card *ngIf="!openedDoc" class="d-none d-sm-block no-record" [ngClass]="{ 'd-none d-lg-block mb-3': showFilters }" [collapsible]="false" [title]="'msg#preview.documentPreview'">
                 <div class="text-center">
                     <img src="assets/sinequa-empty-preview.png" class="mb-3">
-                    <p class="fw-bold">{{'msg#facet.preview.documentPreviewTitle' | sqMessage}}</p>
-                    <p>{{'msg#facet.preview.documentPreviewDescription' | sqMessage}}</p>
+                    <p class="fw-bold">{{'msg#preview.documentPreviewTitle' | sqMessage}}</p>
+                    <p>{{'msg#preview.documentPreviewDescription' | sqMessage}}</p>
                 </div>
             </sq-facet-card>
 
@@ -172,18 +170,24 @@
                     </sq-metadata>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="true" *ngIf="openedDoc.$hasPassages"
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewPassages'}" [default]="true" *ngIf="openedDoc.$hasPassages"
                     #passagesList>
                     <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
-                    <sq-facet-preview-2 #facet [record]="openedDoc" [query]="searchService.query"
-                        (previewLoaded)="previewReady($event)">
-                    </sq-facet-preview-2>
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewPreview'}">
+                    <sq-preview #facet
+                        style="height: calc(100vh - 220px);"
+                        [id]="openedDoc.id"
+                        [query]="searchService.query"
+                        [highlightColors]="previewHighlights"
+                        [highlightEntities]="false"
+                        [preferenceName]="'mini-preview'"
+                        [scale]="0.8">
+                    </sq-preview>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewDuplicates'}" *ngIf="openedDoc.groupcount && openedDoc.groupcount > 1">
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewDuplicates'}" *ngIf="openedDoc.groupcount && openedDoc.groupcount > 1">
                     <sq-result-duplicates-list [record]="openedDoc">
                       <ng-template let-duplicate>
                         <sq-result-title [record]="duplicate" (titleClicked)="openPreviewIfNoUrl(duplicate, $event)"></sq-result-title>

@@ -1,0 +1,88 @@
+
+// Currently selected highlights
+.sq-current {
+  border: 2px dashed rgb(5,5,5) !important;
+  animation: 0.3s linear shadowfocus;
+  // raise above other span   s so the border is not overlapped
+  // position: relative;
+  z-index: 1;
+}
+
+@keyframes shadowfocus {
+  0% {
+      box-shadow: 0px 0px 50px 11px #0000008a;
+  }
+  100% {
+      box-shadow: 0px 0px 10px 1px #0000008a;
+  }
+}
+
+.sq-current:not(.sq-first) {
+  border-left-color: transparent !important;
+}
+
+.sq-current:not(.sq-last) {
+  border-right-color: transparent !important;
+}
+
+
+// SVG highlights
+
+rect.sinequaSVGBg {
+  fill: transparent;
+}
+
+line.sq-svg {
+  stroke: rgb(5, 5, 5);
+  stroke-width: 2;
+  stroke-dasharray: 2, 2;
+}
+
+
+// Passage highlighter
+
+#sq-passage-highlighter {
+  position: absolute;
+  pointer-events: none;
+  border: 3px solid rgb(11 117 255 / 50%);
+  box-shadow: 0 0 1rem 0px rgb(11 117 255 / 20%);
+  border-radius: 5px;
+}
+
+
+// Converter-specific styling
+
+// pdfAdvanced
+.stl_ {
+  content-visibility: auto;
+  display: inline-block;
+  background-color: white;
+  border: solid 1px lightgrey;
+  margin: 24px;
+}
+
+// sinequePdfToHtml
+// add a shadow on page navigator
+body.bd {
+  background-color: #eee;
+
+  > div.ph {
+      box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  }
+
+  // as style is inline, this selector is very specific to overrides it
+  > div:not(.ph, .phe) {
+      margin: 24px;
+      content-visibility: visible;
+
+      > img {
+          background-color: white;
+          border: 1px solid lightgrey;
+          box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+          margin-bottom: 16px;
+          margin-right: 16px;
+      }
+
+  }
+}
+

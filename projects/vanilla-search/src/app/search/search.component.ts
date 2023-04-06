@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Observable, Subscription, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
-import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
+import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { UIService } from '@sinequa/components/utils';
@@ -11,7 +11,7 @@ import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
+import { FacetParams, FACETS, FEATURES, METADATA, PREVIEW_HIGHLIGHTS } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 
@@ -80,7 +80,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     const expandAction = new Action({
       icon: "fas fa-fw fa-expand-alt",
-      title: "msg#facet.preview.expandTitle",
+      title: "msg#preview.expandTitle",
       action: () => {
         if (this.openedDoc) {
           this.previewService.openRoute(this.openedDoc, this.searchService.query);
@@ -90,7 +90,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     const closeAction = new Action({
       icon: "fas fa-fw fa-times",
-      title: "msg#facet.preview.closeTitle",
+      title: "msg#preview.closeTitle",
       action: () => {
         this.closeDocument();
       }
@@ -169,6 +169,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     return this.appService.app?.data?.metadata as string[] || METADATA;
   }
 
+  public get previewHighlights(): PreviewHighlightColors[] {
+    return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
+  }
+
   /**
    * Responds to a click on a document (setting openedDoc will open the preview facet)
    * @param record
@@ -218,17 +222,6 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.showFilters = true; // Show filters on medium screen when document is closed
       }
     }
-  }
-
-  /**
-   * Document is loaded and displayed on screen. It could be manipulated easily.
-   *
-   * eg: scroll to a specific location
-   * document.getContentWindow().scrollTo(0, 3000);
-   * @param document the document currently in preview
-   */
-  previewReady(document: PreviewDocument) {
-    // document.getContentWindow().scrollTo(0, Math.random() * 4000);
   }
 
   // Make sure the click is not meant to trigger an action

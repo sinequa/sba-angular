@@ -1,0 +1,16 @@
+
+:host {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background-color: white;
+  border-bottom-left-radius: var(--bs-card-inner-border-radius, .375rem);
+  border-bottom-right-radius: var(--bs-card-inner-border-radius, .375rem);
+}
+
+iframe {
+  height: calc(100% / var(--sq-scale));
+  width: calc(100% / var(--sq-scale));
+  transform: scale(var(--sq-scale));
+  transform-origin: 0 0;
+}

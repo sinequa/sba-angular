@@ -9,15 +9,5 @@ sq-metadata-item .sq-metadata-item {
             color: black;
         }
     }
-    
-    // Generate rules for each metadata item declared in _preview.scss
-    @each $meta, $info in $metadata {
-        .sq-metadata-item-#{$meta}, .sq-icon-#{$meta} {
-            color: get-metadata-color($meta);
-        }
 
-        a.badge.sq-metadata-item-#{$meta} {
-            @include generate-metadata-color($meta, true);
-        }
-    }
 }

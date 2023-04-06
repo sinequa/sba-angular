@@ -1,0 +1,20 @@
+
+<ng-template>
+
+  <div *ngIf="entity"
+    class="d-flex align-items-center"
+    (mouseenter)="cancelHideTooltip()"
+    (mouseleave)="initHideTooltip()">
+    <span class="text-truncate">
+      <b>{{entity.display}}</b> ({{entity.label | sqMessage}})
+    </span>
+    <span class="ms-1 text-nowrap"> {{entity.index+1}} / {{entity.count}}</span>
+    <div class="btn-group btn-group-sm ms-3" [sq-action-buttons]="{items: entityNavActions, style:'secondary'}"></div>
+    <div class="btn-group btn-group-sm ms-2" [sq-action-buttons]="{items: entityActions, style:'secondary'}" *ngIf="entityActions"></div>
+  </div>
+
+  <div *ngIf="text && textActions">
+    <div class="btn-group btn-group-sm" [sq-action-buttons]="{items: textActions, style:'secondary'}"></div>
+  </div>
+
+</ng-template>
