@@ -1,10 +1,10 @@
-.sq-metadata-item:not(.clickable),
-::ng-deep .sq-metadata-item-treepath:not(.clickable) {
+.sq-metadata-item,
+::ng-deep .sq-metadata-item-treepath {
     font-weight: normal;
 }
 
-.clickable {
-    cursor: pointer;
+.sq-metadata-item + .sq-metadata-item {
+    margin-left: .3rem;
 }
 
 .sq-metadata-tooltip {
@@ -30,4 +30,9 @@
 .collapsable {
     display: block !important;
     overflow: hidden;
+}
+
+.badge {
+    color: #7283a7;
+    background-color: white;
 }

@@ -9,8 +9,9 @@ import { MetadataService, MetadataValue } from '../../../metadata.service';
 @Component({
   selector: 'sq-metadata-tree',
   templateUrl: './metadata-tree.component.html',
-  styles: [`.clickable {
-    font-weight: 600;
+  styles: [`.badge {
+    color: #7283a7 !important;
+    background-color: white !important;
 }`]
 })
 export class MetadataTreeComponent implements OnChanges {

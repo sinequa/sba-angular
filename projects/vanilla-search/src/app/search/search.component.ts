@@ -104,6 +104,11 @@ export class SearchComponent implements OnInit, OnDestroy {
       icon: "fas fa-weight-hanging"
     },
     {
+      item: "company",
+      icon: "fas fa-layer-group",
+      useLabels: true
+    },
+    {
       item: "treepath",
       icon: "fas fa-folder-open",
       filterable: true,

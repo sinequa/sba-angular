@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleCh
 import { Action } from "@sinequa/components/action";
 import { UIService } from "@sinequa/components/utils";
 import { AppService, Query } from "@sinequa/core/app-utils";
+import { FieldValue } from "@sinequa/core/base";
 import { DocumentAccessLists, EntityItem, Record } from "@sinequa/core/web-services";
 import { IconService } from "../../icon.service";
 import { MetadataValue } from "../../metadata.service";
@@ -31,22 +32,36 @@ export class MetadataComponent implements OnChanges {
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
 
-    display = false;
+    display: boolean;
     valueIcon: string;
     itemLabelMessageParams: any;
     actions: Action[];
+    editLabels: boolean;
+
+    get labels(): FieldValue[] {
+        return this.config.valueItems.map(valueItem => valueItem.value);
+    }
 
     @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
     lineHeight: number;
     valuesMaxHeight: number;
-    valuesHeight: number | undefined;
+    private _valuesHeight: number | undefined;
+    get valuesHeight(): number | undefined {
+        return this.config.useLabels ? undefined : this._valuesHeight;
+    };
+
+    set valuesHeight(valuesHeight: number | undefined) {
+        if (!this.config.useLabels) {
+            this._valuesHeight = valuesHeight;
+        }
+    }
 
     entityTemplate: any;
     currentItem: EntityItem;
     loading = false;
 
     get isClickable(): boolean {
-        return !!this.config.filterable || !!this.config.excludable || !!this.config.entityTooltip || !!this.config.actions?.length;
+        return this.config.filterable || this.config.excludable || !!this.config.entityTooltip || this.config.useLabels || !!this.config.actions?.length;
     }
 
     get label(): string {
@@ -70,11 +85,7 @@ export class MetadataComponent implements OnChanges {
     }
 
     get needsCollapse(): boolean {
-        return this.valuesMaxHeight > this.lineHeight * 2;
-    }
-
-    get hasActions(): boolean {
-        return this.config.filterable === true || this.config.excludable === true;
+        return !this.config.useLabels && this.valuesMaxHeight > this.lineHeight * 2;
     }
 
     constructor(private iconService: IconService,
@@ -85,7 +96,6 @@ export class MetadataComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.display = !!this.config.item && !!this.record && !!this.record[this.config.item];
         if (!!this.config.item) {
             if (this.config.item === 'docformat') {
                 this.valueIcon = this.iconService.getFormatIcon(this.record[this.config.item]) || '';
@@ -99,6 +109,7 @@ export class MetadataComponent implements OnChanges {
             setTimeout(() => this.updateMaxHeight());
         }
         this.setActions();
+        this.display = !!this.config.item && !!this.record && !!this.record[this.config.item];
     }
 
     onResize = () => this.updateMaxHeight()
@@ -150,6 +161,11 @@ export class MetadataComponent implements OnChanges {
             });
     }
 
+    labelsUpdate(labels: string[]): void {
+        // update labels
+        console.log('labelsUpdate', labels);
+    }
+
     private updateMaxHeight(): void {
         if (this.valuesEl) { // Display or not the collapse icon
             this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
@@ -162,20 +178,28 @@ export class MetadataComponent implements OnChanges {
         if (this.config.actions) {
             this.actions.push(...this.config.actions);
         }
+        if (this.config.useLabels) {
+            this.actions.push(new Action({
+                icon: "fas fa-edit",
+                title: "Edit labels",
+                action: () => {
+                    this.editLabels = true;
+                }
+            }));
+        }
         if (this.config.filterable) {
             this.actions.push(new Action({
                 icon: "fas fa-filter",
-                title: "Filter",
+                text: "Filter",
                 action: () => this.filterItem()
             }));
         }
         if (this.config.excludable) {
             this.actions.push(new Action({
                 icon: "fas fa-minus-circle",
-                title: "Exclude",
+                text: "Exclude",
                 action: () => this.excludeItem()
             }));
         }
-        console.log('setActions', this.config.item, this.actions);
     }
 }

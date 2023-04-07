@@ -16,15 +16,9 @@ import { MetadataService } from "./metadata.service";
 import { MetadataTreeComponent } from './metadata-v2/metadata/metadata-tree/metadata-tree.component';
 import { BsActionModule } from "../action";
 import { MetadataTooltipComponent } from './metadata-v2/metadata/metadata-tooltip/metadata-tooltip.component';
+import { BsLabelsModule } from "../labels/bootstrap/labels.module";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        IntlModule,
-        UtilsModule,
-        CollapseModule,
-        BsActionModule
-    ],
     declarations: [
         Metadata, MetadataItem,
         MetadataAccessListsItem, MetadataAccessListsItemSingleAccessList,
@@ -37,6 +31,14 @@ import { MetadataTooltipComponent } from './metadata-v2/metadata/metadata-toolti
     providers: [
         IconService,
         MetadataService
+    ],
+    imports: [
+        CommonModule,
+        IntlModule,
+        UtilsModule,
+        CollapseModule,
+        BsActionModule,
+        BsLabelsModule
     ]
 })
 export class MetadataModule {

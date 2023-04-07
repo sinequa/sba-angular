@@ -1,9 +1,9 @@
 <ng-container *ngIf="display">
     <!-- Icon -->
-    <span *ngIf="showIcon" class="sq-metadata-col {{config.icon}} pe-2"></span>
+    <span *ngIf="showIcon" class="sq-metadata-col {{config.icon}} pe-1"></span>
 
     <!-- Title -->
-    <span *ngIf="showTitle" class="sq-metadata-col sq-metadata-item-label pe-2">
+    <span *ngIf="showTitle" class="sq-metadata-col sq-metadata-item-label pe-1">
         {{'msg#metadata.item.label' | sqMessage:itemLabelMessageParams}}
     </span>
 
@@ -30,16 +30,30 @@
 
             <!-- Not a Tree-->
             <ng-template #isNotTree>
-                <span *ngFor="let valueItem of config.valueItems; let $index = index" [class.clickable]="isClickable"
+                <div *ngIf="editLabels" class="row">
+                    <div class="col-10">
+                        <sq-labels-autocomplete [initLabels]="labels" [allowNewLabels]="true"
+                            (labelsUpdate)="labelsUpdate($event)"></sq-labels-autocomplete>
+                    </div>
+                    <div class="col-2 p-0">
+                        <button class="btn btn-primary"><span class="fas fa-save"></span></button>
+                        <button class="btn btn-secondary mx-1" (click)="editLabels=false"><span
+                                class="fas fa-times"></span></button>
+                    </div>
+                </div>
+
+                <span *ngFor="let valueItem of config.valueItems; let $index = index"
                     class="sq-metadata-item {{'sq-metadata-item-' + config.item}} {{config.itemClass}}"
                     [attr.title]="(showTitle || config.entityTooltip) ? null : (label | sqMessage)" sqPopper
-                    [target]="isClickable ? tooltip : undefined" [placement]="placement"
-                    (shown)="openedPopper(valueItem)"
+                    [target]="isClickable && actions?.length ? tooltip : undefined" [placement]="placement"
+                    [hidden]="editLabels" (shown)="openedPopper(valueItem)"
                     [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : 'transparent'">
-                    <span *ngIf="showFormatIcons && valueIcon" class="{{valueIcon}}"></span>
-                    {{valueItem | sqValue:config.column}}
+                    <span class="badge rounded-pill">
+                        <span *ngIf="showFormatIcons && valueIcon" class="{{valueIcon}}"></span>
+                        {{valueItem | sqValue:config.column}}
+                    </span>
 
-                    <div #tooltip>
+                    <div #tooltip [hidden]="!actions?.length">
                         <sq-metadata-tooltip [loading]="loading" [entityTemplate]="entityTemplate" [actions]="actions"
                             [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
                             [tooltipLinesNumber]="tooltipLinesNumber"></sq-metadata-tooltip>
