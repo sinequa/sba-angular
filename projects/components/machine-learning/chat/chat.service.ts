@@ -24,6 +24,8 @@ export class ChatService {
 
   attachmentModel: OpenAIModel = 'GPT35Turbo';
 
+  OPENAI_PLUGIN = "AzureOpenAI";
+
   constructor(
     public textChunksService: TextChunksWebService,
     public jsonMethodWebService: JsonMethodPluginService,
@@ -40,16 +42,16 @@ export class ChatService {
   /**
    * Calls the ChatGPT API to retrieve a new message given all previous messages
    */
-  fetch(messages: ChatMessage[], modelName: OpenAIModel, temperature: number, generateTokens: number, topP: number): Observable<ChatResponse> {
+  fetch(messages: ChatMessage[], name: OpenAIModel, temperature: number, generateTokens: number, topP: number): Observable<ChatResponse> {
     const model = {
-      model: modelName,
+      name,
       temperature,
       generateTokens,
       topP
     };
     const messagesHistory = this.cleanMessages(messages);
     const data = {action: "chat", model, messagesHistory, promptProtection: false};
-    return this.jsonMethodWebService.post("OpenAI", data).pipe(
+    return this.jsonMethodWebService.post(this.OPENAI_PLUGIN, data).pipe(
       map((res: RawResponse) => ({
         tokens: res.tokens,
         messagesHistory: [
@@ -64,9 +66,9 @@ export class ChatService {
   /**
    * Returns the number of tokens taken by the given text
    */
-  count(text: string, model: OpenAIModel): Observable<number> {
+  count(text: string[], model: OpenAIModel): Observable<number[]> {
     const data = { action: "TokenCount", model, text };
-    return this.jsonMethodWebService.post("OpenAI", data).pipe(map(res => res.tokens));
+    return this.jsonMethodWebService.post(this.OPENAI_PLUGIN, data).pipe(map(res => res.tokens));
   }
 
   /**
@@ -263,8 +265,8 @@ export class ChatService {
         }
         return this.fetchChunks($record.id, existingChunks);
       }),
-      switchMap(chunks => this.count(this.formatContent(10, $record.title, chunks.map(c => c.text)), this.attachmentModel).pipe(
-        map($tokenCount => ({$record, recordId: $record.id, chunks, $tokenCount}))
+      switchMap(chunks => this.count([this.formatContent(10, $record.title, chunks.map(c => c.text))], this.attachmentModel).pipe(
+        map(([$tokenCount]) => ({$record, recordId: $record.id, chunks, $tokenCount}))
       ))
     );
   }
@@ -524,6 +526,7 @@ export class ChatService {
     };
     this.modalService.prompt(model).then(res => {
       if (res === ModalResult.OK) {
+        delete tokens.quota;
         const savedChat: SavedChat = { name: model.output, messages, tokens };
         this.saveChat(savedChat);
       }

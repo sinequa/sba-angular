@@ -17,7 +17,7 @@
               <b>References:</b>
               <ul class="list-group">
                 <li *ngFor="let reference of message.$references" class="text-truncate" [title]="reference.$record.title">
-                  <span class="reference me-1">{{reference.refId}}</span> <a href="{{reference.$record.url1}}">{{reference.$record.title}}</a>
+                  <span class="reference me-1">{{reference.refId}}</span> <a href="{{reference.$record.url1}}" target="_blank">{{reference.$record.title}}</a>
                 </li>
               </ul>
             </div>
@@ -37,9 +37,12 @@
   </ul>
 
   <div class="user-input mt-auto" *ngIf="enableChat">
-    <div class="progress" [ngClass]="{disabled: tokensPercentage >= 100}">
-      <div class="progress-bar" role="progressbar" [ngStyle]="{'width.%': tokensPercentage}" title="Tokens used {{tokensAbsolute}}/{{tokens?.model - maxTokens}}">
-        {{tokensPercentage >= 100? 'Maximum number of tokens reached, reset the chat or remove attachments' : ''}}
+    <div class="progress" [ngClass]="{disabled: tokensPercentage >= 100 || tokensQuota >= 100}">
+      <div class="progress-bar" role="progressbar" [ngStyle]="{'width.%': (tokensQuota >= 100? 100 : tokensPercentage)}" title="Tokens used {{tokensAbsolute}}/{{tokens?.model - maxTokens}} (quota: {{tokensQuota}}%)">
+        {{
+          tokensPercentage >= 100? 'Maximum number of tokens reached, reset the chat or remove attachments' :
+          tokensQuota >= 100? 'You reached your maximum usage quota. Try again '+(tokens?.quota!.nextResetUTC | sqRelativeTime) : ''
+        }}
       </div>
     </div>
     <div class="py-2">
@@ -82,7 +85,7 @@
       (keyup.enter)="submitQuestion()"
       (keyup.shift.enter)="submitQuestion()"
       (keydown.tab)="searchAttachments($event)"
-      [disabled]="loadingAnswer || loadingAttachments || tokensPercentage >= 100">
+      [disabled]="loadingAnswer || loadingAttachments || tokensPercentage >= 100 || tokensQuota >= 100">
     <a *ngIf="searchMode" role="button" [ngClass]="{disabled: !question}" class="ms-3 mb-0 text-nowrap" (click)="searchAttachments()" sqTooltip="Search Before Chat" placement="top">
       <img src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="120px">
     </a>
