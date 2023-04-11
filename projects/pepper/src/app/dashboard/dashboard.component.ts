@@ -8,7 +8,7 @@ import { BsHeatmapModule } from "@sinequa/analytics/heatmap";
 import { NetworkModule, oOTBConfig, ProviderFactory } from "@sinequa/analytics/network";
 import { BsTimelineModule } from "@sinequa/analytics/timeline";
 import { BsFacetModule } from "@sinequa/components/facet";
-import { BsPreviewModule } from "@sinequa/components/preview";
+import { PreviewHighlightColors, PreviewModule } from "@sinequa/components/preview";
 import { ResultModule } from "@sinequa/components/result";
 import { SearchService } from "@sinequa/components/search";
 import { UIService, UtilsModule } from "@sinequa/components/utils";
@@ -18,6 +18,8 @@ import { map, Observable, of, tap } from "rxjs";
 import { GoogleMapsModule } from "@sinequa/analytics/googlemaps";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { NotificationsService } from "@sinequa/core/notification";
+import { PREVIEW_HIGHLIGHTS } from "../../config";
+import { AppService } from "@sinequa/core/app-utils";
 
 const defaultOptions = {
   renamable: false,
@@ -46,7 +48,7 @@ const defaultOptions = {
   imports: [
     CommonModule, // angular dependencies
     IntlModule,   // @sinequa/core
-    ResultModule, BsFacetModule, BsPreviewModule, UtilsModule, // @sinequa/components
+    ResultModule, BsFacetModule, PreviewModule, UtilsModule, // @sinequa/components
     DashboardComponent, FusionChartsModule,  BsHeatmapModule, BsTimelineModule, NetworkModule, GoogleMapsModule, FinanceModule, // @sinequa/analytics
   ],
 })
@@ -85,6 +87,7 @@ export class AppDashboardComponent implements OnChanges {
   previewCount = 0;
 
   constructor(
+    public appService: AppService,
     public searchService: SearchService,
     public dashboardService: DashboardService,
     public providerFactory: ProviderFactory,
@@ -247,6 +250,11 @@ export class AppDashboardComponent implements OnChanges {
         record['$opened'] = false;
       }
     }
+  }
+
+
+  public get previewHighlights(): PreviewHighlightColors[] {
+    return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
   }
 
 }

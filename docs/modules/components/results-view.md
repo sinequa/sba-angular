@@ -147,7 +147,7 @@ With the settings above, the view renders as follows:
 
 ## Switching Between Views
 
-<!-- <doc-results-view-selector></doc-results-view-selector> -->
+<doc-results-view-selector></doc-results-view-selector>
 
 To switch between results views, include the [`sq-results-view-selector`]({{site.baseurl}}components/components/BsResultsViewSelector.html) component. The component uses the [`ResultsViewService`]({{site.baseurl}}components/injectables/ResultsViewService.html) to display the current view and list of available views.
 
