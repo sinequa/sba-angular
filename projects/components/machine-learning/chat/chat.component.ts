@@ -32,7 +32,7 @@ export const defaultChatConfig: ChatConfig = {
   initialUserPrompt: "Hello, I am a user of the Sinequa search engine",
   addAttachmentPrompt: "Summarize this document",
   addAttachmentsPrompt: "Summarize these documents",
-  attachmentsHiddenPrompt: "Refer to the above content in the form [id] (eg [2], [7])",
+  attachmentsHiddenPrompt: "You can refer to the above documents in the form: [id] (eg [2], [7])",
   autoSearchMinScore: 0.5,
   autoSearchMaxPassages: 5,
   model: 'GPT35Turbo'
@@ -81,6 +81,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   tokensPercentage = 0;
   tokensAbsolute = 0;
+  tokensQuota = 0;
   tokens?: OpenAITokens;
 
   openChatAction: Action;
@@ -164,18 +165,14 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       const attachmentTokens = attachments.reduce((prev, cur) => prev + cur.$tokenCount, 0);
       this.tokensAbsolute = (this.tokens.used || 0) + questionTokens + attachmentTokens;
       this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / (this.tokens.model - this.maxTokens));
+      this.tokensQuota = this.tokens.quota? Math.min(100, 100 * Math.ceil(this.tokens.quota.tokenCount / this.tokens.quota.periodTokens)) : 0;
     }
   }
 
   private fetchAnswer(question: string, conversation: ChatMessage[], attachments: ChatAttachment[]) {
     this.loadingAnswer = true;
-    const attachmentMessages = this.chatService.prepareAttachmentMessages(attachments, conversation, this.displayAttachments);
+    const attachmentMessages = this.getAttachmentMessages(conversation, attachments);
     const userMsg = this.chatService.processMessage({role: 'user', content: question, display: true}, conversation);
-    if(this.attachmentsHiddenPrompt && attachmentMessages.length > 0) {
-      attachmentMessages.push(
-        this.chatService.processMessage({role: 'user', content: this.attachmentsHiddenPrompt, display: false}, conversation)
-      );
-    }
     const messages = this.textBeforeAttachments?
         [...conversation, userMsg, ...attachmentMessages]
       : [...conversation, ...attachmentMessages, userMsg];
@@ -186,6 +183,16 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP)
       .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
     this.scrollDown();
+  }
+
+  private getAttachmentMessages(conversation: ChatMessage[], attachments: ChatAttachment[], display = this.displayAttachments) {
+    const attachmentMessages = this.chatService.prepareAttachmentMessages(attachments, conversation, display);
+    if(this.attachmentsHiddenPrompt && attachmentMessages.length > 0) {
+      attachmentMessages.push(
+        this.chatService.processMessage({role: 'user', content: this.attachmentsHiddenPrompt, display: false}, conversation)
+      );
+    }
+    return attachmentMessages;
   }
 
   updateData(messages: ChatMessage[], tokens: OpenAITokens) {
@@ -251,7 +258,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
             map(attachments => Utils.asArray(attachments)),
             map(attachments => [
               ...messages,
-              ...this.chatService.prepareAttachmentMessages(attachments, messages, false)
+              ...this.getAttachmentMessages(messages, attachments, false)
             ])
           ) ?? of(messages)
         )
