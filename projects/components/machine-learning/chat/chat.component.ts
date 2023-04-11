@@ -168,7 +168,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       const attachmentTokens = attachments.reduce((prev, cur) => prev + cur.$tokenCount, 0);
       this.tokensAbsolute = (this.tokens.used || 0) + questionTokens + attachmentTokens;
       this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / (this.tokens.model - this.maxTokens));
-      this.tokensQuota = this.tokens.quota? Math.min(100, 100 * Math.ceil(this.tokens.quota.tokenCount / this.tokens.quota.periodTokens)) : 0;
+      this.tokensQuota = this.tokens.quota? Math.min(100, Math.ceil(100 * this.tokens.quota.tokenCount / this.tokens.quota.periodTokens)) : 0;
     }
   }
 
