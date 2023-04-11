@@ -12,6 +12,10 @@ import { MetadataService, MetadataValue } from '../../../metadata.service';
   styles: [`.badge {
     color: #7283a7 !important;
     background-color: white !important;
+}
+
+.sq-metadata-item-tree-node-separator {
+  white-space: break-spaces;
 }`]
 })
 export class MetadataTreeComponent implements OnChanges {
