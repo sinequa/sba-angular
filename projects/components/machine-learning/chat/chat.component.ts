@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
+import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatService } from "./chat.service";
@@ -67,6 +68,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() autoSearchMinScore =       defaultChatConfig.autoSearchMinScore;
   @Input() autoSearchMaxPassages =    defaultChatConfig.autoSearchMaxPassages;
   @Input() model =                    defaultChatConfig.model;
+  @Input() showCredits = true;
+  @Input() query?: Query;
   @Output() data = new EventEmitter<ChatMessage[]>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
@@ -154,7 +157,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     if(this.searchMode && this.question.trim()) {
       event?.preventDefault();
       this.loadingAttachments = true;
-      this.chatService.searchAttachmentsSync(this.question, this.autoSearchMinScore, this.autoSearchMaxPassages);
+      this.chatService.searchAttachmentsSync(this.question, this.autoSearchMinScore, this.autoSearchMaxPassages, this.query);
     }
   }
 
@@ -165,7 +168,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       const attachmentTokens = attachments.reduce((prev, cur) => prev + cur.$tokenCount, 0);
       this.tokensAbsolute = (this.tokens.used || 0) + questionTokens + attachmentTokens;
       this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / (this.tokens.model - this.maxTokens));
-      this.tokensQuota = this.tokens.quota? Math.min(100, 100 * Math.ceil(this.tokens.quota.tokenCount / this.tokens.quota.periodTokens)) : 0;
+      this.tokensQuota = this.tokens.quota? Math.min(100, Math.ceil(100 * this.tokens.quota.tokenCount / this.tokens.quota.periodTokens)) : 0;
     }
   }
 

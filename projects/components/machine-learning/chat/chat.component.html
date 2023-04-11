@@ -55,6 +55,10 @@
         <ng-container *ngTemplateOutlet="attachmentListTpl"></ng-container>
         <ng-container *ngTemplateOutlet="inputTpl"></ng-container>
       </ng-container>
+
+      <div class="text-end small text-muted px-3" *ngIf="showCredits">
+        powered by Azure OpenAI - <a href="https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy" target="_blank">privacy notice</a>
+      </div>
     </div>
   </div>
 </div>
