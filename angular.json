@@ -388,8 +388,8 @@
               "includePaths": ["node_modules"]
             },
             "assets": [
-              "projects/chatgpt/src/favicon.ico",
-              "projects/chatgpt/src/assets"
+              "projects/chatgpt/src/assets",
+              { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
             ],
             "styles": [
               {
@@ -397,7 +397,7 @@
                 "bundleName": "app"
               },
               {
-                "input": "projects/vanilla-search/src/styles/preview.scss",
+                "input": "projects/vanilla-search/src/preview/preview.scss",
                 "bundleName": "preview",
                 "inject": false
               }

@@ -8,10 +8,11 @@ import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Results, Record, TopPassage, RelevantExtract, MatchingPassage } from '@sinequa/core/web-services';
 import { map, Observable, tap } from 'rxjs';
-import { FEATURES, METADATA } from '../../config';
+import { FEATURES, METADATA, PREVIEW_HIGHLIGHTS } from '../../config';
 import { ChatComponent, ChatAttachment, ChatService, SavedChat, ChatMessage, ChatConfig, defaultChatConfig } from '@sinequa/components/machine-learning';
 import { AppSearchFormComponent } from '@sinequa/pepper/app/search-form/search-form.component';
 import { UIService } from '@sinequa/components/utils';
+import { PreviewHighlightColors } from '@sinequa/components/preview';
 
 @Component({
   selector: 'app-search',
@@ -128,8 +129,7 @@ export class SearchComponent implements OnInit {
         return;
       }
     }
-    this.chatService.addDocument(record)
-      .subscribe(a => this.chatService.addAttachments([a]));
+    this.chatService.addDocumentSync(record);
   }
 
   attachPassage(passage: TopPassage, event: Event) {
@@ -184,6 +184,10 @@ export class SearchComponent implements OnInit {
 
   public get metadata(): string[] {
     return this.appService.app?.data?.metadata as string[] || METADATA;
+  }
+
+  public get previewHighlights(): PreviewHighlightColors[] {
+    return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
   }
 
   // sort passages to have the ones with an answer first, ordered by answer score

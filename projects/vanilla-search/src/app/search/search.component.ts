@@ -359,8 +359,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         return;
       }
     }
-    this.chatService.addDocument(record)
-      .subscribe(a => this.chatService.addAttachments([a]));
+    this.chatService.addDocumentSync(record);
   }
 
   attachPassage(passage: TopPassage, event: Event) {

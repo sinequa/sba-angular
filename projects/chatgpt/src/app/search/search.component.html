@@ -1,5 +1,5 @@
 <div class="container-xl h-100">
-  <div class="row flex-nowrap h-100 overflow-hidden">
+  <div class="row flex-nowrap h-100">
     <div class="sq-panel h-100 d-flex flex-column" [ngClass]="{'col-lg-6': showSearchPanel, 'col-lg-8 offset-lg-2': !showSearchPanel}">
       <div class="d-flex p-3 sticky-top">
         <i class="sq-chatgpt"></i>
@@ -241,11 +241,15 @@
         </ng-template>
 
         <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
-          <sq-facet-preview-2 #facet
-            [record]="openedDoc"
+          <sq-preview #facet
+            style="height: 100%;"
+            [id]="openedDoc.id"
             [query]="searchService.query"
-            style="height: 100%;">
-          </sq-facet-preview-2>
+            [highlightColors]="previewHighlights"
+            [highlightEntities]="true"
+            [preferenceName]="'mini-preview'"
+            [scale]="0.8">
+          </sq-preview>
         </ng-template>
       </sq-facet-card>
     </div>
