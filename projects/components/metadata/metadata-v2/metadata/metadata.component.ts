@@ -36,7 +36,6 @@ export class MetadataComponent implements OnChanges {
     valueIcon: string;
     itemLabelMessageParams: any;
     actions: Action[];
-    editLabels: boolean;
 
     get labels(): FieldValue[] {
         return this.config.valueItems.map(valueItem => valueItem.value);
@@ -45,23 +44,14 @@ export class MetadataComponent implements OnChanges {
     @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
     lineHeight: number;
     valuesMaxHeight: number;
-    private _valuesHeight: number | undefined;
-    get valuesHeight(): number | undefined {
-        return this.config.useLabels ? undefined : this._valuesHeight;
-    };
-
-    set valuesHeight(valuesHeight: number | undefined) {
-        if (!this.config.useLabels) {
-            this._valuesHeight = valuesHeight;
-        }
-    }
+    valuesHeight: number | undefined;
 
     entityTemplate: any;
     currentItem: EntityItem;
     loading = false;
 
     get isClickable(): boolean {
-        return this.config.filterable || this.config.excludable || !!this.config.entityTooltip || this.config.useLabels || !!this.config.actions?.length;
+        return this.config.filterable || this.config.excludable || !!this.config.entityTooltip || !!this.config.actions?.length;
     }
 
     get label(): string {
@@ -85,7 +75,7 @@ export class MetadataComponent implements OnChanges {
     }
 
     get needsCollapse(): boolean {
-        return !this.config.useLabels && this.valuesMaxHeight > this.lineHeight * 2;
+        return this.valuesMaxHeight > this.lineHeight * 2;
     }
 
     get bgColor(): string | undefined {
@@ -187,15 +177,6 @@ export class MetadataComponent implements OnChanges {
 
         if (this.config.actions) {
             this.actions.push(...this.config.actions);
-        }
-        if (this.config.useLabels) {
-            this.actions.push(new Action({
-                icon: "fas fa-edit",
-                title: "Edit labels",
-                action: () => {
-                    this.editLabels = true;
-                }
-            }));
         }
         if (this.config.filterable) {
             this.actions.push(new Action({

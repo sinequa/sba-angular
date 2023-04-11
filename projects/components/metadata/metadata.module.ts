@@ -16,7 +16,6 @@ import { MetadataService } from "./metadata.service";
 import { MetadataTreeComponent } from './metadata-v2/metadata/metadata-tree/metadata-tree.component';
 import { BsActionModule } from "../action";
 import { MetadataTooltipComponent } from './metadata-v2/metadata/metadata-tooltip/metadata-tooltip.component';
-import { BsLabelsModule } from "../labels/bootstrap/labels.module";
 
 @NgModule({
     declarations: [
@@ -37,8 +36,7 @@ import { BsLabelsModule } from "../labels/bootstrap/labels.module";
         IntlModule,
         UtilsModule,
         CollapseModule,
-        BsActionModule,
-        BsLabelsModule
+        BsActionModule
     ]
 })
 export class MetadataModule {

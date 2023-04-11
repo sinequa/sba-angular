@@ -90,7 +90,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           title: "Test",
           action: (action) => {
             console.log('ACTION', action);
-           }
+          }
         })
       ]
     },
@@ -106,7 +106,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     {
       item: "company",
       icon: "fas fa-layer-group",
-      useLabels: true
+      itemClass: 'badge rounded-pill'
     },
     {
       item: "treepath",
@@ -131,7 +131,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           title: "Test",
           action: (action) => {
             console.log('ACTION', action);
-           }
+          }
         })
       ]
     }

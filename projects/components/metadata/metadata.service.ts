@@ -14,7 +14,6 @@ export interface MetadataConfig {
   colors?: { bgColor?: string, color?: string }; // override for colors
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
-  useLabels?: boolean; // if it should be displayed as labels
   showEntityTooltip?: boolean; // if the entity tooltip should be displayed
   actions?: Action[]; // additional custom actions to add with the filtering and excluding
 };
@@ -31,7 +30,6 @@ export interface MetadataValue {
   colors?: { bgColor?: string, color?: string }; // override for colors
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
-  useLabels?: boolean; // if it should be displayed as labels
   entityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
   actions?: Action[]; // additional custom actions to add with the filtering and excluding
 }
@@ -91,7 +89,6 @@ export class MetadataService {
         colors: config.colors,
         filterable: config.filterable,
         excludable: config.excludable,
-        useLabels: config.useLabels,
         entityTooltip,
         actions
       }
