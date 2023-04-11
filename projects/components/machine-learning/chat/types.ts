@@ -75,6 +75,13 @@ export interface ChatAttachmentWithTokens extends ChatAttachment {
 export type OpenAITokens = {
   used: number;
   model: number;
+  quota?: {
+    tokenCount: number;
+    periodTokens: number;
+    resetHours: number;
+    lastResetUTC: string;
+    nextResetUTC: string;
+  }
 }
 
 /**
@@ -95,7 +102,7 @@ export interface ChatResponse extends RawResponse {
 /**
  * Model names supported by the API
  */
-export type OpenAIModel = "GPT35Turbo" | "GPT4";
+export type OpenAIModel = "GPT35Turbo" | "GPT4-8K" | "GPT4-32K";
 
 /**
  * Minimal data structure saved to reconstruct a conversation
