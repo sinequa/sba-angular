@@ -26,7 +26,9 @@
                         <li *ngFor="let part of valueItem.parts; let $subIndex = index">
                             <a    *ngIf="clickable"  class="badge rounded-pill" [ngClass]="'sq-metadata-item-' + item" href="#" (click)="select($index, $subIndex)">{{part | sqValue:column}}</a>
                             <span *ngIf="!clickable" [ngClass]="'sq-metadata-item-' + item">{{part | sqValue:column}}</span>
-                            <span *ngIf="$subIndex < valueItem.parts.length - 1" class="sq-metadata-item-tree-node-separator">{{'msg#metadata.item.treeNodeSeparator' | sqMessage}}</span>
+                            <span *ngIf="$subIndex < valueItem.parts.length - 1" class="sq-metadata-item-tree-node-separator">
+                                {{'msg#metadata.item.treeNodeSeparator' | sqMessage}}
+                            </span>
                         </li>
                     </ol>
                     <span *ngIf="$index < valueItems.length - 1" class="sq-metadata-item-tree-separator">{{'msg#metadata.item.treeSeparator' | sqMessage}}</span>
