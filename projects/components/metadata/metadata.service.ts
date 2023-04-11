@@ -11,6 +11,7 @@ export interface MetadataConfig {
   item: string; // the column name
   icon: string; // the icon css class
   itemClass?: string; // custom classes to apply to the value
+  colors?: { bgColor?: string, color?: string }; // override for colors
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
   useLabels?: boolean; // if it should be displayed as labels
@@ -27,6 +28,7 @@ export interface MetadataValue {
   isEntity: boolean; // if is entity
   isCsv: boolean; // if is csv
   itemClass?: string; // custom classes to apply to the value
+  colors?: { bgColor?: string, color?: string }; // override for colors
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
   useLabels?: boolean; // if it should be displayed as labels
@@ -86,6 +88,7 @@ export class MetadataService {
         isEntity,
         isCsv,
         itemClass: config.itemClass,
+        colors: config.colors,
         filterable: config.filterable,
         excludable: config.excludable,
         useLabels: config.useLabels,

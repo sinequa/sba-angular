@@ -25,7 +25,7 @@
                     [column]="config.column" [showFiltersHighlights]="showFiltersHighlights" [loading]="loading"
                     [entityTemplate]="entityTemplate" [actions]="actions" [actionsButtonsStyle]="actionsButtonsStyle"
                     [actionsButtonsSize]="actionsButtonsSize" [tooltipLinesNumber]="tooltipLinesNumber"
-                    (openedPopper)="currentItem=$event"></sq-metadata-tree>
+                    (openedPopper)="currentItem=$event" [bgColor]="bgColor" [color]="color"></sq-metadata-tree>
             </ng-container>
 
             <!-- Not a Tree-->
@@ -46,12 +46,10 @@
                     class="sq-metadata-item {{'sq-metadata-item-' + config.item}} {{config.itemClass}}"
                     [attr.title]="(showTitle || config.entityTooltip) ? null : (label | sqMessage)" sqPopper
                     [target]="isClickable && actions?.length ? tooltip : undefined" [placement]="placement"
-                    [hidden]="editLabels" (shown)="openedPopper(valueItem)"
-                    [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : 'transparent'">
-                    <span class="badge rounded-pill">
-                        <span *ngIf="showFormatIcons && valueIcon" class="{{valueIcon}}"></span>
-                        {{valueItem | sqValue:config.column}}
-                    </span>
+                    [hidden]="editLabels" (shown)="openedPopper(valueItem)" [style.color]="color"
+                    [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : bgColor">
+                    <span *ngIf="showFormatIcons && valueIcon" class="{{valueIcon}}"></span>
+                    {{valueItem | sqValue:config.column}}
 
                     <div #tooltip [hidden]="!actions?.length">
                         <sq-metadata-tooltip [loading]="loading" [entityTemplate]="entityTemplate" [actions]="actions"

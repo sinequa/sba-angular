@@ -88,6 +88,16 @@ export class MetadataComponent implements OnChanges {
         return !this.config.useLabels && this.valuesMaxHeight > this.lineHeight * 2;
     }
 
+    get bgColor(): string | undefined {
+        return this.config.colors?.bgColor ? this.config.colors.bgColor
+            : this.config.itemClass && this.config.itemClass?.indexOf('badge') !== -1 ? 'white' : undefined;
+    }
+
+    get color(): string | undefined {
+        return this.config.colors?.color ? this.config.colors.color
+            : this.config.itemClass && this.config.itemClass?.indexOf('badge') !== -1 ? '#7283a7' : undefined;
+    }
+
     constructor(private iconService: IconService,
         private appService: AppService,
         private el: ElementRef,

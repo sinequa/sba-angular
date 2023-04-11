@@ -9,12 +9,7 @@ import { MetadataService, MetadataValue } from '../../../metadata.service';
 @Component({
   selector: 'sq-metadata-tree',
   templateUrl: './metadata-tree.component.html',
-  styles: [`.badge {
-    color: #7283a7 !important;
-    background-color: white !important;
-}
-
-.sq-metadata-item-tree-node-separator {
+  styles: [`.sq-metadata-item-tree-node-separator {
   white-space: break-spaces;
 }`]
 })
@@ -26,6 +21,8 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() clickable: boolean;
   @Input() column: CCColumn | undefined;
   @Input() showFiltersHighlights = true;
+  @Input() bgColor?: string;
+  @Input() color?: string;
 
   @Input() loading: boolean;
   @Input() entityTemplate: any;

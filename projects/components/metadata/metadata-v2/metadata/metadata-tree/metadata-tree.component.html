@@ -3,8 +3,9 @@
         <li *ngFor="let part of valueItem.parts; let $subIndex = index" sqPopper
             [target]="clickable ? tooltip : undefined" placement="top" (shown)="openedPopper(valueItem, $subIndex)">
             <span [class.clickable]="clickable"
-                class="sq-metadata-item {{'sq-metadata-item-' + config.item}} {{config.itemClass || 'badge rounded-pill'}}"
-                [style.background-color]="showFiltersHighlights && part.filtered ? 'yellow': showFiltersHighlights && part.excluded ? 'red' : 'transparent'">
+                class="sq-metadata-item {{'sq-metadata-item-' + config.item}} {{config.itemClass}}"
+                [style.color]="color"
+                [style.background-color]="showFiltersHighlights && part.filtered ? 'yellow': showFiltersHighlights && part.excluded ? 'red' : bgColor">
                 {{part | sqValue:column}}
             </span>
             <span *ngIf="$subIndex < valueItem.parts.length - 1" class="sq-metadata-item-tree-node-separator">
