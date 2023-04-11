@@ -273,19 +273,12 @@ export class DashboardComponent implements OnChanges, OnInit, OnDestroy {
   remove(item: GridsterItem) {
     const i = this.dashboard.findIndex(w => w.state === item);
     if (i !== -1) {
-      const [widget] = this.dashboard.splice(i, 1);
+      const widget = this.dashboard[i]
       if (widget.maximized) {
-      // If the widget was maximized, go back to minimize view
-        this.gridster.el.scroll({ top: widget.stateMinimized?.top, left: 0, behavior: 'auto' });
-        // If the widget was maximized, reset resizable/draggable options to default values
-        this.options.resizable = this.resizable;
-        this.options.draggable = this.draggable;
-        this.options.api?.optionsChanged?.();
-        // If the widget was maximized, re-activate the maximize action of other widgets
-        this.dashboard.flatMap(w => w.actions)
-                    .filter(ac => ac && ac.title === 'msg#dashboard.maximizeTitle')
-                    .forEach(ac => ac!.disabled = false)
+        const maximizeAction = widget.actions!.find(ac => ac && ac.title === 'msg#dashboard.minimizeTitle');
+        this.toggleMinimize(maximizeAction!, item);
       }
+      this.dashboard.splice(i, 1);
       this.removed.emit(widget);
     }
   }
