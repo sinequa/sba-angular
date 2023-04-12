@@ -221,8 +221,13 @@ export class SearchComponent implements OnInit {
   get chatConfig(): ChatConfig {
     let config = this.prefs.get('chat-config') || {};
     if(!this.configPatchDone) {
+      let defaultChatConfigOverride = this.appService.app?.data?.chatConfig;
+      if(typeof defaultChatConfigOverride !== 'object') {
+        defaultChatConfigOverride = {};
+      }
       config = {
         ...defaultChatConfig,
+        ...defaultChatConfigOverride,
         ...config
       };
       this.prefs.set('chat-config', config);

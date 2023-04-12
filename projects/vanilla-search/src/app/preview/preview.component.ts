@@ -12,6 +12,7 @@ import { SearchService } from '@sinequa/components/search';
 import { IntlService } from '@sinequa/core/intl';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 import { ChatService, InitChat } from '@sinequa/components/machine-learning';
+import { PromptService } from '../prompt.service';
 
 export interface EntitiesState {
   count: number;
@@ -76,7 +77,8 @@ export class PreviewComponent implements OnDestroy {
     public previewService: PreviewService,
     public searchService: SearchService,
     public appService: AppService,
-    public cdRef: ChangeDetectorRef
+    public cdRef: ChangeDetectorRef,
+    public promptService: PromptService
   ) {
 
     // The URL can be changed when searching within the page
@@ -160,7 +162,7 @@ export class PreviewComponent implements OnDestroy {
 
   initChat() {
     if(this.previewData?.record) {
-      const content = `The text below is extracted from a document retrieved by a search engine. Generate a summary of this text in 5 sentences.`;
+      const content = this.promptService.getPrompt('previewPrompt');
       const messages = [
         {role: 'system', display: false, content}
       ];

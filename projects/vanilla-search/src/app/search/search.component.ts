@@ -16,6 +16,7 @@ import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { ChatAttachment, ChatComponent, ChatConfig, ChatService, defaultChatConfig, InitChat } from '@sinequa/components/machine-learning';
 import { UserPreferences } from '@sinequa/components/user-settings';
+import { PromptService } from '../prompt.service';
 
 @Component({
   selector: 'app-search',
@@ -84,6 +85,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     public chatService: ChatService,
     public prefs: UserPreferences,
     public ui: UIService,
+    public promptService: PromptService
   ) {
 
     this.summarizeAction = new Action({
@@ -91,14 +93,8 @@ export class SearchComponent implements OnInit, OnDestroy {
       action: () => {
         const passages = this.searchService.results?.topPassages?.passages;
         if(passages?.length) {
-          const prompt = ` The below documents contains extracts returned by a search engine. Your job is two perform 2 tasks:
-          1 - Try to answer the Query in one short sentence. If you can't or don't have enough context or information from any documents to answer the query, just say so.
-          2 - Generate a single summary of all the documents in the context of the Query, using between 5 to 12 sentences.
-          Make sure you include the reference in the form [id].
-          Answer using using markdown syntax.
-          Query: ${this.searchService.query.text || ''}`;
           const messages = [
-            {role: 'system', display: false, content: prompt}
+            {role: 'system', display: false, content: this.promptService.getPrompt('answerPrompt')}
           ];
           const attachments = this.chatService.addTopPassages(passages, []);
           this.chat.openChat(messages, undefined, attachments);
@@ -244,7 +240,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
       this.openedDocChat = {
         messages: [
-          {role: 'system', display: false, content: `The following snippets are extracted from a document titled \"${record.title}\". Please summarize this document as best as possible, taking into account that the user's original search query was \"${this.searchService.query.text || ''}\".`}
+          {role: 'system', display: false, content: this.promptService.getPrompt('previewSummaryPrompt', record)}
         ],
         attachments: forkJoin(this.chatService.addPassages(passages)).pipe(
           tap(() => this.auditService.notify({
@@ -340,8 +336,13 @@ export class SearchComponent implements OnInit, OnDestroy {
   get chatConfig(): ChatConfig {
     let config = this.prefs.get('chat-config') || {};
     if(!this.configPatchDone) {
+      let defaultChatConfigOverride = this.appService.app?.data?.chatConfig;
+      if(typeof defaultChatConfigOverride !== 'object') {
+        defaultChatConfigOverride = {};
+      }
       config = {
         ...defaultChatConfig,
+        ...defaultChatConfigOverride,
         ...config
       };
       this.prefs.set('chat-config', config);

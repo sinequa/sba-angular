@@ -8,6 +8,7 @@ import { UIService } from '@sinequa/components/utils';
 import { FEATURES } from '../../config';
 import { InitChat } from '@sinequa/components/machine-learning';
 import { PrincipalWebService } from '@sinequa/core/web-services';
+import { PromptService } from '../prompt.service';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,9 @@ export class HomeComponent implements OnInit {
     private ui: UIService,
     private titleService: Title,
     private intlService: IntlService,
-    private appService: AppService) { }
+    private appService: AppService,
+    public promptService: PromptService
+  ) { }
 
   /**
    * On initialization set the page title
@@ -40,7 +43,7 @@ export class HomeComponent implements OnInit {
             {
               role: 'system',
               display: false,
-              content: `User ${this.principalWebService.principal.fullName} is on the home page of the Sinequa search engine, please write a nice short 1-sentence greeting message in ${this.intlService.currentLocale.display}.`
+              content: this.promptService.getPrompt('greetingPrompt')
             }
           ]
         }
