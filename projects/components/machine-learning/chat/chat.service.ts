@@ -30,7 +30,7 @@ export class ChatService {
     public textChunksService: TextChunksWebService,
     public jsonMethodWebService: JsonMethodPluginService,
     public searchService: SearchService,
-    private userSettingsService: UserSettingsWebService,
+    public userSettingsService: UserSettingsWebService,
     public modalService: ModalService,
     public notificationsService: NotificationsService,
     public auditService: AuditWebService
@@ -69,6 +69,14 @@ export class ChatService {
   count(text: string[], model: OpenAIModel): Observable<number[]> {
     const data = { action: "TokenCount", model, text };
     return this.jsonMethodWebService.post(this.OPENAI_PLUGIN, data).pipe(map(res => res.tokens));
+  }
+
+  /**
+   * Return the list of OpenAI models available on the server
+   */
+  listModels(): Observable<OpenAIModel[]> {
+    const data = { action: "listmodels" };
+    return this.jsonMethodWebService.post(this.OPENAI_PLUGIN, data).pipe(map(res => res.models));
   }
 
   /**
