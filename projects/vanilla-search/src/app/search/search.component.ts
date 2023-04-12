@@ -15,6 +15,8 @@ import { FacetParams, FACETS, FEATURES, METADATA, PREVIEW_HIGHLIGHTS } from '../
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { MetadataConfig } from '@sinequa/components/metadata/metadata.service';
+import { ModalService } from '@sinequa/core/modal';
+import { BsEditLabel, ModalProperties } from '@sinequa/components/labels';
 
 @Component({
   selector: 'app-search',
@@ -84,16 +86,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       item: "docformat",
       icon: "fas fa-info-circle",
       filterable: true,
-      excludable: true,
-      actions: [
-        new Action({
-          icon: "fas fa-inbox",
-          title: "Test",
-          action: (action) => {
-            console.log('ACTION', action);
-          }
-        })
-      ]
+      excludable: true
     },
     {
       item: "modified",
@@ -117,6 +110,28 @@ export class SearchComponent implements OnInit, OnDestroy {
             if (this.preview && action.data) {
               this.preview.selectFirstEntity(action.data.item, action.data.value);
             }
+          }
+        }),
+        new Action({
+          icon: "fas fa-edit",
+          text: "Edit labels",
+          action: () => {
+            const properties: ModalProperties = {
+              public: true,
+              allowEditPublicLabels: true,
+              allowManagePublicLabels: true,
+              allowNewLabels: true,
+              disableAutocomplete: false,
+              action: 3,
+              radioButtons: []
+            };
+            this.modalService.open(BsEditLabel, {
+              model: {
+                valuesToBeAdded: [],
+                valuesToBeRemoved: [],
+                properties
+            },
+          })
           }
         })
       ]
@@ -157,6 +172,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
+    private modalService: ModalService,
     public readonly ui: UIService,
     public searchService: SearchService,
     public selectionService: SelectionService,
