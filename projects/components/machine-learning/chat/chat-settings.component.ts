@@ -1,5 +1,8 @@
 import { Component, Input } from "@angular/core";
+import { Observable } from "rxjs";
 import { ChatConfig, defaultChatConfig } from "./chat.component";
+import { ChatService } from "./chat.service";
+import { OpenAIModel } from "./types";
 
 @Component({
   selector: 'sq-chat-settings',
@@ -7,10 +10,8 @@ import { ChatConfig, defaultChatConfig } from "./chat.component";
   <div class="card-body small">
     <div class="mb-2">
       <label for="openaiModel" class="form-label">Model</label>
-      <select class="form-select" id="openaiModel" [(ngModel)]="config.model">
-        <option>GPT35Turbo</option>
-        <option>GPT4-8K</option>
-        <option>GPT4-32K</option>
+      <select class="form-select" id="openaiModel" [(ngModel)]="config.model" *ngIf="models$ | async as models">
+        <option *ngFor="let model of models">{{model}}</option>
       </select>
     </div>
     <div class="form-check form-switch mb-2">
@@ -66,6 +67,14 @@ import { ChatConfig, defaultChatConfig } from "./chat.component";
 })
 export class ChatSettingsComponent {
   @Input() config: ChatConfig;
+
+  models$: Observable<OpenAIModel[]>;
+
+  constructor(
+    public chatService: ChatService
+  ) {
+    this.models$ = this.chatService.listModels();
+  }
 
   reset() {
     Object.assign(this.config, defaultChatConfig);
