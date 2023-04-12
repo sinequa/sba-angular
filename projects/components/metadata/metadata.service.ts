@@ -9,7 +9,7 @@ import { TreeValueItem } from './metadata-item/metadata-item';
 
 export interface MetadataConfig {
   item: string; // the column name
-  icon: string; // the icon css class
+  icon?: string; // the icon css class
   itemClass?: string; // custom classes to apply to the value
   colors?: { bgColor?: string, color?: string }; // override for colors
   filterable?: boolean; // if clickable to add in the filters
@@ -22,7 +22,7 @@ export interface MetadataValue {
   item: string; // the parameter name
   valueItems: (ValueItem | TreeValueItem)[]; // the determined value from the results
   column: CCColumn | undefined; // the results column
-  icon: string; // the icon css class
+  icon?: string; // the icon css class
   isTree: boolean; // if is tree
   isEntity: boolean; // if is entity
   isCsv: boolean; // if is csv

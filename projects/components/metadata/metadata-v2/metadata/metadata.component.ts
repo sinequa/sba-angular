@@ -17,7 +17,6 @@ export class MetadataComponent implements OnChanges {
     @Input() query?: Query;
     @Input() config: MetadataValue;
     @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
-    @Input() customClass?: string;
 
     @Input() showIcon = true;
     @Input() showFormatIcons = true;

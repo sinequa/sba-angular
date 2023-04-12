@@ -12,7 +12,6 @@ import { MetadataConfig, MetadataService } from "../metadata.service";
 export class MetadataListComponent implements OnChanges {
     @Input() record: Record;
     @Input() query?: Query;
-    @Input() customClass?: string;
     @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
 
     /**
@@ -64,8 +63,11 @@ export class MetadataListComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
         if (!!changes.record && !this.record.$metadataValues) {
+            // have to make a clone of the record in case we want to have multiple metadata components at a time on a page
+            this.record = Object.assign({}, this.record);
             this.metadataService.setMetadata(this.record, this.query, this.config);
         } else if (!!changes.query) {
+            this.record = Object.assign({}, this.record);
             this.metadataService.setMetadata(this.record, this.query, this.config);
         }
     }
