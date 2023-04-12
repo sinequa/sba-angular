@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Observable, Subscription, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
-import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
+import { Preview, PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { UIService } from '@sinequa/components/utils';
@@ -63,6 +63,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
+  @ViewChild(Preview) preview: Preview;
 
   private subscription = new Subscription();
 
@@ -106,7 +107,19 @@ export class SearchComponent implements OnInit, OnDestroy {
     {
       item: "company",
       icon: "fas fa-layer-group",
-      itemClass: 'badge rounded-pill'
+      itemClass: 'badge rounded-pill',
+      showEntityTooltip: true,
+      actions: [
+        new Action({
+          icon: "fas fa-directions",
+          text: "Jump to",
+          action: (action) => {
+            if (this.preview && action.data) {
+              this.preview.selectFirstEntity(action.data.item, action.data.value);
+            }
+          }
+        })
+      ]
     },
     {
       item: "treepath",
@@ -127,10 +140,12 @@ export class SearchComponent implements OnInit, OnDestroy {
       showEntityTooltip: true,
       actions: [
         new Action({
-          icon: "fas fa-inbox",
-          title: "Test",
+          icon: "fas fa-directions",
+          text: "Jump to",
           action: (action) => {
-            console.log('ACTION', action);
+            if (this.preview && action.data) {
+              this.preview.selectFirstEntity(action.data.item, action.data.value);
+            }
           }
         })
       ]

@@ -352,6 +352,16 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     }
   }
 
+  selectFirstEntity(type: string, value: string) {
+    if (this.data) {
+      const entity = this.data.highlightsPerCategory[type].values.find(v => v.value === value);
+      const start = entity?.locations[0].start;
+      const id = (this.data.highlightsPerLocation as any).find(l => l.start === start && l.values.includes(entity?.value))?.positionInCategories[type];
+      if(typeof id=== 'number') {
+        this.select(`${type}_${id}`);
+      }
+    }
+  }
 
   // Manage user preferences for entity/extract highlighting
 

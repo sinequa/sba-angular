@@ -161,11 +161,6 @@ export class MetadataComponent implements OnChanges {
             });
     }
 
-    labelsUpdate(labels: string[]): void {
-        // update labels
-        console.log('labelsUpdate', labels);
-    }
-
     private updateMaxHeight(): void {
         if (this.valuesEl) { // Display or not the collapse icon
             this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
