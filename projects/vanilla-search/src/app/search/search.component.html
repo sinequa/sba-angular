@@ -121,9 +121,9 @@
                     <!-- Metadata inside sentence example -->
                     <div [style.font-size]="'0.875em'" [style.color]="'#515960'">
                         Document of type
-                        <sq-metadata-value [record]="record" [query]="searchService.query" [config]="'docformat'"></sq-metadata-value>
+                        <sq-metadata-value [record]="record" [query]="searchService.query" [item]="'docformat'" [filterable]="true"></sq-metadata-value>
                         released on the
-                        <sq-metadata-value [record]="record" [query]="searchService.query" [config]="'modified'"></sq-metadata-value>
+                        <sq-metadata-value [record]="record" [query]="searchService.query" [item]="'modified'"></sq-metadata-value>
                     </div>
                     <sq-result-extracts [record]="record" class="d-block overflow-hidden"></sq-result-extracts>
                     <sq-result-missing-terms [record]="record"></sq-result-missing-terms>

@@ -1,11 +1,12 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
+import { SearchService } from "@sinequa/components/search";
 import { UIService } from "@sinequa/components/utils";
 import { AppService, Query } from "@sinequa/core/app-utils";
 import { FieldValue } from "@sinequa/core/base";
 import { DocumentAccessLists, EntityItem, Record } from "@sinequa/core/web-services";
 import { IconService } from "../../icon.service";
-import { MetadataValue } from "../../metadata.service";
+import { MetadataConfig, MetadataService, MetadataValue } from "../../metadata.service";
 
 @Component({
     selector: "sq-metadata-2",
@@ -15,7 +16,7 @@ import { MetadataValue } from "../../metadata.service";
 export class MetadataComponent implements OnChanges {
     @Input() record: Record;
     @Input() query?: Query;
-    @Input() config: MetadataValue;
+    @Input() config: MetadataConfig;
     @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
 
     @Input() showIcon = true;
@@ -31,13 +32,14 @@ export class MetadataComponent implements OnChanges {
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
 
+    metadataValue: MetadataValue;
     display: boolean;
     valueIcon: string;
     itemLabelMessageParams: any;
     actions: Action[];
 
     get labels(): FieldValue[] {
-        return this.config.valueItems.map(valueItem => valueItem.value);
+        return this.metadataValue.valueItems.map(valueItem => valueItem.value);
     }
 
     @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
@@ -49,16 +51,12 @@ export class MetadataComponent implements OnChanges {
     currentItem: EntityItem;
     loading = false;
 
-    get isClickable(): boolean {
-        return this.config.filterable || this.config.excludable || !!this.config.entityTooltip || !!this.config.actions?.length;
-    }
-
     get label(): string {
-        return this.appService.getLabel(this.config.item);
+        return this.appService.getLabel(this.metadataValue.item);
     }
 
     get isAccessLists(): boolean {
-        return this.config.item === "accesslists";
+        return this.metadataValue.item === "accesslists";
     }
 
     get accessListsData(): DocumentAccessLists {
@@ -78,54 +76,74 @@ export class MetadataComponent implements OnChanges {
     }
 
     get bgColor(): string | undefined {
-        return this.config.colors?.bgColor ? this.config.colors.bgColor
-            : this.config.itemClass && this.config.itemClass?.indexOf('badge') !== -1 ? 'white' : undefined;
+        return this.metadataValue.colors?.bgColor ? this.metadataValue.colors.bgColor
+            : this.metadataValue.itemClass && this.metadataValue.itemClass?.indexOf('badge') !== -1 ? 'white' : undefined;
     }
 
     get color(): string | undefined {
-        return this.config.colors?.color ? this.config.colors.color
-            : this.config.itemClass && this.config.itemClass?.indexOf('badge') !== -1 ? '#7283a7' : undefined;
+        return this.metadataValue.colors?.color ? this.metadataValue.colors.color
+            : this.metadataValue.itemClass && this.metadataValue.itemClass?.indexOf('badge') !== -1 ? '#7283a7' : undefined;
     }
 
     constructor(private iconService: IconService,
         private appService: AppService,
+        private metadataService: MetadataService,
+        private searchService: SearchService,
         private el: ElementRef,
         private ui: UIService) {
         this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!!this.config.item) {
-            if (this.config.item === 'docformat') {
-                this.valueIcon = this.iconService.getFormatIcon(this.record[this.config.item]) || '';
-            }
-            this.itemLabelMessageParams = { values: { label: this.appService.getLabel(this.config.item) } };
+        // Generate the metadata data
+        if ((!!changes.record && !this.metadataValue) || !!changes.query) {
+            this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.config);
         }
+
+        // Generate format icon
+        if (!!this.metadataValue.item) {
+            if (this.metadataValue.item === 'docformat') {
+                this.valueIcon = this.iconService.getFormatIcon(this.record[this.metadataValue.item]) || '';
+            }
+            this.itemLabelMessageParams = { values: { label: this.appService.getLabel(this.metadataValue.item) } };
+        }
+
+        // Generate line height for collapsing
         if (changes.collapseRows !== undefined) {
             this.lineHeight = parseInt(getComputedStyle(this.el.nativeElement).lineHeight);
             this.valuesHeight = this.lineHeight; // The display starts collapsed
             this.valuesMaxHeight = this.lineHeight; // And without the collapse icon
             setTimeout(() => this.updateMaxHeight());
         }
+
         this.setActions();
-        this.display = !!this.config.item && !!this.record && !!this.record[this.config.item];
+        this.display = !!this.metadataValue.item && !!this.record && !!this.record[this.metadataValue.item];
     }
 
     onResize = () => this.updateMaxHeight()
 
     filterItem(): void {
-        if (this.isClickable) {
+        if (this.metadataValue.filterable) {
+            if (this.query) {
+                this.searchService.addFieldSelect(this.metadataValue.item, this.currentItem);
+                this.searchService.search();
+            }
             this.filter.emit({
-                item: this.config.item,
+                item: this.metadataValue.item,
                 valueItem: this.currentItem
             });
         }
     }
 
     excludeItem(): void {
-        if (this.isClickable) {
+        if (this.metadataValue.excludable) {
+            if (this.query) {
+                this.searchService.addFieldSelect(this.metadataValue.item, this.currentItem, { not: true });
+                this.searchService.search();
+            }
+
             this.exclude.emit({
-                item: this.config.item,
+                item: this.metadataValue.item,
                 valueItem: this.currentItem
             });
         }
@@ -140,18 +158,18 @@ export class MetadataComponent implements OnChanges {
         this.currentItem = valueItem;
 
         // add the metadata value inside the action
-        if (this.config.actions?.length) {
+        if (this.metadataValue.actions?.length) {
             const value = {
-                item: this.config.item,
+                item: this.metadataValue.item,
                 value: valueItem.value
             };
-            this.config.actions.map(action => action.data = value);
+            this.metadataValue.actions.map(action => action.data = value);
         }
 
-        if (!this.config.entityTooltip) return;
+        if (!this.metadataValue.entityTooltip) return;
 
         this.loading = true;
-        this.config.entityTooltip({ entity: valueItem, record: this.record, query: this.query! })
+        this.metadataValue.entityTooltip({ entity: valueItem, record: this.record, query: this.query! })
             .subscribe((value: any) => {
                 this.entityTemplate = value;
                 this.loading = false;
@@ -169,17 +187,17 @@ export class MetadataComponent implements OnChanges {
     private setActions(): void {
         this.actions = [];
 
-        if (this.config.actions) {
-            this.actions.push(...this.config.actions);
+        if (this.metadataValue.actions) {
+            this.actions.push(...this.metadataValue.actions);
         }
-        if (this.config.filterable) {
+        if (this.metadataValue.filterable) {
             this.actions.push(new Action({
                 icon: "fas fa-filter",
                 text: "Filter",
                 action: () => this.filterItem()
             }));
         }
-        if (this.config.excludable) {
+        if (this.metadataValue.excludable) {
             this.actions.push(new Action({
                 icon: "fas fa-minus-circle",
                 text: "Exclude",

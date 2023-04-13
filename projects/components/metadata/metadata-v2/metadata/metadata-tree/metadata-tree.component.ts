@@ -18,7 +18,6 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() record: Record;
   @Input() query: Query;
   @Input() config: MetadataValue;
-  @Input() clickable: boolean;
   @Input() column: CCColumn | undefined;
   @Input() showFiltersHighlights = true;
   @Input() bgColor?: string;
@@ -67,7 +66,7 @@ export class MetadataTreeComponent implements OnChanges {
   }
 
   openedPopper(valueItem: TreeValueItem, partIndex: number): void {
-    if (this.clickable) {
+    if (this.entityTemplate) {
       const path = this.generatePath(valueItem, partIndex);
       this._openedPopper.emit({ value: path + "*", display: Utils.treepathLast(path) });
     }

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { Action } from '@sinequa/components/action';
 import { Query } from '@sinequa/core/app-utils';
 import { Record } from "@sinequa/core/web-services";
 import { MetadataConfig } from '../../metadata.service';
@@ -6,42 +7,40 @@ import { MetadataConfig } from '../../metadata.service';
 @Component({
   selector: 'sq-metadata-value',
   templateUrl: './metadata-value.component.html',
-  styles: [`sq-metadata-list {
-    display: inline-block;
+  styles: [`sq-metadata-2 {
+    display: inline-flex;
 }`]
 })
-export class MetadataValueComponent {
+export class MetadataValueComponent implements OnChanges {
 
   @Input() record: Record;
   @Input() query?: Query;
-  /**
-   * Quick access to config itemClass
-   * Overrides only if none provided inside MetadataConfig
-   */
+
+  @Input() item: string;
+  @Input() icon?: string;
   @Input() itemClass = 'badge rounded-pill';
-  /**
-   * Quick access to config colors
-   * Overrides only if none provided inside MetadataConfig
-   */
   @Input() colors?: { bgColor?: string, color?: string } = {
     bgColor: 'rgb(12, 117, 255)',
     color: 'white'
   };
-  /**
-   * Configuration for the metadata
-   * Can be either the record item as a string, or a whole MetadataConfig
-   */
-  @Input("config") _config: MetadataConfig | string;
-  get config(): MetadataConfig {
-    const config = typeof this._config === 'string' ?
-      { item: this._config } : this._config;
-    if (this.itemClass && !config.itemClass) {
-      config.itemClass += ` ${this.itemClass}`;
-    }
-    if (this.colors && !config.colors) {
-      config.colors = this.colors;
-    }
-    return config;
+  @Input() filterable?: boolean;
+  @Input() excludable?: boolean;
+  @Input() showEntityTooltip?: boolean;
+  @Input() actions?: Action[];
+
+  config: MetadataConfig;
+
+  ngOnChanges() {
+    this.config = {
+      item: this.item,
+      icon: this.icon,
+      itemClass: this.itemClass,
+      colors: this.colors,
+      filterable: this.filterable,
+      excludable: this.excludable,
+      showEntityTooltip: this.showEntityTooltip,
+      actions: this.actions
+    };
   }
 
 }

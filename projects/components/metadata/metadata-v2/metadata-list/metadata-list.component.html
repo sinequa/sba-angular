@@ -1,15 +1,15 @@
-<div *ngIf="record.$metadataValues" class="metadata-{{style}}">
-    <sq-metadata-2 *ngFor="let config of record.$metadataValues"
+<div class="metadata-{{style}}">
+    <sq-metadata-2 *ngFor="let c of config"
         [record]="record"
         [query]="query"
-        [config]="config"
+        [config]="c"
         [style]="style"
         [showIcon]="showIcons"
         [showFormatIcons]="showFormatIcons"
         [showTitle]="showTitles"
         [showFiltersHighlights]="showFiltersHighlights"
         [collapseRows]="collapseRows"
-        (filter)="filterItem($event.item, $event.valueItem)"
-        (exclude)="excludeItem($event.item, $event.valueItem)">
+        (filter)="filter.emit($event)"
+        (exclude)="exclude.emit($event)">
     </sq-metadata-2>
 </div>

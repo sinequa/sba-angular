@@ -42,57 +42,59 @@ export class MetadataService {
   constructor(private textChunkWebService: TextChunksWebService,
     private appService: AppService) { }
 
-  setMetadata(record: Record, query: Query | undefined, metadataConfig?: MetadataConfig[]): void {
-    record.$metadataValues = (metadataConfig || METADATA_CONFIG).map(config => {
-      const item = config.item;
-      const valueItems: (ValueItem | TreeValueItem)[] = [];
-      const column = this.appService.getColumn(config.item);
-      const isTree = !!column && AppService.isTree(column);
-      const isEntity = !!column && AppService.isEntity(column);
-      const isCsv = !!column && AppService.isCsv(column);
-      const actions = config.actions;
-      let entityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
+  getMetadataValues(record: Record, query: Query | undefined, metadataConfig?: MetadataConfig[]): MetadataValue[] {
+    return (metadataConfig || METADATA_CONFIG).map(config => this.getMetadataValue(record, query, config));
+  }
 
-      const values = record[this.appService.getColumnAlias(column, config.item)];
+  getMetadataValue(record: Record, query: Query | undefined, config: MetadataConfig): MetadataValue {
+    const item = config.item;
+    const valueItems: (ValueItem | TreeValueItem)[] = [];
+    const column = this.appService.getColumn(config.item);
+    const isTree = !!column && AppService.isTree(column);
+    const isEntity = !!column && AppService.isEntity(column);
+    const isCsv = !!column && AppService.isCsv(column);
+    const actions = config.actions;
+    let entityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
 
-      if (isEntity) {
-        const entityItems: EntityItem[] = values;
-        if (entityItems) {
-          const filters = this.getFilters(column, query);
-          valueItems.push(...entityItems.map(i => {
-            const filter = filters.find(f => f.value === i.value);
-            const filtered = !!filter && (!filter.operator || filter.operator !== 'neq');
-            const excluded = !!filter && filter.operator === 'neq';
-            return { ...i, filtered, excluded };
-          }));
-          if (config.showEntityTooltip && entityItems[0]?.locations) {
-            entityTooltip = this.getEntitySentence
-          }
+    const values = record[this.appService.getColumnAlias(column, config.item)];
+
+    if (isEntity) {
+      const entityItems: EntityItem[] = values;
+      if (entityItems) {
+        const filters = this.getFilters(column, query);
+        valueItems.push(...entityItems.map(i => {
+          const filter = filters.find(f => f.value === i.value);
+          const filtered = !!filter && (!filter.operator || filter.operator !== 'neq');
+          const excluded = !!filter && filter.operator === 'neq';
+          return { ...i, filtered, excluded };
+        }));
+        if (config.showEntityTooltip && entityItems[0]?.locations) {
+          entityTooltip = this.getEntitySentence
         }
       }
-      else if (isCsv) {
-        this.setCsvValues(values, valueItems, column, query);
-      }
-      else if (!isTree) {
-        this.setValues(values, valueItems, column, query);
-      }
+    }
+    else if (isCsv) {
+      this.setCsvValues(values, valueItems, column, query);
+    }
+    else if (!isTree) {
+      this.setValues(values, valueItems, column, query);
+    }
 
-      return {
-        item,
-        valueItems,
-        column,
-        icon: config.icon,
-        isTree,
-        isEntity,
-        isCsv,
-        itemClass: config.itemClass,
-        colors: config.colors,
-        filterable: config.filterable,
-        excludable: config.excludable,
-        entityTooltip,
-        actions
-      }
-    });
+    return {
+      item,
+      valueItems,
+      column,
+      icon: config.icon,
+      isTree,
+      isEntity,
+      isCsv,
+      itemClass: config.itemClass,
+      colors: config.colors,
+      filterable: config.filterable,
+      excludable: config.excludable,
+      entityTooltip,
+      actions
+    }
   }
 
   getFilters(column: CCColumn | undefined, query?: Query | undefined): any[] {

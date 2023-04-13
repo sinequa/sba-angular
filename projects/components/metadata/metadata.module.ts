@@ -9,7 +9,7 @@ import { Metadata } from "./metadata/metadata";
 import { MetadataItem } from "./metadata-item/metadata-item";
 import { MetadataAccessListsItem } from "./metadata-access-lists-item/metadata-access-lists-item";
 import { MetadataAccessListsItemSingleAccessList } from "./metadata-access-lists-item-single-access-list/metadata-access-lists-item-single-access-list";
-import { MetadataListComponent } from "./metadata-v2/metadata-list.component";
+import { MetadataListComponent } from "./metadata-v2/metadata-list/metadata-list.component";
 import { MetadataComponent } from "./metadata-v2/metadata/metadata.component";
 import { IconService } from "./icon.service";
 import { MetadataService } from "./metadata.service";

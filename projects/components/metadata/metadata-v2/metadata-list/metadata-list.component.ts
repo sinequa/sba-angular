@@ -1,15 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
-import { SearchService } from "@sinequa/components/search";
-import { Query, ValueItem } from "@sinequa/core/app-utils";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Query } from "@sinequa/core/app-utils";
 import { Record } from "@sinequa/core/web-services";
-import { MetadataConfig, MetadataService } from "../metadata.service";
+import { MetadataConfig } from "../../metadata.service";
 
 @Component({
     selector: "sq-metadata-list",
     templateUrl: "./metadata-list.component.html",
     styleUrls: ['./metadata-list.component.scss']
 })
-export class MetadataListComponent implements OnChanges {
+export class MetadataListComponent {
     @Input() record: Record;
     @Input() query?: Query;
     @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
@@ -55,32 +54,4 @@ export class MetadataListComponent implements OnChanges {
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
-
-    constructor(private metadataService: MetadataService,
-        private searchService: SearchService) {
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        // Generate the metadata data
-        if (!!changes.record && !this.record.$metadataValues) {
-            // have to make a clone of the record in case we want to have multiple metadata components at a time on a page
-            this.record = Object.assign({}, this.record);
-            this.metadataService.setMetadata(this.record, this.query, this.config);
-        } else if (!!changes.query) {
-            this.record = Object.assign({}, this.record);
-            this.metadataService.setMetadata(this.record, this.query, this.config);
-        }
-    }
-
-    filterItem(item: string, valueItem: ValueItem) {
-        this.searchService.addFieldSelect(item, valueItem);
-        this.searchService.search();
-        this.filter.emit();
-    }
-
-    excludeItem(item: string, valueItem: ValueItem) {
-        this.searchService.addFieldSelect(item, valueItem, { not: true });
-        this.searchService.search();
-        this.exclude.emit();
-    }
 }
