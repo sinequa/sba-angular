@@ -51,6 +51,24 @@ export class MetadataComponent implements OnChanges {
     currentItem: EntityItem;
     loading = false;
 
+    filterAction: Action = new Action({
+        icon: "fas fa-filter",
+        text: "Filter",
+        action: () => this.filterItem(),
+        updater: (action) => {
+            action.disabled = this.currentItem && (this.currentItem['filtered'] || this.currentItem['excluded']);
+        }
+    });
+
+    excludeAction: Action = new Action({
+        icon: "fas fa-minus-circle",
+        text: "Exclude",
+        action: () => this.excludeItem(),
+        updater: (action) => {
+            action.disabled = this.currentItem && (this.currentItem['filtered'] || this.currentItem['excluded']);
+        }
+    });
+
     get label(): string {
         return this.appService.getLabel(this.metadataValue.item);
     }
@@ -156,6 +174,8 @@ export class MetadataComponent implements OnChanges {
     openedPopper(valueItem: EntityItem): void {
         this.entityTemplate = undefined;
         this.currentItem = valueItem;
+        this.filterAction.update();
+        this.excludeAction.update();
 
         // add the metadata value inside the action
         if (this.metadataValue.actions?.length) {
@@ -191,18 +211,10 @@ export class MetadataComponent implements OnChanges {
             this.actions.push(...this.metadataValue.actions);
         }
         if (this.metadataValue.filterable) {
-            this.actions.push(new Action({
-                icon: "fas fa-filter",
-                text: "Filter",
-                action: () => this.filterItem()
-            }));
+            this.actions.push(this.filterAction);
         }
         if (this.metadataValue.excludable) {
-            this.actions.push(new Action({
-                icon: "fas fa-minus-circle",
-                text: "Exclude",
-                action: () => this.excludeItem()
-            }));
+            this.actions.push(this.excludeAction);
         }
     }
 }
