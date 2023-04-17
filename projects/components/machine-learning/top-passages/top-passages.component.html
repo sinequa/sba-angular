@@ -7,11 +7,11 @@
 
   <li role="button" *ngFor="let passage of passages" (click)="openPreview(passage)" class="list-group-item list-group-item-action sq-passage">
 
-    <div class="sq-passage-title d-flex align-content-center mb-1" *ngIf="passage.$record">
+    <div class="sq-passage-title d-flex align-content-center mb-1">
       <sq-result-title
         [record]="passage.$record"
-        titleLinkBehavior="action"
         (titleClicked)="onTitleClicked($event, passage)"
+        (click)="$event.stopPropagation()"
         class="d-block text-truncate">
       </sq-result-title>
     </div>

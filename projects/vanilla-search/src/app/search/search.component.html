@@ -85,8 +85,8 @@
                 [icon]="'fas fa-brain primary-icon'">
                 <sq-top-passages #facet
                     [results]="results"
-                    (previewOpened)="openMiniPreview($event.$record, $event.id)"
-                    (titleClicked)="onTitleClick($event)">
+                    (passageClicked)="openMiniPreview($event.$record, $event.id)"
+                    (documentOpened)="openPreviewIfNoUrl($event, false)">
                 </sq-top-passages>
             </sq-facet-card>
 
