@@ -100,7 +100,8 @@ export class ChatService {
         recordId: message.$attachment.recordId,
         chunks: message.$attachment.chunks
       } : undefined,
-      $refId: message.$refId
+      $refId: message.$refId,
+      $actions: message.$actions
     }));
   }
 
@@ -179,7 +180,7 @@ export class ChatService {
    * a list of chat messages with the formatted attachment as content.
    */
   prepareAttachmentMessages(attachments: ChatAttachment[], conversation: ChatMessage[], display: boolean): ChatMessage[] {
-    const idOffset = Math.max(...conversation.map(m => m.$refId ?? 0)); // Determine the latest id used in the conversation
+    const idOffset = Math.max(0, ...conversation.map(m => m.$refId ?? 0)); // Determine the latest id used in the conversation
     return attachments.map(($attachment, i) => {
       const $refId = idOffset + i + 1;
       return {

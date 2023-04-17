@@ -12,7 +12,7 @@ $theme-primary: (
   "disabled-background": $blue-focus,
   "disabled-border": none,
   "disabled-color": $white
-  );
+  ) !default;
 
 $theme-outline: (
   "background": transparent,
@@ -30,7 +30,7 @@ $theme-outline: (
   "disabled-background": $blue-focus,
   "disabled-border": $blue-focus,
   "disabled-color": $white
-  );
+  ) !default;
 
 $theme-outline-light: (
   "background": transparent,
@@ -48,7 +48,7 @@ $theme-outline-light: (
   "disabled-background": transparent,
   "disabled-border":$grey-100,
   "disabled-color": $grey-100
-  );
+  ) !default;
 
 $theme: (
   "primary": $theme-primary,

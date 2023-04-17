@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { Query } from "@sinequa/core/app-utils";
@@ -76,7 +76,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
 
   loading = false;
-  loadingAnswer = false;
   loadingAttachments = false;
   messages$ = new BehaviorSubject<ChatMessage[] | undefined>(undefined);
 
@@ -94,7 +93,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   sub = new Subscription();
 
   constructor(
-    public chatService: ChatService
+    public chatService: ChatService,
+    public cdr: ChangeDetectorRef
   ) {
     super();
     this.sub.add(
@@ -173,7 +173,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   }
 
   private fetchAnswer(question: string, conversation: ChatMessage[], attachments: ChatAttachment[]) {
-    this.loadingAnswer = true;
     const attachmentMessages = this.getAttachmentMessages(conversation, attachments);
     const userMsg = this.chatService.processMessage({role: 'user', content: question, display: true}, conversation);
     const messages = this.textBeforeAttachments?
@@ -182,7 +181,14 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.fetch(messages);
   }
 
-  private fetch(messages: ChatMessage[]) {
+  /**
+   * Given a list of messages, fetch the server for a continuation and updates
+   * the list of messages accordingly.
+   * @param messages
+   */
+  public fetch(messages: ChatMessage[]) {
+    this.loading = true;
+    this.cdr.detectChanges();
     this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP)
       .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
     this.scrollDown();
@@ -202,7 +208,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.messages$.next(messages);
     this.data.emit(messages);
     this.loading = false;
-    this.loadingAnswer = false;
     this.tokens = tokens;
     this.chatService.attachments$.next([]); // This updates the tokensPercentage
     this.question = '';
@@ -267,7 +272,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         )
       )
       .subscribe(messages => {
-        if(messages.at(-1)?.role !== 'assistant') {
+        if(messages.at(-1)?.role === 'user') {
           this.fetch(messages); // If the last message if from a user, an answer from ChatGPT is expected
         }
         else if(tokens) {

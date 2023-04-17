@@ -1,3 +1,4 @@
+import { Action } from "@sinequa/components/action";
 import { Record } from "@sinequa/core/web-services";
 
 /**
@@ -15,6 +16,8 @@ export interface RawMessage {
   $attachment?: RawAttachment;
   /** Reference of this attachment in the contexte of the conversation */
   $refId?: number;
+  /** Optionally include a custom action suggested by the assistant */
+  $actions?: Action[];
 }
 
 /**
