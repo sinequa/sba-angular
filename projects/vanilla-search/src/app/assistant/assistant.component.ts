@@ -6,7 +6,7 @@ import { UserPreferences } from "@sinequa/components/user-settings";
 import { AppService } from "@sinequa/core/app-utils";
 import { AuditWebService, Results } from "@sinequa/core/web-services";
 import { marked } from "marked";
-import { distinctUntilChanged, filter, map, Subscription, switchMap, tap } from "rxjs";
+import { filter, map, Subscription, switchMap, tap } from "rxjs";
 import { PromptService } from "../prompt.service";
 
 interface ChatSuggestion {
@@ -102,7 +102,6 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
         // Only process the distinct full text search
         map(query => query?.text),
         filter((text): text is string => !!text),
-        distinctUntilChanged(),
 
         // Display the loading spinner
         tap(() => this.chat.loading = true),
@@ -214,6 +213,10 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
                   messages.push({role: 'assistant', content: answer, display: true, $content: answer, $actions});
                   this.chat.updateData(messages, this.chat.tokens!);
                 }
+                else {
+                  this.chat.loading = false;
+                  this.chat.cdr.detectChanges();
+                }
               }),
             );
           }
@@ -221,6 +224,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
             return this.searchService.resultsStream;
           }
         }),
+
 
         filter((results: Results|undefined): results is Results => !!results?.records.length),
 
