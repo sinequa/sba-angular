@@ -43,6 +43,7 @@ import { SearchComponent } from './search/search.component';
 import { PreviewComponent } from './preview/preview.component';
 import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { AutocompleteComponent } from "./search-form/autocomplete.component";
+import { AssistantComponent } from "./assistant/assistant.component";
 
 // Environment
 import { environment } from "../environments/environment";
@@ -53,7 +54,7 @@ import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
     app: "OfficialDemoCoE",
-    url: "https://dev-demo-coe-ns.eastus2.cloudapp.azure.com",
+    url: "https://prod-demo-coe-ns.eastus2.cloudapp.azure.com",
     production: environment.production,
     autoOAuthProvider: "google",
     auditEnabled: true
@@ -150,7 +151,8 @@ export const breakpoints = {
         SearchComponent,
         PreviewComponent,
         AppSearchFormComponent,
-        AutocompleteComponent
+        AutocompleteComponent,
+        AssistantComponent
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa

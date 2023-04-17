@@ -14,8 +14,7 @@ import { Answer, AuditEventType, AuditWebService, MatchingPassage, Record, Relev
 import { FacetParams, FACETS, FEATURES, METADATA, PREVIEW_HIGHLIGHTS } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { ChatAttachment, ChatComponent, ChatConfig, ChatService, defaultChatConfig, InitChat } from '@sinequa/components/machine-learning';
-import { UserPreferences } from '@sinequa/components/user-settings';
+import { ChatAttachment, ChatService, InitChat } from '@sinequa/components/machine-learning';
 import { PromptService } from '../prompt.service';
 
 @Component({
@@ -56,15 +55,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   public hasAnswers: boolean;
   public hasPassages: boolean;
   public passageId?: string;
-  public summarizeAction: Action;
-  public chatSettingsAction: Action;
 
   public readonly facetComponents = {
       ...DEFAULT_FACET_COMPONENTS,
       "date": BsFacetDate
   }
 
-  @ViewChild(ChatComponent) chat: ChatComponent;
   public isDark: boolean;
 
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
@@ -83,42 +79,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     public loginService: LoginService,
     public auditService: AuditWebService,
     public chatService: ChatService,
-    public prefs: UserPreferences,
     public ui: UIService,
     public promptService: PromptService
   ) {
-
-    this.summarizeAction = new Action({
-      text: "Answer with ChatGPT",
-      action: () => {
-        const passages = this.searchService.results?.topPassages?.passages;
-        if(passages?.length) {
-          const messages = [
-            {role: 'system', display: false, content: this.promptService.getPrompt('answerPrompt')}
-          ];
-          const attachments = this.chatService.addTopPassages(passages, []);
-          this.chat.openChat(messages, undefined, attachments);
-          this.summarizeAction.disabled = true;
-          this.auditService.notify({
-            type: 'Chat_Summarize_Results',
-            detail: {
-              querytext: this.searchService.query.text
-            }
-          });
-        }
-      }
-    });
-
-    this.chatSettingsAction = new Action({
-      icon: 'fas fa-cog',
-      title: 'Settings',
-      action: action => {
-        action.selected = !action.selected;
-        if(!action.selected) {
-          this.prefs.set('chat-config', this.chatConfig);
-        }
-      }
-    })
 
     const expandAction = new Action({
       icon: "fas fa-fw fa-expand-alt",
@@ -331,25 +294,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  configPatchDone = false;
-
-  get chatConfig(): ChatConfig {
-    let config = this.prefs.get('chat-config') || {};
-    if(!this.configPatchDone) {
-      let defaultChatConfigOverride = this.appService.app?.data?.chatConfig;
-      if(typeof defaultChatConfigOverride !== 'object') {
-        defaultChatConfigOverride = {};
-      }
-      config = {
-        ...defaultChatConfig,
-        ...defaultChatConfigOverride,
-        ...config
-      };
-      this.prefs.set('chat-config', config);
-      this.configPatchDone = true;
-    }
-    return config;
-  }
 
   attachDocument(record: Record, event: Event) {
     event.stopPropagation();

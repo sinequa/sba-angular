@@ -83,9 +83,7 @@
             <sq-facet-card *ngIf="hasPassages" class="mb-3"
                 [title]="'msg#machine-learning.passages'"
                 [icon]="'fas fa-brain primary-icon'"
-                [collapsible]="false"
-                [actions]="[summarizeAction]"
-                buttonsStyle="primary">
+                [collapsible]="true">
                 <sq-top-passages #facet
                     [results]="results"
                     (previewOpened)="openMiniPreview($event.$record, $event.id)"
@@ -150,26 +148,7 @@
         <!-- sqSticky to update if you change the header sizing -->
         <div class="col-sm-12 col-lg-4 col-xl-5" [ngClass]="{'col-md-6': !showFilters}"  [sqSticky]="{top: 105, bottom: 10}">
 
-            <sq-facet-card [title]="'ChatGPT'" [icon]="'fas fa-comments primary-icon'" [collapsible]="false" [actions]="[chatSettingsAction]" class="mb-3">
-              <sq-chat #facet *ngIf="!chatSettingsAction.selected"
-                [displayAttachments]="false"
-                [textBeforeAttachments]="chatConfig.textBeforeAttachments"
-                [displayAttachments]="chatConfig.displayAttachments"
-                [temperature]="chatConfig.temperature"
-                [topP]="chatConfig.topP"
-                [maxTokens]="chatConfig.maxTokens"
-                [initialSystemPrompt]="chatConfig.initialSystemPrompt"
-                [initialUserPrompt]="chatConfig.initialUserPrompt"
-                [addAttachmentPrompt]="chatConfig.addAttachmentPrompt"
-                [addAttachmentsPrompt]="chatConfig.addAttachmentsPrompt"
-                [attachmentsHiddenPrompt]="chatConfig.attachmentsHiddenPrompt"
-                [autoSearchMinScore]="chatConfig.autoSearchMinScore"
-                [autoSearchMaxPassages]="chatConfig.autoSearchMaxPassages"
-                [model]="chatConfig.model"
-                (data)="summarizeAction.disabled = false">
-              </sq-chat>
-              <sq-chat-settings *ngIf="chatSettingsAction.selected" [config]="chatConfig"></sq-chat-settings>
-            </sq-facet-card>
+            <sq-assistant></sq-assistant>
 
             <!-- Without selected document -->
             <!-- hidden only on md resolution -->
