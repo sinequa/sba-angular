@@ -5,12 +5,15 @@
     <ng-container *ngFor="let message of messages; let i = index">
       <!-- Regular messages -->
       <li class="list-group-item d-flex" *ngIf="message.display && !message.$attachment">
+        <!-- Message icon -->
         <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
           <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
           <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
         </span>
+        <!-- Message body -->
         <div class="flex-grow-1" style="min-width: 0;">
-          <div *ngIf="message.$content" class="message-content" [innerHTML]="message.$content"></div>
+          <div class="message-content" [innerHTML]="message.$content"></div>
+          <!-- List of reference, if any -->
           <div *ngIf="message.$references?.length" class="references small">
             <b>References:</b>
             <ul class="list-group">
@@ -20,6 +23,7 @@
             </ul>
           </div>
         </div>
+        <!-- Message actions (optional) -->
         <div [sq-action-buttons]="{items: message.$actions, style: 'link', size: 'sm', rightAligned: true}" *ngIf="message.$actions"></div>
       </li>
       <!-- Attachment messages -->
