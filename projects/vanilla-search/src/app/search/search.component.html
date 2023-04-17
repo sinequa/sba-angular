@@ -173,9 +173,9 @@
                 </ng-template>
 
                 <ng-template #subHeaderTpl>
-                    <sq-metadata class="small" [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
+                    <sq-metadata-old class="small" [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
                         [tabular]="false" [clickable]="false">
-                    </sq-metadata>
+                    </sq-metadata-old>
                     <hr>
                     <button class="btn btn-primary"
                         (click)="style = style === 'inline' ? 'tabular' : (style === 'tabular' ? 'flex' : 'inline')">Style

@@ -7,7 +7,7 @@ import { MetadataConfig } from '../../metadata.service';
 @Component({
   selector: 'sq-metadata-value',
   templateUrl: './metadata-value.component.html',
-  styles: [`sq-metadata-2 {
+  styles: [`sq-metadata {
     display: inline-flex;
 }`]
 })

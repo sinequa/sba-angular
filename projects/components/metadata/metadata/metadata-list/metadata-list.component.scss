@@ -1,25 +1,25 @@
 .metadata-inline {
-    sq-metadata-2 {
+    sq-metadata {
         display: inline-flex;
         margin-right: .5rem;
     }
 }
 
 .metadata-flex {
-    sq-metadata-2 {
+    sq-metadata {
         display: flex;
     }
 }
 
 .metadata-inline,
 .metadata-flex {
-    sq-metadata-2 ::ng-deep .sq-metadata-col:before {
+    sq-metadata ::ng-deep .sq-metadata-col:before {
         vertical-align: sub;
     }
 }
 
 .metadata-tabular {
-    sq-metadata-2 {
+    sq-metadata {
         display: table-row;
 
         ::ng-deep .sq-metadata-col {

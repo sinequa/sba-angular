@@ -31,15 +31,6 @@ export class IconService {
   constructor() { }
 
   getFormatIcon(format: string): string | undefined {
-    return this.getMappingIcon(FORMAT_MAPPINGS, format);
-  }
-
-  private getMappingIcon(mappings: any, type: string): string | undefined {
-    for (const key of Object.keys(mappings)) {
-      if (mappings[key].find(((mappingType: string) => mappingType === type))) {
-        return key;
-      }
-    }
-    return undefined;
+    return Object.keys(FORMAT_MAPPINGS).find(key => FORMAT_MAPPINGS[key].includes(format));
   }
 }

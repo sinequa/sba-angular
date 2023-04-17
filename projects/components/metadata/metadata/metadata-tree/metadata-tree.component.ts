@@ -3,8 +3,8 @@ import { Action } from '@sinequa/components/action';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, Record } from '@sinequa/core/web-services';
-import { TreeValueItem } from '../../../metadata-item/metadata-item';
-import { MetadataService, MetadataValue } from '../../../metadata.service';
+import { TreeValueItem } from '../../metadata-item/metadata-item';
+import { MetadataService, MetadataValue } from '../../metadata.service';
 
 @Component({
   selector: 'sq-metadata-tree',

@@ -7,6 +7,8 @@ import { map, Observable, of } from 'rxjs';
 import { Action } from '../action';
 import { TreeValueItem } from './metadata-item/metadata-item';
 
+type RecordType = Record[keyof Record] & ValueItem[] & EntityItem[]
+
 export interface MetadataConfig {
   item: string; // the column name
   icon?: string; // the icon css class
@@ -30,7 +32,7 @@ export interface MetadataValue {
   colors?: { bgColor?: string, color?: string }; // override for colors
   filterable?: boolean; // if clickable to add in the filters
   excludable?: boolean; // if clickable to exclude from the search
-  entityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
+  fnEntityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
   actions?: Action[]; // additional custom actions to add with the filtering and excluding
 }
 
@@ -54,9 +56,9 @@ export class MetadataService {
     const isEntity = !!column && AppService.isEntity(column);
     const isCsv = !!column && AppService.isCsv(column);
     const actions = config.actions;
-    let entityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
+    let fnEntityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
 
-    const values = record[this.appService.getColumnAlias(column, config.item)];
+    const values: RecordType = record[this.appService.getColumnAlias(column, config.item)];
 
     if (isEntity) {
       const entityItems: EntityItem[] = values;
@@ -69,7 +71,7 @@ export class MetadataService {
           return { ...i, filtered, excluded };
         }));
         if (config.showEntityTooltip && entityItems[0]?.locations) {
-          entityTooltip = this.getEntitySentence
+          fnEntityTooltip = this.getEntitySentence
         }
       }
     }
@@ -92,7 +94,7 @@ export class MetadataService {
       colors: config.colors,
       filterable: config.filterable,
       excludable: config.excludable,
-      entityTooltip,
+      fnEntityTooltip,
       actions
     }
   }
@@ -108,14 +110,14 @@ export class MetadataService {
     return [];
   }
 
-  private setCsvValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
+  private setCsvValues(values: RecordType, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
     const filters = this.getFilters(column, query);
     if (values && values instanceof Array) {
       valueItems.push(...values.map<ValueItem>(value => {
         const filter = filters.find(f => f.value === value);
         const filtered = !!filter && (!filter.operator || filter.operator !== 'neq');
         const excluded = !!filter && filter.operator === 'neq' && filter.value === value;
-        return { value: value, filtered, excluded };
+        return { value: value.value, filtered, excluded };
       }));
     }
     else if (!Utils.isEmpty(values)) {

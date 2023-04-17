@@ -4,7 +4,7 @@ import {AppService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {Record} from "@sinequa/core/web-services";
 
 @Component({
-    selector: "sq-metadata",
+    selector: "sq-metadata-old",
     templateUrl: "./metadata.html",
     styleUrls: ["./metadata.scss"]
 })
@@ -20,11 +20,11 @@ export class Metadata {
     @Input() collapseRows: boolean = true;
     @Input() searchOnClick: boolean = true;
     @Input() query?: Query;
-    
+
     @Output("select") _select = new EventEmitter<{item: string, valueItem: ValueItem}>();
 
     constructor(
-        public appService: AppService, 
+        public appService: AppService,
         public searchService: SearchService) {
     }
 

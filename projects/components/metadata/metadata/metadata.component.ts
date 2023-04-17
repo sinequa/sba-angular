@@ -5,11 +5,11 @@ import { UIService } from "@sinequa/components/utils";
 import { AppService, Query } from "@sinequa/core/app-utils";
 import { FieldValue } from "@sinequa/core/base";
 import { DocumentAccessLists, EntityItem, Record } from "@sinequa/core/web-services";
-import { IconService } from "../../icon.service";
-import { MetadataConfig, MetadataService, MetadataValue } from "../../metadata.service";
+import { IconService } from "../icon.service";
+import { MetadataConfig, MetadataService, MetadataValue } from "../metadata.service";
 
 @Component({
-    selector: "sq-metadata-2",
+    selector: "sq-metadata",
     templateUrl: "./metadata.component.html",
     styleUrls: ['./metadata.component.scss']
 })
@@ -186,10 +186,10 @@ export class MetadataComponent implements OnChanges {
             this.metadataValue.actions.map(action => action.data = value);
         }
 
-        if (!this.metadataValue.entityTooltip) return;
+        if (!this.metadataValue.fnEntityTooltip) return;
 
         this.loading = true;
-        this.metadataValue.entityTooltip({ entity: valueItem, record: this.record, query: this.query! })
+        this.metadataValue.fnEntityTooltip({ entity: valueItem, record: this.record, query: this.query! })
             .subscribe((value: any) => {
                 this.entityTemplate = value;
                 this.loading = false;

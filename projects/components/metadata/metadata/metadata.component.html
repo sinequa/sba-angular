@@ -32,7 +32,7 @@
             <ng-template #isNotTree>
                 <span *ngFor="let valueItem of metadataValue.valueItems; let $index = index"
                     class="sq-metadata-item {{'sq-metadata-item-' + metadataValue.item}} {{metadataValue.itemClass}}"
-                    [attr.title]="(showTitle || metadataValue.entityTooltip) ? null : (label | sqMessage)" sqPopper
+                    [attr.title]="(showTitle || metadataValue.fnEntityTooltip) ? null : (label | sqMessage)" sqPopper
                     [target]="entityTemplate || actions?.length ? tooltip : undefined" [placement]="placement"
                     (shown)="openedPopper(valueItem)" [style.color]="color"
                     [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : bgColor">
