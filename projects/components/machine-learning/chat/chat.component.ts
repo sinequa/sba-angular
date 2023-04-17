@@ -266,7 +266,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
             map(attachments => Utils.asArray(attachments)),
             map(attachments => [
               ...messages,
-              ...this.getAttachmentMessages(messages, attachments, false)
+              ...this.chatService.prepareAttachmentMessages(attachments, messages, false)
             ])
           ) ?? of(messages)
         )
