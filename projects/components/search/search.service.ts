@@ -960,6 +960,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         query.groupBy = 'id'; // Override the default group by if any
         const recordIds = [...new Set(records.filter(r => !r.record).map(r => r.id))]; // Unique ids
         query.pageSize = recordIds.length;
+        query.globalRelevance = 0; // Override the default globalRelevance >= 40
         query.addFilter({
             field: 'id',
             operator: 'in',
