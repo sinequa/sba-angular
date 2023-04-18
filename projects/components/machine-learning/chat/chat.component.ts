@@ -145,6 +145,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.dataSubscription?.unsubscribe();
   }
 
   submitQuestion() {
