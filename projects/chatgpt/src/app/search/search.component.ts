@@ -53,7 +53,6 @@ export class SearchComponent implements OnInit {
   }
 
   set view(view: string) {
-    console.log('view', view);
     this.prefs.set('search-view', view);
   }
 
@@ -254,7 +253,7 @@ export class SearchComponent implements OnInit {
 
   resetChat() {
     this.showChatActions = false;
-    this.sqChat?.resetChat(true);
+    this.sqChat?.loadDefaultChat();
   }
 
   saveChat() {
