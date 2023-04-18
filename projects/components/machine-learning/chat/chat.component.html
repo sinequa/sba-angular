@@ -1,29 +1,32 @@
 
-<ng-container *ngIf="loading" [ngTemplateOutlet]="loadingTpl"></ng-container>
-
-<div *ngIf="messages$ | async as messages" class="h-100 d-flex flex-column">
+<div *ngIf="messages$ | async as messages; else loadingTpl" class="h-100 d-flex flex-column">
 
   <ul class="list-group list-group-flush overflow-auto" #messageList>
     <ng-container *ngFor="let message of messages; let i = index">
-      <li class="list-group-item" *ngIf="message.display && !message.$attachment">
-        <div class="d-flex">
-          <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
-            <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
-            <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
-          </span>
-          <div style="min-width: 0;">
-            <div class="message-content" [innerHTML]="message.$content"></div>
-            <div *ngIf="message.$references?.length" class="references small">
-              <b>References:</b>
-              <ul class="list-group">
-                <li *ngFor="let reference of message.$references" class="text-truncate" [title]="reference.$record.title">
-                  <span class="reference me-1">{{reference.refId}}</span> <a href="{{reference.$record.url1}}" target="_blank">{{reference.$record.title}}</a>
-                </li>
-              </ul>
-            </div>
+      <!-- Regular messages -->
+      <li class="list-group-item d-flex" *ngIf="message.display && !message.$attachment">
+        <!-- Message icon -->
+        <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
+          <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
+          <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
+        </span>
+        <!-- Message body -->
+        <div class="flex-grow-1" style="min-width: 0;">
+          <div class="message-content" [innerHTML]="message.$content"></div>
+          <!-- List of reference, if any -->
+          <div *ngIf="message.$references?.length" class="references small">
+            <b>References:</b>
+            <ul class="list-group">
+              <li *ngFor="let reference of message.$references" class="text-truncate" [title]="reference.$record.title">
+                <span class="reference me-1">{{reference.refId}}</span> <a href="{{reference.$record.url1}}" target="_blank">{{reference.$record.title}}</a>
+              </li>
+            </ul>
           </div>
         </div>
+        <!-- Message actions (optional) -->
+        <div [sq-action-buttons]="{items: message.$actions, style: 'link', size: 'sm', rightAligned: true}" *ngIf="message.$actions"></div>
       </li>
+      <!-- Attachment messages -->
       <li *ngIf="message.display && message.$attachment"
         class="attachment list-group-item d-flex"
         [ngClass]="{expanded: message.$attachment.$expanded}">
@@ -31,7 +34,7 @@
       </li>
     </ng-container>
 
-    <li class="list-group-item" *ngIf="loadingAnswer">
+    <li class="list-group-item" *ngIf="loading">
       <ng-container *ngTemplateOutlet="loadingTpl"></ng-container>
     </li>
   </ul>
@@ -85,7 +88,7 @@
       (keyup.enter)="submitQuestion()"
       (keyup.shift.enter)="submitQuestion()"
       (keydown.tab)="searchAttachments($event)"
-      [disabled]="loadingAnswer || loadingAttachments || tokensPercentage >= 100 || tokensQuota >= 100">
+      [disabled]="loading || loadingAttachments || tokensPercentage >= 100 || tokensQuota >= 100">
     <a *ngIf="searchMode" role="button" [ngClass]="{disabled: !question}" class="ms-3 mb-0 text-nowrap" (click)="searchAttachments()" sqTooltip="Search Before Chat" placement="top">
       <img src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="120px">
     </a>
@@ -124,7 +127,7 @@
 
       <ng-container *ngTemplateOutlet="attachmentTpl; context:{$implicit:attachment}"></ng-container>
 
-      <div class="ms-3 col-1 small text-muted d-flex flex-column align-items-center" *ngIf="!loadingAnswer">
+      <div class="ms-3 col-1 small text-muted d-flex flex-column align-items-center" *ngIf="!loading">
         <span title="Number of tokens">{{attachment.$tokenCount}}</span>
         <button class="btn btn-sm btn-link px-1 py-0" sqTooltip="More tokens" (click)="chatService.increaseChunksSync(attachment)">
           <i class="fas fa-plus"></i>
