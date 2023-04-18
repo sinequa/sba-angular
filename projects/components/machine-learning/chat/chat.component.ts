@@ -91,6 +91,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   override get actions() { return this._actions; }
 
   sub = new Subscription();
+  dataSubscription: Subscription | undefined;
 
   constructor(
     public chatService: ChatService,
@@ -119,7 +120,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this._actions.push(new Action({
       icon: 'fas fa-sync',
       title: 'Reset chat',
-      action: () => this.resetChat(true)
+      action: () => this.loadDefaultChat()
     }));
 
     this._actions.push(new Action({
@@ -137,13 +138,14 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
     }
     else {
-      this.resetChat(true)
+      this.loadDefaultChat();
     }
     this.updateActions();
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.dataSubscription?.unsubscribe();
   }
 
   submitQuestion() {
@@ -189,7 +191,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   public fetch(messages: ChatMessage[]) {
     this.loading = true;
     this.cdr.detectChanges();
-    this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP)
+    this.dataSubscription?.unsubscribe();
+    this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP)
       .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
     this.scrollDown();
   }
@@ -212,6 +215,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.chatService.attachments$.next([]); // This updates the tokensPercentage
     this.question = '';
     this.scrollDown();
+    this.dataSubscription = undefined;
   }
 
   suggestQuestion(attachments: ChatAttachment[]) {
@@ -232,22 +236,23 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     });
   }
 
-  resetChat(loadDefaultChat?: boolean) {
-
+  resetChat() {
     if(this.messages$.value) {
       this.messages$.next(undefined); // Reset chat
     }
+    this.loading = false;
     this.question = '';
     this.tokensPercentage = 0;
     this.tokensAbsolute = 0;
     this.tokens = undefined;
+    this.dataSubscription?.unsubscribe();
+  }
 
-    if(loadDefaultChat) {
-      this.openChat([
-        {role: 'system', content: this.initialSystemPrompt, display: false},
-        {role: 'user', content: this.initialUserPrompt, display: true},
-      ]);
-    }
+  loadDefaultChat() {
+    this.openChat([
+      {role: 'system', content: this.initialSystemPrompt, display: false},
+      {role: 'user', content: this.initialUserPrompt, display: true},
+    ]);
   }
 
   saveChat() {
@@ -257,9 +262,9 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   }
 
   openChat(messages: RawMessage[], tokens?: OpenAITokens, attachments$?: Observable<ChatAttachment[]|ChatAttachment>) {
-    this.loading = true;
     this.resetChat();
-    this.chatService.restoreMessages(messages)
+    this.loading = true;
+    this.dataSubscription = this.chatService.restoreMessages(messages)
       .pipe(
         delay(0), // In case the observer completes synchronously, the delay forces async update and prevents "change after checked" error
         switchMap(messages => attachments$?.pipe( // Process the optional attachments
