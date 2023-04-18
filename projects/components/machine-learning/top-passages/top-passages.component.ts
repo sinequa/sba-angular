@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
-import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService } from "@sinequa/core/web-services";
+import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService, Record } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { SearchService } from "@sinequa/components/search";
 
@@ -14,8 +14,8 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   @Input() hideDate: boolean = false;
   @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
-  @Output() previewOpened = new EventEmitter<TopPassage>();
-  @Output() titleClicked = new EventEmitter<{ item: TopPassage, isLink: boolean }>();
+  @Output() passageClicked = new EventEmitter<TopPassage>();
+  @Output() documentOpened = new EventEmitter<Record>();
 
   passages?: TopPassage[];
   documentsNb: number;
@@ -40,11 +40,15 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
     const ids = passages.filter(p => !p.$record).map(p => p.recordId);
     this.searchService.getRecords(ids)
       .subscribe((records) => {
-        this.passages = passages;
-
-        this.passages.forEach((passage) => {
-          passage.$record = passage.$record || records.find(record => record?.id === passage.recordId);
-        });
+        // Post process passages
+        this.passages = passages
+          // Fill missing records
+          .map(p => ({...p, $record: p.$record || records.find(record => record?.id === p.recordId)}))
+          // Remove records that cannot be retrieved
+          .filter(p => p.$record)
+          // Put answers first
+          .sort((a, b) => (b.answerScore ? (b.answerScore + 100) : b.score)
+                        - (a.answerScore ? (a.answerScore + 100) : a.score));
 
         this.notifyTopPassagesDisplay(this.passages);
 
@@ -59,13 +63,16 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   // Open the mini preview on text click
   openPreview(passage: TopPassage) {
     this.notifyTopPassagesClick(passage);
-    this.previewOpened.next(passage);
+    this.passageClicked.emit(passage);
   }
 
   // Open the big preview on title click
   onTitleClicked(isLink: boolean, passage: TopPassage) {
     this.notifyTopPassagesClick(passage);
-    this.titleClicked.next({ item: passage, isLink });
+    // If isLink === true, then we are navigating outside the app
+    if(!isLink && passage.$record) {
+      this.documentOpened.emit(passage.$record);
+    }
   }
 
   private notifyTopPassagesClick(passage: TopPassage) {

@@ -10,9 +10,8 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Answer, AuditEventType, AuditWebService, MatchingPassage, Record, RelevantExtract, Results } from '@sinequa/core/web-services';
+import { AuditEventType, AuditWebService, MatchingPassage, Record, RelevantExtract, Results, TopPassage } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA, PREVIEW_HIGHLIGHTS } from '../../config';
-import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { ChatAttachment, ChatService, InitChat } from '@sinequa/components/machine-learning';
 import { PromptService } from '../prompt.service';
@@ -287,13 +286,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
     return true;
   }
-
-  onTitleClick(value: {item: Answer | TopPassage, isLink: boolean}) {
-    if (value.item.$record) {
-      this.openPreviewIfNoUrl(value.item.$record, value.isLink);
-    }
-  }
-
 
   attachDocument(record: Record, event: Event) {
     event.stopPropagation();
