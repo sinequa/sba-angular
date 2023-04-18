@@ -108,30 +108,25 @@ export class PreviewExtractsPanelComponent implements OnChanges, OnDestroy {
         new Action({
           icon: 'fas fa-sort-amount-down',
           text: "msg#preview.relevanceSortHighlightButtonText",
-          action: item => {
-            // return a new map to re-render the collection
-            this.extracts = this.extracts.map(el => el).sort((a, b) => a.relevanceIndex - b.relevanceIndex);
-            this.sortAction.text = item.text;
-            this.sortAction.messageParams = { values: { text: item.text } };
-            this.currentIndex = 0;
-            this.scrollExtract(this.extracts[0]);
-          }
+          action: item => this.updateSort(item.text!, 'relevanceIndex')
         }),
         new Action({
           icon: 'fas fa-sort-amount-down',
           text: "msg#preview.textOrderSortHighlightButtonText",
-          action: item => {
-            // return a new map to re-render the collection
-            this.extracts = this.extracts.map(el => el).sort((a, b) => a.textIndex - b.textIndex);
-            this.sortAction.text = item.text;
-            this.sortAction.messageParams = { values: { text: item.text } };
-            this.currentIndex = 0;
-            this.scrollExtract(this.extracts[0]);
-          }
+          action: item => this.updateSort(item.text!, 'textIndex')
         })
       ]
     });
 
+  }
+
+  updateSort(text: string, key: 'textIndex' | 'relevanceIndex') {
+    // return a new map to re-render the collection
+    this.extracts = this.extracts.map(el => el).sort((a, b) => a[key] - b[key]);
+    this.sortAction.text = text;
+    this.sortAction.messageParams = { values: { text } };
+    this.currentIndex = 0;
+    this.scrollExtract(this.extracts[0]);
   }
 
   /**
