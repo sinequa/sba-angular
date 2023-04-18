@@ -272,7 +272,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         )
       )
       .subscribe(messages => {
-        if(messages.at(-1)?.role === 'user') {
+        const lastMessage = messages.at(-1);
+        if(lastMessage && lastMessage.role !== 'assistant') {
           this.fetch(messages); // If the last message if from a user, an answer from ChatGPT is expected
         }
         else if(tokens) {
