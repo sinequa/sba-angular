@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
-import { ChatComponent, ChatConfig, ChatMessage, ChatService, defaultChatConfig, InitChat } from "@sinequa/components/machine-learning";
+import { ChatComponent, ChatConfig, ChatMessage, ChatService, defaultChatConfig } from "@sinequa/components/machine-learning";
 import { SearchService } from "@sinequa/components/search";
 import { UserPreferences } from "@sinequa/components/user-settings";
-import { AppService } from "@sinequa/core/app-utils";
+import { AppService, Query } from "@sinequa/core/app-utils";
 import { AuditWebService, Results } from "@sinequa/core/web-services";
 import { marked } from "marked";
-import { filter, map, Subscription, switchMap, tap } from "rxjs";
+import { BehaviorSubject, filter, map, Subscription, switchMap, tap } from "rxjs";
 import { PromptService } from "../prompt.service";
 
 interface ChatSuggestion {
@@ -18,9 +18,14 @@ interface ChatSuggestion {
 @Component({
   selector: "sq-assistant",
   template: `
-  <sq-facet-card [title]="'Assistant'" [icon]="'fas fa-fw  fa-comments primary-icon'" [collapsible]="false" [actions]="[chatSettingsAction]" class="mb-3">
+  <sq-facet-card
+    [title]="'Assistant'"
+    [icon]="'fas fa-fw  fa-comments primary-icon'"
+    [collapsible]="false"
+    [actions]="[autoModeAction, chatSettingsAction]"
+    class="mb-3">
+
     <sq-chat #facet *ngIf="!chatSettingsAction.selected"
-      [chat]="initChat"
       [displayAttachments]="false"
       [textBeforeAttachments]="chatConfig.textBeforeAttachments"
       [displayAttachments]="chatConfig.displayAttachments"
@@ -34,8 +39,7 @@ interface ChatSuggestion {
       [attachmentsHiddenPrompt]="chatConfig.attachmentsHiddenPrompt"
       [autoSearchMinScore]="chatConfig.autoSearchMinScore"
       [autoSearchMaxPassages]="chatConfig.autoSearchMaxPassages"
-      [model]="chatConfig.model"
-      (data)="summarizeAction.disabled = false">
+      [model]="chatConfig.model">
     </sq-chat>
     <sq-chat-settings *ngIf="chatSettingsAction.selected" [config]="chatConfig"></sq-chat-settings>
   </sq-facet-card>
@@ -45,13 +49,11 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
 
   sub = new Subscription();
 
-  public summarizeAction: Action;
-  public chatSettingsAction: Action;
+  chatSettingsAction: Action;
+  autoModeAction: Action;
 
   @ViewChild(ChatComponent) chat: ChatComponent;
   @ViewChild('suggestionTpl') suggestionTpl: TemplateRef<any>;
-
-  initChat: InitChat|null = {messages: []};
 
   constructor(
     public searchService: SearchService,
@@ -62,26 +64,19 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
     public auditService: AuditWebService
   ) {
 
-    this.summarizeAction = new Action({
-      text: "Answer with ChatGPT",
+    this.autoModeAction = new Action({
+      text: 'Meeseeks mode',
+      title: 'Automatically try to improve your search queries and provide answers',
       action: () => {
-        const passages = this.searchService.results?.topPassages?.passages;
-        if(passages?.length) {
-          const messages = [
-            {role: 'system', display: false, content: this.promptService.getPrompt('answerPrompt')}
-          ];
-          const attachments = this.chatService.addTopPassages(passages, []);
-          this.chat.openChat(messages, undefined, attachments);
-          this.summarizeAction.disabled = true;
-          this.auditService.notify({
-            type: 'Chat_Summarize_Results',
-            detail: {
-              querytext: this.searchService.query.text
-            }
-          });
+        this.autoMode = !this.autoMode
+        this.autoModeAction.update();
+        if(this.autoMode) {
+          (this.searchService.queryStream as BehaviorSubject<Query>).next(this.searchService.query);
         }
-      }
+      },
+      updater: a => a.icon = 'fas fa-toggle-' + (this.autoMode? 'on':'off')
     });
+    this.autoModeAction.update();
 
     this.chatSettingsAction = new Action({
       icon: 'fas fa-cog',
@@ -92,20 +87,25 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
           this.prefs.set('chat-config', this.chatConfig);
         }
       }
-    })
+    });
   }
 
   ngAfterViewInit() {
     this.sub.add(
       // Listen to query changes
       this.searchService.queryStream.pipe(
+        filter(() => this.autoMode),
+
         // Only process the distinct full text search
         map(query => query?.text),
         filter((text): text is string => !!text),
 
-        // Display the loading spinner
-        tap(() => this.chat.loading = true),
-        tap(() => this.chat.cdr.detectChanges()),
+        // Cancel default chat and display the spinner
+        tap(() => {
+          this.chat.resetChat();
+          this.chat.loading = true;
+          this.chat.cdr.detectChanges();
+        }),
 
         // Prompt GPT-4 for query improvements and a first answer
         switchMap(content =>
@@ -115,10 +115,6 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
           ], 'GPT4-8K', 0.8, 500, 1.0)
         ),
 
-        // Turn off spinner
-        tap(() => this.chat.loading = false),
-        tap(() => this.chat.cdr.detectChanges()),
-
         // Parse the output of GPT-4
         map(res => {
           const message = res.messagesHistory.at(-1)!.content;
@@ -126,9 +122,6 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
           if(match) {
             try {
               const sug = JSON.parse(match) as ChatSuggestion;
-              if(sug.answer) {
-                sug.answer = marked(sug.answer);
-              }
               if(sug.query === this.searchService.query.text) {
                 delete sug.query;
               }
@@ -139,6 +132,12 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
             }
           }
           return undefined;
+        }),
+
+        // Turn off spinner
+        tap(() => {
+          this.chat.loading = false;
+          this.chat.cdr.detectChanges();
         }),
 
         // Stop there if there is no suggestion
@@ -225,19 +224,24 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
           }
         }),
 
-
+        // Stop there if no results
         filter((results: Results|undefined): results is Results => !!results?.records.length),
 
         // Turn on spinner
-        tap(() => this.chat.loading = true),
-        tap(() => this.chat.cdr.detectChanges()),
+        tap(() => {
+          this.chat.loading = true;
+          this.chat.cdr.detectChanges()
+        }),
 
+        // Build attachments from the results
         switchMap((results: Results) => results.topPassages?.passages?.length?
           this.chatService.addTopPassages(results.topPassages?.passages) :
           this.chatService.addDocuments(results.records.slice(0,5))
-        ),
+        )
+
       ).subscribe((attachments: any) => {
         if(attachments?.length) {
+          // Finally feed the chat with the attachments and ask it to provide an answer
           const messages = this.chat.messages$.value || [];
           messages.push(...this.chatService.prepareAttachmentMessages(attachments, [], false));
           messages.push(
@@ -285,5 +289,13 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
       this.configPatchDone = true;
     }
     return config;
+  }
+
+  get autoMode(): boolean {
+    return this.prefs.get('chat-mode') ?? true;
+  }
+
+  set autoMode(val: boolean) {
+    this.prefs.set('chat-mode', val);
   }
 }
