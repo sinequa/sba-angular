@@ -261,8 +261,26 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
     if(text) {
       query.text = text;
     }
+
     if(sources) {
-      console.log(sources);
+      query.removeFieldFilters("treepath");
+      const values = sources.flatMap(source => {
+        switch(source) {
+          case 'doc':      return ['Documentation', 'University']
+          case 'support':  return ['Sinequa_Overflow']
+          case 'files':    return ['Sinequa_GoogleDrive']
+          case 'internet': return ['Sinequa.com', 'Wikipedia']
+          case 'intranet': return ['Loopio']
+        }
+        return [];
+      });
+
+      if(values.length) {
+        query.addFilter({
+          operator: 'or',
+          filters: values.map(display => ({field: 'treepath', display, value: `/${display}/*`}))
+        });
+      }
     }
   }
 
