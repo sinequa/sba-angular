@@ -221,8 +221,7 @@ export class ChatService {
 
     // Post process and return
     return attachments$.pipe(
-      switchMap(doc => this.countChunks(doc)),
-      defaultIfEmpty([] as ChatAttachmentWithTokens[]) // forkJoin([]) does not emit anything!
+      defaultIfEmpty([] as ChatAttachment[]) // forkJoin([]) does not emit anything!
     );
   }
 
@@ -238,7 +237,8 @@ export class ChatService {
     };
     return this.searchService.getResults(query, event).pipe(
       tap(results => this.searchService.setResults(results)),
-      switchMap(results => this.searchAttachments(results, minScore, maxDocuments, maxPassages, sentencesBefore, sentencesAfter))
+      switchMap(results => this.searchAttachments(results, minScore, maxDocuments, maxPassages, sentencesBefore, sentencesAfter)),
+      switchMap(attachments => this.countChunks(attachments)),
     ).subscribe(attachments => this.addAttachments(attachments));
   }
 
