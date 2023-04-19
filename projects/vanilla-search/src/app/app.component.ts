@@ -8,8 +8,9 @@ import { LabelsService } from '@sinequa/components/labels';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
-import { FEATURES } from '../config';
+import { FEATURES, SELECTORS_HIGHLIGHTS } from '../config';
 import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
+import { HighlightService } from "@sinequa/components/metadata/highlight.service";
 
 @Component({
     selector: "app",
@@ -34,10 +35,11 @@ export class AppComponent extends ComponentWithLogin {
         public appService: AppService,
 
         public router: Router,
-        public auditWebService: AuditWebService
+        public auditWebService: AuditWebService,
+        private highlightService: HighlightService
         ){
         super();
-
+        this.highlightService.init(SELECTORS_HIGHLIGHTS);
     }
 
     initDone: boolean = false;

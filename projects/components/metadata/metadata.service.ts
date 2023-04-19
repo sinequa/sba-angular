@@ -3,7 +3,24 @@ import { AppService, Query, ValueItem } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, EntityItem, Record, TextChunksWebService, TextLocation } from '@sinequa/core/web-services';
 import { map, Observable, of } from 'rxjs';
-import { TreeValueItem } from './metadata-item/metadata-item';
+import { Action } from '../action/action';
+
+export interface TreeValueItem extends ValueItem {
+  parts: ValueItem[];
+}
+
+export interface MetadataConfig {
+  item: string;
+  icon?: string;
+  itemClass?: string;
+  color?: string;
+  bgColor?: string;
+  filterable?: boolean;
+  excludable?: boolean;
+  showEntityTooltip?: boolean;
+  separator?: string;
+  actions?: Action[];
+}
 
 type RecordType = Record[keyof Record] & ValueItem[] & EntityItem[]
 

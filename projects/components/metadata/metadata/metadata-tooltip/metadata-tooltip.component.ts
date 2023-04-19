@@ -15,6 +15,4 @@ export class MetadataTooltipComponent {
   @Input() actionsButtonsSize: string;
   @Input() tooltipLinesNumber: number;
 
-  constructor() { }
-
 }

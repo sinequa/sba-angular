@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { Action } from "@sinequa/components/action";
 import { Query } from "@sinequa/core/app-utils";
 import { Record } from "@sinequa/core/web-services";
+import { MetadataConfig } from "../../metadata.service";
 
 @Component({
     selector: "sq-metadata-list",
@@ -17,18 +17,7 @@ export class MetadataListComponent {
      * Allows to override the default METADATA_CONFIG config value if you
      * want to have a metadata-list component with another behavior
      */
-    @Input() config?: ({
-        item: string,
-        icon?: string,
-        itemClass?: string,
-        color?: string,
-        bgColor?: string,
-        filterable?: boolean,
-        excludable?: boolean,
-        showEntityTooltip?: boolean,
-        separator?: string,
-        actions?: Action[]
-    } | string)[];
+    @Input() config?: (MetadataConfig | string)[];
 
     /**
      * Whether the metadata title should be displayed

@@ -1,7 +1,7 @@
 import { FacetDateParams } from '@sinequa/analytics/timeline';
 import { FacetConfig, FacetListParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams } from '@sinequa/components/facet';
+import { MetadataConfig } from '@sinequa/components/metadata';
 import { PreviewHighlightColors } from '@sinequa/components/preview';
-import { MetadataConfig } from '@sinequa/components/metadata/metadata.service';
 import { HelpFolderOptions } from '@sinequa/components/user-settings';
 
 /**
@@ -187,7 +187,14 @@ export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
     color: 'black',
     bgColor: '#ff0'
   }
-]
+];
+
+export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHighlightColors[]}[] = [
+    {
+        selectors: ['sq-metadata-tooltip span'],
+        highlights: PREVIEW_HIGHLIGHTS
+    }
+];
 
 export const METADATA: string[] = [
     "authors", "docformat", "modified", "size", "treepath", "filename"

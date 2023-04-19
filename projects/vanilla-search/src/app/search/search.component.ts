@@ -16,6 +16,7 @@ import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { ModalService } from '@sinequa/core/modal';
 import { BsEditLabel, ModalProperties } from '@sinequa/components/labels';
+import { MetadataConfig } from '@sinequa/components/metadata';
 
 @Component({
   selector: 'app-search',
@@ -74,7 +75,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   showIcons = true;
   showFormatIcons = true;
   showFiltersHighlights = true;
-  config: any[] = [
+  config: MetadataConfig[] = [
     {
       item: "authors",
       icon: "fas fa-user-edit",
@@ -167,7 +168,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   ];
 
-  config2 = [
+  config2: (MetadataConfig | string)[] = [
     "Document of type",
     {
       item: "docformat",
