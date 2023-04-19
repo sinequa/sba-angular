@@ -4,7 +4,7 @@ import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, Record } from '@sinequa/core/web-services';
 import { TreeValueItem } from '../../metadata-item/metadata-item';
-import { MetadataService, MetadataValue } from '../../metadata.service';
+import { MetadataService } from '../../metadata.service';
 
 @Component({
   selector: 'sq-metadata-tree',
@@ -17,7 +17,8 @@ export class MetadataTreeComponent implements OnChanges {
 
   @Input() record: Record;
   @Input() query: Query;
-  @Input() config: MetadataValue;
+  @Input() item: string;
+  @Input() itemClass: string;
   @Input() column: CCColumn | undefined;
   @Input() showFiltersHighlights = true;
   @Input() bgColor?: string;
@@ -41,7 +42,7 @@ export class MetadataTreeComponent implements OnChanges {
     this.valueItems = [];
 
     if (this.record) {
-      const paths: string[] = this.record[this.appService.getColumnAlias(this.column, this.config.item)];
+      const paths: string[] = this.record[this.appService.getColumnAlias(this.column, this.item)];
       if (paths) {
         const filter = this.metadataService.getFilters(this.column, this.query)[0];
         const filterValuePath = filter?.value.split('/');

@@ -1,6 +1,6 @@
-.sq-metadata-item + .sq-metadata-item {
-    margin-left: .3rem;
-}
+// .sq-metadata-item {
+//     margin-right: .3rem;
+// }
 
 .sq-metadata-tooltip {
     background-color: grey;
@@ -25,4 +25,14 @@
 .collapsable {
     display: block !important;
     overflow: hidden;
+}
+
+.sq-metadata-col {
+    &.metadata-inline:before {
+            vertical-align: sub;
+    }
+
+    &.metadata-table {
+        display: table-cell;
+    }
 }

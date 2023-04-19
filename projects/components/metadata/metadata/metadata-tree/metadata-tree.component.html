@@ -3,7 +3,7 @@
         <li *ngFor="let part of valueItem.parts; let $subIndex = index" sqPopper
             [target]="entityTemplate || actions?.length ? tooltip : undefined" placement="top"
             (shown)="openedPopper(valueItem, $subIndex)">
-            <span class="sq-metadata-item {{'sq-metadata-item-' + config.item}} {{config.itemClass}}"
+            <span class="sq-metadata-item {{'sq-metadata-item-' + item}} {{itemClass}}"
                 [style.color]="color"
                 [style.background-color]="showFiltersHighlights && part.filtered ? 'yellow': showFiltersHighlights && part.excluded ? 'red' : bgColor">
                 {{part | sqValue:column}}

@@ -3,10 +3,9 @@ import { Action } from "@sinequa/components/action";
 import { SearchService } from "@sinequa/components/search";
 import { UIService } from "@sinequa/components/utils";
 import { AppService, Query } from "@sinequa/core/app-utils";
-import { FieldValue } from "@sinequa/core/base";
-import { DocumentAccessLists, EntityItem, Record } from "@sinequa/core/web-services";
+import { EntityItem, Record } from "@sinequa/core/web-services";
 import { IconService } from "../icon.service";
-import { MetadataConfig, MetadataService, MetadataValue } from "../metadata.service";
+import { MetadataService, MetadataValue } from "../metadata.service";
 
 @Component({
     selector: "sq-metadata",
@@ -16,35 +15,43 @@ import { MetadataConfig, MetadataService, MetadataValue } from "../metadata.serv
 export class MetadataComponent implements OnChanges {
     @Input() record: Record;
     @Input() query?: Query;
-    @Input() config: MetadataConfig;
-    @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
+    @Input() style: 'inline' | 'table' = 'inline';
 
-    @Input() showIcon = true;
-    @Input() showFormatIcons = true;
-    @Input() showTitle = true;
-    @Input() showFiltersHighlights = true;
-    @Input() collapseRows = true;
+    @Input() item: string;
+    @Input() label: string
+    @Input() icon?: string;
+    @Input() itemClass?: string;
+    @Input() color?: string;
+    @Input() bgColor?: string;
+    @Input() filterable?: boolean;
+    @Input() excludable?: boolean;
+    @Input() showEntityTooltip?: boolean;
+    @Input() actions?: Action[];
+
+    @Input() showIcon: boolean;
+    @Input() showFormatIcon: boolean;
+    @Input() showTitle: boolean;
+    @Input() showFiltersHighlights: boolean;
+    @Input() collapseRows: boolean;
     @Input() tooltipLinesNumber = 8;
+    @Input() separator: string;
 
-    @Input() actionsButtonsStyle = 'btn btn-primary';
+    @Input() actionsButtonsStyle = 'btn btn-secondary';
     @Input() actionsButtonsSize = 'sm';
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
 
+    @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
+
     metadataValue: MetadataValue;
     display: boolean;
     valueIcon: string;
     itemLabelMessageParams: any;
-    actions: Action[];
+    allActions: Action[];
 
-    get labels(): FieldValue[] {
-        return this.metadataValue.valueItems.map(valueItem => valueItem.value);
-    }
-
-    @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
-    lineHeight: number;
-    valuesMaxHeight: number;
+    lineHeight: number | undefined;
+    valuesMaxHeight: number | undefined;
     valuesHeight: number | undefined;
 
     entityTemplate: any;
@@ -69,16 +76,8 @@ export class MetadataComponent implements OnChanges {
         }
     });
 
-    get label(): string {
-        return this.appService.getLabel(this.metadataValue.item);
-    }
-
-    get isAccessLists(): boolean {
-        return this.metadataValue.item === "accesslists";
-    }
-
-    get accessListsData(): DocumentAccessLists {
-        return this.record.accesslists;
+    get columnLabel(): string {
+        return this.appService.getLabel(this.item);
     }
 
     get placement(): string {
@@ -86,21 +85,21 @@ export class MetadataComponent implements OnChanges {
     }
 
     get collapsed(): boolean {
-        return this.valuesHeight === this.lineHeight;
+        return this.collapseRows && this.valuesHeight === this.lineHeight;
     }
 
     get needsCollapse(): boolean {
-        return this.valuesMaxHeight > this.lineHeight * 2;
+        return this.collapseRows && this.valuesMaxHeight! > this.lineHeight! * 2;
     }
 
-    get bgColor(): string | undefined {
-        return this.metadataValue.colors?.bgColor ? this.metadataValue.colors.bgColor
-            : this.metadataValue.itemClass && this.metadataValue.itemClass?.indexOf('badge') !== -1 ? 'white' : undefined;
+    get backgroundColor(): string | undefined {
+        return this.bgColor ? this.bgColor
+            : this.itemClass && this.itemClass?.indexOf('badge') !== -1 ? 'white' : undefined;
     }
 
-    get color(): string | undefined {
-        return this.metadataValue.colors?.color ? this.metadataValue.colors.color
-            : this.metadataValue.itemClass && this.metadataValue.itemClass?.indexOf('badge') !== -1 ? '#7283a7' : undefined;
+    get textColor(): string | undefined {
+        return this.color ? this.color
+            : this.itemClass && this.itemClass?.indexOf('badge') !== -1 ? '#7283a7' : undefined;
     }
 
     constructor(private iconService: IconService,
@@ -115,53 +114,57 @@ export class MetadataComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
         if ((!!changes.record && !this.metadataValue) || !!changes.query) {
-            this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.config);
+            this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.item, this.showEntityTooltip);
         }
 
         // Generate format icon
-        if (!!this.metadataValue.item) {
-            if (this.metadataValue.item === 'docformat') {
-                this.valueIcon = this.iconService.getFormatIcon(this.record[this.metadataValue.item]) || '';
+        if (!!this.item) {
+            if (this.item === 'docformat') {
+                this.valueIcon = this.iconService.getFormatIcon(this.record[this.item]) || '';
             }
-            this.itemLabelMessageParams = { values: { label: this.appService.getLabel(this.metadataValue.item) } };
+            this.itemLabelMessageParams = { values: { label: this.columnLabel } };
         }
 
         // Generate line height for collapsing
-        if (changes.collapseRows !== undefined) {
+        if (this.collapseRows === true) {
             this.lineHeight = parseInt(getComputedStyle(this.el.nativeElement).lineHeight);
-            this.valuesHeight = this.lineHeight; // The display starts collapsed
-            this.valuesMaxHeight = this.lineHeight; // And without the collapse icon
+            this.valuesHeight = this.lineHeight;
+            this.valuesMaxHeight = this.lineHeight;
             setTimeout(() => this.updateMaxHeight());
+        } else {
+            this.lineHeight = undefined;
+            this.valuesHeight = undefined;
+            this.valuesMaxHeight = undefined;
         }
 
         this.setActions();
-        this.display = !!this.metadataValue.item && !!this.record && !!this.record[this.metadataValue.item];
+        this.display = !!this.item && !!this.record && !!this.record[this.item];
     }
 
     onResize = () => this.updateMaxHeight()
 
     filterItem(): void {
-        if (this.metadataValue.filterable) {
+        if (this.filterable) {
             if (this.query) {
-                this.searchService.addFieldSelect(this.metadataValue.item, this.currentItem);
+                this.searchService.addFieldSelect(this.item, this.currentItem);
                 this.searchService.search();
             }
             this.filter.emit({
-                item: this.metadataValue.item,
+                item: this.item,
                 valueItem: this.currentItem
             });
         }
     }
 
     excludeItem(): void {
-        if (this.metadataValue.excludable) {
+        if (this.excludable) {
             if (this.query) {
-                this.searchService.addFieldSelect(this.metadataValue.item, this.currentItem, { not: true });
+                this.searchService.addFieldSelect(this.item, this.currentItem, { not: true });
                 this.searchService.search();
             }
 
             this.exclude.emit({
-                item: this.metadataValue.item,
+                item: this.item,
                 valueItem: this.currentItem
             });
         }
@@ -178,12 +181,12 @@ export class MetadataComponent implements OnChanges {
         this.excludeAction.update();
 
         // add the metadata value inside the action
-        if (this.metadataValue.actions?.length) {
+        if (this.actions?.length) {
             const value = {
-                item: this.metadataValue.item,
+                item: this.item,
                 value: valueItem.value
             };
-            this.metadataValue.actions.map(action => action.data = value);
+            this.actions.map(action => action.data = value);
         }
 
         if (!this.metadataValue.fnEntityTooltip) return;
@@ -205,16 +208,16 @@ export class MetadataComponent implements OnChanges {
     }
 
     private setActions(): void {
-        this.actions = [];
+        this.allActions = [];
 
-        if (this.metadataValue.actions) {
-            this.actions.push(...this.metadataValue.actions);
+        if (this.actions) {
+            this.allActions.push(...this.actions);
         }
-        if (this.metadataValue.filterable) {
-            this.actions.push(this.filterAction);
+        if (this.filterable) {
+            this.allActions.push(this.filterAction);
         }
-        if (this.metadataValue.excludable) {
-            this.actions.push(this.excludeAction);
+        if (this.excludable) {
+            this.allActions.push(this.excludeAction);
         }
     }
 }

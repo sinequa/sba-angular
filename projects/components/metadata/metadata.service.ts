@@ -2,38 +2,18 @@ import { Injectable } from '@angular/core';
 import { AppService, Query, ValueItem } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, EntityItem, Record, TextChunksWebService, TextLocation } from '@sinequa/core/web-services';
-import { METADATA_CONFIG } from '@sinequa/vanilla/config';
 import { map, Observable, of } from 'rxjs';
-import { Action } from '../action';
 import { TreeValueItem } from './metadata-item/metadata-item';
 
 type RecordType = Record[keyof Record] & ValueItem[] & EntityItem[]
 
-export interface MetadataConfig {
-  item: string; // the column name
-  icon?: string; // the icon css class
-  itemClass?: string; // custom classes to apply to the value
-  colors?: { bgColor?: string, color?: string }; // override for colors
-  filterable?: boolean; // if clickable to add in the filters
-  excludable?: boolean; // if clickable to exclude from the search
-  showEntityTooltip?: boolean; // if the entity tooltip should be displayed
-  actions?: Action[]; // additional custom actions to add with the filtering and excluding
-};
-
 export interface MetadataValue {
-  item: string; // the parameter name
   valueItems: (ValueItem | TreeValueItem)[]; // the determined value from the results
   column: CCColumn | undefined; // the results column
-  icon?: string; // the icon css class
   isTree: boolean; // if is tree
   isEntity: boolean; // if is entity
   isCsv: boolean; // if is csv
-  itemClass?: string; // custom classes to apply to the value
-  colors?: { bgColor?: string, color?: string }; // override for colors
-  filterable?: boolean; // if clickable to add in the filters
-  excludable?: boolean; // if clickable to exclude from the search
   fnEntityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
-  actions?: Action[]; // additional custom actions to add with the filtering and excluding
 }
 
 @Injectable({
@@ -44,21 +24,15 @@ export class MetadataService {
   constructor(private textChunkWebService: TextChunksWebService,
     private appService: AppService) { }
 
-  getMetadataValues(record: Record, query: Query | undefined, metadataConfig?: MetadataConfig[]): MetadataValue[] {
-    return (metadataConfig || METADATA_CONFIG).map(config => this.getMetadataValue(record, query, config));
-  }
-
-  getMetadataValue(record: Record, query: Query | undefined, config: MetadataConfig): MetadataValue {
-    const item = config.item;
+  getMetadataValue(record: Record, query: Query | undefined, item: string, showEntityTooltip?: boolean): MetadataValue {
     const valueItems: (ValueItem | TreeValueItem)[] = [];
-    const column = this.appService.getColumn(config.item);
+    const column = this.appService.getColumn(item);
     const isTree = !!column && AppService.isTree(column);
     const isEntity = !!column && AppService.isEntity(column);
     const isCsv = !!column && AppService.isCsv(column);
-    const actions = config.actions;
     let fnEntityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
 
-    const values: RecordType = record[this.appService.getColumnAlias(column, config.item)];
+    const values: RecordType = record[this.appService.getColumnAlias(column, item)];
 
     if (isEntity) {
       const entityItems: EntityItem[] = values;
@@ -70,7 +44,7 @@ export class MetadataService {
           const excluded = !!filter && filter.operator === 'neq';
           return { ...i, filtered, excluded };
         }));
-        if (config.showEntityTooltip && entityItems[0]?.locations) {
+        if (showEntityTooltip && entityItems[0]?.locations) {
           fnEntityTooltip = this.getEntitySentence
         }
       }
@@ -83,19 +57,12 @@ export class MetadataService {
     }
 
     return {
-      item,
       valueItems,
       column,
-      icon: config.icon,
       isTree,
       isEntity,
       isCsv,
-      itemClass: config.itemClass,
-      colors: config.colors,
-      filterable: config.filterable,
-      excludable: config.excludable,
-      fnEntityTooltip,
-      actions
+      fnEntityTooltip
     }
   }
 

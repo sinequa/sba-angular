@@ -14,7 +14,6 @@ import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sineq
 import { FacetParams, FACETS, FEATURES, METADATA, PREVIEW_HIGHLIGHTS } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { MetadataConfig } from '@sinequa/components/metadata/metadata.service';
 import { ModalService } from '@sinequa/core/modal';
 import { BsEditLabel, ModalProperties } from '@sinequa/components/labels';
 
@@ -70,12 +69,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   // TEMP METADATA VARS
-  style = 'tabular';
+  style = 'table';
   showTitles = true;
   showIcons = true;
   showFormatIcons = true;
   showFiltersHighlights = true;
-  config: MetadataConfig[] = [
+  config: any[] = [
     {
       item: "authors",
       icon: "fas fa-user-edit",
@@ -153,6 +152,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       filterable: true,
       excludable: true,
       showEntityTooltip: true,
+      separator: ',',
       actions: [
         new Action({
           icon: "fas fa-directions",
@@ -164,6 +164,20 @@ export class SearchComponent implements OnInit, OnDestroy {
           }
         })
       ]
+    }
+  ];
+
+  config2 = [
+    "Document of type",
+    {
+      item: "docformat",
+      filterable: true,
+      itemClass: "badge rounded-pill text-white bg-primary mx-1"
+    },
+    "released on the",
+    {
+      item: "modified",
+      itemClass: "badge rounded-pill text-white bg-primary ms-1"
     }
   ];
 

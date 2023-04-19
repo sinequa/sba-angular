@@ -1,29 +1,16 @@
 .metadata-inline {
     sq-metadata {
         display: inline-flex;
-        margin-right: .5rem;
     }
 }
 
-.metadata-flex {
-    sq-metadata {
-        display: flex;
-    }
-}
-
-.metadata-inline,
-.metadata-flex {
-    sq-metadata ::ng-deep .sq-metadata-col:before {
-        vertical-align: sub;
-    }
-}
-
-.metadata-tabular {
+.metadata-table {
     sq-metadata {
         display: table-row;
-
-        ::ng-deep .sq-metadata-col {
-            display: table-cell;
-        }
     }
+}
+
+ // right margin if the metadata has another metadata after it, and has some content
+sq-metadata:has(+ sq-metadata):has(.sq-metadata-col) {
+    margin-right: 1rem;
 }

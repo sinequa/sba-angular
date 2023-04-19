@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Action } from "@sinequa/components/action";
 import { Query } from "@sinequa/core/app-utils";
 import { Record } from "@sinequa/core/web-services";
-import { MetadataConfig } from "../../metadata.service";
 
 @Component({
     selector: "sq-metadata-list",
@@ -11,34 +11,45 @@ import { MetadataConfig } from "../../metadata.service";
 export class MetadataListComponent {
     @Input() record: Record;
     @Input() query?: Query;
-    @Input() style: 'inline' | 'tabular' | 'flex' = 'inline';
+    @Input() style: 'inline' | 'table' = 'inline';
 
     /**
      * Allows to override the default METADATA_CONFIG config value if you
      * want to have a metadata-list component with another behavior
      */
-    @Input() config?: MetadataConfig[];
+    @Input() config?: ({
+        item: string,
+        icon?: string,
+        itemClass?: string,
+        color?: string,
+        bgColor?: string,
+        filterable?: boolean,
+        excludable?: boolean,
+        showEntityTooltip?: boolean,
+        separator?: string,
+        actions?: Action[]
+    } | string)[];
 
     /**
      * Whether the metadata title should be displayed
      */
-    @Input() showTitles = true;
+    @Input() showTitles;
     /**
      * Whether the format icon should be displayed for the docformat metadata
      */
-    @Input() showFormatIcons = true;
+    @Input() showFormatIcons;
     /**
      * Whether the metadata icon should be shown
      */
-    @Input() showIcons = true;
+    @Input() showIcons;
     /**
      * Whether the metadata applied in the filters should be highlighted
      */
-    @Input() showFiltersHighlights = true;
+    @Input() showFiltersHighlights;
     /**
      * Whether multiple rows item should be collapsed
      */
-    @Input() collapseRows: boolean = true;
+    @Input() collapseRows = true;
     /**
      * Number of lines to display in the entity tooltip
      */
@@ -54,4 +65,8 @@ export class MetadataListComponent {
 
     @Output() filter = new EventEmitter();
     @Output() exclude = new EventEmitter();
+
+    isString(config) {
+        return typeof config === 'string';
+    }
 }
