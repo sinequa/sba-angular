@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
+import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
@@ -20,6 +21,8 @@ export interface ChatConfig {
   attachmentsHiddenPrompt: string;
   autoSearchMinScore: number;
   autoSearchMaxPassages: number;
+  autoSearchMaxDocuments: number;
+  autoSearchExpand: number;
   model: OpenAIModel;
 }
 
@@ -36,6 +39,8 @@ export const defaultChatConfig: ChatConfig = {
   attachmentsHiddenPrompt: "You can refer to the above documents in the form: [id] (eg [2], [7])",
   autoSearchMinScore: 0.5,
   autoSearchMaxPassages: 5,
+  autoSearchMaxDocuments: 3,
+  autoSearchExpand: 1,
   model: 'GPT35Turbo'
 }
 
@@ -67,6 +72,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() attachmentsHiddenPrompt =  defaultChatConfig.attachmentsHiddenPrompt;
   @Input() autoSearchMinScore =       defaultChatConfig.autoSearchMinScore;
   @Input() autoSearchMaxPassages =    defaultChatConfig.autoSearchMaxPassages;
+  @Input() autoSearchMaxDocuments =   defaultChatConfig.autoSearchMaxDocuments;
+  @Input() autoSearchExpand =         defaultChatConfig.autoSearchExpand;
   @Input() model =                    defaultChatConfig.model;
   @Input() showCredits = true;
   @Input() query?: Query;
@@ -95,6 +102,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   constructor(
     public chatService: ChatService,
+    public searchService: SearchService,
     public cdr: ChangeDetectorRef
   ) {
     super();
@@ -145,6 +153,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.dataSubscription?.unsubscribe();
   }
 
   submitQuestion() {
@@ -158,7 +167,9 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     if(this.searchMode && this.question.trim()) {
       event?.preventDefault();
       this.loadingAttachments = true;
-      this.chatService.searchAttachmentsSync(this.question, this.autoSearchMinScore, this.autoSearchMaxPassages, this.query);
+      const query = (this.query || this.searchService.query).copy();
+      query.text = this.question;
+      this.chatService.searchAttachmentsSync(query, this.autoSearchMinScore, this.autoSearchMaxPassages, this.autoSearchMaxDocuments, this.autoSearchExpand, 2 * this.autoSearchExpand);
     }
   }
 

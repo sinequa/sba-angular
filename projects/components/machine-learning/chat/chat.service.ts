@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
-import { AuditEvent, AuditWebService, JsonMethodPluginService, Record, RelevantExtract, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
+import { AuditEvent, AuditWebService, JsonMethodPluginService, Record, RelevantExtract, Results, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
 import { BehaviorSubject, defaultIfEmpty, forkJoin, map, Observable, of, Subject, switchMap, tap } from "rxjs";
 import { marked } from "marked";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
@@ -206,29 +206,39 @@ export class ChatService {
    * When relevant content is retrieved, the attachments$ subject is
    * upated.
    */
-  searchAttachmentsSync(text: string, minScore = 0.5, maxPassages = 5, query = this.searchService.query) {
+  searchAttachments(results: Results, minScore = 0.5, maxPassages = 5, maxDocuments = 3, sentencesBefore = 1, sentencesAfter = 2) {
+    // Select top passages
+    const passages = results.topPassages?.passages
+      ?.filter(p => p.score > minScore)
+      .slice(0, maxPassages);
+
+    // Get attachments either from top passages or documents
+    const attachments$ = passages?.length?
+      // Use passages by default, as they are the most relevant data
+      this.addTopPassages(passages, results.records, sentencesBefore, sentencesAfter) :
+      // Take the begining of the top-3 documents and top relevant extracts
+      this.addDocuments(results.records.slice(0, maxDocuments), 2048, 3, 2, sentencesBefore, sentencesAfter);
+
+    // Post process and return
+    return attachments$.pipe(
+      switchMap(doc => this.countChunks(doc)),
+      defaultIfEmpty([] as ChatAttachmentWithTokens[]) // forkJoin([]) does not emit anything!
+    );
+  }
+
+  /**
+   * Automatically search attachments in the results yielded by the given query
+   */
+  searchAttachmentsSync(query = this.searchService.query, minScore = 0.5, maxPassages = 5, maxDocuments = 3, sentencesBefore = 1, sentencesAfter = 2) {
     const event: AuditEvent = {
       type: "Chat_Autosearch",
       detail: {
-        querytext: text
+        querytext: query.text
       }
     };
-    query.text = text;
-    this.searchService.getResults(query, event).pipe(
+    return this.searchService.getResults(query, event).pipe(
       tap(results => this.searchService.setResults(results)),
-      switchMap(results => {
-        const passages = results.topPassages?.passages?.filter(p => p.score > minScore).slice(0,maxPassages);
-        if(passages?.length) {
-          // Use passages by default, as they are the most relevant data
-          return this.addTopPassages(passages, results.records);
-        }
-        else {
-          // Take the begining of the top-3 documents and top relevant extracts
-          return this.addDocuments(results.records.slice(0,3));
-        }
-      }),
-      switchMap(doc => this.countChunks(doc)),
-      defaultIfEmpty([] as ChatAttachmentWithTokens[]) // forkJoin([]) does not emit anything!
+      switchMap(results => this.searchAttachments(results, minScore, maxDocuments, maxPassages, sentencesBefore, sentencesAfter))
     ).subscribe(attachments => this.addAttachments(attachments));
   }
 
@@ -329,12 +339,12 @@ export class ChatService {
   /**
    * Add a list of records as attachments
    */
-  addDocuments(records: Record[], includeStart = true, includeExtracts = 3, includePassages = 2, maxLength = 2048) {
-    return forkJoin(records.map(record => this.addDocument(record, includeStart, includeExtracts, includePassages, maxLength)));
+  addDocuments(records: Record[], includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3) {
+    return forkJoin(records.map(record => this.addDocument(record, includeStart, includeExtracts, includePassages, sentencesBefore, sentencesAfter)));
   }
 
-  addDocumentsSync(records: Record[], includeStart = true, includeExtracts = 3, includePassages = 2, maxLength = 2048) {
-    this.addDocuments(records, includeStart, includeExtracts, includePassages, maxLength)
+  addDocumentsSync(records: Record[], includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3) {
+    this.addDocuments(records, includeStart, includeExtracts, includePassages, sentencesBefore, sentencesAfter)
       .pipe(switchMap(doc => this.countChunks(doc)))
       .subscribe(a => this.addAttachments(a));
   }
@@ -342,10 +352,10 @@ export class ChatService {
   /**
    * Returns a (truncated) document attachment
    */
-  addDocument(record: Record, includeStart = true, includeExtracts = 3, includePassages = 2, maxLength = 2048): Observable<ChatAttachment> {
+  addDocument(record: Record, includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3): Observable<ChatAttachment> {
     const chunks: Chunk[] = [];
     if(includeStart) {
-      chunks.push({offset: 0, length: maxLength});
+      chunks.push({offset: 0, length: includeStart});
     }
     if(includeExtracts && record.extracts) {
       const extracts = this.getExtractChunks(record.extracts)
@@ -359,11 +369,11 @@ export class ChatService {
         .slice(0, includePassages);
       chunks.push(...passages);
     }
-    return this.addChunks(record, chunks, 1, 3);
+    return this.addChunks(record, chunks, sentencesBefore, sentencesAfter);
   }
 
-  addDocumentSync(record: Record, includeStart = true, includeExtracts = 3, includePassages = 2, maxLength = 2048) {
-    this.addDocument(record, includeStart, includeExtracts, includePassages, maxLength)
+  addDocumentSync(record: Record, includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3) {
+    this.addDocument(record, includeStart, includeExtracts, includePassages, sentencesBefore, sentencesAfter)
       .pipe(switchMap(doc => this.countChunks([doc])))
       .subscribe(a => this.addAttachments(a));
   }
