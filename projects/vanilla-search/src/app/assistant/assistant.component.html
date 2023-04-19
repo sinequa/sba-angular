@@ -1,0 +1,40 @@
+
+<sq-facet-card
+  [title]="'Assistant'"
+  [icon]="'fas fa-fw  fa-comments primary-icon'"
+  [collapsible]="false"
+  [actions]="[autoModeAction, chatSettingsAction]"
+  class="mb-3">
+
+  <sq-chat #facet *ngIf="!chatSettingsAction.selected; else settings"
+    [displayAttachments]="false"
+    [textBeforeAttachments]="chatConfig.textBeforeAttachments"
+    [displayAttachments]="chatConfig.displayAttachments"
+    [temperature]="chatConfig.temperature"
+    [topP]="chatConfig.topP"
+    [maxTokens]="chatConfig.maxTokens"
+    [initialSystemPrompt]="chatConfig.initialSystemPrompt"
+    [initialUserPrompt]="chatConfig.initialUserPrompt"
+    [addAttachmentPrompt]="chatConfig.addAttachmentPrompt"
+    [addAttachmentsPrompt]="chatConfig.addAttachmentsPrompt"
+    [attachmentsHiddenPrompt]="chatConfig.attachmentsHiddenPrompt"
+    [autoSearchMinScore]="chatConfig.autoSearchMinScore"
+    [autoSearchMaxPassages]="chatConfig.autoSearchMaxPassages"
+    [autoSearchMaxDocuments]="chatConfig.autoSearchMaxDocuments"
+    [autoSearchExpand]="chatConfig.autoSearchExpand"
+    [model]="chatConfig.model">
+  </sq-chat>
+
+  <ng-template #settings>
+    <div class="card-body pb-0">
+      <h4>Assistant options</h4>
+      <div class="mb-2">
+        <label for="searchPrompt" class="form-label">Prompt</label>
+        <textarea class="form-control" id="searchPrompt" [(ngModel)]="searchPrompt" [ngModelOptions]="{updateOn: 'blur'}" rows="15"></textarea>
+      </div>
+      <h4 class="mb-0">Chat options</h4>
+    </div>
+    <sq-chat-settings [config]="chatConfig"></sq-chat-settings>
+  </ng-template>
+
+</sq-facet-card>

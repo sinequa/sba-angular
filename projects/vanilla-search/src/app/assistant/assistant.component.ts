@@ -17,33 +17,7 @@ interface ChatSuggestion {
 
 @Component({
   selector: "sq-assistant",
-  template: `
-  <sq-facet-card
-    [title]="'Assistant'"
-    [icon]="'fas fa-fw  fa-comments primary-icon'"
-    [collapsible]="false"
-    [actions]="[autoModeAction, chatSettingsAction]"
-    class="mb-3">
-
-    <sq-chat #facet *ngIf="!chatSettingsAction.selected"
-      [displayAttachments]="false"
-      [textBeforeAttachments]="chatConfig.textBeforeAttachments"
-      [displayAttachments]="chatConfig.displayAttachments"
-      [temperature]="chatConfig.temperature"
-      [topP]="chatConfig.topP"
-      [maxTokens]="chatConfig.maxTokens"
-      [initialSystemPrompt]="chatConfig.initialSystemPrompt"
-      [initialUserPrompt]="chatConfig.initialUserPrompt"
-      [addAttachmentPrompt]="chatConfig.addAttachmentPrompt"
-      [addAttachmentsPrompt]="chatConfig.addAttachmentsPrompt"
-      [attachmentsHiddenPrompt]="chatConfig.attachmentsHiddenPrompt"
-      [autoSearchMinScore]="chatConfig.autoSearchMinScore"
-      [autoSearchMaxPassages]="chatConfig.autoSearchMaxPassages"
-      [model]="chatConfig.model">
-    </sq-chat>
-    <sq-chat-settings *ngIf="chatSettingsAction.selected" [config]="chatConfig"></sq-chat-settings>
-  </sq-facet-card>
-  `
+  templateUrl: "./assistant.component.html"
 })
 export class AssistantComponent implements AfterViewInit, OnDestroy {
 
@@ -135,9 +109,12 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
         }),
 
         // Turn off spinner
-        tap(() => {
+        tap(suggestions => {
           this.chat.loading = false;
           this.chat.cdr.detectChanges();
+          if(!suggestions) {
+            this.chat.loadDefaultChat();
+          }
         }),
 
         // Stop there if there is no suggestion
@@ -234,9 +211,14 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
         }),
 
         // Build attachments from the results
-        switchMap((results: Results) => results.topPassages?.passages?.length?
-          this.chatService.addTopPassages(results.topPassages?.passages) :
-          this.chatService.addDocuments(results.records.slice(0,5))
+        switchMap((results: Results) =>
+          this.chatService.searchAttachments(results,
+            this.chatConfig.autoSearchMinScore,
+            this.chatConfig.autoSearchMaxPassages,
+            this.chatConfig.autoSearchMaxDocuments,
+            this.chatConfig.autoSearchExpand,
+            this.chatConfig.autoSearchExpand * 2
+          )
         )
 
       ).subscribe((attachments: any) => {
@@ -316,4 +298,13 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
   set autoMode(val: boolean) {
     this.prefs.set('chat-mode', val);
   }
+
+  get searchPrompt(): string {
+    return this.promptService.getRawPrompt("searchPrompt");
+  }
+
+  set searchPrompt(val: string) {
+    this.promptService.setRawPrompt("searchPrompt", val);
+  }
+
 }

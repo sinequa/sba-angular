@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
+import { UserPreferences } from "@sinequa/components/user-settings";
 import { AppService } from "@sinequa/core/app-utils";
 import { IntlService } from "@sinequa/core/intl";
 import { PrincipalWebService, Record } from "@sinequa/core/web-services";
@@ -65,11 +66,11 @@ const defaultPrompts = {
     "answer": "The mean reciprocal rank is a statistic measure for evaluating any process that produces a list of possible responses to a sample of queries, ordered by probability of correctness."
   }
 
-  From now on, it's you turn to generate the response.
+  From now on, it's your turn to generate the response.
   `,
   answer2Prompt: `
   Given the above documents, can you provide an answer to my query?
-  You can refer to the documents by their [id] (eg. [2], [7]...).
+  You can refer to the documents by their [id] (eg. [2], [7]...) and you can use markdown syntax for formatting.
   If there is not enough information to answer, just say so. Do not try to make up an answer.
   Query: {query.text}`
 }
@@ -77,15 +78,37 @@ const defaultPrompts = {
 @Injectable({providedIn: 'root'})
 export class PromptService {
 
-
   constructor(
     public appService: AppService,
     public searchService: SearchService,
     public principalService: PrincipalWebService,
-    public intlService: IntlService
+    public intlService: IntlService,
+    public prefs: UserPreferences
   ) {}
 
+  setRawPrompt(name: keyof typeof defaultPrompts, prompt: string) {
+    if(!prompt) {
+      prompt = this.appService.app?.data?.[name] as string;
+      if(typeof prompt !== 'string') {
+        prompt = defaultPrompts[name];
+      }
+    }
+    this.prefs.set(name, prompt);
+  }
+
+  getRawPrompt(name: keyof typeof defaultPrompts) {
+    let prompt = this.prefs.get(name);
+    if(typeof prompt !== 'string') {
+      prompt = this.appService.app?.data?.[name];
+    }
+    if(typeof prompt !== 'string') {
+      prompt = defaultPrompts[name];
+    }
+    return prompt;
+  }
+
   getPrompt(name: keyof typeof defaultPrompts, record?: Record, other?: any) {
+    const prompt = this.getRawPrompt(name);
     const context = {
       results: this.searchService.results,
       query: this.searchService.query,
@@ -93,10 +116,6 @@ export class PromptService {
       locale: this.intlService.currentLocale,
       record,
       ...(other || {})
-    }
-    let prompt = this.appService.app?.data?.[name];
-    if(typeof prompt !== 'string') {
-      prompt = defaultPrompts[name];
     }
     return this.formatPrompt(prompt, context);
   }

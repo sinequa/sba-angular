@@ -201,7 +201,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         display: false,
         content: this.promptService.getPrompt("previewPrompt", record)
       }],
-      attachments: this.chatService.addDocument(record, true, 5, 10).pipe(
+      attachments: this.chatService.addDocument(record, 2048, 5, 10).pipe(
         tap(() => this.auditService.notify({
           type: 'Chat_Summarize_Document',
           detail: this.previewService.getAuditPreviewDetail(record.id, this.searchService.query, record, this.searchService.results?.id)
