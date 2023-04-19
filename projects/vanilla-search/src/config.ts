@@ -196,10 +196,6 @@ export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHigh
     }
 ];
 
-export const METADATA: string[] = [
-    "authors", "docformat", "modified", "size", "treepath", "filename"
-];
-
 export const METADATA_CONFIG: MetadataConfig[] = [
     {
         item: "authors",
@@ -232,12 +228,5 @@ export const METADATA_CONFIG: MetadataConfig[] = [
         item: "filename",
         icon: "far fa-file-alt",
         excludable: true
-    },
-    {
-        item: "person",
-        icon: "far fa-file-alt",
-        filterable: true,
-        excludable: true,
-        showEntityTooltip: true
     }
 ];

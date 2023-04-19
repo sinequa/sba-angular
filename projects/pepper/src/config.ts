@@ -166,10 +166,6 @@ export const FACETS: FacetConfig<FacetParams>[] = [{
     }
 ];
 
-export const METADATA: string[] = [
-    "authors", "docformat", "modified", "size", "treepath", "filename"
-];
-
 export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
   {
     name: 'company',

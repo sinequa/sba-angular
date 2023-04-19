@@ -11,7 +11,7 @@ import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES, METADATA, PREVIEW_HIGHLIGHTS } from '../../config';
+import { FacetParams, FACETS, FEATURES, PREVIEW_HIGHLIGHTS } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { ModalService } from '@sinequa/core/modal';
@@ -275,15 +275,6 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public get features(): string[] {
     return this.appService.app?.data?.features as string[] || FEATURES;
-  }
-
-  /**
-   * Returns the configuration of the metadata displayed in the facet-preview component.
-   * The configuration from the config.ts file can be overriden by configuration from
-   * the app configuration on the server
-   */
-  public get metadata(): string[] {
-    return this.appService.app?.data?.metadata as string[] || METADATA;
   }
 
   public get previewHighlights(): PreviewHighlightColors[] {

@@ -11,7 +11,7 @@ import { DEFAULT_FACET_COMPONENTS, FacetConfig, FacetService } from '@sinequa/co
 import { UIService } from '@sinequa/components/utils';
 import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { BsDropdownService } from '@sinequa/components/action';
-import { FACETS, METADATA, FEATURES, FacetParams, PREVIEW_HIGHLIGHTS } from '../../config';
+import { FACETS, FEATURES, FacetParams, PREVIEW_HIGHLIGHTS } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 import { AppDashboardComponent } from '../dashboard/dashboard.component';
@@ -97,15 +97,6 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public get features(): string[] {
     return this.appService.app?.data?.features as string[] || FEATURES;
-  }
-
-  /**
-   * Returns the configuration of the metadata displayed in the facet-preview component.
-   * The configuration from the config.ts file can be overriden by configuration from
-   * the app configuration on the server
-   */
-  public get metadata(): string[] {
-    return this.appService.app?.data?.metadata as string[] || METADATA;
   }
 
 

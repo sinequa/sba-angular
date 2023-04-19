@@ -14,10 +14,10 @@ export class MetadataListComponent {
     @Input() style: 'inline' | 'table' = 'inline';
 
     /**
-     * Allows to override the default METADATA_CONFIG config value if you
-     * want to have a metadata-list component with another behavior
+     * The metadata config with the list of metadata to display
+     * It can also be strings to be put in between
      */
-    @Input() config?: (MetadataConfig | string)[];
+    @Input() config: (MetadataConfig | string)[];
 
     /**
      * Whether the metadata title should be displayed
