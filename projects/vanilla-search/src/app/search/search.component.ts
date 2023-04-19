@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { forkJoin, Observable, Subscription, tap } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
 import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
@@ -195,22 +195,18 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
-    if(record.matchingpassages?.passages.length) {
-      const passages = record.matchingpassages.passages
-        .slice(0,10) // Limit to 10 passages
-        .map(p => ({$record: record, location: p.location})); // prepare input for the chat service
-
-      this.openedDocChat = {
-        messages: [
-          {role: 'system', display: false, content: this.promptService.getPrompt('previewSummaryPrompt', record)}
-        ],
-        attachments: forkJoin(this.chatService.addPassages(passages)).pipe(
-          tap(() => this.auditService.notify({
-            type: 'Chat_Summarize_Document',
-            detail: this.previewService.getAuditPreviewDetail(record.id, this.searchService.query, record, this.searchService.results?.id)
-          }))
-        )
-      }
+    this.openedDocChat = {
+      messages: [{
+        role: 'system',
+        display: false,
+        content: this.promptService.getPrompt("previewPrompt", record)
+      }],
+      attachments: this.chatService.addDocument(record, true, 5, 10).pipe(
+        tap(() => this.auditService.notify({
+          type: 'Chat_Summarize_Document',
+          detail: this.previewService.getAuditPreviewDetail(record.id, this.searchService.query, record, this.searchService.results?.id)
+        }))
+      )
     }
     this.passageId = passageId?.toString();
     if (this.passageId) {

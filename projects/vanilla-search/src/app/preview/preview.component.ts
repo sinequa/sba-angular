@@ -2,7 +2,7 @@ import { Component, OnDestroy, ViewChild, ChangeDetectionStrategy, ChangeDetecto
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { Subscription, filter, forkJoin, of } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
 
 import { AuditEventType, PreviewData, Tab } from '@sinequa/core/web-services';
 import { AppService, Query } from '@sinequa/core/app-utils';
@@ -162,20 +162,17 @@ export class PreviewComponent implements OnDestroy {
 
   initChat() {
     if(this.previewData?.record) {
-      const content = this.promptService.getPrompt('previewPrompt');
-      const messages = [
-        {role: 'system', display: false, content}
-      ];
-      const $record = this.previewData.record;
-      const passages = $record.matchingpassages?.passages
-        .slice(0,5)
-        .map(p => ({location: p.location, $record }));
-      const attachments =
-        passages? forkJoin(this.chatService.addPassages(passages, 2, 4)) :
-        $record.extracts? this.chatService.addExtracts($record, $record.extracts) : of([]);
-      this.chat = {messages, attachments};
+      const record = this.previewData.record;
+      this.chat = {
+        messages: [{
+          role: 'system',
+          display: false,
+          content: this.promptService.getPrompt("previewPrompt", record, {query: this.query})
+        }],
+        attachments: this.chatService.addDocument(record, true, 5, 10)
+      };
       this.chatQuery = this.searchService.makeQuery({
-        filters: {field: 'id', value: $record.id}
+        filters: {field: 'id', value: record.id}
       })
     }
   }
