@@ -198,7 +198,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
                 if(results?.rowCount) {
                   // Content matters for the conversation follow-up
                   const messages: ChatMessage[] = this.chat.messages$.value || [];
-                  const answer = `I found ${results.rowCount} documents by applying these suggestions, would like to display them?`;
+                  const answer = `I found ${results.rowCount} documents by applying these suggestions, would you like to display them?`;
                   const $actions = [
                     new Action({
                       icon: 'fas fa-check',
