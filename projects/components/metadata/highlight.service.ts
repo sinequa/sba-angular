@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { PreviewHighlightColors } from '@sinequa/components/preview';
+
+export const HIGHLIGHTS = new InjectionToken<{ selectors: string[], highlights: PreviewHighlightColors[] }[]>('HIGHLIGHTS');
 
 @Injectable({
   providedIn: 'root'
@@ -8,20 +10,17 @@ export class HighlightService {
 
   styleElement: HTMLStyleElement;
 
-  init(selectorsHighlights?: { selectors: string[], highlights: PreviewHighlightColors[] }[]) {
+  constructor(@Inject(HIGHLIGHTS) private highlights: { selectors: string[], highlights: PreviewHighlightColors[] }[]) {
+    this.init();
+  }
+
+  init() {
     if (!this.styleElement) {
       this.styleElement = document.createElement('style');
       document.head.appendChild(this.styleElement);
     }
 
-    if (selectorsHighlights) {
-      this.highlight(selectorsHighlights);
-    }
-
-  }
-
-  highlight(selectorsHighlights: { selectors: string[], highlights: PreviewHighlightColors[] }[]) {
-    this.styleElement.textContent = selectorsHighlights.map(sh =>
+    this.styleElement.textContent = this.highlights.map(sh =>
       sh.highlights.map(highlight =>
         sh.selectors.map(selector =>
           `${selector}.${highlight.name} {
@@ -30,7 +29,7 @@ export class HighlightService {
             }`)
           .join('\n'))
         .join('\n')
-    ).join('\n')
+    ).join('\n');
   }
 
   clearHighlights() {

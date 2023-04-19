@@ -6,6 +6,7 @@ import { AppService, Query } from "@sinequa/core/app-utils";
 import { EntityItem, Record } from "@sinequa/core/web-services";
 import { IconService } from "../icon.service";
 import { MetadataService, MetadataValue } from "../metadata.service";
+import { HighlightService } from "../highlight.service";
 
 @Component({
     selector: "sq-metadata",
@@ -95,7 +96,8 @@ export class MetadataComponent implements OnChanges {
         private metadataService: MetadataService,
         private searchService: SearchService,
         private el: ElementRef,
-        private ui: UIService) {
+        private ui: UIService,
+        highlightService: HighlightService) {
         this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
     }
 
