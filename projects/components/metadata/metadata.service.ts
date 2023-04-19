@@ -13,8 +13,6 @@ export interface MetadataConfig {
   item: string;
   icon?: string;
   itemClass?: string;
-  color?: string;
-  bgColor?: string;
   filterable?: boolean;
   excludable?: boolean;
   showEntityTooltip?: boolean;

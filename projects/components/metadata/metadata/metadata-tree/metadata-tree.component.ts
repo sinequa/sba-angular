@@ -20,8 +20,6 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() itemClass: string;
   @Input() column: CCColumn | undefined;
   @Input() showFiltersHighlights = true;
-  @Input() bgColor?: string;
-  @Input() color?: string;
 
   @Input() loading: boolean;
   @Input() entityTemplate: any;

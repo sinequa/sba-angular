@@ -21,7 +21,7 @@
                 [column]="metadataValue.column" [showFiltersHighlights]="showFiltersHighlights" [loading]="loading"
                 [entityTemplate]="entityTemplate" [actions]="allActions" [actionsButtonsStyle]="actionsButtonsStyle"
                 [actionsButtonsSize]="actionsButtonsSize" [tooltipLinesNumber]="tooltipLinesNumber"
-                (openedPopper)="currentItem=$event" [bgColor]="backgroundColor" [color]="textColor"></sq-metadata-tree>
+                (openedPopper)="currentItem=$event"></sq-metadata-tree>
         </ng-container>
 
         <!-- Not a Tree-->
@@ -30,8 +30,8 @@
                 class="sq-metadata-item {{'sq-metadata-item-' + item}} {{itemClass}}"
                 [attr.title]="(showTitle || metadataValue.fnEntityTooltip) ? null : ((label || columnLabel) | sqMessage)"
                 sqPopper [target]="entityTemplate || allActions?.length ? tooltip : undefined" [placement]="placement"
-                (shown)="openedPopper(valueItem)" [style.color]="textColor"
-                [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : backgroundColor">
+                (shown)="openedPopper(valueItem)"
+                [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : undefined">
                 <span *ngIf="showFormatIcon && valueIcon" class="{{valueIcon}}"></span>
                 {{valueItem | sqValue:metadataValue.column}}
                 <span class="sq-metadata-separator" *ngIf="separator && $index < metadataValue.valueItems.length-1">

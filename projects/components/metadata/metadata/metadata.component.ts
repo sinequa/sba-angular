@@ -21,8 +21,6 @@ export class MetadataComponent implements OnChanges {
     @Input() label: string
     @Input() icon?: string;
     @Input() itemClass?: string;
-    @Input() color?: string;
-    @Input() bgColor?: string;
     @Input() filterable?: boolean;
     @Input() excludable?: boolean;
     @Input() showEntityTooltip?: boolean;
@@ -90,16 +88,6 @@ export class MetadataComponent implements OnChanges {
 
     get needsCollapse(): boolean {
         return this.collapseRows && this.valuesMaxHeight! > this.lineHeight! * 2;
-    }
-
-    get backgroundColor(): string | undefined {
-        return this.bgColor ? this.bgColor
-            : this.itemClass && this.itemClass?.indexOf('badge') !== -1 ? 'white' : undefined;
-    }
-
-    get textColor(): string | undefined {
-        return this.color ? this.color
-            : this.itemClass && this.itemClass?.indexOf('badge') !== -1 ? '#7283a7' : undefined;
     }
 
     constructor(private iconService: IconService,

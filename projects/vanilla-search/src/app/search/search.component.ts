@@ -100,7 +100,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     {
       item: "company",
       icon: "fas fa-layer-group",
-      itemClass: 'badge rounded-pill',
+      itemClass: 'badge rounded-pill bg-light text-dark',
       showEntityTooltip: true,
       actions: [
         new Action({
