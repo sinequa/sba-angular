@@ -2,7 +2,7 @@
     <div class="sq-metadata-tooltip-entity p-2" *ngIf="entityTemplate" [innerHTML]="entityTemplate"
         [style.-webkit-line-clamp]="tooltipLinesNumber">
     </div>
-    <div *ngIf="actions?.length" class="btn-group"
+    <div *ngIf="actions?.length" class="btn-group d-flex"
         [sq-action-buttons]="{items: actions, style: actionsButtonsStyle, size: actionsButtonsSize, rightAligned: true}">
     </div>
 </div>
