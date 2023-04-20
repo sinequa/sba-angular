@@ -51,6 +51,14 @@ import { OpenAIModel } from "./types";
       <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="autoSearchMaxPassages" [(ngModel)]="config.autoSearchMaxPassages">
     </div>
     <div class="mb-2">
+      <label for="autoSearchMaxDocuments" class="form-label">Auto-search maximum number of documents (when no passage): {{config.autoSearchMaxDocuments}}</label>
+      <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="autoSearchMaxDocuments" [(ngModel)]="config.autoSearchMaxDocuments">
+    </div>
+    <div class="mb-2">
+      <label for="autoSearchExpand" class="form-label">Expand passages with extra sentences: {{config.autoSearchExpand}}</label>
+      <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="autoSearchExpand" [(ngModel)]="config.autoSearchExpand">
+    </div>
+    <div class="mb-2">
       <label for="temperature" class="form-label">Temperature: {{config.temperature}}</label>
       <input type="range" class="form-range form-range-sm" min="0" max="2" step="0.1" id="temperature" [(ngModel)]="config.temperature">
     </div>
