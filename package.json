@@ -1,6 +1,6 @@
 {
   "name": "ng-ws",
-  "version": "11.9.1",
+  "version": "11.10.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
