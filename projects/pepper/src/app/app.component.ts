@@ -9,6 +9,7 @@ import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
 import { FEATURES } from '../config';
 import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
+import { HighlightService } from "@sinequa/components/metadata";
 
 @Component({
     selector: "app-root",
@@ -23,6 +24,7 @@ export class AppComponent extends ComponentWithLogin {
         // regardless of the entry route.
         // The order below impacts the order of the actions in the selection menu.
         prefs: UserPreferences,
+        highlightService: HighlightService,
         public savedQueriesService: SavedQueriesService,
         public basketsService: BasketsService,
         public alertsService: AlertsService,

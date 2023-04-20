@@ -11,12 +11,13 @@ import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES, PREVIEW_HIGHLIGHTS } from '../../config';
+import { FacetParams, FACETS, FEATURES } from '../../config';
 import { TopPassage } from '@sinequa/core/web-services';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { ModalService } from '@sinequa/core/modal';
 import { BsEditLabel, ModalProperties } from '@sinequa/components/labels';
 import { MetadataConfig } from '@sinequa/components/metadata';
+import { PREVIEW_HIGHLIGHTS } from '@sinequa/components/metadata';
 
 @Component({
   selector: 'app-search',

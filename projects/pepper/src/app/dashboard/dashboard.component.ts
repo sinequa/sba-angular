@@ -18,7 +18,7 @@ import { map, Observable, of, tap } from "rxjs";
 import { GoogleMapsModule } from "@sinequa/analytics/googlemaps";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { NotificationsService } from "@sinequa/core/notification";
-import { PREVIEW_HIGHLIGHTS } from "../../config";
+import { PREVIEW_HIGHLIGHTS } from "@sinequa/components/metadata";
 import { AppService } from "@sinequa/core/app-utils";
 
 const defaultOptions = {
