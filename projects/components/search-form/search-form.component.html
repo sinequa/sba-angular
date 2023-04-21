@@ -6,6 +6,9 @@
       <i class="fas fa-fw fa-search"></i>
     </div>
 
+    <!-- Scope selector -->
+    <sq-scope [query]="editedQuery" (queryChange)="onScopeChange()"></sq-scope>
+
     <!-- Search input -->
     <input #searchInput
       type="text" spellcheck="false" autocomplete="off"
