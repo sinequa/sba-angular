@@ -6,9 +6,9 @@ import { marked } from "marked";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Validators } from "@angular/forms";
-import { Utils } from "@sinequa/core/base";
 import { Chunk, equalChunks, insertChunk } from "./chunk";
 import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, OpenAIModel, OpenAITokens, RawMessage, RawResponse, SavedChat } from "./types";
+import { extractReferences } from "./references";
 
 
 @Injectable({providedIn: 'root'})
@@ -135,44 +135,9 @@ export class ChatService {
   processMessage(message: RawMessage, conversation: ChatMessage[], $attachment?: ChatAttachment): ChatMessage {
     const chatMessage: ChatMessage = {...message, $content: marked(message.content), $attachment};
     if(message.role === 'assistant') {
-      this.extractReferences(chatMessage, conversation);
+      extractReferences(chatMessage, conversation);
     }
     return chatMessage;
-  }
-
-  /**
-   * Extract references from a given message, given the context of a conversation
-   * (which includes messages/attachments that this message is refering to).
-   */
-  protected extractReferences(message: ChatMessage, conversation: ChatMessage[]) {
-    const matches = message.$content.matchAll(/\[(\d+(,[ \d]+)*)\]/g);
-    const references = new Set<number>();
-    for(let match of matches) {
-      for(let ref of match[1].split(',')) {
-        references.add(+ref);
-      }
-    }
-    if(references.size > 0) {
-      message.$references = [...references].sort((a,b)=> a-b)
-        .map(refId => ({
-          refId,
-          $record: conversation.find(p => p.$refId === refId)?.$attachment?.$record!
-        }))
-        .filter(r => r.$record);
-      message.$content = message.$content.replace(/\[(\d+(,[ \d]+)*)\]/g, (str,match) => {
-        let html = '';
-        for(let ref of match.split(',')) {
-          const record = conversation.find(p => p.$refId === +ref)?.$attachment?.$record;
-          if(record) {
-            html += `<a class="reference" href="${record.url1}" title="${Utils.escapeHtml(record.title)}">${Utils.escapeHtml(ref)}</a>`;
-          }
-          else {
-            html += `<span class="reference">${Utils.escapeHtml(ref)}</span>`;
-          }
-        }
-        return html;
-      });
-    }
   }
 
   /**
