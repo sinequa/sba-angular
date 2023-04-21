@@ -202,7 +202,7 @@ export class ChatService {
     };
     return this.searchService.getResults(query, event).pipe(
       tap(results => this.searchService.setResults(results)),
-      switchMap(results => this.searchAttachments(results, minScore, maxDocuments, maxPassages, sentencesBefore, sentencesAfter)),
+      switchMap(results => this.searchAttachments(results, minScore, maxPassages, maxDocuments, sentencesBefore, sentencesAfter)),
       switchMap(attachments => this.countChunks(attachments)),
     ).subscribe(attachments => this.addAttachments(attachments));
   }
