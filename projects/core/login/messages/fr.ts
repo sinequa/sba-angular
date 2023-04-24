@@ -8,4 +8,7 @@ export default {
             "signInWith": "S'identifier avec ..."
         }
     },
+    "login": {
+        "retry": "Déconnecté... Nouvel essai {prettyDelay}"
+    }
 };
