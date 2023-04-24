@@ -1,3 +1,7 @@
 <doc-component-demo title="SlideBuilderComponent" [html]="code">
-    <sq-slide-builder></sq-slide-builder>
+    <sq-facet-card [collapsible]="false" icon="far fa-file-powerpoint" title="Slide Deck Builder"
+        tooltip="Click on a slide from the search results to add it to the Slide Deck Builder."
+        class="d-block mb-3 facet-preview">
+        <sq-slide-builder #facet></sq-slide-builder>
+    </sq-facet-card>
 </doc-component-demo>
