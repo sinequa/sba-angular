@@ -99,6 +99,8 @@ export class MetadataComponent implements OnChanges {
         this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
     }
 
+    onResize = () => this.updateMaxHeight()
+
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
         if ((!!changes.record && !this.metadataValue) || !!changes.query) {
@@ -128,8 +130,6 @@ export class MetadataComponent implements OnChanges {
         this.setActions();
         this.display = !!this.item && !!this.record && !!this.record[this.item];
     }
-
-    onResize = () => this.updateMaxHeight()
 
     filterItem(): void {
         if (this.filterable) {
@@ -162,7 +162,7 @@ export class MetadataComponent implements OnChanges {
         this.valuesHeight = this.collapsed ? this.valuesMaxHeight : this.lineHeight;
     }
 
-    openedPopper(valueItem: EntityItem): void {
+    setupTooltip(valueItem: EntityItem): void {
         this.entityTemplate = undefined;
         this.currentItem = valueItem;
         this.filterAction.update();

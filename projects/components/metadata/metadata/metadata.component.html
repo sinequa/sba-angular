@@ -30,7 +30,7 @@
                 class="sq-metadata-item {{'sq-metadata-item-' + item}} {{itemClass}}"
                 [attr.title]="(showTitle || metadataValue.fnEntityTooltip) ? null : ((label || columnLabel) | sqMessage)"
                 sqPopper [target]="entityTemplate || allActions?.length ? tooltip : undefined" [placement]="placement"
-                (shown)="openedPopper(valueItem)"
+                (shown)="setupTooltip(valueItem)"
                 [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : undefined">
                 <span *ngIf="showFormatIcon && valueIcon" class="{{valueIcon}}"></span>
                 {{valueItem | sqValue:metadataValue.column}}

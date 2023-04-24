@@ -74,21 +74,17 @@ export class HighlightService {
   styleElement: HTMLStyleElement;
 
   constructor(@Optional() @Inject(HIGHLIGHTS) private highlights: { selectors: string[], highlights: PreviewHighlightColors[] }[]) {
-    this.init();
+    this.setHighlights(this.highlights);
   }
 
-  init() {
+  setHighlights(selectorsHighlights: { selectors: string[], highlights: PreviewHighlightColors[] }[]) {
+    if (!selectorsHighlights) return;
+
     if (!this.styleElement) {
       this.styleElement = document.createElement('style');
       document.head.appendChild(this.styleElement);
     }
 
-    if (this.highlights) {
-      this.highlight(this.highlights);
-    }
-  }
-
-  highlight(selectorsHighlights: { selectors: string[], highlights: PreviewHighlightColors[] }[]) {
     this.styleElement.textContent = selectorsHighlights.map(sh =>
       sh.highlights.map(highlight =>
         sh.selectors.map(selector => {
