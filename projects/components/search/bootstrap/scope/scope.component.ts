@@ -5,7 +5,7 @@ import { CCScope } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-scope',
-  template: `<div *ngIf="scopeAction" [sq-action-item]="{item: scopeAction, autoAdjust: true}"></div>`
+  template: `<li *ngIf="scopeAction" [sq-action-item]="{item: scopeAction, autoAdjust: true}" class="list-inline-item me-2"></li>`
 })
 export class BsScopeComponent implements OnChanges {
   @Input() query: Query;
@@ -27,9 +27,17 @@ export class BsScopeComponent implements OnChanges {
   }
 
   updateAction() {
-    if(this.appService.ccquery) {
-      const scopes = [this.allScopes, ...this.appService.ccquery.scopes];
-      const currentScope = scopes.find(s => s.name === (this.query?.scope || ""));
+    if(this.appService.ccquery?.scopesActive) {
+      const scopes = [...this.appService.ccquery.scopes];
+      const defaultScope = scopes.find(s => s.isDefault);
+      // If a default scope is not set by default, we add "all scopes"
+      // which corresponds to the default behavior
+      if(!defaultScope) {
+        scopes.unshift(this.allScopes);
+      }
+      // Current scope can be explicitly defined in the query, or it is default scope
+      const currentScopeName = this.query.scope ?? defaultScope?.name ?? "";
+      const currentScope = scopes.find(s => s.name === currentScopeName);
 
       if(currentScope) {
         this.scopeAction = new Action({
