@@ -7,5 +7,8 @@ export default {
             "singleSignOn": "Single sign-on",
             "signInWith": "Sign in with..."
         }
+    },
+    "login": {
+        "retry": "Disconnected... trying again {prettyDelay}"
     }
 };
