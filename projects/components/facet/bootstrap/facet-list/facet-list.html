@@ -57,7 +57,7 @@
         </div>
 
         <!-- item display / value -->
-        <span class="text-truncate me-auto">
+        <span class="text-truncate me-auto" [title]="item | sqValue:item.$column">
             {{item | sqValue:item.$column}}
         </span>
 

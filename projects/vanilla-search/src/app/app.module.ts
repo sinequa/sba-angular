@@ -28,7 +28,7 @@ import { BsLabelsModule } from '@sinequa/components/labels';
 import { APP_HELP_FOLDER_OPTIONS, BsUserSettingsModule } from '@sinequa/components/user-settings';
 import { ResultModule } from '@sinequa/components/result';
 import { BsFeedbackModule } from '@sinequa/components/feedback';
-import { BsPreviewModule } from '@sinequa/components/preview';
+import { PreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule } from '@sinequa/components/selection';
 import { MLModule } from '@sinequa/components/machine-learning';
@@ -136,7 +136,7 @@ export const breakpoints = {
         BsUserSettingsModule,
         ResultModule,
         BsFeedbackModule,
-        BsPreviewModule,
+        PreviewModule,
         MetadataModule,
         BsSelectionModule,
         MLModule,

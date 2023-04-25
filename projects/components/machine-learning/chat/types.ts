@@ -1,3 +1,4 @@
+import { Action } from "@sinequa/components/action";
 import { Record } from "@sinequa/core/web-services";
 
 /**
@@ -15,6 +16,8 @@ export interface RawMessage {
   $attachment?: RawAttachment;
   /** Reference of this attachment in the contexte of the conversation */
   $refId?: number;
+  /** Optionally include a custom action suggested by the assistant */
+  $actions?: Action[];
 }
 
 /**
@@ -75,6 +78,13 @@ export interface ChatAttachmentWithTokens extends ChatAttachment {
 export type OpenAITokens = {
   used: number;
   model: number;
+  quota?: {
+    tokenCount: number;
+    periodTokens: number;
+    resetHours: number;
+    lastResetUTC: string;
+    nextResetUTC: string;
+  }
 }
 
 /**
@@ -95,7 +105,7 @@ export interface ChatResponse extends RawResponse {
 /**
  * Model names supported by the API
  */
-export type OpenAIModel = "Davinci3" | "GPT35Turbo";
+export type OpenAIModel = "GPT35Turbo" | "GPT4-8K" | "GPT4-32K";
 
 /**
  * Minimal data structure saved to reconstruct a conversation

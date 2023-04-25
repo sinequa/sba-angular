@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from "@angular/core";
+import { AuditWebService } from "@sinequa/core/web-services";
 import { ChatService } from "./chat.service";
 import { SavedChat } from "./types";
 
@@ -22,11 +23,18 @@ export class SavedChatsComponent {
   @Output() load = new EventEmitter<SavedChat>();
 
   constructor(
-    public chatService: ChatService
+    public chatService: ChatService,
+    public auditService: AuditWebService
   ){}
 
   onLoad(chat: SavedChat) {
     this.load.emit(chat);
+    this.auditService.notify({
+      type: "Chat_Open",
+      detail: {
+        chat: chat.name
+      }
+    });
   }
 
   delete(chat: SavedChat) {

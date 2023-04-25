@@ -225,12 +225,16 @@ export class DashboardComponent implements OnChanges, OnInit, OnDestroy {
         widget.width = widget.stateMinimized?.width;
         widget.height = widget.stateMinimized?.height;
         this.options.resizable = this.resizable;
-        this.options.draggable = this.draggable
+        this.options.draggable = this.draggable;
         this.gridster.el.scroll({ top: widget.stateMinimized?.top, left: 0, behavior: 'auto' });
       }
       this.options.api?.optionsChanged?.();
       action.icon = widget.maximized ? "fas fa-compress-alt" : "fas fa-expand-alt";
       action.title = widget.maximized ? "msg#dashboard.minimizeTitle" : "msg#dashboard.maximizeTitle";
+      // Disable maximize action for all other widgets
+      this.dashboard.flatMap(w => w.actions)
+                    .filter(ac => ac && ac.title === 'msg#dashboard.maximizeTitle')
+                    .forEach(ac => ac!.disabled = widget.maximized)
       this.maximized.emit(widget);
     }
   }
@@ -269,10 +273,12 @@ export class DashboardComponent implements OnChanges, OnInit, OnDestroy {
   remove(item: GridsterItem) {
     const i = this.dashboard.findIndex(w => w.state === item);
     if (i !== -1) {
-      const [widget] = this.dashboard.splice(i, 1);
-      if (widget.maximized) { // If the widget was maximized, go back to minimize view
-        this.gridster.el.scroll({ top: widget.stateMinimized?.top, left: 0, behavior: 'auto' });
+      const widget = this.dashboard[i]
+      if (widget.maximized) {
+        const maximizeAction = widget.actions!.find(ac => ac && ac.title === 'msg#dashboard.minimizeTitle');
+        this.toggleMinimize(maximizeAction!, item);
       }
+      this.dashboard.splice(i, 1);
       this.removed.emit(widget);
     }
   }

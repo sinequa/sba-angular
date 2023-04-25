@@ -98,7 +98,6 @@
             "tsConfig": "projects/hello-search/tsconfig.json",
             "preserveSymlinks": true,
             "assets": [
-              "projects/hello-search/src/favicon.ico",
               "projects/hello-search/src/assets"
             ],
             "styles": ["projects/hello-search/src/styles/app.scss"],
@@ -202,7 +201,6 @@
             "karmaConfig": "projects/hello-search/karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/hello-search/src/favicon.ico",
               "projects/hello-search/src/assets"
             ],
             "styles": ["projects/hello-search/src/styles/app.scss"],
@@ -245,8 +243,8 @@
               "includePaths": ["node_modules"]
             },
             "assets": [
-              "projects/vanilla-search/src/favicon.ico",
-              "projects/vanilla-search/src/assets"
+              "projects/vanilla-search/src/assets",
+              "projects/vanilla-search/src/preview/preview.js"
             ],
             "styles": [
               {
@@ -254,7 +252,7 @@
                 "bundleName": "app"
               },
               {
-                "input": "projects/vanilla-search/src/styles/preview.scss",
+                "input": "projects/vanilla-search/src/preview/preview.scss",
                 "bundleName": "preview",
                 "inject": false
               }
@@ -348,7 +346,6 @@
             "karmaConfig": "projects/vanilla-search/karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/vanilla-search/src/favicon.ico",
               "projects/vanilla-search/src/assets"
             ],
             "styles": ["projects/vanilla-search/src/styles/app.scss"],
@@ -391,8 +388,8 @@
             },
             "preserveSymlinks": true,
             "assets": [
-              "projects/pepper/src/favicon.ico",
-              "projects/pepper/src/assets"
+              "projects/pepper/src/assets",
+              { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
             ],
             "styles": [
               {
@@ -400,7 +397,7 @@
                 "bundleName": "app"
               },
               {
-                "input": "projects/pepper/src/styles/preview.scss",
+                "input": "projects/vanilla-search/src/preview/preview.scss",
                 "bundleName": "preview",
                 "inject": false
               }
@@ -505,7 +502,6 @@
             "karmaConfig": "projects/pepper/karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/pepper/src/favicon.ico",
               "projects/pepper/src/assets"
             ],
             "styles": ["projects/pepper/src/styles/app.scss"],

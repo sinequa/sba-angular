@@ -1,6 +1,4 @@
 import {LocaleData} from "@sinequa/core/intl";
-import d3Format from "../../../../node_modules/d3-format/locale/fr-FR.json";
-import d3Time from "../../../../node_modules/d3-time-format/locale/fr-FR.json";
 import {frCore} from "@sinequa/core/messages";
 import appMessages from "./messages/fr.json";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
@@ -28,6 +26,7 @@ import {frML} from "@sinequa/components/machine-learning";
 import {frFilters} from "@sinequa/components/filters";
 import {frSearchForm} from "@sinequa/components/search-form";
 
+const d3Format = require('d3-format/locale/fr-FR');
 d3Format.thousands = " "; // consistency with intl-number-format
 
 const messages = Utils.merge({}, frCore, frUtils, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frLabels, frMetadata,
@@ -44,7 +43,7 @@ export default <LocaleData>{
     d3: {
         locale: "fr-FR",
         format: d3Format,
-        time: d3Time
+        time: require('d3-time-format/locale/fr-FR')
     },
     messages: messages
 };

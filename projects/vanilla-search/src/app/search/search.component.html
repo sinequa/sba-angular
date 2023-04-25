@@ -31,7 +31,7 @@
                 </ng-container>
                 <sq-user-menu [display]="'fullName'"></sq-user-menu>
                 <!-- Non mobile feedback button -->
-                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete && ui.screenSizeIsGreaterOrEqual('md')"></sq-feedback-menu>
+                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1 d-none d-md-block" *ngIf="loginService.complete"></sq-feedback-menu>
             </ul>
         </div>
 
@@ -82,13 +82,11 @@
             <!-- nth top passages -->
             <sq-facet-card *ngIf="hasPassages" class="mb-3"
                 [title]="'msg#machine-learning.passages'"
-                [icon]="'fas fa-brain primary-icon'"
-                [collapsible]="true"
-                buttonsStyle="primary">
+                [icon]="'fas fa-brain primary-icon'">
                 <sq-top-passages #facet
                     [results]="results"
-                    (previewOpened)="openMiniPreview($event.$record, $event.id)"
-                    (titleClicked)="onTitleClick($event)">
+                    (passageClicked)="openMiniPreview($event.$record, $event.id)"
+                    (documentOpened)="openPreviewIfNoUrl($event, false)">
                 </sq-top-passages>
             </sq-facet-card>
 
@@ -107,11 +105,15 @@
 
             <!-- List of documents (for loop) -->
             <div *ngFor="let record of results.records" class="record"
-                [ngClass]="{'selected': record.$selected || record === openedDoc}"
-                (click)="onDocumentClicked(record, $event)">
+                (click)="onDocumentClicked(record, $event)"
+                [ngClass]="{
+                  'selected': record.$selected || record === openedDoc,
+                  'duplicate': record.$isDuplicate
+                }">
+                <sq-result-duplicates-spacer [record]="record"></sq-result-duplicates-spacer>
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center">
-                        <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record"></sq-result-selector>
+                        <sq-result-selector class="d-none d-md-block" [record]="record"></sq-result-selector>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
@@ -120,6 +122,8 @@
 
                     <sq-labels [record]="record" [public]="true"></sq-labels>
                     <sq-labels [record]="record" [public]="false"></sq-labels>
+
+                    <sq-result-duplicates [record]="record"></sq-result-duplicates>
                 </div>
                 <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="false"
                     class="d-none d-sm-block align-self-center ms-3">
@@ -139,11 +143,11 @@
 
             <!-- Without selected document -->
             <!-- hidden only on md resolution -->
-            <sq-facet-card *ngIf="!openedDoc" class="d-none d-sm-block no-record" [ngClass]="{ 'd-none d-lg-block mb-3': showFilters }" [collapsible]="false" [title]="'msg#facet.preview.documentPreview'">
+            <sq-facet-card *ngIf="!openedDoc" class="d-none d-sm-block no-record" [ngClass]="{ 'd-none d-lg-block mb-3': showFilters }" [collapsible]="false" [title]="'msg#preview.documentPreview'">
                 <div class="text-center">
                     <img src="assets/sinequa-empty-preview.png" class="mb-3">
-                    <p class="fw-bold">{{'msg#facet.preview.documentPreviewTitle' | sqMessage}}</p>
-                    <p>{{'msg#facet.preview.documentPreviewDescription' | sqMessage}}</p>
+                    <p class="fw-bold">{{'msg#preview.documentPreviewTitle' | sqMessage}}</p>
+                    <p>{{'msg#preview.documentPreviewDescription' | sqMessage}}</p>
                 </div>
             </sq-facet-card>
 
@@ -166,15 +170,30 @@
                     </sq-metadata>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="true" *ngIf="openedDoc.$hasPassages"
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewPassages'}" [default]="true" *ngIf="openedDoc.$hasPassages"
                     #passagesList>
                     <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
-                    <sq-facet-preview-2 #facet [record]="openedDoc" [query]="searchService.query"
-                        (previewLoaded)="previewReady($event)">
-                    </sq-facet-preview-2>
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewPreview'}">
+                    <sq-preview #facet
+                        style="height: calc(100vh - 220px);"
+                        [id]="openedDoc.id"
+                        [query]="searchService.query"
+                        [highlightColors]="previewHighlights"
+                        [highlightEntities]="false"
+                        [preferenceName]="'mini-preview'"
+                        [scale]="0.8">
+                    </sq-preview>
+                </ng-template>
+
+                <ng-template [sqFacetView]="{text: 'msg#preview.viewDuplicates'}" *ngIf="openedDoc.groupcount && openedDoc.groupcount > 1">
+                    <sq-result-duplicates-list [record]="openedDoc">
+                      <ng-template let-duplicate>
+                        <sq-result-title [record]="duplicate" (titleClicked)="openPreviewIfNoUrl(duplicate, $event)"></sq-result-title>
+                        <sq-result-source [record]="duplicate" [displayTreepath]="true"></sq-result-source>
+                      </ng-template>
+                    </sq-result-duplicates-list>
                 </ng-template>
             </sq-facet-card>
         </div>

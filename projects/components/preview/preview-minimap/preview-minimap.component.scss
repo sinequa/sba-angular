@@ -1,0 +1,23 @@
+
+:host {
+  width: 1rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  .minimap-section {
+    position: absolute;
+    width: 100%;
+    min-height: 3px;
+    border: 1px solid orange;
+    background-color: yellow;
+
+    &.selected {
+      border: 3px solid rgba(var(--bs-primary-rgb), 0.5);
+      background-color: rgba(var(--bs-primary-rgb), 0.2);
+      z-index: 1;
+      pointer-events: none;
+    }
+  }
+}

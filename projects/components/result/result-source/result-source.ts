@@ -41,6 +41,10 @@ export class ResultSource {
         return this.displayUrl && this.record[this.urlColumn];
     }
 
+    get urlDecoded(): string {
+        return decodeURI(this.url);
+    }
+
     select(item: ValueItem){
         if(this.searchService.addFieldSelect(this.treepathColumn, item)) {
             this.searchService.search();

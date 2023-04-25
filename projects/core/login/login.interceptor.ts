@@ -3,8 +3,9 @@ import {
     HttpInterceptor, HttpRequest, HttpHandler,
     HttpEvent, HttpErrorResponse, HttpParams, HttpResponse, HttpHeaders
 } from "@angular/common/http";
-import {from, Observable, throwError, catchError, map, switchMap} from "rxjs";
+import {from, Observable, throwError, catchError, map, switchMap, timer, tap} from "rxjs";
 import {Utils, SqError, SqErrorCode} from "@sinequa/core/base";
+import {IntlService} from "@sinequa/core/intl";
 import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "./login.service";
@@ -26,12 +27,15 @@ type Options = {noAutoAuthentication: boolean, noUserOverride: boolean, hadCrede
 })
 export class LoginInterceptor implements HttpInterceptor {
 
+    scheduledRetry: Observable<0> | undefined;
+
     constructor(
         @Inject(START_CONFIG) protected startConfig: StartConfig,
         @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) protected requestInitializers: HttpRequestInitializer[],
         protected notificationsService: NotificationsService,
         protected loginService: LoginService,
-        protected authService: AuthenticationService
+        protected authService: AuthenticationService,
+        protected intlService: IntlService
     ) {}
 
     protected processRequestInitializers(request: HttpRequest<any>) {
@@ -132,13 +136,13 @@ export class LoginInterceptor implements HttpInterceptor {
         const config = {headers: request.headers, params: request.params};
 
         const options: Options = {
-            noAutoAuthentication: Utils.isTrue(config.params.get("noAutoAuthentication")) || false,
-            noUserOverride: Utils.isTrue(config.params.get("noUserOverride")) || false,
+            noAutoAuthentication: Utils.isTrue(config.params.get("noAutoAuthentication")),
+            noUserOverride: Utils.isTrue(config.params.get("noUserOverride")),
             hadCredentials: this.authService.haveCredentials,
             userOverrideActive: false
         }
 
-        const noNotify = Utils.isTrue(config.params.get("noNotify")) || false;
+        const noNotify = Utils.isTrue(config.params.get("noNotify"));
 
         config.params = config.params.delete("noAutoAuthentication");
         config.params = config.params.delete("noUserOverride");
@@ -172,18 +176,7 @@ export class LoginInterceptor implements HttpInterceptor {
         });
 
         return next.handle(_request).pipe(
-            catchError((error, caught) => {
-                this.notificationsService.leave("network");
-                if (error instanceof HttpErrorResponse) {
-                    if (error.status === 401) {
-                        return this.handle401Error(error, _request, next, options, caught);
-                    }
-                }
-                if (!noNotify) {
-                    this.notifyError(error);
-                }
-                return throwError(() => error);
-            }),
+            catchError((error, caught) => this.handleError(error, caught, _request, next, options, noNotify)),
             map((event) => {
                 if (event instanceof HttpResponse) {
                     this.notificationsService.leave("network");
@@ -192,6 +185,22 @@ export class LoginInterceptor implements HttpInterceptor {
                 return event;
             })
         );
+    }
+
+    protected handleError(error: any, caught: Observable<HttpEvent<any>>, request: HttpRequest<any>, next: HttpHandler, options: Options, noNotify: boolean, delay = 5000) {
+      this.notificationsService.leave("network");
+      if (error instanceof HttpErrorResponse) {
+          if (error.status === 401) {
+              return this.handle401Error(error, request, next, options, caught);
+          }
+          if (error.status === 0 || error.status === 503 || error.status === 504) { // 503: Service unavailable, 504: Gateway timeout
+              return this.handleNetworkError(request, next, options, noNotify, delay);
+          }
+      }
+      if (!noNotify) {
+          this.notifyError(error);
+      }
+      return throwError(() => error)
     }
 
     protected handle401Error(err: HttpErrorResponse, req: HttpRequest<any>, next: HttpHandler, options: Options, caught: Observable<HttpEvent<any>>): Observable<HttpEvent<any>> {
@@ -213,5 +222,21 @@ export class LoginInterceptor implements HttpInterceptor {
         }
 
         return throwError(() => err);
+    }
+
+    protected handleNetworkError(request: HttpRequest<any>, next: HttpHandler, options: Options, noNotify: boolean, delay: number): Observable<HttpEvent<any>> {
+        if(!this.scheduledRetry) {
+            const prettyDelay = this.intlService.formatRelativeTime(delay);
+            const notif = this.notificationsService.warning("msg#login.retry", {prettyDelay});
+            this.scheduledRetry = timer(delay).pipe(
+              tap(() => this.notificationsService.deleteNotification(notif)),
+              tap(() => this.scheduledRetry = undefined)
+            );
+        }
+        return this.scheduledRetry.pipe(
+            tap(() => this.notificationsService.enter("network")),
+            switchMap(() => next.handle(request)),
+            catchError((error,caught) => this.handleError(error, caught, request, next, options, noNotify, delay * 2))
+        )
     }
 }

@@ -3,7 +3,7 @@ import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from "
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, finalize} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation} from "@sinequa/core/web-services";
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation, IQuery, Aggregation} from "@sinequa/core/web-services";
 import {AppService, FormatService, ValueItem, Query} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
@@ -23,6 +23,14 @@ export interface SearchOptions {
     preventQueryNameChanges?: boolean;
     /** Whether to detect query intents synchronously (blocking the execution of the query until we know the intent). By default, query intents are detected asynchronously. */
     queryIntentsSync?: boolean;
+    /** A function that test whether 2 records should be considered duplicates */
+    testDuplicates?: (a: Record, b: Record) => boolean;
+    /** A function called when results are received from the server; can be used to post-process results before they are displayed */
+    initializeResults?: (query: Query, results: Results) => void;
+    /** A function called when a record is received from the server; can be used to post-process a record before it is displayed */
+    initializeRecord?: (query: Query, record: Record) => void;
+    /** A function called when an aggregation is received from the server; can be used to post-process an aggregation before it is displayed */
+    initializeAggregation?: (query: Query, aggregation: Aggregation) => void;
 }
 
 export const SEARCH_OPTIONS = new InjectionToken<SearchOptions>("SEARCH_OPTIONS");
@@ -250,7 +258,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return Math.ceil(this.results.rowCount / this.results.pageSize);
     }
 
-    makeQuery(recentQuery?: Query): Query {
+    makeQuery(recentQuery?: Partial<IQuery> | Query) {
         const ccquery = this.appService.ccquery;
         const query = new Query(ccquery ? ccquery.name : "_unknown");
         if(recentQuery){
@@ -382,12 +390,29 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
       // Initialize aggregations
       this.initializeAggregations(query, results);
+
+      // Custom initialization
+      this.options.initializeResults?.(query, results);
     }
 
     initializeRecords(query: Query, results: Results) {
       if(results.records) {
-        for(let record of results.records) {
+        let duplicate: Record|undefined = undefined;
+        for(let i=0; i<results.records.length; i++) {
+          const record = results.records[i];
           record.$hasPassages = !!record.matchingpassages?.passages?.length;
+          if(this.options.testDuplicates) {
+            duplicate ||= results.records[i-1];
+            record.$isDuplicate = i>0 && this.options.testDuplicates(record, duplicate);
+            record.$duplicateCount = 0;
+            if(record.$isDuplicate) {
+              duplicate.$duplicateCount!++;
+            }
+            else {
+              duplicate = undefined;
+            }
+          }
+          this.options.initializeRecord?.(query, record);
         }
       }
     }
@@ -401,7 +426,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
       const filtered = query.getFiltersAsAggregationItems();
 
-      for(let aggregation of results.aggregations) {
+      for(const aggregation of results.aggregations) {
         // Populate aggregation map
         results.$aggregationMap[aggregation.name.toLowerCase()] = aggregation;
 
@@ -422,6 +447,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         else {
           this.initializeTreeAggregation(aggregation);
         }
+
+        // Custom initialization
+        this.options.initializeAggregation?.(query, aggregation);
       }
     }
 
@@ -429,7 +457,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
       // Aggregation items enrichment
       if(aggregation.items && aggregation.$cccount > 0) { // exclude unlimited aggregation (eg. timelines)
 
-        for(let item of aggregation.items) {
+        for(const item of aggregation.items) {
           // Include the column configuration (for formatting & labels)
           item.$column = aggregation.$cccolumn;
           // convert null value without display property to string
@@ -454,7 +482,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
     initializeTreeAggregation(aggregation: TreeAggregation) {
       // Process the filtered items
-      for(let item of aggregation.$filtered) {
+      for(const item of aggregation.$filtered) {
         item.$path = item.value.slice(0, -1); // Remove the '*' at the end of the value
       }
 
@@ -599,15 +627,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         }
     }
 
-    protected handleLogin(): Promise<boolean> {
-        if (!this.loginService.complete) {
-            return Promise.resolve(false);
-        }
-        if (!!this.ensureQueryFromUrl()) {
-            return this.navigate();
-        }
-        else {
-            return Promise.resolve(true);
+    protected handleLogin() {
+        if (this.loginService.complete && this.ensureQueryFromUrl()) {
+            this.handleNavigation();
         }
     }
 
@@ -922,13 +944,11 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
      *
      * They are first searched on the result records, and we make a query for those we cannot find
      */
-    getRecords(ids: string[]): Observable<(Record|undefined)[]> {
-        const records = ids.map(id => {
-            return {
+    getRecords(ids: string[]): Observable<(Record | undefined)[]> {
+        const records = ids.map(id => ({
                 id,
                 record: this.results?.records.find(r => Utils.eq(r.id, id))
-            }
-        });
+            }));
 
         // if all records found, return them
         if (records.every(r => r.record))
@@ -940,6 +960,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         query.groupBy = 'id'; // Override the default group by if any
         const recordIds = [...new Set(records.filter(r => !r.record).map(r => r.id))]; // Unique ids
         query.pageSize = recordIds.length;
+        query.globalRelevance = 0; // Override the default globalRelevance >= 40
         query.addFilter({
             field: 'id',
             operator: 'in',

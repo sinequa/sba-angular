@@ -44,7 +44,11 @@ body.dark {
         }
 
         sq-result-missing-terms {
-            color: $dark-result-missing-temrms-color;
+            color: $dark-secondary;
+        }
+
+        sq-result-duplicates {
+            color: $dark-secondary;
         }
     }
 

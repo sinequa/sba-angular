@@ -1,0 +1,21 @@
+
+<ul class="list-group">
+  <li *ngFor="let duplicate of duplicates$ | async "
+    class="list-group-item">
+    <ng-container *ngTemplateOutlet="
+      duplicateTpl || defaultDuplicateTpl;
+      context:{
+        $implicit: duplicate
+      }"
+    >
+    </ng-container>
+  </li>
+
+  <li *ngIf="searching" class="list-group-item text-center">
+    <span class="fas fa-spinner fa-spin"></span>
+  </li>
+</ul>
+
+<ng-template #defaultDuplicateTpl let-duplicate>
+  <sq-result-source [record]="duplicate" [displayTreepath]="true"></sq-result-source>
+</ng-template>
