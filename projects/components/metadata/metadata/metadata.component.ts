@@ -90,6 +90,10 @@ export class MetadataComponent implements OnChanges {
         return this.collapseRows && this.valuesMaxHeight! > this.lineHeight! * 2;
     }
 
+    get hasValues(): boolean {
+        return this.metadataValue.isTree || !!this.metadataValue.valueItems?.filter(v => !!v.value).length;
+    }
+
     constructor(private iconService: IconService,
         private appService: AppService,
         private metadataService: MetadataService,
@@ -129,6 +133,8 @@ export class MetadataComponent implements OnChanges {
 
         this.setActions();
         this.display = !!this.item && !!this.record && !!this.record[this.item];
+
+        console.log('valueitems', this.item, this.metadataValue.valueItems);
     }
 
     filterItem(): void {

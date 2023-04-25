@@ -118,10 +118,6 @@
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
-                    <!-- Metadata inside sentence example -->
-                    <div [style.font-size]="'0.875em'" [style.color]="'#515960'">
-                        <sq-metadata-list [record]="record" [query]="searchService.query" [config]="config2"></sq-metadata-list>
-                    </div>
                     <sq-result-extracts [record]="record" class="d-block overflow-hidden"></sq-result-extracts>
                     <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
 
@@ -170,24 +166,14 @@
                 </ng-template>
 
                 <ng-template #subHeaderTpl>
-                    <button class="btn btn-primary"
-                        (click)="style = style === 'inline' ? 'table' : 'inline'">Style
-                        ({{style}})</button>
-                    <button class="btn btn-primary" (click)="showTitles=!showTitles">Titles</button>
-                    <button class="btn btn-primary" (click)="showIcons=!showIcons">Icons</button>
-                    <button class="btn btn-primary" (click)="showFormatIcons=!showFormatIcons">Format Icons</button>
-                    <button class="btn btn-primary" (click)="showFiltersHighlights=!showFiltersHighlights">Filters Highlights</button>
-                    <hr>
-
                     <sq-metadata-list
                         [record]="openedDoc"
-                        [config]="config"
+                        [config]="metadata"
                         [query]="searchService.query"
-                        [style]="style"
-                        [showTitles]="showTitles"
-                        [showIcons]="showIcons"
-                        [showFormatIcons]="showFormatIcons"
-                        [showFiltersHighlights]="showFiltersHighlights"
+                        [showTitles]="true"
+                        [showIcons]="true"
+                        [showFormatIcons]="true"
+                        [showFiltersHighlights]="true"
                     ></sq-metadata-list>
                 </ng-template>
 

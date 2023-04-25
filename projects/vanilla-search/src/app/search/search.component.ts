@@ -11,10 +11,8 @@ import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES } from '../../config';
+import { FacetParams, FACETS, FEATURES, METADATA_CONFIG } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { ModalService } from '@sinequa/core/modal';
-import { BsEditLabel, ModalProperties } from '@sinequa/components/labels';
 import { MetadataConfig } from '@sinequa/components/metadata';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/components/metadata';
 
@@ -69,125 +67,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  // TEMP METADATA VARS
-  style = 'table';
-  showTitles = true;
-  showIcons = true;
-  showFormatIcons = true;
-  showFiltersHighlights = true;
-  config: MetadataConfig[] = [
-    {
-      item: "authors",
-      icon: "fas fa-user-edit",
-      filterable: true,
-      excludable: true
-    },
-    {
-      item: "docformat",
-      icon: "fas fa-info-circle",
-      filterable: true,
-      excludable: true
-    },
-    {
-      item: "modified",
-      icon: "far fa-calendar-alt",
-      filterable: true
-    },
-    {
-      item: "size",
-      icon: "fas fa-weight-hanging"
-    },
-    {
-      item: "company",
-      icon: "fas fa-layer-group",
-      itemClass: 'badge rounded-pill bg-light text-dark',
-      showEntityTooltip: true,
-      actions: [
-        new Action({
-          icon: "fas fa-directions",
-          text: "Jump to",
-          action: (action) => {
-            if (this.preview && action.data) {
-              this.preview.selectFirstEntity(action.data.item, action.data.value);
-            }
-          }
-        }),
-        new Action({
-          icon: "fas fa-edit",
-          text: "Edit labels",
-          action: () => {
-            const properties: ModalProperties = {
-              public: true,
-              allowEditPublicLabels: true,
-              allowManagePublicLabels: true,
-              allowNewLabels: true,
-              disableAutocomplete: false,
-              action: 3,
-              radioButtons: []
-            };
-            this.modalService.open(BsEditLabel, {
-              model: {
-                valuesToBeAdded: [],
-                valuesToBeRemoved: [],
-                properties
-            },
-          })
-          }
-        })
-      ]
-    },
-    {
-      item: "treepath",
-      icon: "fas fa-folder-open",
-      filterable: true,
-      excludable: true
-    },
-    {
-      item: "filename",
-      icon: "far fa-file-alt",
-      excludable: true
-    },
-    {
-      item: "person",
-      icon: "far fa-file-alt",
-      filterable: true,
-      excludable: true,
-      showEntityTooltip: true,
-      separator: ',',
-      actions: [
-        new Action({
-          icon: "fas fa-directions",
-          text: "Jump to",
-          action: (action) => {
-            if (this.preview && action.data) {
-              this.preview.selectFirstEntity(action.data.item, action.data.value);
-            }
-          }
-        })
-      ]
-    }
-  ];
-
-  config2: (MetadataConfig | string)[] = [
-    "Document of type",
-    {
-      item: "docformat",
-      filterable: true,
-      itemClass: "badge rounded-pill text-white bg-primary mx-1"
-    },
-    "released on the",
-    {
-      item: "modified",
-      itemClass: "badge rounded-pill text-white bg-primary ms-1"
-    }
-  ];
-
   constructor(
     private previewService: PreviewService,
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
-    private modalService: ModalService,
     public readonly ui: UIService,
     public searchService: SearchService,
     public selectionService: SelectionService,
@@ -275,6 +159,15 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public get features(): string[] {
     return this.appService.app?.data?.features as string[] || FEATURES;
+  }
+
+  /**
+   * Returns the configuration of the metadata displayed in the facet-preview component.
+   * The configuration from the config.ts file can be overriden by configuration from
+   * the app configuration on the server
+   */
+  public get metadata(): MetadataConfig[] {
+    return this.appService.app?.data?.metadata as any as MetadataConfig[] || METADATA_CONFIG;
   }
 
   public get previewHighlights(): PreviewHighlightColors[] {

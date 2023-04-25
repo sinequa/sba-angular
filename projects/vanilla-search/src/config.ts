@@ -171,20 +171,15 @@ export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHigh
 export const METADATA_CONFIG: MetadataConfig[] = [
     {
         item: "authors",
-        icon: "fas fa-user-edit",
-        filterable: true,
-        excludable: true
+        icon: "fas fa-user-edit"
     },
     {
         item: "docformat",
-        icon: "fas fa-info-circle",
-        filterable: true,
-        excludable: true
+        icon: "fas fa-info-circle"
     },
     {
         item: "modified",
-        icon: "far fa-calendar-alt",
-        filterable: true
+        icon: "far fa-calendar-alt"
     },
     {
         item: "size",
@@ -192,13 +187,10 @@ export const METADATA_CONFIG: MetadataConfig[] = [
     },
     {
         item: "treepath",
-        icon: "fas fa-folder-open",
-        filterable: true,
-        excludable: true
+        icon: "fas fa-folder-open"
     },
     {
         item: "filename",
-        icon: "far fa-file-alt",
-        excludable: true
+        icon: "far fa-file-alt"
     }
 ];
