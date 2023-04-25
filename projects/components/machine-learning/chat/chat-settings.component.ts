@@ -1,5 +1,8 @@
 import { Component, Input } from "@angular/core";
+import { Observable } from "rxjs";
 import { ChatConfig, defaultChatConfig } from "./chat.component";
+import { ChatService } from "./chat.service";
+import { OpenAIModel } from "./types";
 
 @Component({
   selector: 'sq-chat-settings',
@@ -7,9 +10,8 @@ import { ChatConfig, defaultChatConfig } from "./chat.component";
   <div class="card-body small">
     <div class="mb-2">
       <label for="openaiModel" class="form-label">Model</label>
-      <select class="form-select" id="openaiModel" [(ngModel)]="config.model">
-        <option>GPT35Turbo</option>
-        <option>GPT4</option>
+      <select class="form-select" id="openaiModel" [(ngModel)]="config.model" *ngIf="models$ | async as models">
+        <option *ngFor="let model of models">{{model}}</option>
       </select>
     </div>
     <div class="form-check form-switch mb-2">
@@ -49,6 +51,14 @@ import { ChatConfig, defaultChatConfig } from "./chat.component";
       <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="autoSearchMaxPassages" [(ngModel)]="config.autoSearchMaxPassages">
     </div>
     <div class="mb-2">
+      <label for="autoSearchMaxDocuments" class="form-label">Auto-search maximum number of documents (when no passage): {{config.autoSearchMaxDocuments}}</label>
+      <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="autoSearchMaxDocuments" [(ngModel)]="config.autoSearchMaxDocuments">
+    </div>
+    <div class="mb-2">
+      <label for="autoSearchExpand" class="form-label">Expand passages with extra sentences: {{config.autoSearchExpand}}</label>
+      <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="autoSearchExpand" [(ngModel)]="config.autoSearchExpand">
+    </div>
+    <div class="mb-2">
       <label for="temperature" class="form-label">Temperature: {{config.temperature}}</label>
       <input type="range" class="form-range form-range-sm" min="0" max="2" step="0.1" id="temperature" [(ngModel)]="config.temperature">
     </div>
@@ -65,6 +75,14 @@ import { ChatConfig, defaultChatConfig } from "./chat.component";
 })
 export class ChatSettingsComponent {
   @Input() config: ChatConfig;
+
+  models$: Observable<OpenAIModel[]>;
+
+  constructor(
+    public chatService: ChatService
+  ) {
+    this.models$ = this.chatService.listModels();
+  }
 
   reset() {
     Object.assign(this.config, defaultChatConfig);

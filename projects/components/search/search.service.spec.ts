@@ -245,7 +245,6 @@ describe("SearchService", () => {
 
   describe("handleLogin", () => {
     beforeEach(() => {
-      spyOn(service, "navigate").and.callThrough();
       (<jasmine.Spy>service["handleLogin"]).and.callThrough();
       const router = TestBed.inject(Router);
       const url = 'search?query=%7B"name":"training_query","text":"obama","tab":"all","select":%5B%5D%7D';
@@ -254,7 +253,7 @@ describe("SearchService", () => {
 
     it("should navigate if url contains a query search and login is complete", () => {
       service["handleLogin"]();
-      expect(service.navigate).toHaveBeenCalled();
+      expect(service['handleNavigation']).toHaveBeenCalled();
     });
 
     it("should do nothing is login is not complete", () => {
@@ -262,7 +261,7 @@ describe("SearchService", () => {
       loginService.complete = false;
 
       service["handleLogin"]();
-      expect(service.navigate).not.toHaveBeenCalled();
+      expect(service['handleNavigation']).not.toHaveBeenCalled();
     });
 
     it("should do nothing if url is not a query search", () => {
@@ -271,7 +270,7 @@ describe("SearchService", () => {
       router.navigateByUrl(url);
 
       service["handleLogin"]();
-      expect(service.navigate).not.toHaveBeenCalled();
+      expect(service['handleNavigation']).not.toHaveBeenCalled();
     });
   });
 

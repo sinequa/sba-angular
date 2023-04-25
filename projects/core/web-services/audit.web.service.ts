@@ -4,6 +4,8 @@ import {HttpService} from "./http.service";
 import {Utils, MapOf, JsonObject} from "@sinequa/core/base";
 import {Results, Record} from "./query.web.service";
 import {LinkResult} from "./sponsored-links.web.service";
+import { Optional } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
 
 /**
  * Describes a single audit event
@@ -156,6 +158,24 @@ export const enum AuditEventType {
 export class AuditWebService extends HttpService {
     private static readonly endpoint = "audit.notify";
 
+    protected previousRoute: string | undefined;
+
+    protected lastClickTime = 0;
+
+    constructor(
+      @Optional() public router?: Router
+    ) {
+      super();
+
+      this.auditRouteChange();
+
+      this.router?.events.subscribe(event => {
+          if(event instanceof NavigationEnd) {
+              this.auditRouteChange();
+          }
+      });
+    }
+
     /**
      * Notify the Sinequa server of a sponsored link event
      *
@@ -233,6 +253,22 @@ export class AuditWebService extends HttpService {
             Object.keys(rfmParameters).forEach(key => rfmDetail[key] = rfmParameters[key]);
             data.rfmDetail = rfmDetail;
         }
+
+        this.lastClickTime = Date.now();
+
+        // Listen to the navigation event outside the app
+        document.addEventListener('visibilitychange', () => {
+            // Capture the navigation even triggered just after the click
+            if (document.visibilityState === 'hidden' && (Date.now() - this.lastClickTime) < 1000) {
+                // Second event triggered when we come back
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible') {
+                        this.notify({ type: AuditEventType.Navigation_Return });
+                    }
+                }, { once: true });
+            }
+        }, {once: true});
+
         return this.notify(data);
     }
 
@@ -324,5 +360,18 @@ export class AuditWebService extends HttpService {
                 console.log("auditService.notify failure - error: ", error);
             });
         return observable;
+    }
+
+    auditRouteChange() {
+        const route = this.router?.url.substr(1).split('?')[0]; // Extract route name
+        if(route && route !== this.previousRoute) {
+            this.notify({
+                type: `Navigation_Route`,
+                detail: {
+                    detail: route
+                }
+            });
+        }
+        this.previousRoute = route;
     }
 }

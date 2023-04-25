@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { ResultModule } from "@sinequa/components/result";
 import { UtilsModule } from "@sinequa/components/utils";
 import { IntlModule } from "@sinequa/core/intl";
+import { BsActionModule } from "@sinequa/components/action";
 
 import { AnswerCardComponent } from "./answer-card.component";
 import { PassageListComponent } from "./passage-list.component";
@@ -21,7 +22,8 @@ import { SavedChatsComponent } from "./chat/saved-chats.component";
         ResultModule,
         IntlModule,
         UtilsModule,
-        FormsModule
+        FormsModule,
+        BsActionModule
     ],
     declarations: [
         AnswerCardComponent,

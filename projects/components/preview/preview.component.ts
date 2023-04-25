@@ -52,6 +52,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   get entities() {
     return this.allHighlights.filter(name => !this.extracts.includes(name));
   }
+  @Input() usePassageHighlighter = ["extractslocations", "matchingpassages"]
   /** Name of the preference property used to stored the highlight preferences */
   @Input() preferenceName = 'preview';
 
@@ -311,9 +312,14 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   }
 
   select(id: string) {
-    const usePassageHighlighter = id.startsWith('matchingpassages') || id.startsWith('extractslocations')
-    this.sendMessage({ action: 'select', id, usePassageHighlighter});
-    this.selectedId$.next(id);
+    if(this.selectedId$.value === id) {
+      this.unselect();
+    }
+    else {
+      const usePassageHighlighter = this.usePassageHighlighter.some(highlight => id.startsWith(highlight));
+      this.sendMessage({ action: 'select', id, usePassageHighlighter});
+      this.selectedId$.next(id);
+    }
   }
 
   unselect() {

@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
+import { SearchService } from "@sinequa/components/search";
+import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatService } from "./chat.service";
@@ -19,6 +21,8 @@ export interface ChatConfig {
   attachmentsHiddenPrompt: string;
   autoSearchMinScore: number;
   autoSearchMaxPassages: number;
+  autoSearchMaxDocuments: number;
+  autoSearchExpand: number;
   model: OpenAIModel;
 }
 
@@ -32,9 +36,11 @@ export const defaultChatConfig: ChatConfig = {
   initialUserPrompt: "Hello, I am a user of the Sinequa search engine",
   addAttachmentPrompt: "Summarize this document",
   addAttachmentsPrompt: "Summarize these documents",
-  attachmentsHiddenPrompt: "Refer to the above content in the form [id] (eg [2], [7])",
+  attachmentsHiddenPrompt: "You can refer to the above documents in the form: [id] (eg [2], [7])",
   autoSearchMinScore: 0.5,
   autoSearchMaxPassages: 5,
+  autoSearchMaxDocuments: 3,
+  autoSearchExpand: 1,
   model: 'GPT35Turbo'
 }
 
@@ -66,14 +72,17 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() attachmentsHiddenPrompt =  defaultChatConfig.attachmentsHiddenPrompt;
   @Input() autoSearchMinScore =       defaultChatConfig.autoSearchMinScore;
   @Input() autoSearchMaxPassages =    defaultChatConfig.autoSearchMaxPassages;
+  @Input() autoSearchMaxDocuments =   defaultChatConfig.autoSearchMaxDocuments;
+  @Input() autoSearchExpand =         defaultChatConfig.autoSearchExpand;
   @Input() model =                    defaultChatConfig.model;
+  @Input() showCredits = true;
+  @Input() query?: Query;
   @Output() data = new EventEmitter<ChatMessage[]>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
 
   loading = false;
-  loadingAnswer = false;
   loadingAttachments = false;
   messages$ = new BehaviorSubject<ChatMessage[] | undefined>(undefined);
 
@@ -81,6 +90,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   tokensPercentage = 0;
   tokensAbsolute = 0;
+  tokensQuota = 0;
   tokens?: OpenAITokens;
 
   openChatAction: Action;
@@ -88,9 +98,12 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   override get actions() { return this._actions; }
 
   sub = new Subscription();
+  dataSubscription: Subscription | undefined;
 
   constructor(
-    public chatService: ChatService
+    public chatService: ChatService,
+    public searchService: SearchService,
+    public cdr: ChangeDetectorRef
   ) {
     super();
     this.sub.add(
@@ -115,7 +128,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this._actions.push(new Action({
       icon: 'fas fa-sync',
       title: 'Reset chat',
-      action: () => this.resetChat(true)
+      action: () => this.loadDefaultChat()
     }));
 
     this._actions.push(new Action({
@@ -133,13 +146,14 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
     }
     else {
-      this.resetChat(true)
+      this.loadDefaultChat();
     }
     this.updateActions();
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+    this.dataSubscription?.unsubscribe();
   }
 
   submitQuestion() {
@@ -153,7 +167,9 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     if(this.searchMode && this.question.trim()) {
       event?.preventDefault();
       this.loadingAttachments = true;
-      this.chatService.searchAttachmentsSync(this.question, this.autoSearchMinScore, this.autoSearchMaxPassages);
+      const query = (this.query || this.searchService.query).copy();
+      query.text = this.question;
+      this.chatService.searchAttachmentsSync(query, this.autoSearchMinScore, this.autoSearchMaxPassages, this.autoSearchMaxDocuments, this.autoSearchExpand, 2 * this.autoSearchExpand);
     }
   }
 
@@ -164,39 +180,52 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       const attachmentTokens = attachments.reduce((prev, cur) => prev + cur.$tokenCount, 0);
       this.tokensAbsolute = (this.tokens.used || 0) + questionTokens + attachmentTokens;
       this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / (this.tokens.model - this.maxTokens));
+      this.tokensQuota = this.tokens.quota? Math.min(100, Math.ceil(100 * this.tokens.quota.tokenCount / this.tokens.quota.periodTokens)) : 0;
     }
   }
 
   private fetchAnswer(question: string, conversation: ChatMessage[], attachments: ChatAttachment[]) {
-    this.loadingAnswer = true;
-    const attachmentMessages = this.chatService.prepareAttachmentMessages(attachments, conversation, this.displayAttachments);
+    const attachmentMessages = this.getAttachmentMessages(conversation, attachments);
     const userMsg = this.chatService.processMessage({role: 'user', content: question, display: true}, conversation);
-    if(this.attachmentsHiddenPrompt && attachmentMessages.length > 0) {
-      attachmentMessages.push(
-        this.chatService.processMessage({role: 'user', content: this.attachmentsHiddenPrompt, display: false}, conversation)
-      );
-    }
     const messages = this.textBeforeAttachments?
         [...conversation, userMsg, ...attachmentMessages]
       : [...conversation, ...attachmentMessages, userMsg];
     this.fetch(messages);
   }
 
-  private fetch(messages: ChatMessage[]) {
-    this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP)
+  /**
+   * Given a list of messages, fetch the server for a continuation and updates
+   * the list of messages accordingly.
+   * @param messages
+   */
+  public fetch(messages: ChatMessage[]) {
+    this.loading = true;
+    this.cdr.detectChanges();
+    this.dataSubscription?.unsubscribe();
+    this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP)
       .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
     this.scrollDown();
+  }
+
+  private getAttachmentMessages(conversation: ChatMessage[], attachments: ChatAttachment[], display = this.displayAttachments) {
+    const attachmentMessages = this.chatService.prepareAttachmentMessages(attachments, conversation, display);
+    if(this.attachmentsHiddenPrompt && attachmentMessages.length > 0) {
+      attachmentMessages.push(
+        this.chatService.processMessage({role: 'user', content: this.attachmentsHiddenPrompt, display: false}, conversation)
+      );
+    }
+    return attachmentMessages;
   }
 
   updateData(messages: ChatMessage[], tokens: OpenAITokens) {
     this.messages$.next(messages);
     this.data.emit(messages);
     this.loading = false;
-    this.loadingAnswer = false;
     this.tokens = tokens;
     this.chatService.attachments$.next([]); // This updates the tokensPercentage
     this.question = '';
     this.scrollDown();
+    this.dataSubscription = undefined;
   }
 
   suggestQuestion(attachments: ChatAttachment[]) {
@@ -217,22 +246,23 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     });
   }
 
-  resetChat(loadDefaultChat?: boolean) {
-
+  resetChat() {
     if(this.messages$.value) {
       this.messages$.next(undefined); // Reset chat
     }
+    this.loading = false;
     this.question = '';
     this.tokensPercentage = 0;
     this.tokensAbsolute = 0;
     this.tokens = undefined;
+    this.dataSubscription?.unsubscribe();
+  }
 
-    if(loadDefaultChat) {
-      this.openChat([
-        {role: 'system', content: this.initialSystemPrompt, display: false},
-        {role: 'user', content: this.initialUserPrompt, display: true},
-      ]);
-    }
+  loadDefaultChat() {
+    this.openChat([
+      {role: 'system', content: this.initialSystemPrompt, display: false},
+      {role: 'user', content: this.initialUserPrompt, display: true},
+    ]);
   }
 
   saveChat() {
@@ -242,9 +272,9 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   }
 
   openChat(messages: RawMessage[], tokens?: OpenAITokens, attachments$?: Observable<ChatAttachment[]|ChatAttachment>) {
-    this.loading = true;
     this.resetChat();
-    this.chatService.restoreMessages(messages)
+    this.loading = true;
+    this.dataSubscription = this.chatService.restoreMessages(messages)
       .pipe(
         delay(0), // In case the observer completes synchronously, the delay forces async update and prevents "change after checked" error
         switchMap(messages => attachments$?.pipe( // Process the optional attachments
@@ -257,7 +287,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         )
       )
       .subscribe(messages => {
-        if(messages.at(-1)?.role !== 'assistant') {
+        const lastMessage = messages.at(-1);
+        if(lastMessage && lastMessage.role !== 'assistant') {
           this.fetch(messages); // If the last message if from a user, an answer from ChatGPT is expected
         }
         else if(tokens) {
