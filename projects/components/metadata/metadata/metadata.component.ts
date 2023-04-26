@@ -133,8 +133,6 @@ export class MetadataComponent implements OnChanges {
 
         this.setActions();
         this.display = !!this.item && !!this.record && !!this.record[this.item];
-
-        console.log('valueitems', this.item, this.metadataValue.valueItems);
     }
 
     filterItem(): void {
