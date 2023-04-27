@@ -802,8 +802,8 @@ export class IntlService implements OnDestroy {
         return String(date);
     }
 
-    private makeRelativeTimeParams(value: Date): { value: number, unit: Intl.RelativeTimeFormatUnit } {
-        const diff = value.getTime() - Utils.now.getTime();
+    private makeRelativeTimeParams(value: Date|number): { value: number, unit: Intl.RelativeTimeFormatUnit } {
+        const diff = Utils.isDate(value)? (value.getTime() - Utils.now.getTime()) : value;
         const absDiff = Math.abs(diff);
         if (absDiff < Utils.oneSecond) {
             return { value: 0, unit: "seconds" };
@@ -817,8 +817,11 @@ export class IntlService implements OnDestroy {
         else if (absDiff < Utils.oneDay) {
             return { value: Utils.roundAway(diff / Utils.oneHour), unit: "hours" };
         }
-        else if (absDiff < (Utils.oneDay * 30)) {
+        else if (absDiff < (Utils.oneDay * 7 * 2)) {
             return { value: Utils.roundAway(diff / Utils.oneDay), unit: "days" };
+        }
+        else if (absDiff < (Utils.oneDay * 7 * 9)) {
+            return { value: Utils.roundAway(diff / (Utils.oneDay * 7)), unit: "weeks" };
         }
         else if (absDiff < (Utils.oneDay * 365)) {
             return { value: Utils.roundAway(diff / (Utils.oneDay * 30)), unit: "months" };
@@ -834,13 +837,10 @@ export class IntlService implements OnDestroy {
      * @param value The relative time to format. Negative number values represent times in the past.
      * If a Date value is passed then a number value and unit are deduced automatically based on
      * the current date and time.
-     * @param unit The relative time unit (eg years, days or seconds). Must be passed if value
-     * is a number.
      * @param options The options can include a custom format
      */
     formatRelativeTime(
         value: string | number | Date | undefined,
-        unit?: Intl.RelativeTimeFormatUnit,
         options: Intl.RelativeTimeFormatOptions & { format?: string } = {}
     ): string {
         if (value === undefined) {
@@ -852,11 +852,7 @@ export class IntlService implements OnDestroy {
 
         // This is weird but an "Invalid Date" is a Date object !!
         if (isValid(value)) {
-            if (Utils.isDate(value)) {
-                const params = this.makeRelativeTimeParams(value);
-                value = params.value;
-                unit = params.unit;
-            }
+            const params = this.makeRelativeTimeParams(value);
             const { format } = options;
             const defaults = (format && this.getNamedFormat("relativeTime", format)) || {};
             const filteredOptions = this.filterProps(options, RELATIVE_TIME_FORMAT_OPTIONS, defaults);
@@ -864,7 +860,9 @@ export class IntlService implements OnDestroy {
                 filteredOptions.numeric = "auto"; // default is always - we prefer auto
             }
             try {
-                return formatters.getRelativeTimeFormat(this.intlLocale, filteredOptions).format(value, unit);
+                return formatters
+                    .getRelativeTimeFormat(this.intlLocale, filteredOptions)
+                    .format(params.value, params.unit);
             }
             catch (e) {
                 console.warn("IntlService.formatRelativeTime:", e);

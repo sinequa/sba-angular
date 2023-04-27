@@ -75,7 +75,7 @@ export interface ChatAttachmentWithTokens extends ChatAttachment {
  * Information provided by the API about the number of tokens consumed
  * by the current conversation
  */
-export type OpenAITokens = {
+export type GllmTokens = {
   used: number;
   model: number;
   quota?: {
@@ -92,7 +92,7 @@ export type OpenAITokens = {
  */
 export interface RawResponse {
   messagesHistory: RawMessage[];
-  tokens: OpenAITokens;
+  tokens: GllmTokens;
 }
 
 /**
@@ -105,7 +105,7 @@ export interface ChatResponse extends RawResponse {
 /**
  * Model names supported by the API
  */
-export type OpenAIModel = "GPT35Turbo" | "GPT4-8K" | "GPT4-32K";
+export type GllmModel = "GPT35Turbo" | "GPT4-8K" | "GPT4-32K" | "Chat-Bison-001";
 
 /**
  * Minimal data structure saved to reconstruct a conversation
@@ -113,5 +113,5 @@ export type OpenAIModel = "GPT35Turbo" | "GPT4-8K" | "GPT4-32K";
 export interface SavedChat {
   name: string;
   messages: RawMessage[];
-  tokens: OpenAITokens;
+  tokens: GllmTokens;
 }

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, El
 import { AppService, Query } from "@sinequa/core/app-utils";
 import { LoginService } from "@sinequa/core/login";
 import { FacetEventType, FacetService } from "@sinequa/components/facet";
-import { SearchService } from "@sinequa/components/search";
+import { BsSearchModule, SearchService } from "@sinequa/components/search";
 import { filter, Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
@@ -16,7 +16,7 @@ import { compareFilters } from "@sinequa/core/web-services";
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IntlModule, UtilsModule],
+  imports: [CommonModule, FormsModule, IntlModule, UtilsModule, BsSearchModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
@@ -97,6 +97,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
     this.editedQuery = this.editedQuery.copy(); // Copy the edited query to trigger change detection
     this.filterCount = this.editedQuery.getFilterCount(undefined);
     this.canApply = this.editedQuery.text !== this.query.text
+      || this.editedQuery.scope !== this.query.scope
       || !compareFilters(this.editedQuery.filters, this.query.filters);
     if(this.canApply && this.autoApply && this.searchService.isSearchRouteActive()) {
       this.applyFilters(false); // Apply filters, but leave view open
@@ -118,6 +119,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
     this.query.text = this.editedQuery.text;
     this.query.filters = this.editedQuery.filters;
+    this.query.scope = this.editedQuery.scope;
 
     if(!this.query.text?.trim()) {
       delete this.query.text;
@@ -216,6 +218,11 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
       this.expanded = false; // Collapse the form when we the user clicks outside
       this.expandedEvent.emit(false);
     }
+  }
+
+  onScopeChange() {
+    this.onFiltersChanged();
+    this.searchInput.nativeElement.focus();
   }
 
   get hasFocus() {

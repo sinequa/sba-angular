@@ -4,6 +4,9 @@ import { AppLocalesConfig } from "@testing/mocks/app.locales.config";
 
 import { IntlService, LOCALES_CONFIG } from "./intl.service";
 
+const hour = 60*60*1000;
+const day = 24*hour;
+
 describe('IntlService', () => {
   let service: IntlService;
 
@@ -240,16 +243,10 @@ describe('IntlService', () => {
       expect(service.formatRelativeTime("12/31/2022 18:12:36")).toEqual("in 3 months");
       expect(service.formatRelativeTime("18:12:36")).toEqual('NaN');
 
-      // "unit" arg is not taken in account ??
-      expect(service.formatRelativeTime("12/31/2022", "day")).toEqual("in 3 months");
-
-      expect(service.formatRelativeTime(3, "months")).toEqual('in 3 months');
-      expect(service.formatRelativeTime(2, "hour")).toEqual('in 2 hours');
-      expect(service.formatRelativeTime(1, "week")).toEqual('next week');
-
-      // no differences between "weeks" and "week" ??
-      expect(service.formatRelativeTime(2, "weeks")).toEqual('in 2 weeks');
-      expect(service.formatRelativeTime(2, "week")).toEqual('in 2 weeks');
+      expect(service.formatRelativeTime(3*31*day)).toEqual('in 3 months');
+      expect(service.formatRelativeTime(2*hour)).toEqual('in 2 hours');
+      expect(service.formatRelativeTime(7*day)).toEqual('in 7 days');
+      expect(service.formatRelativeTime(14*day)).toEqual('in 2 weeks');
     })
 
     it('should format a relative time in the current locale (french)', waitForAsync(() => {
@@ -261,16 +258,10 @@ describe('IntlService', () => {
         expect(service.formatRelativeTime("12/31/2022 18:12:36")).toEqual("dans 3 mois");
         expect(service.formatRelativeTime("18:12:36")).toEqual('NaN');
 
-        // "unit" arg is not taken in account ??
-        expect(service.formatRelativeTime("12/31/2022", "day")).toEqual("dans 3 mois");
-
-        expect(service.formatRelativeTime(3, "months")).toEqual('dans 3 mois');
-        expect(service.formatRelativeTime(2, "hour")).toEqual('dans 2 heures');
-        expect(service.formatRelativeTime(1, "week")).toEqual('la semaine prochaine');
-
-        // no differences between "weeks" and "week" ??
-        expect(service.formatRelativeTime(2, "weeks")).toEqual('dans 2 semaines');
-        expect(service.formatRelativeTime(2, "week")).toEqual('dans 2 semaines');
+        expect(service.formatRelativeTime(3*31*day)).toEqual('dans 3 mois');
+        expect(service.formatRelativeTime(2*hour)).toEqual('dans 2 heures');
+        expect(service.formatRelativeTime(7*day)).toEqual('dans 7 jours');
+        expect(service.formatRelativeTime(14*day)).toEqual('dans 2 semaines');
       });
     }))
 
