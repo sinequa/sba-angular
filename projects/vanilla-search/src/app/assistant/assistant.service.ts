@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { ChatConfig, defaultChatConfig } from "@sinequa/components/machine-learning";
 import { SearchService } from "@sinequa/components/search";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { AppService } from "@sinequa/core/app-utils";
@@ -76,7 +77,7 @@ const defaultPrompts = {
 }
 
 @Injectable({providedIn: 'root'})
-export class PromptService {
+export class AssistantService {
 
   constructor(
     public appService: AppService,
@@ -127,5 +128,62 @@ export class PromptService {
    */
   formatPrompt(prompt: string, context: any) {
     return prompt.replace(/{(.*?)}/g, (match, expr) => get(context, expr) ?? match)
+  }
+
+
+  configPatchDone = false;
+
+  get chatConfig(): ChatConfig {
+    let config = this.prefs.get('chat-config') || {};
+    if(!this.configPatchDone) {
+      let defaultChatConfigOverride = this.appService.app?.data?.chatConfig;
+      if(typeof defaultChatConfigOverride !== 'object') {
+        defaultChatConfigOverride = {};
+      }
+      config = {
+        ...defaultChatConfig,
+        ...defaultChatConfigOverride,
+        ...config
+      };
+      this.prefs.set('chat-config', config);
+      this.configPatchDone = true;
+    }
+    return config;
+  }
+
+  saveChatConfig() {
+    this.prefs.set('chat-config', this.chatConfig)
+  }
+
+  get assistantMode(): 'Meeseeks' | 'Manual' | 'Auto-Search' | 'Auto-Answer' {
+    return this.prefs.get('assistant-mode') ?? 'Meeseeks';
+  }
+
+  set assistantMode(val: 'Meeseeks' | 'Manual' | 'Auto-Search' | 'Auto-Answer') {
+    this.prefs.set('assistant-mode', val);
+  }
+
+  get searchPrompt(): string {
+    return this.getRawPrompt("searchPrompt");
+  }
+
+  set searchPrompt(val: string) {
+    this.setRawPrompt("searchPrompt", val);
+  }
+
+  get answerPrompt(): string {
+    return this.getRawPrompt("answerPrompt");
+  }
+
+  set answerPrompt(val: string) {
+    this.setRawPrompt("answerPrompt", val);
+  }
+
+  get answer2Prompt(): string {
+    return this.getRawPrompt("answer2Prompt");
+  }
+
+  set answer2Prompt(val: string) {
+    this.setRawPrompt("answer2Prompt", val);
   }
 }

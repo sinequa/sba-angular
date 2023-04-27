@@ -14,7 +14,7 @@ import { AuditEventType, AuditWebService, MatchingPassage, Record, RelevantExtra
 import { FacetParams, FACETS, FEATURES, METADATA, PREVIEW_HIGHLIGHTS } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { ChatAttachment, ChatService, InitChat } from '@sinequa/components/machine-learning';
-import { PromptService } from '../prompt.service';
+import { AssistantService } from '../assistant/assistant.service';
 
 @Component({
   selector: 'app-search',
@@ -79,7 +79,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     public auditService: AuditWebService,
     public chatService: ChatService,
     public ui: UIService,
-    public promptService: PromptService
+    public assistantService: AssistantService
   ) {
 
     const expandAction = new Action({
@@ -199,7 +199,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       messages: [{
         role: 'system',
         display: false,
-        content: this.promptService.getPrompt("previewPrompt", record)
+        content: this.assistantService.getPrompt("previewPrompt", record)
       }],
       attachments: this.chatService.addDocument(record, 2048, 5, 10).pipe(
         tap(() => this.auditService.notify({

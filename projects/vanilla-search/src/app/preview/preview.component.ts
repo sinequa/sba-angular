@@ -12,7 +12,7 @@ import { SearchService } from '@sinequa/components/search';
 import { IntlService } from '@sinequa/core/intl';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 import { ChatService, InitChat } from '@sinequa/components/machine-learning';
-import { PromptService } from '../prompt.service';
+import { AssistantService } from '../assistant/assistant.service';
 
 export interface EntitiesState {
   count: number;
@@ -78,7 +78,7 @@ export class PreviewComponent implements OnDestroy {
     public searchService: SearchService,
     public appService: AppService,
     public cdRef: ChangeDetectorRef,
-    public promptService: PromptService
+    public assistantService: AssistantService
   ) {
 
     // The URL can be changed when searching within the page
@@ -167,7 +167,7 @@ export class PreviewComponent implements OnDestroy {
         messages: [{
           role: 'system',
           display: false,
-          content: this.promptService.getPrompt("previewPrompt", record, {query: this.query})
+          content: this.assistantService.getPrompt("previewPrompt", record, {query: this.query})
         }],
         attachments: this.chatService.addDocument(record, 2048, 5, 10)
       };

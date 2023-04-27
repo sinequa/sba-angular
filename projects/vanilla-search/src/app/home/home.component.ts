@@ -8,7 +8,7 @@ import { UIService } from '@sinequa/components/utils';
 import { FEATURES } from '../../config';
 import { InitChat } from '@sinequa/components/machine-learning';
 import { PrincipalWebService } from '@sinequa/core/web-services';
-import { PromptService } from '../prompt.service';
+import { AssistantService } from '../assistant/assistant.service';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
-    public promptService: PromptService
+    public assistantService: AssistantService
   ) { }
 
   /**
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
             {
               role: 'system',
               display: false,
-              content: this.promptService.getPrompt('greetingPrompt')
+              content: this.assistantService.getPrompt('greetingPrompt')
             }
           ]
         }

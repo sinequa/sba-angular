@@ -3,7 +3,7 @@ import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { SearchFormComponent } from "@sinequa/components/search-form";
 import { ChatService } from "@sinequa/components/machine-learning";
-import { PromptService } from "../prompt.service";
+import { AssistantService } from "../assistant/assistant.service";
 
 @Component({
   selector: 'app-search-form',
@@ -40,7 +40,7 @@ export class AppSearchFormComponent {
   constructor(
     public searchService: SearchService,
     public chatService: ChatService,
-    public promptService: PromptService
+    public assistantService: AssistantService
   ) {}
 
   onAutocompleteSearch(text: string, query: Query) {
@@ -58,7 +58,7 @@ export class AppSearchFormComponent {
     if(text) {
       this.translating = true;
       this.chatService.fetch([
-        {role: 'system', content: this.promptService.getPrompt("translatePrompt"), display: false, $content: ''},
+        {role: 'system', content: this.assistantService.getPrompt("translatePrompt"), display: false, $content: ''},
         {role: 'user', content: text, display: false, $content: ''},
       ], 'GPT35Turbo', 1.0, 1000, 1.0)
       .subscribe(res => {

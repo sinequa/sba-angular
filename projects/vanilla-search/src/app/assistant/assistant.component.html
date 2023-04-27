@@ -7,7 +7,7 @@
   class="mb-3">
 
   <sq-chat #facet *ngIf="!chatSettingsAction.selected; else settings"
-    [displayAttachments]="false"
+    [searchMode]="assistantService.assistantMode === 'Auto-Search'"
     [textBeforeAttachments]="chatConfig.textBeforeAttachments"
     [displayAttachments]="chatConfig.displayAttachments"
     [temperature]="chatConfig.temperature"
@@ -29,9 +29,57 @@
     <div class="card-body pb-0">
       <h4>Assistant options</h4>
       <div class="mb-2">
-        <label for="searchPrompt" class="form-label">Prompt</label>
-        <textarea class="form-control" id="searchPrompt" [(ngModel)]="searchPrompt" [ngModelOptions]="{updateOn: 'blur'}" rows="15"></textarea>
+        <label for="assistantMode" class="form-label">Assistant mode</label>
+        <select class="form-select" id="assistantMode" [(ngModel)]="assistantService.assistantMode">
+          <option>Manual</option>
+          <option>Auto-Search</option>
+          <option>Auto-Answer</option>
+          <option>Meeseeks</option>
+        </select>
       </div>
+
+      <div *ngIf="assistantService.assistantMode === 'Manual'">
+        <div class="alert alert-info" role="alert">
+          In "Manual" mode, users select documents manually from the results list to add them
+          to the conversation.
+        </div>
+      </div>
+
+      <div *ngIf="assistantService.assistantMode === 'Auto-Search'">
+        <div class="alert alert-info" role="alert">
+          In "Auto-Search" mode, a "Search Before Chat" button is available next to the chat
+          input bar. It lets user trigger a fulltext search, automatically extracts the
+          most useful content from the results and inserts it in the conversation.
+        </div>
+      </div>
+
+      <div *ngIf="assistantService.assistantMode === 'Auto-Answer'">
+        <div class="alert alert-info" role="alert">
+          In "Auto-Answer" mode, the assistant responds to new results being returned by Sinequa.
+          It automatically attempts to extract the most useful content from the results, inserts
+          it in the conversation and prompts the chat for an answer.
+        </div>
+        <div class="mb-2">
+          <label for="answerPrompt" class="form-label">Answer Prompt</label>
+          <textarea class="form-control" id="answerPrompt" [(ngModel)]="assistantService.answerPrompt" [ngModelOptions]="{updateOn: 'blur'}" rows="10"></textarea>
+        </div>
+      </div>
+
+      <div *ngIf="assistantService.assistantMode === 'Meeseeks'">
+        <div class="alert alert-info" role="alert">
+          In "Meeseeks" mode, the assistant responds to new user queries by trying to improve them,
+          run them in the background, and attempt to extract an answer from the results.
+        </div>
+        <div class="mb-2">
+          <label for="searchPrompt" class="form-label">Meeseeks Prompt</label>
+          <textarea class="form-control" id="searchPrompt" [(ngModel)]="assistantService.searchPrompt" [ngModelOptions]="{updateOn: 'blur'}" rows="15"></textarea>
+        </div>
+        <div class="mb-2">
+          <label for="answerPrompt" class="form-label">Answer Prompt</label>
+          <textarea class="form-control" id="answerPrompt" [(ngModel)]="assistantService.answer2Prompt" [ngModelOptions]="{updateOn: 'blur'}" rows="10"></textarea>
+        </div>
+      </div>
+
       <h4 class="mb-0">Chat options</h4>
     </div>
     <sq-chat-settings [config]="chatConfig"></sq-chat-settings>
