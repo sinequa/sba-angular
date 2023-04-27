@@ -2,16 +2,16 @@ import { Component, Input } from "@angular/core";
 import { Observable } from "rxjs";
 import { ChatConfig, defaultChatConfig } from "./chat.component";
 import { ChatService } from "./chat.service";
-import { OpenAIModel } from "./types";
+import { GllmModelDescription } from "./types";
 
 @Component({
   selector: 'sq-chat-settings',
   template: `
   <div class="card-body small">
     <div class="mb-2">
-      <label for="openaiModel" class="form-label">Model</label>
-      <select class="form-select" id="openaiModel" [(ngModel)]="config.model" *ngIf="models$ | async as models">
-        <option *ngFor="let model of models">{{model}}</option>
+      <label for="gllmModel" class="form-label">Model</label>
+      <select class="form-select" id="gllmModel" [(ngModel)]="config.model" *ngIf="models$ | async as models">
+        <option *ngFor="let model of models" [ngValue]="model.name">{{model.displayName}}</option>
       </select>
     </div>
     <div class="form-check form-switch mb-2">
@@ -76,7 +76,7 @@ import { OpenAIModel } from "./types";
 export class ChatSettingsComponent {
   @Input() config: ChatConfig;
 
-  models$: Observable<OpenAIModel[]>;
+  models$: Observable<GllmModelDescription[]>;
 
   constructor(
     public chatService: ChatService

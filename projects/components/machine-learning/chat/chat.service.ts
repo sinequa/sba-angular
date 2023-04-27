@@ -7,7 +7,7 @@ import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Validators } from "@angular/forms";
 import { Chunk, equalChunks, insertChunk } from "./chunk";
-import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, OpenAIModel, OpenAITokens, RawMessage, RawResponse, SavedChat } from "./types";
+import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, GllmModel, GllmModelDescription, GllmTokens, RawMessage, RawResponse, SavedChat } from "./types";
 import { extractReferences } from "./references";
 
 
@@ -22,9 +22,9 @@ export class ChatService {
    */
   attachments$ = new BehaviorSubject<ChatAttachmentWithTokens[]>([]);
 
-  attachmentModel: OpenAIModel = 'GPT35Turbo';
+  attachmentModel: GllmModel = 'GPT35Turbo';
 
-  OPENAI_PLUGIN = "AzureOpenAI";
+  GLLM_PLUGIN = "GLLM";
 
   constructor(
     public textChunksService: TextChunksWebService,
@@ -42,7 +42,7 @@ export class ChatService {
   /**
    * Calls the ChatGPT API to retrieve a new message given all previous messages
    */
-  fetch(messages: ChatMessage[], name: OpenAIModel, temperature: number, generateTokens: number, topP: number): Observable<ChatResponse> {
+  fetch(messages: ChatMessage[], name: GllmModel, temperature: number, generateTokens: number, topP: number): Observable<ChatResponse> {
     const model = {
       name,
       temperature,
@@ -51,7 +51,7 @@ export class ChatService {
     };
     const messagesHistory = this.cleanMessages(messages);
     const data = {action: "chat", model, messagesHistory, promptProtection: false};
-    return this.jsonMethodWebService.post(this.OPENAI_PLUGIN, data).pipe(
+    return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data).pipe(
       map((res: RawResponse) => ({
         tokens: res.tokens,
         messagesHistory: [
@@ -66,17 +66,17 @@ export class ChatService {
   /**
    * Returns the number of tokens taken by the given text
    */
-  count(text: string[], model: OpenAIModel): Observable<number[]> {
+  count(text: string[], model: GllmModel): Observable<number[]> {
     const data = { action: "TokenCount", model, text };
-    return this.jsonMethodWebService.post(this.OPENAI_PLUGIN, data).pipe(map(res => res.tokens));
+    return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data).pipe(map(res => res.tokens));
   }
 
   /**
    * Return the list of OpenAI models available on the server
    */
-  listModels(): Observable<OpenAIModel[]> {
+  listModels(): Observable<GllmModelDescription[]> {
     const data = { action: "listmodels" };
-    return this.jsonMethodWebService.post(this.OPENAI_PLUGIN, data).pipe(map(res => res.models));
+    return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data).pipe(map(res => res.models));
   }
 
   /**
@@ -512,7 +512,7 @@ export class ChatService {
    * Open a prompt to let the user pick a name for a saved chat.
    * If the user obliges the chat is saved.
    */
-  saveChatModal(conversation: ChatMessage[], tokens: OpenAITokens) {
+  saveChatModal(conversation: ChatMessage[], tokens: GllmTokens) {
     const messages = this.cleanMessages(conversation);
     const model: PromptOptions = {
       title: 'Save Chat',
@@ -530,7 +530,7 @@ export class ChatService {
     });
   }
 
-  notifyAudit(messagesHistory: ChatMessage[], tokens: OpenAITokens) {
+  notifyAudit(messagesHistory: ChatMessage[], tokens: GllmTokens) {
     let numberOfUserMessages = 0;
     let numberOfAttachments = 0;
     let numberOfAssistantMessages = 0;
