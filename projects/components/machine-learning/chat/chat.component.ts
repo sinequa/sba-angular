@@ -6,7 +6,7 @@ import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatService } from "./chat.service";
-import { ChatAttachment, ChatMessage, GllmModel, GllmTokens, RawMessage } from "./types";
+import { ChatAttachment, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
 
 export interface ChatConfig {
   textBeforeAttachments: boolean;
@@ -100,6 +100,10 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   sub = new Subscription();
   dataSubscription: Subscription | undefined;
 
+  modelDescription: GllmModelDescription;
+  assistantIcon: string;
+  privacyUrl: string;
+
   constructor(
     public chatService: ChatService,
     public searchService: SearchService,
@@ -138,6 +142,19 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     }));
 
     this._actions.push(this.openChatAction);
+
+    this.chatService.listModels().subscribe(models => {
+      this.modelDescription = models.find(m => m.name === this.model)!;
+      switch(this.modelDescription.provider) {
+        case 'Google':
+          this.assistantIcon = 'sq-google';
+          break;
+        case 'OpenAI':
+          this.assistantIcon = 'sq-chatgpt';
+          this.privacyUrl = 'https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy';
+          break;
+      }
+    });
   }
 
   ngOnChanges() {

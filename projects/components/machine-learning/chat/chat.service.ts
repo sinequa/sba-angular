@@ -7,7 +7,7 @@ import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Validators } from "@angular/forms";
 import { Chunk, equalChunks, insertChunk } from "./chunk";
-import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, GllmModel, GllmTokens, RawMessage, RawResponse, SavedChat } from "./types";
+import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, GllmModel, GllmModelDescription, GllmTokens, RawMessage, RawResponse, SavedChat } from "./types";
 import { extractReferences } from "./references";
 
 
@@ -74,7 +74,7 @@ export class ChatService {
   /**
    * Return the list of OpenAI models available on the server
    */
-  listModels(): Observable<GllmModel[]> {
+  listModels(): Observable<GllmModelDescription[]> {
     const data = { action: "listmodels" };
     return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data).pipe(map(res => res.models));
   }

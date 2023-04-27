@@ -173,6 +173,19 @@ $sq-icon-families: ("s", "b", "r", "l") !default;
     }
 }
 
+.sq-google {
+    --sq-size: 40px;
+    &:before {
+      content: "";
+      display:block;
+      height: var(--sq-size);
+      width: var(--sq-size);
+      background-size: var(--sq-size) var(--sq-size);
+      background-image: url('../assets/google-bard.png');
+      background-repeat: no-repeat;
+    }
+}
+
 .sq-logo {
     height: 1rem;
     align-self: center;
