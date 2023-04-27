@@ -11,7 +11,7 @@ const defaultPrompts = {
   translatePrompt: `Assistant translates everything the user says in English, word for word and nothing else. If you cannot translate it, just repeat the user's message.`,
   greetingPrompt: `User {principal.fullName} is on the home page of the Sinequa search engine, please write a nice short 1-sentence greeting message (in the {locale.name} locale).`,
   previewPrompt: "Generate a TLDR summary of this document, in the context of the original query: \"{query.text}\". Use markdown formatting for code snippets if any.",
-  answerPrompt: `The below documents contains extracts returned by a search engine. Your job is two perform 2 tasks:
+  answerPrompt: `The below documents contains extracts returned by a search engine. Your job is to perform 2 tasks:
   1 - Try to answer the Query in one short sentence. If you can't or don't have enough context or information from any documents to answer the query, just say so.
   2 - Generate a single summary of all the documents in the context of the Query, using between 5 to 12 sentences.
   Make sure you include the references in the form [id].
