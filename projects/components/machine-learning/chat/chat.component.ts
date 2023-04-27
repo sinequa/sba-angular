@@ -6,7 +6,7 @@ import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatService } from "./chat.service";
-import { ChatAttachment, ChatMessage, OpenAIModel, OpenAITokens, RawMessage } from "./types";
+import { ChatAttachment, ChatMessage, GllmModel, GllmTokens, RawMessage } from "./types";
 
 export interface ChatConfig {
   textBeforeAttachments: boolean;
@@ -23,7 +23,7 @@ export interface ChatConfig {
   autoSearchMaxPassages: number;
   autoSearchMaxDocuments: number;
   autoSearchExpand: number;
-  model: OpenAIModel;
+  model: GllmModel;
 }
 
 export const defaultChatConfig: ChatConfig = {
@@ -46,7 +46,7 @@ export const defaultChatConfig: ChatConfig = {
 
 export interface InitChat {
   messages: RawMessage[];
-  tokens?: OpenAITokens;
+  tokens?: GllmTokens;
   attachments?: Observable<ChatAttachment[]|ChatAttachment>;
 }
 
@@ -91,7 +91,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   tokensPercentage = 0;
   tokensAbsolute = 0;
   tokensQuota = 0;
-  tokens?: OpenAITokens;
+  tokens?: GllmTokens;
 
   openChatAction: Action;
   _actions: Action[] = [];
@@ -217,7 +217,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     return attachmentMessages;
   }
 
-  updateData(messages: ChatMessage[], tokens: OpenAITokens) {
+  updateData(messages: ChatMessage[], tokens: GllmTokens) {
     this.messages$.next(messages);
     this.data.emit(messages);
     this.loading = false;
@@ -271,7 +271,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     }
   }
 
-  openChat(messages: RawMessage[], tokens?: OpenAITokens, attachments$?: Observable<ChatAttachment[]|ChatAttachment>) {
+  openChat(messages: RawMessage[], tokens?: GllmTokens, attachments$?: Observable<ChatAttachment[]|ChatAttachment>) {
     this.resetChat();
     this.loading = true;
     this.dataSubscription = this.chatService.restoreMessages(messages)
