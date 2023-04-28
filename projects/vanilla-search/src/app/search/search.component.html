@@ -166,15 +166,14 @@
                 </ng-template>
 
                 <ng-template #subHeaderTpl>
-                    <sq-metadata-list
+                    <sq-metadata
                         [record]="openedDoc"
                         [config]="metadata"
                         [query]="searchService.query"
                         [showTitles]="true"
-                        [showIcons]="true"
                         [showFormatIcons]="true"
                         [showFiltersHighlights]="true"
-                    ></sq-metadata-list>
+                    ></sq-metadata>
                 </ng-template>
 
                 <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="true" *ngIf="openedDoc.$hasPassages"

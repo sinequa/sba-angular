@@ -5,8 +5,8 @@ import { IntlModule } from "@sinequa/core/intl";
 import { UtilsModule } from "@sinequa/components/utils";
 import { CollapseModule } from "@sinequa/components/collapse";
 
-import { MetadataListComponent } from "./metadata/metadata-list/metadata-list.component";
 import { MetadataComponent } from "./metadata/metadata.component";
+import { MetadataItemComponent } from "./metadata/metadata-item/metadata-item.component";
 import { IconService } from "./icon.service";
 import { MetadataService } from "./metadata.service";
 import { MetadataTreeComponent } from './metadata/metadata-tree/metadata-tree.component';
@@ -16,10 +16,10 @@ import { HighlightService } from "./highlight.service";
 
 @NgModule({
     declarations: [
-        MetadataListComponent, MetadataComponent, MetadataTreeComponent, MetadataTooltipComponent
+        MetadataComponent, MetadataItemComponent, MetadataTreeComponent, MetadataTooltipComponent
     ],
     exports: [
-        MetadataListComponent, MetadataComponent
+        MetadataComponent, MetadataItemComponent
     ],
     providers: [
         IconService,

@@ -1,0 +1,14 @@
+.collapsable {
+    display: block !important;
+    overflow: hidden;
+}
+
+.sq-metadata-col {
+    &.metadata-inline:before {
+            vertical-align: sub;
+    }
+
+    &.metadata-table {
+        display: table-cell;
+    }
+}

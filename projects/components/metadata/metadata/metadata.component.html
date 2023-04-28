@@ -1,49 +1,24 @@
-<ng-container *ngIf="display && hasValues">
-    <!-- Icon -->
-    <span *ngIf="showIcon" class="sq-metadata-col metadata-{{style}} {{icon}} pe-1"></span>
-
-    <!-- Title -->
-    <span *ngIf="showTitle" class="sq-metadata-col metadata-{{style}} sq-metadata-item-label pe-1">
-        {{(label || 'msg#metadata.item.label') | sqMessage:itemLabelMessageParams}}
-    </span>
-
-    <!-- Value -->
-    <span class="sq-metadata-col sq-metadata-values metadata-{{style}}" [style.max-height.px]="valuesHeight"
-        [class.collapsable]="valuesHeight" #values>
-        <!-- Collapse button -->
-        <a *ngIf="collapseRows && needsCollapse" role="button" (click)="toggleCollapse()" class="collapse-button me-1">
-            <i class="fas fa-fw fa-caret-{{collapsed? 'right' : 'down'}}"></i>
-        </a>
-
-        <!-- Other types of metadata -->
-        <ng-container *ngIf="metadataValue.isTree; else isNotTree">
-            <sq-metadata-tree [record]="record" [item]="item" [itemClass]="itemClass" [query]="query"
-                [column]="metadataValue.column" [showFiltersHighlights]="showFiltersHighlights" [loading]="loading"
-                [entityTemplate]="entityTemplate" [actions]="allActions" [actionsButtonsStyle]="actionsButtonsStyle"
-                [actionsButtonsSize]="actionsButtonsSize" [tooltipLinesNumber]="tooltipLinesNumber"
-                (openedPopper)="currentItem=$event"></sq-metadata-tree>
-        </ng-container>
-
-        <!-- Not a Tree-->
-        <ng-template #isNotTree>
-            <span *ngFor="let valueItem of metadataValue.valueItems; let $index = index"
-                class="sq-metadata-item {{'sq-metadata-item-' + item}} {{itemClass}}"
-                [attr.title]="(showTitle || metadataValue.fnEntityTooltip) ? null : ((label || columnLabel) | sqMessage)"
-                sqPopper [target]="entityTemplate || allActions?.length ? tooltip : undefined" [placement]="placement"
-                (shown)="setupTooltip(valueItem)"
-                [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : undefined">
-                <span *ngIf="showFormatIcon && valueIcon" class="{{valueIcon}}"></span>
-                {{valueItem | sqValue:metadataValue.column}}
-                <span class="sq-metadata-separator" *ngIf="separator && $index < metadataValue.valueItems.length-1">
-                    {{separator | sqMessage}}
-                </span>
-
-                <div #tooltip [hidden]="!entityTemplate && !allActions?.length">
-                    <sq-metadata-tooltip [loading]="loading" [entityTemplate]="entityTemplate" [actions]="allActions"
-                        [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
-                        [tooltipLinesNumber]="tooltipLinesNumber"></sq-metadata-tooltip>
-                </div>
-            </span>
-        </ng-template>
-    </span>
-</ng-container>
+<div class="metadata-{{style}}">
+    <ng-container *ngFor="let c of config">
+        <sq-metadata-item *ngIf="!isString(c)"
+            [record]="record"
+            [query]="query"
+            [item]="c.item"
+            [icon]="c.icon"
+            [itemClass]="c.itemClass"
+            [filterable]="c.filterable"
+            [excludable]="c.excludable"
+            [showEntityTooltip]="c.showEntityTooltip"
+            [actions]="c.actions"
+            [separator]="c.separator"
+            [style]="style"
+            [showFormatIcon]="showFormatIcons"
+            [showTitle]="showTitles"
+            [showFiltersHighlights]="showFiltersHighlights"
+            [collapseRows]="collapseRows"
+            (filter)="filter.emit($event)"
+            (exclude)="exclude.emit($event)">
+        </sq-metadata-item>
+        <span *ngIf="isString(c)">{{c | sqMessage}}</span>
+    </ng-container>
+</div>
