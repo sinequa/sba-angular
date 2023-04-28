@@ -2,7 +2,8 @@
     <div class="form-control d-flex pe-1">
         <!-- Search bar -->
         <div class="d-flex w-100">
-            <input type="text" placeholder="Search for..." [(ngModel)]="globalService.query.text">
+            <input type="text" placeholder="Search for..." [(ngModel)]="globalService.query.text"
+                (keyup.enter)="globalService.search()">
         </div>
     </div>
 
