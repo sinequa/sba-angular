@@ -1,11 +1,10 @@
 .collapsable {
-    display: block !important;
     overflow: hidden;
 }
 
 .sq-metadata-col {
-    &.metadata-inline:before {
-        vertical-align: sub;
+    &.metadata-inline {
+        display: inline-flex;
     }
 
     &.metadata-table {
