@@ -5,7 +5,6 @@ import {Utils, MapOf} from "@sinequa/core/base";
 import {IQuery} from "./query/query";
 import {AuditEvents} from "./audit.web.service";
 import {CCAggregation, CCColumn, SpellingCorrectionMode} from "./config/ccapp";
-import {MetadataValue} from "@sinequa/components/metadata/metadata.service";
 
 /**
  * Describes the results of a call to the query web service
@@ -716,11 +715,6 @@ export interface Record {
      * Number of duplicates of this document
      */
     $duplicateCount?: number;
-
-    /**
-     * The metadata items
-     */
-    $metadataValues: MetadataValue[];
 }
 
 /**

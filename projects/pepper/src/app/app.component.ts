@@ -7,8 +7,9 @@ import { LabelsService } from '@sinequa/components/labels';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
-import { FEATURES } from '../config';
+import { FEATURES, SELECTORS_HIGHLIGHTS } from '../config';
 import { HighlightService } from "@sinequa/components/metadata";
+import { PreviewHighlightColors } from "@sinequa/components/preview";
 
 @Component({
     selector: "app-root",
@@ -23,7 +24,7 @@ export class AppComponent extends ComponentWithLogin {
         // regardless of the entry route.
         // The order below impacts the order of the actions in the selection menu.
         prefs: UserPreferences,
-        highlightService: HighlightService,
+        public highlightService: HighlightService,
         public savedQueriesService: SavedQueriesService,
         public basketsService: BasketsService,
         public alertsService: AlertsService,
@@ -51,7 +52,7 @@ export class AppComponent extends ComponentWithLogin {
 
             let features = FEATURES;
             // The local config (config.ts) can be overriden by server-side config
-            if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
+            if(this.appService.app.data?.features){
                 features = <string[]> this.appService.app.data.features;
             }
 
@@ -75,6 +76,9 @@ export class AppComponent extends ComponentWithLogin {
                     }
                 }
             });
+
+            const highlights: {selectors: string[], highlights: PreviewHighlightColors[]}[] = this.appService.app.data?.highlights as any || SELECTORS_HIGHLIGHTS;
+            this.highlightService.setHighlights(highlights);
 
         }
     }

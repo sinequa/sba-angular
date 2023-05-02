@@ -5,8 +5,13 @@ import { CCColumn, EntityItem, Record, TextChunksWebService, TextLocation } from
 import { map, Observable, of } from 'rxjs';
 import { Action } from '../action/action';
 
-export interface TreeValueItem extends ValueItem {
-  parts: ValueItem[];
+export interface MetadataItem extends ValueItem {
+  filtered?: boolean; // Whether the item is included in the filters
+  excluded?: boolean; // Whether the item is excluded from the filters
+}
+
+export interface TreeMetadataItem extends MetadataItem {
+  parts: MetadataItem[];
 }
 
 export interface MetadataConfig {
@@ -20,10 +25,10 @@ export interface MetadataConfig {
   actions?: Action[];
 }
 
-type RecordType = Record[keyof Record] & ValueItem[] & EntityItem[]
+type RecordType = Record[keyof Record] & MetadataItem[] & EntityItem[]
 
 export interface MetadataValue {
-  valueItems: (ValueItem | TreeValueItem)[]; // the determined value from the results
+  valueItems: (MetadataItem | TreeMetadataItem)[]; // the determined value from the results
   column: CCColumn | undefined; // the results column
   isTree: boolean; // if is tree
   isEntity: boolean; // if is entity
@@ -40,7 +45,7 @@ export class MetadataService {
     private appService: AppService) { }
 
   getMetadataValue(record: Record, query: Query | undefined, item: string, showEntityTooltip?: boolean): MetadataValue {
-    const valueItems: (ValueItem | TreeValueItem)[] = [];
+    const valueItems: (MetadataItem | TreeMetadataItem)[] = [];
     const column = this.appService.getColumn(item);
     const isTree = !!column && AppService.isTree(column);
     const isEntity = !!column && AppService.isEntity(column);
@@ -81,10 +86,10 @@ export class MetadataService {
     }
   }
 
-  private setCsvValues(values: RecordType, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
+  protected setCsvValues(values: RecordType, valueItems: (MetadataItem | TreeMetadataItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
     const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
     if (values && values instanceof Array) {
-      valueItems.push(...values.map<ValueItem>(value => {
+      valueItems.push(...values.map<MetadataItem>(value => {
         const filter = filters.find(f => f.value === value);
         const filtered = !!filter && (!filter.operator || filter.operator !== 'neq');
         const excluded = !!filter && filter.operator === 'neq' && filter.value === value;
@@ -99,7 +104,7 @@ export class MetadataService {
     }
   }
 
-  private setValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
+  protected setValues(values: any, valueItems: (MetadataItem | TreeMetadataItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
     const value = this.ensureScalarValue(values, column);
     if (!Utils.isEmpty(value)) {
       const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
@@ -110,7 +115,7 @@ export class MetadataService {
     }
   }
 
-  private ensureScalarValue(value: any, column: CCColumn | undefined): any {
+  protected ensureScalarValue(value: any, column: CCColumn | undefined): any {
     if (Utils.isEmpty(value) && column) {
       if (AppService.isBoolean(column)) {
         value = 'msg#metadata.item.empty_boolean';
@@ -122,7 +127,7 @@ export class MetadataService {
     return value;
   }
 
-  private getEntitySentence = (data: { entity: EntityItem, record: Record, query: Query }) => {
+  protected getEntitySentence = (data: { entity: EntityItem, record: Record, query: Query }) => {
     const { entity, record, query } = data;
     // Get entity location
     const location = this.getEntityLocation(entity);
@@ -136,7 +141,7 @@ export class MetadataService {
       .pipe(map(chunks => chunks?.[0]?.text));
   }
 
-  private getHighlights(): string[] {
+  protected getHighlights(): string[] {
     const preview = this.appService.app?.preview?.split(',')?.[0];
     if (preview) {
       return this.appService.getWebService<any>(preview)?.highlights?.split(",") || [];
@@ -144,7 +149,7 @@ export class MetadataService {
     return [];
   }
 
-  private getEntityLocation(entity: EntityItem): TextLocation | undefined {
+  protected getEntityLocation(entity: EntityItem): TextLocation | undefined {
     const locations = entity.locations?.split(";")?.[0]?.split(",");
     if (!locations?.length) return;
     // eslint-disable-next-line radix

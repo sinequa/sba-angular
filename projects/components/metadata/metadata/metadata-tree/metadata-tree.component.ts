@@ -3,7 +3,7 @@ import { Action } from '@sinequa/components/action';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, Record } from '@sinequa/core/web-services';
-import { TreeValueItem } from '../../metadata.service';
+import { TreeMetadataItem } from '../../metadata.service';
 
 @Component({
   selector: 'sq-metadata-tree',
@@ -30,7 +30,7 @@ export class MetadataTreeComponent implements OnChanges {
 
   @Output("openedPopper") _openedPopper = new EventEmitter();
 
-  valueItems: TreeValueItem[];
+  valueItems: TreeMetadataItem[];
 
   constructor(private appService: AppService) { }
 
@@ -50,7 +50,7 @@ export class MetadataTreeComponent implements OnChanges {
         for (const path of paths) {
           const parts = path.split("/");
           this.removeUnnecessaryPathElements(parts);
-          const item: TreeValueItem = {
+          const item: TreeMetadataItem = {
             value: path, parts: parts.map((value, index) => {
               const filtered = !!filterValuePath && filterValuePath[index] === value && (!filter.operator || filter.operator !== 'neq');
               const excluded = !!filterValuePath && filterValuePath[index] === value && filter.operator === 'neq';
@@ -63,14 +63,14 @@ export class MetadataTreeComponent implements OnChanges {
     }
   }
 
-  openedPopper(valueItem: TreeValueItem, partIndex: number): void {
+  openedPopper(valueItem: TreeMetadataItem, partIndex: number): void {
     if (this.entityTemplate) {
       const path = this.generatePath(valueItem, partIndex);
       this._openedPopper.emit({ value: path + "*", display: Utils.treepathLast(path) });
     }
   }
 
-  private generatePath(valueItem: TreeValueItem, partIndex: number): string {
+  private generatePath(valueItem: TreeMetadataItem, partIndex: number): string {
     const parts = valueItem.parts.map((item) => item.value).slice(0, partIndex + 1);
     if (parts.length > 0) {
       parts.unshift("");

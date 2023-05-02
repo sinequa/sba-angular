@@ -13,8 +13,6 @@ export interface ValueItem {
     value: FieldValue;
     display?: string;
     count?: number; // Following ES-11166, the number of occurrence for an entity can be included
-    filtered?: boolean; // Whether the item is included in the filters
-    excluded?: boolean; // Whether the item is excluded from the filters
 }
 
 /**
