@@ -1,7 +1,7 @@
 <ng-container *ngFor="let valueItem of valueItems; let $index = index">
     <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
         <li *ngFor="let part of valueItem.parts; let $subIndex = index" sqPopper
-            [target]="entityTemplate || actions?.length ? tooltip : undefined" placement="top"
+            [target]="popoverTemplate || actions?.length ? popover : undefined" placement="top"
             (shown)="selectItem(valueItem, $subIndex)">
             <span class="sq-metadata-item {{'sq-metadata-item-' + item}} {{itemClass}}"
                 [style.background-color]="showFiltersHighlights && part.filtered ? 'yellow': showFiltersHighlights && part.excluded ? 'red' : undefined">
@@ -11,10 +11,10 @@
                 {{'msg#metadata.item.treeNodeSeparator' | sqMessage}}
             </span>
 
-            <div #tooltip [hidden]="!entityTemplate && !actions?.length">
-                <sq-metadata-tooltip [class.d-none]="loading" [entityTemplate]="entityTemplate" [actions]="actions"
+            <div #popover [hidden]="!popoverTemplate && !actions?.length">
+                <sq-metadata-popover [class.d-none]="loading" [popoverTemplate]="popoverTemplate" [actions]="actions"
                     [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
-                    [tooltipLinesNumber]="tooltipLinesNumber"></sq-metadata-tooltip>
+                    [popoverLinesNumber]="popoverLinesNumber"></sq-metadata-popover>
             </div>
         </li>
     </ol>

@@ -20,7 +20,7 @@ export interface MetadataConfig {
   itemClass?: string;
   filterable?: boolean;
   excludable?: boolean;
-  showEntityTooltip?: boolean;
+  showPopover?: boolean;
   separator?: string;
   actions?: Action[];
 }
@@ -33,7 +33,7 @@ export interface MetadataValue {
   isTree: boolean; // if is tree
   isEntity: boolean; // if is entity
   isCsv: boolean; // if is csv
-  fnEntityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
+  fnEntityPopover?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
 }
 
 @Injectable({
@@ -44,13 +44,13 @@ export class MetadataService {
   constructor(private textChunkWebService: TextChunksWebService,
     private appService: AppService) { }
 
-  getMetadataValue(record: Record, query: Query | undefined, item: string, showEntityTooltip?: boolean): MetadataValue {
+  getMetadataValue(record: Record, query: Query | undefined, item: string, showPopover?: boolean): MetadataValue {
     const valueItems: (MetadataItem | TreeMetadataItem)[] = [];
     const column = this.appService.getColumn(item);
     const isTree = !!column && AppService.isTree(column);
     const isEntity = !!column && AppService.isEntity(column);
     const isCsv = !!column && AppService.isCsv(column);
-    let fnEntityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
+    let fnEntityPopover: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
 
     const values: RecordType = record[this.appService.getColumnAlias(column, item)];
 
@@ -64,8 +64,8 @@ export class MetadataService {
           const excluded = !!filter && filter.operator === 'neq';
           return { ...i, filtered, excluded };
         }));
-        if (showEntityTooltip && entityItems[0]?.locations) {
-          fnEntityTooltip = this.getEntitySentence
+        if (showPopover && entityItems[0]?.locations) {
+          fnEntityPopover = this.getEntitySentence
         }
       }
     }
@@ -82,7 +82,7 @@ export class MetadataService {
       isTree,
       isEntity,
       isCsv,
-      fnEntityTooltip
+      fnEntityPopover
     }
   }
 

@@ -22,11 +22,11 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() showFiltersHighlights = true;
 
   @Input() loading: boolean;
-  @Input() entityTemplate: any;
+  @Input() popoverTemplate: string;
   @Input() actions: Action[];
   @Input() actionsButtonsStyle: string;
   @Input() actionsButtonsSize: string;
-  @Input() tooltipLinesNumber: number;
+  @Input() popoverLinesNumber: number;
 
   @Output("selectedItem") _selectedItem = new EventEmitter();
 
@@ -64,7 +64,7 @@ export class MetadataTreeComponent implements OnChanges {
   }
 
   selectItem(valueItem: TreeMetadataItem, partIndex: number): void {
-    if (this.entityTemplate) {
+    if (this.popoverTemplate) {
       const path = this.generatePath(valueItem, partIndex);
       this._selectedItem.emit({ value: path + "*", display: Utils.treepathLast(path) });
     }

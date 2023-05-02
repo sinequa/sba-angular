@@ -1,6 +1,6 @@
-<div class="sq-metadata-tooltip">
-    <div class="sq-metadata-tooltip-entity p-2" *ngIf="entityTemplate" [innerHTML]="entityTemplate"
-        [style.-webkit-line-clamp]="tooltipLinesNumber">
+<div class="sq-metadata-popover">
+    <div class="sq-metadata-popover-entity p-2" *ngIf="popoverTemplate" [innerHTML]="popoverTemplate"
+        [style.-webkit-line-clamp]="popoverLinesNumber">
     </div>
     <div *ngIf="actions?.length" class="btn-group d-flex"
         [sq-action-buttons]="{items: actions, style: actionsButtonsStyle, size: actionsButtonsSize, rightAligned: true}">

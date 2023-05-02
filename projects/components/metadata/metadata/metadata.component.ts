@@ -36,15 +36,15 @@ export class MetadataComponent {
      */
     @Input() collapseRows = true;
     /**
-     * Number of lines to display in the entity tooltip
+     * Number of lines to display in the entity popover
      */
-    @Input() tooltipLinesNumber = 8;
+    @Input() popoverLinesNumber = 8;
     /**
-     * Class for the tooltip buttons
+     * Class for the popover buttons
      */
     @Input() actionsButtonsStyle = 'btn btn-primary';
     /**
-     * Size for the tooltip buttons
+     * Size for the popover buttons
      */
     @Input() actionsButtonsSize = 'sm';
 

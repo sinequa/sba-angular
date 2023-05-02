@@ -23,14 +23,14 @@ export class MetadataItemComponent implements OnChanges {
     @Input() itemClass?: string;
     @Input() filterable?: boolean;
     @Input() excludable?: boolean;
-    @Input() showEntityTooltip?: boolean;
+    @Input() showPopover?: boolean;
     @Input() actions?: Action[];
 
     @Input() showFormatIcon: boolean;
     @Input() showTitle: boolean;
     @Input() showFiltersHighlights: boolean;
     @Input() collapseRows: boolean;
-    @Input() tooltipLinesNumber = 8;
+    @Input() popoverLinesNumber = 8;
     @Input() separator: string;
 
     @Input() actionsButtonsStyle = 'btn btn-secondary';
@@ -51,7 +51,7 @@ export class MetadataItemComponent implements OnChanges {
     valuesMaxHeight: number | undefined;
     valuesHeight: number | undefined;
 
-    entityTemplate: any;
+    popoverTemplate?: string;
     currentItem: EntityItem;
     loading = false;
 
@@ -125,7 +125,7 @@ export class MetadataItemComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
         if ((!!changes.record && !this.metadataValue) || !!changes.query) {
-            this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.item, this.showEntityTooltip);
+            this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.item, this.showPopover);
         }
 
         // Generate format icon
@@ -195,8 +195,8 @@ export class MetadataItemComponent implements OnChanges {
         this.valuesHeight = this.collapsed ? this.valuesMaxHeight : this.lineHeight;
     }
 
-    setupTooltip(valueItem: EntityItem): void {
-        this.entityTemplate = undefined;
+    setupPopover(valueItem: EntityItem): void {
+        this.popoverTemplate = undefined;
         this.currentItem = valueItem;
         this.filterAction.update();
         this.removeFilterAction.update();
@@ -212,12 +212,12 @@ export class MetadataItemComponent implements OnChanges {
             this.actions.map(action => action.data = value);
         }
 
-        if (!this.metadataValue.fnEntityTooltip) return;
+        if (!this.metadataValue.fnEntityPopover) return;
 
         this.loading = true;
-        this.metadataValue.fnEntityTooltip({ entity: valueItem, record: this.record, query: this.query! })
-            .subscribe((value: any) => {
-                this.entityTemplate = value;
+        this.metadataValue.fnEntityPopover({ entity: valueItem, record: this.record, query: this.query! })
+            .subscribe((value: string | undefined) => {
+                this.popoverTemplate = value;
                 this.loading = false;
             }, () => {
                 this.loading = false;

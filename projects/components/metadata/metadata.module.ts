@@ -11,12 +11,12 @@ import { IconService } from "./icon.service";
 import { MetadataService } from "./metadata.service";
 import { MetadataTreeComponent } from './metadata/metadata-tree/metadata-tree.component';
 import { BsActionModule } from "../action";
-import { MetadataTooltipComponent } from './metadata/metadata-tooltip/metadata-tooltip.component';
+import { MetadataPopoverComponent } from './metadata/metadata-popover/metadata-popover.component';
 import { HighlightService } from "./highlight.service";
 
 @NgModule({
     declarations: [
-        MetadataComponent, MetadataItemComponent, MetadataTreeComponent, MetadataTooltipComponent
+        MetadataComponent, MetadataItemComponent, MetadataTreeComponent, MetadataPopoverComponent
     ],
     exports: [
         MetadataComponent, MetadataItemComponent
