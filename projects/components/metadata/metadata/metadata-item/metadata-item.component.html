@@ -18,7 +18,7 @@
         <!-- Other types of metadata -->
         <ng-container *ngIf="metadataValue.isTree; else isNotTree">
             <sq-metadata-tree [record]="record" [item]="item" [itemClass]="itemClass" [query]="query"
-                [column]="metadataValue.column" [showFiltersHighlights]="showFiltersHighlights" [loading]="loading"
+                [column]="metadataValue.column" [showFiltersHighlights]="showFiltersHighlights"
                 [popoverTemplate]="popoverTemplate" [actions]="allActions" [actionsButtonsStyle]="actionsButtonsStyle"
                 [actionsButtonsSize]="actionsButtonsSize" [popoverLinesNumber]="popoverLinesNumber"
                 (selectedItem)="currentItem=$event"></sq-metadata-tree>
@@ -39,7 +39,7 @@
                 </span>
 
                 <div #popover [hidden]="!popoverTemplate && !allActions?.length">
-                    <sq-metadata-popover [class.d-none]="loading" [popoverTemplate]="popoverTemplate" [actions]="allActions"
+                    <sq-metadata-popover [popoverTemplate]="popoverTemplate" [actions]="allActions"
                         [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
                         [popoverLinesNumber]="popoverLinesNumber"></sq-metadata-popover>
                 </div>

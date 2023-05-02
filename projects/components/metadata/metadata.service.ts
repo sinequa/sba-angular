@@ -1,40 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AppService, Query, ValueItem } from '@sinequa/core/app-utils';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, EntityItem, Record, TextChunksWebService, TextLocation } from '@sinequa/core/web-services';
 import { map, Observable, of } from 'rxjs';
-import { Action } from '../action/action';
-
-export interface MetadataItem extends ValueItem {
-  filtered?: boolean; // Whether the item is included in the filters
-  excluded?: boolean; // Whether the item is excluded from the filters
-}
-
-export interface TreeMetadataItem extends MetadataItem {
-  parts: MetadataItem[];
-}
-
-export interface MetadataConfig {
-  item: string;
-  icon?: string;
-  itemClass?: string;
-  filterable?: boolean;
-  excludable?: boolean;
-  showPopover?: boolean;
-  separator?: string;
-  actions?: Action[];
-}
+import { MetadataItem, MetadataValue, TreeMetadataItem } from './metadata.interface';
 
 type RecordType = Record[keyof Record] & MetadataItem[] & EntityItem[]
-
-export interface MetadataValue {
-  valueItems: (MetadataItem | TreeMetadataItem)[]; // the determined value from the results
-  column: CCColumn | undefined; // the results column
-  isTree: boolean; // if is tree
-  isEntity: boolean; // if is entity
-  isCsv: boolean; // if is csv
-  fnEntityPopover?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +86,7 @@ export class MetadataService {
     }
   }
 
-  protected ensureScalarValue(value: any, column: CCColumn | undefined): any {
+  protected ensureScalarValue(value: any, column: CCColumn | undefined): string {
     if (Utils.isEmpty(value) && column) {
       if (AppService.isBoolean(column)) {
         value = 'msg#metadata.item.empty_boolean';

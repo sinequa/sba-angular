@@ -15,9 +15,7 @@
             [showFormatIcon]="showFormatIcons"
             [showTitle]="showTitles"
             [showFiltersHighlights]="showFiltersHighlights"
-            [collapseRows]="collapseRows"
-            (filter)="filter.emit($event)"
-            (exclude)="exclude.emit($event)">
+            [collapseRows]="collapseRows">
         </sq-metadata-item>
         <span *ngIf="isString(c)">{{c | sqMessage}}</span>
     </ng-container>

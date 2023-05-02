@@ -1,11 +1,12 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { SearchService } from "@sinequa/components/search";
 import { UIService } from "@sinequa/components/utils";
 import { AppService, Query } from "@sinequa/core/app-utils";
 import { EntityItem, Filter, Record } from "@sinequa/core/web-services";
 import { IconService } from "../../icon.service";
-import { MetadataService, MetadataValue } from "../../metadata.service";
+import { MetadataService } from "../../metadata.service";
+import { MetadataValue } from "../../metadata.interface";
 
 @Component({
     selector: "sq-metadata-item",
@@ -36,9 +37,6 @@ export class MetadataItemComponent implements OnChanges {
     @Input() actionsButtonsStyle = 'btn btn-secondary';
     @Input() actionsButtonsSize = 'sm';
 
-    @Output() filter = new EventEmitter();
-    @Output() exclude = new EventEmitter();
-
     @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
 
     metadataValue: MetadataValue;
@@ -53,7 +51,6 @@ export class MetadataItemComponent implements OnChanges {
 
     popoverTemplate?: string;
     currentItem: EntityItem;
-    loading = false;
 
     filterAction: Action = new Action({
         icon: "fas fa-filter",
@@ -162,10 +159,6 @@ export class MetadataItemComponent implements OnChanges {
                 }
                 this.searchService.search();
             }
-            this.filter.emit({
-                item: this.item,
-                valueItem: this.currentItem
-            });
         }
         this.filterAction.update();
         this.removeFilterAction.update();
@@ -181,11 +174,6 @@ export class MetadataItemComponent implements OnChanges {
                 }
                 this.searchService.search();
             }
-
-            this.exclude.emit({
-                item: this.item,
-                valueItem: this.currentItem
-            });
         }
         this.excludeAction.update();
         this.removeExcludeAction.update();
@@ -214,13 +202,9 @@ export class MetadataItemComponent implements OnChanges {
 
         if (!this.metadataValue.fnEntityPopover) return;
 
-        this.loading = true;
         this.metadataValue.fnEntityPopover({ entity: valueItem, record: this.record, query: this.query! })
             .subscribe((value: string | undefined) => {
                 this.popoverTemplate = value;
-                this.loading = false;
-            }, () => {
-                this.loading = false;
             });
     }
 

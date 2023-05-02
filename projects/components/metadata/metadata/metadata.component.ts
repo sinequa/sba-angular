@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Query } from "@sinequa/core/app-utils";
 import { Record } from "@sinequa/core/web-services";
-import { MetadataConfig } from "../metadata.service";
+import { MetadataConfig } from "../metadata.interface";
 
 @Component({
     selector: "sq-metadata",
@@ -47,9 +47,6 @@ export class MetadataComponent {
      * Size for the popover buttons
      */
     @Input() actionsButtonsSize = 'sm';
-
-    @Output() filter = new EventEmitter();
-    @Output() exclude = new EventEmitter();
 
     isString(config) {
         return typeof config === 'string';

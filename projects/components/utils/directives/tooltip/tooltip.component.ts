@@ -6,7 +6,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
  */
 @Component({
   selector: 'sqx-tooltip',
-  styleUrls: ['./tooltip.component.css'],
+  styleUrls: ['./tooltip.component.scss'],
   template: `
   <div *ngIf="text" class="sq-tooltip" @tooltip [innerHTML]="text"></div>
   <div *ngIf="template" class="sq-tooltip" @tooltip><ng-container [ngTemplateOutlet]="template"></ng-container></div>`,

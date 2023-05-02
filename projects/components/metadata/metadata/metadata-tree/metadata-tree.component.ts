@@ -3,7 +3,7 @@ import { Action } from '@sinequa/components/action';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { CCColumn, Record } from '@sinequa/core/web-services';
-import { TreeMetadataItem } from '../../metadata.service';
+import { TreeMetadataItem } from '../../metadata.interface';
 
 @Component({
   selector: 'sq-metadata-tree',
@@ -21,7 +21,6 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() column: CCColumn | undefined;
   @Input() showFiltersHighlights = true;
 
-  @Input() loading: boolean;
   @Input() popoverTemplate: string;
   @Input() actions: Action[];
   @Input() actionsButtonsStyle: string;

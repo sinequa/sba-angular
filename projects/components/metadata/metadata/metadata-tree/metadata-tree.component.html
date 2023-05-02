@@ -12,7 +12,7 @@
             </span>
 
             <div #popover [hidden]="!popoverTemplate && !actions?.length">
-                <sq-metadata-popover [class.d-none]="loading" [popoverTemplate]="popoverTemplate" [actions]="actions"
+                <sq-metadata-popover [popoverTemplate]="popoverTemplate" [actions]="actions"
                     [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
                     [popoverLinesNumber]="popoverLinesNumber"></sq-metadata-popover>
             </div>

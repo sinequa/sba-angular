@@ -62,12 +62,10 @@ export class TooltipDirective<T> implements OnDestroy {
    * Default value is 300ms
    */
   @Input() delay = 300;
-  @Input() hoverableTooltip = false;
 
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
   private clearTimeout?: any;
-  private hoveringOverlayRef: boolean;
 
   constructor(
     private overlay: Overlay,
@@ -132,16 +130,6 @@ export class TooltipDirective<T> implements OnDestroy {
       } else {
         tooltipRef.instance.template = valueOrTemplate;
       }
-
-      if (this.hoverableTooltip) {
-        this.overlayRef.overlayElement.addEventListener("mouseenter", () => {
-          this.hoveringOverlayRef = true;
-        });
-        this.overlayRef.overlayElement.addEventListener('mouseleave', () => {
-          this.hoveringOverlayRef = false;
-          this.clearSubscription();
-        });
-      }
     });
   }
 
@@ -155,7 +143,7 @@ export class TooltipDirective<T> implements OnDestroy {
   @HostListener("mouseleave")
   hide() {
     if (!this.clearTimeout) {
-      this.clearTimeout = setTimeout(() => this.clearSubscription(), this.hoverableTooltip ? 500 : 10);
+      this.clearTimeout = setTimeout(() => this.clearSubscription(), 10);
     }
   }
 
@@ -204,8 +192,6 @@ export class TooltipDirective<T> implements OnDestroy {
    * Clear timeout function and detach overlayRef
    */
   private clearSubscription() {
-    if (this.hoverableTooltip && this.hoveringOverlayRef) return;
-
     this.subscription?.unsubscribe();
     if (this.clearTimeout) {
       clearTimeout(this.clearTimeout);
