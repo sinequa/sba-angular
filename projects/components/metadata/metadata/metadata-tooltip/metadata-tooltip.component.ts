@@ -8,7 +8,6 @@ import { Action } from '@sinequa/components/action';
 })
 export class MetadataTooltipComponent {
 
-  @Input() loading: boolean;
   @Input() entityTemplate: any;
   @Input() actions: Action[];
   @Input() actionsButtonsStyle: string;

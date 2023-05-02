@@ -28,7 +28,7 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() actionsButtonsSize: string;
   @Input() tooltipLinesNumber: number;
 
-  @Output("openedPopper") _openedPopper = new EventEmitter();
+  @Output("selectedItem") _selectedItem = new EventEmitter();
 
   valueItems: TreeMetadataItem[];
 
@@ -63,10 +63,10 @@ export class MetadataTreeComponent implements OnChanges {
     }
   }
 
-  openedPopper(valueItem: TreeMetadataItem, partIndex: number): void {
+  selectItem(valueItem: TreeMetadataItem, partIndex: number): void {
     if (this.entityTemplate) {
       const path = this.generatePath(valueItem, partIndex);
-      this._openedPopper.emit({ value: path + "*", display: Utils.treepathLast(path) });
+      this._selectedItem.emit({ value: path + "*", display: Utils.treepathLast(path) });
     }
   }
 

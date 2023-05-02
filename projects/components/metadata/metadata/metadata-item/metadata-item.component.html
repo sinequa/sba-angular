@@ -21,12 +21,12 @@
                 [column]="metadataValue.column" [showFiltersHighlights]="showFiltersHighlights" [loading]="loading"
                 [entityTemplate]="entityTemplate" [actions]="allActions" [actionsButtonsStyle]="actionsButtonsStyle"
                 [actionsButtonsSize]="actionsButtonsSize" [tooltipLinesNumber]="tooltipLinesNumber"
-                (openedPopper)="currentItem=$event"></sq-metadata-tree>
+                (selectedItem)="currentItem=$event"></sq-metadata-tree>
         </ng-container>
 
         <!-- Not a Tree-->
         <ng-template #isNotTree>
-            <span *ngFor="let valueItem of metadataValue.valueItems; let $index = index"
+            <span *ngFor="let valueItem of metadataValue.valueItems; let $last = last"
                 class="sq-metadata-item {{'sq-metadata-item-' + item}} {{itemClass}}"
                 [attr.title]="(showTitle || metadataValue.fnEntityTooltip) ? null : ((label || columnLabel) | sqMessage)"
                 sqPopper [target]="entityTemplate || allActions?.length ? tooltip : undefined" [placement]="placement"
@@ -34,12 +34,12 @@
                 [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : undefined">
                 <span *ngIf="showFormatIcon && valueIcon" class="{{valueIcon}}"></span>
                 {{valueItem | sqValue:metadataValue.column}}
-                <span class="sq-metadata-separator" *ngIf="separator && $index < metadataValue.valueItems.length-1">
+                <span class="sq-metadata-separator" *ngIf="separator && !$last">
                     {{separator | sqMessage}}
                 </span>
 
                 <div #tooltip [hidden]="!entityTemplate && !allActions?.length">
-                    <sq-metadata-tooltip [loading]="loading" [entityTemplate]="entityTemplate" [actions]="allActions"
+                    <sq-metadata-tooltip [class.d-none]="loading" [entityTemplate]="entityTemplate" [actions]="allActions"
                         [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
                         [tooltipLinesNumber]="tooltipLinesNumber"></sq-metadata-tooltip>
                 </div>

@@ -3,8 +3,8 @@
 }
 
 .sq-metadata-col {
-    &.metadata-inline {
-        display: inline-flex;
+    &.metadata-inline:before {
+        vertical-align: sub;
     }
 
     &.metadata-table {

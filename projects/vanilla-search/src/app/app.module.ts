@@ -29,7 +29,7 @@ import { APP_HELP_FOLDER_OPTIONS, BsUserSettingsModule } from '@sinequa/componen
 import { ResultModule } from '@sinequa/components/result';
 import { BsFeedbackModule } from '@sinequa/components/feedback';
 import { PreviewModule } from '@sinequa/components/preview';
-import { HIGHLIGHTS, MetadataModule } from '@sinequa/components/metadata';
+import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule } from '@sinequa/components/selection';
 import { MLModule } from '@sinequa/components/machine-learning';
 
@@ -48,7 +48,7 @@ import { AutocompleteComponent } from "./search-form/autocomplete.component";
 import { environment } from "../environments/environment";
 
 // Help folder options
-import { HELP_DEFAULT_FOLDER_OPTIONS, SELECTORS_HIGHLIGHTS } from "../config";
+import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -179,9 +179,6 @@ export const breakpoints = {
         {provide: HTTP_INTERCEPTORS, useClass: NotificationsInterceptor, multi: true},
 
         { provide: SCREEN_SIZE_RULES, useValue: breakpoints },
-
-        // Provides the CSS highlights to apply to different selectors to identify entities
-        { provide: HIGHLIGHTS, useValue: SELECTORS_HIGHLIGHTS },
 
         // Provides default help's folder options
         // this options can be overriden by the custom json configuration from the administration panel
