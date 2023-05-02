@@ -11,8 +11,7 @@ import { DEFAULT_FACET_COMPONENTS, FacetConfig, FacetService } from '@sinequa/co
 import { UIService } from '@sinequa/components/utils';
 import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { BsDropdownService } from '@sinequa/components/action';
-import { FACETS, FEATURES, FacetParams } from '../../config';
-import { PREVIEW_HIGHLIGHTS } from '@sinequa/components/metadata';
+import { FACETS, FEATURES, FacetParams, PREVIEW_HIGHLIGHTS } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { AppSearchFormComponent } from '../search-form/search-form.component';
 import { AppDashboardComponent } from '../dashboard/dashboard.component';

@@ -15,7 +15,7 @@ import { MetadataService, MetadataValue } from "../../metadata.service";
 export class MetadataItemComponent implements OnChanges {
     @Input() record: Record;
     @Input() query?: Query;
-    @Input() style: 'inline' | 'table' = 'inline';
+    @Input() layout: 'inline' | 'table' = 'inline';
 
     @Input() item: string;
     @Input() label: string
@@ -96,7 +96,7 @@ export class MetadataItemComponent implements OnChanges {
     }
 
     get placement(): string {
-        return this.style === 'inline' ? 'top' : 'top-start';
+        return this.layout === 'inline' ? 'top' : 'top-start';
     }
 
     get collapsed(): boolean {

@@ -10,7 +10,7 @@ import { Action } from '@sinequa/components/action';
 import { PreviewService, PreviewHighlightColors, Preview } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { IntlService } from '@sinequa/core/intl';
-import { PREVIEW_HIGHLIGHTS } from '@sinequa/components/metadata';
+import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 
 export interface EntitiesState {
   count: number;

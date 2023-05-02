@@ -52,7 +52,7 @@ export class MetadataService {
     if (isEntity) {
       const entityItems: EntityItem[] = values;
       if (entityItems) {
-        const filters = this.getFilters(column, query);
+        const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
         valueItems.push(...entityItems.map(i => {
           const filter = filters.find(f => f.value === i.value);
           const filtered = !!filter && (!filter.operator || filter.operator !== 'neq');
@@ -81,19 +81,8 @@ export class MetadataService {
     }
   }
 
-  getFilters(column: CCColumn | undefined, query?: Query | undefined): any[] {
-    if (!query || !query.filters || !column) return [];
-    if (query.filters['filters']) {
-      return query.filters['filters'].filter((f: any) => f.field === column!.name);
-    }
-    if (query.filters['field'] && query.filters['field'] === column.name) {
-      return [query.filters];
-    }
-    return [];
-  }
-
   private setCsvValues(values: RecordType, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
-    const filters = this.getFilters(column, query);
+    const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
     if (values && values instanceof Array) {
       valueItems.push(...values.map<ValueItem>(value => {
         const filter = filters.find(f => f.value === value);
@@ -113,7 +102,8 @@ export class MetadataService {
   private setValues(values: any, valueItems: (ValueItem | TreeValueItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
     const value = this.ensureScalarValue(values, column);
     if (!Utils.isEmpty(value)) {
-      const filter = this.getFilters(column, query)[0];
+      const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
+      const filter = filters.length ? filters[0] : undefined;
       const filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === value;
       const excluded = !!filter && filter.operator === 'neq' && filter.value === value;
       valueItems.push({ value: value, filtered, excluded });

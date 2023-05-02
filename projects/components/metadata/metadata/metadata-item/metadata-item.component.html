@@ -1,14 +1,14 @@
 <ng-container *ngIf="display && hasValues">
     <!-- Icon -->
-    <span *ngIf="icon" class="sq-metadata-col metadata-{{style}} {{icon}} pe-1"></span>
+    <span *ngIf="icon" class="sq-metadata-col metadata-{{layout}} {{icon}} pe-1"></span>
 
     <!-- Title -->
-    <span *ngIf="showTitle" class="sq-metadata-col metadata-{{style}} sq-metadata-item-label pe-1">
+    <span *ngIf="showTitle" class="sq-metadata-col metadata-{{layout}} sq-metadata-item-label pe-1">
         {{(label || 'msg#metadata.item.label') | sqMessage:itemLabelMessageParams}}
     </span>
 
     <!-- Value -->
-    <span class="sq-metadata-col sq-metadata-values metadata-{{style}}" [style.max-height.px]="valuesHeight"
+    <span class="sq-metadata-col sq-metadata-values metadata-{{layout}}" [style.max-height.px]="valuesHeight"
         [class.collapsable]="valuesHeight" #values>
         <!-- Collapse button -->
         <a *ngIf="collapseRows && needsCollapse" role="button" (click)="toggleCollapse()" class="collapse-button me-1">

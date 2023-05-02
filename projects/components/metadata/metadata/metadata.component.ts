@@ -11,7 +11,7 @@ import { MetadataConfig } from "../metadata.service";
 export class MetadataComponent {
     @Input() record: Record;
     @Input() query?: Query;
-    @Input() style: 'inline' | 'table' = 'inline';
+    @Input() layout: 'inline' | 'table' = 'inline';
 
     /**
      * The metadata config with the list of metadata to display

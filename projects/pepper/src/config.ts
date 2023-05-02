@@ -1,6 +1,5 @@
 import { FacetDateParams } from '@sinequa/analytics/timeline';
 import { FacetConfig, FacetListParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams } from '@sinequa/components/facet';
-import { METADATA_HIGHLIGHTS } from '@sinequa/components/metadata';
 import { PreviewHighlightColors } from '@sinequa/components/preview';
 
 /**
@@ -165,6 +164,69 @@ export const FACETS: FacetConfig<FacetParams>[] = [{
             displayEmptyDistributionIntervals: false
         }
     }
+];
+
+export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
+    {
+        name: 'company',
+        color: 'white',
+        bgColor: '#FF7675'
+    },
+    {
+        name: 'geo',
+        color: 'white',
+        bgColor: '#74B9FF'
+    },
+    {
+        name: 'person',
+        color: 'white',
+        bgColor: '#00ABB5'
+    },
+    {
+        name: 'extractslocations',
+        color: 'black',
+        bgColor: '#fffacd'
+    },
+    {
+        name: 'matchlocations',
+        color: 'black',
+        bgColor: '#ff0'
+    }
+];
+
+export const METADATA_HIGHLIGHTS: PreviewHighlightColors[] = [
+    {
+        name: 'company',
+        color: '#FF7675'
+    },
+    {
+        name: 'geo',
+        color: '#74B9FF'
+    },
+    {
+        name: 'person',
+        color: '#00ABB5'
+    },
+    {
+        name: 'job',
+        color: '#00ABB5'
+    },
+    {
+        name: 'date',
+        color: '#8898D4'
+    },
+    {
+        name: 'event',
+        color: '#8898D4'
+    },
+    {
+        name: 'money',
+        color: '#51C160'
+    },
+    {
+        name: 'amount',
+        color: '#51C160'
+    },
 ];
 
 export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHighlightColors[]}[] = [

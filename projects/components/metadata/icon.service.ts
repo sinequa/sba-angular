@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 
 const FORMAT_MAPPINGS = {
   'fas fa-globe-europe': ['htm', 'html', 'xhtm', 'xhtml', 'mht'],
@@ -23,14 +23,20 @@ const FORMAT_MAPPINGS = {
   'fas fa-file-medical': ['mmp', 'mppx']
 }
 
+export const FORMAT_ICONS = new InjectionToken<any>('FORMAT_ICONS');
+
 @Injectable({
   providedIn: 'root'
 })
 export class IconService {
 
-  constructor() { }
+  formatMappings: any;
+
+  constructor(@Optional() @Inject(FORMAT_ICONS) private formatIcons: any) {
+    this.formatMappings = this.formatIcons || FORMAT_MAPPINGS;
+  }
 
   getFormatIcon(format: string): string | undefined {
-    return Object.keys(FORMAT_MAPPINGS).find(key => FORMAT_MAPPINGS[key].includes(format));
+    return Object.keys(this.formatMappings).find(key => this.formatMappings[key].includes(format));
   }
 }
