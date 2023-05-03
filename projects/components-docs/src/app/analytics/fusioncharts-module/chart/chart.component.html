@@ -1,3 +1,5 @@
 <doc-component-demo title="FusionChart" [html]="code">
-    <sq-fusion-chart [results]="globalService.results"></sq-fusion-chart>
+    <sq-facet-card>
+        <sq-fusion-chart #facet [results]="results" [aggregation]="aggregation"></sq-fusion-chart>
+    </sq-facet-card>
 </doc-component-demo>

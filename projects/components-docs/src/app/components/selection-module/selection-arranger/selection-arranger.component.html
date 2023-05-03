@@ -1,3 +1,7 @@
 <doc-component-demo title="BsSelectionArranger" [html]="code">
-    <sq-selection-arranger [records]="globalService.records"></sq-selection-arranger>
+    <sq-selection-arranger [records]="globalService.records">
+        <ng-template let-record>
+            {{record.title}}
+        </ng-template>
+    </sq-selection-arranger>
 </doc-component-demo>

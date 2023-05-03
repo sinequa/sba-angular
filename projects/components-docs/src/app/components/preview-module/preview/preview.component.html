@@ -1,0 +1,25 @@
+<div class="mb-4">
+    <doc-component-demo title="Preview" [html]="code">
+        <sq-preview style="height:300px" [id]="globalService.record?.id" [query]="globalService.query"
+            [highlightColors]="highlights">
+            <sq-preview-tooltip [entityActions]="tooltipEntityActions" [textActions]="tooltipTextActions">
+            </sq-preview-tooltip>
+
+            <sq-preview-minimap></sq-preview-minimap>
+        </sq-preview>
+    </doc-component-demo>
+</div>
+
+<div class="mb-4">
+    <doc-component-demo title="PreviewEntityPanelComponent" [html]="code2">
+        <sq-preview-entity-panel [previewData]="previewData" [preview]="preview" [highlights]="highlights">
+        </sq-preview-entity-panel>
+    </doc-component-demo>
+</div>
+<div class="mb-4">
+    <doc-component-demo title="PreviewExtractsPanelComponent" [html]="code3">
+        <sq-preview-extracts-panel [previewData]="previewData" [preview]="preview" [extractsNumber]="10"
+            [type]="extractsType" [highlights]="highlights">
+        </sq-preview-extracts-panel>
+    </doc-component-demo>
+</div>

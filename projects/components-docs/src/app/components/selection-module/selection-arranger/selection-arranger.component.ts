@@ -7,8 +7,10 @@ import { BaseComponent } from 'src/app/shared/base.component';
 })
 export class DocSelectionArrangerComponent extends BaseComponent {
 
-  code = `<sq-selection-arranger
-    [records]="records">
+  code = `<sq-selection-arranger [records]="records">
+    <ng-template let-record>
+        {{record.title}}
+    </ng-template>
 </sq-selection-arranger>`;
 
 }

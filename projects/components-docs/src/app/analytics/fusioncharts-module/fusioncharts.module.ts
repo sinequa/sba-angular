@@ -13,6 +13,15 @@ const routes: Routes = [
   { path: '', component: DocFusionchartsModuleComponent }
 ];
 
+// Import FusionCharts library and chart modules
+import * as FusionCharts from "fusioncharts";
+import * as charts from "fusioncharts/fusioncharts.charts";
+// Fusion is a light theme, Candy is a dark theme
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
+import { BsFacetModule } from '@sinequa/components/facet';
+FusionCharts.options.creditLabel = false;
+
 @NgModule({
   declarations: [
     DocFusionchartsModuleComponent,
@@ -21,9 +30,10 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    BsFacetModule,
     RouterModule.forChild(routes),
     DocBaseModule,
-    FusionChartsModule
+    FusionChartsModule.forRoot(FusionCharts, charts, FusionTheme, CandyTheme)
   ]
 })
 export class DocFusionchartsModule {
