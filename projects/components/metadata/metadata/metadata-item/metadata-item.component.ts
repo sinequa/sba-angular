@@ -27,7 +27,6 @@ export class MetadataItemComponent implements OnChanges {
     @Input() actions?: Action[];
 
     @Input() showTitle: boolean;
-    @Input() showFiltersHighlights: boolean;
     @Input() collapseRows: boolean = true;
     @Input() entityExtractMaxLines = 8;
     @Input() separator: string;

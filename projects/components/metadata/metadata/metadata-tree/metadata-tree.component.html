@@ -4,7 +4,7 @@
             [target]="popoverTemplate || actions?.length ? popover : undefined" placement="top"
             (shown)="selectItem(valueItem, $subIndex)">
             <span class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}"
-                [style.background-color]="showFiltersHighlights && part.filtered ? 'yellow': showFiltersHighlights && part.excluded ? 'red' : undefined">
+                [class.sq-filtered]="valueItem.filtered" [class.sq-excluded]="valueItem.excluded">
                 {{part | sqValue:column}}
             </span>
             <span *ngIf="$subIndex < valueItem.parts.length - 1" class="sq-metadata-item-tree-node-separator">

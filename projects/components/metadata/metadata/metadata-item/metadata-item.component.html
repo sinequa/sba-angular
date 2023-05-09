@@ -18,10 +18,9 @@
         <!-- Other types of metadata -->
         <ng-container *ngIf="metadataValue.isTree">
             <sq-metadata-tree [record]="record" [field]="field" [fieldClass]="fieldClass" [query]="query"
-                [column]="metadataValue.column" [showFiltersHighlights]="showFiltersHighlights"
-                [popoverTemplate]="popoverTemplate" [actions]="allActions" [actionsButtonsStyle]="actionsButtonsStyle"
-                [actionsButtonsSize]="actionsButtonsSize" [entityExtractMaxLines]="entityExtractMaxLines"
-                (selectedItem)="currentItem=$event"></sq-metadata-tree>
+                [column]="metadataValue.column" [popoverTemplate]="popoverTemplate" [actions]="allActions"
+                [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
+                [entityExtractMaxLines]="entityExtractMaxLines" (selectedItem)="currentItem=$event"></sq-metadata-tree>
         </ng-container>
 
         <!-- Not a Tree-->
@@ -30,19 +29,19 @@
                 class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}"
                 [attr.title]="(showTitle || metadataValue.fnEntityPopover) ? null : ((label || columnLabel) | sqMessage)"
                 sqPopper [target]="popoverTemplate || allActions?.length ? popover : undefined" [placement]="placement"
-                (shown)="setupPopover(valueItem)"
-                [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : undefined">
+                (shown)="setupPopover(valueItem)" [class.sq-filtered]="valueItem.filtered"
+                [class.sq-excluded]="valueItem.excluded">
                 {{valueItem | sqValue:metadataValue.column}}
                 <span class="sq-metadata-separator" *ngIf="separator && !$last">
                     {{separator | sqMessage}}
                 </span>
-            </span>
 
-            <div #popover [hidden]="!popoverTemplate && !allActions?.length">
-                <sq-metadata-popover [popoverTemplate]="popoverTemplate" [actions]="allActions"
-                    [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
-                    [entityExtractMaxLines]="entityExtractMaxLines"></sq-metadata-popover>
-            </div>
+                <div #popover [hidden]="!popoverTemplate && !allActions?.length">
+                    <sq-metadata-popover [popoverTemplate]="popoverTemplate" [actions]="allActions"
+                        [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
+                        [entityExtractMaxLines]="entityExtractMaxLines"></sq-metadata-popover>
+                </div>
+            </span>
         </ng-container>
     </span>
 </ng-container>

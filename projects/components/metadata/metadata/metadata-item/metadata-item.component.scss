@@ -11,3 +11,13 @@
         display: table-cell;
     }
 }
+
+.sq-metadata-item {
+    &.sq-filtered {
+        background-color: yellow !important;
+    }
+
+    &.sq-excluded {
+        background-color: red;
+    }
+}

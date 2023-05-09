@@ -19,7 +19,6 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() field: string;
   @Input() fieldClass: string;
   @Input() column: CCColumn | undefined;
-  @Input() showFiltersHighlights = true;
 
   @Input() popoverTemplate: string;
   @Input() actions: Action[];

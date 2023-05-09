@@ -24,10 +24,6 @@ export class MetadataComponent {
      */
     @Input() showTitles;
     /**
-     * Whether the metadata applied in the filters should be highlighted
-     */
-    @Input() showFiltersHighlights;
-    /**
      * Class for the popover buttons
      */
     @Input() actionsButtonsStyle = 'btn btn-primary';
