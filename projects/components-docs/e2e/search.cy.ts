@@ -5,6 +5,8 @@
 // doc-scroller
 // doc-sort-selector
 
+import { compareScreenshots } from "./fn"
+
 describe('components/search testing', () => {
   it('Can access the Search page', () => {
     cy.visit('components/search?search=Pariis')
@@ -12,6 +14,7 @@ describe('components/search testing', () => {
   it('Has doc-did-you-mean working', () => {
     cy.visit('components/search?search=Pariis')
     cy.get('doc-did-you-mean').get('.sq-did-you-mean').contains('Showing results')
+    compareScreenshots('doc-did-you-mean')
   })
   /* it('Has doc-load-more working', () => {
     cy.visit('components/search?search=Pariis')
@@ -24,6 +27,7 @@ describe('components/search testing', () => {
   it('Has doc-page-size-selector working', () => {
     cy.visit('components/search')
     cy.get('doc-page-size-selector').get('sq-page-size-selector').get('button')
+    compareScreenshots('doc-page-size-selector')
   })
   /* it('Has doc-pager working', () => {
     cy.visit('components/search?search=Pariis')
@@ -44,5 +48,6 @@ describe('components/search testing', () => {
   it('Has doc-tabs working', () => {
     cy.visit('components/search?search=Pariis')
     cy.get('doc-tabs').get('sq-tabs').get('ul')
+    compareScreenshots('doc-tabs')
   })
 })

@@ -117,6 +117,7 @@
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
     "cypress": "^12.10.0",
+    "cypress-image-diff-js": "^1.23.0",
     "eslint": "^8.18.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsdoc": "^39.3.6",
