@@ -2,7 +2,8 @@
 <sq-facet-card
   [title]="'Assistant'"
   [icon]="'fas fa-fw  fa-comments primary-icon'"
-  [collapsible]="false"
+  [collapsible]="assistantService.collapsible"
+  [startCollapsed]="assistantService.collapsible && assistantService.startCollapsed"
   [actions]="[autoModeAction, chatSettingsAction]"
   class="mb-3">
 
@@ -78,6 +79,14 @@
           <label for="answerPrompt" class="form-label">Answer Prompt</label>
           <textarea class="form-control" id="answerPrompt" [(ngModel)]="assistantService.answer2Prompt" [ngModelOptions]="{updateOn: 'blur'}" rows="10"></textarea>
         </div>
+      </div>
+      <div class="form-check form-switch mb-2">
+        <input class="form-check-input" type="checkbox" role="switch" id="collapsible" [(ngModel)]="assistantService.collapsible">
+        <label class="form-check-label" for="collapsible">Assistant is collapsible</label>
+      </div>
+      <div class="form-check form-switch mb-2" *ngIf="assistantService.collapsible">
+        <input class="form-check-input" type="checkbox" role="switch" id="start-collapsed" [(ngModel)]="assistantService.startCollapsed">
+        <label class="form-check-label" for="start-collapsed">Assistant starts collapsed</label>
       </div>
 
       <h4 class="mb-0">Chat options</h4>

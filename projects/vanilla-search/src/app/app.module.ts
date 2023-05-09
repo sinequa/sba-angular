@@ -54,7 +54,7 @@ import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
     app: "OfficialDemoCoE",
-    url: "https://prod-demo-coe-ns.eastus2.cloudapp.azure.com",
+    url: "https://dev-demo-coe-ns.eastus2.cloudapp.azure.com",
     production: environment.production,
     autoOAuthProvider: "google",
     auditEnabled: true

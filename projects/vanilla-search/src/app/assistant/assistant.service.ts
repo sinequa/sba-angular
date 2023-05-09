@@ -186,4 +186,20 @@ export class AssistantService {
   set answer2Prompt(val: string) {
     this.setRawPrompt("answer2Prompt", val);
   }
+
+  get collapsible(): boolean {
+    return this.prefs.get('assistant-collapsible') ?? false;
+  }
+
+  set collapsible(val: boolean) {
+    this.prefs.set("assistant-collapsible", val);
+  }
+
+  get startCollapsed(): boolean {
+    return this.prefs.get('assistant-start-collapsed') ?? false;
+  }
+
+  set startCollapsed(val: boolean) {
+    this.prefs.set("assistant-start-collapsed", val);
+  }
 }
