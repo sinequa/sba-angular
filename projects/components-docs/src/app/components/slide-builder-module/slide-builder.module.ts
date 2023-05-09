@@ -8,23 +8,25 @@ import { DocSlideBuilderComponent } from './slide-builder/slide-builder.componen
 import { DocSlideListComponent } from './slide-list/slide-list.component';
 import { SlideBuilderModule } from '@sinequa/components/slide-builder';
 import { createElement } from 'src/app/shared/create-element';
+import { BsFacetModule } from "../../../../../components/facet/bootstrap/facet.module";
 
 const routes: Routes = [
   { path: '', component: DocSlideBuilderModuleComponent }
 ];
 
 @NgModule({
-  declarations: [
-    DocSlideBuilderModuleComponent,
-    DocSlideBuilderComponent,
-    DocSlideListComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    DocBaseModule,
-    SlideBuilderModule
-  ]
+    declarations: [
+        DocSlideBuilderModuleComponent,
+        DocSlideBuilderComponent,
+        DocSlideListComponent
+    ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        DocBaseModule,
+        SlideBuilderModule,
+        BsFacetModule
+    ]
 })
 export class DocSlideBuilderModule {
   constructor() {

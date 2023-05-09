@@ -12,7 +12,7 @@
   <h6>{{route.path | titlecase}}</h6>
   <ul>
     <li *ngFor="let item of route.children">
-      <a [routerLink]="route.path + '/' + item.path" routerLinkActive="active">{{item.path | titlecase}}</a>
+      <a [routerLink]="route.path + '/' + item.path" routerLinkActive="active" [id]="item.path">{{item.path | titlecase}}</a>
     </li>
   </ul>
 </ng-container>

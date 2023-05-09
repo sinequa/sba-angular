@@ -1,4 +1,4 @@
-import { TermPresence } from "@sinequa/core/web-services";
+import { RFMData, RFMDisplay, TermPresence } from "@sinequa/core/web-services";
 
 const didYouMean: any = {
   spellingCorrectionMode: 'Correct',
@@ -7,6 +7,33 @@ const didYouMean: any = {
     corrected: 'corrected text'
   }
 };
+
+const rfm: RFMData = {
+  click: {
+    eventCount: 4,
+    average: 2,
+    status: RFMDisplay.positiveRate,
+    image: RFMDisplay.positiveRate,
+    imageAction: RFMDisplay.none,
+    availableActions: RFMDisplay.positiveRate
+  },
+  like: {
+    eventCount: 4,
+    average: 2,
+    status: RFMDisplay.positiveRate,
+    image: RFMDisplay.positiveRate,
+    imageAction: RFMDisplay.positiveRate,
+    availableActions: RFMDisplay.positiveRate
+  },
+  important: {
+    eventCount: 4,
+    average: 2,
+    status: RFMDisplay.positiveRate,
+    image: RFMDisplay.positiveRate,
+    imageAction: RFMDisplay.positiveRate,
+    availableActions: RFMDisplay.positiveRate
+  }
+}
 
 const termspresence: TermPresence[] = [
   {
@@ -610,6 +637,8 @@ export const RESULTS = {
       "wordscorerelevance": "0.391602",
       "wordcountrelevance": "1",
       "meaningrelevance": "1",
+      "rfmEnabled": true,
+      rfm,
       "extracts": [
         {
           "highlighted": "Entities at the heart of censorship and surveillance , Reporters Without Borders ({b}Paris{nb}), 11 March 2014.",
