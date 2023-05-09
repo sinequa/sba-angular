@@ -67,6 +67,20 @@ export class AuditInterceptor implements HttpInterceptor {
     }
 
     /**
+     * Add the URL to all the audit events
+     * @param auditRecord
+     */
+    private addUrl(auditRecord?: AuditRecord) {
+        const url = decodeURIComponent(window.location.href);
+        auditRecord?.auditEvents?.forEach(event => {
+            if(!event.detail) {
+                event.detail = {};
+            }
+            event.detail['url'] = url;
+        });
+    }
+
+    /**
      * Get a Session Id initialized upon login. The session is maintained for 10 minutes
      * after the last call to this method.
      */
@@ -103,6 +117,7 @@ export class AuditInterceptor implements HttpInterceptor {
         if (this.shouldIntercept(request.url) && this.isJsonable(request.body)) {
             request.body.$auditRecord = this.ensureAuditRecord(request.body.$auditRecord);
             this.addSessionId(request.body.$auditRecord);
+            this.addUrl(request.body.$auditRecord);
             this.updateAuditRecord(request.body.$auditRecord);
         }
         return next.handle(request);
