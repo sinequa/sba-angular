@@ -14,9 +14,9 @@ export interface TreeMetadataItem extends MetadataItem {
 }
 
 export interface MetadataConfig {
-    item: string;
+    field: string;
     icon?: string;
-    itemClass?: string;
+    fieldClass?: string;
     filterable?: boolean;
     excludable?: boolean;
     showPopover?: boolean;

@@ -15,7 +15,7 @@ export class MetadataService {
   constructor(private textChunkWebService: TextChunksWebService,
     private appService: AppService) { }
 
-  getMetadataValue(record: Record, query: Query | undefined, item: string, showPopover?: boolean): MetadataValue {
+  getMetadataValue(record: Record, query: Query | undefined, item: string, showEntityExtract?: boolean): MetadataValue {
     const valueItems: (MetadataItem | TreeMetadataItem)[] = [];
     const column = this.appService.getColumn(item);
     const isTree = !!column && AppService.isTree(column);
@@ -35,7 +35,7 @@ export class MetadataService {
           const excluded = !!filter && filter.operator === 'neq';
           return { ...i, filtered, excluded };
         }));
-        if (showPopover && entityItems[0]?.locations) {
+        if (showEntityExtract && entityItems[0]?.locations) {
           fnEntityPopover = this.getEntitySentence
         }
       }

@@ -176,11 +176,6 @@
                     ></sq-metadata>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPassages'}" [default]="true" *ngIf="openedDoc.$hasPassages"
-                    #passagesList>
-                    <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
-                </ng-template>
-
                 <ng-template [sqFacetView]="{text: 'msg#preview.viewPassages'}" [default]="true" *ngIf="openedDoc.$hasPassages"
                     #passagesList>
                     <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>

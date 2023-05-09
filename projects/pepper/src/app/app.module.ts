@@ -29,7 +29,7 @@ import { BsLabelsModule } from '@sinequa/components/labels';
 import { BsUserSettingsModule } from '@sinequa/components/user-settings';
 import { ResultModule } from '@sinequa/components/result';
 import { BsFeedbackModule } from '@sinequa/components/feedback';
-import { HIGHLIGHTS, MetadataModule } from '@sinequa/components/metadata';
+import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule, SelectionOptions, SELECTION_OPTIONS } from '@sinequa/components/selection';
 import { FiltersModule } from "@sinequa/components/filters";
 import { SearchFormComponent } from "@sinequa/components/search-form";
@@ -123,7 +123,6 @@ import * as charts from "fusioncharts/fusioncharts.charts";
 // Fusion is a light theme, Candy is a dark theme
 import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
-import { SELECTORS_HIGHLIGHTS } from "../config";
 FusionCharts.options.creditLabel = false;
 
 @NgModule({
@@ -193,9 +192,6 @@ FusionCharts.options.creditLabel = false;
         // Provides an HttpInterceptor that automatically processes any notifications specified in the $notifications
         // member of the response body to any Sinequa web service requests.
         {provide: HTTP_INTERCEPTORS, useClass: NotificationsInterceptor, multi: true},
-
-        // Provides the CSS highlights to apply to different selectors to identify entities
-        { provide: HIGHLIGHTS, useValue: SELECTORS_HIGHLIGHTS },
 
         {provide: SCREEN_SIZE_RULES, useValue: breakpoints},
         {provide: SELECTION_OPTIONS, useValue: selectionOptions},

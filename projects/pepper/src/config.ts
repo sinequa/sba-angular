@@ -194,7 +194,7 @@ export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
     }
 ];
 
-export const METADATA_HIGHLIGHTS: PreviewHighlightColors[] = [
+export const HIGHLIGHTS: PreviewHighlightColors[] = [
     {
         name: 'company',
         color: '#FF7675'
@@ -232,6 +232,6 @@ export const METADATA_HIGHLIGHTS: PreviewHighlightColors[] = [
 export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHighlightColors[]}[] = [
     {
         selectors: ['sq-facet-tag-cloud a'],
-        highlights: METADATA_HIGHLIGHTS
+        highlights: HIGHLIGHTS
     }
 ];

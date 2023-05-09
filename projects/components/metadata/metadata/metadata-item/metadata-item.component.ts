@@ -18,13 +18,13 @@ export class MetadataItemComponent implements OnChanges {
     @Input() query?: Query;
     @Input() layout: 'inline' | 'table' = 'inline';
 
-    @Input() item: string;
+    @Input() field: string;
     @Input() label: string
     @Input() icon?: string;
-    @Input() itemClass?: string;
+    @Input() fieldClass?: string;
     @Input() filterable?: boolean;
     @Input() excludable?: boolean;
-    @Input() showPopover?: boolean;
+    @Input() showEntityExtract?: boolean;
     @Input() actions?: Action[];
 
     @Input() showFormatIcon: boolean;
@@ -42,7 +42,7 @@ export class MetadataItemComponent implements OnChanges {
     metadataValue: MetadataValue;
     display: boolean;
     valueIcon: string;
-    itemLabelMessageParams: any;
+    fieldLabelMessageParams: any;
     allActions: Action[];
 
     lineHeight: number | undefined;
@@ -89,7 +89,7 @@ export class MetadataItemComponent implements OnChanges {
     });
 
     get columnLabel(): string {
-        return this.appService.getLabel(this.item);
+        return this.appService.getLabel(this.field);
     }
 
     get placement(): string {
@@ -122,15 +122,15 @@ export class MetadataItemComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
         if ((!!changes.record && !this.metadataValue) || !!changes.query) {
-            this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.item, this.showPopover);
+            this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.field, this.showEntityExtract);
         }
 
         // Generate format icon
-        if (!!this.item) {
-            if (this.item === 'docformat') {
-                this.valueIcon = this.iconService.getFormatIcon(this.record[this.item]) || '';
+        if (!!this.field) {
+            if (this.field === 'docformat') {
+                this.valueIcon = this.iconService.getFormatIcon(this.record[this.field]) || '';
             }
-            this.itemLabelMessageParams = { values: { label: this.columnLabel } };
+            this.fieldLabelMessageParams = { values: { label: this.columnLabel } };
         }
 
         // Generate line height for collapsing
@@ -146,7 +146,7 @@ export class MetadataItemComponent implements OnChanges {
         }
 
         this.setActions();
-        this.display = !!this.item && !!this.record && !!this.record[this.item];
+        this.display = !!this.field && !!this.record && !!this.record[this.field];
     }
 
     filterItem(remove?: boolean): void {
@@ -155,7 +155,7 @@ export class MetadataItemComponent implements OnChanges {
                 if (remove) {
                     this.removeFilter();
                 } else {
-                    this.searchService.addFieldSelect(this.item, this.currentItem);
+                    this.searchService.addFieldSelect(this.field, this.currentItem);
                 }
                 this.searchService.search();
             }
@@ -170,7 +170,7 @@ export class MetadataItemComponent implements OnChanges {
                 if (remove) {
                     this.removeFilter();
                 } else {
-                    this.searchService.addFieldSelect(this.item, this.currentItem, { not: true });
+                    this.searchService.addFieldSelect(this.field, this.currentItem, { not: true });
                 }
                 this.searchService.search();
             }
@@ -194,7 +194,7 @@ export class MetadataItemComponent implements OnChanges {
         // add the metadata value inside the action
         if (this.actions?.length) {
             const value = {
-                item: this.item,
+                field: this.field,
                 value: valueItem.value
             };
             this.actions.map(action => action.data = value);
@@ -212,11 +212,11 @@ export class MetadataItemComponent implements OnChanges {
         if (!this.query) return;
 
         let filter: Filter;
-        if (this.query.filters && this.query.filters['field'] && this.query.filters['field'] === this.item) {
+        if (this.query.filters && this.query.filters['field'] && this.query.filters['field'] === this.field) {
             filter = this.query.filters;
         }
         if (this.query.filters && this.query.filters['filters']) {
-            filter = this.query.filters['filters'].find(f => f.field === this.item);
+            filter = this.query.filters['filters'].find(f => f.field === this.field);
         }
         this.query.removeFilters(f => f === filter);
     }

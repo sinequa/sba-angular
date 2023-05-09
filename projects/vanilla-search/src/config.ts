@@ -198,27 +198,27 @@ export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHigh
 
 export const METADATA_CONFIG: MetadataConfig[] = [
     {
-        item: "authors",
+        field: "authors",
         icon: "fas fa-user-edit"
     },
     {
-        item: "docformat",
+        field: "docformat",
         icon: "fas fa-info-circle"
     },
     {
-        item: "modified",
+        field: "modified",
         icon: "far fa-calendar-alt"
     },
     {
-        item: "size",
+        field: "size",
         icon: "fas fa-weight-hanging"
     },
     {
-        item: "treepath",
+        field: "treepath",
         icon: "fas fa-folder-open"
     },
     {
-        item: "filename",
+        field: "filename",
         icon: "far fa-file-alt"
     }
 ];

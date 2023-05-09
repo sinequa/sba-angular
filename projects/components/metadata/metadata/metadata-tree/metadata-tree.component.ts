@@ -16,8 +16,8 @@ export class MetadataTreeComponent implements OnChanges {
 
   @Input() record: Record;
   @Input() query: Query;
-  @Input() item: string;
-  @Input() itemClass: string;
+  @Input() field: string;
+  @Input() fieldClass: string;
   @Input() column: CCColumn | undefined;
   @Input() showFiltersHighlights = true;
 
@@ -37,7 +37,7 @@ export class MetadataTreeComponent implements OnChanges {
     this.valueItems = [];
 
     if (this.record) {
-      const paths: string[] = this.record[this.appService.getColumnAlias(this.column, this.item)];
+      const paths: string[] = this.record[this.appService.getColumnAlias(this.column, this.field)];
       if (paths) {
         const filters: any[] = this.query && this.column ? this.query.findFieldFilters(this.column.name) : [];
         const filter = filters.length ? filters[0] : undefined;
