@@ -319,5 +319,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       text: chat.name,
       action: () => this.openChat(chat.messages, chat.tokens)
     }));
+    this.openChatAction.hidden = this.openChatAction.children.length === 0;
   }
 }
