@@ -10,7 +10,6 @@ import { AppService } from '@sinequa/core/app-utils';
 import { FEATURES, SELECTORS_HIGHLIGHTS } from '../config';
 import { HighlightService } from "@sinequa/components/metadata";
 import { PreviewHighlightColors } from "@sinequa/components/preview";
-import { IconService } from "@sinequa/components/metadata/icon.service";
 
 @Component({
     selector: "app",
@@ -26,7 +25,6 @@ export class AppComponent extends ComponentWithLogin {
         // The order below impacts the order of the actions in the selection menu.
         prefs: UserPreferences,
         public highlightService: HighlightService,
-        public iconService: IconService,
         public savedQueriesService: SavedQueriesService,
         public basketsService: BasketsService,
         public alertsService: AlertsService,
@@ -80,8 +78,6 @@ export class AppComponent extends ComponentWithLogin {
 
             const highlights: {selectors: string[], highlights: PreviewHighlightColors[]}[] = this.appService.app.data?.highlights as any || SELECTORS_HIGHLIGHTS;
             this.highlightService.setHighlights(highlights);
-
-            this.iconService.setIcons(this.appService.app.data?.icons);
 
         }
     }

@@ -20,7 +20,7 @@
             <sq-metadata-tree [record]="record" [field]="field" [fieldClass]="fieldClass" [query]="query"
                 [column]="metadataValue.column" [showFiltersHighlights]="showFiltersHighlights"
                 [popoverTemplate]="popoverTemplate" [actions]="allActions" [actionsButtonsStyle]="actionsButtonsStyle"
-                [actionsButtonsSize]="actionsButtonsSize" [popoverLinesNumber]="popoverLinesNumber"
+                [actionsButtonsSize]="actionsButtonsSize" [entityExtractMaxLines]="entityExtractMaxLines"
                 (selectedItem)="currentItem=$event"></sq-metadata-tree>
         </ng-container>
 
@@ -32,18 +32,17 @@
                 sqPopper [target]="popoverTemplate || allActions?.length ? popover : undefined" [placement]="placement"
                 (shown)="setupPopover(valueItem)"
                 [style.background-color]="showFiltersHighlights && valueItem.filtered ? 'yellow': showFiltersHighlights && valueItem.excluded ? 'red' : undefined">
-                <span *ngIf="showFormatIcon && valueIcon" class="{{valueIcon}}"></span>
                 {{valueItem | sqValue:metadataValue.column}}
                 <span class="sq-metadata-separator" *ngIf="separator && !$last">
                     {{separator | sqMessage}}
                 </span>
-
-                <div #popover [hidden]="!popoverTemplate && !allActions?.length">
-                    <sq-metadata-popover [popoverTemplate]="popoverTemplate" [actions]="allActions"
-                        [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
-                        [popoverLinesNumber]="popoverLinesNumber"></sq-metadata-popover>
-                </div>
             </span>
+
+            <div #popover [hidden]="!popoverTemplate && !allActions?.length">
+                <sq-metadata-popover [popoverTemplate]="popoverTemplate" [actions]="allActions"
+                    [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
+                    [entityExtractMaxLines]="entityExtractMaxLines"></sq-metadata-popover>
+            </div>
         </ng-container>
     </span>
 </ng-container>

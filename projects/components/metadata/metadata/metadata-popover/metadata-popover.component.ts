@@ -12,6 +12,6 @@ export class MetadataPopoverComponent {
   @Input() actions: Action[];
   @Input() actionsButtonsStyle: string;
   @Input() actionsButtonsSize: string;
-  @Input() popoverLinesNumber: number;
+  @Input() entityExtractMaxLines: number;
 
 }

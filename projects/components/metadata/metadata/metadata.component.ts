@@ -24,21 +24,9 @@ export class MetadataComponent {
      */
     @Input() showTitles;
     /**
-     * Whether the format icon should be displayed for the docformat metadata
-     */
-    @Input() showFormatIcons;
-    /**
      * Whether the metadata applied in the filters should be highlighted
      */
     @Input() showFiltersHighlights;
-    /**
-     * Whether multiple rows item should be collapsed
-     */
-    @Input() collapseRows = true;
-    /**
-     * Number of lines to display in the entity popover
-     */
-    @Input() popoverLinesNumber = 8;
     /**
      * Class for the popover buttons
      */

@@ -22,6 +22,8 @@ export interface MetadataConfig {
     showPopover?: boolean;
     separator?: string;
     actions?: Action[];
+    collapseRows?: boolean;
+    entityExtractMaxLines?: number;
 }
 
 export interface MetadataValue {

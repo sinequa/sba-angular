@@ -12,10 +12,10 @@
             [actions]="c.actions"
             [separator]="c.separator"
             [layout]="layout"
-            [showFormatIcon]="showFormatIcons"
             [showTitle]="showTitles"
             [showFiltersHighlights]="showFiltersHighlights"
-            [collapseRows]="collapseRows">
+            [entityExtractMaxLines]="c.entityExtractMaxLines"
+            [collapseRows]="c.collapseRows">
         </sq-metadata-item>
         <span *ngIf="isString(c)">{{c | sqMessage}}</span>
     </ng-container>

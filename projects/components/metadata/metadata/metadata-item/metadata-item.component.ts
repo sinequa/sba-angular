@@ -4,7 +4,6 @@ import { SearchService } from "@sinequa/components/search";
 import { UIService } from "@sinequa/components/utils";
 import { AppService, Query } from "@sinequa/core/app-utils";
 import { EntityItem, Filter, Record } from "@sinequa/core/web-services";
-import { IconService } from "../../icon.service";
 import { MetadataService } from "../../metadata.service";
 import { MetadataValue } from "../../metadata.interface";
 
@@ -27,11 +26,10 @@ export class MetadataItemComponent implements OnChanges {
     @Input() showEntityExtract?: boolean;
     @Input() actions?: Action[];
 
-    @Input() showFormatIcon: boolean;
     @Input() showTitle: boolean;
     @Input() showFiltersHighlights: boolean;
-    @Input() collapseRows: boolean;
-    @Input() popoverLinesNumber = 8;
+    @Input() collapseRows: boolean = true;
+    @Input() entityExtractMaxLines = 8;
     @Input() separator: string;
 
     @Input() actionsButtonsStyle = 'btn btn-secondary';
@@ -41,7 +39,6 @@ export class MetadataItemComponent implements OnChanges {
 
     metadataValue: MetadataValue;
     display: boolean;
-    valueIcon: string;
     fieldLabelMessageParams: any;
     allActions: Action[];
 
@@ -108,8 +105,7 @@ export class MetadataItemComponent implements OnChanges {
         return this.metadataValue.isTree || !!this.metadataValue.valueItems?.filter(v => !!v.value).length;
     }
 
-    constructor(private iconService: IconService,
-        private appService: AppService,
+    constructor(private appService: AppService,
         private metadataService: MetadataService,
         private searchService: SearchService,
         private el: ElementRef,
@@ -127,9 +123,6 @@ export class MetadataItemComponent implements OnChanges {
 
         // Generate format icon
         if (!!this.field) {
-            if (this.field === 'docformat') {
-                this.valueIcon = this.iconService.getFormatIcon(this.record[this.field]) || '';
-            }
             this.fieldLabelMessageParams = { values: { label: this.columnLabel } };
         }
 

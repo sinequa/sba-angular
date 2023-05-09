@@ -25,7 +25,7 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() actions: Action[];
   @Input() actionsButtonsStyle: string;
   @Input() actionsButtonsSize: string;
-  @Input() popoverLinesNumber: number;
+  @Input() entityExtractMaxLines: number;
 
   @Output("selectedItem") _selectedItem = new EventEmitter();
 
