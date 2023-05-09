@@ -23,6 +23,14 @@ import { GllmModelDescription } from "./types";
       <label class="form-check-label" for="displayAttachments">Display attachments in the chat conversation</label>
     </div>
     <div class="mb-2">
+      <label for="attachment-metadata" class="form-label">Attachment Metadata</label>
+      <select class="form-select" id="attachment-metadata" [(ngModel)]="chatService.attachmentMetadata" multiple>
+        <option *ngFor="let option of chatService.availableAttachmentMetadata" [ngValue]="option.field">
+          {{option.name ?? option.field}}
+        </option>
+      </select>
+    </div>
+    <div class="mb-2">
       <label for="initialSystemPrompt" class="form-label">Initial system prompt (hidden)</label>
       <textarea class="form-control" id="initialSystemPrompt" [(ngModel)]="config.initialSystemPrompt"></textarea>
     </div>
