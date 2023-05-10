@@ -19,7 +19,7 @@ export interface MetadataConfig {
     fieldClass?: string;
     filterable?: boolean;
     excludable?: boolean;
-    showPopover?: boolean;
+    showEntityExtract?: boolean;
     separator?: string;
     actions?: Action[];
     collapseRows?: boolean;
