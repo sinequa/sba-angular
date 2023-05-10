@@ -1,5 +1,5 @@
 <ng-container *ngFor="let valueItem of valueItems; let $index = index">
-    <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
+    <ol class="breadcrumb d-inline-block" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
         <li *ngFor="let part of valueItem.parts; let $subIndex = index"
             [sqTooltip]="tooltipTemplate || actions?.length ? tooltip : undefined" [hoverableTooltip]="true"
             [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'" (shown)="selectItem(valueItem, $subIndex)">

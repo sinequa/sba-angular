@@ -9,7 +9,7 @@
 
     <!-- Value -->
     <span class="sq-metadata-col sq-metadata-values metadata-{{layout}}" [style.max-height.px]="valuesHeight"
-        [class.collapsable]="valuesHeight" #values>
+        [class.collapsable]="valuesHeight" [class.d-block]="layout === 'table'" #values>
         <!-- Collapse button -->
         <a *ngIf="collapseRows && needsCollapse" role="button" (click)="toggleCollapse()" class="collapse-button me-1">
             <i class="fas fa-fw fa-caret-{{collapsed? 'right' : 'down'}}"></i>
@@ -24,7 +24,7 @@
         </ng-container>
 
         <!-- Not a Tree-->
-        <ng-container *ngIf="!metadataValue.isTree">
+        <span *ngIf="!metadataValue.isTree">
             <span *ngFor="let valueItem of metadataValue.valueItems; let $last = last"
                 class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}"
                 [attr.title]="(label || metadataValue.fnEntityTooltip) ? null : (label | sqMessage)"
@@ -37,7 +37,7 @@
                     {{separator | sqMessage}}
                 </span>
             </span>
-        </ng-container>
+        </span>
 
         <ng-template #tooltip>
             <div class="sq-metadata-tooltip">

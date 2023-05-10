@@ -2,14 +2,8 @@
     overflow: hidden;
 }
 
-.sq-metadata-col {
-    &.metadata-inline:before {
-        vertical-align: sub;
-    }
-
-    &.metadata-table {
-        display: table-cell;
-    }
+.sq-metadata-col.metadata-table {
+    display: table-cell;
 }
 
 .sq-metadata-item {
