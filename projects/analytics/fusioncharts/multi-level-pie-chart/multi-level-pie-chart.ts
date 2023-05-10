@@ -161,7 +161,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
 
     // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
     ngOnChanges(changes: SimpleChanges) {
-        if(changes.results || changes.defaultColor || changes.filteredColor || changes.selectedColor) {
+        if(changes.results || changes.data || changes.defaultColor || changes.filteredColor || changes.selectedColor) {
             this.updateData();
         }
         if(changes.chart || !this.dataSource.chart || changes.showToolTip || changes.plottooltext
@@ -321,7 +321,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
      */
     private updateSelectedValues(){
         this.selectedValues.clear();
-        this.results.records
+        this.results?.records
             .filter(record => record.$selected)
             .forEach(record => {
                 if(this.aggrData){
