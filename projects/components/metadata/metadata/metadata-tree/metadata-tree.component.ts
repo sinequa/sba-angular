@@ -20,7 +20,7 @@ export class MetadataTreeComponent implements OnChanges {
   @Input() fieldClass: string;
   @Input() column: CCColumn | undefined;
 
-  @Input() popoverTemplate: string;
+  @Input() tooltipTemplate: string;
   @Input() actions: Action[];
   @Input() actionsButtonsStyle: string;
   @Input() actionsButtonsSize: string;
@@ -62,7 +62,7 @@ export class MetadataTreeComponent implements OnChanges {
   }
 
   selectItem(valueItem: TreeMetadataItem, partIndex: number): void {
-    if (this.popoverTemplate) {
+    if (this.tooltipTemplate) {
       const path = this.generatePath(valueItem, partIndex);
       this._selectedItem.emit({ value: path + "*", display: Utils.treepathLast(path) });
     }

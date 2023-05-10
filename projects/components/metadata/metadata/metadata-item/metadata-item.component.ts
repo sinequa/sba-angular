@@ -43,7 +43,7 @@ export class MetadataItemComponent implements OnChanges {
     valuesMaxHeight: number | undefined;
     valuesHeight: number | undefined;
 
-    popoverTemplate?: string;
+    tooltipTemplate?: string;
     currentItem: EntityItem;
 
     filterAction: Action = new Action({
@@ -163,8 +163,8 @@ export class MetadataItemComponent implements OnChanges {
         this.valuesHeight = this.collapsed ? this.valuesMaxHeight : this.lineHeight;
     }
 
-    setupPopover(valueItem: EntityItem): void {
-        this.popoverTemplate = undefined;
+    setupTooltip(valueItem: EntityItem): void {
+        this.tooltipTemplate = undefined;
         this.currentItem = valueItem;
         this.filterAction.update();
         this.removeFilterAction.update();
@@ -180,11 +180,11 @@ export class MetadataItemComponent implements OnChanges {
             this.actions.map(action => action.data = value);
         }
 
-        if (!this.metadataValue.fnEntityPopover) return;
+        if (!this.metadataValue.fnEntityTooltip) return;
 
-        this.metadataValue.fnEntityPopover({ entity: valueItem, record: this.record, query: this.query! })
+        this.metadataValue.fnEntityTooltip({ entity: valueItem, record: this.record, query: this.query! })
             .subscribe((value: string | undefined) => {
-                this.popoverTemplate = value;
+                this.tooltipTemplate = value;
             });
     }
 

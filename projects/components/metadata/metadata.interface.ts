@@ -33,5 +33,5 @@ export interface MetadataValue {
     isTree: boolean; // if is tree
     isEntity: boolean; // if is entity
     isCsv: boolean; // if is csv
-    fnEntityPopover?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
+    fnEntityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
 }

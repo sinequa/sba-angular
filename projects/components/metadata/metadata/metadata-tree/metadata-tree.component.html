@@ -1,8 +1,8 @@
 <ng-container *ngFor="let valueItem of valueItems; let $index = index">
     <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
-        <li *ngFor="let part of valueItem.parts; let $subIndex = index" sqPopper
-            [target]="popoverTemplate || actions?.length ? popover : undefined" placement="top"
-            (shown)="selectItem(valueItem, $subIndex)">
+        <li *ngFor="let part of valueItem.parts; let $subIndex = index"
+            [sqTooltip]="tooltipTemplate || actions?.length ? tooltip : undefined" [hoverableTooltip]="true"
+            [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'" (shown)="selectItem(valueItem, $subIndex)">
             <span class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}"
                 [class.sq-filtered]="valueItem.filtered" [class.sq-excluded]="valueItem.excluded">
                 {{part | sqValue:column}}
@@ -10,15 +10,19 @@
             <span *ngIf="$subIndex < valueItem.parts.length - 1" class="sq-metadata-item-tree-node-separator">
                 {{'msg#metadata.item.treeNodeSeparator' | sqMessage}}
             </span>
-
-            <div #popover [hidden]="!popoverTemplate && !actions?.length">
-                <sq-metadata-popover [popoverTemplate]="popoverTemplate" [actions]="actions"
-                    [actionsButtonsStyle]="actionsButtonsStyle" [actionsButtonsSize]="actionsButtonsSize"
-                    [entityExtractMaxLines]="entityExtractMaxLines"></sq-metadata-popover>
-            </div>
         </li>
     </ol>
     <span *ngIf="$index < valueItems.length - 1" class="sq-metadata-item-tree-separator">
         {{'msg#metadata.item.treeSeparator' | sqMessage}}
     </span>
+    <ng-template #tooltip>
+        <div class="sq-metadata-tooltip">
+            <div class="sq-metadata-tooltip-entity p-2" *ngIf="tooltipTemplate" [innerHTML]="tooltipTemplate"
+                [style.-webkit-line-clamp]="entityExtractMaxLines">
+            </div>
+            <div *ngIf="actions?.length" class="btn-group d-flex"
+                [sq-action-buttons]="{items: actions, style: actionsButtonsStyle, size: actionsButtonsSize, rightAligned: true}">
+            </div>
+        </div>
+    </ng-template>
 </ng-container>

@@ -13,11 +13,34 @@
 }
 
 .sq-metadata-item {
-    &.sq-filtered {
+    .sq-filtered {
         background-color: yellow !important;
     }
 
-    &.sq-excluded {
+    .sq-excluded {
         background-color: red;
+    }
+}
+
+.sq-metadata-tooltip {
+    background-color: grey;
+    color: white;
+    border-radius: .5rem;
+
+    .sq-metadata-tooltip-entity {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        max-width: 200px;
+        font-size: small;
+        font-weight: normal;
+        white-space: initial;
+        line-height: normal;
+    }
+
+    .btn {
+        --bs-btn-padding-x: .75rem;
+        --bs-btn-padding-y: .5rem;
     }
 }

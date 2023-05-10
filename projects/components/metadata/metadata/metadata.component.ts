@@ -19,11 +19,11 @@ export class MetadataComponent {
      */
     @Input() config: (MetadataConfig | string)[];
     /**
-     * Class for the popover buttons
+     * Class for the tooltip buttons
      */
     @Input() actionsButtonsStyle = 'btn btn-primary';
     /**
-     * Size for the popover buttons
+     * Size for the tooltip buttons
      */
     @Input() actionsButtonsSize = 'sm';
 

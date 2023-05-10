@@ -191,7 +191,7 @@ export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
 
 export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHighlightColors[]}[] = [
     {
-        selectors: ['sq-metadata-popover span', 'sq-preview-extracts-panel span'],
+        selectors: ['.sq-metadata-tooltip span', 'sq-preview-extracts-panel span'],
         highlights: PREVIEW_HIGHLIGHTS
     }
 ];

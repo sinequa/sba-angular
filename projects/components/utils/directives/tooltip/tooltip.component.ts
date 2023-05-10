@@ -8,8 +8,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
   selector: 'sqx-tooltip',
   styleUrls: ['./tooltip.component.scss'],
   template: `
-  <div *ngIf="text" class="sq-tooltip" @tooltip [innerHTML]="text"></div>
-  <div *ngIf="template" class="sq-tooltip" @tooltip><ng-container [ngTemplateOutlet]="template"></ng-container></div>`,
+  <div *ngIf="text" class="sq-tooltip {{tooltipClass}}" @tooltip [innerHTML]="text"></div>
+  <div *ngIf="template" class="sq-tooltip {{tooltipClass}}" @tooltip><ng-container [ngTemplateOutlet]="template"></ng-container></div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('tooltip', [
@@ -26,4 +26,5 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class TooltipComponent {
   text?: string;
   template?: TemplateRef<any>;
+  tooltipClass?: string;
 }

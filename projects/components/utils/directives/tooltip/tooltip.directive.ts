@@ -1,9 +1,11 @@
 import {
   Directive,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
   OnDestroy,
+  Output,
   TemplateRef
 } from "@angular/core";
 import {
@@ -62,10 +64,24 @@ export class TooltipDirective<T> implements OnDestroy {
    * Default value is 300ms
    */
   @Input() delay = 300;
+  /**
+   * If the tooltip should stay opened on hover
+   */
+  @Input() hoverableTooltip = false;
+  /**
+   * Custom class for the tooltip
+   */
+  @Input() tooltipClass?: string;
+
+  /**
+   * Output to notify when the tooltip is being opened
+   */
+  @Output() shown = new EventEmitter();
 
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
   private clearTimeout?: any;
+  private hoveringOverlayRef: boolean;
 
   constructor(
     private overlay: Overlay,
@@ -106,6 +122,8 @@ export class TooltipDirective<T> implements OnDestroy {
       obs = of(this.potentialValueOrTemplate);
     }
 
+    this.shown.emit();
+
     this.subscription = obs.subscribe(valueOrTemplate => {
       this.overlayRef?.detach();
 
@@ -130,6 +148,20 @@ export class TooltipDirective<T> implements OnDestroy {
       } else {
         tooltipRef.instance.template = valueOrTemplate;
       }
+
+      if (this.tooltipClass) {
+        tooltipRef.instance.tooltipClass = this.tooltipClass;
+      }
+
+      if (this.hoverableTooltip) {
+        this.overlayRef.overlayElement.addEventListener("mouseenter", () => {
+          this.hoveringOverlayRef = true;
+        });
+        this.overlayRef.overlayElement.addEventListener('mouseleave', () => {
+          this.hoveringOverlayRef = false;
+          this.clearSubscription();
+        });
+      }
     });
   }
 
@@ -143,7 +175,7 @@ export class TooltipDirective<T> implements OnDestroy {
   @HostListener("mouseleave")
   hide() {
     if (!this.clearTimeout) {
-      this.clearTimeout = setTimeout(() => this.clearSubscription(), 10);
+      this.clearTimeout = setTimeout(() => this.clearSubscription(), this.hoverableTooltip ? 500 : 10);
     }
   }
 
@@ -192,6 +224,8 @@ export class TooltipDirective<T> implements OnDestroy {
    * Clear timeout function and detach overlayRef
    */
   private clearSubscription() {
+    if (this.hoverableTooltip && this.hoveringOverlayRef) return;
+
     this.subscription?.unsubscribe();
     if (this.clearTimeout) {
       clearTimeout(this.clearTimeout);

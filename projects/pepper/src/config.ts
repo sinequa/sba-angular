@@ -194,44 +194,16 @@ export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
     }
 ];
 
-export const HIGHLIGHTS: PreviewHighlightColors[] = [
-    {
-        name: 'company',
-        color: '#FF7675'
-    },
-    {
-        name: 'geo',
-        color: '#74B9FF'
-    },
-    {
-        name: 'person',
-        color: '#00ABB5'
-    },
-    {
-        name: 'job',
-        color: '#00ABB5'
-    },
-    {
-        name: 'date',
-        color: '#8898D4'
-    },
-    {
-        name: 'event',
-        color: '#8898D4'
-    },
-    {
-        name: 'money',
-        color: '#51C160'
-    },
-    {
-        name: 'amount',
-        color: '#51C160'
-    },
-];
+export const TAGCLOUD_HIGHLIGHTS: PreviewHighlightColors[] = PREVIEW_HIGHLIGHTS
+    .map(highlight => ({
+        name: highlight.name,
+        color: highlight.bgColor,
+        bgColor: undefined
+    }))
 
 export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHighlightColors[]}[] = [
     {
         selectors: ['sq-facet-tag-cloud a'],
-        highlights: HIGHLIGHTS
+        highlights: TAGCLOUD_HIGHLIGHTS
     }
 ];

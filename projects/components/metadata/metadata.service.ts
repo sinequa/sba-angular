@@ -21,7 +21,7 @@ export class MetadataService {
     const isTree = !!column && AppService.isTree(column);
     const isEntity = !!column && AppService.isEntity(column);
     const isCsv = !!column && AppService.isCsv(column);
-    let fnEntityPopover: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
+    let fnEntityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
 
     const values: RecordType = record[this.appService.getColumnAlias(column, item)];
 
@@ -36,7 +36,7 @@ export class MetadataService {
           return { ...i, filtered, excluded };
         }));
         if (showEntityExtract && entityItems[0]?.locations) {
-          fnEntityPopover = this.getEntitySentence
+          fnEntityTooltip = this.getEntitySentence
         }
       }
     }
@@ -53,7 +53,7 @@ export class MetadataService {
       isTree,
       isEntity,
       isCsv,
-      fnEntityPopover
+      fnEntityTooltip
     }
   }
 
