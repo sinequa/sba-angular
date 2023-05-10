@@ -18,11 +18,6 @@ export class MetadataComponent {
      * It can also be strings to be put in between
      */
     @Input() config: (MetadataConfig | string)[];
-
-    /**
-     * Whether the metadata title should be displayed
-     */
-    @Input() showTitles;
     /**
      * Class for the popover buttons
      */

@@ -3,8 +3,8 @@
     <span *ngIf="icon" class="sq-metadata-col metadata-{{layout}} {{icon}} pe-1"></span>
 
     <!-- Title -->
-    <span *ngIf="showTitle" class="sq-metadata-col metadata-{{layout}} sq-metadata-item-label pe-1">
-        {{(label || 'msg#metadata.item.label') | sqMessage:fieldLabelMessageParams}}
+    <span *ngIf="label" class="sq-metadata-col metadata-{{layout}} sq-metadata-item-label pe-1">
+        {{label | sqMessage}}:
     </span>
 
     <!-- Value -->
@@ -27,8 +27,8 @@
         <ng-container *ngIf="!metadataValue.isTree">
             <span *ngFor="let valueItem of metadataValue.valueItems; let $last = last"
                 class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}"
-                [attr.title]="(showTitle || metadataValue.fnEntityPopover) ? null : ((label || columnLabel) | sqMessage)"
-                sqPopper [target]="popoverTemplate || allActions?.length ? popover : undefined" [placement]="placement"
+                [attr.title]="(label || metadataValue.fnEntityPopover) ? null : (label | sqMessage)" sqPopper
+                [target]="popoverTemplate || allActions?.length ? popover : undefined" [placement]="placement"
                 (shown)="setupPopover(valueItem)" [class.sq-filtered]="valueItem.filtered"
                 [class.sq-excluded]="valueItem.excluded">
                 {{valueItem | sqValue:metadataValue.column}}

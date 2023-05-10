@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } fro
 import { Action } from "@sinequa/components/action";
 import { SearchService } from "@sinequa/components/search";
 import { UIService } from "@sinequa/components/utils";
-import { AppService, Query } from "@sinequa/core/app-utils";
+import { Query } from "@sinequa/core/app-utils";
 import { EntityItem, Filter, Record } from "@sinequa/core/web-services";
 import { MetadataService } from "../../metadata.service";
 import { MetadataValue } from "../../metadata.interface";
@@ -26,7 +26,6 @@ export class MetadataItemComponent implements OnChanges {
     @Input() showEntityExtract?: boolean;
     @Input() actions?: Action[];
 
-    @Input() showTitle: boolean;
     @Input() collapseRows: boolean = true;
     @Input() entityExtractMaxLines = 8;
     @Input() separator: string;
@@ -38,7 +37,6 @@ export class MetadataItemComponent implements OnChanges {
 
     metadataValue: MetadataValue;
     display: boolean;
-    fieldLabelMessageParams: any;
     allActions: Action[];
 
     lineHeight: number | undefined;
@@ -84,10 +82,6 @@ export class MetadataItemComponent implements OnChanges {
         }
     });
 
-    get columnLabel(): string {
-        return this.appService.getLabel(this.field);
-    }
-
     get placement(): string {
         return this.layout === 'inline' ? 'top' : 'top-start';
     }
@@ -104,8 +98,7 @@ export class MetadataItemComponent implements OnChanges {
         return this.metadataValue.isTree || !!this.metadataValue.valueItems?.filter(v => !!v.value).length;
     }
 
-    constructor(private appService: AppService,
-        private metadataService: MetadataService,
+    constructor(private metadataService: MetadataService,
         private searchService: SearchService,
         private el: ElementRef,
         private ui: UIService) {
@@ -118,11 +111,6 @@ export class MetadataItemComponent implements OnChanges {
         // Generate the metadata data
         if ((!!changes.record && !this.metadataValue) || !!changes.query) {
             this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.field, this.showEntityExtract);
-        }
-
-        // Generate format icon
-        if (!!this.field) {
-            this.fieldLabelMessageParams = { values: { label: this.columnLabel } };
         }
 
         // Generate line height for collapsing

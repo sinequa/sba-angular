@@ -199,26 +199,32 @@ export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHigh
 export const METADATA_CONFIG: MetadataConfig[] = [
     {
         field: "authors",
+        label: "msg#metadata.authorsPluralLabel",
         icon: "fas fa-user-edit"
     },
     {
         field: "docformat",
+        label: "msg#metadata.docformatLabel",
         icon: "fas fa-info-circle"
     },
     {
         field: "modified",
+        label: "msg#metadata.modifiedLabel",
         icon: "far fa-calendar-alt"
     },
     {
         field: "size",
+        label: "msg#metadata.size_label",
         icon: "fas fa-weight-hanging"
     },
     {
         field: "treepath",
+        label: "msg#metadata.treepath_label",
         icon: "fas fa-folder-open"
     },
     {
         field: "filename",
+        label: "msg#metadata.filename_label",
         icon: "far fa-file-alt"
     }
 ];
