@@ -9,7 +9,7 @@ import { Validators } from "@angular/forms";
 import { Chunk, equalChunks, insertChunk } from "./chunk";
 import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, GllmModel, GllmModelDescription, GllmTokens, RawMessage, RawResponse, SavedChat } from "./types";
 import { extractReferences } from "./references";
-
+import { UserPreferences } from "@sinequa/components/user-settings";
 
 @Injectable({providedIn: 'root'})
 export class ChatService {
@@ -26,6 +26,16 @@ export class ChatService {
 
   GLLM_PLUGIN = "GLLM";
 
+  availableAttachmentMetadata: { field: string, name?: string, formatter?: (value: any) => string}[] = [
+    {field: "title"},
+    {field: "modified", name: "date", formatter: (value: string) => value.substring(0,10)},
+    {field: "treepath", name: "source", formatter: (value: string[]) => value[0].split('/').find(v => v) ?? ''},
+    {field: "authors", formatter: (value: string[]) => value.join(',')},
+    {field: "language", formatter: (value: string[]) => value.join(',')},
+    {field: "docformat", name: "format"}
+  ];
+  defaultAttachmentMetadata = ['title', 'modified'];
+
   constructor(
     public textChunksService: TextChunksWebService,
     public jsonMethodWebService: JsonMethodPluginService,
@@ -33,7 +43,8 @@ export class ChatService {
     public userSettingsService: UserSettingsWebService,
     public modalService: ModalService,
     public notificationsService: NotificationsService,
-    public auditService: AuditWebService
+    public auditService: AuditWebService,
+    public prefs: UserPreferences
   ) {}
 
 
@@ -150,7 +161,7 @@ export class ChatService {
       const $refId = idOffset + i + 1;
       return {
         role: 'user',
-        content: this.formatContent($refId, $attachment.$record.title, $attachment.chunks.map(c => c.text)),
+        content: this.formatContent($refId, $attachment.$record, $attachment.chunks.map(c => c.text)),
         display,
         $content: '', // Attachment have their own template
         $attachment,
@@ -159,8 +170,18 @@ export class ChatService {
     });
   }
 
-  protected formatContent(id: number, title: string, text: string[]) {
-    return `<document id="${id}" title="${title}">${text.join('\n...\n')}</document>`;
+  protected formatContent(id: number, record: Record, text: string[]) {
+    let metas = "";
+    for(let field of this.attachmentMetadata) {
+      const meta = this.availableAttachmentMetadata.find(m => m.field === field);
+      if(meta) {
+        const value = record[meta.field];
+        if(value) {
+          metas += ` ${meta.name ?? field}="${meta.formatter?.(value) ?? value}"`
+        }
+      }
+    }
+    return `<document id="${id}" ${metas}>${text.join('\n...\n')}</document>`;
   }
 
 
@@ -277,7 +298,7 @@ export class ChatService {
     if(attachments.length === 0) {
       return of([]);
     }
-    const texts = attachments.map(a => this.formatContent(10, a.$record.title, a.chunks.map(c => c.text)));
+    const texts = attachments.map(a => this.formatContent(10, a.$record, a.chunks.map(c => c.text)));
     return this.count(texts, this.attachmentModel).pipe(
       map(counts => attachments.map((a,i) => ({...a, $tokenCount: counts[i]})))
     )
@@ -549,6 +570,14 @@ export class ChatService {
         tokens: tokens.used
       }
     });
+  }
+
+  get attachmentMetadata(): string[] {
+    return this.prefs.get("chat-attachment-metadata") ?? this.defaultAttachmentMetadata;
+  }
+
+  set attachmentMetadata(metadata: string[]) {
+    this.prefs.set("chat-attachment-metadata", metadata);
   }
 
 }
