@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
+import { Record } from "@sinequa/core/web-services";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
@@ -78,6 +79,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() showCredits = true;
   @Input() query?: Query;
   @Output() data = new EventEmitter<ChatMessage[]>();
+  @Output() referenceClicked = new EventEmitter<Record>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
@@ -320,5 +322,13 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       action: () => this.openChat(chat.messages, chat.tokens)
     }));
     this.openChatAction.hidden = this.openChatAction.children.length === 0;
+  }
+
+  onReferenceClicked(record: Record, event: MouseEvent) {
+    const url = record.url1 || record.originalUrl;
+    if(!url) {
+      event.preventDefault();
+    }
+    this.referenceClicked.emit(record);
   }
 }
