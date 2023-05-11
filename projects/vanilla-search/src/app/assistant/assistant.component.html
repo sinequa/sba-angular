@@ -23,7 +23,8 @@
     [autoSearchMaxPassages]="chatConfig.autoSearchMaxPassages"
     [autoSearchMaxDocuments]="chatConfig.autoSearchMaxDocuments"
     [autoSearchExpand]="chatConfig.autoSearchExpand"
-    [model]="chatConfig.model">
+    [model]="chatConfig.model"
+    (referenceClicked)="onReferenceClicked($event)">
   </sq-chat>
 
   <ng-template #settings>

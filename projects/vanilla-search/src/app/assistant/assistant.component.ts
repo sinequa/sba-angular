@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, OnDestroy, Output, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { ChatAttachment, ChatComponent, ChatConfig, ChatMessage, ChatService } from "@sinequa/components/machine-learning";
 import { SearchService } from "@sinequa/components/search";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { AppService } from "@sinequa/core/app-utils";
-import { AuditWebService, Results } from "@sinequa/core/web-services";
+import { AuditWebService, Results, Record } from "@sinequa/core/web-services";
 import { marked } from "marked";
 import { filter, map, Subscription, switchMap, tap } from "rxjs";
 import { AssistantService } from "./assistant.service";
@@ -20,6 +20,8 @@ interface ChatSuggestion {
   templateUrl: "./assistant.component.html"
 })
 export class AssistantComponent implements AfterViewInit, OnDestroy {
+
+  @Output() referenceClicked = new EventEmitter<{record: Record, isLink: boolean}>();
 
   sub = new Subscription();
 
@@ -64,6 +66,11 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  onReferenceClicked(record: Record) {
+    const isLink = !!(record.url1 || record.originalUrl);
+    this.referenceClicked.emit({record, isLink});
   }
 
   initializeMeeseeksMode() {
@@ -305,4 +312,5 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
   get chatConfig() : ChatConfig {
     return this.assistantService.chatConfig;
   }
+
 }
