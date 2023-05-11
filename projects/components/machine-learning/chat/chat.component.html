@@ -18,7 +18,12 @@
             <b>References:</b>
             <ul class="list-group">
               <li *ngFor="let reference of message.$references" class="text-truncate" [title]="reference.$record.title">
-                <span class="reference me-1">{{reference.refId}}</span> <a href="{{reference.$record.url1}}" target="_blank">{{reference.$record.title}}</a>
+                <span class="reference me-1">{{reference.refId}}</span>
+                <a href="{{reference.$record.url1 || reference.$record.originalUrl || '#'}}"
+                  target="_blank"
+                  (click)="onReferenceClicked(reference.$record, $event)">
+                  {{reference.$record.title}}
+                </a>
               </li>
             </ul>
           </div>

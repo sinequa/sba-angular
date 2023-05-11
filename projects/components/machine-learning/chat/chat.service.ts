@@ -146,7 +146,7 @@ export class ChatService {
   processMessage(message: RawMessage, conversation: ChatMessage[], $attachment?: ChatAttachment): ChatMessage {
     const chatMessage: ChatMessage = {...message, $content: marked(message.content), $attachment};
     if(message.role === 'assistant') {
-      extractReferences(chatMessage, conversation);
+      extractReferences(chatMessage, conversation, this.searchService.query);
     }
     return chatMessage;
   }
