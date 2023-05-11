@@ -15,14 +15,15 @@
     <span *ngIf="$index < valueItems.length - 1" class="sq-metadata-item-tree-separator">
         {{'msg#metadata.item.treeSeparator' | sqMessage}}
     </span>
-    <ng-template #tooltip>
-        <div class="sq-metadata-tooltip">
-            <div class="sq-metadata-tooltip-entity p-2" *ngIf="tooltipTemplate" [innerHTML]="tooltipTemplate"
-                [style.-webkit-line-clamp]="entityExtractMaxLines">
-            </div>
-            <div *ngIf="actions?.length" class="btn-group d-flex"
-                [sq-action-buttons]="{items: actions, style: actionsButtonsStyle, size: actionsButtonsSize, rightAligned: true}">
-            </div>
-        </div>
-    </ng-template>
 </ng-container>
+
+<ng-template #tooltip>
+    <div class="sq-metadata-tooltip">
+        <div class="sq-metadata-tooltip-entity p-2" *ngIf="tooltipTemplate" [innerHTML]="tooltipTemplate"
+            [style.-webkit-line-clamp]="entityExtractMaxLines">
+        </div>
+        <div *ngIf="actions?.length" class="btn-group d-flex"
+            [sq-action-buttons]="{items: actions, style: actionsButtonsStyle, size: actionsButtonsSize, rightAligned: true}">
+        </div>
+    </div>
+</ng-template>

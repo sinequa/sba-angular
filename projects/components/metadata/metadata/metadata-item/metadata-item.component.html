@@ -37,17 +37,17 @@
                     {{separator | sqMessage}}
                 </span>
             </span>
-        </span>
 
-        <ng-template #tooltip>
-            <div class="sq-metadata-tooltip">
-                <div class="sq-metadata-tooltip-entity p-2" *ngIf="tooltipTemplate" [innerHTML]="tooltipTemplate"
-                    [style.-webkit-line-clamp]="entityExtractMaxLines">
+            <ng-template #tooltip>
+                <div class="sq-metadata-tooltip">
+                    <div class="sq-metadata-tooltip-entity p-2" *ngIf="tooltipTemplate" [innerHTML]="tooltipTemplate"
+                        [style.-webkit-line-clamp]="entityExtractMaxLines">
+                    </div>
+                    <div *ngIf="allActions?.length" class="btn-group d-flex"
+                        [sq-action-buttons]="{items: allActions, style: actionsButtonsStyle, size: actionsButtonsSize, rightAligned: true}">
+                    </div>
                 </div>
-                <div *ngIf="allActions?.length" class="btn-group d-flex"
-                    [sq-action-buttons]="{items: allActions, style: actionsButtonsStyle, size: actionsButtonsSize, rightAligned: true}">
-                </div>
-            </div>
-        </ng-template>
+            </ng-template>
+        </span>
     </span>
 </ng-container>

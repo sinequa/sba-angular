@@ -62,10 +62,9 @@ export class MetadataTreeComponent implements OnChanges {
   }
 
   selectItem(valueItem: TreeMetadataItem, partIndex: number): void {
-    if (this.tooltipTemplate) {
-      const path = this.generatePath(valueItem, partIndex);
-      this._selectedItem.emit({ value: path + "*", display: Utils.treepathLast(path) });
-    }
+    const path = this.generatePath(valueItem, partIndex);
+    this._selectedItem.emit({ value: path + "*", display: Utils.treepathLast(path) });
+    this.actions?.forEach(a => a.update());
   }
 
   private generatePath(valueItem: TreeMetadataItem, partIndex: number): string {
