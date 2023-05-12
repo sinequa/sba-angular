@@ -2,7 +2,7 @@ import { Query } from '@sinequa/core/app-utils';
 import { CCColumn, EntityItem, Record } from '@sinequa/core/web-services';
 import { Observable } from 'rxjs';
 import { ValueItem } from '@sinequa/core/app-utils';
-import { Action } from '../action/action';
+import { Action } from '@sinequa/components/action';
 
 export interface MetadataItem extends ValueItem {
     filtered?: boolean; // Whether the item is included in the filters
