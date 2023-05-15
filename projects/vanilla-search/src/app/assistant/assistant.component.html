@@ -36,7 +36,7 @@
           <option>Manual</option>
           <option>Auto-Search</option>
           <option>Auto-Answer</option>
-          <option>Meeseeks</option>
+          <option *ngIf="meeseeksEnabled$ | async">Meeseeks</option>
         </select>
       </div>
 

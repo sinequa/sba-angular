@@ -156,7 +156,7 @@ export class AssistantService {
   }
 
   get assistantMode(): 'Meeseeks' | 'Manual' | 'Auto-Search' | 'Auto-Answer' {
-    return this.prefs.get('assistant-mode') ?? 'Meeseeks';
+    return this.prefs.get('assistant-mode') ?? 'Auto-Answer';
   }
 
   set assistantMode(val: 'Meeseeks' | 'Manual' | 'Auto-Search' | 'Auto-Answer') {

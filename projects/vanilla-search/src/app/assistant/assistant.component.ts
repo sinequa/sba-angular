@@ -6,7 +6,7 @@ import { UserPreferences } from "@sinequa/components/user-settings";
 import { AppService } from "@sinequa/core/app-utils";
 import { AuditWebService, Results, Record } from "@sinequa/core/web-services";
 import { marked } from "marked";
-import { filter, map, Subscription, switchMap, tap } from "rxjs";
+import { filter, map, Observable, Subscription, switchMap, tap } from "rxjs";
 import { AssistantService } from "./assistant.service";
 
 interface ChatSuggestion {
@@ -29,6 +29,8 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
   autoModeAction: Action;
 
   autoMode = true;
+
+  meeseeksEnabled$: Observable<boolean>;
 
   @ViewChild(ChatComponent) chat: ChatComponent;
 
@@ -57,6 +59,10 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
         }
       }
     });
+
+    this.meeseeksEnabled$ = this.chatService.listModels().pipe(
+      map(list => !!list.find(m => m.name.startsWith("GPT4")))
+    );
   }
 
   ngAfterViewInit() {
