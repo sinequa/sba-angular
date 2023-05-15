@@ -1,14 +1,14 @@
 // TODO
 // doc-facet-refine
 
-import { compareScreenshots } from "./fn"
+import { compareScreenshots, visit } from "./fn"
 
 describe('components/facet testing', () => {
   it('Can access the Facet page', () => {
-    cy.visit('components/facet')
+    visit('components/facet')
   })
   it('Has doc-facet working', () => {
-    cy.visit('components/facet')
+    visit('components/facet')
     cy.get('doc-facet').get('sq-facet-card').get('.card')
     cy.get('doc-facet').get('sq-facet-card').get('.sq-primary-actions')
     cy.get('doc-facet').get('sq-facet-card').get('.sq-view-actions')
@@ -16,39 +16,39 @@ describe('components/facet testing', () => {
     compareScreenshots('doc-facet')
   })
   it('Has doc-facet-bar working', () => {
-    cy.visit('components/facet')
+    visit('components/facet')
     cy.get('doc-facet-bar').get('sq-facet-bar').get('sq-facet-card')
     compareScreenshots('doc-facet-bar')
   })
   it('Has doc-facet-filters working', () => {
-    cy.visit('components/facet')
+    visit('components/facet')
     cy.get('doc-facet-filters').get('sq-facet-filters').get('ul')
     compareScreenshots('doc-facet-filters')
   })
   it('Has doc-facet-list working', () => {
-    cy.visit('components/facet')
+    visit('components/facet')
 
     cy.get('doc-facet-list').get('sq-facet-list').get('input')
     cy.get('doc-facet-list').get('sq-facet-list').get('ul')
     compareScreenshots('doc-facet-list')
   })
   it('Has doc-facet-multi working', () => {
-    cy.visit('components/facet')
+    visit('components/facet')
     cy.get('doc-facet-multi').get('sq-facet-multi').get('.list-group')
     compareScreenshots('doc-facet-multi')
   })
   it('Has doc-facet-range working', () => {
-    cy.visit('components/facet')
+    visit('components/facet')
     cy.get('doc-facet-range').get('sq-facet-range').get('ngx-slider')
     compareScreenshots('doc-facet-range')
   })
   it('Has doc-facet-tag-cloud working', () => {
-    cy.visit('components/facet')
+    visit('components/facet')
     cy.get('doc-facet-tag-cloud').get('sq-facet-tag-cloud').get('ul.cloud')
     compareScreenshots('doc-facet-tag-cloud')
   })
   it('Has doc-facet-testing working', () => {
-    cy.visit('components/facet')
+    visit('components/facet')
     cy.get('doc-facet-testing').get('sq-facet-card[ng-reflect-title="Booleans"]').get('ul')
     compareScreenshots(['doc-facet-testing', 'sq-facet-card[ng-reflect-title="Booleans"]'], 'facet-testing-booleans')
     cy.get('doc-facet-testing').get('sq-facet-card[ng-reflect-title="Integers"]').get('ul')

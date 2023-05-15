@@ -3,8 +3,10 @@
 // doc-passage-list
 // doc-top-passages
 
+import { visit } from "./fn"
+
 describe('components/machine-learning testing', () => {
   it('Can access the Machine Learning page', () => {
-    cy.visit('components/machine-learning')
+    visit('components/machine-learning')
   })
 })
