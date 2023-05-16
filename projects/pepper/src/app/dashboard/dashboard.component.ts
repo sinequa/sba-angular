@@ -262,8 +262,4 @@ export class AppDashboardComponent implements OnChanges {
     return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
   }
 
-  public get previewHighlights(): PreviewHighlightColors[] {
-    return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
-  }
-
 }
