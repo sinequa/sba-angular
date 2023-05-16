@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SearchService } from '@sinequa/components/search';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
@@ -118,7 +117,7 @@ export class DocFacetTestingComponent extends BaseComponent {
         </sq-facet-list>
 </sq-facet-card>`;
 
-constructor(public searchService: SearchService) {
+constructor() {
   super();
 }
 
