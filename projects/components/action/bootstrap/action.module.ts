@@ -11,7 +11,6 @@ import { BsActionItem } from "./action-item/action-item";
 import { BsActionMenu } from "./action-menu/action-menu";
 import { BsDropdownMenu } from "./dropdown-menu/dropdown-menu";
 import { BsDropdownDirective } from "./dropdown.directive";
-import { PopperDirective } from "./popper.directive";
 
 @NgModule({
     imports: [
@@ -26,15 +25,13 @@ import { PopperDirective } from "./popper.directive";
         BsActionItem,
         BsActionMenu,
         BsDropdownMenu,
-        BsDropdownDirective,
-        PopperDirective
+        BsDropdownDirective
     ],
     exports: [
         BsActionButtons,
         BsActionMenu,
         BsActionItem,
-        BsDropdownDirective,
-        PopperDirective
+        BsDropdownDirective
     ]
 })
 export class BsActionModule {
