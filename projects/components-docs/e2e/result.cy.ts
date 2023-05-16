@@ -10,13 +10,13 @@ describe('components/result testing', () => {
     visit('components/result')
   })
   it('Has doc-result-extracts working', () => {
-    visit('components/result?search=Paris')
-    cy.get('doc-result-extracts').get('sq-result-extracts').get('p')
+    visit('components/result', undefined, 'Paris')
+    cy.get('doc-result-extracts').get('sq-result-extracts').get('.sq-relevant-extracts').should('exist')
     compareScreenshots('doc-result-extracts')
   })
   it('Has doc-result-icon working', () => {
-    visit('components/result?search=Paris')
-    cy.get('doc-result-icon').get('sq-result-icon').get('span')
+    visit('components/result', undefined, 'Paris')
+    cy.get('doc-result-icon').get('sq-result-icon').get('span').should('exist')
     compareScreenshots('doc-result-icon')
   })
   /* it('Has doc-result-missing-terms working', () => {
@@ -24,8 +24,8 @@ describe('components/result testing', () => {
     cy.get('doc-result-icon').get('sq-result-icon').get('span')
   }) */
   it('Has doc-result-source working', () => {
-    visit('components/result?search=Paris')
-    cy.get('doc-result-source').get('sq-result-source').get('a')
+    visit('components/result', undefined, 'Paris')
+    cy.get('doc-result-source').get('sq-result-source').get('a').should('exist')
     compareScreenshots('doc-result-source')
   })
   /* it('Has doc-result-thumbnail working', () => {
@@ -33,13 +33,13 @@ describe('components/result testing', () => {
     cy.get('doc-result-source').get('sq-result-source').get('a')
   }) */
   it('Has doc-result-title working', () => {
-    visit('components/result?search=Paris')
-    cy.get('doc-result-title').get('sq-result-title').get('.sq-result-title')
+    visit('components/result', undefined, 'Paris')
+    cy.get('doc-result-title').get('sq-result-title').get('.sq-result-title').should('exist')
     compareScreenshots('doc-result-title')
   })
   it('Has doc-results-counter working', () => {
-    visit('components/result?search=Paris')
-    cy.get('doc-results-counter').get('sq-results-counter').get('.sq-results-count')
+    visit('components/result', undefined, 'Paris');
+    cy.get('doc-results-counter').get('sq-results-counter').get('.sq-results-count').should('exist')
     compareScreenshots('doc-results-counter')
   })
   /* it('Has doc-sponsored-results working', () => {
@@ -48,7 +48,7 @@ describe('components/result testing', () => {
   }) */
   it('Has doc-user-rating working', () => {
     visit('components/result')
-    cy.get('doc-user-rating').get('sq-user-rating').get('.sq-user-rating-stars')
+    cy.get('doc-user-rating').get('sq-user-rating').get('.sq-user-rating-stars').should('exist')
     compareScreenshots('doc-user-rating')
   })
 })

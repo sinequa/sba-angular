@@ -6,7 +6,7 @@ describe('components/feedback testing', () => {
   })
   it('Has doc-results-grid-view working', () => {
     visit('components/feedback')
-    cy.get('doc-feedback-menu').get('sq-feedback-menu').get('button')
+    cy.get('doc-feedback-menu').get('sq-feedback-menu').get('button').should('exist')
     compareScreenshots('doc-feedback-menu')
   })
 })

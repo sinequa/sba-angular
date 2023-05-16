@@ -19,16 +19,19 @@ export function compareScreenshots(component: string | string[], title?: string)
 /**
  * Trigger a search typing into the navbar
  */
-export function search(value: string) {
-    cy.wait(1000); // adding a wait since on some pages there is a forced input focus
+export function search(value: string, time: number = 1000) {
     cy.get('doc-navbar').get('#search-bar-input').type('Paris');
     cy.get('doc-navbar').get('#search-bar-button').click();
+    cy.wait(time);
 }
 
 /**
  * Go on a page, and wait a little for the loading
  */
-export function visit(path: string, time: number = 1000) {
+export function visit(path: string, time: number = 1000, searchValue?: string, searchTime?: number) {
     cy.visit(path);
     cy.wait(time);
+    if (searchValue) {
+        search(searchValue, searchTime);
+    }
 }

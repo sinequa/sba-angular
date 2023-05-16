@@ -6,12 +6,12 @@ describe('components/results-view testing', () => {
   })
   it('Has doc-results-grid-view working', () => {
     visit('components/results-view')
-    cy.get('doc-results-grid-view').get('sq-results-grid-view').get('table')
+    cy.get('doc-results-grid-view').get('sq-results-grid-view').get('table').should('exist')
     compareScreenshots('doc-results-grid-view')
   })
   it('Has doc-results-view-selector working', () => {
     visit('components/results-view')
-    cy.get('doc-results-view-selector').get('sq-results-view-selector').get('button')
+    cy.get('doc-results-view-selector').get('sq-results-view-selector').get('button').should('exist')
     compareScreenshots('doc-results-view-selector')
   })
 })

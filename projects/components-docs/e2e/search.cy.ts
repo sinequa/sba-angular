@@ -13,7 +13,7 @@ describe('components/search testing', () => {
   })
   it('Has doc-did-you-mean working', () => {
     visit('components/search?search=Pariis')
-    cy.get('doc-did-you-mean').get('.sq-did-you-mean').contains('Showing results')
+    cy.get('doc-did-you-mean').get('.sq-did-you-mean').contains('Showing results').should('exist')
     compareScreenshots('doc-did-you-mean')
   })
   /* it('Has doc-load-more working', () => {
@@ -22,11 +22,11 @@ describe('components/search testing', () => {
   }) */
   it('Has doc-loading-bar working', () => {
     visit('components/search?search=Pariis')
-    cy.get('doc-loading-bar').get('sq-loading-bar').get('.slider')
+    cy.get('doc-loading-bar').get('sq-loading-bar').get('.slider').should('exist')
   })
   it('Has doc-page-size-selector working', () => {
     visit('components/search')
-    cy.get('doc-page-size-selector').get('sq-page-size-selector').get('button')
+    cy.get('doc-page-size-selector').get('sq-page-size-selector').get('button').should('exist')
     compareScreenshots('doc-page-size-selector')
   })
   /* it('Has doc-pager working', () => {
@@ -47,7 +47,7 @@ describe('components/search testing', () => {
   }) */
   it('Has doc-tabs working', () => {
     visit('components/search?search=Pariis')
-    cy.get('doc-tabs').get('sq-tabs').get('ul')
+    cy.get('doc-tabs').get('sq-tabs').get('ul').should('exist')
     compareScreenshots('doc-tabs')
   })
 })
