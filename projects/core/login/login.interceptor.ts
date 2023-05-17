@@ -155,8 +155,15 @@ export class LoginInterceptor implements HttpInterceptor {
 
         config.headers = config.headers.set("sinequa-force-camel-case", "true");
 
+        // send user language
+        config.headers = config.headers.set("x-language", this.intlService.currentLocale.name);
+        const [key, value] = ["ui-language", this.intlService.currentLocale.name];
+
         if (this.isJsonable(request.body)) {
+            Object.assign(request.body, { [key]: value });
             this.processRequestInitializers(request);
+        } else {
+            config.params = config.params.set(key,value);
         }
 
         this.notificationsService.enter("network");
