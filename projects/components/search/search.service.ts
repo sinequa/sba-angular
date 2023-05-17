@@ -1,5 +1,5 @@
 import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
-import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from "@angular/router";
+import {Router, NavigationEnd, Params, NavigationExtras} from "@angular/router";
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, finalize} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
@@ -80,15 +80,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             });
         this.routerSubscription = this.router.events.subscribe(
             (event) => {
-                if (event instanceof NavigationStart) {
-                    // Restore state on back/forward until this issue is fixed: https://github.com/angular/angular/issues/28108
-                    const currentNavigation = this.router.getCurrentNavigation();
-                    if (currentNavigation && event.navigationTrigger === "popstate" &&
-                        !currentNavigation.extras.state && event.restoredState) {
-                        currentNavigation.extras.state = event.restoredState;
-                    }
-                }
-                else if (event instanceof NavigationEnd) {
+                if (event instanceof NavigationEnd) {
                     this.handleNavigation();
                 }
             });
@@ -397,7 +389,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
     initializeRecords(query: Query, results: Results) {
       if(results.records) {
-        let duplicate: Record|undefined = undefined;
+        let duplicate: Record|undefined;
         for(let i=0; i<results.records.length; i++) {
           const record = results.records[i];
           record.$hasPassages = !!record.matchingpassages?.passages?.length;
