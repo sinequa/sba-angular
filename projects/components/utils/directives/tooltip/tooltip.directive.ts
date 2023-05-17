@@ -1,11 +1,9 @@
 import {
   Directive,
   ElementRef,
-  EventEmitter,
   HostListener,
   Input,
   OnDestroy,
-  Output,
   TemplateRef
 } from "@angular/core";
 import {
@@ -48,6 +46,7 @@ export class TooltipDirective<T> implements OnDestroy {
    */
   @Input("sqTooltip") potentialValueOrTemplate?: string | ((data?: T) => Observable<string | undefined>) | TemplateRef<any>;
   @Input("sqTooltipData") data?: T;
+  @Input("sqTooltipTemplate") template?: any;
 
   /**
    * Setting the default value of the placement property to `bottom`
@@ -72,11 +71,6 @@ export class TooltipDirective<T> implements OnDestroy {
    * Custom class for the tooltip
    */
   @Input() tooltipClass?: string;
-
-  /**
-   * Output to notify when the tooltip is being opened
-   */
-  @Output() shown = new EventEmitter();
 
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
@@ -108,7 +102,6 @@ export class TooltipDirective<T> implements OnDestroy {
     this.clearSubscription();
 
     if (!this.potentialValueOrTemplate) return;
-
     let obs: Observable<string | undefined | TemplateRef<any>>;
 
     if (Utils.isFunction(this.potentialValueOrTemplate)) {
@@ -122,7 +115,7 @@ export class TooltipDirective<T> implements OnDestroy {
       obs = of(this.potentialValueOrTemplate);
     }
 
-    this.shown.emit();
+    if (!obs) return;
 
     this.subscription = obs.subscribe(valueOrTemplate => {
       this.overlayRef?.detach();
@@ -143,12 +136,11 @@ export class TooltipDirective<T> implements OnDestroy {
       // instance of the tooltip's component
       const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
 
-      if (typeof (valueOrTemplate) === "string") {
-        tooltipRef.instance.text = valueOrTemplate;
-      } else {
-        tooltipRef.instance.template = valueOrTemplate;
-      }
+      tooltipRef.instance.data = valueOrTemplate;
 
+      if (this.template) {
+        tooltipRef.instance.template = this.template;
+      }
       if (this.tooltipClass) {
         tooltipRef.instance.tooltipClass = this.tooltipClass;
       }

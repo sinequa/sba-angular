@@ -7,12 +7,11 @@ import { CollapseModule } from "@sinequa/components/collapse";
 
 import { MetadataComponent } from "./metadata/metadata.component";
 import { MetadataItemComponent } from "./metadata/metadata-item/metadata-item.component";
-import { MetadataTreeComponent } from './metadata/metadata-tree/metadata-tree.component';
 import { BsActionModule } from "@sinequa/components/action";
 
 @NgModule({
     declarations: [
-        MetadataComponent, MetadataItemComponent, MetadataTreeComponent
+        MetadataComponent, MetadataItemComponent
     ],
     exports: [
         MetadataComponent, MetadataItemComponent

@@ -38,3 +38,15 @@
         --bs-btn-padding-y: .5rem;
     }
 }
+
+.sq-metadata-item-tree-node-separator {
+    white-space: break-spaces;
+}
+
+.breadcrumb {
+    display: inline;
+
+    li {
+        display: inline;
+    }
+}

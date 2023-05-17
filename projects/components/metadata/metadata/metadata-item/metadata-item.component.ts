@@ -5,7 +5,9 @@ import { UIService } from "@sinequa/components/utils";
 import { Query } from "@sinequa/core/app-utils";
 import { EntityItem, Filter, Record } from "@sinequa/core/web-services";
 import { MetadataService } from "../../metadata.service";
-import { MetadataValue } from "../../metadata.interface";
+import { MetadataValue, TreeMetadataItem } from "../../metadata.interface";
+import { Observable, map, of } from "rxjs";
+import { Utils } from "@sinequa/core/base";
 
 @Component({
     selector: "sq-metadata-item",
@@ -43,15 +45,18 @@ export class MetadataItemComponent implements OnChanges {
     valuesMaxHeight: number | undefined;
     valuesHeight: number | undefined;
 
-    tooltipTemplate?: string;
     currentItem: EntityItem;
+    currentPart: any;
 
     filterAction: Action = new Action({
         icon: "fas fa-filter",
         text: "Filter",
         action: () => this.filterItem(),
         updater: (action) => {
-            action.hidden = this.currentItem && (this.currentItem['filtered'] || this.currentItem['excluded']);
+            setTimeout(() => {
+                const item = this.currentPart || this.currentItem;
+                action.hidden = item && (item['filtered'] || item['excluded']);
+            })
         }
     });
 
@@ -60,7 +65,10 @@ export class MetadataItemComponent implements OnChanges {
         text: "Remove filter",
         action: () => this.filterItem(true),
         updater: (action) => {
-            action.hidden = !this.currentItem || this.currentItem['excluded'] || !this.currentItem['filtered'];
+            setTimeout(() => {
+                const item = this.currentPart || this.currentItem;
+                action.hidden = !item || item['excluded'] || !item['filtered'];
+            })
         }
     });
 
@@ -69,7 +77,10 @@ export class MetadataItemComponent implements OnChanges {
         text: "Exclude",
         action: () => this.excludeItem(),
         updater: (action) => {
-            action.hidden = this.currentItem && (this.currentItem['filtered'] || this.currentItem['excluded']);
+            setTimeout(() => {
+                const item = this.currentPart || this.currentItem;
+                action.hidden = item && (item['filtered'] || item['excluded']);
+            })
         }
     });
 
@@ -78,7 +89,10 @@ export class MetadataItemComponent implements OnChanges {
         text: "Remove exclude",
         action: () => this.excludeItem(true),
         updater: (action) => {
-            action.hidden = !this.currentItem || this.currentItem['filtered'] || !this.currentItem['excluded'];
+            setTimeout(() => {
+                const item = this.currentPart || this.currentItem;
+                action.hidden = !item || item['filtered'] || !item['excluded'];
+            })
         }
     });
 
@@ -163,29 +177,44 @@ export class MetadataItemComponent implements OnChanges {
         this.valuesHeight = this.collapsed ? this.valuesMaxHeight : this.lineHeight;
     }
 
-    setupTooltip(valueItem: EntityItem): void {
-        this.tooltipTemplate = undefined;
-        this.currentItem = valueItem;
-        this.filterAction.update();
-        this.removeFilterAction.update();
-        this.excludeAction.update();
-        this.removeExcludeAction.update();
+    getTooltip = (valueItem: EntityItem): Observable<{ entityExtract?: string, actions: Action[] }> | undefined => {
+        if (!this.allActions?.length && !this.metadataValue.fnEntityTooltip) return undefined;
 
-        // add the metadata value inside the action
-        if (this.actions?.length) {
+        this.currentItem = valueItem;
+        let actions: Action[] = [];
+
+        if (this.allActions?.length) {
+            this.filterAction.update();
+            this.removeFilterAction.update();
+            this.excludeAction.update();
+            this.removeExcludeAction.update();
             const value = {
                 field: this.field,
                 value: valueItem.value
             };
-            this.actions.map(action => action.data = value);
+            actions = this.allActions.map(action => {
+                action.data = value
+                return action;
+            });
         }
 
-        if (!this.metadataValue.fnEntityTooltip) return;
+        if (!this.metadataValue.fnEntityTooltip) {
+            return of({ actions })
+        } else {
+            return this.metadataValue.fnEntityTooltip({ entity: valueItem, record: this.record, query: this.query! })
+                .pipe(map((value: string | undefined) => ({ entityExtract: value, actions })));
+        }
+    }
 
-        this.metadataValue.fnEntityTooltip({ entity: valueItem, record: this.record, query: this.query! })
-            .subscribe((value: string | undefined) => {
-                this.tooltipTemplate = value;
-            });
+    selectTreeItem(valueItem: TreeMetadataItem, partIndex: number, part: any): any {
+        this.currentPart = part;
+        const parts = valueItem.parts.map((item) => item.value).slice(0, partIndex + 1);
+        if (parts.length > 0) {
+            parts.unshift("");
+            parts.push("");
+        }
+        const path = parts.join("/");
+        this.currentItem = { value: path + "*", display: Utils.treepathLast(path) };
     }
 
     private removeFilter(): void {

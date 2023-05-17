@@ -25,7 +25,9 @@ export class MetadataService {
 
     const values: RecordType = record[this.appService.getColumnAlias(column, item)];
 
-    if (isEntity) {
+    if (isTree) {
+      this.setTreeValues(item, valueItems, record, column, query);
+    } else if (isEntity) {
       const entityItems: EntityItem[] = values;
       if (entityItems) {
         const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
@@ -43,7 +45,7 @@ export class MetadataService {
     else if (isCsv) {
       this.setCsvValues(values, valueItems, column, query);
     }
-    else if (!isTree) {
+    else {
       this.setValues(values, valueItems, column, query);
     }
 
@@ -72,6 +74,40 @@ export class MetadataService {
       const filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === values;
       const excluded = !!filter && filter.operator === 'neq' && filter.value === values;
       valueItems.push({ value: values, filtered, excluded });
+    }
+  }
+
+  protected setTreeValues(field: string, valueItems: (MetadataItem | TreeMetadataItem)[], record: Record, column: CCColumn | undefined, query?: Query | undefined): void {
+    const paths: string[] = record[this.appService.getColumnAlias(column, field)];
+    if (paths) {
+      const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
+      const filter = filters.length ? filters[0] : undefined;
+      const filterValuePath = filter?.value.split('/');
+      if (filterValuePath) {
+        this.removeUnnecessaryPathElements(filterValuePath);
+      }
+
+      for (const path of paths) {
+        const parts = path.split("/");
+        this.removeUnnecessaryPathElements(parts);
+        const item: TreeMetadataItem = {
+          value: path, parts: parts.map((value, index) => {
+            const filtered = !!filterValuePath && filterValuePath[index] === value && (!filter.operator || filter.operator !== 'neq');
+            const excluded = !!filterValuePath && filterValuePath[index] === value && filter.operator === 'neq';
+            return { value: value, filtered, excluded };
+          })
+        };
+        valueItems.push(item);
+      }
+    }
+  }
+
+  protected removeUnnecessaryPathElements(paths: string[]): void {
+    if (paths.length > 0 && paths[0] === "") {
+      paths.splice(0, 1);
+    }
+    if (paths.length > 0 && paths[paths.length - 1] === "") {
+      paths.splice(paths.length - 1, 1);
     }
   }
 
