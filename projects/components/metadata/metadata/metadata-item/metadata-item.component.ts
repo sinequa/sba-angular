@@ -92,8 +92,10 @@ export class MetadataItemComponent implements OnChanges {
         if (this.filterable) {
             if (this.query) {
                 if (remove) {
+                    item['filtered'] = false;
                     this.removeFilter();
                 } else {
+                    item['filtered'] = true;
                     this.searchService.addFieldSelect(this.field, item);
                 }
                 this.searchService.search();
@@ -105,8 +107,10 @@ export class MetadataItemComponent implements OnChanges {
         if (this.excludable) {
             if (this.query) {
                 if (remove) {
+                    item['excluded'] = false;
                     this.removeFilter();
                 } else {
+                    item['excluded'] = true;
                     this.searchService.addFieldSelect(this.field, item, { not: true });
                 }
                 this.searchService.search();
@@ -146,35 +150,61 @@ export class MetadataItemComponent implements OnChanges {
             if (this.actions) {
                 actions.push(...this.getActions(this.actions, data));
             }
+
+            let filterAction: Action, removeFilterAction: Action, excludeAction: Action, removeExcludeAction: Action;
+
+            const updateVisibility = (aItem: any) => {
+                if (this.filterable) {
+                    filterAction.hidden = aItem['filtered'] || aItem['excluded']
+                    removeFilterAction.hidden = aItem['excluded'] || !aItem['filtered'];
+                }
+                if (this.excludable) {
+                    excludeAction.hidden = aItem['filtered'] || aItem['excluded'];
+                    removeExcludeAction.hidden = aItem['filtered'] || !aItem['excluded']
+                }
+            }
+
             if (this.filterable) {
-                const filterAction: Action = new Action({
+                filterAction = new Action({
                     icon: "fas fa-filter",
                     text: "Filter",
                     hidden: actionItem['filtered'] || actionItem['excluded'],
-                    action: (action) => this.filterItem(action.data)
+                    action: (action) => {
+                        this.filterItem(action.data);
+                        updateVisibility(action.data);
+                    }
                 });
 
-                const removeFilterAction: Action = new Action({
+                removeFilterAction = new Action({
                     icon: "fas fa-times",
                     text: "Remove filter",
                     hidden: actionItem['excluded'] || !actionItem['filtered'],
-                    action: (action) => this.filterItem(action.data, true)
+                    action: (action) => {
+                        this.filterItem(action.data, true);
+                        updateVisibility(action.data);
+                    }
                 });
                 actions.push(...this.getActions([filterAction, removeFilterAction], data));
             }
             if (this.excludable) {
-                const excludeAction: Action = new Action({
+                excludeAction = new Action({
                     icon: "fas fa-minus-circle",
                     text: "Exclude",
                     hidden: actionItem['filtered'] || actionItem['excluded'],
-                    action: (action) => this.excludeItem(action.data)
+                    action: (action) => {
+                        this.excludeItem(action.data);
+                        updateVisibility(action.data);
+                    }
                 });
 
-                const removeExcludeAction: Action = new Action({
+                removeExcludeAction = new Action({
                     icon: "fas fa-times",
                     text: "Remove exclude",
                     hidden: actionItem['filtered'] || !actionItem['excluded'],
-                    action: (action) => this.excludeItem(action.data, true)
+                    action: (action) => {
+                        this.excludeItem(action.data, true);
+                        updateVisibility(action.data);
+                    }
                 });
 
                 actions.push(...this.getActions([excludeAction, removeExcludeAction], data));
