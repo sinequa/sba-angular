@@ -5,9 +5,8 @@ import { UIService } from "@sinequa/components/utils";
 import { Query } from "@sinequa/core/app-utils";
 import { EntityItem, Filter, Record } from "@sinequa/core/web-services";
 import { MetadataService } from "../../metadata.service";
-import { MetadataValue, TreeMetadataItem } from "../../metadata.interface";
+import { MetadataValue } from "../../metadata.interface";
 import { Observable, map, of } from "rxjs";
-import { Utils } from "@sinequa/core/base";
 
 @Component({
     selector: "sq-metadata-item",
@@ -39,62 +38,9 @@ export class MetadataItemComponent implements OnChanges {
 
     metadataValue: MetadataValue;
     display: boolean;
-    allActions: Action[];
-
     lineHeight: number | undefined;
     valuesMaxHeight: number | undefined;
     valuesHeight: number | undefined;
-
-    currentItem: EntityItem;
-    currentPart: any;
-
-    filterAction: Action = new Action({
-        icon: "fas fa-filter",
-        text: "Filter",
-        action: () => this.filterItem(),
-        updater: (action) => {
-            setTimeout(() => {
-                const item = this.currentPart || this.currentItem;
-                action.hidden = item && (item['filtered'] || item['excluded']);
-            })
-        }
-    });
-
-    removeFilterAction: Action = new Action({
-        icon: "fas fa-times",
-        text: "Remove filter",
-        action: () => this.filterItem(true),
-        updater: (action) => {
-            setTimeout(() => {
-                const item = this.currentPart || this.currentItem;
-                action.hidden = !item || item['excluded'] || !item['filtered'];
-            })
-        }
-    });
-
-    excludeAction: Action = new Action({
-        icon: "fas fa-minus-circle",
-        text: "Exclude",
-        action: () => this.excludeItem(),
-        updater: (action) => {
-            setTimeout(() => {
-                const item = this.currentPart || this.currentItem;
-                action.hidden = item && (item['filtered'] || item['excluded']);
-            })
-        }
-    });
-
-    removeExcludeAction: Action = new Action({
-        icon: "fas fa-times",
-        text: "Remove exclude",
-        action: () => this.excludeItem(true),
-        updater: (action) => {
-            setTimeout(() => {
-                const item = this.currentPart || this.currentItem;
-                action.hidden = !item || item['filtered'] || !item['excluded'];
-            })
-        }
-    });
 
     get placement(): string {
         return this.layout === 'inline' ? 'top' : 'top-start';
@@ -139,63 +85,100 @@ export class MetadataItemComponent implements OnChanges {
             this.valuesMaxHeight = undefined;
         }
 
-        this.setActions();
         this.display = !!this.field && !!this.record && !!this.record[this.field];
     }
 
-    filterItem(remove?: boolean): void {
+    filterItem(item: EntityItem, remove?: boolean): void {
         if (this.filterable) {
             if (this.query) {
                 if (remove) {
                     this.removeFilter();
                 } else {
-                    this.searchService.addFieldSelect(this.field, this.currentItem);
+                    this.searchService.addFieldSelect(this.field, item);
                 }
                 this.searchService.search();
             }
         }
-        this.filterAction.update();
-        this.removeFilterAction.update();
     }
 
-    excludeItem(remove?: boolean): void {
+    excludeItem(item: EntityItem, remove?: boolean): void {
         if (this.excludable) {
             if (this.query) {
                 if (remove) {
                     this.removeFilter();
                 } else {
-                    this.searchService.addFieldSelect(this.field, this.currentItem, { not: true });
+                    this.searchService.addFieldSelect(this.field, item, { not: true });
                 }
                 this.searchService.search();
             }
         }
-        this.excludeAction.update();
-        this.removeExcludeAction.update();
     }
 
     toggleCollapse(): void {
         this.valuesHeight = this.collapsed ? this.valuesMaxHeight : this.lineHeight;
     }
 
-    getTooltip = (valueItem: EntityItem): Observable<{ entityExtract?: string, actions: Action[] }> | undefined => {
-        if (!this.allActions?.length && !this.metadataValue.fnEntityTooltip) return undefined;
+    getTooltip = (item: EntityItem | any): Observable<{ entityExtract?: string, actions: Action[] }> | undefined => {
+        const hasActions = this.actions || this.filterable || this.excludable;
+        const valueItem = item.valueItem ? item.valueItem : item;
 
-        this.currentItem = valueItem;
-        let actions: Action[] = [];
+        if (!hasActions && !this.metadataValue.fnEntityTooltip) return undefined;
 
-        if (this.allActions?.length) {
-            this.filterAction.update();
-            this.removeFilterAction.update();
-            this.excludeAction.update();
-            this.removeExcludeAction.update();
-            const value = {
+        const actions: Action[] = [];
+        if (hasActions) {
+            let value = valueItem.value;
+            if (valueItem.parts) {
+                const parts = valueItem.parts.map(i => i.value).slice(0, item.index + 1);
+                if (parts.length > 0) {
+                    parts.unshift("");
+                    parts.push("");
+                }
+                const path = parts.join("/");
+                value = path + "*";
+            }
+            const data = {
                 field: this.field,
-                value: valueItem.value
+                part: item.part,
+                value
             };
-            actions = this.allActions.map(action => {
-                action.data = value
-                return action;
-            });
+
+            const actionItem = item.part || valueItem;
+            if (this.actions) {
+                actions.push(...this.getActions(this.actions, data));
+            }
+            if (this.filterable) {
+                const filterAction: Action = new Action({
+                    icon: "fas fa-filter",
+                    text: "Filter",
+                    hidden: actionItem['filtered'] || actionItem['excluded'],
+                    action: (action) => this.filterItem(action.data)
+                });
+
+                const removeFilterAction: Action = new Action({
+                    icon: "fas fa-times",
+                    text: "Remove filter",
+                    hidden: actionItem['excluded'] || !actionItem['filtered'],
+                    action: (action) => this.filterItem(action.data, true)
+                });
+                actions.push(...this.getActions([filterAction, removeFilterAction], data));
+            }
+            if (this.excludable) {
+                const excludeAction: Action = new Action({
+                    icon: "fas fa-minus-circle",
+                    text: "Exclude",
+                    hidden: actionItem['filtered'] || actionItem['excluded'],
+                    action: (action) => this.excludeItem(action.data)
+                });
+
+                const removeExcludeAction: Action = new Action({
+                    icon: "fas fa-times",
+                    text: "Remove exclude",
+                    hidden: actionItem['filtered'] || !actionItem['excluded'],
+                    action: (action) => this.excludeItem(action.data, true)
+                });
+
+                actions.push(...this.getActions([excludeAction, removeExcludeAction], data));
+            }
         }
 
         if (!this.metadataValue.fnEntityTooltip) {
@@ -204,17 +187,6 @@ export class MetadataItemComponent implements OnChanges {
             return this.metadataValue.fnEntityTooltip({ entity: valueItem, record: this.record, query: this.query! })
                 .pipe(map((value: string | undefined) => ({ entityExtract: value, actions })));
         }
-    }
-
-    selectTreeItem(valueItem: TreeMetadataItem, partIndex: number, part: any): any {
-        this.currentPart = part;
-        const parts = valueItem.parts.map((item) => item.value).slice(0, partIndex + 1);
-        if (parts.length > 0) {
-            parts.unshift("");
-            parts.push("");
-        }
-        const path = parts.join("/");
-        this.currentItem = { value: path + "*", display: Utils.treepathLast(path) };
     }
 
     private removeFilter(): void {
@@ -236,19 +208,10 @@ export class MetadataItemComponent implements OnChanges {
         }
     }
 
-    private setActions(): void {
-        this.allActions = [];
-
-        if (this.actions) {
-            this.allActions.push(...this.actions);
-        }
-        if (this.filterable) {
-            this.allActions.push(this.filterAction);
-            this.allActions.push(this.removeFilterAction);
-        }
-        if (this.excludable) {
-            this.allActions.push(this.excludeAction);
-            this.allActions.push(this.removeExcludeAction);
-        }
+    private getActions(actions: Action[], data: any): Action[] {
+        return actions.map(action => {
+            action.data = data;
+            return action;
+        });
     }
 }

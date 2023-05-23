@@ -20,9 +20,8 @@
             <ng-container *ngFor="let valueItem of metadataValue.valueItems; let $index = index; let $last = last">
                 <ol class="breadcrumb d-inline-block" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
                     <li *ngFor="let part of valueItem.parts; let $subIndex = index" [sqTooltip]="getTooltip"
-                        [hoverableTooltip]="true" [sqTooltipData]="valueItem" [sqTooltipTemplate]="tooltip"
+                        [hoverableTooltip]="true" [sqTooltipData]="{valueItem: valueItem, part: part, index: $subIndex}" [sqTooltipTemplate]="tooltip"
                         [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'"
-                        (mouseenter)="selectTreeItem(valueItem, $subIndex, part)" (mouseleave)="currentPart=undefined;"
                         class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}">
                         <span [class.sq-filtered]="part.filtered" [class.sq-excluded]="part.excluded">
                             {{part | sqValue:metadataValue.column}}
