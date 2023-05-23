@@ -56,7 +56,7 @@ export const startConfig: StartConfig = {
     app: "OfficialDemoCoE",
     url: "https://dev-demo-coe-ns.eastus2.cloudapp.azure.com",
     production: environment.production,
-    autoOAuthProvider: "google",
+    autoOAuthProvider: "google-custom-scopes",
     auditEnabled: true
 };
 
