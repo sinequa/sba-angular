@@ -65,7 +65,8 @@ export class ChatService {
     {field: "treepath", name: "source", formatter: (value: string[]) => value[0].split('/').find(v => v) ?? ''},
     {field: "authors", formatter: (value: string[]) => value.join(',')},
     {field: "language", formatter: (value: string[]) => value.join(',')},
-    {field: "docformat", name: "format"}
+    {field: "docformat", name: "format"},
+    {field: "filename"}
   ];
   defaultAttachmentMetadata = ['title', 'modified'];
 
