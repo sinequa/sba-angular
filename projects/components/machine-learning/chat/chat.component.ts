@@ -6,43 +6,56 @@ import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
-import { ChatService } from "./chat.service";
+import { ChatService, SearchAttachmentsOptions } from "./chat.service";
 import { ChatAttachment, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
 
-export interface ChatConfig {
-  textBeforeAttachments: boolean;
-  displayAttachments: boolean;
+export interface ChatConfig extends SearchAttachmentsOptions {
+  // Model
+  model: GllmModel;
   temperature: number;
   topP: number;
   maxTokens: number;
+
+  // UI
+  textBeforeAttachments: boolean;
+  displayAttachments: boolean;
+
+  // Prompts
   initialSystemPrompt: string;
   initialUserPrompt: string;
   addAttachmentPrompt: string;
   addAttachmentsPrompt: string;
   attachmentsHiddenPrompt: string;
-  autoSearchMinScore: number;
-  autoSearchMaxPassages: number;
-  autoSearchMaxDocuments: number;
-  autoSearchExpand: number;
-  model: GllmModel;
 }
 
 export const defaultChatConfig: ChatConfig = {
-  textBeforeAttachments: false,
-  displayAttachments: true,
+  // Model
+  model: 'GPT35Turbo',
   temperature: 1.0,
   topP: 1.0,
   maxTokens: 800,
+
+  // UI
+  textBeforeAttachments: false,
+  displayAttachments: true,
+
+  // Prompts
   initialSystemPrompt: "You are a helpful assistant",
   initialUserPrompt: "Hello, I am a user of the Sinequa search engine",
   addAttachmentPrompt: "Summarize this document",
   addAttachmentsPrompt: "Summarize these documents",
   attachmentsHiddenPrompt: "You can refer to the above documents in the form: [id] (eg [2], [7])",
-  autoSearchMinScore: 0.5,
-  autoSearchMaxPassages: 5,
-  autoSearchMaxDocuments: 3,
-  autoSearchExpand: 1,
-  model: 'GPT35Turbo'
+
+  // Auto-search
+  minScoreTopPassage: 0.5,
+  maxTopPassages: 4,
+  maxDocuments: 2,
+  minDocumentRelevance: 0,
+  maxExtractsPerDocument: 3,
+  maxPassagesPerDocument: 2,
+  startLengthPerDocument: 1024,
+  extendBefore: 1,
+  extendAfter: 1
 }
 
 export interface InitChat {
@@ -61,22 +74,36 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() chat?: InitChat;
   @Input() enableChat = true;
   @Input() searchMode = false;
-  @Input() textBeforeAttachments =    defaultChatConfig.textBeforeAttachments;
-  @Input() displayAttachments =       defaultChatConfig.displayAttachments;
+
+  // Model
+  @Input() model =                    defaultChatConfig.model;
   @Input() temperature =              defaultChatConfig.temperature;
   @Input() topP =                     defaultChatConfig.topP;
   @Input() maxTokens =                defaultChatConfig.maxTokens;
+
+  // UI
+  @Input() textBeforeAttachments =    defaultChatConfig.textBeforeAttachments;
+  @Input() displayAttachments =       defaultChatConfig.displayAttachments;
+  @Input() showCredits = true;
+
+  // Prompts
   @Input() initialSystemPrompt =      defaultChatConfig.initialSystemPrompt;
   @Input() initialUserPrompt =        defaultChatConfig.initialUserPrompt;
   @Input() addAttachmentPrompt =      defaultChatConfig.addAttachmentPrompt;
   @Input() addAttachmentsPrompt =     defaultChatConfig.addAttachmentsPrompt;
   @Input() attachmentsHiddenPrompt =  defaultChatConfig.attachmentsHiddenPrompt;
-  @Input() autoSearchMinScore =       defaultChatConfig.autoSearchMinScore;
-  @Input() autoSearchMaxPassages =    defaultChatConfig.autoSearchMaxPassages;
-  @Input() autoSearchMaxDocuments =   defaultChatConfig.autoSearchMaxDocuments;
-  @Input() autoSearchExpand =         defaultChatConfig.autoSearchExpand;
-  @Input() model =                    defaultChatConfig.model;
-  @Input() showCredits = true;
+
+  // Auto-search
+  @Input() minScoreTopPassage =       defaultChatConfig.minScoreTopPassage;
+  @Input() maxTopPassages =           defaultChatConfig.maxTopPassages;
+  @Input() maxDocuments =             defaultChatConfig.maxDocuments;
+  @Input() minDocumentRelevance =     defaultChatConfig.minDocumentRelevance;
+  @Input() maxExtractsPerDocument =   defaultChatConfig.maxExtractsPerDocument;
+  @Input() maxPassagesPerDocument =   defaultChatConfig.maxPassagesPerDocument;
+  @Input() startLengthPerDocument =   defaultChatConfig.startLengthPerDocument;
+  @Input() extendBefore =             defaultChatConfig.extendBefore;
+  @Input() extendAfter =              defaultChatConfig.extendAfter;
+
   @Input() query?: Query;
   @Output() data = new EventEmitter<ChatMessage[]>();
   @Output() referenceClicked = new EventEmitter<Record>();
@@ -188,7 +215,17 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       this.loadingAttachments = true;
       const query = (this.query || this.searchService.query).copy();
       query.text = this.question;
-      this.chatService.searchAttachmentsSync(query, this.autoSearchMinScore, this.autoSearchMaxPassages, this.autoSearchMaxDocuments, this.autoSearchExpand, 2 * this.autoSearchExpand);
+      this.chatService.searchAttachmentsSync(query, {
+        minScoreTopPassage:     this.minScoreTopPassage,
+        maxTopPassages:         this.maxTopPassages,
+        maxDocuments:           this.maxDocuments,
+        minDocumentRelevance:   this.minDocumentRelevance,
+        maxExtractsPerDocument: this.maxExtractsPerDocument,
+        maxPassagesPerDocument: this.maxPassagesPerDocument,
+        startLengthPerDocument: this.startLengthPerDocument,
+        extendBefore:           this.extendBefore,
+        extendAfter:            this.extendAfter
+      });
     }
   }
 
