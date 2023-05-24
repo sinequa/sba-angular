@@ -235,6 +235,10 @@ export class ChatService {
       ?.filter(p => p.score > _options.minScoreTopPassage)
       .slice(0, _options.maxTopPassages) || [];
 
+    const topDocuments = results.records
+      .filter(d => (d.globalrelevance ?? 1) > _options.minDocumentRelevance)
+      .slice(0, _options.maxDocuments)
+
     return of(passages).pipe(
       // Retrieve the records of these top passages (potentially asynchronous)
       switchMap(passages => this.passagesWithRecords(passages, results.records)),
@@ -242,7 +246,7 @@ export class ChatService {
       map(passage => this.groupPassages(passage)),
       // Complement with regular records, when not already in the list
       map(docs => {
-        for(let $record of results.records.slice(0, _options.maxDocuments)) {
+        for(let $record of topDocuments) {
           if(!docs.find(d => d.$record.id === $record.id)) {
             docs.push({$record, chunks: []});
           }
