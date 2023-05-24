@@ -11,6 +11,39 @@ import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, Do
 import { extractReferences } from "./references";
 import { UserPreferences } from "@sinequa/components/user-settings";
 
+export interface SearchAttachmentsOptions {
+  /** Max number of top passages to include */
+  maxTopPassages: number;
+  /** Minimum score a top passage should have to be included */
+  minScoreTopPassage: number;
+  /** Max number of documents to include */
+  maxDocuments: number;
+  /** Minimum global relevance that a document should have to be included */
+  minDocumentRelevance: number;
+  /** Max number of relevant extracts to include for one document */
+  maxExtractsPerDocument: number;
+  /** Max number of matching passages to include for one document */
+  maxPassagesPerDocument: number;
+  /** Length of the document to include from offset 0 (not tied to a specific snippet, just the beginning of the document) */
+  startLengthPerDocument: number;
+  /** Number of sentences to extend before each snippet */
+  extendBefore: number;
+  /** Number of sentences to extend after each snippet */
+  extendAfter: number;
+}
+
+export const defaultSearchAttachmentsOptions: SearchAttachmentsOptions = {
+  maxTopPassages: 5,
+  minScoreTopPassage: 0.5,
+  maxDocuments: 2,
+  minDocumentRelevance: 0,
+  maxExtractsPerDocument: 2,
+  maxPassagesPerDocument: 2,
+  startLengthPerDocument: 500,
+  extendBefore: 1,
+  extendAfter: 2
+}
+
 @Injectable({providedIn: 'root'})
 export class ChatService {
 
@@ -192,29 +225,42 @@ export class ChatService {
    * When relevant content is retrieved, the attachments$ subject is
    * upated.
    */
-  searchAttachments(results: Results, minScore = 0.5, maxPassages = 5, maxDocuments = 3, sentencesBefore = 1, sentencesAfter = 2) {
+  searchAttachments(results: Results, options: Partial<SearchAttachmentsOptions>) {
+
+    const _options = Object.assign({}, defaultSearchAttachmentsOptions, options);
+
     // Select top passages
     const passages = results.topPassages?.passages
-      ?.filter(p => p.score > minScore)
-      .slice(0, maxPassages);
+      ?.filter(p => p.score > _options.minScoreTopPassage)
+      .slice(0, _options.maxTopPassages) || [];
 
-    // Get attachments either from top passages or documents
-    const attachments$ = passages?.length?
-      // Use passages by default, as they are the most relevant data
-      this.addTopPassages(passages, results.records, sentencesBefore, sentencesAfter) :
-      // Take the begining of the top-3 documents and top relevant extracts
-      this.addDocuments(results.records.slice(0, maxDocuments), 2048, 3, 2, sentencesBefore, sentencesAfter);
-
-    // Post process and return
-    return attachments$.pipe(
-      defaultIfEmpty([] as ChatAttachment[]) // forkJoin([]) does not emit anything!
+    return of(passages).pipe(
+      // Retrieve the records of these top passages (potentially asynchronous)
+      switchMap(passages => this.passagesWithRecords(passages, results.records)),
+      // Group by record
+      map(passage => this.groupPassages(passage)),
+      // Complement with regular records, when not already in the list
+      map(docs => {
+        for(let $record of results.records.slice(0, _options.maxDocuments)) {
+          if(!docs.find(d => d.$record.id === $record.id)) {
+            docs.push({$record, chunks: []});
+          }
+        }
+        return docs;
+      }),
+      // For each record retrieve chunks and return "attachments"
+      switchMap(docs => forkJoin(
+        docs.map(({$record, chunks}) => this.addDocument($record, chunks, _options.startLengthPerDocument, _options.maxExtractsPerDocument, _options.maxPassagesPerDocument, _options.extendBefore, _options.extendAfter))
+      )),
+      // forkJoin([]) does not emit anything, so the following line makes the observable emit something
+      defaultIfEmpty([] as ChatAttachment[])
     );
   }
 
   /**
    * Automatically search attachments in the results yielded by the given query
    */
-  searchAttachmentsSync(query = this.searchService.query, minScore = 0.5, maxPassages = 5, maxDocuments = 3, sentencesBefore = 1, sentencesAfter = 2) {
+  searchAttachmentsSync(query = this.searchService.query, options: Partial<SearchAttachmentsOptions>) {
     const event: AuditEvent = {
       type: "Chat_Autosearch",
       detail: {
@@ -223,7 +269,7 @@ export class ChatService {
     };
     return this.searchService.getResults(query, event).pipe(
       tap(results => this.searchService.setResults(results)),
-      switchMap(results => this.searchAttachments(results, minScore, maxPassages, maxDocuments, sentencesBefore, sentencesAfter)),
+      switchMap(results => this.searchAttachments(results, options)),
       switchMap(attachments => this.countChunks(attachments)),
     ).subscribe(attachments => this.addAttachments(attachments));
   }
@@ -326,7 +372,7 @@ export class ChatService {
    * Add a list of records as attachments
    */
   addDocuments(records: Record[], includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3) {
-    return forkJoin(records.map(record => this.addDocument(record, includeStart, includeExtracts, includePassages, sentencesBefore, sentencesAfter)));
+    return forkJoin(records.map(record => this.addDocument(record, [], includeStart, includeExtracts, includePassages, sentencesBefore, sentencesAfter)));
   }
 
   addDocumentsSync(records: Record[], includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3) {
@@ -338,8 +384,7 @@ export class ChatService {
   /**
    * Returns a (truncated) document attachment
    */
-  addDocument(record: Record, includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3): Observable<ChatAttachment> {
-    const chunks: Chunk[] = [];
+  addDocument(record: Record, chunks: Chunk[] = [], includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3): Observable<ChatAttachment> {
     if(includeStart) {
       chunks.push({offset: 0, length: includeStart});
     }
@@ -358,8 +403,8 @@ export class ChatService {
     return this.addChunks(record, chunks, sentencesBefore, sentencesAfter);
   }
 
-  addDocumentSync(record: Record, includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3) {
-    this.addDocument(record, includeStart, includeExtracts, includePassages, sentencesBefore, sentencesAfter)
+  addDocumentSync(record: Record, chunks: Chunk[] = [], includeStart = 2048, includeExtracts = 3, includePassages = 2, sentencesBefore = 1, sentencesAfter = 3) {
+    this.addDocument(record, chunks, includeStart, includeExtracts, includePassages, sentencesBefore, sentencesAfter)
       .pipe(switchMap(doc => this.countChunks([doc])))
       .subscribe(a => this.addAttachments(a));
   }
@@ -380,20 +425,24 @@ export class ChatService {
       .subscribe(a => this.addAttachments(a));
   }
 
+  protected groupPassages(passages: {$record: Record, location: number[]}[]) {
+    const passagesById: {[id: string]: {$record: Record, chunks: Chunk[]}} = {};
+    for(let passage of passages) {
+      const group = passagesById[passage.$record.id] || {$record: passage.$record, chunks: []};
+      const [offset, length] = passage.location;
+      group.chunks.push({offset, length});
+      passagesById[passage.$record.id] = group;
+    }
+    return Object.values(passagesById);
+  }
+
   /**
    * Take a list of passages (typically "top passages"), group them by record id
    * and for each record generate an attachment (merged with potential existing attachments)
    */
   addPassages(passages: {$record: Record, location: number[]}[], sentencesBefore=0, sentencesAfter=0): Observable<ChatAttachment>[] {
-    const passagesById: {[id: string]: {$record: Record, location: number[]}[]} = {};
-    for(let passage of passages) {
-      const group = passagesById[passage.$record.id] || [];
-      group.push(passage);
-      passagesById[passage.$record.id] = group;
-    }
-    return Object.values(passagesById).map(group => {
-      const chunks = group.map(p => p.location).map(([offset, length]) => ({offset, length}));
-      return this.addChunks(group[0].$record, chunks, sentencesBefore, sentencesAfter);
+    return this.groupPassages(passages).map(group => {
+      return this.addChunks(group.$record, group.chunks, sentencesBefore, sentencesAfter);
     });
   }
 
