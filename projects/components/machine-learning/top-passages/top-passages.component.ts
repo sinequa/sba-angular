@@ -88,6 +88,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
 
   private makeAuditEvent(type: string, passage: TopPassage): AuditEvent {
     const rank = this.passages?.indexOf(passage);
+    const answer = !!passage.answer;
     return {
       type,
       detail: {
@@ -95,7 +96,8 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
         recordid: passage.recordId,
         passageid: passage.id,
         score: passage.score,
-        rank
+        rank,
+        answer
       }
     };
   }
