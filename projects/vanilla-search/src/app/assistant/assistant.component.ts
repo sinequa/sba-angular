@@ -32,7 +32,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
 
   meeseeksEnabled$: Observable<boolean>;
 
-  @ViewChild(ChatComponent) chat: ChatComponent;
+  @ViewChild(ChatComponent) chat: ChatComponent|undefined;
 
   constructor(
     public searchService: SearchService,
@@ -85,6 +85,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
     return this.searchService.queryStream.pipe(
       filter(() => this.assistantService.assistantMode === 'Meeseeks'),
       filter(() => !this.autoModeAction.selected),
+      filter(() => !!this.chat), // Ensure chat is available
 
       // Only process the distinct full text search
       map(query => query?.text),
@@ -92,9 +93,9 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
 
       // Cancel default chat and display the spinner
       tap(() => {
-        this.chat.resetChat();
-        this.chat.loading = true;
-        this.chat.cdr.detectChanges();
+        this.chat!.resetChat();
+        this.chat!.loading = true;
+        this.chat!.cdr.detectChanges();
       }),
 
       // Prompt GPT-4 for query improvements and a first answer
@@ -124,12 +125,14 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
         return undefined;
       }),
 
+      filter(() => !!this.chat), // Ensure chat is still available
+
       // Turn off spinner
       tap(suggestions => {
-        this.chat.loading = false;
-        this.chat.cdr.detectChanges();
+        this.chat!.loading = false;
+        this.chat!.cdr.detectChanges();
         if(!suggestions) {
-          this.chat.loadDefaultChat();
+          this.chat!.loadDefaultChat();
         }
       }),
 
@@ -139,7 +142,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
       // Take the suggestions and format them as messages
       tap((suggestions: ChatSuggestion) => {
         // Content matters for the conversation follow-up
-        const messages: ChatMessage[] = this.chat.messages$.value || [];
+        const messages: ChatMessage[] = this.chat!.messages$.value || [];
 
         // The starting point: a user's search query
         const query = `I am searching for "${this.searchService.query.text}" in a search engine.`;
@@ -175,19 +178,20 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
           messages.push({role: 'assistant', content, display: true, $content: marked(content), $actions});
         }
 
-        this.chat.updateData(messages, {used: 0, model: 4096});
+        this.chat!.updateData(messages, {used: 0, model: 4096});
 
       }),
 
       // If there are suggestions of query changes, re-run a search with these suggestions
       switchMap((suggestion: ChatSuggestion) => {
         if(suggestion.query || suggestion.sources) {
-          this.chat.loading = true;
-          this.chat.cdr.detectChanges();
+          this.chat!.loading = true;
+          this.chat!.cdr.detectChanges();
           const query = this.searchService.query.copy();
           this.applySuggestions(suggestion.query, suggestion.sources, query);
           return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
             tap(results => {
+              if(!this.chat) return;
               if(results?.rowCount) {
                 // Content matters for the conversation follow-up
                 const messages: ChatMessage[] = this.chat.messages$.value || [];
@@ -219,26 +223,21 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
 
       // Stop there if no results
       filter((results: Results|undefined): results is Results => !!results?.records.length),
+      filter(() => !!this.chat), // Ensure chat is still available
 
       // Turn on spinner
       tap(() => {
-        this.chat.loading = true;
-        this.chat.cdr.detectChanges()
+        this.chat!.loading = true;
+        this.chat!.cdr.detectChanges()
       }),
 
       // Build attachments from the results
       switchMap((results: Results) =>
-        this.chatService.searchAttachments(results,
-          this.assistantService.chatConfig.autoSearchMinScore,
-          this.assistantService.chatConfig.autoSearchMaxPassages,
-          this.assistantService.chatConfig.autoSearchMaxDocuments,
-          this.assistantService.chatConfig.autoSearchExpand,
-          this.assistantService.chatConfig.autoSearchExpand * 2
-        )
-      )
+        this.chatService.searchAttachments(results, this.assistantService.chatConfig)
+      ),
 
     ).subscribe((attachments: any) => {
-      if(attachments?.length) {
+      if(attachments?.length && this.chat) {
         // Finally feed the chat with the attachments and ask it to provide an answer
         this.chat.fetch([
           {role: 'system', content: this.assistantService.chatConfig.initialSystemPrompt, display: false, $content: ''},
@@ -255,27 +254,22 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
       filter(() => this.assistantService.assistantMode === 'Auto-Answer'),
       filter(() => !this.autoModeAction.selected),
       filter((results): results is Results => !!results),
+      filter(() => !!this.chat), // Ensure chat is available
 
       // Cancel default chat and display the spinner
       tap(() => {
-        this.chat.resetChat();
-        this.chat.loading = true;
-        this.chat.cdr.detectChanges();
+        this.chat!.resetChat();
+        this.chat!.loading = true;
+        this.chat!.cdr.detectChanges();
       }),
 
       // Build attachments from the results
       switchMap((results: Results) =>
-        this.chatService.searchAttachments(results,
-          this.assistantService.chatConfig.autoSearchMinScore,
-          this.assistantService.chatConfig.autoSearchMaxPassages,
-          this.assistantService.chatConfig.autoSearchMaxDocuments,
-          this.assistantService.chatConfig.autoSearchExpand,
-          this.assistantService.chatConfig.autoSearchExpand * 2
-        )
+        this.chatService.searchAttachments(results, this.assistantService.chatConfig)
       )
 
     ).subscribe((attachments: ChatAttachment[]) => {
-      if(attachments?.length) {
+      if(attachments?.length && this.chat) {
         // Finally feed the chat with the attachments and ask it to provide an answer
         const sysPrompt = this.assistantService.chatConfig.initialSystemPrompt;
         const ansPrompt = this.assistantService.getPrompt("answerPrompt");

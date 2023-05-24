@@ -169,7 +169,7 @@ export class PreviewComponent implements OnDestroy {
           display: false,
           content: this.assistantService.getPrompt("previewPrompt", record, {query: this.query})
         }],
-        attachments: this.chatService.addDocument(record, 2048, 5, 10)
+        attachments: this.chatService.addDocument(record, [], 2048, 5, 10)
       };
       this.chatQuery = this.searchService.makeQuery({
         filters: {field: 'id', value: record.id}

@@ -38,21 +38,32 @@
       <sq-chat #sqChat *ngIf="!settingsView && !savedChatView && loginService.complete"
         class="card h-100 shadow-lg rounded-4 flex-grow-1 mb-3 overflow-hidden"
         [chat]="chat"
-        [searchMode]="true"
-        [textBeforeAttachments]="chatConfig.textBeforeAttachments"
-        [displayAttachments]="chatConfig.displayAttachments"
+
+        [model]="chatConfig.model"
         [temperature]="chatConfig.temperature"
         [topP]="chatConfig.topP"
         [maxTokens]="chatConfig.maxTokens"
+
+        [searchMode]="true"
+        [textBeforeAttachments]="chatConfig.textBeforeAttachments"
+        [displayAttachments]="chatConfig.displayAttachments"
+
         [initialSystemPrompt]="chatConfig.initialSystemPrompt"
         [initialUserPrompt]="chatConfig.initialUserPrompt"
         [addAttachmentPrompt]="chatConfig.addAttachmentPrompt"
         [addAttachmentsPrompt]="chatConfig.addAttachmentsPrompt"
         [attachmentsHiddenPrompt]="chatConfig.attachmentsHiddenPrompt"
-        [autoSearchMinScore]="chatConfig.autoSearchMinScore"
-        [autoSearchMaxPassages]="chatConfig.autoSearchMaxPassages"
-        [autoSearchMaxDocuments]="chatConfig.autoSearchMaxDocuments"
-        [autoSearchExpand]="chatConfig.autoSearchExpand"
+
+        [minScoreTopPassage]="chatConfig.minScoreTopPassage"
+        [maxTopPassages]="chatConfig.maxTopPassages"
+        [maxDocuments]="chatConfig.maxDocuments"
+        [minDocumentRelevance]="chatConfig.minDocumentRelevance"
+        [maxExtractsPerDocument]="chatConfig.maxExtractsPerDocument"
+        [maxPassagesPerDocument]="chatConfig.maxPassagesPerDocument"
+        [startLengthPerDocument]="chatConfig.startLengthPerDocument"
+        [extendBefore]="chatConfig.extendBefore"
+        [extendAfter]="chatConfig.extendAfter"
+
         (data)="onChatData($event)">
       </sq-chat>
 
