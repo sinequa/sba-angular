@@ -1,29 +1,28 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import {IntlModule} from "@sinequa/core/intl";
-import {UtilsModule} from "@sinequa/components/utils";
-import {CollapseModule} from "@sinequa/components/collapse";
+import { IntlModule } from "@sinequa/core/intl";
+import { UtilsModule } from "@sinequa/components/utils";
+import { CollapseModule } from "@sinequa/components/collapse";
 
-import {Metadata} from "./metadata/metadata";
-import {MetadataItem} from "./metadata-item/metadata-item";
-import {MetadataAccessListsItem} from "./metadata-access-lists-item/metadata-access-lists-item";
-import {MetadataAccessListsItemSingleAccessList} from "./metadata-access-lists-item-single-access-list/metadata-access-lists-item-single-access-list";
+import { MetadataComponent } from "./metadata/metadata.component";
+import { MetadataItemComponent } from "./metadata/metadata-item/metadata-item.component";
+import { BsActionModule } from "@sinequa/components/action";
 
 @NgModule({
+    declarations: [
+        MetadataComponent, MetadataItemComponent
+    ],
+    exports: [
+        MetadataComponent, MetadataItemComponent
+    ],
     imports: [
         CommonModule,
         IntlModule,
         UtilsModule,
         CollapseModule,
-    ],
-    declarations: [
-        Metadata, MetadataItem,
-        MetadataAccessListsItem, MetadataAccessListsItemSingleAccessList
-    ],
-    exports: [
-        Metadata, MetadataItem
-    ],
+        BsActionModule
+    ]
 })
 export class MetadataModule {
 }

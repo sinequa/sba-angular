@@ -351,13 +351,23 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       // TODO Refactor this mess with better data structures from new web service
       const entity = this.data.highlightsPerCategory[occurrence.type].values.find(v => v.value === occurrence.value);
       const start = entity?.locations[occurrence.index].start;
-      const id = (this.data.highlightsPerLocation as any).find(l => l.start === start && l.values.includes(entity?.value))?.positionInCategories[occurrence.type];
+      const id = Object.values(this.data.highlightsPerLocation).find(l => l.start === start && l.values.includes(entity?.value))?.positionInCategories[occurrence.type];
       if(typeof id=== 'number') {
         this.select(`${occurrence.type}_${id}`);
       }
     }
   }
 
+  selectFirstEntity(type: string, value: string) {
+    if (this.data) {
+      const entity = this.data.highlightsPerCategory[type].values.find(v => v.value === value);
+      const start = entity?.locations[0].start;
+      const id = Object.values(this.data.highlightsPerLocation).find(l => l.start === start && l.values.includes(entity?.value))?.positionInCategories[type];
+      if(typeof id=== 'number') {
+        this.select(`${type}_${id}`);
+      }
+    }
+  }
 
   // Manage user preferences for entity/extract highlighting
 
