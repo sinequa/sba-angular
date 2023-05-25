@@ -42,7 +42,8 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-/cypress-visual-screenshots
+/cypress-visual-screenshots/comparison
+/cypress-visual-screenshots/diff
 /cypress/videos
 /cypress/screenshots
 
