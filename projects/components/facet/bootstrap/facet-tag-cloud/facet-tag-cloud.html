@@ -4,7 +4,7 @@
             href="#"
             [attr.data-count]="data.item.count"
             [attr.data-weight]="proportionalWeight ? data.weight : null"
-            class="sq-metadata-color-{{data.aggregation.column}}"
+            [ngClass]="data.aggregation.column"
             (click)="filterItem(data, $event)">
             <i class="far fa-check-circle filtered" *ngIf="data.item.$filtered"></i>
             {{data.item | sqValue:data.item.$column}}

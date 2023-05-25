@@ -161,7 +161,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
 
     // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
     ngOnChanges(changes: SimpleChanges) {
-        if(changes.results || changes.defaultColor || changes.filteredColor || changes.selectedColor) {
+        if(changes.results || changes.data || changes.defaultColor || changes.filteredColor || changes.selectedColor) {
             this.updateData();
         }
         if(changes.chart || !this.dataSource.chart || changes.showToolTip || changes.plottooltext
@@ -177,6 +177,13 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
         }
         this.updatePlotsValueDisplay();
         this.isRefreshing = false
+    }
+
+    // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
+    ngDoCheck(){
+        // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
+        // gets created when it is visible (otherwise, there can be visual bugs...)
+        this.ready = !this.cardComponent?._collapsed;
     }
 
     /**
@@ -321,7 +328,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
      */
     private updateSelectedValues(){
         this.selectedValues.clear();
-        this.results.records
+        this.results?.records
             .filter(record => record.$selected)
             .forEach(record => {
                 if(this.aggrData){

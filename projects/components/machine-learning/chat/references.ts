@@ -1,3 +1,4 @@
+import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { Record } from "@sinequa/core/web-services";
 import { ChatMessage } from "./types";
@@ -7,7 +8,7 @@ import { ChatMessage } from "./types";
  * Extract references from a given message, given the context of a conversation
  * (which includes messages/attachments that this message is refering to).
  */
-export function extractReferences(message: ChatMessage, conversation: ChatMessage[]) {
+export function extractReferences(message: ChatMessage, conversation: ChatMessage[], query: Query) {
   const references = new Map<number,Record>();
   // Handle the [2-8] format
   message.$content = message.$content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+)\-(\d+)\]/g, (str, first, last) => {
@@ -25,7 +26,8 @@ export function extractReferences(message: ChatMessage, conversation: ChatMessag
     for(let ref of match.split(',')) {
       const record = conversation.find(p => p.$refId === +ref)?.$attachment?.$record;
       if(record) {
-        html += `<a class="reference" href="${record.url1}" title="${Utils.escapeHtml(record.title)}">${Utils.escapeHtml(ref)}</a>`;
+        const url = record?.url1 || record?.originalUrl || `#/preview?id=${encodeURIComponent(record.id)}&query=${encodeURIComponent(query.toJsonForQueryString())}`;
+        html += `<a class="reference" href="${url}" title="${Utils.escapeHtml(record.title)}" target="_blank">${Utils.escapeHtml(ref)}</a>`;
         if(!references.has(+ref)) {
           references.set(+ref, record);
         }

@@ -8,7 +8,7 @@
         <!-- Message icon -->
         <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
           <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
-          <i class="sq-chatgpt" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
+          <i [ngClass]="assistantIcon" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
         </span>
         <!-- Message body -->
         <div class="flex-grow-1" style="min-width: 0;">
@@ -18,7 +18,12 @@
             <b>References:</b>
             <ul class="list-group">
               <li *ngFor="let reference of message.$references" class="text-truncate" [title]="reference.$record.title">
-                <span class="reference me-1">{{reference.refId}}</span> <a href="{{reference.$record.url1}}" target="_blank">{{reference.$record.title}}</a>
+                <span class="reference me-1">{{reference.refId}}</span>
+                <a href="{{reference.$record.url1 || reference.$record.originalUrl || '#'}}"
+                  target="_blank"
+                  (click)="onReferenceClicked(reference.$record, $event)">
+                  {{reference.$record.title}}
+                </a>
               </li>
             </ul>
           </div>
@@ -60,7 +65,7 @@
       </ng-container>
 
       <div class="text-end small text-muted px-3" *ngIf="showCredits">
-        powered by Azure OpenAI - <a href="https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy" target="_blank">privacy notice</a>
+        powered by {{modelDescription.displayName}} <ng-container *ngIf="privacyUrl"> - <a [href]="privacyUrl" target="_blank">privacy notice</a></ng-container>
       </div>
     </div>
   </div>

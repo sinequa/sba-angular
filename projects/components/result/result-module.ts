@@ -6,7 +6,6 @@ import {IntlModule} from "@sinequa/core/intl";
 
 import {UtilsModule} from "@sinequa/components/utils";
 import {CollapseModule} from "@sinequa/components/collapse";
-import {MetadataModule} from "@sinequa/components/metadata";
 
 import {ResultTitle} from "./result-title/result-title";
 import {ResultSource} from "./result-source/result-source";
@@ -29,8 +28,7 @@ import { ResultDuplicatesSpacerComponent } from "./result-duplicates-spacer/resu
         IntlModule,
 
         UtilsModule,
-        CollapseModule,
-        MetadataModule
+        CollapseModule
     ],
     declarations: [
         ResultTitle, ResultExtracts,

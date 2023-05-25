@@ -1,52 +1,66 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
+import { Record } from "@sinequa/core/web-services";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
-import { ChatService } from "./chat.service";
-import { ChatAttachment, ChatMessage, OpenAIModel, OpenAITokens, RawMessage } from "./types";
+import { ChatService, SearchAttachmentsOptions } from "./chat.service";
+import { ChatAttachment, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
 
-export interface ChatConfig {
-  textBeforeAttachments: boolean;
-  displayAttachments: boolean;
+export interface ChatConfig extends SearchAttachmentsOptions {
+  // Model
+  model: GllmModel;
   temperature: number;
   topP: number;
   maxTokens: number;
+
+  // UI
+  textBeforeAttachments: boolean;
+  displayAttachments: boolean;
+
+  // Prompts
   initialSystemPrompt: string;
   initialUserPrompt: string;
   addAttachmentPrompt: string;
   addAttachmentsPrompt: string;
   attachmentsHiddenPrompt: string;
-  autoSearchMinScore: number;
-  autoSearchMaxPassages: number;
-  autoSearchMaxDocuments: number;
-  autoSearchExpand: number;
-  model: OpenAIModel;
 }
 
 export const defaultChatConfig: ChatConfig = {
-  textBeforeAttachments: false,
-  displayAttachments: true,
+  // Model
+  model: 'GPT35Turbo',
   temperature: 1.0,
   topP: 1.0,
   maxTokens: 800,
+
+  // UI
+  textBeforeAttachments: false,
+  displayAttachments: true,
+
+  // Prompts
   initialSystemPrompt: "You are a helpful assistant",
   initialUserPrompt: "Hello, I am a user of the Sinequa search engine",
   addAttachmentPrompt: "Summarize this document",
   addAttachmentsPrompt: "Summarize these documents",
   attachmentsHiddenPrompt: "You can refer to the above documents in the form: [id] (eg [2], [7])",
-  autoSearchMinScore: 0.5,
-  autoSearchMaxPassages: 5,
-  autoSearchMaxDocuments: 3,
-  autoSearchExpand: 1,
-  model: 'GPT35Turbo'
+
+  // Auto-search
+  minScoreTopPassage: 0.5,
+  maxTopPassages: 4,
+  maxDocuments: 2,
+  minDocumentRelevance: 0,
+  maxExtractsPerDocument: 3,
+  maxPassagesPerDocument: 2,
+  startLengthPerDocument: 1024,
+  extendBefore: 1,
+  extendAfter: 1
 }
 
 export interface InitChat {
   messages: RawMessage[];
-  tokens?: OpenAITokens;
+  tokens?: GllmTokens;
   attachments?: Observable<ChatAttachment[]|ChatAttachment>;
 }
 
@@ -60,24 +74,39 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() chat?: InitChat;
   @Input() enableChat = true;
   @Input() searchMode = false;
-  @Input() textBeforeAttachments =    defaultChatConfig.textBeforeAttachments;
-  @Input() displayAttachments =       defaultChatConfig.displayAttachments;
+
+  // Model
+  @Input() model =                    defaultChatConfig.model;
   @Input() temperature =              defaultChatConfig.temperature;
   @Input() topP =                     defaultChatConfig.topP;
   @Input() maxTokens =                defaultChatConfig.maxTokens;
+
+  // UI
+  @Input() textBeforeAttachments =    defaultChatConfig.textBeforeAttachments;
+  @Input() displayAttachments =       defaultChatConfig.displayAttachments;
+  @Input() showCredits = true;
+
+  // Prompts
   @Input() initialSystemPrompt =      defaultChatConfig.initialSystemPrompt;
   @Input() initialUserPrompt =        defaultChatConfig.initialUserPrompt;
   @Input() addAttachmentPrompt =      defaultChatConfig.addAttachmentPrompt;
   @Input() addAttachmentsPrompt =     defaultChatConfig.addAttachmentsPrompt;
   @Input() attachmentsHiddenPrompt =  defaultChatConfig.attachmentsHiddenPrompt;
-  @Input() autoSearchMinScore =       defaultChatConfig.autoSearchMinScore;
-  @Input() autoSearchMaxPassages =    defaultChatConfig.autoSearchMaxPassages;
-  @Input() autoSearchMaxDocuments =   defaultChatConfig.autoSearchMaxDocuments;
-  @Input() autoSearchExpand =         defaultChatConfig.autoSearchExpand;
-  @Input() model =                    defaultChatConfig.model;
-  @Input() showCredits = true;
+
+  // Auto-search
+  @Input() minScoreTopPassage =       defaultChatConfig.minScoreTopPassage;
+  @Input() maxTopPassages =           defaultChatConfig.maxTopPassages;
+  @Input() maxDocuments =             defaultChatConfig.maxDocuments;
+  @Input() minDocumentRelevance =     defaultChatConfig.minDocumentRelevance;
+  @Input() maxExtractsPerDocument =   defaultChatConfig.maxExtractsPerDocument;
+  @Input() maxPassagesPerDocument =   defaultChatConfig.maxPassagesPerDocument;
+  @Input() startLengthPerDocument =   defaultChatConfig.startLengthPerDocument;
+  @Input() extendBefore =             defaultChatConfig.extendBefore;
+  @Input() extendAfter =              defaultChatConfig.extendAfter;
+
   @Input() query?: Query;
   @Output() data = new EventEmitter<ChatMessage[]>();
+  @Output() referenceClicked = new EventEmitter<Record>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
@@ -91,7 +120,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   tokensPercentage = 0;
   tokensAbsolute = 0;
   tokensQuota = 0;
-  tokens?: OpenAITokens;
+  tokens?: GllmTokens;
 
   openChatAction: Action;
   _actions: Action[] = [];
@@ -99,6 +128,10 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   sub = new Subscription();
   dataSubscription: Subscription | undefined;
+
+  modelDescription: GllmModelDescription;
+  assistantIcon: string;
+  privacyUrl: string;
 
   constructor(
     public chatService: ChatService,
@@ -138,6 +171,19 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     }));
 
     this._actions.push(this.openChatAction);
+
+    this.chatService.listModels().subscribe(models => {
+      this.modelDescription = models.find(m => m.name === this.model)!;
+      switch(this.modelDescription.provider) {
+        case 'Google':
+          this.assistantIcon = 'sq-google';
+          break;
+        case 'OpenAI':
+          this.assistantIcon = 'sq-chatgpt';
+          this.privacyUrl = 'https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy';
+          break;
+      }
+    });
   }
 
   ngOnChanges() {
@@ -169,7 +215,17 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       this.loadingAttachments = true;
       const query = (this.query || this.searchService.query).copy();
       query.text = this.question;
-      this.chatService.searchAttachmentsSync(query, this.autoSearchMinScore, this.autoSearchMaxPassages, this.autoSearchMaxDocuments, this.autoSearchExpand, 2 * this.autoSearchExpand);
+      this.chatService.searchAttachmentsSync(query, {
+        minScoreTopPassage:     this.minScoreTopPassage,
+        maxTopPassages:         this.maxTopPassages,
+        maxDocuments:           this.maxDocuments,
+        minDocumentRelevance:   this.minDocumentRelevance,
+        maxExtractsPerDocument: this.maxExtractsPerDocument,
+        maxPassagesPerDocument: this.maxPassagesPerDocument,
+        startLengthPerDocument: this.startLengthPerDocument,
+        extendBefore:           this.extendBefore,
+        extendAfter:            this.extendAfter
+      });
     }
   }
 
@@ -217,7 +273,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     return attachmentMessages;
   }
 
-  updateData(messages: ChatMessage[], tokens: OpenAITokens) {
+  updateData(messages: ChatMessage[], tokens: GllmTokens) {
     this.messages$.next(messages);
     this.data.emit(messages);
     this.loading = false;
@@ -271,7 +327,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     }
   }
 
-  openChat(messages: RawMessage[], tokens?: OpenAITokens, attachments$?: Observable<ChatAttachment[]|ChatAttachment>) {
+  openChat(messages: RawMessage[], tokens?: GllmTokens, attachments$?: Observable<ChatAttachment[]|ChatAttachment>) {
     this.resetChat();
     this.loading = true;
     this.dataSubscription = this.chatService.restoreMessages(messages)
@@ -302,5 +358,14 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       text: chat.name,
       action: () => this.openChat(chat.messages, chat.tokens)
     }));
+    this.openChatAction.hidden = this.openChatAction.children.length === 0;
+  }
+
+  onReferenceClicked(record: Record, event: MouseEvent) {
+    const url = record.url1 || record.originalUrl;
+    if(!url) {
+      event.preventDefault();
+    }
+    this.referenceClicked.emit(record);
   }
 }
