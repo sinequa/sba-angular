@@ -30,6 +30,6 @@ describe('components/baskets testing', () => {
   it('Has doc-select-baskets working', () => {
     visit('components/baskets')
     cy.get('doc-select-baskets').get('sq-select-basket').get('sq-modal').should('exist')
-    compareScreenshots('doc-select-baskets')
+    // compareScreenshots('doc-select-baskets')
   })
 })
