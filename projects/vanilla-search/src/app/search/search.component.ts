@@ -11,10 +11,11 @@ import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, AuditWebService, MatchingPassage, Record, RelevantExtract, Results, TopPassage } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES, METADATA, PREVIEW_HIGHLIGHTS } from '../../config';
+import { FacetParams, FACETS, FEATURES, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { ChatAttachment, ChatService, InitChat } from '@sinequa/components/machine-learning';
 import { AssistantService } from '../assistant/assistant.service';
+import { MetadataConfig } from '@sinequa/components/metadata';
 
 @Component({
   selector: 'app-search',
@@ -66,7 +67,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
   private subscription = new Subscription();
-
 
   constructor(
     private previewService: PreviewService,
@@ -174,8 +174,8 @@ export class SearchComponent implements OnInit, OnDestroy {
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
-  public get metadata(): string[] {
-    return this.appService.app?.data?.metadata as string[] || METADATA;
+  public get metadata(): MetadataConfig[] {
+    return this.appService.app?.data?.metadata as any as MetadataConfig[] || METADATA_CONFIG;
   }
 
   public get previewHighlights(): PreviewHighlightColors[] {

@@ -1,5 +1,6 @@
 import { FacetDateParams } from '@sinequa/analytics/timeline';
 import { FacetConfig, FacetListParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams } from '@sinequa/components/facet';
+import { MetadataConfig } from '@sinequa/components/metadata';
 import { PreviewHighlightColors } from '@sinequa/components/preview';
 import { HelpFolderOptions } from '@sinequa/components/user-settings';
 
@@ -152,10 +153,6 @@ export const FACETS: FacetConfig<FacetParams>[] = [
     }
 ];
 
-export const METADATA: string[] = [
-    "authors", "docformat", "modified", "size", "treepath", "filename"
-];
-
 export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
     folder: 'vanilla-search',
     path: '/r/_sinequa/webpackages/help',
@@ -165,29 +162,69 @@ export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
 }
 
 export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
-  {
-    name: 'company',
-    color: 'white',
-    bgColor: '#FF7675'
-  },
-  {
-    name: 'geo',
-    color: 'white',
-    bgColor: '#74B9FF'
-  },
-  {
-    name: 'person',
-    color: 'white',
-    bgColor: '#00ABB5'
-  },
-  {
-    name: 'extractslocations',
-    color: 'black',
-    bgColor: '#fffacd'
-  },
-  {
-    name: 'matchlocations',
-    color: 'black',
-    bgColor: '#ff0'
-  }
-]
+    {
+        name: 'company',
+        color: 'white',
+        bgColor: '#FF7675'
+    },
+    {
+        name: 'geo',
+        color: 'white',
+        bgColor: '#74B9FF'
+    },
+    {
+        name: 'person',
+        color: 'white',
+        bgColor: '#00ABB5'
+    },
+    {
+        name: 'extractslocations',
+        color: 'black',
+        bgColor: '#fffacd'
+    },
+    {
+        name: 'matchlocations',
+        color: 'black',
+        bgColor: '#ff0'
+    }
+];
+
+export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHighlightColors[]}[] = [
+    {
+        selectors: ['.sq-metadata-tooltip span', 'sq-preview-extracts-panel span'],
+        highlights: PREVIEW_HIGHLIGHTS
+    }
+];
+
+export const METADATA_CONFIG: MetadataConfig[] = [
+    {
+        field: "authors",
+        label: "msg#metadata.authorsPluralLabel",
+        icon: "fas fa-user-edit"
+    },
+    {
+        field: "docformat",
+        label: "msg#metadata.docformatLabel",
+        icon: "fas fa-info-circle"
+    },
+    {
+        field: "modified",
+        label: "msg#metadata.modifiedLabel",
+        icon: "far fa-calendar-alt"
+    },
+    {
+        field: "size",
+        label: "msg#metadata.size_label",
+        icon: "fas fa-weight-hanging"
+    },
+    {
+        field: "treepath",
+        label: "msg#metadata.treepath_label",
+        icon: "fas fa-folder-open"
+    },
+    {
+        field: "filename",
+        label: "msg#metadata.filename_label",
+        icon: "far fa-file-alt"
+    }
+];

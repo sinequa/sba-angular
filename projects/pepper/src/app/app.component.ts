@@ -49,7 +49,7 @@ export class AppComponent extends ComponentWithLogin {
 
             let features = FEATURES;
             // The local config (config.ts) can be overriden by server-side config
-            if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
+            if(this.appService.app.data?.features){
                 features = <string[]> this.appService.app.data.features;
             }
 

@@ -18,8 +18,9 @@ import { map, Observable, of, tap } from "rxjs";
 import { GoogleMapsModule } from "@sinequa/analytics/googlemaps";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { NotificationsService } from "@sinequa/core/notification";
-import { PREVIEW_HIGHLIGHTS } from "../../config";
 import { AppService } from "@sinequa/core/app-utils";
+import { PREVIEW_HIGHLIGHTS, SELECTORS_HIGHLIGHTS } from "../../config";
+import { HighlightService } from "@sinequa/components/metadata";
 
 const defaultOptions = {
   renamable: false,
@@ -88,13 +89,17 @@ export class AppDashboardComponent implements OnChanges {
 
   constructor(
     public appService: AppService,
+    public highlightService: HighlightService,
     public searchService: SearchService,
     public dashboardService: DashboardService,
     public providerFactory: ProviderFactory,
     public notificationsService: NotificationsService,
     public readonly ui: UIService,
     public prefs: UserPreferences
-  ) {}
+  ) {
+    const highlights: {selectors: string[], highlights: PreviewHighlightColors[]}[] = this.appService.app?.data?.highlights as any || SELECTORS_HIGHLIGHTS;
+    this.highlightService.setHighlights(highlights);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(!this.dashboard) {

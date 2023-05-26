@@ -166,34 +166,44 @@ export const FACETS: FacetConfig<FacetParams>[] = [{
     }
 ];
 
-export const METADATA: string[] = [
-    "authors", "docformat", "modified", "size", "treepath", "filename"
+export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
+    {
+        name: 'company',
+        color: 'white',
+        bgColor: '#FF7675'
+    },
+    {
+        name: 'geo',
+        color: 'white',
+        bgColor: '#74B9FF'
+    },
+    {
+        name: 'person',
+        color: 'white',
+        bgColor: '#00ABB5'
+    },
+    {
+        name: 'extractslocations',
+        color: 'black',
+        bgColor: '#fffacd'
+    },
+    {
+        name: 'matchlocations',
+        color: 'black',
+        bgColor: '#ff0'
+    }
 ];
 
-export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
-  {
-    name: 'company',
-    color: 'white',
-    bgColor: '#FF7675'
-  },
-  {
-    name: 'geo',
-    color: 'white',
-    bgColor: '#74B9FF'
-  },
-  {
-    name: 'person',
-    color: 'white',
-    bgColor: '#00ABB5'
-  },
-  {
-    name: 'extractslocations',
-    color: 'black',
-    bgColor: '#fffacd'
-  },
-  {
-    name: 'matchlocations',
-    color: 'black',
-    bgColor: '#ff0'
-  }
-]
+export const TAGCLOUD_HIGHLIGHTS: PreviewHighlightColors[] = PREVIEW_HIGHLIGHTS
+    .map(highlight => ({
+        name: highlight.name,
+        color: highlight.bgColor,
+        bgColor: undefined
+    }))
+
+export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHighlightColors[]}[] = [
+    {
+        selectors: ['sq-facet-tag-cloud a'],
+        highlights: TAGCLOUD_HIGHLIGHTS
+    }
+];

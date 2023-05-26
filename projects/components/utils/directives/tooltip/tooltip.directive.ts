@@ -38,14 +38,15 @@ export type Placement = "top" | "bottom" | "right" | "left";
  * //HTML can be used directly (not recommanded)
  * <div sqTooltip="<h1>Title</h1><br><p>This is a comment</p>"></div>
  */
-@Directive({selector: "[sqTooltip]"})
+@Directive({ selector: "[sqTooltip]" })
 export class TooltipDirective<T> implements OnDestroy {
   /**
    * Defining a property called textOrTemplate that can be a string, a function that
    * returns an Observable of a string or undefined, or a TemplateRef.
    */
-  @Input("sqTooltip") potentialValueOrTemplate?: string | ((data?: T) => Observable<string|undefined>) | TemplateRef<any>;
+  @Input("sqTooltip") potentialValueOrTemplate?: string | ((data?: T) => Observable<string | undefined>) | TemplateRef<any>;
   @Input("sqTooltipData") data?: T;
+  @Input("sqTooltipTemplate") template?: any;
 
   /**
    * Setting the default value of the placement property to `bottom`
@@ -62,16 +63,25 @@ export class TooltipDirective<T> implements OnDestroy {
    * Default value is 300ms
    */
   @Input() delay = 300;
+  /**
+   * If the tooltip should stay opened on hover
+   */
+  @Input() hoverableTooltip = false;
+  /**
+   * Custom class for the tooltip
+   */
+  @Input() tooltipClass?: string;
 
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
   private clearTimeout?: any;
+  private hoveringOverlayRef: boolean;
 
   constructor(
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
     private elementRef: ElementRef
-  ) {}
+  ) { }
 
   ngOnDestroy() {
     // do not forget to clear timeout function
@@ -84,27 +94,28 @@ export class TooltipDirective<T> implements OnDestroy {
     event.stopPropagation();
 
     // The tooltip is already showing: just cancel the hiding
-    if(this.clearTimeout) {
+    if (this.clearTimeout) {
       clearTimeout(this.clearTimeout);
       return;
     }
 
     this.clearSubscription();
 
-    if(!this.potentialValueOrTemplate) return;
+    if (!this.potentialValueOrTemplate) return;
+    let obs: Observable<string | undefined | TemplateRef<any>>;
 
-    let obs: Observable<string|TemplateRef<any>|undefined>;
-
-    if(Utils.isFunction(this.potentialValueOrTemplate)) {
+    if (Utils.isFunction(this.potentialValueOrTemplate)) {
       obs = this.potentialValueOrTemplate(this.data);
     }
-    else if (typeof(this.potentialValueOrTemplate) === "string") {
+    else if (typeof (this.potentialValueOrTemplate) === "string") {
       obs = of(this.potentialValueOrTemplate)
         .pipe(delay(this.delay))
     } else {
       // this.text is a templateRef
       obs = of(this.potentialValueOrTemplate);
     }
+
+    if (!obs) return;
 
     this.subscription = obs.subscribe(valueOrTemplate => {
       this.overlayRef?.detach();
@@ -116,19 +127,32 @@ export class TooltipDirective<T> implements OnDestroy {
 
       // set the tooltip's position strategy
       const positionStrategy = this.overlayPositionBuilder
-      .flexibleConnectedTo(this.elementRef)
-      .withPositions([this.position(), ...this.fallbackPositions()]);
+        .flexibleConnectedTo(this.elementRef)
+        .withPositions([this.position(), ...this.fallbackPositions()]);
 
       const scrollStrategy = this.overlay.scrollStrategies.close();
-      this.overlayRef = this.overlay.create({positionStrategy, scrollStrategy});
+      this.overlayRef = this.overlay.create({ positionStrategy, scrollStrategy });
 
       // instance of the tooltip's component
       const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
 
-      if (typeof (valueOrTemplate) === "string") {
-        tooltipRef.instance.text = valueOrTemplate;
-      } else {
-        tooltipRef.instance.template = valueOrTemplate;
+      tooltipRef.instance.data = valueOrTemplate;
+
+      if (this.template) {
+        tooltipRef.instance.template = this.template;
+      }
+      if (this.tooltipClass) {
+        tooltipRef.instance.tooltipClass = this.tooltipClass;
+      }
+
+      if (this.hoverableTooltip) {
+        this.overlayRef.overlayElement.addEventListener("mouseenter", () => {
+          this.hoveringOverlayRef = true;
+        });
+        this.overlayRef.overlayElement.addEventListener('mouseleave', () => {
+          this.hoveringOverlayRef = false;
+          this.clearSubscription();
+        });
       }
     });
   }
@@ -142,8 +166,8 @@ export class TooltipDirective<T> implements OnDestroy {
 
   @HostListener("mouseleave")
   hide() {
-    if(!this.clearTimeout) {
-      this.clearTimeout = setTimeout(() => this.clearSubscription(), 10);
+    if (!this.clearTimeout) {
+      this.clearTimeout = setTimeout(() => this.clearSubscription(), this.hoverableTooltip ? 500 : 10);
     }
   }
 
@@ -192,8 +216,10 @@ export class TooltipDirective<T> implements OnDestroy {
    * Clear timeout function and detach overlayRef
    */
   private clearSubscription() {
+    if (this.hoverableTooltip && this.hoveringOverlayRef) return;
+
     this.subscription?.unsubscribe();
-    if(this.clearTimeout) {
+    if (this.clearTimeout) {
       clearTimeout(this.clearTimeout);
       this.clearTimeout = undefined;
     }
