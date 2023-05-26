@@ -98,9 +98,9 @@ However, you probably want to make your components truly standalone (with no Inp
 
 ### Wrapping
 
-You may want to export an existing component from the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) libraries, but these components generally expect Inputs to work properly. For example, the [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component expects at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object (and the name of an aggregation, which can be static).
+You may want to export an existing component from the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) libraries, but these components generally expect Inputs to work properly. For example, the `sq-facet-list` component expects at least a `Results` object (and the name of an aggregation, which can be static).
 
-In order to export such a component, wrap it inside a new component which manages the data flow to/from other components of the project. In the case of the [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component, it is simple: just inject the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html) in the wrapper component and map the results to the child component.
+In order to export such a component, wrap it inside a new component which manages the data flow to/from other components of the project. In the case of the `sq-facet-list` component, it is simple: just inject the `SearchService` in the wrapper component and map the results to the child component.
 
 ```ts
 @Component({
@@ -133,7 +133,7 @@ Your components will generally have dependencies other than the JavaScript libra
 
 ### Login
 
-In order to use the Sinequa API, you need to be logged in. This means that at least one of your components will need to call `loginService.login()`. Your component can typically extend the [`ComponentWithLogin`]({{site.baseurl}}core/components/ComponentWithLogin.html) class from [`@sinequa/core/login`]({{site.baseurl}}modules/core/login.html) to make this automatic.
+In order to use the Sinequa API, you need to be logged in. This means that at least one of your components will need to call `loginService.login()`. Your component can typically extend the `ComponentWithLogin` class from [`@sinequa/core/login`]({{site.baseurl}}modules/core/login.html) to make this automatic.
 
 ### CORS
 

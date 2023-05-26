@@ -8,10 +8,6 @@ nav_order: 13
 
 # Collapse Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/CollapseModule.html) auto-generated from source code.
-
 ## Features
 
 This module provides components to add collapsible panels to your components as well as collapse/expand buttons to trigger this effect.
@@ -24,7 +20,7 @@ One of the usages of this module is the collapse/expand functionality of the fac
 
 ## Import
 
-Add [`CollapseModule`]({{site.baseurl}}components/modules/CollapseModule.html) to your Angular imports in `app.module.ts`:
+Add `CollapseModule` to your Angular imports in `app.module.ts`:
 
 ```ts
 import { CollapseModule } from "@sinequa/components/collapse";
@@ -51,7 +47,7 @@ const messages = Utils.merge({}, ..., enCollapse, appMessages);
 
 ## API usage
 
-The [`sq-collapse`]({{site.baseurl}}components/components/Collapse.html) component can be used in Angular templates to create collapsible panels.
+The `sq-collapse` component can be used in Angular templates to create collapsible panels.
 
 Wrap the collapsible content into `<sq-collapse>` and `<ng-template>` elements (meaning the content will be instantiated only once displayed).
 
@@ -90,14 +86,14 @@ export class MyComponent {
 }{% endraw %}
 ```
 
-The [`Collapse`]({{site.baseurl}}components/components/Collapse.html) component only expects a `boolean` property `collapsed`, which instructs it whether to show the collapsible content or not.
+The `sq-collapse` component only expects a `boolean` property `collapsed`, which instructs it whether to show the collapsible content or not.
 
 You can manage the variable/property that is used as input of this property as you like.
 You can change it using an HTML button like in the above example or with any other HTML components.
 
-`@sinequa/components/collapse` also includes a syntactic sugar component - [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html) - to help you quickly create input components to toggle the `collapsed` property. By default, these components display a chevron icon (as in the image above), but the icon and text can be customized via the `icon`, `text`, `collapsedTitle` and `expandedTitle` inputs respectively.
+`@sinequa/components/collapse` also includes a syntactic sugar component - `sq-collapse-button` - to help you quickly create input components to toggle the `collapsed` property. By default, these components display a chevron icon (as in the image above), but the icon and text can be customized via the `icon`, `text`, `collapsedTitle` and `expandedTitle` inputs respectively.
 
-Example 2: Usage of the [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html)
+Example 2: Usage of the `sq-collapse-button`
 
 ```html
 {% raw %}<sq-collapse-button (state)="collapsed = $event" text="Toggle view"></sq-collapse-button>

@@ -28,7 +28,7 @@ It is also important to know that other web services make use of the `QueryPlugi
 
 The `QueryPlugin` has many methods which can be overriden, and we cannot go in the details of all of them here. However, we can split these methods in the following categories:
 
-- Initialization: These methods initialize the properties of the `QueryPlugin` class in function of the user's query. The query object sent by the client corresponds to the [`Query`]({{site.baseurl}}core/interfaces/IQuery.html) type, which is used throughout the SBA framework.
+- Initialization: These methods initialize the properties of the `QueryPlugin` class in function of the user's query. The query object sent by the client corresponds to the `Query` type, which is used throughout the SBA framework.
 - Before Search: These methods can be overriden to modify the way the SQL query is built (eg. to add, remove or modify specific SQL clauses).
 - After Search: These methods can be overriden to post-process the results of the SQL query and/or modify how these results are writen in the JSON response.
 
@@ -37,7 +37,7 @@ The complete API of the `QueryPlugin` is listed on [Sinequa's documentation webs
 Note that within a `QueryPlugin`, you have access to various useful objects, in particular:
 
 - `this.Request`: The query object (a `Json` object) that this web service is responding to. It is possible to access any sub property of the query (which can include non-standard properties, added specifically for the purpose of customization).
-- `this.Response`: The response returned by the web service (a `Json` object). It is possible to modify any property of this response. Note that, depending on the method you override, `this.Response` might not always have the same content (for example, if you override a "before search" method, the response does not contain any data yet). From the front-end point of view, this response is read as a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object.
+- `this.Response`: The response returned by the web service (a `Json` object). It is possible to modify any property of this response. Note that, depending on the method you override, `this.Response` might not always have the same content (for example, if you override a "before search" method, the response does not contain any data yet). From the front-end point of view, this response is read as a `Results` object.
 
 ### Initialization methods
 

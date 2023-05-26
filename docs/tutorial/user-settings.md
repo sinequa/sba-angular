@@ -15,7 +15,7 @@ nav_order: 8
 - Baskets (Save documents to named "baskets")
 - Alerts (Subscribe to an email alert for a particular query)
 
-These features come packaged in modules. The first 3 are packaged in the [Saved Queries module]({{site.baseurl}}components/modules/BsSavedQueriesModule.html), the baskets in the [Baskets module]({{site.baseurl}}components/modules/BsBasketsModule.html) and the alerts in the [Alerts module]({{site.baseurl}}components/modules/BsAlertsModule.html).
+These features come packaged in modules. The first 3 are packaged in the Saved Queries module, the baskets in the Baskets module and the alerts in the Alerts module.
 
 Additionally the [User Settings module]({{site.baseurl}}modules/components/user-settings.html) provide a `UserPreferences` utility to easily store key-values data for the current user on the server (this can be useful for UI settings for example).
 
@@ -118,7 +118,7 @@ You can leverage the User-Settings system to develop your own features. Keep in 
 
 - User settings store data per user and per App unencrypted on the Sinequa server.
 - User settings are systematically and fully downloaded from the server on your app initialization (during login). This means the amount of data you can store is necessarily restricted for scalability reasons. If your feature requires more storage, consider using an index on the backend and a custom REST API interact with that index.
-- When you make changes to User Settings on the client-side (eg. Saving a query), the User Settings are synced with the server. Only a subset of the data is sent to the server to improve performance (See the [`UserSettingsService.patch()`]({{site.baseurl}}core/injectables/UserSettingsWebService.html#patch) method).
+- When you make changes to User Settings on the client-side (eg. Saving a query), the User Settings are synced with the server. Only a subset of the data is sent to the server to improve performance (See the `UserSettingsService.patch()` method).
 - User settings are available post-login, which means not immediately on application startup. If you need data to be available immediately on startup, consider using the browser's `localStorage`.
 
 ![User settings services]({{site.baseurl}}assets/tutorial/user-settings-services.png){: .d-block .mx-auto }
