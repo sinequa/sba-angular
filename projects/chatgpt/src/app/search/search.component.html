@@ -43,6 +43,7 @@
         [temperature]="chatConfig.temperature"
         [topP]="chatConfig.topP"
         [maxTokens]="chatConfig.maxTokens"
+        [googleContextPrompt]="chatConfig.googleContextPrompt"
 
         [searchMode]="true"
         [textBeforeAttachments]="chatConfig.textBeforeAttachments"
@@ -248,9 +249,11 @@
         </ng-template>
 
         <ng-template #subHeaderTpl>
-          <sq-metadata [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
-            [tabular]="false" [clickable]="false">
-          </sq-metadata>
+          <sq-metadata
+              [record]="openedDoc"
+              [config]="metadata"
+              [query]="searchService.query"
+          ></sq-metadata>
         </ng-template>
 
         <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">

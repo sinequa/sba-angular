@@ -13,6 +13,7 @@
     [temperature]="chatConfig.temperature"
     [topP]="chatConfig.topP"
     [maxTokens]="chatConfig.maxTokens"
+    [googleContextPrompt]="chatConfig.googleContextPrompt"
 
     [searchMode]="assistantService.assistantMode === 'Auto-Search'"
     [textBeforeAttachments]="chatConfig.textBeforeAttachments"
@@ -42,11 +43,11 @@
       <h4>Assistant options</h4>
       <div class="mb-2">
         <label for="assistantMode" class="form-label">Assistant mode</label>
-        <select class="form-select" id="assistantMode" [(ngModel)]="assistantService.assistantMode">
+        <select class="form-select" id="assistantMode" [(ngModel)]="assistantService.assistantMode" *ngIf="meeseeksEnabled$ | async as meeseeksEnabled">
           <option>Manual</option>
           <option>Auto-Search</option>
           <option>Auto-Answer</option>
-          <option *ngIf="meeseeksEnabled$ | async">Meeseeks</option>
+          <option *ngIf="meeseeksEnabled">Meeseeks</option>
         </select>
       </div>
 
