@@ -33,7 +33,7 @@ jobs:
         uses: actions/configure-pages@v2
         
       - name: Customize base url
-        if: GITHUB_SERVER_URL == 'https://github.sinequa.com'
+        if: ${{ env.GITHUB_SERVER_URL == 'https://github.sinequa.com' }}
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "baseurl: \"/sba-angular/\""
