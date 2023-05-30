@@ -1,4 +1,0 @@
-{
-  "include": ["**/*.ts"],
-  "exclude": ["@types", "__tests__", "test.ts", "**/*.spec.ts"]
-}
