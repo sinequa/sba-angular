@@ -32,12 +32,12 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
         
-      - name: Customize base url
+      - name: Customize base url if we are on Github Enterprise
         if: ${{ env.GITHUB_SERVER_URL == 'https://github.sinequa.com' }}
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "baseurl: \"/sba-angular/\""
-          replace: "baseurl: \"/pages/\""
+          replace: "baseurl: \"/pages/CustomerSolutions/sba-internal/\""
           include: "./docs/_config.yml"
           
       - name: Generate links in markdown files
