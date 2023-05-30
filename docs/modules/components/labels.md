@@ -8,14 +8,10 @@ nav_order: 9
 
 # Labels Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/LabelsModule.html) auto-generated from source code.
-
 ## Features
 This module provides functionality to display the labels of a document, as well as components to manage them:
 
-- [`LabelsService`]({{site.baseurl}}components/injectables/LabelsService.html): manages the different operations that can be applied to the labels of a document in Sinequa.
+- `LabelsService`: manages the different operations that can be applied to the labels of a document in Sinequa.
 - A list of components to display and manage the labels. These components are styled with the Bootstrap library, and their class names start with `Bs`.
 
 ## Import
@@ -43,7 +39,7 @@ const messages = Utils.merge({}, ..., enLabels, appMessages);
 ```
 ## Labels Service
 
-The [`LabelsService`]({{site.baseurl}}components/injectables/LabelsService.html) provides a variety of methods.
+The `LabelsService` provides a variety of methods.
 
 So far, if your component wants to know the index columns, use the following :
 
@@ -73,7 +69,7 @@ Actually, the `Labels Module` defines three levels of actions that could be appl
 
 ### Navigation bar menu actions
 
-As for **global** actions, the menu, in the navigation bar, uses the [`ModalService`]({{site.baseurl}}core/injectables/ModalService.html) to open a popup dialog and perform following actions :
+As for **global** actions, the menu, in the navigation bar, uses the `ModalService` to open a popup dialog and perform following actions :
 
 - `renameLabelModal(): Promise<ModalResult>`
 
@@ -165,7 +161,7 @@ The `LabelsService` provides here some methods that you may need:
 
 The `LabelsModule` comes with a set of components :
 
-- The [`LabelsMenu` component]({{site.baseurl}}components/components/BsLabelsMenuComponent.html) is used to display dropdown menu
+- The `LabelsMenu` component is used to display dropdown menu
   that manages public and private labels.
 
 <!-- <doc-labels-menu></doc-labels-menu> -->
@@ -186,7 +182,7 @@ The `LabelsModule` comes with a set of components :
    - `collapseBreakpoint`: The threshold of the application size at which the display of the component changes when it is inside a parent menu.
    - `size`: The display size of the component.
 
-- The [`Labels` component]({{site.baseurl}}components/components/Labels.html) is used to display and to manage
+- The `Labels` component is used to display and to manage
   the assigned labels of a document.
 
 <!-- <doc-labels></doc-labels> -->
@@ -204,7 +200,7 @@ The `LabelsModule` comes with a set of components :
    - `enableDelete`: Display the delete icon in the label tag.
    - `public`: Whether the labels are public.
 
-- The [`ResultLabels` component]({{site.baseurl}}components/components/ResultLabels.html) is used to display
+- The `ResultLabels` component is used to display
   the assigned labels of a document. This component is backed by `Labels` component.
 
 <!-- <doc-result-labels></doc-result-labels> -->
@@ -247,7 +243,7 @@ The `LabelsModule` comes with a set of components :
    - `radioButtons`: Properties of the modal buttons .
 
 
-- The [`BsLabelsAutocomplete` component]({{site.baseurl}}components/components/BsLabelsAutocompleteComponent.html) is the main building block of the `Modals components`.
+- The `BsLabelsAutocomplete` component is the main building block of the `Modals components`.
   Actually, it is an input element, hosting the `sqAutocompleteLabels` directive.
 
   Example:
@@ -287,7 +283,7 @@ The `LabelsModule` comes with a set of components :
 
 ### Labels Autocomplete directive
 
-The [`LabelsAutocomplete`]({{site.baseurl}}components/directives/LabelsAutocomplete.html) provides the `sqAutocompleteLabels` directive. It extends and overrides the main [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive.
+The `LabelsAutocomplete` provides the `sqAutocompleteLabels` directive. It extends and overrides the main `sqAutocomplete` directive.
 Thus, the suggestions are fetched and displayed also in case of empty input. This feature **requires** the `labelsAutoSuggestWildcard` to be configured in the sinequa server.
 
 ![Labels]({{site.baseurl}}assets/modules/labels/wildcard-config.PNG){: .d-block .mx-auto }
@@ -307,7 +303,7 @@ The directive also emits an `itemsUpdate` event which is needed to synchronize t
 ### Labels Pipe
 
 Private labels are encoded before being stored in index columns.
-The [`LabelPipe`]({{site.baseurl}}components/pipes/LabelPipe.html) (`sqLabel`) is introduced to help you with displaying
+The `LabelPipe` (`sqLabel`) is introduced to help you with displaying
 the labels assigned to a document without worrying about the decoding procedure and eventually, formatting the value.
 
 Example:

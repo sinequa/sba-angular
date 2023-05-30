@@ -8,7 +8,3 @@ parent: Modules
 ---
 
 # Core library
-
-## Reference documentation
-
-Please check out the [reference documentation]({{site.baseurl}}core) auto-generated from source code.

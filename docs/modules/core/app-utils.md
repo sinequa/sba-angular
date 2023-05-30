@@ -8,10 +8,6 @@ nav_order: 1
 
 # App Utils Module
 
-## Reference documentation
-
-Please check out the [reference documentation]({{site.baseurl}}core/modules/AppUtilsModule.html) auto-generated from source code.
-
 ## Overview
 
 The App Utils module contains utilities for working with the configuration of a Sinequa SBA. It can be used by simply importing the module.

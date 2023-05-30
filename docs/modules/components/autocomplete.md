@@ -8,10 +8,6 @@ nav_order: 4
 
 # Autocomplete Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsAutocompleteModule.html) auto-generated from source code.
-
 The Autocomplete module is also documented in the [tutorial]({{site.baseurl}}tutorial/autocomplete.html).
 
 ## Features
@@ -74,11 +70,11 @@ import { BsAutocompleteModule } from '@sinequa/components/autocomplete';
 
 ### Autocomplete Directive
 
-The [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive (applied to the `<input>` element) listens to user interactions (keyboard inputs, mouse inputs, blur and focus events), sends autocomplete queries to the backend (via the [`SuggestService`]({{site.baseurl}}components/injectables/SuggestService.html)) and controls the dropdown component (what to display, when to display it and what to do when an item is selected).
+The `sqAutocomplete` directive (applied to the `<input>` element) listens to user interactions (keyboard inputs, mouse inputs, blur and focus events), sends autocomplete queries to the backend (via the `SuggestService`) and controls the dropdown component (what to display, when to display it and what to do when an item is selected).
 
 The directive has several inputs:
 
-- `dropdown`: A reference to the dropdown component. This component is not necessarily [`sq-autocomplete-list`]({{site.baseurl}}components/components/BsAutocompleteList.html), but it needs to implement the [`AutocompleteComponent`]({{site.baseurl}}components/interfaces/AutocompleteComponent.html) interface.
+- `dropdown`: A reference to the dropdown component. This component is not necessarily `sq-autocomplete-list`, but it needs to implement the `AutocompleteComponent` interface.
 - `suggestQuery`: The name of the "Suggest Query" configured on the server. This value can be hard-coded, or provided by via the `AppService.suggestQueries` list (post-login).
 - `off` (default: `false`): Whether the directive is turned off or not.
 - `suggestDelay` (default: `200`): Number of milliseconds between queries sent to the server.
@@ -89,7 +85,7 @@ It also provides the following outputs (Event emitters):
 - `stateChange`: Emits the state of the autocomplete (`OFF`, `INIT`, `START`, `ACTIVE`, `OPENED`, `SELECTED`)
 - `submit`: Fires when the users "submits" the query (by typing Enter)
 
-Of course, other attributes and directives may be applied along with the [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive. For example we may have the following:
+Of course, other attributes and directives may be applied along with the `sqAutocomplete` directive. For example we may have the following:
 
 ```html
 <input type="text"
@@ -111,7 +107,7 @@ Of course, other attributes and directives may be applied along with the [`sqAut
 You can customize the behavior of the directive by extending it and enriching it. The following methods can be overriden:
 
 - `getSuggests()`: Takes the text typed by the user to get suggestions (via `getSuggestsObs()`) and pass them to `processSuggests()`. This method can be overriden to modify the text read in the input element and passed to `getSuggestObs()`.
-- `getSuggestsObs()`: Makes a call to the [`SuggestService`]({{site.baseurl}}components/injectables/SuggestService.html) to obtain suggestions (which are then passed to `processSuggests()`). It can be overridden to obtain suggestions in a different way (this is the case in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)).
+- `getSuggestsObs()`: Makes a call to the `SuggestService` to obtain suggestions (which are then passed to `processSuggests()`). It can be overridden to obtain suggestions in a different way (this is the case in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)).
 - `processSuggests(items)`: Update the dropdown component with the suggestions. This method can be overridden to post process or filters the suggestions before they are displayed.
 - `select(item)` or `setAutocompleteItem(item)`: Methods called when an item is selected from the dropdown panel (either with the mouse or keyboard navigation). By default, the `<input>` text is set to the value of the autocomplete item, but other behavior can be implemented (opening a document, searching a custom query, etc.; this is the case in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html))
 - `parseQuery()`: Parse the current query to detect errors and manipulate the search terms.
@@ -127,7 +123,7 @@ The `SuggestService` provides the following methods:
 
 - `get(suggestQuery: string, text: string, fields?: string | string[], query?: Query): Observable<Suggestion[]>`:
 
-    This method uses both [`SuggestQueryWebService`]({{site.baseurl}}core/injectables/SuggestQueryWebService.html) and [`SuggestFieldWebService`]({{site.baseurl}}core/injectables/SuggestFieldWebService.html) to obtain suggestions from the server. It combines actual suggestions from suggest queries with suggestions of fields (when fielded search is active).
+    This method uses both `SuggestQueryWebService` and `SuggestFieldWebService` to obtain suggestions from the server. It combines actual suggestions from suggest queries with suggestions of fields (when fielded search is active).
 
 - `async searchData<T>(category: string, query: string, data: T[], primaryText: (obj:T) => string, secondaryText?: (obj:T) => string[], label?: string) : Promise<AutocompleteItem[]>`:
 
@@ -135,12 +131,12 @@ The `SuggestService` provides the following methods:
 
     It expects the following inputs:
 
-    1. `category`: The name of the [`AutocompleteItem`]({{site.baseurl}}components/interfaces/AutocompleteItem.html) category to be created as a result of this search.
+    1. `category`: The name of the `AutocompleteItem` category to be created as a result of this search.
     2. `query`: The text you want to search for.
     3. `data`: The list of objects you want to search in.
     4. `primaryText`: A function that takes in an object and outputs the primary text field to search in (eg. if objects are records, the primary field could be the title).
     5. `secondaryText` (optional): A function that takes in an object and outputs a list of secondary text fields to search in.
-    6. `label` (optional): The label of the [`AutocompleteItem`]({{site.baseurl}}components/interfaces/AutocompleteItem.html) category to be created as a result of this search.
+    6. `label` (optional): The label of the `AutocompleteItem` category to be created as a result of this search.
 
 ### Autocomplete List Component
 
@@ -168,12 +164,12 @@ In the [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.ht
 </ng-template>{% endraw %}
 ```
 
-You can customize the component by customizing the content of`#itemTpl`. Note that `item` is an [`AutocompleteItem`]({{site.baseurl}}components/interfaces/AutocompleteItem.html) passed by the directive.
+You can customize the component by customizing the content of`#itemTpl`. Note that `item` is an `AutocompleteItem` passed by the directive.
 
 You can also write you own component entirely, as long as:
 
 - You tag it and pass it to the directive (`#mydropdown` in the example above).
-- Your component implements the [`AutocompleteComponent`]({{site.baseurl}}components/interfaces/AutocompleteComponent.html) interface. This interface requires you to implement the following methods:
+- Your component implements the `AutocompleteComponent` interface. This interface requires you to implement the following methods:
   - `hasItems(boolean)`: Whether there are any item to display
   - `clicked(EventEmitter<AutocompleteItem>)`: Event emitter for clicks on an autocomplete item
   - `selectedValue(AutocompleteItem)`: The currently selected item, if any
@@ -191,7 +187,7 @@ In your SBA, the list of fields available for Fielded Search is determined by th
 
 ### Fielded Search Autocomplete directive
 
-The [`sqAutocompleteFieldSearch`]({{site.baseurl}}components/directives/AutocompleteFieldSearch.html) directive is a direct extension of the [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive. It has a few additional inputs and outputs, and it provides additional functionalities.
+The `sqAutocompleteFieldSearch` directive is a direct extension of the `sqAutocomplete` directive. It has a few additional inputs and outputs, and it provides additional functionalities.
 
 Additional inputs:
 
@@ -217,9 +213,9 @@ The directive has three modes:
 
 ### Fielded Search Items component
 
-The [`sq-field-search-items`]({{site.baseurl}}components/components/BsFieldSearchItemsComponent.html) component displays the autocomplete items selected by the users, when the `sqAutocompleteFieldSearch`'s mode is `selects`.
+The `sq-field-search-items` component displays the autocomplete items selected by the users, when the `sqAutocompleteFieldSearch`'s mode is `selects`.
 
-This component can be easily replaced by another one. It only needs to implement the [`FieldSearchItemsContainer`]({{site.baseurl}}components/interfaces/FieldSearchItemsContainer.html) interface.
+This component can be easily replaced by another one. It only needs to implement the `FieldSearchItemsContainer` interface.
 
 The component's state is managed by the `sqAutocompleteFieldSearch` directly, so it does not require any input or output binding.
 

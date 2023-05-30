@@ -8,14 +8,10 @@ nav_order: 7
 
 # Advanced Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsAdvancedModule.html) auto-generated from source code.
-
 ## Features
 This module provides a bench of advanced-search functionalities, as well as components to build custom advanced-search forms:
 
-- [`AdvancedService`]({{site.baseurl}}components/injectables/AdvancedService.html): manages the different operations that can be used to perform an advanced-search in Sinequa.
+- `AdvancedService`: manages the different operations that can be used to perform an advanced-search in Sinequa.
 - A list of components seen as basic bricks to build a custom advanced-search form . These components are styled with the Bootstrap library, and their class names start with `Bs`.
 
 ## Import
@@ -42,7 +38,7 @@ const messages = Utils.merge({}, ..., enAdvanced, appMessages);
 ```
 ## Advanced Service
 
-The [`AdvancedService`]({{site.baseurl}}components/injectables/AdvancedService.html) exposes a variety of methods and interfaces.
+The `AdvancedService` exposes a variety of methods and interfaces.
 
 If you want to create your own advanced-search form, you will need to define a list of [FormControl](https://angular.io/api/forms/FormControl). Here, a set of dedicated methods is provided :
 
@@ -176,7 +172,7 @@ If you want create a new custom component for your advanced-search form, you can
 
 The `AdvancedModule` has a set of packaged components which serve as a basic bricks of an advanced-search form :
 
-- The [`BsAdvancedFormSelect` component]({{site.baseurl}}components/components/BsAdvancedFormSelect.html) is used to display a select element compatible with any advanced-search form.
+- The `BsAdvancedFormSelect` component is used to display a select element compatible with any advanced-search form.
 
   The inputs of the component are :
 
@@ -188,7 +184,7 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
 
 <doc-advanced-form-select></doc-advanced-form-select>
 
-- The [`BsAdvancedFormInput` component]({{site.baseurl}}components/components/BsAdvancedFormInput.html) is used to display an input element compatible with any advanced-search form.
+- The `BsAdvancedFormInput` component is used to display an input element compatible with any advanced-search form.
 
   The inputs of the component are :
 
@@ -199,7 +195,7 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
 
 <doc-advanced-form-input></doc-advanced-form-input>
 
-- The [`BsAdvancedFormMultiInput` component]({{site.baseurl}}components/components/BsAdvancedFormMultiInput.html) is used to display a multi-value input element compatible with any advanced-search form.
+- The `BsAdvancedFormMultiInput` component is used to display a multi-value input element compatible with any advanced-search form.
 
   The inputs of the component are :
 
@@ -210,7 +206,7 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
 
 <doc-advanced-form-multi-input></doc-advanced-form-multi-input>
 
-- The [`BsAdvancedFormRange` component]({{site.baseurl}}components/components/BsAdvancedFormRange.html) is used to display a range input element compatible with any advanced-search form.
+- The `BsAdvancedFormRange` component is used to display a range input element compatible with any advanced-search form.
 
   The inputs of the component are :
 
@@ -222,7 +218,7 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
 
 <doc-advanced-form-range></doc-advanced-form-range>
 
-- The [`BsAdvancedFormCheckbox` component]({{site.baseurl}}components/components/BsAdvancedFormCheckbox.html) is used to display a checkbox element compatible with any advanced-search form.
+- The `BsAdvancedFormCheckbox` component is used to display a checkbox element compatible with any advanced-search form.
 
   The inputs of the component are :
 
@@ -236,7 +232,7 @@ The `AdvancedModule` has a set of packaged components which serve as a basic bri
 
 The `AdvancedModule` embeds its own directives to handle custom features of the advanced-search :
 
-- The [`BsAdvancedFormAutocomplete`]({{site.baseurl}}components/directives/BsAdvancedFormAutocomplete.html) provides the `sqAdvancedFormAutocomplete` directive. It extends and overrides the main [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive.
+- The `BsAdvancedFormAutocomplete` provides the `sqAdvancedFormAutocomplete` directive. It extends and overrides the main `sqAutocomplete` directive.
 
   The inputs of the directive are quiet simple :
 
@@ -244,7 +240,7 @@ The `AdvancedModule` embeds its own directives to handle custom features of the 
 
    This directive also emits an `UpdateItem` event which is needed to synchronize the search item in the parent component.
 
-- The [`BsAdvancedFormAutocompleteMultiInput`]({{site.baseurl}}components/directives/BsAdvancedFormAutocomplete.html) provides the `sqAdvancedFormAutocompleteMultiInput` directive. It extends and overrides [`sqAdvancedFormAutocomplete`]({{site.baseurl}}components/directives/BsAdvancedFormAutocomplete.html) directive.
+- The `BsAdvancedFormAutocompleteMultiInput` provides the `sqAdvancedFormAutocompleteMultiInput` directive. It extends and overrides `sqAdvancedFormAutocomplete` directive.
 
   The inputs of the directive are :
 
@@ -252,7 +248,7 @@ The `AdvancedModule` embeds its own directives to handle custom features of the 
 
   This directive also emits an `itemsUpdate` event which is needed to synchronize the search terms in the parent component.
 
-- The [`BsAdvancedFormValidation`]({{site.baseurl}}components/directives/BsAdvancedFormValidation.html) provides the `sqAdvancedFormValidation` directive. It extends and overrides the main [`sqValidation`]({{site.baseurl}}core/directives/ValidationDirective.html) directive.
+- The `BsAdvancedFormValidation` provides the `sqAdvancedFormValidation` directive. It extends and overrides the main `sqValidation` directive.
 
   The inputs of the directive are :
 

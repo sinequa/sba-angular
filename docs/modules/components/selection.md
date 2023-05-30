@@ -8,10 +8,6 @@ nav_order: 10
 
 # Selection Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsSelectionModule.html) auto-generated from source code.
-
 ## Features
 
 This module provides a transverse service that keeps track of selected documents and records. Documents may typically be selected by a click on a button or a checkbox. Selecting documents allows other services to operate over these documents (for example, adding selected documents to a basket, or setting a label or tag onto these documents).
@@ -58,7 +54,7 @@ const messages = Utils.merge({}, ..., enSelection, appMessages);
 
 ### Selection Service
 
-The [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) offers a transverse solution to keep track of selected documents. Components use this service both to modify the selection (select or unselect documents), and to access this selection and be notified of its changes (via events).
+The `SelectionService` offers a transverse solution to keep track of selected documents. Components use this service both to modify the selection (select or unselect documents), and to access this selection and be notified of its changes (via events).
 
 Like any other service, it can be injected into components and other service by dependency injection:
 
@@ -78,13 +74,13 @@ export class MyComponent {
 
 The following methods of the service are of interest:
 
-- `getSelectedItems()`: returns the list of selected items ([`SelectionItem`]({{site.baseurl}}components/interfaces/SelectionItem.html)). A selected item contains at least the `id` property of the associated [`Record`]({{site.baseurl}}core/interfaces/Record.html) object.
+- `getSelectedItems()`: returns the list of selected items (`SelectionItem`). A selected item contains at least the `id` property of the associated `Record` object.
 
-    But it may contain more: If the module's [`SelectionOptions`]({{site.baseurl}}components/interfaces/SelectionOptions.html) specifies `storage: "record"` (instead of `"id"`), then the selection item is the record itself. The `storage` property may also be a function that maps a record to a custom object (which must contain at least the record's `id`).
+    But it may contain more: If the module's `SelectionOptions` specifies `storage: "record"` (instead of `"id"`), then the selection item is the record itself. The `storage` property may also be a function that maps a record to a custom object (which must contain at least the record's `id`).
 
     ⚠️ The list returned by this method is a **copy** of the list maintained by this service. Therefore modifying this list will have no effect on the selection. To add, remove or reorder items, one must use the appropriate methods listed below.
 
-- `getSelectedIds()`: returns the list of ids (as `string`) of the selected items. This method always work in the same way regardless of the [`SelectionOptions`]({{site.baseurl}}components/interfaces/SelectionOptions.html) (it should therefore be preferred when possible, to implement new functionality based on this service).
+- `getSelectedIds()`: returns the list of ids (as `string`) of the selected items. This method always work in the same way regardless of the `SelectionOptions` (it should therefore be preferred when possible, to implement new functionality based on this service).
 - `haveSelectedRecords`: is `true` if there are selected records.
 - `getSelectedCount()`: returns the number of selected items.
 - `allRecordsSelected`: is `true` if all records in the search service results are selected.
@@ -100,8 +96,8 @@ The following methods of the service are of interest:
 
 Additionally, the service includes the following properties:
 
-- `events`: a `Subject` emitting events of three types: `SELECT`, `UNSELECT` and `MOVE`, when the selection changes. These events ([`SelectionEvent`]({{site.baseurl}}components/interfaces/SelectionEvent.html)) include the list of records concerned by the event, as well as the (optional) source of the event.
-- `selectionActions`: a list of [`Action`]({{site.baseurl}}components/classes/Action.html) (See [Action module](action.html)) that can be registered by other services. These actions are automatically updated when the selection changes. The actions are displayed by the [`sq-results-selector`]({{site.baseurl}}components/components/BsResultsSelector.html) component
+- `events`: a `Subject` emitting events of three types: `SELECT`, `UNSELECT` and `MOVE`, when the selection changes. These events (`SelectionEvent`) include the list of records concerned by the event, as well as the (optional) source of the event.
+- `selectionActions`: a list of `Action` (See [Action module](action.html)) that can be registered by other services. These actions are automatically updated when the selection changes. The actions are displayed by the `sq-results-selector` component
 
     For example, the Baskets service can register an action to add the selected documents to a basket. If the action includes an update method, it can, for example, hide itself if there is no selected document.
 
@@ -117,7 +113,7 @@ Additionally, the service includes the following properties:
 
 <!-- <doc-result-selector></doc-result-selector> -->
 
-The [`sq-result-selector`]({{site.baseurl}}components/components/BsResultSelector.html) component displays a simple checkbox associated to a record ([`Record`]({{site.baseurl}}core/interfaces/Record.html)).
+The `sq-result-selector` component displays a simple checkbox associated to a record (`Record`).
 
 It is typically meant to be displayed in a list of results for each record.
 
@@ -131,7 +127,7 @@ It is typically meant to be displayed in a list of results for each record.
 
 <!-- <doc-results-selector></doc-results-selector> -->
 
-Not to be confused with the previous component, the [`sq-results-selector`]({{site.baseurl}}components/components/BsResultsSelector.html) displays a global list of actions including:
+Not to be confused with the previous component, the `sq-results-selector` displays a global list of actions including:
 
 - The `selectionActions` from the [`SelectionService`](#selection-service) (mentioned above).
 - An action allowing to toggle the selection of all results in the search service's results. This action displays a checkbox and the number of selected documents.
@@ -152,7 +148,7 @@ Options are available to customize the actions' display:
 
 <!-- <doc-selection-arranger></doc-selection-arranger> -->
 
-The [`sq-selection-arranger`]({{site.baseurl}}components/components/BsSelectionArranger.html) component displays the list of selected components (using a template passed by transclusion). It allows to rearrange the selected items by changing their order (with drag & drop) or removing them.
+The `sq-selection-arranger` component displays the list of selected components (using a template passed by transclusion). It allows to rearrange the selected items by changing their order (with drag & drop) or removing them.
 
 The component directly modifies the selection via the [`SelectionService`](#selection-service), using the methods described above.
 

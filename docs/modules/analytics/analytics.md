@@ -9,10 +9,6 @@ parent: Modules
 
 # Analytics library
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}analytics) auto-generated from source code.
-
 ## Building the library
 
 At the root of the workspace, run the following command:
@@ -31,8 +27,8 @@ import { ... } from '@sinequa/analytics/....';
 
 This library contains several sub-libraries (or "secondary endpoints"). Each sub-library generally includes:
 
-- One or more Angular modules. Generally, only one module is used. If the library depends on the [Bootstrap](https://getbootstrap.com/) library, the module is packaged within a `bootstrap/` subfolder and the module is prefixed by `Bs` (eg. [`BsSearchModule`]({{site.baseurl}}components/modules/BsSearchModule.html)).
-- Zero or one Angular service. Services are where the intelligence of the application is concentrated. Components generally use a service for the complex data processing tasks and the interactions with [`@sinequa/core`]({{site.baseurl}}modules/core/core.html) and the web services (eg. [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html)).
+- One or more Angular modules. Generally, only one module is used. If the library depends on the [Bootstrap](https://getbootstrap.com/) library, the module is packaged within a `bootstrap/` subfolder and the module is prefixed by `Bs` (eg. `BsSearchModule`).
+- Zero or one Angular service. Services are where the intelligence of the application is concentrated. Components generally use a service for the complex data processing tasks and the interactions with [`@sinequa/core`]({{site.baseurl}}modules/core/core.html) and the web services (eg. `SearchService`).
 
     Services are always designed to be component-agnostic, and therefore do not depend on the Boostrap or Material Design libraries. When a service depends on a component type, it is actually injected by dependency injection.
 

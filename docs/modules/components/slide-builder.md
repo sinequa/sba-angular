@@ -8,10 +8,6 @@ nav_order: 19
 
 # Slide Builder Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/SlideBuilderModule.html) auto-generated from source code.
-
 ## Features
 
 This module provides components for displaying, rearranging and exporting Powerpoint slides.
@@ -92,7 +88,7 @@ Note that the slides index is excluded from the "all" tab, to avoid displaying i
 
 ### Import
 
-Add [`SlideBuilderModule`]({{site.baseurl}}components/modules/SlideBuilderModule.html) to your Angular imports in `app.module.ts`:
+Add `SlideBuilderModule` to your Angular imports in `app.module.ts`:
 
 ```ts
 import { SlideBuilderModule } from "@sinequa/components/slide-builder";
@@ -121,7 +117,7 @@ const messages = Utils.merge({}, ..., enSlideBuilder, appMessages);
 
 <doc-slide-builder></doc-slide-builder>
 
-The [`sq-slide-builder`]({{site.baseurl}}components/components/SlideBuilderComponent.html) component displays a list of selected slides. The component actually uses the `SelectionService` from the [Selection Module](selection.html) as a data model for the selected slides. The Drag & Drop capability is actually directly based on the [`sq-selection-arranger`](selection.html#selection-arranger) component.
+The `sq-slide-builder` component displays a list of selected slides. The component actually uses the `SelectionService` from the [Selection Module](selection.html) as a data model for the selected slides. The Drag & Drop capability is actually directly based on the [`sq-selection-arranger`](selection.html#selection-arranger) component.
 
 ![Slide arranger]({{site.baseurl}}assets/modules/slide-builder/slide-arranger.png)
 
@@ -158,7 +154,7 @@ It is also possible to customize the display by passing a template by transclusi
 
 <doc-slide-list></doc-slide-list>
 
-The [`sq-slide-list`]({{site.baseurl}}components/components/SlideListComponent.html) component displays a tiled view of PowerPoint slides:
+The `sq-slide-list` component displays a tiled view of PowerPoint slides:
 
 ![Slide list]({{site.baseurl}}assets/modules/slide-builder/slide-list.png)
 

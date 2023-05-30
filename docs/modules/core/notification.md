@@ -8,10 +8,6 @@ nav_order: 6
 
 # Notification Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}core/modules/NotificationModule.html) auto-generated from source code.
-
 ## Features
 
 This module provides the `NotificationService` that helps to create user notification.
@@ -22,15 +18,15 @@ This module provides the `NotificationService` that helps to create user notific
 
 ## Import
 
-You do not need to import this module because it is imported and overridden by the [Components Notification module]({{site.baseurl}}components/modules/BsNotificationModule.html).
+You do not need to import this module because it is imported and overridden by the Components Notification module.
 
-Whenever you want to emit user notifications in your component, inject the [`NotificationsService`]({{site.baseurl}}core/injectables/NotificationsService.html) into your component.
+Whenever you want to emit user notifications in your component, inject the `NotificationsService` into your component.
 
 ## API usage
 
 ### NotificationsService
 
-The [`NotificationsService`]({{site.baseurl}}core/injectables/NotificationsService.html) provides several methods that helps you
+The `NotificationsService` provides several methods that helps you:
 
 * to create a user notification,
 * to listen to the stream of notifications, so that your components can be notified when a new user notification arrives and reacts on that event,

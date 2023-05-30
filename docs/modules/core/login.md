@@ -8,10 +8,6 @@ nav_order: 3
 
 # Login Module
 
-## Reference documentation
-
-Please check out the [reference documentation]({{site.baseurl}}core/modules/LoginModule.html) auto-generated from source code.
-
 ## Overview
 
 This module manages user authentication and the overall login process. User login is initiated automatically when a web service call fails with
