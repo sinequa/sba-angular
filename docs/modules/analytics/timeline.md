@@ -38,37 +38,11 @@ import { BsTimelineModule } from '@sinequa/analytics/timeline';
 
 ## Timeline Component
 
-<doc-timeline></doc-timeline>
-
 ### Time series
 
 The [`sq-timeline`]({{site.baseurl}}analytics/components/BsTimelineComponent.html) component displays a SVG built with both D3 and Angular. Its most basic usage is as follow:
 
-```html
-<sq-timeline [data]="timeseries"></sq-timeline>
-```
-
-With:
-
-```ts
-this.timeseries = [
-    {
-        name: 'my series',
-        dates: [
-            {date: new Date('2020-01-01'), value: 42.3},
-            {date: new Date('2020-02-01'), value: 58.4},
-            {date: new Date('2020-03-01'), value: 21.0},
-            {date: new Date('2020-04-01'), value: 3.1},
-            {date: new Date('2020-05-01'), value: 34.3},
-        ],
-        primary: true
-    }
-];
-```
-
-Which displays:
-
-![Simple timeline]({{site.baseurl}}assets/modules/timeline/timeline1.png){: .d-block .mx-auto }
+<doc-timeline></doc-timeline>
 
 Additionally, the `timeseries` object (of type [`TimelineSeries`]({{site.baseurl}}analytics/interfaces/TimelineSeries.html)) can take 3 additional parameters: `lineStyles` and `areaStyles` which allow to style the chart with css-like rules (SVG rules passed via `ngStyle`), and `showDatapoints` which allows to visualize the data points when hovering the timeline with the mouse.
 
@@ -245,7 +219,7 @@ Additionally you can bind the `margin` property to adjust the space around the t
 
 ## Facet Timeline Component
 
-<doc-facet-timeline></doc-facet-timeline>
+<!-- <doc-facet-timeline></doc-facet-timeline> -->
 
 The [`sq-timeline`]({{site.baseurl}}analytics/components/BsTimelineComponent.html) component does a lot of work to render the timelines, events and manage the user interactions, but it does not know anything about the Sinequa services and data structures.
 
@@ -404,7 +378,7 @@ The [`TimelineEventAggregation`]({{site.baseurl}}analytics/interfaces/TimelineEv
 
 ### Legend
 
-<doc-timeline-legend></doc-timeline-legend>
+<!-- <doc-timeline-legend></doc-timeline-legend> -->
 
 The [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) component can display a legend sub-component. The legend's content, position and styles can be customized with the following parameters:
 

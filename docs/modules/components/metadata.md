@@ -88,7 +88,7 @@ The component also emits an event when an element of the metadata is selected / 
 
 ### Examples
 
-<doc-metadata></doc-metadata>
+<!-- <doc-metadata></doc-metadata> -->
 
 The following metadata is displayed with all the default options:
 

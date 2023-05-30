@@ -84,7 +84,7 @@ The `options` input is an object of type [`ChartOptions`]({{site.baseurl}}analyt
 
 ## Facet Chart Component
 
-<doc-facet-chart></doc-facet-chart>
+<!-- <doc-facet-chart></doc-facet-chart> -->
 
 The [`sq-facet-ngx-chart`]({{site.baseurl}}analytics/components/FacetNgxChart.html) component displays an aggregation from the results as a chart. The user can click on items in the chart to filter the results.
 

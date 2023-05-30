@@ -6,15 +6,18 @@ import { Component } from '@angular/core';
 })
 export class DocCollapseButtonComponent {
 
-  collapsed = false;
+  collapsed = true;
 
   code = `<sq-collapse-button
-    [collapsed]="collapsed"
-    collapsedTitle="Collapsed"
-    expandedTitle="Expanded"
-    icon="fas fa-inbox"
-    text="Text">
-</sq-collapse-button>`;
+    (state)="collapsed = $event"
+    text="Toggle view">
+</sq-collapse-button>
+
+<sq-collapse [collapsed]="collapsed">
+    <ng-template>
+        Some content
+    </ng-template>
+</sq-collapse>`;
 
   constructor() { }
 

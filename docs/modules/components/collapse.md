@@ -55,40 +55,9 @@ The [`sq-collapse`]({{site.baseurl}}components/components/Collapse.html) compone
 
 Wrap the collapsible content into `<sq-collapse>` and `<ng-template>` elements (meaning the content will be instantiated only once displayed).
 
-<doc-collapse></doc-collapse>
-
 Example 1: A collapsible list of element in the HTML template
 
-```ts
-{% raw %}@Component({
-    /*...*/
-    template: `
-        <button type="button" onclick="collapsed = !collapsed">{{ collapsed ? 'Expand' : 'Collapse' }}</button>
-
-        <sq-collapse [collapsed]="collapsed">
-            <ng-template>
-                <ul>
-                    <li *ngFor="let element of list">
-                        <span>{{ element }}</span>
-                    </li>
-                </ul>
-            </ng-template>
-        </sq-collapse>
-    `,
-    /*...*/
-})
-export class MyComponent {
-
-    /*...*/
-    public collapsed: boolean = true;
-    public list: string[] = [
-        'element 1',
-        'element 2',
-        'element 3',
-    ];
-    /*...*/
-}{% endraw %}
-```
+<doc-collapse></doc-collapse>
 
 The [`Collapse`]({{site.baseurl}}components/components/Collapse.html) component only expects a `boolean` property `collapsed`, which instructs it whether to show the collapsible content or not.
 
@@ -98,19 +67,5 @@ You can change it using an HTML button like in the above example or with any oth
 `@sinequa/components/collapse` also includes a syntactic sugar component - [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html) - to help you quickly create input components to toggle the `collapsed` property. By default, these components display a chevron icon (as in the image above), but the icon and text can be customized via the `icon`, `text`, `collapsedTitle` and `expandedTitle` inputs respectively.
 
 Example 2: Usage of the [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html)
-
-```html
-{% raw %}<sq-collapse-button (state)="collapsed = $event" text="Toggle view"></sq-collapse-button>
-
-<sq-collapse [collapsed]="collapsed">
-    <ng-template>
-        <ul>
-            <li *ngFor="let element of list">
-                <span>{{ element }}</span>
-            </li>
-        </ul>
-    </ng-template>
-</sq-collapse>{% endraw %}
-```
 
 <doc-collapse-button></doc-collapse-button>

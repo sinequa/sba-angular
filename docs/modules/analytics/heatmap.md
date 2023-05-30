@@ -65,7 +65,7 @@ The heatmap facet and results view take care of querying the server if the heatm
 
 ## Heatmap Facet
 
-<doc-facet-heatmap></doc-facet-heatmap>
+<!-- <doc-facet-heatmap></doc-facet-heatmap> -->
 
 The heatmap facet ([`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html)) looks as the image above. It can be displayed with:
 
@@ -103,7 +103,7 @@ The [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComp
 
 ## Heatmap results view
 
-<doc-results-heatmap-view></doc-results-heatmap-view>
+<!-- <doc-results-heatmap-view></doc-results-heatmap-view> -->
 
 The heatmap results view ([`sq-results-heatmap-view`]({{site.baseurl}}analytics/components/BsResultsHeatmapView.html)) is based directly on the [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html) component (by inheritance). The differences are the following:
 

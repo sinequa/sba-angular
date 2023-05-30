@@ -54,7 +54,7 @@ const messages = Utils.merge({}, ..., enGooglemaps, appMessages);
 
 ## Map component
 
-<doc-map></doc-map>
+<!-- <doc-map></doc-map> -->
 
 The map component is a facet component (See [Facet Module]({{site.baseurl}}/modules/components/facet.html)), which means it is best used when integrated in a facet card:
 
