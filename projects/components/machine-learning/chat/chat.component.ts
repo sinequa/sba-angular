@@ -15,6 +15,7 @@ export interface ChatConfig extends SearchAttachmentsOptions {
   temperature: number;
   topP: number;
   maxTokens: number;
+  googleContextPrompt: string;
 
   // UI
   textBeforeAttachments: boolean;
@@ -34,6 +35,7 @@ export const defaultChatConfig: ChatConfig = {
   temperature: 1.0,
   topP: 1.0,
   maxTokens: 800,
+  googleContextPrompt: "Answer only using the text of the documents. If you don't know or don't have enough information from the documents just say so.",
 
   // UI
   textBeforeAttachments: false,
@@ -80,6 +82,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() temperature =              defaultChatConfig.temperature;
   @Input() topP =                     defaultChatConfig.topP;
   @Input() maxTokens =                defaultChatConfig.maxTokens;
+  @Input() googleContextPrompt =      defaultChatConfig.googleContextPrompt;
 
   // UI
   @Input() textBeforeAttachments =    defaultChatConfig.textBeforeAttachments;
@@ -258,7 +261,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.loading = true;
     this.cdr.detectChanges();
     this.dataSubscription?.unsubscribe();
-    this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP)
+    this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP, this.googleContextPrompt)
       .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
     this.scrollDown();
   }
