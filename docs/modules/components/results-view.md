@@ -98,8 +98,6 @@ Behind the scene, the service performs a series of actions:
 
 ## Displaying Results Views
 
-<doc-results-grid-view></doc-results-grid-view>
-
 The display of results views is managed via simple Angular template syntax:
 
 ```html
@@ -112,56 +110,17 @@ The display of results views is managed via simple Angular template syntax:
 </ng-container>
 ```
 
-The module includes a standard "grid" result view component: [`sq-results-grid-view`]({{site.baseurl}}components/components/BsResultsGridView.html). You could use for example:
+The module includes a standard "grid" result view component: [`sq-results-grid-view`]({{site.baseurl}}components/components/BsResultsGridView.html).
 
-```html
-<sq-results-grid-view
-    *ngIf="resultsViewService.resultsView.name === 'grid'"
-    [results]="results"
-    [view]="resultsViewService.resultsView">
-</sq-results-grid-view>
-```
+By convention, results view components expect the `ResultsView` object as an input parameter (`view`). The [`ResultsView`]({{site.baseurl}}components/interfaces/ResultsView.html) interface can be extended to include more settings to configure the results view. For example, in the case of the grid results view, the [`GridView`]({{site.baseurl}}components/interfaces/GridView.html) interface includes a `columns` array to configure what to display in each column of the grid.
 
-By convention, results view components expect the `ResultsView` object as an input parameter (`view`). The [`ResultsView`]({{site.baseurl}}components/interfaces/ResultsView.html) interface can be extended to include more settings to configure the results view. For example, in the case of the grid results view, the [`GridView`]({{site.baseurl}}components/interfaces/GridView.html) interface includes a `columns` array to configure what to display in each column of the grid:
-
-```ts
-export const allViews: (ResultsView|GridView)[] = [
-    ...,
-    {
-        name: "grid",
-        type: "grid",
-        display: "Grid",
-        icon: "fas fa-th",
-        columns: [
-            {active: true, title: "Title", field: "displayTitle", sortable: false, renderAsHtml: true},
-            {active: true, title: "Type", field: "sourcestr4", sortable: true, renderAsHtml: false},
-            {active: true, title: "PageRank", field: "sourcedouble1", sortable: true, renderAsHtml: false},
-        ]
-    }
-];
-```
-
-With the settings above, the view renders as follows:
-
-![Grid view]({{site.baseurl}}assets/modules/results-view/grid-view.png){: .d-block .mx-auto }
+<doc-results-grid-view></doc-results-grid-view>
 
 ## Switching Between Views
 
-<doc-results-view-selector></doc-results-view-selector>
-
 To switch between results views, include the [`sq-results-view-selector`]({{site.baseurl}}components/components/BsResultsViewSelector.html) component. The component uses the [`ResultsViewService`]({{site.baseurl}}components/injectables/ResultsViewService.html) to display the current view and list of available views.
 
-![Results View Selector]({{site.baseurl}}assets/modules/results-view/selector.png)
-
-```html
-<sq-results-view-selector
-    [results]="results"
-    [query]="searchService.query"
-    [size]="'sm'"
-    [rightAligned]="true"
-    [useDropdownMenu]="false">
-</sq-results-view-selector>
-```
+<doc-results-view-selector></doc-results-view-selector>
 
 Alternatively, the selector can be displayed as a dropdown menu (`useDropdownMenu = true`):
 

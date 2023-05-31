@@ -52,9 +52,9 @@ This module exports the [`AnswerCardComponent`]({{site.baseurl}}components/compo
 
 ### Answer Component
 
-<doc-answer-card></doc-answer-card>
-
 The answers are the possible direct answers the platform supposes from your query according to the documents it searches through.
+
+<doc-answer-card></doc-answer-card>
 
 **Required parameters:**
 
@@ -67,9 +67,9 @@ The answers are the possible direct answers the platform supposes from your quer
 
 ### Top Passages Component
 
-<doc-top-passages></doc-top-passages>
-
 Similar as the Answer component, the Top Passages one displays the relevant passages that Neural Search has figured from your query according to your documents.
+
+<doc-top-passages></doc-top-passages>
 
 **Required parameters:**
 
@@ -83,11 +83,11 @@ Similar as the Answer component, the Top Passages one displays the relevant pass
 
 ### Passage List
 
-<doc-passage-list></doc-passage-list>
-
 The passages list is used to display all of the relevant passages from the selected document in a collapsed number of lines that you can expand manually.
 
 It is placed in the mini preview where you can switch of view between the document preview and the passages list when some are found.
+
+<doc-passage-list></doc-passage-list>
 
 **Required parameters:**
 

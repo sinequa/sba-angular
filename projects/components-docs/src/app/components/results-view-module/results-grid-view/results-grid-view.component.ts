@@ -15,13 +15,6 @@ export class DocResultsGridViewComponent extends BaseComponent {
       field: 'id',
       sortable: true,
       renderAsHtml: true
-    },
-    {
-      active: true,
-      title: 'Authors',
-      field: 'sourcestr1',
-      sortable: true,
-      renderAsHtml: true
     }],
     name: 'name',
     type: 'type'
@@ -37,13 +30,6 @@ export class DocResultsGridViewComponent extends BaseComponent {
         active: true,
         title: 'ID',
         field: 'id',
-        sortable: true,
-        renderAsHtml: true
-    },
-    {
-        active: true,
-        title: 'Authors',
-        field: 'sourcestr1',
         sortable: true,
         renderAsHtml: true
     }],

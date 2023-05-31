@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'doc-loading-bar',
-  templateUrl: './loading-bar.component.html'
+  templateUrl: './loading-bar.component.html',
+  styles: [`doc-component-demo {
+    overflow: hidden;
+  }`]
 })
 export class DocLoadingBarComponent {
 

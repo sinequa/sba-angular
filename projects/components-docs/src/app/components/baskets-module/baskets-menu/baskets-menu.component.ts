@@ -10,7 +10,9 @@ import { baskets } from 'src/mocks/data/user-settings';
 })
 export class DocBasketsMenuComponent {
 
-  code = `<sq-baskets-menu></sq-baskets-menu>`;
+  code = `<ul class="navbar-nav">
+    <sq-baskets-menu></sq-baskets-menu>
+</ul>`;
 
   constructor(private basketsService: BasketsService,
     private loginService: LoginService) {

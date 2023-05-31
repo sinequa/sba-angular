@@ -11,6 +11,11 @@ import { Component, Input } from '@angular/core';
 
   sq-facet-card ::ng-deep .sq-primary-actions .btn {
     box-shadow: none !important;
+  }
+
+  sq-facet-card ::ng-deep li:before,
+  sq-facet-card ::ng-deep li::marker {
+    content: none !important;
   }`]
 })
 export class DocComponentDemoComponent {

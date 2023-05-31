@@ -143,13 +143,11 @@ The search methods will all still work but they will execute the queries immedia
 
 ### Tabs
 
-<doc-tabs></doc-tabs>
-
 The [`sq-tabs`]({{site.baseurl}}components/components/BsTabs.html) component allows to control the `query.tab` parameter. When clicking on a tab, this parameter is set and a new search is triggered.
 
-![Tabs]({{site.baseurl}}assets/modules/search/tabs.png)
-
 This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input to work properly.
+
+<doc-tabs></doc-tabs>
 
 ### Breadcrumbs
 
@@ -167,35 +165,21 @@ This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/
 
 ### Did you mean
 
-<doc-did-you-mean></doc-did-you-mean>
-
 The [`sq-did-you-mean`]({{site.baseurl}}components/components/BsDidYouMean.html) component displays the syntaxic or phonetic corrections of the user's search query. These corrections are sent by the server via the `Results.didYouMean` object.
-
-![Did you mean]({{site.baseurl}}assets/modules/search/did-you-mean.png)
 
 This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input to work properly.
 
-```html
-<sq-did-you-mean [results]="results"></sq-did-you-mean>
-```
+<doc-did-you-mean></doc-did-you-mean>
 
 ### Page Size Selector
 
-<doc-page-size-selector></doc-page-size-selector>
-
 The [`sq-page-size-selector`]({{site.baseurl}}components/components/BsPageSizeSelector.html) component displays a button allowing the user to select the number of results per page from a dropdown menu (`query.pageSize` parameter). The component is based on the [Action module]({{site.baseurl}}modules/components/action.html).
-
-![Page size]({{site.baseurl}}assets/modules/search/page-size.png)
 
 This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input to work properly.
 
-```html
-<sq-page-size-selector [results]="results"></sq-page-size-selector>
-```
+<doc-page-size-selector></doc-page-size-selector>
 
 ### Sort selector
-
-<!-- <doc-sort-selector></doc-sort-selector> -->
 
 The [`sq-sort-selector`]({{site.baseurl}}components/components/BsSortSelector.html) component displays a button allowing the user to select the sorting criteria (by relevance, by date, etc.). It controls the `query.orderBy` parameter (the different values can be configured server-side in the [Query]({{site.baseurl}}gettingstarted/server-setup.html#query-web-service)). The component is based on the [Action module]({{site.baseurl}}modules/components/action.html).
 
@@ -207,9 +191,9 @@ This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/
 <sq-sort-selector [results]="results"></sq-sort-selector>
 ```
 
-### Pager
+<!-- <doc-sort-selector></doc-sort-selector> -->
 
-<!-- <doc-pager></doc-pager> -->
+### Pager
 
 The [`sq-pager`]({{site.baseurl}}components/components/BsPager.html) component displays a list of buttons allowing the user to navigate between the different pages of documents in the results. It controls the `query.page` parameter.
 
@@ -221,21 +205,15 @@ This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/
 <sq-pager [results]="results"></sq-pager>
 ```
 
-### Loading bar
+<!-- <doc-pager></doc-pager> -->
 
-<doc-loading-bar></doc-loading-bar>
+### Loading bar
 
 The [`sq-loading-bar`]({{site.baseurl}}components/components/BsLoadingBar.html) component displays a indeterminate loading bar when the search is active (the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html) expects results from the server). The component uses the `SearchService.searchActive` property and requires no mandatory input.
 
-![Loading bar]({{site.baseurl}}assets/modules/search/loading-bar.png)
-
-```html
-<sq-loading-bar></sq-loading-bar>
-```
+<doc-loading-bar></doc-loading-bar>
 
 ### Load More Button
-
-<!-- <doc-load-more></doc-load-more> -->
 
 The [`sq-load-more`]({{site.baseurl}}components/components/BsLoadMore.html) component display a simple button allowing user to fetch next results.
 
@@ -245,9 +223,9 @@ Results comes from [`SearchService.ResultsStream`]({{site.baseurl}}components/in
 <sq-load-more></sq-load-more>
 ```
 
-### Lazy-loading results while scrolling down
+<!-- <doc-load-more></doc-load-more> -->
 
-<!-- <doc-scroller></doc-scroller> -->
+### Lazy-loading results while scrolling down
 
 The [`sq-scroller`]({{site.baseurl}}components/components/BsScroller.html) component allow continuously loading results as the user scrolls down the page.
 
@@ -259,9 +237,9 @@ We are using the [`Observer API`](https://developer.mozilla.org/en-US/docs/Web/A
 <sq-scroller></sq-scroller>
 ```
 
-### Scope selector
+<!-- <doc-scroller></doc-scroller> -->
 
-<!-- <doc-scope></doc-scope> -->
+### Scope selector
 
 The [`sq-scope`]({{site.baseurl}}components/components/BsScopeComponent.html) component allows users to select a subset of sources, much like the tabs but with additional flexibility for defining the WHERE-clause returning the documents.
 
@@ -286,5 +264,7 @@ A complete implementation could look like this:
   (queryChange)="searchService.search()">
 </sq-scope>
 ```
+
+<!-- <doc-scope></doc-scope> -->
 
 (Note that, unlike with the tabs, the query web service does not support counting the number of elements in each scope for a given query. Therefore, scopes could be displayed in the form of tabs, but without tab counters.)

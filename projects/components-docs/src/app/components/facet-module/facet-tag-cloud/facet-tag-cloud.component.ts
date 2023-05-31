@@ -3,7 +3,10 @@ import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
   selector: 'doc-facet-tag-cloud',
-  templateUrl: './facet-tag-cloud.component.html'
+  templateUrl: './facet-tag-cloud.component.html',
+  styles: [`::ng-deep sq-facet-tag-cloud li:before {
+    content: none !important;
+  }`]
 })
 export class DocFacetTagCloudComponent extends BaseComponent {
 

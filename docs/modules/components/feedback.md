@@ -42,13 +42,9 @@ const messages = Utils.merge({}, ..., enFeedback, appMessages);
 
 ## Feedback
 
-<doc-feedback-menu></doc-feedback-menu>
-
 The [`sq-feedback-menu`]({{site.baseurl}}components/components/BsFeedbackMenu.html) component can be displayed in an application with:
 
-```html
-<sq-feedback-menu></sq-feedback-menu>
-```
+<doc-feedback-menu></doc-feedback-menu>
 
 It is possible to pass optional inputs to the component:
 

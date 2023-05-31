@@ -344,19 +344,11 @@ It is also possible to insert static content which will be displayed at the top 
 
 ### Multiple-type Facet
 
-<doc-facet-multi></doc-facet-multi>
-
 The "multiple-type" facet [`sq-facet-multi`]({{site.baseurl}}components/components/BsFacetMultiComponent.html) displays multiple types of metadata in the same facet. The user selects the type of metadata, which then changes the view of the facet into one of the classical views above.
 
-![Multi facet]({{site.baseurl}}assets/modules/facet/facet-multi.png){: .d-block .mx-auto}
+This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input, the list of the `facets` configuration (equivalent to the `allFacets` list of the [facet bar](#facet-bar) above), and optionally a list of custom components (`facetComponents`). The title and icon of the facet card need to be set dynamically, as a function of the currently selected metadata.
 
-This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input, the list of the `facets` configuration (equivalent to the `allFacets` list of the [facet bar](#facet-bar) above), and optionally a list of custom components (`facetComponents`). The title and icon of the facet card need to be set dynamically, as a function of the currently selected metadata (See the [Vanilla-Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) application for a concrete example).
-
-```html
-<sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon">
-    <sq-facet-multi #facet [results]="results" [facets]="facets" [facetComponents]="facetComponents"></sq-facet-multi>
-</sq-facet-card>
-```
+<doc-facet-multi></doc-facet-multi>
 
 ### Facet Filters
 
@@ -404,11 +396,9 @@ The [`FacetService`]({{site.baseurl}}components/injectables/FacetService.html) p
 
 ### List Facet
 
-<doc-facet-list></doc-facet-list>
-
 The [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component displays a regular list of metadata (aggregation). The user can click on items in the list to filter the results.
 
-![List facet]({{site.baseurl}}assets/modules/facet/facet-list.png){: .d-block .mx-auto}
+<doc-facet-list></doc-facet-list>
 
 This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input and the name of the aggregation to work properly.
 
@@ -430,14 +420,7 @@ The full list of inputs is:
 
 This component can be used in two ways :
 
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'Geography'" [icon]="'fas fa-globe-americas'" [expandable]="true">
-      <sq-facet-list #facet [results]="results" [aggregation]="'Geo'"></sq-facet-list>
-  </sq-facet-card>
-  ```
-
+  - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetListConfig` interface.
 
 ### Tree Facet
@@ -475,9 +458,9 @@ This component can be used in two ways :
 
 ### Range Facet
 
-<doc-facet-range></doc-facet-range>
-
 The [`sq-facet-range`]({{site.baseurl}}components/components/BsFacetRange.html) component displays a slider to select a range of values for a numerical (eg. document size) or temporal (eg. modified date) metadata.
+
+<doc-facet-range></doc-facet-range>
 
 The full list of inputs is:
 
@@ -490,14 +473,7 @@ The full list of inputs is:
 
 This component can be used in two ways :
 
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'Range'">
-      <sq-facet-range #facet [results]="results" [aggregation]="'modified'" [min]="'2017-01-01'" [max]="'2022-01-01'"></sq-facet-range>
-  </sq-facet-card>
-  ```
-
+  - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetRangeConfig` interface.
 
 ### My Search Facet
@@ -538,9 +514,9 @@ This component can be used in different ways :
 
 ### Refine Facet
 
-<doc-refine></doc-refine>
-
 The [`sq-refine`]({{site.baseurl}}components/components/BsRefine.html) component displays a secondary search form, including an autocomplete, to add a fulltext search criteria to a query, without removing the active filters.
+
+<doc-refine></doc-refine>
 
 This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input. If the autocomplete is enabled, all the parameters of the [autocomplete directive](autocomplete.html) should be provided to this component.
 
@@ -553,24 +529,15 @@ The full list of inputs is:
 
 This component can be used in two ways :
 
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'Refine'" [icon]="'fas fa-info'">
-      <sq-refine #facet [results]="results"></sq-refine>
-  </sq-facet-card>
-  ```
-
+  - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetRefineConfig` interface.
 
 
 ### Tag Cloud Facet
 
-<doc-facet-tag-cloud></doc-facet-tag-cloud>
-
 The [`sq-facet-tag-cloud`]({{site.baseurl}}components/components/BsFacetTagCloud.html) displays multiple types of metadata in the same facet. It provides a direct access to the most relevant filters, belonging to the supplied metadata.
 
-![Tag cloud]({{site.baseurl}}assets/modules/facet/facet-tag-cloud.PNG){: .d-block .mx-auto}
+<doc-facet-tag-cloud></doc-facet-tag-cloud>
 
 The inputs of the component are:
 
@@ -586,12 +553,5 @@ The inputs of the component are:
 
 This component can be used in two ways :
 
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'Tag cloud'" [icon]="'fas fa-cloud'">
-      <sq-facet-tag-cloud #facet [results]="results" [aggregations]="['Company','Geo','Person','Concepts']"></sq-facet-tag-cloud>
-  </sq-facet-card>
-  ```
-
+  - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetTagCloudConfig` interface.

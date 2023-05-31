@@ -227,38 +227,19 @@ Note: in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.
 
 ### User Menu
 
+The [`sq-baskets-menu`]({{site.baseurl}}components/components/BsBasketsMenuComponent.html) component displays the list of baskets, lets a user create a new basket and reorganize the list.
+
+This menu is meant to be inserted in a Bootstrap-styled navbar.
+
 <doc-baskets-menu></doc-baskets-menu>
-
-The [`sq-baskets-menu`]({{site.baseurl}}components/components/BsBasketsMenuComponent.html) component displays the list of baskets, lets a user create a new basket and reorganize the list (See the *Manage* modal below).
-
-![Baskets menu]({{site.baseurl}}assets/modules/user-settings/baskets-menu.png){: .d-block .mx-auto }
-
-This menu is meant to be inserted in a Bootstrap-styled navbar:
-
-```html
-<ul class="navbar-nav">
-    <sq-baskets-menu></sq-baskets-menu>
-    <!-- Other menus -->
-</ul>
-```
 
 ### Facet
 
-<doc-facet-baskets></doc-facet-baskets>
-
 The [`sq-facet-baskets`]({{site.baseurl}}components/components/BsFacetBasketsComponent.html) component displays the list of baskets, lets a user open one of them, create a new one, open the *Manage* modal (see below), and delete specific baskets.
 
-![Baskets facet]({{site.baseurl}}assets/modules/user-settings/baskets-facet.png){: .d-block .mx-auto }
+This facet is meant to work with the [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) component (See [Facet Module](facet.html)).
 
-This facet is meant to work with the [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) component (See [Facet Module](facet.html)):
-
-```html
-<sq-facet-card  [title]="'msg#baskets.baskets'"
-                [tooltip]="'msg#home.basketsTooltip'"
-                [icon]="'fas fa-shopping-basket'">
-    <sq-facet-baskets #facet [maxBaskets]="5"></sq-facet-baskets>
-</sq-facet-card>
-```
+<doc-facet-baskets></doc-facet-baskets>
 
 The component accepts the following (optional) inputs:
 
