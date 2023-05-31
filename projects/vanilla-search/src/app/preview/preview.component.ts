@@ -13,6 +13,8 @@ import { IntlService } from '@sinequa/core/intl';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 import { ChatService, InitChat } from '@sinequa/components/machine-learning';
 import { AssistantService } from '../assistant/assistant.service';
+import { ProviderFactory } from '@sinequa/analytics/network';
+import { GptProvider } from './network.provider';
 
 export interface EntitiesState {
   count: number;
@@ -67,6 +69,13 @@ export class PreviewComponent implements OnDestroy {
     })
   ];
 
+  networkProvider: GptProvider;
+  networkSettingsAction = new Action({
+    icon: 'fas fa-pen-fancy',
+    title: 'Customize prompt',
+    action: action => action.selected = !action.selected
+  });
+
   constructor(
     public chatService: ChatService,
     public route: ActivatedRoute,
@@ -78,7 +87,8 @@ export class PreviewComponent implements OnDestroy {
     public searchService: SearchService,
     public appService: AppService,
     public cdRef: ChangeDetectorRef,
-    public assistantService: AssistantService
+    public assistantService: AssistantService,
+    public factory: ProviderFactory
   ) {
 
     // The URL can be changed when searching within the page
@@ -87,6 +97,8 @@ export class PreviewComponent implements OnDestroy {
     ).subscribe(() => this.getPreviewDataFromUrl());
 
     titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle"));
+
+    this.networkProvider = new GptProvider(this.factory, this.assistantService, this.chatService);
 
   }
 
@@ -116,6 +128,7 @@ export class PreviewComponent implements OnDestroy {
       this.preview.selectMostRelevant();
       this.tabs = [
         this.getTab('chat'),
+        this.getTab('network'),
         this.getTab('extracts'),
         this.getTab('entities')
       ];
@@ -129,6 +142,11 @@ export class PreviewComponent implements OnDestroy {
 
   openPanel(tab: Tab) {
     this.subpanel = tab.value;
+
+    if(this.subpanel === 'network' && this.previewData?.record) {
+      this.networkProvider.updateRecord(this.previewData?.record);
+      setTimeout(() => this.cdRef.detectChanges());
+    }
   }
 
   /**
@@ -163,6 +181,8 @@ export class PreviewComponent implements OnDestroy {
   initChat() {
     if(this.previewData?.record) {
       const record = this.previewData.record;
+
+      // Chat view
       this.chat = {
         messages: [{
           role: 'system',
@@ -173,8 +193,21 @@ export class PreviewComponent implements OnDestroy {
       };
       this.chatQuery = this.searchService.makeQuery({
         filters: {field: 'id', value: record.id}
-      })
+      });
+
+      if(this.subpanel === 'network') {
+        this.networkProvider.updateRecord(record);
+      }
+
     }
+  }
+
+  get networkPrompt() {
+    return this.assistantService.getRawPrompt("networkPrompt");
+  }
+
+  set networkPrompt(prompt: string) {
+    this.assistantService.setRawPrompt("networkPrompt", prompt);
   }
 
   // User preferences

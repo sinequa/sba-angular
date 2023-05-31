@@ -36,6 +36,8 @@ import { MLModule } from '@sinequa/components/machine-learning';
 import { SearchFormComponent } from "@sinequa/components/search-form";
 import { FiltersModule } from "@sinequa/components/filters";
 
+import { NetworkModule } from "@sinequa/analytics/network";
+
 // Components
 import { AppComponent } from "./app.component";
 import { HomeComponent } from './home/home.component';
@@ -144,6 +146,8 @@ export const breakpoints = {
         MLModule,
         FiltersModule,
         SearchFormComponent,
+
+        NetworkModule
     ],
     declarations: [
         AppComponent,

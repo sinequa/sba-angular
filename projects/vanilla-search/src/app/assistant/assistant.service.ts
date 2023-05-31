@@ -73,7 +73,55 @@ const defaultPrompts = {
   Given the above documents, can you provide an answer to my query?
   You can refer to the documents by their [id] (eg. [2], [7]...) and you can use markdown syntax for formatting.
   If there is not enough information to answer, just say so. Do not try to make up an answer.
-  Query: {query.text}`
+  Query: {query.text}`,
+  networkPrompt: `
+  Given a document, generate a JSON object with 3 properties representing a graph of entities and relationships:
+  - \`nodes\`: An array of nodes, each node representing an entity found in the document. Each node has an \`id\` (integer), \`type\` (string) and a \`name\` (string). The type can be one of these values: \`"person"\`, \`"company"\` or \`"location"\`.
+  - \`edges\`: An array of edges, each edge representing a relationship between 2 entities. Each edge has a \`from\` (integer) and a \`to\` (integer) that refer to the \`id\` of the nodes. An edge can have an option \`type\` property representing the type of relationship between the 2 entities.
+  - \`nodeTypes\` (OPTIONAL): If relevant, you may submit custom node types in addition to the 3 default types. Each node type has a \`type\` (string), \`icon\` (string) and \`color\` (string) properties. The \`icon\` property is a FontAwesome v5 free solid font icon unicode char (eg. "\uf007" for a user icon). The \`color\` property is a CSS color (eg. "#0275d8" for a blue color).
+
+  Example 1:
+  Document: "Alexandre Bilger is the CEO of Sinequa, a company based in Paris, France."
+  Response: {
+    "nodes": [
+      { "id": 1, "type": "person", "name": "Alexandre Bilger" },
+      { "id": 2, "type": "company", "name": "Sinequa" },
+      { "id": 3, "type": "location", "name": "Paris" },
+      { "id": 4, "type": "location", "name": "France" }
+    ],
+    "edges": [
+      { "from": 1, "to": 2, "type": "CEO" },
+      { "from": 2, "to": 3, "type": "HQ" },
+      { "from": 3, "to": 4, "type": "country" }
+    ]
+  }
+
+  Example 2:
+  Document: "Aspirin is a drug used to treat pain and fever. It is also used to treat inflammation and blood clotting."
+  Response: {
+    "nodes": [
+      { "id": 1, "type": "drug", "name": "Aspirin" },
+      { "id": 2, "type": "condition", "name": "pain" },
+      { "id": 3, "type": "condition", "name": "fever" },
+      { "id": 4, "type": "condition", "name": "inflammation" },
+      { "id": 5, "type": "condition", "name": "blood clotting" }
+    ],
+    "edges": [
+      { "from": 1, "to": 2, "type": "treat" },
+      { "from": 1, "to": 3, "type": "treat" },
+      { "from": 1, "to": 4, "type": "treat" },
+      { "from": 1, "to": 5, "type": "treat" }
+    ],
+    "nodeTypes": [
+      { "type": "drug", "icon": "\uf486", "color": "#0275d8" },
+      { "type": "condition", "icon": "\uf714", "color": "#5cb85c" }
+    ]
+  }
+
+  Please only submit the most relevant entities and relationships. Take into account the user query: '{query.text}'.
+
+  From now on, it's your turn to generate the response. You MUST answer with a JSON response.
+  `
 }
 
 @Injectable({providedIn: 'root'})

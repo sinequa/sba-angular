@@ -75,6 +75,25 @@
       </sq-chat>
     </ng-container>
 
+    <ng-container *ngSwitchCase="'network'">
+
+      <div class="px-2 px-lg-4 flex-scroll">
+        <sq-facet-card [collapsible]="false" [actions]="[networkSettingsAction]">
+          <sq-loading-bar [active]="networkProvider.loading$ | async"></sq-loading-bar>
+          <sq-network *ngIf="!networkSettingsAction.selected"
+            #facet
+            [providers]="[networkProvider]">
+          </sq-network>
+
+          <div *ngIf="networkSettingsAction.selected">
+            <label for="networkPrompt" class="form-label">Network prompt</label>
+            <textarea class="form-control" id="networkPrompt" [(ngModel)]="networkPrompt" rows="10"></textarea>
+          </div>
+        </sq-facet-card>
+      </div>
+
+    </ng-container>
+
   </div>
 
 </div>
