@@ -8,10 +8,6 @@ nav_order: 20
 
 # Machine Learning Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/MLModule.html) auto-generated from source code.
-
 ## Features
 
 This module introduces the Neural Search components displaying Answers and Passages extracted from the documents according to your search.
@@ -48,7 +44,7 @@ const messages = Utils.merge({}, ..., enML, appMessages);
 
 ## API usage
 
-This module exports the [`AnswerCardComponent`]({{site.baseurl}}components/components/AnswerCardComponent.html), [`TopPassagesComponent`]({{site.baseurl}}components/components/TopPassagesComponent.html) and [`PassageListComponent`]({{site.baseurl}}components/components/PassageListComponent.html) components that are responsible for displaying the Neural Search data from your query.
+This module exports the `AnswerCardComponent`, `TopPassagesComponent` and `PassageListComponent` components that are responsible for displaying the Neural Search data from your query.
 
 ### Answer Component
 

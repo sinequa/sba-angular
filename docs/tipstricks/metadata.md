@@ -104,9 +104,9 @@ First of all, choose a name for the formatter, like `"prettifyCategory"`. Set th
 
 ![Custom formatter]({{site.baseurl}}assets/tipstricks/metadata-formatter.png){: .d-block .mx-auto }
 
-This custom formatter needs to be implemented in your Angular application. This is done by overriding the [FormatService]({{site.baseurl}}core/injectables/FormatService.html). An example is provided in the documentation of the [App Utils modules]({{site.baseurl}}modules/core/app-utils.html#format-service).
+This custom formatter needs to be implemented in your Angular application. This is done by overriding the `FormatService`. An example is provided in the documentation of the [App Utils modules]({{site.baseurl}}modules/core/app-utils.html#format-service).
 
-1. Create your extension of the [FormatService]({{site.baseurl}}core/injectables/FormatService.html) in your app.
+1. Create your extension of the `FormatService` in your app.
 
     ```ts
     @Injectable({
@@ -130,7 +130,7 @@ This custom formatter needs to be implemented in your Angular application. This 
     }
     ```
 
-3. In your `app.module.ts`, provide your custom [FormatService]({{site.baseurl}}core/injectables/FormatService.html):
+3. In your `app.module.ts`, provide your custom `FormatService`:
 
     ```ts
     @NgModule({
@@ -142,7 +142,7 @@ This custom formatter needs to be implemented in your Angular application. This 
     })
     ```
 
-Your metadata will be automatically formatted in the built-in components, such as `sq-metadata`, `sq-facet-list`, etc. But if you want to format your custom value in your own template, this can be achieve with the [`sqValue`]({{site.baseurl}}components/pipes/ValuePipe.html) pipe:
+Your metadata will be automatically formatted in the built-in components, such as `sq-metadata`, `sq-facet-list`, etc. But if you want to format your custom value in your own template, this can be achieve with the `sqValue` pipe:
 
 {% raw %}
 
@@ -152,7 +152,7 @@ Your metadata will be automatically formatted in the built-in components, such a
 
 {% endraw %}
 
-Notice that the [`sqValue`]({{site.baseurl}}components/pipes/ValuePipe.html) pipe requires a `column` value as a parameter. This object can be retrieved with the following call:
+Notice that the `sqValue` pipe requires a `column` value as a parameter. This object can be retrieved with the following call:
 
 ```ts
 this.column = this.appService.getColumn('category');

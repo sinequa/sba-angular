@@ -8,10 +8,6 @@ nav_order: 18
 
 # Comments Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/CommentsModule.html) auto-generated from source code.
-
 ## Features
 
 This module provides a component to display a thread of comments attached to a document.
@@ -25,7 +21,7 @@ Users can post comments, replies and like other comments. The author of a commen
 
 ⚠️ This component requires a web service deployed on the Sinequa server, that is NOT part of the Sinequa product. The web service is provided a plugin (See below). It is also required to create a custom index to store the comments, and to manage the lifecycle of this index.
 
-Add [`CommentsModule`]({{site.baseurl}}components/modules/CommentsModule.html) to your Angular imports in `app.module.ts`:
+Add `CommentsModule` to your Angular imports in `app.module.ts`:
 
 ```ts
 import { CommentsModule } from "@sinequa/components/comments";
@@ -56,7 +52,7 @@ This component has one important dependency: the [Marked](https://marked.js.org/
 
 <!-- <doc-comments></doc-comments> -->
 
-The [`sq-comments`]({{site.baseurl}}components/components/CommentsComponent.html) component displays a list of comments and replies attached to a specific document. This component can be displayed anywere as long as a document id is provided.
+The `sq-comments` component displays a list of comments and replies attached to a specific document. This component can be displayed anywere as long as a document id is provided.
 
 The component requires one mandatory input: `docid` (string), the id of the document to which the thread of comments is attached.
 
@@ -64,7 +60,7 @@ The component requires one mandatory input: `docid` (string), the id of the docu
 <sq-comments [docid]="record.id"></sq-comment>
 ```
 
-The component uses a service ([`CommentsWebService`]({{site.baseurl}}components/injectables/CommentsWebService.html)) to retrieve the list of [`Comment`]({{site.baseurl}}components/miscellaneous/typealiases.html#Comment) objects from the server (as well as all the other actions: create, edit, delete and like comments).
+The component uses a service (`CommentsWebService`) to retrieve the list of `Comment` objects from the server (as well as all the other actions: create, edit, delete and like comments).
 
 ## Server-side configuration
 

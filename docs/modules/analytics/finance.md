@@ -8,10 +8,6 @@ nav_order: 8
 
 # Finance Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}analytics/modules/FinanceModule.html) auto-generated from source code.
-
 ## Features
 
 This module includes components for visualizing financial data. These components are based on the [D3 library](https://d3js.org/).
@@ -79,13 +75,13 @@ Such a cooccurrence entity would be extracted and normalized as `(REVENUE)#(USD 
 
 <!-- <doc-money-timeline></doc-money-timeline> -->
 
-The money timeline component ([`sq-money-timeline`]({{site.baseurl}}analytics/components/MoneyTimelineComponent.html)) displays amounts of money found in records (ie. search results, along a time axis). The component only requires a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input. By default, the component assumes that amounts of money are extracted in a "money" column and that a "Money" aggregation is calculated against this column. The aggregation is used to size the "bubbles" representing each amount of money (the bigger the bubble means the amount of money is often mentioned in the results). The time axis corresponds to the "modifed" column of the records. The colors corresponds to different records in the results.
+The money timeline component (`sq-money-timeline`) displays amounts of money found in records (ie. search results, along a time axis). The component only requires a `Results` input. By default, the component assumes that amounts of money are extracted in a "money" column and that a "Money" aggregation is calculated against this column. The aggregation is used to size the "bubbles" representing each amount of money (the bigger the bubble means the amount of money is often mentioned in the results). The time axis corresponds to the "modifed" column of the records. The colors corresponds to different records in the results.
 
 ![Timeline]({{site.baseurl}}assets/modules/finance/money-timeline.png){: .d-block .mx-auto }
 
 Main inputs:
 
-- `results`: The [`Results`]({{site.baseurl}}core/interfaces/Results.html) from which to extract the records and aggregation plotted on the timeline.
+- `results`: The `Results` from which to extract the records and aggregation plotted on the timeline.
 - `moneyColumn` (defaults: `'money'`): The column that stores the entity formatted as `USD 1234`.
 - `moneyAggregation` (defaults: `'Money'`): The aggregation computed over the above column.
 
@@ -95,13 +91,13 @@ When an amount is hovered with the mouse, and the user clicks on the "Inspect th
 
 <!-- <doc-money-cloud></doc-money-cloud> -->
 
-The money cloud component ([`sq-money-cloud`]({{site.baseurl}}analytics/components/MoneyCloudComponent.html)) displays amounts of money found in the results sorted by categories. The component only requires a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input. By default, the component assumes that cooccurrence of amounts of money and categories are extracted in a "value_amount" column and that a "ValueAmounts" aggregation is calculated against this column. Only the aggregation is used to plot the data (no records are used, unlike the timeline component). The bigger the bubble means the cooccurrence is often mentioned in the results. The colors correspond to the currencies found in the amount of money.
+The money cloud component (`sq-money-cloud`) displays amounts of money found in the results sorted by categories. The component only requires a `Results` input. By default, the component assumes that cooccurrence of amounts of money and categories are extracted in a "value_amount" column and that a "ValueAmounts" aggregation is calculated against this column. Only the aggregation is used to plot the data (no records are used, unlike the timeline component). The bigger the bubble means the cooccurrence is often mentioned in the results. The colors correspond to the currencies found in the amount of money.
 
 ![Money cloud]({{site.baseurl}}assets/modules/finance/money-cloud.png){: .d-block .mx-auto }
 
 Main inputs:
 
-- `results`: The [`Results`]({{site.baseurl}}core/interfaces/Results.html) from which to extract the aggregation plotted on the timeline.
+- `results`: The `Results` from which to extract the aggregation plotted on the timeline.
 - `moneyValueColumn` (defaults: `'value_amount'`): The column that stores the entity formatted as `(REVENUE)#(USD 1320000000)`.
 - `moneyAggregation` (defaults: `'ValueAmounts'`): The aggregation computed over the above column.
 

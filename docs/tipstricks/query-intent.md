@@ -15,17 +15,17 @@ This functionality is exposed as a web service. The service takes in a user quer
 
 In the Sinequa administration, the Query Intents are configured in the _Search-Based Applications > App Dependencies > Query Intent Sets_ section. Once configured there, the Query Intent Set must be attached to the SBA's query web service (Under the _Search settings_ tab and _Query Options - Intents_ section).
 
-Requesting the intent of a query can then be done easily, by using [`QueryIntentWebService`]({{site.baseurl}}core/injectables/QueryIntentWebService.html) from the [`@sinequa/core/web-services`]({{site.baseurl}}modules/core/web-services.html) module:
+Requesting the intent of a query can then be done easily, by using `QueryIntentWebService` from the [`@sinequa/core/web-services`]({{site.baseurl}}modules/core/web-services.html) module:
 
 ```ts
 this.queryIntentWebService.getQueryIntent(this.query);
 ```
 
-In this example, `this.query` is a [`Query`]({{site.baseurl}}core/interfaces/IQuery.html) object. The method returns an observable of [`QueryIntentMatch[]`]({{site.baseurl}}core/interfaces/QueryIntentMatch.html).
+In this example, `this.query` is a `Query` object. The method returns an observable of `QueryIntentMatch[]`.
 
 ## Integration in the Search process
 
-Query Intent detection is already integrated in the search process orchestrated by the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html). It is automatically triggered when you configure a Query Intent Set in your query web service on the back-end.
+Query Intent detection is already integrated in the search process orchestrated by the `SearchService`. It is automatically triggered when you configure a Query Intent Set in your query web service on the back-end.
 
 However, there are two possible processes:
 
@@ -34,7 +34,7 @@ However, there are two possible processes:
 
 ![Query Intent modes]({{site.baseurl}}assets/tipstricks/queryintents.png)
 
-Synchronous detection can be activated by setting the `queryIntentsSync` property of the [`SearchOptions`]({{site.baseurl}}components/interfaces/SearchOptions.html) in your `AppModule`:
+Synchronous detection can be activated by setting the `queryIntentsSync` property of the `SearchOptions` in your `AppModule`:
 
 ```ts
 @NgModule({

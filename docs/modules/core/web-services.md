@@ -8,10 +8,6 @@ nav_order: 4
 
 # Web Services Module
 
-## Reference documentation
-
-Please check out the [reference documentation]({{site.baseurl}}core/modules/WebServicesModule.html) auto-generated from source code.
-
 ## Initialization
 
 This module contains Angular services for the Sinequa web service APIs. The module can be initialized using the `WebServicesModule.forRoot` static method in your applications's `NgModule` which makes an injectable `StartConfig` object available to the services and components across the application. At a minimum the object

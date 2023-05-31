@@ -8,10 +8,6 @@ nav_order: 2
 
 # Intl Module
 
-## Reference documentation
-
-Please check out the [reference documentation]({{site.baseurl}}core/modules/IntlModule.html) auto-generated from source code.
-
 ## Overview
 
 This module provides internationalization (i18n) support to an application. Core functionality is provided by the `IntlService`

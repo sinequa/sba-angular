@@ -87,12 +87,13 @@ export class ChatService {
   /**
    * Calls the ChatGPT API to retrieve a new message given all previous messages
    */
-  fetch(messages: ChatMessage[], name: GllmModel, temperature: number, generateTokens: number, topP: number): Observable<ChatResponse> {
+  fetch(messages: ChatMessage[], name: GllmModel, temperature: number, generateTokens: number, topP: number, context?: string): Observable<ChatResponse> {
     const model = {
       name,
       temperature,
       generateTokens,
-      topP
+      topP,
+      context
     };
     const messagesHistory = this.cleanMessages(messages);
     const data = {action: "chat", model, messagesHistory, promptProtection: false};

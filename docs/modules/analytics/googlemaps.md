@@ -8,11 +8,7 @@ nav_order: 5
 
 # Google Maps Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}analytics/modules/GoogleMapsModule.html) auto-generated from source code.
-
-Also checkout the official documentation of the [Angular Google Maps](https://github.com/angular/components/tree/main/src/google-maps) library.
+This module is an integration of the [Angular Google Maps](https://github.com/angular/components/tree/main/src/google-maps) library.
 
 ## Features
 

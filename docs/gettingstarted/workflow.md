@@ -24,7 +24,7 @@ When working **locally**, your Angular workspace lives in the `<sinequa>/data/sb
 
 Working locally makes the deployment very easy: you simply build your app for production, and it is ready to be served by Sinequa. It is adapted for quick projects with a single developer.
 
-When working locally, you can configure the [`StartConfig`]({{site.baseurl}}core/interfaces/StartConfig.html) object in your `app.module.ts` like this:
+When working locally, you can configure the `StartConfig` object in your `app.module.ts` like this:
 
 ```ts
 export const startConfig: StartConfig = {

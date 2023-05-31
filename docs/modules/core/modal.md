@@ -8,10 +8,6 @@ nav_order: 5
 
 # Modal Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}/core/modules/ModalModule.html) auto-generated from source code.
-
 ## Features
 
 This module helps creating popups to inform end-user of an information or to prompt for some input from the user.

@@ -8,11 +8,7 @@ nav_order: 1
 
 # FusionCharts Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}analytics/modules/FusionChartsModule.html) auto-generated from source code.
-
-Also checkout the official documentation of the [FusionCharts](https://www.fusioncharts.com/angular2-js-charts?framework=angular2) library.
+This module is an integration of the [FusionCharts](https://www.fusioncharts.com/angular2-js-charts?framework=angular2) library.
 
 ## Features
 
@@ -47,7 +43,7 @@ import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
 
 <doc-chart></doc-chart>
 
-The [`sq-fusion-chart`]({{site.baseurl}}analytics/components/FusionChart.html) component displays a chart (multiple types are supported), given at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input and the name of an aggregation (as configured in the query web service).
+The `sq-fusion-chart` component displays a chart (multiple types are supported), given at least a `Results` input and the name of an aggregation (as configured in the query web service).
 
 ### Chart type
 
@@ -108,7 +104,7 @@ By default, a FusionCharts theme is used (it can be modified using the above [ch
 
 - `defaultColor`: When specified, will be used as the background color for the data items (eg. the bars of a bar chart).
 - `filteredColor` (default: `#C3E6CB`): Displays the *filtered* items (items that have been clicked on to filter the results) in a distinctive color.
-- `selectedColor` (default: `#8186d4`): Displays the items that belong to a *selected document* (managed by the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) - see [Selection Module]({{site.baseurl}}/modules/components/selection.html)) in a distinctive color.
+- `selectedColor` (default: `#8186d4`): Displays the items that belong to a *selected document* (managed by the `SelectionService` - see [Selection Module]({{site.baseurl}}modules/components/selection.html)) in a distinctive color.
 
 ![Custom colors]({{site.baseurl}}assets/modules/fusioncharts/colors.png){: .d-block .mx-auto }
 
@@ -116,7 +112,7 @@ By default, a FusionCharts theme is used (it can be modified using the above [ch
 
 <!-- <doc-multi-level-pie-chart></doc-multi-level-pie-chart> -->
 
-The [`sq-multi-level-pie-chart`]({{site.baseurl}}analytics/components/MultiLevelPieChart.html) component displays a special type of chart that allows you to show symmetrical and asymmetrical tree structures in a consolidated pie-like structure. It presents the entire hierarchical data in a single-screen snapshot, which makes it a preferred choice over a tree view.
+The `sq-multi-level-pie-chart` component displays a special type of chart that allows you to show symmetrical and asymmetrical tree structures in a consolidated pie-like structure. It presents the entire hierarchical data in a single-screen snapshot, which makes it a preferred choice over a tree view.
 
 This chart type belongs to **PowerCharts XT**. Thus, it requires an additional import :
 
@@ -239,9 +235,9 @@ The same colors' choice is used, by default, in both `FusionChart` and `MultiLev
 
 ## Advanced Customization
 
-The [`sq-fusion-chart`]({{site.baseurl}}analytics/components/FusionChart.html) component is a wrapper of the `fusioncharts` directive. It takes the Sinequa data structures (aggregations), and converts them into a "datasource" object, which is the structure that the Fusion Charts library expects.
+The `sq-fusion-chart` component is a wrapper of the `fusioncharts` directive. It takes the Sinequa data structures (aggregations), and converts them into a "datasource" object, which is the structure that the Fusion Charts library expects.
 
-When advanced customizations are needed (custom types of charts or data structures), it is possible to use the `fusioncharts` directive directly. This directive is included in the [`FusionChartsModule`]({{site.baseurl}}analytics/modules/FusionChartsModule.html), so the sample imports shown [above](#import) work just the same.
+When advanced customizations are needed (custom types of charts or data structures), it is possible to use the `fusioncharts` directive directly. This directive is included in the `FusionChartsModule`, so the sample imports shown [above](#import) work just the same.
 
 ```html
 <fusioncharts

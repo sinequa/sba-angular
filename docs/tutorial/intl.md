@@ -276,7 +276,7 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
             BsActionModule,
     ```
 
-2. Create a list of [`Action`]({{site.baseurl}}components/classes/Action.html) objects (one for each language) in the constructor of your `app.component.ts`:
+2. Create a list of `Action` objects (one for each language) in the constructor of your `app.component.ts`:
 
     ```ts
     import { Action } from '@sinequa/components/action';
