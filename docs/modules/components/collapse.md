@@ -62,6 +62,6 @@ You can change it using an HTML button like in the above example or with any oth
 
 `@sinequa/components/collapse` also includes a syntactic sugar component - `sq-collapse-button` - to help you quickly create input components to toggle the `collapsed` property. By default, these components display a chevron icon (as in the image above), but the icon and text can be customized via the `icon`, `text`, `collapsedTitle` and `expandedTitle` inputs respectively.
 
-Example 2: Usage of the [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html)
+Example 2: Usage of the `sq-collapse-button`
 
 <doc-collapse-button></doc-collapse-button>
