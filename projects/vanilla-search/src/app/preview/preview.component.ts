@@ -144,7 +144,7 @@ export class PreviewComponent implements OnDestroy {
     this.subpanel = tab.value;
 
     if(this.subpanel === 'network' && this.previewData?.record) {
-      this.networkProvider.updateRecord(this.previewData?.record);
+      this.networkProvider.updateRecord(this.previewData?.record, this.query);
       setTimeout(() => this.cdRef.detectChanges());
     }
   }
@@ -196,7 +196,7 @@ export class PreviewComponent implements OnDestroy {
       });
 
       if(this.subpanel === 'network') {
-        this.networkProvider.updateRecord(record);
+        this.networkProvider.updateRecord(record, this.query);
       }
 
     }

@@ -82,8 +82,7 @@
           <sq-loading-bar [active]="networkProvider.loading$ | async"></sq-loading-bar>
           <sq-network *ngIf="!networkSettingsAction.selected"
             #facet
-            [providers]="[networkProvider]"
-            [query]="query">
+            [providers]="[networkProvider]">
           </sq-network>
 
           <div *ngIf="networkSettingsAction.selected">

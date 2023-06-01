@@ -1,5 +1,6 @@
 import { BaseProvider, NodeType, ProviderFactory, Node } from "@sinequa/analytics/network";
 import { ChatService } from "@sinequa/components/machine-learning";
+import { Query } from "@sinequa/core/app-utils";
 import { Record as SqRecord} from "@sinequa/core/web-services";
 import { BehaviorSubject, filter, map, switchMap, tap } from "rxjs";
 import { AssistantService } from "../assistant/assistant.service";
@@ -18,6 +19,8 @@ export class GptProvider extends BaseProvider {
 
   loading$ = new BehaviorSubject<boolean>(false);
 
+  query?: Query;
+
   constructor(
     public factory: ProviderFactory,
     public assistantService: AssistantService,
@@ -34,8 +37,9 @@ export class GptProvider extends BaseProvider {
     this.edge = factory.createEdgeOptions(undefined, 3);
   }
 
-  updateRecord(record: SqRecord) {
+  updateRecord(record: SqRecord, query: Query) {
     this.record = record;
+    this.query = query;
     this.getData(undefined);
   }
 
@@ -50,7 +54,7 @@ export class GptProvider extends BaseProvider {
       const prompt = {
         role: 'system',
         display: false,
-        content: this.assistantService.getPrompt("networkPrompt", this.record, {query: this.context.query}),
+        content: this.assistantService.getPrompt("networkPrompt", this.record, {query: this.query}),
         $content: ''
       };
 
