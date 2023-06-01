@@ -23,7 +23,11 @@ export class JsonMethodPluginService extends HttpService{
     if (!Utils.isObject(query)) {
       return throwError({error: "invalid query object"});
     }
-    const observable = this.httpClient.post(this.makeUrl(method), query, options);
+    const timeoutInMin = options && 'timeoutInMin' in options ? options.timeoutInMin : 1;
+    if (options && 'timeoutInMin' in options) delete options.timeoutInMin;
+    const observable = this.httpClient.post(this.makeUrl(method), query, options).pipe(
+      timeout(timeoutInMin * 60 * 1000),
+    );
 
     Utils.subscribe(observable,
       (response) => {
