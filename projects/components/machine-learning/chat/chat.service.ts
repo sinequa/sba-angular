@@ -62,7 +62,7 @@ export class ChatService {
     };
     const messagesHistory = this.cleanMessages(messages);
     const data = {action: "chat", model, messagesHistory, promptProtection: false};
-    return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data).pipe(
+    return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data, { timeoutInMin: 5 }).pipe(
       map((res: RawResponse) => ({
         tokens: res.tokens,
         messagesHistory: [
