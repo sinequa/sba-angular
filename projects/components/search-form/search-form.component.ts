@@ -113,7 +113,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
    */
   applyFilters(collapse = true) {
     // Determine if the text has changed compared to the input query
-    const isTextSearch = (this.query.text || '') === (this.editedQuery.text || '');
+    const isTextSearch = (this.query.text || '') !== (this.editedQuery.text || '');
 
     this.query.text = this.editedQuery.text;
     this.query.filters = this.editedQuery.filters;
