@@ -24,7 +24,6 @@ import {frStatusBar} from "@sinequa/components/status-bar";
 import {frUserSettings} from "@sinequa/components/user-settings";
 import {frNetwork} from "@sinequa/analytics/network";
 import {frGooglemaps} from "@sinequa/analytics/googlemaps";
-import {frTheme} from "@sinequa/components/theme-toggle";
 import {frFinance} from "@sinequa/analytics/finance";
 import {frTimeline} from "@sinequa/analytics/timeline";
 import {frFilters} from "@sinequa/components/filters";
@@ -36,7 +35,7 @@ d3Format.thousands = " "; // consistency with intl-number-format
 
 const messages = Utils.merge({}, frCore, frUtils, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frHeatmap, frLabels, frMetadata,
     frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, frNetwork,
-    frGooglemaps, frFinance, frTimeline, frTheme, frFilters, frSearchForm, frDashboard, appMessages);
+    frGooglemaps, frFinance, frTimeline, frFilters, frSearchForm, frDashboard, appMessages);
 
 export default <LocaleData>{
     intl: {
