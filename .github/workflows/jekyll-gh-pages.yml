@@ -25,13 +25,7 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-    
-      - name: Print env
-        run: |
-          echo $GITHUB_SERVER_URL
-          echo $working-directory
-          pwd
-    
+        
       - name: Checkout
         uses: actions/checkout@v3
         
@@ -51,10 +45,16 @@ jobs:
         with:
           node-version: 18.x
       - run: npm ci
+      
+      - name: Print env
+        run: |
+          echo $GITHUB_SERVER_URL
+          pwd
           
       - name: Generate links in markdown files
-        run: npx run ./scripts/doc-preprocess.js
-        working-directory: ${{env.working-directory}}
+        uses: mikeal/npx@master
+        with:
+          args: run ./scripts/doc-preprocess.js
         
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
