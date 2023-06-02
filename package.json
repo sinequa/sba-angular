@@ -19,7 +19,8 @@
     "buildpepper": "ng build pepper --configuration production",
     "builddocs": "ng build components-docs --configuration=mock",
     "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildanalytics && npm run buildvanilla && npm run buildpepper",
-    "buildpreview": "npx -p typescript tsc projects/components/preview/preview.ts -outFile projects/vanilla-search/src/preview/preview.js -removeComments true"
+    "buildpreview": "npx -p typescript tsc projects/components/preview/preview.ts -outFile projects/vanilla-search/src/preview/preview.js -removeComments true",
+    "doc-preprocess": "npx run ./scripts/doc-preprocess.js"
   },
   "private": true,
   "dependencies": {
