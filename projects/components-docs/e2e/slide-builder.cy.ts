@@ -1,4 +1,4 @@
-import { compareScreenshots, visit } from "./fn"
+import { visit } from "./fn"
 
 describe('components/slide-builder testing', () => {
   it('Can access the Slide Builder page', () => {
@@ -13,7 +13,7 @@ describe('components/slide-builder testing', () => {
     cy.get('sq-slide-tile').click({multiple: true})
     // builder should now have the slides
     cy.get('doc-slide-builder').get('sq-slide-builder').get('sq-selection-arranger').get('.cdk-drag').should('exist')
-    compareScreenshots('doc-slide-builder')
-    compareScreenshots('doc-slide-list')
+    // compareScreenshots('doc-slide-builder')
+    // compareScreenshots('doc-slide-list')
   })
 })

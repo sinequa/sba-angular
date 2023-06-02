@@ -136,7 +136,7 @@ export class AppLocalesConfig implements LocalesConfig {
         { provide: APP_INITIALIZER, useFactory: startConfigInitializer, deps: [StartConfigWebService], multi: true },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         GlobalService,
-        { provide: CREDENTIALS, useValue: { user: '', password: '' } },
+        { provide: CREDENTIALS, useValue: { userName: '', password: '' } },
         { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
         ...environment.providers
     ],
