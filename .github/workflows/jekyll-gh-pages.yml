@@ -52,7 +52,7 @@ jobs:
           pwd
           
       - name: Generate links in markdown files
-        uses: mikeal/npx@master
+        uses: mikeal/npx@1.0.0
         with:
           args: run ./scripts/doc-preprocess.js
         
