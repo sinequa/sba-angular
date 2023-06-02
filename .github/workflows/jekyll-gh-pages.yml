@@ -31,7 +31,20 @@ jobs:
         
       - name: Setup Pages
         uses: actions/configure-pages@v2
-                  
+        
+      - name: Customize base url if we are on Github Enterprise
+        if: ${{ env.GITHUB_SERVER_URL == 'https://github.sinequa.com' }}
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "baseurl: \"/sba-angular/\""
+          replace: "baseurl: \"/pages/CustomerSolutions/sba-internal/\""
+          include: "./docs/_config.yml"
+          
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          
       - name: Generate links in markdown files
         run: npx run ./scripts/doc-preprocess.js
         
