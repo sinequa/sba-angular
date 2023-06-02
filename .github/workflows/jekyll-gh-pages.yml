@@ -28,8 +28,9 @@ jobs:
     
       - name: Print env
         run: |
-          echo ${{env.GITHUB_SERVER_URL}}
-          echo ${{env.working-directory}}
+          echo $GITHUB_SERVER_URL
+          echo $working-directory
+          pwd
     
       - name: Checkout
         uses: actions/checkout@v3
