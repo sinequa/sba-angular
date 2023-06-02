@@ -27,9 +27,7 @@ jobs:
     steps:
     
       - name: Print env
-        run: |
-          echo $env
-          echo $GITHUB_SERVER_URL
+        run: echo {{env.GITHUB_SERVER_URL}}
     
       - name: Checkout
         uses: actions/checkout@v3
@@ -38,7 +36,7 @@ jobs:
         uses: actions/configure-pages@v2
         
       - name: Customize base url if we are on Github Enterprise
-        if: env.GITHUB_SERVER_URL == 'https://github.sinequa.com'
+        if: ${{env.GITHUB_SERVER_URL}} == 'https://github.sinequa.com'
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "baseurl: \"/sba-angular/\""
@@ -50,9 +48,14 @@ jobs:
         with:
           node-version: 18.x
       - run: npm ci
+      
+      - name: ls
+        run: ls
+        working-directory: ${{env.working-directory}}
           
       - name: Generate links in markdown files
-        run: npm run ./scripts/doc-preprocess.js
+        run: npx run ./scripts/doc-preprocess.js
+        working-directory: ${{env.working-directory}}
         
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
