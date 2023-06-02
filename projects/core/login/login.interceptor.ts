@@ -14,6 +14,9 @@ import {AuthenticationService} from "./authentication.service";
 export type HttpRequestInitializer = (request: HttpRequest<any>) => boolean;
 export const HTTP_REQUEST_INITIALIZERS = new InjectionToken<HttpRequestInitializer[]>("HTTP_REQUEST_INITIALIZERS");
 
+export interface LoginCredentials {user: string, password: string};
+export const LOGIN_CREDENTIALS = new InjectionToken<LoginCredentials>("LOGIN_CREDENTIALS");
+
 type Options = {noAutoAuthentication: boolean, noUserOverride: boolean, hadCredentials: boolean, userOverrideActive: boolean};
 
 /**
@@ -31,6 +34,7 @@ export class LoginInterceptor implements HttpInterceptor {
 
     constructor(
         @Inject(START_CONFIG) protected startConfig: StartConfig,
+        @Optional() @Inject(LOGIN_CREDENTIALS) protected credentials: LoginCredentials,
         @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) protected requestInitializers: HttpRequestInitializer[],
         protected notificationsService: NotificationsService,
         protected loginService: LoginService,
@@ -175,11 +179,13 @@ export class LoginInterceptor implements HttpInterceptor {
     }
 
     protected handleRequest(request: HttpRequest<any>, config: {headers: HttpHeaders, params: HttpParams}, next: HttpHandler, options: Options, noNotify: boolean) {
+        const setParams = this.credentials ? {...this.credentials} : undefined;
         const _request = request.clone({
             headers: config.headers,
             params: config.params,
             body: request.body,
-            withCredentials: true
+            withCredentials: true,
+            setParams
         });
 
         return next.handle(_request).pipe(
