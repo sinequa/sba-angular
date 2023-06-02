@@ -26,6 +26,12 @@ jobs:
     runs-on: self-hosted
     steps:
     
+      - name: Print env
+        run: |
+          echo $env
+          echo $env.GITHUB_SERVER_URL
+          echo $GITHUB_SERVER_URL
+    
       - name: Checkout
         uses: actions/checkout@v3
         
@@ -44,6 +50,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+      - run: npm ci
           
       - name: Generate links in markdown files
         run: npx run ./scripts/doc-preprocess.js
