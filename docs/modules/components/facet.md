@@ -454,8 +454,6 @@ This component can be used in two ways :
 
 ### Range Facet
 
-<doc-facet-range></doc-facet-range>
-
 The `sq-facet-range` component displays a slider to select a range of values for a numerical (eg. document size) or temporal (eg. modified date) metadata.
 
 <doc-facet-range></doc-facet-range>

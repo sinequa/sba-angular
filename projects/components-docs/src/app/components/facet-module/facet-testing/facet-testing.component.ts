@@ -117,8 +117,4 @@ export class DocFacetTestingComponent extends BaseComponent {
         </sq-facet-list>
 </sq-facet-card>`;
 
-constructor() {
-  super();
-}
-
 }
