@@ -54,7 +54,7 @@ jobs:
       - name: Generate links in markdown files
         uses: mikeal/npx@1.0.0
         with:
-          args: run ./scripts/doc-preprocess.js
+          args: run ${{env.working-directory}}/scripts/doc-preprocess.js
         
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
