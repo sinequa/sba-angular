@@ -50,11 +50,12 @@ jobs:
         run: |
           echo $GITHUB_SERVER_URL
           pwd
+          printenv
           
       - name: Generate links in markdown files
         uses: mikeal/npx@1.0.0
         with:
-          args: run ${{env.working-directory}}/scripts/doc-preprocess.js
+          args: run /home/build/actions-runner/_work/sba-internal/sba-internal/scripts/doc-preprocess.js
         
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
