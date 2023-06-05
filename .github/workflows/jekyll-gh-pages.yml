@@ -20,17 +20,11 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
   
-env:
-  DOCKER_USER_OPTION: 'build'
-
 jobs:
   # Build job
   build:
     runs-on: self-hosted
     steps:
-    
-      - uses: xanantis/docker-file-ownership-fix@v1
-
       - name: Checkout
         uses: actions/checkout@v3
         
