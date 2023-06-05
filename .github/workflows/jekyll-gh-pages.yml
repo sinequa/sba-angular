@@ -25,6 +25,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+      - name: Sudo cleanup (enabled with passwordless sudo)
+        run: sudo rm -rf ${{env.GITHUB_WORKSPACE}}
+    
       - name: Checkout
         uses: actions/checkout@v3
         
