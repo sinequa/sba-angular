@@ -1,9 +1,17 @@
+:host {
+    font-size: 0.875em;
+}
+
 .collapsable {
     overflow: hidden;
 }
 
 .sq-metadata-col.metadata-table {
     display: table-cell;
+
+    &:has(+ .sq-metadata-col) {
+        padding-right: .25rem;
+    }
 }
 
 .sq-metadata-item {

@@ -8,10 +8,6 @@ nav_order: 15
 
 # Utils Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/UtilsModule.html) auto-generated from source code.
-
 ## Features
 
 This module provides the following Angular declarations that are useful for the definition of your documents:
@@ -58,7 +54,7 @@ This modules provides the following Angular pipes
 
 #### DatePipe
 
-[`DatePipe`]({{site.baseurl}}components/pipes/DatePipe.html) provides the `sqDate` that formats a `Date` object or a number of ticks (in `number`) to a localized date string.
+`DatePipe` provides the `sqDate` pipe that formats a `Date` object or a number of ticks (in `number`) to a localized date string.
 
 Example:
 
@@ -74,13 +70,13 @@ yields (for English locale)
 
 <span>Date:</span><span style="color: red;">03/25/2020</span>
 
-This is equivalent as importing [`IntlService`]({{site.baseurl}}core/injectables/IntlService.html) and calling `IntlService.formatDate()`.
+This is equivalent as importing `IntlService` and calling `IntlService.formatDate()`.
 
 #### MomentPipe
 
-If you use moment.js[moment.js](https://momentjs.com) library to manipulate date and time value instead of `Date` from javascript, you can use [`MomentPipe`]({{site.baseurl}}components/pipes/MomentPipe.html) to format your `moment` values.
+If you use the [moment.js](https://momentjs.com) library to manipulate date and time value instead of `Date` from javascript, you can use `MomentPipe` to format your `moment` values.
 
-The pipe accepts a [`MomentParams`]({{site.baseurl}}components/interfaces/MomentParams.html) to configure the formatting result:
+The pipe accepts a `MomentParams` to configure the formatting result:
 
 * `format`: The format of the result date, if this property is given, the pipe ignores the other properties,
 * `type`: The type of value formatting, the valid values are:
@@ -129,7 +125,7 @@ yields
 
 #### RelativeTimePipe
 
-[`RelativeTimePipe`]({{site.baseurl}}components/pipes/RelativeTimePipe.html) provides the `sqRelativeTime` that formats a number, specifying a date time relative to the current time, to a localized date time string.
+`RelativeTimePipe` provides the `sqRelativeTime` pipe that formats a number, specifying a date time relative to the current time, to a localized date time string.
 
 This pipe is inspired from [ECMA-402 RelativeTimeFormat Objects](https://tc39.es/ecma402/#relativetimeformat-objects).
 
@@ -146,11 +142,11 @@ yields (in English locale)
 
 <span>Relative time:</span><span style="color: red;">7 days ago</span>
 
-This is equivalent as importing [`IntlService`]({{site.baseurl}}core/injectables/IntlService.html) and calling `IntlService.formatRelativeTime()`.
+This is equivalent as importing `IntlService` and calling `IntlService.formatRelativeTime()`.
 
 #### TimePipe
 
-[`TimePipe`]({{site.baseurl}}components/pipes/TimePipe.html) provides the `sqTime` that formats a `Date` object or a number of ticks (in `number`) to a localized time string.
+`TimePipe` provides the `sqTime` pipe that formats a `Date` object or a number of ticks (in `number`) to a localized time string.
 
 Example:
 {% raw %}
@@ -165,11 +161,11 @@ yields (for English locale and UTC)
 
 <span>Time:</span><span style="color:red;">12:20:00</span>
 
-This is equivalent as importing [`IntlService`]({{site.baseurl}}core/injectables/IntlService.html) and calling `IntlService.formatTime()`.
+This is equivalent as importing `IntlService` and calling `IntlService.formatTime()`.
 
 #### MemorySizePipe
 
-[`MemorySizePipe`]({{site.baseurl}}components/pipes/MemorySizePipe.html) provides the `sqMemorySize` that formats a file size in bytes a localized size `string` with the approriate size unit (TB, GB, etc.).
+`MemorySizePipe` provides the `sqMemorySize` pipe that formats a file size in bytes a localized size `string` with the approriate size unit (TB, GB, etc.).
 
 Example:
 {% raw %}
@@ -183,11 +179,11 @@ Example:
 yeilds (for English locale)
 <span>Size:</span><span style="color:red;">16KB</span>
 
-This is equivalent as importing [`FormatService`]({{site.baseurl}}core/injectables/FormatService.html) and calling `FormatService.formatMemorySize()`.
+This is equivalent as importing `FormatService` and calling `FormatService.formatMemorySize()`.
 
 #### NumberPipe
 
-[`NumberPipe`]({{site.baseurl}}components/pipes/NumberPipe.html) provides the `sqNumber` that formats a number to the locale format, i.e. using dot '.' as floating point for English and comma ',' for French.
+`NumberPipe` provides the `sqNumber` pipe that formats a number to the locale format, i.e. using dot '.' as floating point for English and comma ',' for French.
 
 Example:
 {% raw %}
@@ -202,11 +198,11 @@ yeilds (for French locale)
 
 <span>Size:</span><span style="color:red;">3,14</span>
 
-This is equivalent as importing [`IntlService`]({{site.baseurl}}core/injectables/IntlService.html) and calling `Intl.formatNumber()`.
+This is equivalent as importing `IntlService` and calling `Intl.formatNumber()`.
 
 #### ValuePipe
 
-[`ValuePipe`]({{site.baseurl}}components/pipes/ValuePipe.html) provides the `sqValue` that formats a value coming from an index column based on the value type of that column.
+`ValuePipe` provides the `sqValue` pipe that formats a value coming from an index column based on the value type of that column.
 
 Example:
 {% raw %}
@@ -223,11 +219,11 @@ yields (in French locale)
 <div>boolean:<span style="color:red;">vrai</span></div>
 <div>number:<span style="color:red;">3,14</span></div>
 
-This is equivalent as importing [`FormatService`]({{site.baseurl}}core/injectables/FormatService.html) and calling `Intl.formatFieldValue()`.
+This is equivalent as importing `FormatService` and calling `Intl.formatFieldValue()`.
 
 #### ExprPipe
 
-[`ExprPipe`]({{site.baseurl}}components/pipes/ExprPipe.html) provides the `sqExpr` that is mainly used to display a query filter.
+`ExprPipe` provides the `sqExpr` pipe that is mainly used to display a query filter.
 You can see the usage of this pipe in the breadscrumbs or MySearch facet.
 
 ![Filters displayed in breadcrumbs]({{site.baseurl}}assets/modules/utils/utils-expr-pipe.png)
@@ -248,7 +244,7 @@ Example:
 
 #### Autofocus directive
 
-The [`sqAutofocus` directive]({{site.baseurl}}components/directives/Autofocus.html) specifies which input component to be automatically focused when your component is opened.
+The `sqAutofocus` directive specifies which input component to be automatically focused when your component is opened.
 
 Example:
 {% raw %}
@@ -266,10 +262,10 @@ Example:
 
 #### ClickOutside directive
 
-The [`sqClickOutside` directive]({{site.baseurl}}components/directives/ClickOutside.html) is a syntactic sugar
+The `sqClickOutside` directive is a syntactic sugar
 that helps you manage the behavior of your input component when user clicks outside the component area.
 
-The input for this directive is a [`ClickOutsideOptions`]({{site.baseurl}}components/interfaces/ClickOutsideOptions.html):
+The input for this directive is a `ClickOutsideOptions`:
 
 * `exclude`: A list of HTML selectors for the HTML elements that will not be effected by this directive.
 If any HTML element not matching the HTML selectors but contains matching children HTML is also ignored by the directive.
@@ -301,12 +297,12 @@ Example:
 
 #### ScrollIntoView directive
 
-The [`sqScrollIntoView` directive]({{site.baseurl}}components/directives/ScrollIntoView.html) is a syntactic sugar that helps to make sure a dynamically rendered child component of the current commponent to be in the visible area of the window.
+The `sqScrollIntoView` directive is a syntactic sugar that helps to make sure a dynamically rendered child component of the current commponent to be in the visible area of the window.
 
 This is useful when your component contains some kind of dropdown menu or collapsible part
 that you want to make sure to be visible when user opens or expands that part.
 
-You can pass a [`ScrollIntoViewOptions`]({{site.baseurl}}components/interfaces/ScrollIntoViewOptions.html) as input of the directive:
+You can pass a `ScrollIntoViewOptions` as input of the directive:
 
 * `active`: whether the child component should be in the visible area,
 * `first`: whether the child component is the first element in the list of elements to be considerd.
@@ -322,8 +318,7 @@ Example:
 
 #### FocusKeyList and FocusKeyListItem directives
 
-The [`sqFocusKeyList` directive]({{site.baseurl}}components/directives/FocusKeyListDirective.html) and
-[`sqFocusKeyListItem` directive]({{site.baseurl}}components/directives/FocusKeyListItemDirective.html) are used together
+The `sqFocusKeyList` directive and `sqFocusKeyListItem` directive are used together
 to provide keyboard navigation functionality to items in lists, such as a results list. The `sqFocusKeyList` directive is added
 to the container element and the `sqFocusKeyListItem` directive is added to each child element. The `sqFocusKeyList` directive has
 the following inputs:
@@ -346,9 +341,7 @@ Example:
 
 #### ResizeEvent directive
 
-The [`sqResize` directive]({{site.baseurl}}components/directives/ResizeEventDirective.html) uses the native
-[ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) browser API to generate an
-event any time the associated element changes size. The new `contentRect` of the element is passed with the event.
+The `sqResize` directive uses the native [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) browser API to generate an event any time the associated element changes size. The new `contentRect` of the element is passed with the event.
 A polyfill is used to emulate this functionality for Internet Explorer.
 
 Example:
@@ -362,21 +355,11 @@ Example:
 
 #### Sticky Component
 
-<doc-sticky></doc-sticky>
-
-The [`sqSticky`]({{site.baseurl}}components/components/StickyComponent.html) component is a container that "sticks" to the top and the bottom of the screen when scrolling. For example, a sidebar containing facets will be always visible on the screen, even when scrolling down a long list of results. Additionally, if the sidebar is itself very long, it will scroll with the content until reaching the bottom of the side bar (and then "stick" to the *bottom* of the screen). Note that this behaviour is not possible when using a simple `position: sticky` or Bootstrap's `sticky-top`.
+The `sqSticky` component is a container that "sticks" to the top and the bottom of the screen when scrolling. For example, a sidebar containing facets will be always visible on the screen, even when scrolling down a long list of results. Additionally, if the sidebar is itself very long, it will scroll with the content until reaching the bottom of the side bar (and then "stick" to the *bottom* of the screen). Note that this behaviour is not possible when using a simple `position: sticky` or Bootstrap's `sticky-top`.
 
 The component accepts as input an object containing the offsets with respect to the top and bottom of the screen. The default value is `{top: 0, bottom: 0}`.
 
-Example:
-
-```html
-<div [sqSticky]="{top: 80, bottom: 30}">
-
-  <!-- Some content... -->
-
-</div>
-```
+<doc-sticky></doc-sticky>
 
 Note that in Internet Explorer `position: sticky` is not supported, so the component automatically deactivates its sticky behavior.
 
@@ -384,8 +367,7 @@ Note that in Internet Explorer `position: sticky` is not supported, so the compo
 
 #### UIService
 
-The [`UIService`]({{site.baseurl}}components/injectables/UIService.html) provides helper methods
-to listen to screen sizing events and to verify the current screen size to the sizing rules of your component.
+The `UIService` provides helper methods to listen to screen sizing events and to verify the current screen size to the sizing rules of your component.
 
 There are two event streams that you can subscribe to receive the screen sizing events:
 

@@ -8,10 +8,6 @@ nav_order: 12
 
 # Action Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsActionModule.html) auto-generated from source code.
-
 ## Features
 
 This module provides the classes and directives to create menus and buttons.
@@ -44,8 +40,7 @@ The most important declaration of this module is the `Action` class.
 
 ### Action class
 
-The [`Action` class]({{site.baseurl}}components/classes/Action.html) represents an element
-in a dropdown menu, take for example the User menu in the above screenshot,
+The `Action` class represents an element in a dropdown menu, take for example the User menu in the above screenshot,
 the button with the user icon and the two elements of the dropdown are `Action` object.
 
 An `Action` can have zero or some children, the latter represents a dropdown menu whereas the former an action in a menu or a button.
@@ -211,11 +206,11 @@ const alertMenu = new Action({
 
 Once you have defined your menus and buttons, you need to use one of the following directives or components to display them in the HTML template of your components
 
-you can use the [`sq-action-buttons` component]({{site.baseurl}}components/components/BsActionItem.html) that creates a menu of buttons.
+you can use the `sq-action-buttons` component that creates a menu of buttons.
 
-<doc-action-buttons></doc-action-buttons>
+<!-- <doc-action-buttons></doc-action-buttons> -->
 
-Its input is an [`ActionButtonsOptions` object]({{site.baseurl}}components/interfaces/ActionButtonsOptions.html):
+Its input is an `ActionButtonsOptions` object:
 
 * `items`: the children `Action` elements of the menu,
 * `size`: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
@@ -237,11 +232,11 @@ Example:
 ></sq-action-buttons>
 ```
 
-Alternatively, you can use the [`sq-action-item` component]({{site.baseurl}}components/components/BsActionItem.html).
+Alternatively, you can use the `sq-action-item` component.
 
-<doc-action-item></doc-action-item>
+<!-- <doc-action-item></doc-action-item> -->
 
-This component expects an [`ActionItemOptions` object]({{site.baseurl}}components/interfaces/ActionItemOptions.html) as input:
+This component expects an `ActionItemOptions` object as input:
 
 * `item`: the `Action` object representing the menu,
 * `size`: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
@@ -267,9 +262,9 @@ Example:
 ></div>
 ```
 
-The [`sq-action-menu` component]({{site.baseurl}}components/components/BsActionMenu.html) is another way to create a dropdown menu.
+The `sq-action-menu` component is another way to create a dropdown menu.
 
-<doc-action-menu></doc-action-menu>
+<!-- <doc-action-menu></doc-action-menu> -->
 
 This component expects the following values:
 
@@ -286,9 +281,9 @@ Example:
 <sq-action-menu [items]="items" [autoAdjust]="true" [autoAdjustBreakpoint]="'xxl'" [right]="true"></sq-action-menu>
 ```
 
-Finally, there is the [`sq-dropdown-menu` directive]({{site.baseurl}}components/components/BsDropdownMenu.html).
+Finally, there is the `sq-dropdown-menu` directive.
 
-The input of the directive is an  ([`DropdownMenuOptions` object]({{site.baseurl}}components/interfaces/DropdownMenuOptions.html)):
+The input of the directive is an  (`DropdownMenuOptions` object):
 
 * `item`: the `Action` object represents the menu,
 * `rightAligned`: whether the elements of the menu will be right-aligned,

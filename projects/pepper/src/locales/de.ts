@@ -24,7 +24,6 @@ import {deStatusBar} from "@sinequa/components/status-bar";
 import {deUserSettings} from "@sinequa/components/user-settings";
 import {deNetwork} from "@sinequa/analytics/network";
 import {deGooglemaps} from "@sinequa/analytics/googlemaps";
-import {deTheme} from "@sinequa/components/theme-toggle";
 import {deFinance} from "@sinequa/analytics/finance";
 import {deTimeline} from "@sinequa/analytics/timeline";
 import {deFilters} from "@sinequa/components/filters";
@@ -33,7 +32,7 @@ import {deDashboard} from "@sinequa/analytics/dashboard";
 
 const messages = Utils.merge({}, deCore, deUtils, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
     deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deNetwork,
-    deGooglemaps, deFinance, deTimeline, deTheme, deFilters, deSearchForm, deDashboard, appMessages);
+    deGooglemaps, deFinance, deTimeline, deFilters, deSearchForm, deDashboard, appMessages);
 
 export default <LocaleData>{
     intl: {

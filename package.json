@@ -22,14 +22,7 @@
     "builddocs": "ng build components-docs --configuration=mock",
     "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildanalytics && npm run buildvanilla && npm run buildpepper",
     "buildpreview": "npx -p typescript tsc projects/components/preview/preview.ts -outFile projects/vanilla-search/src/preview/preview.js -removeComments true",
-    "makedoc-core": "cd projects/core && node ../../scripts/makedoc.js -d ../../docs/core -p tsconfig.doc.json -n \"Core\"",
-    "makedoc-components": "cd projects/components && node ../../scripts/makedoc.js -d ../../docs/components -p tsconfig.doc.json -n \"Components\"",
-    "makedoc-analytics": "cd projects/analytics && node ../../scripts/makedoc.js -d ../../docs/analytics -p tsconfig.doc.json -n \"Analytics\""
-  },
-  "compodoc": {
-    "disablePrivate": true,
-    "disableProtected": true,
-    "disableInternal": true
+    "doc-preprocess": "npx run ./scripts/doc-preprocess.js"
   },
   "private": true,
   "dependencies": {
@@ -107,7 +100,6 @@
     "@angular/cli": "14.0.6",
     "@angular/compiler-cli": "14.0.6",
     "@angular/language-service": "14.0.6",
-    "@compodoc/compodoc": "^1.1.19",
     "@types/d3": "^7.4.0",
     "@types/diacritics": "^1.3.0",
     "@types/estree": "1.0.0",
@@ -118,6 +110,8 @@
     "@types/node": "^16.18.11",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
+    "cypress": "^12.10.0",
+    "cypress-image-diff-js": "^1.23.0",
     "eslint": "^8.18.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsdoc": "^39.3.6",

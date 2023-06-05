@@ -9,7 +9,7 @@ nav_order: 9
 
 In Angular, [application environments](https://angular.io/guide/build) allow you to specify different configurations for different build targets (typically `dev`, `prod`, `staging`, etc.).
 
-In the case of the Sinequa SBA Framework, the parameters which often need to be environment-specific are those of the [`StartConfig`]({{site.baseurl}}core/interfaces/StartConfig.html) object:
+In the case of the Sinequa SBA Framework, the parameters which often need to be environment-specific are those of the `StartConfig` object:
 
 - `app`: Name of the App configured on the server
 - `auditEnabled`: Whether or not to enable audit logging

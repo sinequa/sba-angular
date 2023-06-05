@@ -1,6 +1,0 @@
-<div class="d-flex align-items-center">
-  <div *ngIf="showLabel">{{ label | sqMessage }}</div>
-  <div class="oval" [ngClass]="{ovalSelected: theme == 'dark'}" (click)="toggleTheme()" sqTooltip="{{ tooltip | sqMessage }}">
-    <div class="buttonToggle" [ngClass]="{buttonSelected: theme == 'dark'}"></div>
-  </div>
-</div>

@@ -8,10 +8,6 @@ nav_order: 20
 
 # Machine Learning Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/MLModule.html) auto-generated from source code.
-
 ## Features
 
 This module introduces the Neural Search components displaying Answers and Passages extracted from the documents according to your search.
@@ -48,13 +44,13 @@ const messages = Utils.merge({}, ..., enML, appMessages);
 
 ## API usage
 
-This module exports the [`AnswerCardComponent`]({{site.baseurl}}components/components/AnswerCardComponent.html), [`TopPassagesComponent`]({{site.baseurl}}components/components/TopPassagesComponent.html) and [`PassageListComponent`]({{site.baseurl}}components/components/PassageListComponent.html) components that are responsible for displaying the Neural Search data from your query.
+This module exports the `AnswerCardComponent`, `TopPassagesComponent` and `PassageListComponent` components that are responsible for displaying the Neural Search data from your query.
 
 ### Answer Component
 
-<doc-answer-card></doc-answer-card>
-
 The answers are the possible direct answers the platform supposes from your query according to the documents it searches through.
+
+<doc-answer-card></doc-answer-card>
 
 **Required parameters:**
 
@@ -67,9 +63,9 @@ The answers are the possible direct answers the platform supposes from your quer
 
 ### Top Passages Component
 
-<doc-top-passages></doc-top-passages>
-
 Similar as the Answer component, the Top Passages one displays the relevant passages that Neural Search has figured from your query according to your documents.
+
+<doc-top-passages></doc-top-passages>
 
 **Required parameters:**
 
@@ -83,11 +79,11 @@ Similar as the Answer component, the Top Passages one displays the relevant pass
 
 ### Passage List
 
-<doc-passage-list></doc-passage-list>
-
 The passages list is used to display all of the relevant passages from the selected document in a collapsed number of lines that you can expand manually.
 
 It is placed in the mini preview where you can switch of view between the document preview and the passages list when some are found.
+
+<doc-passage-list></doc-passage-list>
 
 **Required parameters:**
 

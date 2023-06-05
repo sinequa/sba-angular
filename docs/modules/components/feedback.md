@@ -8,10 +8,6 @@ nav_order: 17
 
 # Feedback Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsFeedbackModule.html) auto-generated from source code.
-
 ## Features
 
 This module includes a single sample component which displays a menu letting a user send feedback to the administrator of the Sinequa server. This feedback is collected via the audit index and needs to be displayed in an **audit report**. ⚠️ No email is sent to anyone automatically.
@@ -42,13 +38,9 @@ const messages = Utils.merge({}, ..., enFeedback, appMessages);
 
 ## Feedback
 
+The `sq-feedback-menu` component can be displayed in an application with:
+
 <doc-feedback-menu></doc-feedback-menu>
-
-The [`sq-feedback-menu`]({{site.baseurl}}components/components/BsFeedbackMenu.html) component can be displayed in an application with:
-
-```html
-<sq-feedback-menu></sq-feedback-menu>
-```
 
 It is possible to pass optional inputs to the component:
 

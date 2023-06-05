@@ -8,10 +8,6 @@ nav_order: 3
 
 # Timeline Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}analytics/modules/BsTimelineModule.html) auto-generated from source code.
-
 ## Features
 
 This module includes a Timeline visualization for temporal data based on the [D3 library](https://d3js.org/). The timeline can display continuous time series (as a line/area plot) or punctual events (as interactive symbols).
@@ -38,39 +34,13 @@ import { BsTimelineModule } from '@sinequa/analytics/timeline';
 
 ## Timeline Component
 
-<doc-timeline></doc-timeline>
-
 ### Time series
 
-The [`sq-timeline`]({{site.baseurl}}analytics/components/BsTimelineComponent.html) component displays a SVG built with both D3 and Angular. Its most basic usage is as follow:
+The `sq-timeline` component displays a SVG built with both D3 and Angular. Its most basic usage is as follow:
 
-```html
-<sq-timeline [data]="timeseries"></sq-timeline>
-```
+<doc-timeline></doc-timeline>
 
-With:
-
-```ts
-this.timeseries = [
-    {
-        name: 'my series',
-        dates: [
-            {date: new Date('2020-01-01'), value: 42.3},
-            {date: new Date('2020-02-01'), value: 58.4},
-            {date: new Date('2020-03-01'), value: 21.0},
-            {date: new Date('2020-04-01'), value: 3.1},
-            {date: new Date('2020-05-01'), value: 34.3},
-        ],
-        primary: true
-    }
-];
-```
-
-Which displays:
-
-![Simple timeline]({{site.baseurl}}assets/modules/timeline/timeline1.png){: .d-block .mx-auto }
-
-Additionally, the `timeseries` object (of type [`TimelineSeries`]({{site.baseurl}}analytics/interfaces/TimelineSeries.html)) can take 3 additional parameters: `lineStyles` and `areaStyles` which allow to style the chart with css-like rules (SVG rules passed via `ngStyle`), and `showDatapoints` which allows to visualize the data points when hovering the timeline with the mouse.
+Additionally, the `timeseries` object (of type `TimelineSeries`) can take 3 additional parameters: `lineStyles` and `areaStyles` which allow to style the chart with css-like rules (SVG rules passed via `ngStyle`), and `showDatapoints` which allows to visualize the data points when hovering the timeline with the mouse.
 
 ```ts
 this.timeseries = [
@@ -146,7 +116,7 @@ It is also possible to change globally how the component renders these areas and
 
 ### Events
 
-In addition to timeseries, this component can display **events**, of type [`TimelineEvent`]({{site.baseurl}}analytics/interfaces/TimelineEvent.html):
+In addition to timeseries, this component can display **events**, of type `TimelineEvent`:
 
 ```html
 <sq-timeline [data]="timeseries" [events]="events"></sq-timeline>
@@ -245,28 +215,28 @@ Additionally you can bind the `margin` property to adjust the space around the t
 
 ## Facet Timeline Component
 
-<doc-facet-timeline></doc-facet-timeline>
+<!-- <doc-facet-timeline></doc-facet-timeline> -->
 
-The [`sq-timeline`]({{site.baseurl}}analytics/components/BsTimelineComponent.html) component does a lot of work to render the timelines, events and manage the user interactions, but it does not know anything about the Sinequa services and data structures.
+The `sq-timeline` component does a lot of work to render the timelines, events and manage the user interactions, but it does not know anything about the Sinequa services and data structures.
 
-The [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) component is in charge of "feeding" the timeline with actual data for the timeseries and events, potentially coming from different sources
+The `sq-facet-timeline` component is in charge of "feeding" the timeline with actual data for the timeseries and events, potentially coming from different sources
 
 
 ### Time series
 
-[`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) requires at least the following inputs:
+`sq-facet-timeline` requires at least the following inputs:
 
 - `results`: Generally binded to `SearchService.results`, which ensures that `ngOnChanges()` is called every time new results come in. This ensures data is refreshed at the same time as the results.
 - `timeseries`: An array of configuration (one for each series). Different types of configuration are accepted:
-  - Raw data: It is possible to pass directly a [`TimelineSeries`]({{site.baseurl}}analytics/interfaces/TimelineSeries.html) object (as seen above), which must then computed by another source/service.
-  - A "simple" aggregation: In this case, the configuration (of type [`TimelineAggregation`]({{site.baseurl}}analytics/interfaces/TimelineAggregation.html)) specifies the name of an aggregation to be plotted (of course this aggregation should be over a sourcedatetime column). Note that you can specify an aggregation that may or may not be included in the standard search (See the *Include in standard search* option of the aggregation in the administration).
-  - A "combined" aggregation: In this case, the configuration consists of multiple [`TimelineAggregation`]({{site.baseurl}}analytics/interfaces/TimelineAggregation.html) objects. Each of them corresponds to a different "scale" of the same value. It is required to provide the list of scales corresponding to each aggregation. The component will respond to changes of scale (when the user zooms in or out) by querying the most appropriate aggregation. Combined aggregations are the only scalable way of displaying temporal information when the amount of data is enormous, without loosing any accuracy or performance.
+  - Raw data: It is possible to pass directly a `TimelineSeries` object (as seen above), which must then computed by another source/service.
+  - A "simple" aggregation: In this case, the configuration (of type `TimelineAggregation`) specifies the name of an aggregation to be plotted (of course this aggregation should be over a sourcedatetime column). Note that you can specify an aggregation that may or may not be included in the standard search (See the *Include in standard search* option of the aggregation in the administration).
+  - A "combined" aggregation: In this case, the configuration consists of multiple `TimelineAggregation` objects. Each of them corresponds to a different "scale" of the same value. It is required to provide the list of scales corresponding to each aggregation. The component will respond to changes of scale (when the user zooms in or out) by querying the most appropriate aggregation. Combined aggregations are the only scalable way of displaying temporal information when the amount of data is enormous, without loosing any accuracy or performance.
 
 ![Aggregation configuration]({{site.baseurl}}assets/modules/timeline/aggregation.png){: .d-block .mx-auto }
 *Sample aggregation configured in the admin. Note: 1) **modified** is a datetime column 2) The aggregation is not included in standard search 3) We do not truncate the data 4) The data will sorted by date 5) The resolution is a week*
 {: .text-center }
 
-By default, a simple [`TimelineAggregation`]({{site.baseurl}}analytics/interfaces/TimelineAggregation.html) is configured, to display the `Timeline` aggregation configured in the default Query web service.
+By default, a simple `TimelineAggregation` is configured, to display the `Timeline` aggregation configured in the default Query web service.
 
 Therefore, the following displays the default aggregation:
 
@@ -328,29 +298,29 @@ this.otherAggregation = {
 *The above illustrates the three types of timeseries configuration that can be passed to `sq-facet-timeline`*
 {: .text-center }
 
-We have already seen the structure and options of [`TimelineSeries`]({{site.baseurl}}analytics/interfaces/TimelineSeries.html).
+We have already seen the structure and options of `TimelineSeries`.
 
-[`TimelineAggregation`]({{site.baseurl}}analytics/interfaces/TimelineAggregation.html) requires the following parameters:
+`TimelineAggregation` requires the following parameters:
 
 - `aggregation`: The name of the aggregation configured in the Query web service.
 - `primary`: Whether this is a primary series or not.
 
-Additionally, the following parameters from [`TimelineSeries`]({{site.baseurl}}analytics/interfaces/TimelineSeries.html) are optional and work in the same way (see above): `name`, `areaStyles`, `lineStyles` and `showDatapoints`.
+Additionally, the following parameters from `TimelineSeries` are optional and work in the same way (see above): `name`, `areaStyles`, `lineStyles` and `showDatapoints`.
 
-[`TimelineCombinedAggregations`]({{site.baseurl}}analytics/interfaces/TimelineCombinedAggregations.html) requires the following parameters:
+`TimelineCombinedAggregations` requires the following parameters:
 
-- `aggregations`: An array of [`TimelineAggregation`]({{site.baseurl}}analytics/interfaces/TimelineAggregation.html). These aggregations configured on the server should typically be computed on the **same sourcedatetime column** but with **different masks**. The masks allow to modulate the resolution of the aggregation. Using a fine-grained mask (`YYYY-MM-DD`) potentially returns a lot of data unless we query the aggregation with a selection (*"date between X and Y"*), which is exactly what our component is doing to always offer optimum accuracy *and* performance.
+- `aggregations`: An array of `TimelineAggregation`. These aggregations configured on the server should typically be computed on the **same sourcedatetime column** but with **different masks**. The masks allow to modulate the resolution of the aggregation. Using a fine-grained mask (`YYYY-MM-DD`) potentially returns a lot of data unless we query the aggregation with a selection (*"date between X and Y"*), which is exactly what our component is doing to always offer optimum accuracy *and* performance.
 - `maxNMonths`: An array of `number`, each corresponding to the maximum number of months for a given aggregation (the array must be the same size as `aggregations`). These are the "breakpoints" at which the component will switch to an aggregation better suited to the current scale of the timeline. For example, if the X axis is 13.4 months long, the component will choose the aggregation with the minimum `maxNMonths` such that `maxNMonths > 13.4`. If the array is `[-1, 48, 12, 2]`, then `48` is selected (`-1` is infinity).
-- `default`: The [`TimelineAggregation`]({{site.baseurl}}analytics/interfaces/TimelineAggregation.html) to initialize the view (it should typically be a coarse-grained aggregation, returning few values even for a large scale).
+- `default`: The `TimelineAggregation` to initialize the view (it should typically be a coarse-grained aggregation, returning few values even for a large scale).
 
-Note that the styling parameters and the `primary` input are still there but can be passed via each of the [`TimelineAggregation`]({{site.baseurl}}analytics/interfaces/TimelineAggregation.html).
+Note that the styling parameters and the `primary` input are still there but can be passed via each of the `TimelineAggregation`.
 
 ### Events
 
-[`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) can also display events coming from different data sources:
+`sq-facet-timeline` can also display events coming from different data sources:
 
-- Raw data: It is possible to pass an array of raw [`TimelineEvent`]({{site.baseurl}}analytics/interfaces/TimelineEvent.html) objects, which must then be computed by another source/service.
-- The list of records in the current results: If a record has a "modified" date (or other sourecedatetime), it can be plotted on the timeline as an event. This allows the user to quickly visualize how the top, most relevant data is distributed in time, and filter this data accordingly. Furthermore, the component listens for selection changes from the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) and can modify the event styling for selected records (which makes it easy for a user to see where a selected record is placed on the timeline).
+- Raw data: It is possible to pass an array of raw `TimelineEvent` objects, which must then be computed by another source/service.
+- The list of records in the current results: If a record has a "modified" date (or other sourecedatetime), it can be plotted on the timeline as an event. This allows the user to quickly visualize how the top, most relevant data is distributed in time, and filter this data accordingly. Furthermore, the component listens for selection changes from the `SelectionService` and can modify the event styling for selected records (which makes it easy for a user to see where a selected record is placed on the timeline).
 - An aggregation of events: If a column of the index stores "events", they can be aggregated by the engine and displayed on the timeline. An "event" in that sense is a normalized field that contains a date and name/id. For example `(2020-02-14)#(VALENTINES DAY)`, which is the format of extraction of **cooccurrences** (but any format can be used). *Note that Sinequa ES includes a very capable Text-Mining Agent that can extract date entities from text in a wide array of formats and languages. Event names can easily be extracted via a simple dictionary-based entity. It is then easy to configure a cooccurrence extraction for dates and event names.*
 
 ![Cooccurrences]({{site.baseurl}}assets/modules/timeline/cooccurrence.png){: .d-block .mx-auto }
@@ -396,17 +366,17 @@ this.eventAggregation = {
     getDisplay: (item: AggregationItem) => item.value.toString().split(")#(")[1].replace(')','')};
 ```
 
-We have already seen the structure and parameters of the raw [`TimelineEvent`]({{site.baseurl}}analytics/interfaces/TimelineEvent.html).
+We have already seen the structure and parameters of the raw `TimelineEvent`.
 
-The [`TimelineRecords`]({{site.baseurl}}analytics/interfaces/TimelineRecords.html) requires the `field` parameter, which specifies which column to use to place the record on the timeline. The `display` parameter is optional (by default, `record.title` is displayed). The `styles` parameter is also optional, and it allows to generate the [`TimelineEvent`]({{site.baseurl}}analytics/interfaces/TimelineEvent.html)'s `styles` property. Similarly, an optional `size` parameter allows to customize the size. Note that `styles` and `size` can each be a static value (`size: 10`) or a dynamic value, computed individually for each record (`size: (record, selected) => selected? 10 : 5`).
+The `TimelineRecords` requires the `field` parameter, which specifies which column to use to place the record on the timeline. The `display` parameter is optional (by default, `record.title` is displayed). The `styles` parameter is also optional, and it allows to generate the `TimelineEvent`'s `styles` property. Similarly, an optional `size` parameter allows to customize the size. Note that `styles` and `size` can each be a static value (`size: 10`) or a dynamic value, computed individually for each record (`size: (record, selected) => selected? 10 : 5`).
 
-The [`TimelineEventAggregation`]({{site.baseurl}}analytics/interfaces/TimelineEventAggregation.html) requires the name of the aggregation configured on the server (`aggregation`), as well as two methods, `getDate` and `getDisplay`, which respectively extract a `Date` and display (`string`) from each `AggregationItem` object. In the example above, the events from this aggregation are supposed to be formatted as `(2020-02-14)#(VALENTINES DAY)` (hence the use of `.split()` and `.replace()`). Additionally, the `size` and `styles` parameters are also optionally available and work in the same way as above, with the difference that for the dynamic values the input argument is an `AggregationItem` instead of a `Record`.
+The `TimelineEventAggregation` requires the name of the aggregation configured on the server (`aggregation`), as well as two methods, `getDate` and `getDisplay`, which respectively extract a `Date` and display (`string`) from each `AggregationItem` object. In the example above, the events from this aggregation are supposed to be formatted as `(2020-02-14)#(VALENTINES DAY)` (hence the use of `.split()` and `.replace()`). Additionally, the `size` and `styles` parameters are also optionally available and work in the same way as above, with the difference that for the dynamic values the input argument is an `AggregationItem` instead of a `Record`.
 
 ### Legend
 
-<doc-timeline-legend></doc-timeline-legend>
+<!-- <doc-timeline-legend></doc-timeline-legend> -->
 
-The [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) component can display a legend sub-component. The legend's content, position and styles can be customized with the following parameters:
+The `sq-facet-timeline` component can display a legend sub-component. The legend's content, position and styles can be customized with the following parameters:
 
 - `showLegend` (default: `false`): Whether or not to display the legend
 - `legendOrientation` (default: `'row'`): Whether to display the legend in a `row` or a `column`
@@ -427,7 +397,7 @@ The [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineCo
 
 ![legend]({{site.baseurl}}assets/modules/timeline/timeline-legend.png){: .d-block .mx-auto }
 
-Note that the legend is available as a standalone component ([`sq-timeline-legend`]({{site.baseurl}}analytics/components/TimelineLegendComponent.html)):
+Note that the legend is available as a standalone component (`sq-timeline-legend`):
 
 ```html
 <sq-timeline-legend [data]="timeseries" [events]="eventTypes" [legendStyles]="{'justify-content': 'center'}">
@@ -438,7 +408,7 @@ Note that the legend is available as a standalone component ([`sq-timeline-legen
 
 ### Other parameters and events
 
-We have seen the two most important inputs of [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html): `timeseries` and `events`. Other parameters are available. In fact, the following parameters (described before) are "forwarded" to the [`sq-timeline`]({{site.baseurl}}analytics/components/BsTimelineComponent.html) (using the same default values):
+We have seen the two most important inputs of `sq-facet-timeline`: `timeseries` and `events`. Other parameters are available. In fact, the following parameters (described before) are "forwarded" to the `sq-timeline` (using the same default values):
 
 - `minDate` and `maxDate` allow to "hard-code" the X-axis extent (prior to any zooming).
 - `minAggregationDate` and `maxAggregationDate` allow to filter out dates from aggregations that fall outside of a time period.
@@ -447,10 +417,10 @@ We have seen the two most important inputs of [`sq-facet-timeline`]({{site.baseu
 - `curveType` allows to select the type of curve approximation from the D3 library.
 - `showTooltip` allows to turn on or off the tooltip when hovering the mouse of the chart.
 
-Note that [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) listens to the events triggered by [`sq-timeline`]({{site.baseurl}}analytics/components/BsTimelineComponent.html):
+Note that `sq-facet-timeline` listens to the events triggered by `sq-timeline`:
 
 - When the user zooms in and out, a `rangeChange` event is triggered. The facet captures this event and updates the data of any `TimelineCombinedAggregation` in function of the new scale.
-- When the user selects a range of dates by clicking and dragging the mouse over the chart, a `selectionChange` event is triggered. The facet captures this event and filters the search accordingly, using the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html). The filter is applied to the metadata plotted by each [`TimelineAggregation`]({{site.baseurl}}analytics/interfaces/TimelineAggregation.html). For example, if we plot 2 time series corresponding to 2 aggregations computed on the `modified` and `sourcedatetime3`, the filter will be `modified BETWEEN x AND Y OR sourcedatetime3 BETWEEN x AND y`.
+- When the user selects a range of dates by clicking and dragging the mouse over the chart, a `selectionChange` event is triggered. The facet captures this event and filters the search accordingly, using the `SearchService`. The filter is applied to the metadata plotted by each `TimelineAggregation`. For example, if we plot 2 time series corresponding to 2 aggregations computed on the `modified` and `sourcedatetime3`, the filter will be `modified BETWEEN x AND Y OR sourcedatetime3 BETWEEN x AND y`.
 - When the user clicks on a event, the tooltip showing the event's `display` parameter actually displays a clickable link. When the link is clicked, the component forwards the event to the parent by emitting a `eventClicked` event (passing the clicked event as a parameter). The tooltip is automatically closed after the click. The parent can exploit this event is different ways:
 
     ```html
@@ -476,7 +446,7 @@ Note that [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTime
 
 ### Facet integration
 
-Finally, [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) is a facet component, and can therefore easily be embedded within a [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html):
+Finally, `sq-facet-timeline` is a facet component, and can therefore easily be embedded within a `sq-facet-card`:
 
 ```html
 <sq-facet-card [icon]="'fas fa-chart-line'" [title]="'Awesome Timeline'">
@@ -486,7 +456,7 @@ Finally, [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimel
 
 ![Facet component]({{site.baseurl}}assets/modules/timeline/timeline2.png){: .d-block .mx-auto }
 
-The component provides a "clear filters" action displayed in the facet frame. It is possible to add custom actions, by binding them to the `[actions]` input of [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html).
+The component provides a "clear filters" action displayed in the facet frame. It is possible to add custom actions, by binding them to the `[actions]` input of `sq-facet-card`.
 
 ## Customization
 

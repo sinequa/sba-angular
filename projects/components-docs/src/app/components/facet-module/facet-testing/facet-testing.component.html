@@ -42,13 +42,13 @@
         <div class="col-7">
             <doc-code [code]="code7"></doc-code>
         </div>
-        <sq-facet-card [title]="'Dates Timeline'" class="col-5 mb-3">
+        <!-- <sq-facet-card [title]="'Dates Timeline'" class="col-5 mb-3">
             <sq-facet-timeline #facet [results]="globalService.results"
                 [timeseries]="[{aggregation:'AggDateTimeline', primary: true}]" [width]="200"></sq-facet-timeline>
         </sq-facet-card>
         <div class="col-7">
             <doc-code [code]="code8"></doc-code>
-        </div>
+        </div> -->
         <sq-facet-card [title]="'Dates'" class="col-5 mb-3">
             <sq-facet-date #facet [results]="globalService.results" [aggregation]="'AggDateDist'"
                 [timelineAggregation]="'AggDateTimeline'" [allowPredefinedRange]="true" [allowCustomRange]="true"

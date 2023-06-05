@@ -1,9 +1,9 @@
 <ng-container *ngIf="display && hasValues">
     <!-- Icon -->
-    <span *ngIf="icon" class="sq-metadata-col metadata-{{layout}} {{icon}} pe-1"></span>
+    <span *ngIf="icon" class="sq-metadata-col metadata-{{layout}} {{icon}}"></span>
 
     <!-- Title -->
-    <span *ngIf="label" class="sq-metadata-col metadata-{{layout}} sq-metadata-item-label pe-1">
+    <span *ngIf="label" class="sq-metadata-col metadata-{{layout}} sq-metadata-item-label">
         {{label | sqMessage}}:
     </span>
 
@@ -18,7 +18,7 @@
         <!-- If tree -->
         <ng-container *ngIf="metadataValue.isTree">
             <ng-container *ngFor="let valueItem of metadataValue.valueItems; let $index = index; let $last = last">
-                <ol class="breadcrumb d-inline-block" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
+                <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
                     <li *ngFor="let part of valueItem.parts; let $subIndex = index" [sqTooltip]="getTooltip"
                         [hoverableTooltip]="true" [sqTooltipData]="{valueItem: valueItem, part: part, index: $subIndex}" [sqTooltipTemplate]="tooltip"
                         [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'"

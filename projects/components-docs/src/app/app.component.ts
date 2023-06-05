@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from '@sinequa/core/login';
+import { Component } from '@angular/core';
 import { BaseComponent } from './shared/base.component';
 
 
@@ -7,13 +6,6 @@ import { BaseComponent } from './shared/base.component';
   selector: 'doc-root',
   templateUrl: './app.component.html'
 })
-export class DocAppComponent extends BaseComponent implements OnInit {
+export class DocAppComponent extends BaseComponent {
 
-  constructor(private loginService: LoginService) {
-    super();
-  }
-
-  ngOnInit(): void {
-    this.loginService.login();
-  }
 }

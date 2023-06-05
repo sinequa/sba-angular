@@ -6,5 +6,5 @@
 
  // right margin if the metadata has another metadata after it, and has some content
 sq-metadata-item:has(+ sq-metadata-item):has(.sq-metadata-col) {
-    margin-right: 1rem;
+    margin-right: .5rem;
 }

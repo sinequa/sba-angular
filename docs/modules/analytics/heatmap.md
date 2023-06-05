@@ -8,17 +8,13 @@ nav_order: 6
 
 # Heatmap Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}analytics/modules/BsHeatmapModule.html) auto-generated from source code.
-
 ## Features
 
 This module includes a Heatmap visualization of 2-dimensional data based on the [D3 library](https://d3js.org/). This chart is available:
 
 - As a simple component taking data as an input and displaying it, unaware of Sinequa's API and data structures.
 - As a facet component, managing the transformation of an aggregation into the heatmap data, and displaying actions to customize this aggregation, as well as a settings panel.
-- As a results view component (mostly for compatibility), directly based on the facet component, but displayed in a slightly different way since the component is not meant to live in a [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) wrapper (See [Facet module]({{site.baseurl}}/modules/components/facet.html)).
+- As a results view component (mostly for compatibility), directly based on the facet component, but displayed in a slightly different way since the component is not meant to live in a `sq-facet-card` wrapper (See [Facet module]({{site.baseurl}}modules/components/facet.html)).
 
 ![Heatmap]({{site.baseurl}}assets/modules/heatmap/heatmap.png){: .d-block .mx-auto }
 
@@ -65,9 +61,9 @@ The heatmap facet and results view take care of querying the server if the heatm
 
 ## Heatmap Facet
 
-<doc-facet-heatmap></doc-facet-heatmap>
+<!-- <doc-facet-heatmap></doc-facet-heatmap> -->
 
-The heatmap facet ([`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html)) looks as the image above. It can be displayed with:
+The heatmap facet (`sq-facet-heatmap`) looks as the image above. It can be displayed with:
 
 ```html
 <sq-facet-card [icon]="'fas fa-th'" [title]="'Awesome Heatmap'">
@@ -79,7 +75,7 @@ This facet includes a settings template which lets the user tune some of the hea
 
 ![Settings]({{site.baseurl}}assets/modules/heatmap/settings.png){: .d-block .mx-auto }
 
-The [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html) component accepts the following inputs:
+The `sq-facet-heatmap` component accepts the following inputs:
 
 - `results`: The current results
 - `aggregation` (default: `'Heatmap'`, the name of the default aggregation configured in the query web service): Name of the aggregation which contains the data.
@@ -103,19 +99,19 @@ The [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComp
 
 ## Heatmap results view
 
-<doc-results-heatmap-view></doc-results-heatmap-view>
+<!-- <doc-results-heatmap-view></doc-results-heatmap-view> -->
 
-The heatmap results view ([`sq-results-heatmap-view`]({{site.baseurl}}analytics/components/BsResultsHeatmapView.html)) is based directly on the [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html) component (by inheritance). The differences are the following:
+The heatmap results view (`sq-results-heatmap-view`) is based directly on the `sq-facet-heatmap` component (by inheritance). The differences are the following:
 
-- To use this component it is required to import the [`BsResultsViewModule`]({{site.baseurl}}components/modules/BsResultsViewModule.html) module in your `app.module.ts` and inject a list of results views and a default one via the `forRoot()` method.
-- Since the view is not wrapped inside a [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) component, the list of actions is displayed above the view, including a button to toggle the settings panel.
-- The [`sq-results-heatmap-view`]({{site.baseurl}}analytics/components/BsResultsHeatmapView.html) component accepts all the parameters of the [`sq-facet-heatmap`]({{site.baseurl}}analytics/components/BsFacetHeatmapComponent.html) component, plus an additional optional one: `selectView` which allows to change the current results view when an item is selected. For example, `[selectView]="'List'"` will switch to the "List" results view when a tile is clicked.
+- To use this component it is required to import the `BsResultsViewModule` module in your `app.module.ts` and inject a list of results views and a default one via the `forRoot()` method.
+- Since the view is not wrapped inside a `sq-facet-card` component, the list of actions is displayed above the view, including a button to toggle the settings panel.
+- The `sq-results-heatmap-view` component accepts all the parameters of the `sq-facet-heatmap` component, plus an additional optional one: `selectView` which allows to change the current results view when an item is selected. For example, `[selectView]="'List'"` will switch to the "List" results view when a tile is clicked.
 
 ## Heatmap component
 
 <doc-heatmap></doc-heatmap>
 
-The heatmap component ([`sq-heatmap`]({{site.baseurl}}analytics/components/BsHeatmapComponent.html)) only takes care of displaying the chart. It accepts as inputs most of the graphical settings defined above, but it does not take care of querying the server for data.
+The heatmap component (`sq-heatmap`) only takes care of displaying the chart. It accepts as inputs most of the graphical settings defined above, but it does not take care of querying the server for data.
 
 When used in isolation, this component needs the `data` input, which is a list of objects implementing the `HeatmapItem` interface:
 

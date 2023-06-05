@@ -8,10 +8,6 @@ nav_order: 8
 
 # Metadata Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/MetadataModule.html) auto-generated from source code.
-
 ## Features
 
 This module introduces the UI component that displays the metadata of a document in the search result page.
@@ -52,7 +48,7 @@ To work properly, you should also import the module's stylesheet in your own app
 
 ## API usage
 
-This module exports the [`Metadata` component]({{site.baseurl}}components/components/Metadata.html) that is responsible for displaying the metadata of a document.
+This module exports the `Metadata` component that is responsible for displaying the metadata of a document.
 
 An entry of metadata is simply a value of an index column of the considered document. Documents have many different types of metadata (mono-valued, multiple-valued, entities, tree-structured, text, numbers, dates, booleans...)
 
@@ -88,7 +84,7 @@ The component also emits an event when an element of the metadata is selected / 
 
 ### Examples
 
-<doc-metadata></doc-metadata>
+<!-- <doc-metadata></doc-metadata> -->
 
 The following metadata is displayed with all the default options:
 
@@ -136,7 +132,7 @@ Here we activate the entity tooltip:
 
 ### Metadata Item
 
-This module also exports the [`MetadataItem` component]({{site.baseurl}}components/components/MetadataItem.html) which is used by
+This module also exports the `MetadataItem` component which is used by
 the `Metadata` component and displays a **single** metadata item. Using the `MetadaItem` component directly provides more layout flexibility,
 allowing other content to interspersed in the layout and different input properties to be specified for individual items. The component's
 selector is `sq-metadata-item` and it expects a number of inputs which are similar to those of the `Metadata` component.

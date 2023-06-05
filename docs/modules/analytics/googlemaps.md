@@ -8,11 +8,7 @@ nav_order: 5
 
 # Google Maps Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}analytics/modules/GoogleMapsModule.html) auto-generated from source code.
-
-Also checkout the official documentation of the [Angular Google Maps](https://github.com/angular/components/tree/main/src/google-maps) library.
+This module is an integration of the [Angular Google Maps](https://github.com/angular/components/tree/main/src/google-maps) library.
 
 ## Features
 
@@ -54,7 +50,7 @@ const messages = Utils.merge({}, ..., enGooglemaps, appMessages);
 
 ## Map component
 
-<doc-map></doc-map>
+<!-- <doc-map></doc-map> -->
 
 The map component is a facet component (See [Facet Module]({{site.baseurl}}/modules/components/facet.html)), which means it is best used when integrated in a facet card:
 

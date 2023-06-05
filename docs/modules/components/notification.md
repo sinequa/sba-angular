@@ -8,15 +8,11 @@ nav_order: 14
 
 # Notification Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsNotificationModule.html) auto-generated from source code.
-
 ## Features
 
 This module introduces the Bootstrap-flavored components to display and manage user notifications.
 
-For the creation and management of notifications, please refer to the [Core Notification module]({{site.baseurl}}core/modules/NotificationModule.html).
+For the creation and management of notifications, please refer to the Core Notification module.
 
 ![Error notification]({{site.baseurl}}assets/modules/notification/notification-error-notification-example.png)
 *An error notification*
@@ -52,20 +48,20 @@ const messages = Utils.merge({}, ..., enNotification, appMessages);
 
 #### BsNotification
 
-The [`BsNotification` component]({{site.baseurl}}components/components/BsNotification.html) is the Bootstrap-flavor implementation of a notification shown on the screen.
+The `BsNotification` component is the Bootstrap-flavor implementation of a notification shown on the screen.
 
 #### BsNotifications
 
 <!-- <doc-notifications></doc-notifications> -->
 
-The [`BsNotifications` component]({{site.baseurl}}components/components/BsNotifications.html) is the component representing the current notification list and displaying the notification on the screen.
+The `BsNotifications` component is the component representing the current notification list and displaying the notification on the screen.
 It is imported and used in the `app.component.html` of `vanilla-search`.
 
 #### BsNotificationsManager
 
 <!-- <doc-notifications-manager></doc-notifications-manager> -->
 
-The [`BsNotificationsManager` component]({{site.baseurl}}components/components/BsNotificationsManager.html) is the component
+The `BsNotificationsManager` component is the component
 that is used to manage the list of notifications of your application.
 
 For more information about how you can manage the notification list, please refer to [Manage user notifications]({{site.baseurl}}modules/core/notification.html#manage-user-notifications)

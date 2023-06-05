@@ -8,7 +8,8 @@ import { BaseComponent } from 'src/app/shared/base.component';
 export class DocResultSourceComponent extends BaseComponent {
 
   code = `<sq-result-source
-    [record]="record">
+    [record]="record"
+    [displayTreepath]="true">
 </sq-result-source>`;
 
 }

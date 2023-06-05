@@ -8,11 +8,7 @@ nav_order: 4
 
 # Vis Timeline Module
 
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}analytics/modules/VisTimelineModule.html) auto-generated from source code.
-
-Also checkout the official documentation of the [Vis Timeline](https://visjs.github.io/vis-timeline/docs/timeline/) library.
+This module is an integration of the [Vis Timeline](https://visjs.github.io/vis-timeline/docs/timeline/) library.
 
 This module reuses code from the [ngx-vis](https://github.com/visjs/ngx-vis) project. The documentation from this project is valid, except the directive and service are packaged in this Sinequa module.
 
@@ -57,11 +53,11 @@ In any case you will also need to import the following stylesheet in your app's 
 
 ## Timeline Component
 
-<doc-result-timeline></doc-result-timeline>
+<!-- <doc-result-timeline></doc-result-timeline> -->
 
 ### Basic usage
 
-The [`sq-result-timeline`]({{site.baseurl}}analytics/components/ResultTimeline.html) component displays a timeline associated to a specific [`Record`]({{site.baseurl}}core/interfaces/Record.html) object. This record must have at least one column storing a list of "dates" or "events".
+The `sq-result-timeline` component displays a timeline associated to a specific `Record` object. This record must have at least one column storing a list of "dates" or "events".
 
 If this column is named `'dates'`, a sample usage could be as follow:
 
@@ -71,17 +67,17 @@ If this column is named `'dates'`, a sample usage could be as follow:
 
 ### Dates and Events
 
-A **date** can be a JavaScript [`Date`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date) object, or a formatted string which can be decyphered automatically by the [moment library](https://momentjs.com/) (which is used internally). For example `"2020-12-03"` or `"2020-12"` qualify as dates. A Sinequa index can store such a list of dates within a CSV or Entity column.
+A **date** can be a JavaScript [`Date`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date) object, or a formatted string which can be parsed automatically by the [date-fns library](https://date-fns.org/) (which is used internally). For example `"2020-12-03"` or `"2020-12"` qualify as dates. A Sinequa index can store such a list of dates within a CSV or Entity column.
 
 An **event** is a date associated to an event name. The association is done by formatting the field as `(Event name)#(Date)`, which is the standard format of cooccurrence normalization in the Sinequa platform. For example, the event `(Birthday)#(2021-04-24)` can be extracted from documents with a cooccurrence associating two entities: One for the event names (eg. a whitelist entity) and one for the dates (eg. a TMA entity).
 
-⚠️ Note that you may have other type of data to display on this timeline. Rather than trying to awkwardly coax your data into the data structures that this component expect, we recommend you to create your own component using the [Vis](https://visjs.org/) and [ngx-vis](https://github.com/visjs/ngx-vis) APIs. In particular the [`[visTimeline]`]({{site.baseurl}}analytics/components/directives/VisTimelineDirective.html) directive and [`VisTimelineService`]({{site.baseurl}}analytics/injectables/VisTimelineService.html) to listen to user events, like clicks on the dates and events. Both the directive and service are packaged in the Sinequa library and can be imported with: `import {VisTimelineDirective, VisTimelineService} from '@sinequa/analytics/vis-timeline';`
+⚠️ Note that you may have other type of data to display on this timeline. Rather than trying to awkwardly coax your data into the data structures that this component expect, we recommend you to create your own component using the [Vis](https://visjs.org/) and [ngx-vis](https://github.com/visjs/ngx-vis) APIs. In particular the `[visTimeline]` directive and `VisTimelineService` to listen to user events, like clicks on the dates and events. Both the directive and service are packaged in the Sinequa library and can be imported with: `import {VisTimelineDirective, VisTimelineService} from '@sinequa/analytics/vis-timeline';`
 
 ### List of Inputs
 
-The [`sq-result-timeline`]({{site.baseurl}}analytics/components/ResultTimeline.html) component accepts the following inputs:
+The `sq-result-timeline` component accepts the following inputs:
 
-- `record` (required): The object of type [`Record`]({{site.baseurl}}core/interfaces/Record.html) which contains the dates to display.
+- `record` (required): The object of type `Record` which contains the dates to display.
 - `dates` (optional): The column of the `record` object which contains the dates to display (eg. `record['dates']`).
 - `events` (optional): The column of the `record` object which contains the events to display (eg. `record['events']`).
 - `min_year` and `max_year` (defaults: `0` and `10000`): Min and max years to filter out the date and event outliers.

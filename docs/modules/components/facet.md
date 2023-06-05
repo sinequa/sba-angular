@@ -10,11 +10,7 @@ nav_order: 3
 
 *Facets* refer to the filters used to narrow down the results in a search interface (See [*Faceted Search*](https://en.wikipedia.org/wiki/Faceted_search)). In the SBA framework, the definition can extend more generally to other types of components that augment the search experience.
 
-The standard facets (list, tree...), need data from the server. This data comes in the form of **aggregations** in the results ([`Results`]({{site.baseurl}}core/interfaces/Results.html)) returned by the [`QueryWebService`]({{site.baseurl}}core/injectables/QueryWebService.html). These aggregations are configured on the server in the [**Query web service**]({{site.baseurl}}gettingstarted/server-setup.html#query-web-service).
-
-## Reference documentation
-
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsFacetModule.html) auto-generated from source code.
+The standard facets (list, tree...), need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**]({{site.baseurl}}gettingstarted/server-setup.html#query-web-service).
 
 The Facet module is also documented in the [tutorial]({{site.baseurl}}tutorial/facet-module.html).
 
@@ -22,8 +18,8 @@ The Facet module is also documented in the [tutorial]({{site.baseurl}}tutorial/f
 
 This modules provides:
 
-- [`FacetService`]({{site.baseurl}}components/injectables/FacetService.html): A service to manage data for the facet components and modify the search criteria (via the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html)).
-- [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html) and [`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html): A flexible API for creating custom facets.
+- `FacetService`: A service to manage data for the facet components and modify the search criteria (via the `SearchService`).
+- `sq-facet-card` and `AbstractFacet`: A flexible API for creating custom facets.
 - A list of diverse facet components using the above facet API. These components are generally styled with the Bootstrap library, and their class names start with `Bs`.
 
 ## Import
@@ -52,12 +48,12 @@ const messages = Utils.merge({}, ..., enFacet, appMessages);
 
 ### Standard usage
 
-The facet card API is based on a generic **container** component, [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html), and an **abstract facet** component for the content of the facets ([`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html)):
+The facet card API is based on a generic **container** component, `sq-facet-card`, and an **abstract facet** component for the content of the facets (`AbstractFacet`):
 
 - The container displays the frame, icon, title, action buttons *around* the facet.
-- The content can be any Angular template displayed *within* the facet. If the content extends [`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html), the container will automatically detect its dynamic list of actions (and other features) and display them.
+- The content can be any Angular template displayed *within* the facet. If the content extends `AbstractFacet`, the container will automatically detect its dynamic list of actions (and other features) and display them.
 
-For example, the [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component extends [`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html). The component implements the `get actions()` method to provide a list of actions, which are dynamically displayed when you select facet items within the facet.
+For example, the `sq-facet-list` component extends `AbstractFacet`. The component implements the `get actions()` method to provide a list of actions, which are dynamically displayed when you select facet items within the facet.
 
 ![Facet card and content]({{site.baseurl}}assets/modules/facet/facet-api.png){: .d-block .mx-auto width="350px"}
 
@@ -67,7 +63,7 @@ For example, the [`sq-facet-list`]({{site.baseurl}}components/components/BsFacet
 </sq-facet-card>
 ```
 
-Notice the list of **actions** returned by `get actions()` in [`BsFacetList`](https://github.com/sinequa/sba-angular/blob/master/projects/components/facet/bootstrap/facet-list/facet-list.ts) (a method of [`AbstractFacet`]({{site.baseurl}}components/components/AbstractFacet.html)):
+Notice the list of **actions** returned by `get actions()` in `BsFacetList` (a method of `AbstractFacet`):
 
 ```ts
 get actions(): Action[] {
@@ -225,7 +221,7 @@ It is possible to display facets in other types of containers besides the simple
 - The "facet filters" component displays facets as a horizontal bar with dropdown menus.
 
 These containers share a similar API. In particular, they require:
-- A list of facet configuration objects ([`FacetConfig<T>`]({{site.baseurl}}components/interfaces/FacetConfig.html)).
+- A list of facet configuration objects (`FacetConfig<T>`).
 - The Angular components instantiated within these containers, for each facet type.
 
 Each facet requires a set of inputs. These inputs are included within the `FacetConfig` interface. For example, for a list facet the facet configuration looks like this:
@@ -248,7 +244,7 @@ The `FacetConfig` interface has a part that is common to all facets:
 - `title` and `icon` define what is displayed in the facet header
 - `includedTabs` and `excludedTabs` allow to list the tabs (from the `results` object) in which this facet should be displayed.
 
-The `parameters` property is specific to the component `type`. In the example above, its type is [`FacetListParams`]({{site.baseurl}}components/interfaces/FacetListParams.html), which corresponds to the configuration of a `"list"` facet component.
+The `parameters` property is specific to the component `type`. In the example above, its type is `FacetListParams`, which corresponds to the configuration of a `"list"` facet component.
 
 The Angular components displayed by the containers is provided as a `MapOf<Type<any>>`. By default, the containers support the standard components from the `@sinequa/components/facet` module:
 
@@ -285,7 +281,7 @@ And in the template:
 
 <!-- <doc-facet-bar></doc-facet-bar> -->
 
-The [`sq-facet-bar`]({{site.baseurl}}components/components/BsFacetBar.html) component is a container which can display a dynamic list of facets.
+The `sq-facet-bar` component is a container which can display a dynamic list of facets.
 
 The [Facet Service](#facet-service) manages the list of facets displayed in the facet bar. The service allows adding, moving and removing facets dynamically. The facets' configuration and list of facets displayed by default must be injected in the Facet Service by calling `BsFacetModule.forRoot()` in your `app.module.ts`:
 
@@ -322,7 +318,7 @@ export const defaultFacets: FacetState[] = [
 })
 ```
 
-This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input and optionally a list of custom components (`facetComponents`).
+This component requires at least a `Results` input and optionally a list of custom components (`facetComponents`).
 
 ```html
 <sq-facet-bar [results]="results" [facetComponents]="facetComponents">
@@ -344,31 +340,23 @@ It is also possible to insert static content which will be displayed at the top 
 
 ### Multiple-type Facet
 
+The "multiple-type" facet `sq-facet-multi` displays multiple types of metadata in the same facet. The user selects the type of metadata, which then changes the view of the facet into one of the classical views above.
+
+This component requires at least a `Results` input, the list of the `facets` configuration (equivalent to the `allFacets` list of the [facet bar](#facet-bar) above), and optionally a list of custom components (`facetComponents`). The title and icon of the facet card need to be set dynamically, as a function of the currently selected metadata.
+
 <doc-facet-multi></doc-facet-multi>
-
-The "multiple-type" facet [`sq-facet-multi`]({{site.baseurl}}components/components/BsFacetMultiComponent.html) displays multiple types of metadata in the same facet. The user selects the type of metadata, which then changes the view of the facet into one of the classical views above.
-
-![Multi facet]({{site.baseurl}}assets/modules/facet/facet-multi.png){: .d-block .mx-auto}
-
-This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input, the list of the `facets` configuration (equivalent to the `allFacets` list of the [facet bar](#facet-bar) above), and optionally a list of custom components (`facetComponents`). The title and icon of the facet card need to be set dynamically, as a function of the currently selected metadata (See the [Vanilla-Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) application for a concrete example).
-
-```html
-<sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon">
-    <sq-facet-multi #facet [results]="results" [facets]="facets" [facetComponents]="facetComponents"></sq-facet-multi>
-</sq-facet-card>
-```
 
 ### Facet Filters
 
 <!-- <doc-facet-filters></doc-facet-filters> -->
 
-The [`sq-facet-filters`]({{site.baseurl}}components/components/BsFacetFilters.html) components displays facets as a navigation bar where each item is a facet displayed as a dropdown component.
+The `sq-facet-filters` components displays facets as a navigation bar where each item is a facet displayed as a dropdown component.
 
 ![Facet Filters]({{site.baseurl}}assets/modules/facet/facet-filters.png){: .d-block .mx-auto}
 
 This component requires a:
-  - [`Results`]({{site.baseurl}}core/interfaces/Results.html) input.
-  - [`FacetConfig<T>[]`]({{site.baseurl}}components/interfaces/FacetConfig.html): A list of facets' configuration. This list can be passed directly via the `[facets]` input (as for the [Multiple type facet](#multiple-type-facet)). Or it can be injected with the `BsFacetModule.forRoot()` method (as for the [Facet bar](#facet-bar)). This 2nd option is interesting when `enableCustomization` is set to `true`.
+  - `Results` input.
+  - `FacetConfig<T>[]`: A list of facets' configuration. This list can be passed directly via the `[facets]` input (as for the [Multiple type facet](#multiple-type-facet)). Or it can be injected with the `BsFacetModule.forRoot()` method (as for the [Facet bar](#facet-bar)). This 2nd option is interesting when `enableCustomization` is set to `true`.
   - `facetComponents`: Optionally, a list of custom components.
   - `enableCustomization`: Optionally, turns on user customization of the list of facets displayed in the component.
 
@@ -381,11 +369,11 @@ This component requires a:
 
 ## Facet Service
 
-The [`FacetService`]({{site.baseurl}}components/injectables/FacetService.html) provides the following functionality:
+The `FacetService` provides the following functionality:
 
 - Provide access to the **facet data**, via the following methods:
-  - `facetService.getAggregation(aggregation name, results)`: Returns the [`Aggregation`]({{site.baseurl}}core/interfaces/Aggregation.html) from the results (and takes care of initializing the aggregation items).
-  - `facetService.getTreeAggregation(facet name, aggregation name, results)`: Returns the [`TreeAggregation`]({{site.baseurl}}core/interfaces/Aggregation.html) from the results (and takes care of initializing the tree aggregation items).
+  - `facetService.getAggregation(aggregation name, results)`: Returns the `Aggregation` from the results (and takes care of initializing the aggregation items).
+  - `facetService.getTreeAggregation(facet name, aggregation name, results)`: Returns the `TreeAggregation` from the results (and takes care of initializing the tree aggregation items).
   - `facetService.getAggregationCount(aggregation name)`: Returns the "count" parameter of a given aggregation, as configured on the server.
   - `facetService.open(facet name, aggregation, item)`: Opens a collapsed node item in a tree aggregation (queries the server for the data inside that node).
   - `facetService.loadData(aggregation name, skip, count)`: Loads more data from the server to append at the end of a list aggregation.
@@ -404,13 +392,11 @@ The [`FacetService`]({{site.baseurl}}components/injectables/FacetService.html) p
 
 ### List Facet
 
+The `sq-facet-list` component displays a regular list of metadata (aggregation). The user can click on items in the list to filter the results.
+
 <doc-facet-list></doc-facet-list>
 
-The [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component displays a regular list of metadata (aggregation). The user can click on items in the list to filter the results.
-
-![List facet]({{site.baseurl}}assets/modules/facet/facet-list.png){: .d-block .mx-auto}
-
-This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input and the name of the aggregation to work properly.
+This component requires at least a `Results` input and the name of the aggregation to work properly.
 
 The full list of inputs is:
 
@@ -430,23 +416,16 @@ The full list of inputs is:
 
 This component can be used in two ways :
 
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'Geography'" [icon]="'fas fa-globe-americas'" [expandable]="true">
-      <sq-facet-list #facet [results]="results" [aggregation]="'Geo'"></sq-facet-list>
-  </sq-facet-card>
-  ```
-
+  - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetListConfig` interface.
 
 ### Tree Facet
 
-The [`sq-facet-tree`]({{site.baseurl}}components/components/BsFacetTree.html) component displays a hierarchical list of metadata (tree aggregation). The user can click on items in the list to filter the results.
+The `sq-facet-tree` component displays a hierarchical list of metadata (tree aggregation). The user can click on items in the list to filter the results.
 
 ![Tree facet]({{site.baseurl}}assets/modules/facet/facet-tree.png){: .d-block .mx-auto}
 
-This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input and the name of the aggregation to work properly.
+This component requires at least a `Results` input and the name of the aggregation to work properly.
 
 The full list of inputs is:
 
@@ -475,9 +454,9 @@ This component can be used in two ways :
 
 ### Range Facet
 
-<doc-facet-range></doc-facet-range>
+The `sq-facet-range` component displays a slider to select a range of values for a numerical (eg. document size) or temporal (eg. modified date) metadata.
 
-The [`sq-facet-range`]({{site.baseurl}}components/components/BsFacetRange.html) component displays a slider to select a range of values for a numerical (eg. document size) or temporal (eg. modified date) metadata.
+<doc-facet-range></doc-facet-range>
 
 The full list of inputs is:
 
@@ -490,19 +469,12 @@ The full list of inputs is:
 
 This component can be used in two ways :
 
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'Range'">
-      <sq-facet-range #facet [results]="results" [aggregation]="'modified'" [min]="'2017-01-01'" [max]="'2022-01-01'"></sq-facet-range>
-  </sq-facet-card>
-  ```
-
+  - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetRangeConfig` interface.
 
 ### My Search Facet
 
-The "My Search" facet [`sq-mysearch`]({{site.baseurl}}components/components/BsMySearch.html) displays the current list of search criteria (similar to the [breadcrumbs component](search.html#breadcrumbs)).
+The "My Search" facet `sq-mysearch` displays the current list of search criteria (similar to the [breadcrumbs component](search.html#breadcrumbs)).
 
 ![My search facet]({{site.baseurl}}assets/modules/facet/facet-mysearch.PNG){: .d-block .mx-auto}
 
@@ -538,11 +510,11 @@ This component can be used in different ways :
 
 ### Refine Facet
 
+The `sq-refine` component displays a secondary search form, including an autocomplete, to add a fulltext search criteria to a query, without removing the active filters.
+
 <doc-refine></doc-refine>
 
-The [`sq-refine`]({{site.baseurl}}components/components/BsRefine.html) component displays a secondary search form, including an autocomplete, to add a fulltext search criteria to a query, without removing the active filters.
-
-This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input. If the autocomplete is enabled, all the parameters of the [autocomplete directive](autocomplete.html) should be provided to this component.
+This component requires at least a `Results` input. If the autocomplete is enabled, all the parameters of the [autocomplete directive](autocomplete.html) should be provided to this component.
 
 The full list of inputs is:
 
@@ -553,24 +525,15 @@ The full list of inputs is:
 
 This component can be used in two ways :
 
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'Refine'" [icon]="'fas fa-info'">
-      <sq-refine #facet [results]="results"></sq-refine>
-  </sq-facet-card>
-  ```
-
+  - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetRefineConfig` interface.
 
 
 ### Tag Cloud Facet
 
+The `sq-facet-tag-cloud` displays multiple types of metadata in the same facet. It provides a direct access to the most relevant filters, belonging to the supplied metadata.
+
 <doc-facet-tag-cloud></doc-facet-tag-cloud>
-
-The [`sq-facet-tag-cloud`]({{site.baseurl}}components/components/BsFacetTagCloud.html) displays multiple types of metadata in the same facet. It provides a direct access to the most relevant filters, belonging to the supplied metadata.
-
-![Tag cloud]({{site.baseurl}}assets/modules/facet/facet-tag-cloud.PNG){: .d-block .mx-auto}
 
 The inputs of the component are:
 
@@ -586,12 +549,5 @@ The inputs of the component are:
 
 This component can be used in two ways :
 
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'Tag cloud'" [icon]="'fas fa-cloud'">
-      <sq-facet-tag-cloud #facet [results]="results" [aggregations]="['Company','Geo','Person','Concepts']"></sq-facet-tag-cloud>
-  </sq-facet-card>
-  ```
-
+  - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetTagCloudConfig` interface.
