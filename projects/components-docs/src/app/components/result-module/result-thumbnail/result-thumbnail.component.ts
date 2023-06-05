@@ -8,7 +8,8 @@ import { BaseComponent } from 'src/app/shared/base.component';
 export class DocResultThumbnailComponent extends BaseComponent {
 
   code = `<sq-result-thumbnail
-    [record]="record">
+    [record]="record"
+    [linkBehavior]="'action'">
 </sq-result-thumbnail>`;
 
 }

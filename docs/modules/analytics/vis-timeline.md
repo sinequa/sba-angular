@@ -53,7 +53,7 @@ In any case you will also need to import the following stylesheet in your app's 
 
 ## Timeline Component
 
-<doc-result-timeline></doc-result-timeline>
+<!-- <doc-result-timeline></doc-result-timeline> -->
 
 ### Basic usage
 

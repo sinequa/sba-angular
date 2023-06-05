@@ -45,16 +45,6 @@ import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
 
 The `sq-fusion-chart` component displays a chart (multiple types are supported), given at least a `Results` input and the name of an aggregation (as configured in the query web service).
 
-Its most basic usage is as follow:
-
-```html
-<sq-facet-card [icon]="'fas fa-chart-line'" [title]="'FusionCharts'">
-    <sq-fusion-chart #facet [results]="results" [aggregation]="'Company'"></sq-fusion-chart>
-</sq-facet-card>
-```
-
-Which displays a chart as in the image above.
-
 ### Chart type
 
 Additionally, an input `type` can be specified to change the type of chart. Currently, only `column2d`, `bar2d`, `pie2d` and `doughnut2d` have been tested (and their "3d" equivalents). Other types listed in the FusionCharts documentation might work as well but could expect different types of input or options.
@@ -120,7 +110,7 @@ By default, a FusionCharts theme is used (it can be modified using the above [ch
 
 ## MultiLevelPieChart Component
 
-<doc-multi-level-pie-chart></doc-multi-level-pie-chart>
+<!-- <doc-multi-level-pie-chart></doc-multi-level-pie-chart> -->
 
 The `sq-multi-level-pie-chart` component displays a special type of chart that allows you to show symmetrical and asymmetrical tree structures in a consolidated pie-like structure. It presents the entire hierarchical data in a single-screen snapshot, which makes it a preferred choice over a tree view.
 

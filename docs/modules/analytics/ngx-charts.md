@@ -80,7 +80,7 @@ The `options` input is an object of type `ChartOptions`, an interface requiring 
 
 ## Facet Chart Component
 
-<doc-facet-chart></doc-facet-chart>
+<!-- <doc-facet-chart></doc-facet-chart> -->
 
 The `sq-facet-ngx-chart` component displays an aggregation from the results as a chart. The user can click on items in the chart to filter the results.
 
