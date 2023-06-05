@@ -46,7 +46,7 @@ jobs:
           node-version: 20
             
       - name: Generate links in markdown files
-        run: npm run doc-preprocess
+        run: node ./scripts/doc-preprocess.js
         
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
