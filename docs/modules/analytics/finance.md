@@ -73,7 +73,7 @@ Such a cooccurrence entity would be extracted and normalized as `(REVENUE)#(USD 
 
 ## Money Timeline
 
-<doc-money-timeline></doc-money-timeline>
+<!-- <doc-money-timeline></doc-money-timeline> -->
 
 The money timeline component (`sq-money-timeline`) displays amounts of money found in records (ie. search results, along a time axis). The component only requires a `Results` input. By default, the component assumes that amounts of money are extracted in a "money" column and that a "Money" aggregation is calculated against this column. The aggregation is used to size the "bubbles" representing each amount of money (the bigger the bubble means the amount of money is often mentioned in the results). The time axis corresponds to the "modifed" column of the records. The colors corresponds to different records in the results.
 
@@ -89,7 +89,7 @@ When an amount is hovered with the mouse, and the user clicks on the "Inspect th
 
 ## Money Cloud
 
-<doc-money-cloud></doc-money-cloud>
+<!-- <doc-money-cloud></doc-money-cloud> -->
 
 The money cloud component (`sq-money-cloud`) displays amounts of money found in the results sorted by categories. The component only requires a `Results` input. By default, the component assumes that cooccurrence of amounts of money and categories are extracted in a "value_amount" column and that a "ValueAmounts" aggregation is calculated against this column. Only the aggregation is used to plot the data (no records are used, unlike the timeline component). The bigger the bubble means the cooccurrence is often mentioned in the results. The colors correspond to the currencies found in the amount of money.
 

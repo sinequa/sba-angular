@@ -208,7 +208,7 @@ Once you have defined your menus and buttons, you need to use one of the followi
 
 you can use the `sq-action-buttons` component that creates a menu of buttons.
 
-<doc-action-buttons></doc-action-buttons>
+<!-- <doc-action-buttons></doc-action-buttons> -->
 
 Its input is an `ActionButtonsOptions` object:
 
@@ -234,7 +234,7 @@ Example:
 
 Alternatively, you can use the `sq-action-item` component.
 
-<doc-action-item></doc-action-item>
+<!-- <doc-action-item></doc-action-item> -->
 
 This component expects an `ActionItemOptions` object as input:
 
@@ -264,7 +264,7 @@ Example:
 
 The `sq-action-menu` component is another way to create a dropdown menu.
 
-<doc-action-menu></doc-action-menu>
+<!-- <doc-action-menu></doc-action-menu> -->
 
 This component expects the following values:
 

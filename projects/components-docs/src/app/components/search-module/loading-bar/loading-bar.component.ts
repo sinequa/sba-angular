@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'doc-loading-bar',
-  templateUrl: './loading-bar.component.html'
+  templateUrl: './loading-bar.component.html',
+  styles: [`:host ::ng-deep .card-body {
+    padding-left: 0 !important;
+  }`]
 })
 export class DocLoadingBarComponent {
 

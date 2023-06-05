@@ -49,14 +49,12 @@ import { DocTooltipModule } from './analytics/tooltip-module/tooltip.module';
 import { DocVisTimelineModule } from './analytics/vis-timeline-module/vis-timeline.module';
 import { DocBaseModule } from './shared/base.module';
 import { DocSearchBarComponent } from './search-bar/search-bar.component';
-import { LoginInterceptor } from '@sinequa/core/login';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
     app: "app",
     production: environment.production,
-    autoSAMLProvider: environment.autoSAMLProvider,
     auditEnabled: true
 };
 
@@ -67,6 +65,7 @@ export function startConfigInitializer(startConfigWebService: StartConfigWebServ
 
 // Application languages (intl service)
 import enLocale from "../locales/en";
+import { CREDENTIALS, LoginInterceptor } from '@sinequa/core/login';
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -136,8 +135,9 @@ export class AppLocalesConfig implements LocalesConfig {
     providers: [
         { provide: APP_INITIALIZER, useFactory: startConfigInitializer, deps: [StartConfigWebService], multi: true },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
-        { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
         GlobalService,
+        { provide: CREDENTIALS, useValue: { userName: '', password: '' } },
+        { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
         ...environment.providers
     ],
     bootstrap: [DocAppComponent]

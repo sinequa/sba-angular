@@ -9,7 +9,10 @@ export class DocResultsViewSelectorComponent extends BaseComponent {
 
   code = `<sq-results-view-selector
     [query]="query"
-    [results]="results">
+    [results]="results"
+    [size]="'sm'"
+    [rightAligned]="true"
+    [useDropdownMenu]="false">
 </sq-results-view-selector>`;
 
 }

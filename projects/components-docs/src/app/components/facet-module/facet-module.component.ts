@@ -7,7 +7,7 @@ import { DocFacetRangeComponent } from './facet-range/facet-range.component';
 import { DocFacetTagCloudComponent } from './facet-tag-cloud/facet-tag-cloud.component';
 import { DocFacetTestingComponent } from './facet-testing/facet-testing.component';
 import { DocFacetComponent } from './facet/facet.component';
-import { DocRefineComponent } from './refine/refine.component';
+// import { DocRefineComponent } from './refine/refine.component';
 
 @Component({
   selector: 'doc-facet-module',
@@ -25,7 +25,7 @@ export class DocFacetModuleComponent {
     DocFacetMultiComponent,
     DocFacetRangeComponent,
     DocFacetTagCloudComponent,
-    DocRefineComponent,
+    // DocRefineComponent,
     DocFacetTestingComponent
   ];
 

@@ -58,7 +58,7 @@ const messages = Utils.merge({}, ..., enAlerts, enBaskets, enSavedQueries, appMe
 
 ### User Menu
 
-<doc-saved-queries-menu></doc-saved-queries-menu>
+<!-- <doc-saved-queries-menu></doc-saved-queries-menu> -->
 
 The `sq-saved-queries-menu` component displays the list of saved queries, lets a user save his current query and allows to reorganize the list (See the *Manage* modal below).
 
@@ -75,7 +75,7 @@ This menu is meant to be inserted in a Bootstrap-styled navbar:
 
 ### Facet
 
-<doc-facet-saved-queries></doc-facet-saved-queries>
+<!-- <doc-facet-saved-queries></doc-facet-saved-queries> -->
 
 The `sq-facet-saved-queries` component displays the list of saved queries, lets a user re-play one of them, open the *Manage* modal (see below), or delete specific queries.
 
@@ -117,7 +117,7 @@ Additional methods allow to display modal dialogs:
 
 ### Facet
 
-<doc-facet-recent-queries></doc-facet-recent-queries>
+<!-- <doc-facet-recent-queries></doc-facet-recent-queries> -->
 
 The `sq-facet-recent-queries` component displays the list of recent queries and lets a user re-play, delete or save one of them.
 
@@ -150,7 +150,7 @@ The `RecentQueriesService` is the access point for the list of recent queries (`
 
 ### Facet
 
-<doc-facet-recent-documents></doc-facet-recent-documents>
+<!-- <doc-facet-recent-documents></doc-facet-recent-documents> -->
 
 The `sq-facet-recent-documents` component displays the list of recent document and lets a user re-open one, or remove it from the list.
 
@@ -219,38 +219,19 @@ Note: in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.
 
 ### User Menu
 
-<doc-baskets-menu></doc-baskets-menu>
-
 The `sq-baskets-menu` component displays the list of baskets, lets a user create a new basket and reorganize the list (See the *Manage* modal below).
 
-![Baskets menu]({{site.baseurl}}assets/modules/user-settings/baskets-menu.png){: .d-block .mx-auto }
+This menu is meant to be inserted in a Bootstrap-styled navbar.
 
-This menu is meant to be inserted in a Bootstrap-styled navbar:
-
-```html
-<ul class="navbar-nav">
-    <sq-baskets-menu></sq-baskets-menu>
-    <!-- Other menus -->
-</ul>
-```
+<doc-baskets-menu></doc-baskets-menu>
 
 ### Facet
 
-<doc-facet-baskets></doc-facet-baskets>
-
 The `sq-facet-baskets` component displays the list of baskets, lets a user open one of them, create a new one, open the *Manage* modal (see below), and delete specific baskets.
 
-![Baskets facet]({{site.baseurl}}assets/modules/user-settings/baskets-facet.png){: .d-block .mx-auto }
+This facet is meant to work with the `sq-facet-card` component (See [Facet Module](facet.html)).
 
-This facet is meant to work with the `sq-facet-card` component (See [Facet Module](facet.html)):
-
-```html
-<sq-facet-card  [title]="'msg#baskets.baskets'"
-                [tooltip]="'msg#home.basketsTooltip'"
-                [icon]="'fas fa-shopping-basket'">
-    <sq-facet-baskets #facet [maxBaskets]="5"></sq-facet-baskets>
-</sq-facet-card>
-```
+<doc-facet-baskets></doc-facet-baskets>
 
 The component accepts the following (optional) inputs:
 

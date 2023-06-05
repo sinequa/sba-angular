@@ -235,17 +235,11 @@ This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-searc
 
 ### Search Form
 
-<doc-preview-search-form></doc-preview-search-form>
-
 The `sq-preview-search-form` component is a simple search form that lets users search for content within the preview.
 
 The search is actually triggered by navigating to the same URL but updating the `query.text` field. **⚠️ This assumes the component lives inside a "Preview" route which listens to URL changes and updates the `PreviewData` via the `PreviewService` accordingly**.
 
-![Search form]({{site.baseurl}}assets/modules/preview/search-form.png){: .d-block .mx-auto width="350px" }
-
-```html
-<sq-preview-search-form [query]="query"></sq-preview-search-form>
-```
+<doc-preview-search-form></doc-preview-search-form>
 
 ### Preview popup
 

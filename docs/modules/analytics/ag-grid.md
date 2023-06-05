@@ -58,7 +58,7 @@ The `sq-ag-grid-view` component can be integrated in an Angular template with th
 <sq-ag-grid-view [results]="results" [columns]="columns"></sq-ag-grid-view>
 ```
 
-<doc-ag-grid-view></doc-ag-grid-view>
+<!-- <doc-ag-grid-view></doc-ag-grid-view> -->
 
 In the snippet above,
 

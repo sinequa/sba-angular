@@ -6,13 +6,32 @@ import { Component } from '@angular/core';
 })
 export class DocCollapseComponent {
 
-  collapsed = false;
+  collapsed: boolean = true;
+  list: string[] = [
+    'element 1',
+    'element 2',
+    'element 3'
+  ];
 
-  code = `<sq-collapse [collapsed]="collapsed">
+  code = `<button type="button" class="btn btn-primary" (click)="collapsed = !collapsed">
+    {{ collapsed ? 'Expand' : 'Collapse' }}
+</button>
+
+<sq-collapse [collapsed]="collapsed">
     <ng-template>
-        Some content
+        <ul>
+            <li *ngFor="let element of list">
+                <span>{{ element }}</span>
+            </li>
+        </ul>
     </ng-template>
 </sq-collapse>`;
+
+code2 = `list: string[] = [
+    'element 1',
+    'element 2',
+    'element 3'
+];`;
 
   constructor() { }
 

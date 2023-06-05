@@ -90,7 +90,7 @@ Finally, keep in mind that nothing prevents you from programming your own provid
 
 ## Network Component
 
-<doc-network></doc-network>
+<!-- <doc-network></doc-network> -->
 
 The `sq-network` component is a facet component (See [Facet module]({{site.baseurl}}/modules/components/facet.html)), which is best used within a facet card:
 
@@ -590,9 +590,9 @@ Node and edge info cards:
 
 ![Edge info card]({{site.baseurl}}assets/modules/network/edge-info-card.png){: .d-block .mx-auto }
 
-<doc-node-info-card></doc-node-info-card>
+<!-- <doc-node-info-card></doc-node-info-card> -->
 
-<doc-edge-info-card></doc-edge-info-card>
+<!-- <doc-edge-info-card></doc-edge-info-card> -->
 
 ### Actions
 
