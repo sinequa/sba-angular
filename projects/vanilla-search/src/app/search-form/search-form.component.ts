@@ -58,8 +58,8 @@ export class AppSearchFormComponent {
     if(text) {
       this.translating = true;
       this.chatService.fetch([
-        {role: 'system', content: this.assistantService.getPrompt("translatePrompt"), display: false, $content: ''},
-        {role: 'user', content: text, display: false, $content: ''},
+        {role: 'system', content: this.assistantService.getPrompt("translatePrompt"), display: false},
+        {role: 'user', content: text, display: false},
       ], 'GPT35Turbo', 1.0, 1000, 1.0)
       .subscribe(res => {
         query.text = res.messagesHistory.at(-1)?.content.replace(/\"/g, '');

@@ -55,7 +55,6 @@ export class GptProvider extends BaseProvider {
         role: 'system',
         display: false,
         content: this.assistantService.getPrompt("networkPrompt", this.record, {query: this.query}),
-        $content: ''
       };
 
       this.loading$.next(true);

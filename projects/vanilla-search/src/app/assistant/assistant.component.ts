@@ -101,8 +101,8 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
       // Prompt GPT-4 for query improvements and a first answer
       switchMap(content =>
         this.chatService.fetch([
-          {role: 'system', content: this.assistantService.getPrompt("searchPrompt"), display: false, $content: ''},
-          {role: 'user', content, display: false, $content: ''},
+          {role: 'system', content: this.assistantService.getPrompt("searchPrompt"), display: false},
+          {role: 'user', content, display: false},
         ], 'GPT4-8K', 0.8, 500, 1.0)
       ),
 
@@ -178,7 +178,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
           messages.push({role: 'assistant', content, display: true, $content: marked(content), $actions});
         }
 
-        this.chat!.updateData(messages, {used: 0, model: 4096});
+        this.chat!.updateData(messages, 0);
 
       }),
 
@@ -240,10 +240,10 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
       if(attachments?.length && this.chat) {
         // Finally feed the chat with the attachments and ask it to provide an answer
         this.chat.fetch([
-          {role: 'system', content: this.assistantService.chatConfig.initialSystemPrompt, display: false, $content: ''},
+          {role: 'system', content: this.assistantService.chatConfig.initialSystemPrompt, display: false},
           ...(this.chat.messages$.value || []),
           ...this.chatService.prepareAttachmentMessages(attachments, [], false),
-          {role: 'user', content: this.assistantService.getPrompt("answer2Prompt"), display: false, $content: ''}
+          {role: 'user', content: this.assistantService.getPrompt("answer2Prompt"), display: false}
         ]);
       }
     });
@@ -275,7 +275,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
         const ansPrompt = this.assistantService.getPrompt("answerPrompt");
         const content = `${sysPrompt}. ${ansPrompt}`;
         this.chat.fetch([
-          {role: 'system', content, display: false, $content: ''},
+          {role: 'system', content, display: false},
           ...this.chatService.prepareAttachmentMessages(attachments, [], false)
         ]);
       }
