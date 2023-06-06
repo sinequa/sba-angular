@@ -27,7 +27,7 @@ export interface RawMessage {
  */
 export interface ChatMessage extends RawMessage {
   /** This content is formatted to be properly displayed in the UI */
-  $content: string;
+  $content?: string;
   /** Messages from the user can have attachments */
   $attachment?: ChatAttachment;
   /** Messages from the assistant can have references that refer to attachments ids */
@@ -78,13 +78,18 @@ export interface ChatAttachmentWithTokens extends ChatAttachment {
 export type GllmTokens = {
   used: number;
   model: number;
-  quota?: {
-    tokenCount: number;
-    periodTokens: number;
-    resetHours: number;
-    lastResetUTC: string;
-    nextResetUTC: string;
-  }
+}
+
+/**
+ * Information provided by the API about the number of tokens consumed
+ * across all conversations
+ */
+export type GllmTokenQuota = {
+  tokenCount: number;
+  periodTokens: number;
+  resetHours: number;
+  lastResetUTC: string;
+  nextResetUTC: string;
 }
 
 /**
@@ -92,7 +97,8 @@ export type GllmTokens = {
  */
 export interface RawResponse {
   messagesHistory: RawMessage[];
-  tokens: GllmTokens;
+  tokens: number;
+  streaming?: boolean;
 }
 
 /**
@@ -112,6 +118,8 @@ export interface GllmModelDescription {
   name: GllmModel;
   displayName: string;
   provider: GllmProvider;
+  size: number;
+  eventStream: boolean;
 }
 
 /**

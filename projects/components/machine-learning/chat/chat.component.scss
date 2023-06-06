@@ -49,6 +49,10 @@ li.list-group-item {
   color: black !important;
 }
 
+.message-content ::ng-deep .placeholder-glow .placeholder {
+  animation-duration: 0.4s;
+}
+
 a.disabled {
   cursor: default;
   opacity: 0.5;
