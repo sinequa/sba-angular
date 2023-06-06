@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, catchError, finalize, tap, throwError} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {HttpService} from "./http.service";
 import { MapOf, Utils } from "@sinequa/core/base";
 import { HttpHeaders, HttpContext, HttpParams } from '@angular/common/http';
@@ -38,15 +38,7 @@ export class JsonMethodPluginService extends HttpService{
     if (!Utils.isObject(query)) {
       return throwError(() => ({error: "invalid query object"}));
     }
-    return this.httpClient.post(this.makeUrl(method), query, options as any)
-      .pipe(
-        catchError((error) => {
-          console.log("JsonMethodPluginService.post failure - error: ", error);
-          return throwError(() => error)
-        }),
-        tap(response => console.log("JsonMethodPluginService.post success - data: ", response)),
-        finalize(() => console.log("JsonMethodPluginService.post complete"))
-      )
+    return this.httpClient.post(this.makeUrl(method), query, options as any);
   }
 
   /**
@@ -75,14 +67,7 @@ export class JsonMethodPluginService extends HttpService{
     return this.httpClient.get(this.makeUrl(method), {
       params: this.makeParams(query),
       ...options as any
-    }).pipe(
-      catchError((error) => {
-        console.log("JsonMethodPluginService.get failure - error: ", error);
-        return throwError(() => error)
-      }),
-      tap(response => console.log("JsonMethodPluginService.get success - data: ", response)),
-      finalize(() => console.log("JsonMethodPluginService.get complete"))
-    );
+    });
   }
 
   override makeUrl(api: string): string {
