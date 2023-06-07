@@ -88,6 +88,7 @@
           <div *ngIf="networkSettingsAction.selected">
             <label for="networkPrompt" class="form-label">Network prompt</label>
             <textarea class="form-control" id="networkPrompt" [(ngModel)]="networkPrompt" rows="10"></textarea>
+            <button class="btn btn-primary" (click)="resetNetworkPrompt()">Reset configuration</button>
           </div>
         </sq-facet-card>
       </div>

@@ -210,6 +210,10 @@ export class PreviewComponent implements OnDestroy {
     this.assistantService.setRawPrompt("networkPrompt", prompt);
   }
 
+  resetNetworkPrompt() {
+    this.assistantService.resetPrompt("networkPrompt");
+  }
+
   // User preferences
 
   private getTab(panel: string): Tab {
