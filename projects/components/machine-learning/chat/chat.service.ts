@@ -76,7 +76,7 @@ export class ChatService {
   ];
   defaultAttachmentMetadata = ['title', 'modified'];
 
-  initialized$ = new BehaviorSubject<boolean>(false);
+  initialized$ = new Subject<boolean>();
   models?: GllmModelDescription[];
   quota?: GllmTokenQuota;
   quotaPercentage = 0;
@@ -92,22 +92,14 @@ export class ChatService {
     public prefs: UserPreferences,
     public loginService: LoginService
   ) {
-    if(this.loginService.complete) {
-      this.initialize();
-    }
-    else {
-      this.loginService.events.pipe(
-        filter(e => e.type === 'login-complete'),
-        switchMap(() => this.initialize())
-      ).subscribe(() => this.initialized$.next(true));
-    }
-  }
-
-  initialize() {
-    return forkJoin([
-      this.listModels(),
-      this.getQuota()
-    ]);
+    // Upon login, get the list of models and current quota
+    this.loginService.events.pipe(
+      filter(e => e.type === 'login-complete'),
+      switchMap(() => forkJoin([
+        this.listModels(),
+        this.getQuota()
+      ]))
+    ).subscribe(() => this.initialized$.next(true));
   }
 
 

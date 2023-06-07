@@ -5,7 +5,7 @@ import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
-import { BehaviorSubject, delay, filter, map, Observable, of, Subscription, switchMap } from "rxjs";
+import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatService, SearchAttachmentsOptions } from "./chat.service";
 import { ChatAttachment, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
 
@@ -181,7 +181,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
     this.sub.add(
       this.chatService.initialized$
-        .pipe(filter(init => init))
         .subscribe(() => this.updateModelDescription())
     );
   }
