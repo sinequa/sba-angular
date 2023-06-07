@@ -2,7 +2,7 @@ import { Component, OnDestroy, ViewChild, ChangeDetectionStrategy, ChangeDetecto
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { Subscription, filter } from 'rxjs';
+import { Subscription, filter, of } from 'rxjs';
 
 import { AuditEventType, PreviewData, Tab } from '@sinequa/core/web-services';
 import { AppService, Query } from '@sinequa/core/app-utils';
@@ -66,6 +66,11 @@ export class PreviewComponent implements OnDestroy {
       title: "msg#preview.searchText",
       icon: "fas fa-search",
       action: (action) => this.searchText(action.data.slice(0, 50))
+    }),
+    new Action({
+      text: "Summarize",
+      icon: "fas fa-feather-alt",
+      action: (action) => this.summarize(action.data)
     })
   ];
 
@@ -178,28 +183,52 @@ export class PreviewComponent implements OnDestroy {
     }
   }
 
-  initChat() {
+  initChat(text?: string) {
     if(this.previewData?.record) {
       const record = this.previewData.record;
 
-      // Chat view
+      // System prompt of the chat
       this.chat = {
         messages: [{
           role: 'system',
           display: false,
-          content: this.assistantService.getPrompt("previewPrompt", record, {query: this.query})
-        }],
-        attachments: this.chatService.addDocument(record, [], 2048, 5, 10)
+          content: this.assistantService.getPrompt("previewPrompt", record, text? {} : {query: this.query})
+        }]
       };
+
+      // Attachment of the chat
+      if(text) {
+        this.chat.attachments = of({
+          recordId: record.id,
+          chunks: [{ offset: 0, length: text.length, text}],
+          $record: record
+        });
+      }
+      else {
+        this.chat.attachments = this.chatService.addDocument(record, [], 2048, 5, 10);
+      }
+
+      // Query for auto search
       this.chatQuery = this.searchService.makeQuery({
         filters: {field: 'id', value: record.id}
       });
 
+      // If the network is displayed, trigger the network provider
       if(this.subpanel === 'network') {
         this.networkProvider.updateRecord(record, this.query);
       }
 
     }
+  }
+
+  /**
+   * Summarizing a piece of text simply by initializing a new
+   * chat session in which the attachment is the text itself.
+   */
+  summarize(text: string) {
+    this.subpanel = 'chat';
+    this.initChat(text);
+    this.cdRef.detectChanges();
   }
 
   get networkPrompt() {
