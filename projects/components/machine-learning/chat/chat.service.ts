@@ -1,15 +1,17 @@
 import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { AuditEvent, AuditWebService, JsonMethodPluginService, Record, RelevantExtract, Results, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
-import { BehaviorSubject, defaultIfEmpty, forkJoin, map, Observable, of, Subject, switchMap, tap } from "rxjs";
+import { BehaviorSubject, defaultIfEmpty, filter, finalize, forkJoin, map, Observable, of, scan, Subject, switchMap, tap } from "rxjs";
 import { marked } from "marked";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Validators } from "@angular/forms";
 import { Chunk, equalChunks, insertChunk } from "./chunk";
-import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, GllmModel, GllmModelDescription, GllmTokens, RawMessage, RawResponse, SavedChat } from "./types";
+import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, GllmModel, GllmModelDescription, GllmTokenQuota, GllmTokens, RawMessage, RawResponse, SavedChat } from "./types";
 import { extractReferences } from "./references";
 import { UserPreferences } from "@sinequa/components/user-settings";
+import { HttpDownloadProgressEvent, HttpEvent, HttpEventType } from "@angular/common/http";
+import { LoginService } from "@sinequa/core/login";
 
 export interface SearchAttachmentsOptions {
   /** Max number of top passages to include */
@@ -47,6 +49,7 @@ export const defaultSearchAttachmentsOptions: SearchAttachmentsOptions = {
 @Injectable({providedIn: 'root'})
 export class ChatService {
 
+  /** When 2 passages in a document are within this number of characters, we merge them */
   chunkMargin = 100;
 
   /**
@@ -55,10 +58,13 @@ export class ChatService {
    */
   attachments$ = new BehaviorSubject<ChatAttachmentWithTokens[]>([]);
 
+  /** LLM used for computing the number of tokens in text */
   attachmentModel: GllmModel = 'GPT35Turbo';
 
+  /** Name of the GLLM plugin */
   GLLM_PLUGIN = "GLLM";
 
+  /** Metadata possibly included in the attachments */
   availableAttachmentMetadata: { field: string, name?: string, formatter?: (value: any) => string}[] = [
     {field: "title"},
     {field: "modified", name: "date", formatter: (value: string) => value.substring(0,10)},
@@ -70,6 +76,11 @@ export class ChatService {
   ];
   defaultAttachmentMetadata = ['title', 'modified'];
 
+  initialized$ = new Subject<boolean>();
+  models?: GllmModelDescription[];
+  quota?: GllmTokenQuota;
+  quotaPercentage = 0;
+
   constructor(
     public textChunksService: TextChunksWebService,
     public jsonMethodWebService: JsonMethodPluginService,
@@ -78,8 +89,18 @@ export class ChatService {
     public modalService: ModalService,
     public notificationsService: NotificationsService,
     public auditService: AuditWebService,
-    public prefs: UserPreferences
-  ) {}
+    public prefs: UserPreferences,
+    public loginService: LoginService
+  ) {
+    // Upon login, get the list of models and current quota
+    this.loginService.events.pipe(
+      filter(e => e.type === 'login-complete'),
+      switchMap(() => forkJoin([
+        this.listModels(),
+        this.getQuota()
+      ]))
+    ).subscribe(() => this.initialized$.next(true));
+  }
 
 
   // ChatGPT API
@@ -87,7 +108,9 @@ export class ChatService {
   /**
    * Calls the ChatGPT API to retrieve a new message given all previous messages
    */
-  fetch(messages: ChatMessage[], name: GllmModel, temperature: number, generateTokens: number, topP: number, context?: string): Observable<ChatResponse> {
+  fetch(messages: ChatMessage[], name: GllmModel, temperature: number, generateTokens: number, topP: number, context?: string, stream = false): Observable<ChatResponse> {
+
+    // Prepare inputs
     const model = {
       name,
       temperature,
@@ -97,15 +120,57 @@ export class ChatService {
     };
     const messagesHistory = this.cleanMessages(messages);
     const data = {action: "chat", model, messagesHistory, promptProtection: false};
-    return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data).pipe(
-      map((res: RawResponse) => ({
-        tokens: res.tokens,
-        messagesHistory: [
-          ...messages,
-          this.processMessage(res.messagesHistory.at(-1)!, messages)
-        ]
-      })),
+
+    // Stream mode
+    if(stream && this.models?.find(m => m.name === name)?.eventStream) {
+      let _res: ChatResponse;
+      return this.fetchStream(data).pipe(
+        map(res => this.processResponse(messages, res)),
+        tap(res => _res = res), // Store the last version of the message so we can audit it in finalize()""
+        finalize(() => this.notifyAudit(_res.messagesHistory, _res.tokens))
+      );
+    }
+
+    // Regular mode
+    return this.fetchAll(data).pipe(
+      map(res => this.processResponse(messages, res)),
       tap(({tokens, messagesHistory}) => this.notifyAudit(messagesHistory, tokens))
+    );
+  }
+
+  fetchAll(data: any): Observable<RawResponse> {
+    return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data);
+  }
+
+  fetchStream(data: any): Observable<RawResponse> {
+    data.stream = true;
+    return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data, {observe: 'events', responseType: 'text', reportProgress: true}).pipe(
+      // Only keep download progress events
+      filter((data: HttpEvent<string>): data is HttpDownloadProgressEvent => data.type === HttpEventType.DownloadProgress),
+
+      // Retrieve and parse the last event of the stream
+      map(data => {
+        let text = data.partialText!.trim();
+        let i = text.lastIndexOf('\n');
+        text = text.substring(i+1 + 'data: '.length);
+        return JSON.parse(text) as {content: string, tokens: number, stop?: boolean};
+      }),
+
+      // Transform the result into a RawResponse
+      map(json => ({
+        tokens: json.tokens,
+        streaming: !json.stop,
+        messagesHistory: [{role: "assistant", display: true, content: json.content}]
+      })),
+
+      // Accumulate stream into one message / response
+      scan((acc, res) => ({
+        ...res,
+        messagesHistory: [{ // Merge the last message with the previous one
+          ...res.messagesHistory[0],
+          content: acc.messagesHistory[0].content + res.messagesHistory[0].content
+        }]
+      })),
     );
   }
 
@@ -122,7 +187,22 @@ export class ChatService {
    */
   listModels(): Observable<GllmModelDescription[]> {
     const data = { action: "listmodels" };
-    return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data).pipe(map(res => res.models));
+    return this.jsonMethodWebService.get(this.GLLM_PLUGIN, data).pipe(
+      map(res => res.models),
+      tap(models => this.models = models)
+    );
+  }
+
+  /**
+   * Return the number of tokens left for the current user
+   */
+  getQuota(): Observable<GllmTokenQuota> {
+    const data = { action: "quota" };
+    return this.jsonMethodWebService.get(this.GLLM_PLUGIN, data).pipe(
+      map(res => res.quota),
+      tap(quota => this.quota = quota),
+      tap(quota => this.quotaPercentage = Math.min(100, Math.ceil(100 * quota.tokenCount / quota.periodTokens)))
+    );
   }
 
   /**
@@ -160,17 +240,34 @@ export class ChatService {
     const ids = messages.map(m => m.$attachment?.recordId!).filter(id => id);
     return this.searchService.getRecords(ids).pipe(
       map(records => messages.reduce((chatMessages, message) => {
-        let attachment: ChatAttachment|undefined = undefined;
+        const chatMessage: ChatMessage = {...message, $attachment: undefined};
         if(message.$attachment) {
           const $record = records.find(r => r?.id === message.$attachment?.recordId);
           if($record) {
-            attachment = {...message.$attachment, $record};
+            chatMessage.$attachment = {...message.$attachment, $record};
           }
         }
-        chatMessages.push(this.processMessage(message, chatMessages, attachment));
-        return chatMessages
+        if(message.role === 'assistant') {
+          Object.assign(chatMessage, this.processMessage(message.content, chatMessages));
+        }
+        chatMessages.push(chatMessage);
+        return chatMessages;
       }, [] as ChatMessage[]))
     );
+  }
+
+  processResponse(messages: ChatMessage[], response: RawResponse) {
+    const rawMessage = response.messagesHistory.at(-1) as ChatMessage;
+    return {
+      tokens: response.tokens,
+      messagesHistory: [
+        ...messages,
+        {
+          ...rawMessage,
+          ...this.processMessage(rawMessage.content, messages, response.streaming)
+        }
+      ]
+    }
   }
 
   /**
@@ -178,12 +275,19 @@ export class ChatService {
    * If the message if from the assistant, we attempt to extract references
    * from it.
    */
-  processMessage(message: RawMessage, conversation: ChatMessage[], $attachment?: ChatAttachment): ChatMessage {
-    const chatMessage: ChatMessage = {...message, $content: marked(message.content), $attachment};
-    if(message.role === 'assistant') {
-      extractReferences(chatMessage, conversation, this.searchService.query);
+  processMessage(content: string, conversation: ChatMessage[], streaming?: boolean): {$content: string, $references: {refId: number, $record: Record}[]} {
+    content = marked(content);
+    const refs = extractReferences(content, conversation, this.searchService.query);
+    if(streaming) { // When streaming, we add a placeholder at the end of the message
+      refs.$content += `
+        <span class="placeholder-glow">
+          <span class="placeholder mx-1 col-1"></span>
+          <span class="placeholder mx-1 col-4"></span>
+          <span class="placeholder mx-1 col-2"></span>
+        </span>
+      `;
     }
-    return chatMessage;
+    return refs;
   }
 
   /**
@@ -198,7 +302,6 @@ export class ChatService {
         role: 'user',
         content: this.formatContent($refId, $attachment.$record, $attachment.chunks.map(c => c.text)),
         display,
-        $content: '', // Attachment have their own template
         $attachment,
         $refId
       }
@@ -217,6 +320,13 @@ export class ChatService {
       }
     }
     return `<document id="${id}" ${metas}>${text.join('\n...\n')}</document>`;
+  }
+
+  /**
+   * Get the model description for the given model name
+   */
+  getModel(name: GllmModel): GllmModelDescription | undefined {
+    return this.models?.find(m => m.name === name);
   }
 
 
@@ -599,14 +709,13 @@ export class ChatService {
     };
     this.modalService.prompt(model).then(res => {
       if (res === ModalResult.OK) {
-        delete tokens.quota;
         const savedChat: SavedChat = { name: model.output, messages, tokens };
         this.saveChat(savedChat);
       }
     });
   }
 
-  notifyAudit(messagesHistory: ChatMessage[], tokens: GllmTokens) {
+  notifyAudit(messagesHistory: ChatMessage[], tokens: number) {
     let numberOfUserMessages = 0;
     let numberOfAttachments = 0;
     let numberOfAssistantMessages = 0;
@@ -622,7 +731,7 @@ export class ChatService {
         numberOfUserMessages,
         numberOfAttachments,
         numberOfAssistantMessages,
-        tokens: tokens.used
+        tokens
       }
     });
   }

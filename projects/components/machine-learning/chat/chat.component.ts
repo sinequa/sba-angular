@@ -16,6 +16,7 @@ export interface ChatConfig extends SearchAttachmentsOptions {
   topP: number;
   maxTokens: number;
   googleContextPrompt: string;
+  stream: boolean;
 
   // UI
   textBeforeAttachments: boolean;
@@ -36,6 +37,7 @@ export const defaultChatConfig: ChatConfig = {
   topP: 1.0,
   maxTokens: 800,
   googleContextPrompt: "Answer only using the text of the documents. If you don't know or don't have enough information from the documents just say so.",
+  stream: true,
 
   // UI
   textBeforeAttachments: false,
@@ -83,6 +85,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() topP =                     defaultChatConfig.topP;
   @Input() maxTokens =                defaultChatConfig.maxTokens;
   @Input() googleContextPrompt =      defaultChatConfig.googleContextPrompt;
+  @Input() stream =                   defaultChatConfig.stream;
 
   // UI
   @Input() textBeforeAttachments =    defaultChatConfig.textBeforeAttachments;
@@ -120,10 +123,10 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   question = '';
 
-  tokensPercentage = 0;
-  tokensAbsolute = 0;
-  tokensQuota = 0;
-  tokens?: GllmTokens;
+  tokensPercentage = 0; // Percentage of tokens used in the conversation over the tokens available in the model
+  tokensAbsolute = 0; // Tokens used in the conversation and in the question and attachments
+  tokens = 0; // Tokens used in previous messages of the conversation
+  get tokensModel() { return this.modelDescription?.size ?? 0; }
 
   openChatAction: Action;
   _actions: Action[] = [];
@@ -132,7 +135,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   sub = new Subscription();
   dataSubscription: Subscription | undefined;
 
-  modelDescription: GllmModelDescription;
+  /** Variables that depend on the type of model in use */
+  modelDescription?: GllmModelDescription;
   assistantIcon: string;
   privacyUrl: string;
 
@@ -175,18 +179,10 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
     this._actions.push(this.openChatAction);
 
-    this.chatService.listModels().subscribe(models => {
-      this.modelDescription = models.find(m => m.name === this.model)!;
-      switch(this.modelDescription.provider) {
-        case 'Google':
-          this.assistantIcon = 'sq-google';
-          break;
-        case 'OpenAI':
-          this.assistantIcon = 'sq-chatgpt';
-          this.privacyUrl = 'https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy';
-          break;
-      }
-    });
+    this.sub.add(
+      this.chatService.initialized$
+        .subscribe(() => this.updateModelDescription())
+    );
   }
 
   ngOnChanges() {
@@ -198,6 +194,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       this.loadDefaultChat();
     }
     this.updateActions();
+    this.updateModelDescription();
   }
 
   ngOnDestroy(): void {
@@ -237,15 +234,27 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       const questionTokens = Math.floor(this.question.trim().length / 3.5);
       const attachments = this.chatService.attachments$.value;
       const attachmentTokens = attachments.reduce((prev, cur) => prev + cur.$tokenCount, 0);
-      this.tokensAbsolute = (this.tokens.used || 0) + questionTokens + attachmentTokens;
-      this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / (this.tokens.model - this.maxTokens));
-      this.tokensQuota = this.tokens.quota? Math.min(100, Math.ceil(100 * this.tokens.quota.tokenCount / this.tokens.quota.periodTokens)) : 0;
+      this.tokensAbsolute = this.tokens + questionTokens + attachmentTokens;
+      this.tokensPercentage = Math.min(100, 100 * this.tokensAbsolute / (this.tokensModel - this.maxTokens));
+    }
+  }
+
+  updateModelDescription() {
+    this.modelDescription = this.chatService.getModel(this.model);
+    switch(this.modelDescription?.provider) {
+      case 'Google':
+        this.assistantIcon = 'sq-google';
+        break;
+      case 'OpenAI':
+        this.assistantIcon = 'sq-chatgpt';
+        this.privacyUrl = 'https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy';
+        break;
     }
   }
 
   private fetchAnswer(question: string, conversation: ChatMessage[], attachments: ChatAttachment[]) {
     const attachmentMessages = this.getAttachmentMessages(conversation, attachments);
-    const userMsg = this.chatService.processMessage({role: 'user', content: question, display: true}, conversation);
+    const userMsg = {role: 'user', content: question, display: true};
     const messages = this.textBeforeAttachments?
         [...conversation, userMsg, ...attachmentMessages]
       : [...conversation, ...attachmentMessages, userMsg];
@@ -261,7 +270,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.loading = true;
     this.cdr.detectChanges();
     this.dataSubscription?.unsubscribe();
-    this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP, this.googleContextPrompt)
+    this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP, this.googleContextPrompt, this.stream)
       .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
     this.scrollDown();
   }
@@ -270,13 +279,13 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     const attachmentMessages = this.chatService.prepareAttachmentMessages(attachments, conversation, display);
     if(this.attachmentsHiddenPrompt && attachmentMessages.length > 0) {
       attachmentMessages.push(
-        this.chatService.processMessage({role: 'user', content: this.attachmentsHiddenPrompt, display: false}, conversation)
+        {role: 'user', content: this.attachmentsHiddenPrompt, display: false}
       );
     }
     return attachmentMessages;
   }
 
-  updateData(messages: ChatMessage[], tokens: GllmTokens) {
+  updateData(messages: ChatMessage[], tokens: number) {
     this.messages$.next(messages);
     this.data.emit(messages);
     this.loading = false;
@@ -313,7 +322,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.question = '';
     this.tokensPercentage = 0;
     this.tokensAbsolute = 0;
-    this.tokens = undefined;
+    this.tokens = 0;
     this.dataSubscription?.unsubscribe();
   }
 
@@ -326,7 +335,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   saveChat() {
     if(this.messages$.value && this.tokens) {
-      this.chatService.saveChatModal(this.messages$.value, this.tokens);
+      this.chatService.saveChatModal(this.messages$.value, {model: this.tokensModel, used: this.tokens});
     }
   }
 
@@ -351,7 +360,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
           this.fetch(messages); // If the last message if from a user, an answer from ChatGPT is expected
         }
         else if(tokens) {
-          this.updateData(messages, tokens); // If the last message if from the assistant, we can load the conversation right away
+          this.updateData(messages, tokens.used); // If the last message if from the assistant, we can load the conversation right away
         }
       });
   }
