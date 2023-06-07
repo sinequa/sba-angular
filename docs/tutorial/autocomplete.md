@@ -9,187 +9,148 @@ nav_order: 6
 
 Now, let's try to improve our search input with an **autocomplete**: a component that displays suggestions dynamically when the user is typing.
 
-As usual, the autocomplete is packaged in a module from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html): the [`BsAutocompleteModule`]({{site.baseurl}}modules/components/autocomplete.html).
+There is an autocomplete packaged in a module from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html): the [`BsAutocompleteModule`]({{site.baseurl}}modules/components/autocomplete.html), but we will design our own following what is done in Vanilla Search, using `SearchFormComponent` which still comes from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html).
 
-Of course, this assumes a [**Suggest Query**](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html) has been configured on the Sinequa backend server. If you are doing this tutorial with our test server as the backend, a query has been configured for you 😉.
+In order for the autocomplete to work, we assume a [**Suggest Query**](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html) has been configured on the Sinequa backend server. If you are doing this tutorial with our test server as the backend, a query has been configured for you 😉.
 
 ## Importing the Autocomplete Module
 
-In your `app.module.ts`, import the `BsAutocompleteModule` and add it to the `NgModule` declaration:
+We will start by changing the search input with `SearchFormComponent`. In your `app.module.ts`, import it and add it to the `NgModule` declaration:
 
 ```ts
-import { BsAutocompleteModule } from '@sinequa/components/autocomplete';
+import { SearchFormComponent } from '@sinequa/components/search-form';
 
 @NgModule({
   imports: [
     ...
-    BsAutocompleteModule
+    SearchFormComponent
 ```
 
-The autocomplete module includes two important concepts:
-
-- The `sqAutocomplete` directive: This directive is the "brain" of the autocomplete. It listens to the changes in the `<input>` and queries the `SuggestWebService` to get suggestions.
-- The `sq-autocomplete-list` component: This component takes an input template to display the suggestions in a custom way.
+The component simplifies the search handling with the minimum configuration required. It also allows to provide a template in which you can provide the autocompletion.
 
 ## Refactoring the form
 
-First, let's restyle our form with some Bootstrap classes:
+First, replace the whole `<form>` with the search form:
 
 ```html
-{% raw %}<form novalidate [formGroup]="form">
-    <div class="input-group">
-        <input class="form-control" ...>
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="button" ...>{{ 'msg#search.button' | sqMessage }}</button>
-            <button class="btn btn-light" ...>{{ 'msg#search.clear' | sqMessage }}</button>
-        </div>
-    </div>
-</form>{% endraw %}
+{% raw %}<h1>Hello Search 🔍</h1>
+
+<div class="d-flex flex-column flex-grow-1 position-relative mb-5">
+    <sq-search-form [query]="searchService.query" [searchRoute]="''"></sq-search-form>
+</div>
+
+<div *ngIf="searchService.resultsStream | async; let results">{% endraw %}
 ```
 
-Notice that we inserted two extra `<div>` and some Bootstrap classes (`input-group`, `form-control`, `btn`, etc.). Your form should look something like:
+Notice that we have have to provide the `searchRoute` input as an empty string since the search will redirect to this page upon submit, and the default value for the SBA is `/search`.
+
+You can also remove the no longer used code inside `app.component.ts`:
+- The `search()` method
+- The `clear()` method (and its usage inside `logout()`)
+- The `searchControl` and `form` variables
+- Everything in the `constructor()` except for the `languageActions` setup
+- The unused `UntypedFormGroup` and `UntypedFormControl` imports
+
+There are some missing translations, to add them you need to add to your dictionaries the corresponding file:
+
+```ts
+import {enSearchForm} from "@sinequa/components/search-form";
+
+...
+    messages: Utils.merge({}, ..., enSearchForm, appMessages)
+```
+
+Your form should now look like this:
 
 ![Search form Bootstrap]({{site.baseurl}}assets/tutorial/search-form.png)
 
-⚠️ Also notice the change of the `type` of the Search button from `submit` to `button` (to avoid triggering double-submits caused by the autocomplete).
+## Create the Autocomplete component
+
+We want to handle the autocomplete display inside its own component. Let's create a new component in `src/app/` named `autocomplete.ts`.
+
+```ts
+import { Component, Input, OnChanges, OnInit } from "@angular/core";
+import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
+import { SearchService } from "@sinequa/components/search";
+import { ReplaySubject, debounceTime, switchMap, filter, Observable } from "rxjs";
+
+@Component({
+    selector: "autocomplete",
+    template: `
+<div class="list-group list-group-flush" *ngIf="items$ | async; let items">
+    <a role="button" *ngFor="let item of items"
+        class="list-group-item list-group-item-action"
+        (click)="search(item.display)">
+
+        {{item.display}}
+        <small *ngIf="item.category" class="ms-auto text-muted">
+            {{item.category | sqMessage}}
+        </small>
+    </a>
+</div>
+    `
+})
+export class Autocomplete implements OnChanges, OnInit {
+
+    @Input() queryText: string;
+
+    inputChange$ = new ReplaySubject(1);
+    items$: Observable<AutocompleteItem[] | undefined>;
+
+    constructor(private suggestService: SuggestService,
+        private searchService: SearchService) {
+    }
+
+    ngOnInit() {
+        this.items$ = this.inputChange$
+            .pipe(
+                filter(text => !!text),
+                debounceTime(200),
+                switchMap(() => this.suggestService.get(undefined, this.queryText)),
+            );
+    }
+
+    ngOnChanges() {
+        this.inputChange$.next(this.queryText);
+    }
+
+    search(value: string) {
+        this.searchService.query.text = value;
+        this.searchService.searchText();
+    }
+}
+```
+
+In this component, the `items$` asynchronous variable listens to the input changes (e.g. when the `queryText` input gets updated), which triggers automatically `SuggestService.get` to retrieve the suggestions to display inside the autocomplete.
+
+In the template, the asynchronicity is handled using the `*ngIf="items$ | async; let items"` instruction which listens to any updates to `items$` and applying its value to `items`.
 
 ## Display the Autocomplete list
 
-We are going to add the `sq-autocomplete-list` under the `<input>`. To do so, we use the flex-layout utilities from Bootstrap:
+Now that the component is defined, you have to declare it in your `app.module.ts`.
 
-```html
-<form novalidate [formGroup]="form">
-    <div class="d-flex flex-column flex-grow-1 position-relative">
-        <div class="input-group">
-            ...
-        </div>
+```ts
+import { Autocomplete } from "./autocomplete";
 
-        <sq-autocomplete-list #dropdown>
-        </sq-autocomplete-list>
-    </div>
-</form>
+@NgModule({
+  declarations: [
+    ...
+    Autocomplete
 ```
 
-This doesn't change anything to the display though, because the `sq-autocomplete-list` component has no data to display...
-
-## Respond to user inputs
-
-Now, we insert the `sqAutocomplete` directive in the `<input>` element:
+Let's now add the `ng-template` containing the autocomplete inside `<sq-search-form>`:
 
 ```html
-<input ...
-       sqAutocomplete
-       [off]="!loginService.complete || !appService.suggestQueries"
-       [dropdown]="dropdown"
-       [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : null"
-       (submit)="search()">
-```
-
-Now, the directive is listening to user key events and getting suggestions from the backend (if the list of `suggestQueries` is not empty). Notice that we pass the `dropdown` variable to the directive: this is a reference to our `sq-autocomplete-list` component (which has a `#dropdown` tag).
-
-However, still nothing is displayed...
-
-## Displaying suggestions
-
-The `sq-autocomplete-list` component actually expects a input template (`ng-template`) to display the suggestions. Let's provide one with:
-
-```html
-...
-{% raw %}<sq-autocomplete-list #dropdown>
-    <ng-template #itemTpl let-item>
-        <div class="py-2" style="padding-left:0.75rem;">{{item.display}}
-            <small *ngIf="item.category" class="ml-2 text-muted">
-                {{(item.label || item.category) | sqMessage}}
-            </small>
-        </div>
+<sq-search-form [query]="searchService.query" [searchRoute]="''">
+    <ng-template let-query>
+        <autocomplete [queryText]="query.text"></autocomplete>
     </ng-template>
-</sq-autocomplete-list>{% endraw %}
+</sq-search-form>
 ```
-
-You can easily customize the display of the suggestions. Here, `item` is an `AutocompleteItem` object, which has at least the `display` and `category` properties. You could easily enrich the template with some icons or images (eg. which would depend on `item.category`), etc.
 
 Finally some autocomplete suggestions!
 
 ![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete.png)
-
-## Going further
-
-Every aspect of the autocomplete can be deeply customized.
-
-- The display can be customized by modifying the template (`ng-template`) passed to the `sq-autocomplete-list` component (or by implementing your own custom autocomplete component from scratch, which would require implementing the `AutocompleteComponent` interface).
-- The behavior of the autocomplete (change of state, source of the suggestions, etc.) can be customized by implementing your own directive. You can do this from scratch, or more efficiently by extending the `Autocomplete` directive to modify only a small part of it.
-
-In the example below, we implement a custom directive that searches in the user's **recent queries** in addition to the autocomplete suggestions coming from the server:
-
-```ts
-import { Directive, ElementRef } from '@angular/core';
-import { Autocomplete, SuggestService, AutocompleteItem } from '@sinequa/components/autocomplete';
-import { AppService } from '@sinequa/core/app-utils';
-import { UIService } from '@sinequa/components/utils';
-import { RecentQueriesService, RecentQuery } from '@sinequa/components/saved-queries';
-import { Observable, forkJoin, from } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-
-@Directive({
-    selector: "[sqAutocompleteCustom]"
-})
-export class AutocompleteCustom extends Autocomplete {
-
-    constructor(
-        elementRef: ElementRef,
-        suggestService: SuggestService,
-        appService: AppService,
-        uiService: UIService,
-        protected recentQueriesService: RecentQueriesService){
-        super(elementRef, suggestService, appService, uiService);
-    }
-
-    /**
-     * This method overrides the Autocomplete.getSuggestsObs() method from the sqAutocomplete directive.
-     * Rather than only getting suggests from the server via the SuggestService, this directive also
-     * searches for matches in the recent queries
-     */
-    protected getSuggestsObs(value: string, fields?: string[]): Observable<AutocompleteItem[]>{
-
-        // Methods returning (observable of) suggestions from different sources
-
-        let dataSources: Observable<AutocompleteItem[]>[] = [
-            from(this.searchRecentQueries(value)),
-            this.suggestService.get(this.suggestQuery, value, fields)
-        ]
-
-            // The forkJoin method allows to merge the suggestions into a single array, so the parent
-            // directive only sees a single source.
-        return forkJoin(...dataSources).pipe(
-            map((suggests) => {
-                return [].concat(...suggests);
-            }),
-            catchError((err, caught) => {
-                console.error(err);
-                return [];
-            })
-        );
-
-    }
-
-    /**
-     * Search for the input text in the recent queries and return autocomplete items asynchronously
-     * @param text
-     */
-    searchRecentQueries(text: string): Promise<AutocompleteItem[]> {
-        return this.suggestService.searchData<RecentQuery>(
-            'recent-query',
-            text,
-            this.recentQueriesService.recentqueries,
-            (query) => query.query.text || '',
-            undefined,
-            "msg#searchForm.recentQuery");
-    }
-
-}
-```
-
-Notice that we directly search in the recent queries list (`recentQueriesService.recentqueries`) on the client side, without interrogating the server.
 
 ---
 
