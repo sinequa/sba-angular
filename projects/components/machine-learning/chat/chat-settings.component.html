@@ -4,8 +4,8 @@
   <h5>Model</h5>
   <div class="mb-2">
     <label for="gllmModel" class="form-label">Model</label>
-    <select class="form-select" id="gllmModel" [(ngModel)]="config.model" *ngIf="models$ | async as models">
-      <option *ngFor="let model of models" [ngValue]="model.name">{{model.displayName}}</option>
+    <select class="form-select" id="gllmModel" [(ngModel)]="config.model">
+      <option *ngFor="let model of chatService.models" [ngValue]="model.name">{{model.displayName}}</option>
     </select>
   </div>
   <div class="mb-2">
@@ -23,6 +23,10 @@
   <div class="mb-2" *ngIf="config.model === 'Chat-Bison-001'">
     <label for="googleContextPrompt" class="form-label">Google context prompt</label>
     <textarea class="form-control" id="googleContextPrompt" [(ngModel)]="config.googleContextPrompt"></textarea>
+  </div>
+  <div class="form-check form-switch mb-2">
+    <input class="form-check-input" type="checkbox" role="switch" id="stream" [(ngModel)]="config.stream">
+    <label class="form-check-label" for="stream">Stream messages</label>
   </div>
 
   <h5>UI</h5>

@@ -8,10 +8,10 @@ import { ChatMessage } from "./types";
  * Extract references from a given message, given the context of a conversation
  * (which includes messages/attachments that this message is refering to).
  */
-export function extractReferences(message: ChatMessage, conversation: ChatMessage[], query: Query) {
+export function extractReferences(content: string, conversation: ChatMessage[], query: Query): {$content: string, $references: {refId: number, $record: Record}[]} {
   const references = new Map<number,Record>();
   // Handle the [2-8] format
-  message.$content = message.$content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+)\-(\d+)\]/g, (str, first, last) => {
+  let $content = content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+)\-(\d+)\]/g, (str, first, last) => {
     if(!isNaN(+first) && !isNaN(+last) && (+last) - (+first) > 0 && (+last) - (+first) < 10) {
       str = '';
       for(let i=+first; i<=+last; i++) {
@@ -21,7 +21,7 @@ export function extractReferences(message: ChatMessage, conversation: ChatMessag
     return str;
   });
   // Handle normal formats [1], [3,5,8], [id:3]
-  message.$content = message.$content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+(,\s*[ \d]+)*\s*)\]/g, (str,match) => {
+  $content = $content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+(,\s*[ \d]+)*\s*)\]/g, (str,match) => {
     let html = '';
     for(let ref of match.split(',')) {
       const record = conversation.find(p => p.$refId === +ref)?.$attachment?.$record;
@@ -38,7 +38,8 @@ export function extractReferences(message: ChatMessage, conversation: ChatMessag
     }
     return html;
   });
-  message.$references = Array.from(references.entries())
+  const $references = Array.from(references.entries())
     .map(([refId,$record]) => ({refId, $record}))
     .sort((a,b)=> a.refId - b.refId);
+  return {$content, $references};
 }
