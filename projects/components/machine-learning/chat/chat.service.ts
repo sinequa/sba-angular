@@ -151,7 +151,7 @@ export class ChatService {
 
       // Retrieve and parse the last event of the stream
       map(data => {
-        let messages = data.partialText!
+        const messages = data.partialText!
           .trim()
           .split('\n\n')
           .slice(msgCount)
