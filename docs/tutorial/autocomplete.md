@@ -72,61 +72,23 @@ We want to handle the autocomplete display inside its own component. Let's creat
 @Component({
     selector: "autocomplete",
     template: `
-<div class="list-group list-group-flush" *ngIf="items$ | async; let items">
-    <a role="button" *ngFor="let item of items"
-        class="list-group-item list-group-item-action"
-        (click)="search(item.display)">
-
-        {{item.display}}
-        <small *ngIf="item.category" class="ms-auto text-muted">
-            {{item.category | sqMessage}}
-        </small>
-    </a>
-</div>
+Hello world!
     `,
     styles: [`
-.list-group-flush > .list-group-item:last-child {
-  border-end-start-radius: 20px;
-  border-end-end-radius: 20px;
-}
+
     `]
 })
-export class Autocomplete implements OnChanges, OnInit {
+export class Autocomplete implements OnInit {
 
-    @Input() queryText: string;
-
-    inputChange$ = new ReplaySubject(1);
-    items$: Observable<AutocompleteItem[] | undefined>;
-
-    constructor(private suggestService: SuggestService,
-        private searchService: SearchService) {
+    constructor() {
     }
 
     ngOnInit() {
-        this.items$ = this.inputChange$
-            .pipe(
-                filter(text => !!text), // make sure there is a content in the text
-                debounceTime(200), // adds a slight delay before triggering the search to avoid having one call at each change
-                switchMap(() => this.suggestService.get(undefined, this.queryText)), // trigger the search
-            );
-    }
-
-    ngOnChanges() {
-        this.inputChange$.next(this.queryText);
-    }
-
-    search(value: string) {
-        this.searchService.query.text = value;
-        this.searchService.searchText();
     }
 }
 ```
 
-In this component, the `items$` asynchronous variable listens to the input changes (e.g. when the `queryText` input gets updated), which triggers automatically `SuggestService.get` to retrieve the suggestions to display inside the autocomplete.
-
-In the template, the asynchronicity is handled using the `*ngIf="items$ | async; let items"` instruction which listens to any updates to `items$` and applying its value to `items`.
-
-## Display the Autocomplete list
+## Display the Autocomplete component
 
 Now that the component is defined, you have to declare it in your `app.module.ts`.
 
@@ -143,13 +105,182 @@ Let's now add the `ng-template` containing the autocomplete inside `<sq-search-f
 
 ```html
 <sq-search-form [query]="searchService.query" [searchRoute]="''">
+    <ng-template>
+        <autocomplete></autocomplete>
+    </ng-template>
+</sq-search-form>
+```
+
+You should now see a "Hello world!" appear when you click on the input:
+
+![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-helloworld.png)
+
+## Add the user input
+
+`sq-search-form` allows to pass variables to its template, so you now can add a new input to `autocomplete` to retrieve the query text.
+
+Let's start by adding the input to the component:
+
+```ts
+{% raw %}@Component({
+    selector: "autocomplete",
+    template: `
+Hello world! {{queryText}}
+    `,
+    ...
+})
+export class Autocomplete implements OnInit {
+
+    @Input() queryText: string;
+    ...{% endraw %}
+```
+
+Then you can provide it to `<autocomplete>`:
+
+```html
+<sq-search-form [query]="searchService.query" [searchRoute]="''">
     <ng-template let-query>
         <autocomplete [queryText]="query.text"></autocomplete>
     </ng-template>
 </sq-search-form>
 ```
 
-Finally some autocomplete suggestions!
+It should properly appear:
+
+![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-input.png)
+
+## Retrieve the suggestions
+
+You now need to get the proper suggestions from what you type. Here's some code that will allow you to get the suggestions when you change the input:
+
+```ts
+{% raw %}import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
+
+@Component({
+    ...
+    template: `
+<ul *ngIf="items$ | async; let items">
+    <li *ngFor="let item of items">
+        {{item.display}}
+        <small *ngIf="item.category" class="ms-auto text-muted">
+            {{item.category | sqMessage}}
+        </small>
+    </li>
+</ul>
+    `
+})
+export class Autocomplete implements OnChanges, OnInit {
+
+    ...
+
+    inputChange$ = new ReplaySubject(1);
+    items$: Observable<AutocompleteItem[] | undefined>;
+
+    constructor(private suggestService: SuggestService) {
+    }
+
+    ngOnInit() {
+        this.items$ = this.inputChange$
+            .pipe(
+                switchMap(() => this.suggestService.get(undefined, this.queryText)) // retrieve the suggestions
+            );
+    }
+
+    ngOnChanges() {
+        this.inputChange$.next(this.queryText);
+    }
+}{% endraw %}
+```
+
+This way, when the query text changes (detected through `ngOnChanges()`), we can notify `inputChange$` of the new value, triggering the `pipe` content defined in `ngOnInit()`.
+
+![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-suggestions.png)
+
+Notice that if you clear the input content, it looks odd. You can deactivate the triggering of the suggestions search using `filter`:
+
+```ts
+this.items$ = this.inputChange$
+    .pipe(
+        filter(text => !!text), // prevents searching if there is no query text
+        switchMap(() => this.suggestService.get(undefined, this.queryText)) // retrieve the suggestions
+    );
+```
+
+Another thing to notice is that a call is performed at every input change (so 4 calls if you try searching "test"). The `debounceTime` method can be useful here since it adds a delay before performing what follows it to make sure no more changes is expected:
+
+```ts
+this.items$ = this.inputChange$
+    .pipe(
+        filter(text => !!text), // prevents searching if there is no query text
+        debounceTime(200), // add a slight wait before retrieving the suggestions to avoid making calls at each change
+        switchMap(() => this.suggestService.get(undefined, this.queryText)) // retrieve the suggestions
+    );
+```
+
+That's great that we now see the suggestions, but you need to be able to choose them to replace your query. You need to incorporate the `SearchService` on the click action for each suggestions:
+
+```ts
+{% raw %}import { SearchService } from "@sinequa/components/search";
+
+@Component({
+    selector: "autocomplete",
+    template: `
+<ul *ngIf="items$ | async; let items">
+    <li *ngFor="let item of items" (click)="search(item.display)">
+        {{item.display}}
+        <small *ngIf="item.category" class="ms-auto text-muted">
+            {{item.category | sqMessage}}
+        </small>
+    </li>
+</ul>
+    `
+    ...
+})
+export class Autocomplete implements OnChanges, OnInit {
+
+    constructor(private suggestService: SuggestService,
+        private searchService: SearchService) {
+    }
+
+    ...
+
+    search(value: string) {
+        this.searchService.query.text = value;
+        this.searchService.searchText();
+    }
+}{% endraw %}
+```
+
+Congratulations, your autocomplete works!
+
+## Improve the styling
+
+There's still one thing you may want to improve: the styling. Bootstrap provides handy classes to handle that like `list-group`. You can update `template` and `styles` like this:
+
+```ts
+{% raw %}@Component({
+    selector: "autocomplete",
+    template: `
+<div class="list-group list-group-flush" *ngIf="items$ | async; let items">
+    <a role="button" *ngFor="let item of items" class="list-group-item list-group-item-action" (click)="search(item.display)">
+
+        {{item.display}}
+        <small *ngIf="item.category" class="ms-auto text-muted">
+            {{item.category | sqMessage}}
+        </small>
+    </a>
+</div>
+    `,
+    styles: [`
+.list-group-flush > .list-group-item:last-child {
+  border-end-start-radius: 20px;
+  border-end-end-radius: 20px;
+}
+    `]
+}){% endraw %}
+```
+
+Now it's fully complete!
 
 ![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete.png)
 

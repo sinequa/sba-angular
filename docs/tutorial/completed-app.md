@@ -456,9 +456,9 @@ export class Autocomplete implements OnChanges, OnInit {
     ngOnInit() {
         this.items$ = this.inputChange$
             .pipe(
-                filter(text => !!text),
-                debounceTime(200),
-                switchMap(() => this.suggestService.get(undefined, this.queryText)),
+                filter(text => !!text), // prevents searching if there is no query text
+                debounceTime(200), // add a slight wait before retrieving the suggestions to avoid making calls at each change
+                switchMap(() => this.suggestService.get(undefined, this.queryText)) // retrieve the suggestions
             );
     }
 
@@ -497,7 +497,7 @@ export class AppSearchFormComponent {
 
 ```html
 {% raw %}
-<sq-search-form [query]="searchService.query" [searchRoute]="''">
+<sq-search-form [query]="searchService.query">
     <ng-template let-query>
         <autocomplete [queryText]="query.text"></autocomplete>
     </ng-template>
