@@ -244,10 +244,15 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     switch(this.modelDescription?.provider) {
       case 'Google':
         this.assistantIcon = 'sq-google';
+        this.privacyUrl = '';
         break;
       case 'OpenAI':
         this.assistantIcon = 'sq-chatgpt';
         this.privacyUrl = 'https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy';
+        break;
+      case 'Cohere':
+        this.assistantIcon = 'sq-cohere';
+        this.privacyUrl = 'https://cohere.com/security';
         break;
     }
   }

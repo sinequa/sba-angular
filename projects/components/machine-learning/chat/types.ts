@@ -111,8 +111,8 @@ export interface ChatResponse extends RawResponse {
 /**
  * Model names supported by the API
  */
-export type GllmModel = "GPT35Turbo" | "GPT4-8K" | "GPT4-32K" | "Chat-Bison-001";
-export type GllmProvider = "OpenAI" | "Google";
+export type GllmModel = "GPT35Turbo" | "GPT4-8K" | "GPT4-32K" | "Chat-Bison-001" | "command-xlarge-nightly";
+export type GllmProvider = "OpenAI" | "Google" | "Cohere";
 
 export interface GllmModelDescription {
   name: GllmModel;
