@@ -118,7 +118,7 @@ export class ChatService {
       topP,
       context
     };
-    const messagesHistory = this.cleanMessages(messages);
+    const messagesHistory = this.cleanMessages(messages, true);
     const data = {action: "chat", model, messagesHistory, promptProtection: false};
 
     // Stream mode
@@ -222,17 +222,17 @@ export class ChatService {
    * optional data ($content, $record, etc.) so that it can be sent
    * to the chat, or saved in the user settings
    */
-  cleanMessages(messagesHistory: ChatMessage[]): RawMessage[] {
+  cleanMessages(messagesHistory: ChatMessage[], minimize = false): RawMessage[] {
     return messagesHistory.map(message => ({
       role: message.role,
       content: message.content,
       display: message.display,
-      $attachment: message.$attachment ? {
+      $attachment: minimize? undefined : message.$attachment ? {
         recordId: message.$attachment.recordId,
         chunks: message.$attachment.chunks
       } : undefined,
-      $refId: message.$refId,
-      $actions: message.$actions
+      $refId: minimize? undefined : message.$refId,
+      $actions: minimize? undefined : message.$actions
     }));
   }
 
