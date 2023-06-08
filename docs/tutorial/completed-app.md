@@ -313,11 +313,11 @@ export class SearchComponent {
     <div class="row">
 
         <!-- Navbar -->
-        <nav class="navbar col-12 d-flex">
+        <nav class="navbar col-12 d-flex px-2 px-sm-0">
             <a [routerLink]="['/home']" *ngIf="ui.screenSizeIsGreater('xs') || !showFacet">
                 <h1>🔍<span *ngIf="ui.screenSizeIsGreaterOrEqual('lg')"> Hello Search</span></h1>
             </a>
-            <app-search-form class="flex-grow-1 position-relative mx-sm-3 ms-2" style="min-height: 41px;"
+            <app-search-form class="flex-grow-1 position-relative mx-sm-3" style="min-height: 41px;"
                 *ngIf="ui.screenSizeIsGreater('xs') || showFacet"></app-search-form>
             <button class="btn btn-light ml-auto" (click)="_showFacet = !_showFacet" *ngIf="ui.screenSizeIsLess('lg')">
                 <i class="fas fa-filter"></i>
@@ -379,9 +379,6 @@ export class SearchComponent {
 
 ```scss
 {% raw %}.search {
-    max-width: 800px;
-    margin-left: 100px;
-
     h1 {
         margin-bottom: 0.25em;
     }
@@ -439,7 +436,10 @@ import { SearchService } from "@sinequa/components/search";
 </div>
     `,
     styles: [`
-
+.list-group-flush > .list-group-item:last-child {
+  border-end-start-radius: 20px;
+  border-end-end-radius: 20px;
+}
     `]
 })
 export class Autocomplete implements OnChanges, OnInit {
@@ -521,7 +521,7 @@ import { PreviewHighlightColors } from "@sinequa/components/preview";
     template: `
 <sq-modal [title]="record.title" [showFooter]="false">
     <sq-preview #facet
-        style="height: 100%"
+        class="h-100"
         [highlightColors]="highlights"
         [id]="record.id"
         [query]="searchService.query">
@@ -618,9 +618,7 @@ a {
 
 ```ts
 {% raw %}import {LocaleData} from "@sinequa/core/intl";
-import d3Format from "d3-format/locale/en-US.json";
-import d3Time from "d3-time-format/locale/en-US.json";
-import {enCore} from "@sinequa/core";
+import {enCore} from "@sinequa/core/messages";
 import "intl/locale-data/jsonp/en-US"; // Safari
 import {Utils} from "@sinequa/core/base";
 
@@ -630,7 +628,10 @@ import {enSearch} from "@sinequa/components/search";
 import {enSearchForm} from "@sinequa/components/search-form";
 import {enSavedQueries} from "@sinequa/components/saved-queries";
 
-let appMessages = {
+const d3Format = require('d3-format/locale/en-US');
+const d3Time = require('d3-time-format/locale/en-US');
+
+const appMessages = {
 
     locale: {
         en: "English",
@@ -677,9 +678,7 @@ export default <LocaleData> {
 
 ```ts
 {% raw %}import {LocaleData} from "@sinequa/core/intl";
-import d3Format from "d3-format/locale/fr-FR.json";
-import d3Time from "d3-time-format/locale/fr-FR.json";
-import {frCore} from "@sinequa/core";
+import {frCore} from "@sinequa/core/messages";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
 import {Utils} from "@sinequa/core/base";
 
@@ -689,7 +688,10 @@ import {frSearch} from "@sinequa/components/search";
 import {frSearchForm} from "@sinequa/components/search-form";
 import {frSavedQueries} from "@sinequa/components/saved-queries";
 
-let appMessages = {
+const d3Format = require('d3-format/locale/fr-FR');
+const d3Time = require('d3-time-format/locale/fr-FR');
+
+const appMessages = {
 
     locale: {
         en: "English",

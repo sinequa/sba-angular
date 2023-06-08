@@ -69,11 +69,6 @@ Your form should now look like this:
 We want to handle the autocomplete display inside its own component. Let's create a new component in `src/app/` named `autocomplete.ts`.
 
 ```ts
-import { Component, Input, OnChanges, OnInit } from "@angular/core";
-import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
-import { SearchService } from "@sinequa/components/search";
-import { ReplaySubject, debounceTime, switchMap, filter, Observable } from "rxjs";
-
 @Component({
     selector: "autocomplete",
     template: `
@@ -88,7 +83,13 @@ import { ReplaySubject, debounceTime, switchMap, filter, Observable } from "rxjs
         </small>
     </a>
 </div>
-    `
+    `,
+    styles: [`
+.list-group-flush > .list-group-item:last-child {
+  border-end-start-radius: 20px;
+  border-end-end-radius: 20px;
+}
+    `]
 })
 export class Autocomplete implements OnChanges, OnInit {
 
@@ -104,9 +105,9 @@ export class Autocomplete implements OnChanges, OnInit {
     ngOnInit() {
         this.items$ = this.inputChange$
             .pipe(
-                filter(text => !!text),
-                debounceTime(200),
-                switchMap(() => this.suggestService.get(undefined, this.queryText)),
+                filter(text => !!text), // make sure there is a content in the text
+                debounceTime(200), // adds a slight delay before triggering the search to avoid having one call at each change
+                switchMap(() => this.suggestService.get(undefined, this.queryText)), // trigger the search
             );
     }
 

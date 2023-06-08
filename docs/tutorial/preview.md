@@ -174,7 +174,7 @@ this.modalService.open(Preview, {model: record, fullscreen: true});
 
 ```html
 <sq-preview #facet
-    style="height: 100%"
+    class="h-100"
     [id]="record.id"
     [query]="searchService.query">
 </sq-preview>
@@ -204,7 +204,7 @@ import { PreviewHighlightColors } from "@sinequa/components/preview";
     template: `
 <sq-modal [title]="record.title" [showFooter]="false">
     <sq-preview #facet
-        style="height: 100%"
+        class="h-100"
         [highlightColors]="highlights"
         [id]="record.id"
         [query]="searchService.query">

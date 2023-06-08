@@ -226,11 +226,11 @@ Let's piggy-back on the facet button feature: We will show the form on medium or
 
 ```html
 <!-- Navbar -->
-<nav ...>
+<nav class="navbar col-12 d-flex px-2 px-sm-0">
     <a ... *ngIf="ui.screenSizeIsGreater('xs') || !showFacet">
         ...
     </a>
-    <app-search-form class="flex-grow-1 position-relative mx-sm-3 ms-2" style="min-height: 41px;" *ngIf="ui.screenSizeIsGreater('xs') || showFacet"></app-search-form>
+    <app-search-form class="flex-grow-1 position-relative mx-sm-3" style="min-height: 41px;" *ngIf="ui.screenSizeIsGreater('xs') || showFacet"></app-search-form>
     <button class="btn btn-light ml-auto" ...>
         ...
     </button>

@@ -39,7 +39,17 @@ In a terminal `cd` into `src/app/` and run the following commands:
 
 (Use `npm run ng` if Angular CLI is not installed globally)
 
-Note that Angular took care of add these new components to our `app.module.ts`, but you have a conflict with the SearchFormComponent from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html). Fix this by renaming the generated component into `AppSearchFormComponent` (for `src/app/search-form/search-form.component.ts` class name and its `app.module.ts` import and declaration).
+Note that Angular took care of add these new components to our `app.module.ts`, but you have a conflict with the SearchFormComponent from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html). You can fix it by creating an alias for it in the imports:
+
+```ts
+import { SearchFormComponent as AppSearchFormComponent } from './search-form/search-form.component';
+
+@NgModule({
+    ...
+    declarations: [
+        ...
+        AppSearchFormComponent
+```
 
 ## Refactoring
 
