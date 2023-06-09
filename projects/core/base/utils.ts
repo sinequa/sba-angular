@@ -1312,7 +1312,7 @@ export class Utils {
     /**
      * Return `true` if a value is `null`, `undefined` or `""`
      */
-    static isEmpty(value: any): boolean {
+    static isEmpty(value: any): value is null | undefined | "" {
         if (value === "") {
             return true;
         }

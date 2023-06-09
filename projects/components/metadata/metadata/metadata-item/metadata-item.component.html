@@ -1,4 +1,4 @@
-<ng-container *ngIf="display && hasValues">
+<ng-container *ngIf="metadataValue.valueItems.length > 0">
     <!-- Icon -->
     <span *ngIf="icon" class="sq-metadata-col metadata-{{layout}} {{icon}}"></span>
 
@@ -17,10 +17,10 @@
 
         <!-- If tree -->
         <ng-container *ngIf="metadataValue.isTree">
-            <ng-container *ngFor="let valueItem of metadataValue.valueItems; let $index = index; let $last = last">
+            <ng-container *ngFor="let valueItem of metadataValue.valueItems; let $last = last">
                 <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
                     <li *ngFor="let part of valueItem.parts; let $subIndex = index" [sqTooltip]="getTooltip"
-                        [hoverableTooltip]="true" [sqTooltipData]="{valueItem: valueItem, part: part, index: $subIndex}" [sqTooltipTemplate]="tooltip"
+                        [hoverableTooltip]="true" [sqTooltipData]="part" [sqTooltipTemplate]="tooltip"
                         [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'"
                         class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}">
                         <span [class.sq-filtered]="part.filtered" [class.sq-excluded]="part.excluded">

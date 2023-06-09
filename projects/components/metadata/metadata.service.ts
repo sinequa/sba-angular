@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AppService, Query } from '@sinequa/core/app-utils';
-import { Utils } from '@sinequa/core/base';
+import { FieldValue, Utils } from '@sinequa/core/base';
 import { CCColumn, EntityItem, Record, TextChunksWebService, TextLocation } from '@sinequa/core/web-services';
 import { map, Observable, of } from 'rxjs';
-import { MetadataItem, MetadataValue, TreeMetadataItem } from './metadata.interface';
+import { isTreeMetadataItem, MetadataItem, MetadataValue, TreeMetadataItem } from './metadata.interface';
 
-type RecordType = Record[keyof Record] & MetadataItem[] & EntityItem[]
+type RecordType = FieldValue | EntityItem[];
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ export class MetadataService {
   constructor(private textChunkWebService: TextChunksWebService,
     private appService: AppService) { }
 
-  getMetadataValue(record: Record, query: Query | undefined, item: string, showEntityExtract?: boolean): MetadataValue {
-    const valueItems: (MetadataItem | TreeMetadataItem)[] = [];
+  getMetadataValue(record: Record, query: Query, item: string, showEntityExtract?: boolean): MetadataValue {
+    let valueItems: (MetadataItem | TreeMetadataItem)[] = [];
     const column = this.appService.getColumn(item);
     const isTree = !!column && AppService.isTree(column);
     const isEntity = !!column && AppService.isEntity(column);
@@ -26,27 +26,32 @@ export class MetadataService {
     const values: RecordType = record[this.appService.getColumnAlias(column, item)];
 
     if (isTree) {
-      this.setTreeValues(item, valueItems, record, column, query);
-    } else if (isEntity) {
-      const entityItems: EntityItem[] = values;
-      if (entityItems) {
-        const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
-        valueItems.push(...entityItems.map(i => {
-          const filter = filters.find(f => f.value === i.value);
-          const filtered = !!filter && (!filter.operator || filter.operator !== 'neq');
-          const excluded = !!filter && filter.operator === 'neq';
-          return { ...i, filtered, excluded };
-        }));
-        if (showEntityExtract && entityItems[0]?.locations) {
-          fnEntityTooltip = this.getEntitySentence
-        }
+      if(Array.isArray(values)) {
+        valueItems = this.getTreeValues(values as string[]);
       }
     }
     else if (isCsv) {
-      this.setCsvValues(values, valueItems, column, query);
+      if(Array.isArray(values)) {
+        valueItems = values.map(value => Utils.isString(value)? {value} : {...value});
+        if (isEntity && showEntityExtract && (values[0] as EntityItem)?.locations) {
+          fnEntityTooltip = this.getEntitySentence;
+        }
+      }
     }
     else {
-      this.setValues(values, valueItems, column, query);
+      if(!Array.isArray(values)) {
+        valueItems = this.getSingleValue(values, column);
+      }
+    }
+
+    // Get the filters for this field
+    const filters = query.findValueFilters(item);
+    if(filters.length > 0) {
+      const filtered = new Map<boolean|number|string, boolean>();
+      for(const filter of filters) {
+        filtered.set(filter.value, filter.operator !== 'neq');
+      }
+      this.applyFilters(valueItems, filtered);
     }
 
     return {
@@ -59,82 +64,66 @@ export class MetadataService {
     }
   }
 
-  protected setCsvValues(values: RecordType, valueItems: (MetadataItem | TreeMetadataItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
-    const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
-    if (values && values instanceof Array) {
-      valueItems.push(...values.map<MetadataItem>(value => {
-        const filter = filters.find(f => f.value === value);
-        const filtered = !!filter && (!filter.operator || filter.operator !== 'neq');
-        const excluded = !!filter && filter.operator === 'neq' && filter.value === value;
-        return { value: value.value, filtered, excluded };
-      }));
-    }
-    else if (!Utils.isEmpty(values)) {
-      const filter = filters[0];
-      const filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === values;
-      const excluded = !!filter && filter.operator === 'neq' && filter.value === values;
-      valueItems.push({ value: values, filtered, excluded });
-    }
-  }
-
-  protected setTreeValues(field: string, valueItems: (MetadataItem | TreeMetadataItem)[], record: Record, column: CCColumn | undefined, query?: Query | undefined): void {
-    const paths: string[] = record[this.appService.getColumnAlias(column, field)];
-    if (paths) {
-      const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
-      const filter = filters.length ? filters[0] : undefined;
-      const filterValuePath = filter?.value.split('/');
-      if (filterValuePath) {
-        this.removeUnnecessaryPathElements(filterValuePath);
+  /**
+   * Sets the filtered and excluded properties to the value items
+   * including the nested tree items
+   */
+  applyFilters(valueItems: (MetadataItem | TreeMetadataItem)[], filtered: Map<string | boolean | number, boolean>) {
+    for(let item of valueItems) {
+      if (isTreeMetadataItem(item)) {
+        this.applyFilters(item.parts, filtered);
       }
-
-      for (const path of paths) {
-        const parts = path.split("/");
-        this.removeUnnecessaryPathElements(parts);
-        const item: TreeMetadataItem = {
-          value: path, parts: parts.map((value, index) => {
-            const filtered = !!filterValuePath && filterValuePath[index] === value && (!filter.operator || filter.operator !== 'neq');
-            const excluded = !!filterValuePath && filterValuePath[index] === value && filter.operator === 'neq';
-            return { value: value, filtered, excluded };
-          })
-        };
-        valueItems.push(item);
+      else {
+        const isFiltered = filtered.get(item.value);
+        if(isFiltered !== undefined) {
+          item.filtered = isFiltered;
+          item.excluded = !isFiltered;
+        }
       }
     }
   }
 
-  protected removeUnnecessaryPathElements(paths: string[]): void {
-    if (paths.length > 0 && paths[0] === "") {
-      paths.splice(0, 1);
-    }
-    if (paths.length > 0 && paths[paths.length - 1] === "") {
-      paths.splice(paths.length - 1, 1);
-    }
+  /**
+   * Takes a list of paths like ["/a/b/c/", "/a/b/d/"] and returns an array of TreeMetadataItem
+   */
+  getTreeValues(values: string[]): TreeMetadataItem[] {
+    return values.map(path => ({parts: this.getTreeParts(path)}));
   }
 
-  protected setValues(values: any, valueItems: (MetadataItem | TreeMetadataItem)[], column: CCColumn | undefined, query?: Query | undefined): void {
-    const value = this.ensureScalarValue(values, column);
-    if (!Utils.isEmpty(value)) {
-      const filters: any[] = query && column ? query.findFieldFilters(column.name) : [];
-      const filter = filters.length ? filters[0] : undefined;
-      const filtered = !!filter && (!filter.operator || filter.operator !== 'neq') && filter.value === value;
-      const excluded = !!filter && filter.operator === 'neq' && filter.value === value;
-      valueItems.push({ value: value, filtered, excluded });
-    }
+  /**
+   * Takes a path like "/a/b/c/" and returns an array of MetadataItem
+   * like [{value: "/a/*", display: "a"}, {value: "/a/b/*", display: "b"}, {value: "/a/b/c/*", display: "c"}]
+   */
+  getTreeParts(path: string): MetadataItem[] {
+    const parts = path.substring(1, path.length-1).split("/");
+    return parts.map((value,i) => ({
+      value: `/${parts.slice(0,i+1).join("/")}/*`,
+      display: value
+    }));
   }
 
-  protected ensureScalarValue(value: any, column: CCColumn | undefined): string {
-    if (Utils.isEmpty(value) && column) {
+  /**
+   * Takes a single value and returns an array of one or zero MetadataItem
+   */
+  getSingleValue(value: string|number|Date|boolean|undefined, column: CCColumn | undefined): MetadataItem[] {
+    if (Utils.isEmpty(value)) {
       if (AppService.isBoolean(column)) {
-        value = 'msg#metadata.item.empty_boolean';
+        return [{value: false, display: 'msg#metadata.item.empty_boolean'}];
       }
       else if (AppService.isNumber(column)) {
-        value = 'msg#metadata.item.empty_number';
+        return [{value: 0, display: 'msg#metadata.item.empty_number'}];
+      }
+      else {
+        return [];
       }
     }
-    return value;
+    if(Utils.isDate(value)) {
+      value = Utils.toSysDateStr(value);
+    }
+    return [{value}];
   }
 
-  protected getEntitySentence = (data: { entity: EntityItem, record: Record, query: Query }) => {
+  getEntitySentence = (data: { entity: EntityItem, record: Record, query: Query }) => {
     const { entity, record, query } = data;
     // Get entity location
     const location = this.getEntityLocation(entity);

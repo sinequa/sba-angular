@@ -1,16 +1,21 @@
 import { Query } from '@sinequa/core/app-utils';
 import { CCColumn, EntityItem, Record } from '@sinequa/core/web-services';
 import { Observable } from 'rxjs';
-import { ValueItem } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
 
-export interface MetadataItem extends ValueItem {
+export interface MetadataItem {
+    value: string | boolean | number;
+    display?: string;
     filtered?: boolean; // Whether the item is included in the filters
     excluded?: boolean; // Whether the item is excluded from the filters
 }
 
-export interface TreeMetadataItem extends MetadataItem {
+export interface TreeMetadataItem {
     parts: MetadataItem[];
+}
+
+export function isTreeMetadataItem(item: MetadataItem | TreeMetadataItem): item is TreeMetadataItem {
+    return !!(item as TreeMetadataItem).parts;
 }
 
 export interface MetadataConfig {
