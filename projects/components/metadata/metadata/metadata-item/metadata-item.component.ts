@@ -77,7 +77,7 @@ export class MetadataItemComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
-        if ((!!changes.record && !this.metadataValue) || !!changes.query) {
+        if (!!changes.record || !!changes.query) {
             this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.field, this.showEntityExtract);
         }
 
