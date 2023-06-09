@@ -179,7 +179,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "bottom",
           overlayX: "center",
           overlayY: "top",
-          offsetY: 8
+          offsetY: 4
         };
       case "right":
         return {
@@ -187,7 +187,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "center",
           overlayX: "start",
           overlayY: "center",
-          offsetX: 8
+          offsetX: 4
         };
       case "left":
         return {
@@ -195,7 +195,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "center",
           overlayX: "end",
           overlayY: "center",
-          offsetX: -8
+          offsetX: -4
         };
       default:
         return {
@@ -203,7 +203,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "top",
           overlayX: "center",
           overlayY: "bottom",
-          offsetY: -8
+          offsetY: -4
         };
     }
   }

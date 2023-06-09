@@ -20,12 +20,11 @@
             <ng-container *ngFor="let valueItem of metadataValue.valueItems; let $index = index; let $last = last">
                 <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
                     <li *ngFor="let part of valueItem.parts; let $subIndex = index" [sqTooltip]="getTooltip"
-                        [hoverableTooltip]="true" [sqTooltipData]="{valueItem: valueItem, part: part, index: $subIndex}" [sqTooltipTemplate]="tooltip"
-                        [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'"
+                        [hoverableTooltip]="true" [sqTooltipData]="{valueItem: valueItem, part: part, index: $subIndex}"
+                        [sqTooltipTemplate]="tooltip" [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'"
                         class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}">
-                        <span [class.sq-filtered]="part.filtered" [class.sq-excluded]="part.excluded">
-                            {{part | sqValue:metadataValue.column}}
-                        </span>
+                        <span [class.has-tooltip]="hasTooltip" [class.sq-filtered]="part.filtered"
+                            [class.sq-excluded]="part.excluded">{{part | sqValue:metadataValue.column}}</span>
                         <span *ngIf="$subIndex < valueItem.parts.length - 1"
                             class="sq-metadata-item-tree-node-separator">
                             {{'msg#metadata.item.treeNodeSeparator' | sqMessage}}
@@ -45,7 +44,8 @@
                 [attr.title]="(label || metadataValue.fnEntityTooltip) ? null : (label | sqMessage)"
                 [sqTooltip]="getTooltip" [placement]="'top'" [hoverableTooltip]="true"
                 [tooltipClass]="'p-0 bg-transparent'" [sqTooltipData]="valueItem" [sqTooltipTemplate]="tooltip">
-                <span [class.sq-filtered]="valueItem.filtered" [class.sq-excluded]="valueItem.excluded">
+                <span [class.has-tooltip]="hasTooltip" [class.sq-filtered]="valueItem.filtered"
+                    [class.sq-excluded]="valueItem.excluded">
                     {{valueItem | sqValue:metadataValue.column}}
                 </span>
                 <span class="sq-metadata-separator" *ngIf="separator && !$last">

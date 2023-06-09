@@ -8,10 +8,12 @@ import { animate, style, transition, trigger } from '@angular/animations';
   selector: 'sqx-tooltip',
   styleUrls: ['./tooltip.component.scss'],
   template: `
-  <ng-container *ngTemplateOutlet="template || defaultTpl; context: {$implicit: data}"></ng-container>
-  <ng-template #defaultTpl let-data>
-    <div class="sq-tooltip {{tooltipClass}}" @tooltip [innerHTML]="data"></div>
-  </ng-template>`,
+  <div class="sq-tooltip {{tooltipClass}}">
+    <ng-container *ngTemplateOutlet="template || defaultTpl; context: {$implicit: data}"></ng-container>
+    <ng-template #defaultTpl let-data>
+      <div @tooltip [innerHTML]="data"></div>
+    </ng-template>
+  </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('tooltip', [
