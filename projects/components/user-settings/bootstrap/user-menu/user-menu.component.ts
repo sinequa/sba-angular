@@ -67,7 +67,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
 
 
   /** helper function to retrieve the help html file accordingly with the current locale */
-  private getHelpIndexUrl = (locale: string, options: HelpFolderOptions): string => {
+  static getHelpIndexUrl = (locale: string, options: HelpFolderOptions): string => {
     const { useLocale, useLocaleAsPrefix, indexFile, path, folder } = options;
 
     const localeFolder = useLocale ? `${locale}/` : null;
@@ -317,7 +317,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
         ...defaults,
         ...options,
       };
-      this.helpAction.href = this.appService.helpUrl(this.getHelpIndexUrl(name, helpFolderOptions));
+      this.helpAction.href = this.appService.helpUrl(BsUserMenuComponent.getHelpIndexUrl(name, helpFolderOptions));
       return [this.helpAction, ActionSeparator];
     }
 
