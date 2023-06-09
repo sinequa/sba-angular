@@ -1,6 +1,7 @@
 import {
   Directive,
   ElementRef,
+  HostBinding,
   HostListener,
   Input,
   OnDestroy,
@@ -71,6 +72,11 @@ export class TooltipDirective<T> implements OnDestroy {
    * Custom class for the tooltip
    */
   @Input() tooltipClass?: string;
+
+  /**
+   * Applies the "has-tooltip" class to its host when displayed
+   */
+  @HostBinding('class.has-tooltip') hasTooltip = false;
 
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
@@ -154,6 +160,8 @@ export class TooltipDirective<T> implements OnDestroy {
           this.clearSubscription();
         });
       }
+
+      this.hasTooltip = true;
     });
   }
 
@@ -224,5 +232,6 @@ export class TooltipDirective<T> implements OnDestroy {
       this.clearTimeout = undefined;
     }
     this.overlayRef?.detach();
+    this.hasTooltip = false;
   }
 }

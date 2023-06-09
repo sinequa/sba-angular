@@ -19,6 +19,11 @@
   }
 }
 
+::ng-deep .has-tooltip:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
 :host-context(.dark) {
   .sq-tooltip {
     background-color: #f0f0f0;
