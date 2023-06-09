@@ -162,9 +162,6 @@ You now need to get the proper suggestions from what you type. Here's some code 
 <ul *ngIf="items$ | async; let items">
     <li *ngFor="let item of items">
         {{item.display}}
-        <small *ngIf="item.category" class="ms-auto text-muted">
-            {{item.category | sqMessage}}
-        </small>
     </li>
 </ul>
     `
@@ -228,9 +225,6 @@ That's great that we now see the suggestions, but you need to be able to choose 
 <ul *ngIf="items$ | async; let items">
     <li *ngFor="let item of items" (click)="search(item.display)">
         {{item.display}}
-        <small *ngIf="item.category" class="ms-auto text-muted">
-            {{item.category | sqMessage}}
-        </small>
     </li>
 </ul>
     `
@@ -263,11 +257,7 @@ There's still one thing you may want to improve: the styling. Bootstrap provides
     template: `
 <div class="list-group list-group-flush" *ngIf="items$ | async; let items">
     <a role="button" *ngFor="let item of items" class="list-group-item list-group-item-action" (click)="search(item.display)">
-
         {{item.display}}
-        <small *ngIf="item.category" class="ms-auto text-muted">
-            {{item.category | sqMessage}}
-        </small>
     </a>
 </div>
     `,

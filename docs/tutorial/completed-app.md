@@ -427,11 +427,7 @@ import { SearchService } from "@sinequa/components/search";
     template: `
 <div class="list-group list-group-flush" *ngIf="items$ | async; let items">
     <a role="button" *ngFor="let item of items" class="list-group-item list-group-item-action" (click)="search(item.display)">
-
         {{item.display}}
-        <small *ngIf="item.category" class="ms-auto text-muted">
-            {{item.category | sqMessage}}
-        </small>
     </a>
 </div>
     `,
