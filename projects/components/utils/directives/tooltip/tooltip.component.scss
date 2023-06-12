@@ -1,14 +1,14 @@
 :host {
   display: block;
-}
 
-.sq-tooltip {
-  background-color: #494949;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-size: 14px;
-  max-width: 280px;
+  ::ng-deep .sq-tooltip {
+    background-color: #494949;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 14px;
+    max-width: 280px;
+  }
 }
 
 ::ng-deep .sq-tooltip .btn {
@@ -17,6 +17,11 @@
   &:hover {
     color: lightgray !important;
   }
+}
+
+::ng-deep .has-tooltip:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
 :host-context(.dark) {

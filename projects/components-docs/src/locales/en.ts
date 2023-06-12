@@ -26,7 +26,6 @@ import { enML } from "@sinequa/components/machine-learning";
 import { enFilters } from "@sinequa/components/filters";
 import { enSearchForm } from "@sinequa/components/search-form";
 import { enComments } from "@sinequa/components/comments";
-import { enTheme } from "@sinequa/components/theme-toggle";
 import { enGrid } from "@sinequa/analytics/ag-grid";
 import { enDashboard } from "@sinequa/analytics/dashboard";
 import { enFinance } from "@sinequa/analytics/finance";
@@ -36,7 +35,7 @@ import { enNetwork } from "@sinequa/analytics/network";
 
 const messages = Utils.merge({}, enCore, enUtils, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, enLabels, enMetadata,
     enNotification, enPreview, enResult, enResultsView, enSavedQueries, enSelection, enSearch, enStatusBar, enUserSettings, enTimeline,
-    enML, enFilters, enSearchForm, enComments, enTheme, enGrid, enDashboard, enFinance, enGooglemaps, enHeatmap, enNetwork);
+    enML, enFilters, enSearchForm, enComments, enGrid, enDashboard, enFinance, enGooglemaps, enHeatmap, enNetwork);
 
 export default <LocaleData>{
     intl: {

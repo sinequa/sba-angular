@@ -1,6 +1,7 @@
 import {
   Directive,
   ElementRef,
+  HostBinding,
   HostListener,
   Input,
   OnDestroy,
@@ -72,6 +73,11 @@ export class TooltipDirective<TooltipData=undefined, TooltipDisplay=string> impl
    */
   @Input() tooltipClass?: string;
 
+  /**
+   * Applies the "has-tooltip" class to its host when displayed
+   */
+  @HostBinding('class.has-tooltip') hasTooltip = false;
+
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
   private clearTimeout?: any;
@@ -138,6 +144,8 @@ export class TooltipDirective<TooltipData=undefined, TooltipDisplay=string> impl
         this.overlayRef.overlayElement.addEventListener("mouseenter", () => this.cancelHide());
         this.overlayRef.overlayElement.addEventListener('mouseleave', () => this.hide());
       }
+
+      this.hasTooltip = true;
     });
   }
 
