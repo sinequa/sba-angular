@@ -175,6 +175,7 @@ export class TooltipDirective<TooltipData=undefined, TooltipDisplay=string> impl
     this.subscription?.unsubscribe();
     this.cancelHide();
     this.overlayRef?.detach();
+    this.hasTooltip = false;
   }
 
   position(placement = this.placement): ConnectedPosition {
