@@ -19,45 +19,47 @@
         <ng-container *ngIf="metadataValue.isTree">
             <ng-container *ngFor="let valueItem of metadataValue.valueItems; let $last = last">
                 <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
-                    <li *ngFor="let part of valueItem.parts; let $innerLast = last" [sqTooltip]="getTooltip"
-                        [hoverableTooltip]="true" [sqTooltipData]="part" [sqTooltipTemplate]="tooltip"
-                        [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'"
-                        class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}">
-                        <span [class.sq-filtered]="part.filtered" [class.sq-excluded]="part.excluded">
-                            {{part | sqValue:metadataValue.column}}
-                        </span>
-                        <span *ngIf="!$innerLast" class="sq-metadata-item-tree-node-separator">
-                            {{'msg#metadata.item.treeNodeSeparator' | sqMessage}}
-                        </span>
+                    <li *ngFor="let part of valueItem.parts; let $innerLast = last">
+                        <ng-container *ngTemplateOutlet="valueTpl; context: {$implicit: part}"></ng-container>
+                        <span *ngIf="!$innerLast" class="sq-metadata-item-tree-node-separator">{{'msg#metadata.item.treeNodeSeparator' | sqMessage}}</span>
                     </li>
                 </ol>
-                <span *ngIf="!$last" class="sq-metadata-item-tree-separator">
-                    {{'msg#metadata.item.treeSeparator' | sqMessage}}
-                </span>
+                <span *ngIf="!$last" class="sq-metadata-item-tree-separator">{{'msg#metadata.item.treeSeparator' | sqMessage}}</span>
             </ng-container>
         </ng-container>
 
         <!-- Not a Tree-->
         <ng-container *ngIf="!metadataValue.isTree">
-            <span *ngFor="let valueItem of metadataValue.valueItems; let $last = last"
-                class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}"
-                [attr.title]="(label || metadataValue.fnEntityTooltip) ? null : (label | sqMessage)"
-                [sqTooltip]="getTooltip" [placement]="'top'" [hoverableTooltip]="true"
-                [tooltipClass]="'p-0 bg-transparent'" [sqTooltipData]="valueItem" [sqTooltipTemplate]="tooltip">
-                <span [class.sq-filtered]="valueItem.filtered" [class.sq-excluded]="valueItem.excluded">
-                    {{valueItem | sqValue:metadataValue.column}}
-                </span>
-                <span class="sq-metadata-separator" *ngIf="separator && !$last">
-                    {{separator | sqMessage}}
-                </span>
-            </span>
+            <ng-container *ngFor="let valueItem of metadataValue.valueItems; let $last = last">
+                <ng-container *ngTemplateOutlet="valueTpl; context: {$implicit: valueItem}"></ng-container>
+                <span class="sq-metadata-separator" *ngIf="!$last">{{'msg#metadata.item.listSeparator' | sqMessage}}</span>
+            </ng-container>
         </ng-container>
 
-        <ng-template #tooltip let-data>
+        <ng-template #valueTpl let-value>
+            <span
+                [attr.title]="(label || metadataValue.fnEntityTooltip) ? null : (label | sqMessage)"
+                [sqTooltip]="getTooltip"
+                [placement]="'top'"
+                [hoverableTooltip]="true"
+                [tooltipClass]="'p-0 bg-transparent'"
+                [sqTooltipData]="value"
+                [sqTooltipTemplate]="tooltipTpl"
+                class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}"
+                [class.sq-filtered]="value.filtered"
+                [class.sq-excluded]="value.excluded"
+            >{{value | sqValue:metadataValue.column}}</span>
+        </ng-template>
+
+        <ng-template #tooltipTpl let-data>
             <div class="sq-metadata-tooltip">
-                <div *ngIf="data.entityExtract" class="sq-metadata-tooltip-entity p-2" [innerHTML]="data.entityExtract">
+                <div *ngIf="data.entityExtract" class="p-2">
+                    <div class="sq-metadata-tooltip-entity"
+                        [style.--sq-max-lines]="entityExtractMaxLines"
+                        [innerHTML]="data.entityExtract">
+                    </div>
                 </div>
-                <div *ngIf="data.actions.length" class="btn-group d-flex"
+                <div *ngIf="data.actions.length" class="btn-group"
                     [sq-action-buttons]="{items: data.actions, style: actionsButtonsStyle, size: actionsButtonsSize, rightAligned: true}">
                 </div>
             </div>

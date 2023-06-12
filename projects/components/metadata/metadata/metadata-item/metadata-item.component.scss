@@ -22,16 +22,25 @@
     .sq-excluded {
         background-color: red;
     }
+
+    &.has-tooltip {
+        background-color: rgba(0, 0, 0, 0.15);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    }
 }
 
 .sq-metadata-tooltip {
     background-color: grey;
     color: white;
     border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .sq-metadata-tooltip-entity {
+        --sq-max-lines: 4;
         display: -webkit-box;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: var(--sq-max-lines);
         -webkit-box-orient: vertical;
         overflow: hidden;
         max-width: 200px;

@@ -26,7 +26,6 @@ export interface MetadataConfig {
     filterable?: boolean;
     excludable?: boolean;
     showEntityExtract?: boolean;
-    separator?: string;
     actions?: Action[];
     collapseRows?: boolean;
     entityExtractMaxLines?: number;

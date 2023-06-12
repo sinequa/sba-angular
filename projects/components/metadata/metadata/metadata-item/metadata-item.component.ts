@@ -28,8 +28,7 @@ export class MetadataItemComponent implements OnChanges {
     @Input() actions?: Action[];
 
     @Input() collapseRows: boolean = true;
-    @Input() entityExtractMaxLines = 8;
-    @Input() separator: string;
+    @Input() entityExtractMaxLines = 4;
 
     @Input() actionsButtonsStyle = 'btn btn-secondary';
     @Input() actionsButtonsSize = 'sm';
@@ -40,10 +39,6 @@ export class MetadataItemComponent implements OnChanges {
     lineHeight: number | undefined;
     valuesMaxHeight: number | undefined;
     valuesHeight: number | undefined;
-
-    get placement(): string {
-        return this.layout === 'inline' ? 'top' : 'top-start';
-    }
 
     get collapsed(): boolean {
         return this.collapseRows && this.valuesHeight === this.lineHeight;
