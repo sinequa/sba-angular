@@ -47,6 +47,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   @Input() collapseBreakpoint: string = 'sm';
   @Input() size: string;
   @Input() enableDarkMode = true;
+  @Input() enableHelp = true;
   @Input() showCredits = true;
   @Input() display: keyof Principal = 'fullName';
   @Input() showText = false;
@@ -301,7 +302,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   }
 
   getHelpActions(): Action[] {
-    if (!this.loginService.complete) return [];
+    if (!this.enableHelp || !this.loginService.complete) return [];
 
     // "options" could be undefined
     // "helpDefaultFolderOptions" could be null, in this case map it to undefined
