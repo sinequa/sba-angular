@@ -209,7 +209,7 @@ export class Autocomplete implements OnChanges, OnInit {
     ngOnInit() {
         this.items$ = this.inputChange$
             .pipe(
-                switchMap(() => this.suggestService.get(undefined, this.queryText)) // retrieve the suggestions
+                switchMap(text => this.suggestService.get(undefined, text as string)) // retrieve the suggestions
             );
     }
 
@@ -227,7 +227,7 @@ import { filter } from "rxjs";
 this.items$ = this.inputChange$
     .pipe(
         filter(text => !!text), // prevents searching if there is no query text
-        switchMap(() => this.suggestService.get(undefined, this.queryText)) // retrieve the suggestions
+        switchMap(text => this.suggestService.get(undefined, text as string)) // retrieve the suggestions
     );
 ```
 
@@ -242,7 +242,7 @@ this.items$ = this.inputChange$
     .pipe(
         filter(text => !!text), // prevents searching if there is no query text
         debounceTime(200), // add a slight wait before retrieving the suggestions to avoid making calls at each change
-        switchMap(() => this.suggestService.get(undefined, this.queryText)) // retrieve the suggestions
+        switchMap(text => this.suggestService.get(undefined, text as string)) // retrieve the suggestions
     );
 ```
 

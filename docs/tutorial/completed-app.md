@@ -454,7 +454,7 @@ export class Autocomplete implements OnChanges, OnInit {
             .pipe(
                 filter(text => !!text), // prevents searching if there is no query text
                 debounceTime(200), // add a slight wait before retrieving the suggestions to avoid making calls at each change
-                switchMap(() => this.suggestService.get(undefined, this.queryText)) // retrieve the suggestions
+                switchMap(text => this.suggestService.get(undefined, text as string)) // retrieve the suggestions
             );
     }
 
