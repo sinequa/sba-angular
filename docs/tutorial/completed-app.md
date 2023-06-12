@@ -45,7 +45,7 @@ import { Preview } from "./preview";
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { Autocomplete } from "./autocomplete";
-import { AppSearchFormComponent } from './search-form/search-form.component';
+import { SearchFormComponent as AppSearchFormComponent } from './search-form/search-form.component';
 import { SCREEN_SIZE_RULES } from '@sinequa/components/utils';
 
 export const startConfig: StartConfig = {
@@ -287,7 +287,7 @@ export class SearchComponent {
             (value) => this.languageActions.forEach(a => a.update()));
         },
         updater: (action) => {  // Update the status of buttons
-          action.selected = action.data == this.intlService.currentLocale;
+          action.selected = action.data === this.intlService.currentLocale;
         }
       })
     );

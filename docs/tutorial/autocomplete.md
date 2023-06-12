@@ -13,7 +13,7 @@ There is an autocomplete packaged in a module from [`@sinequa/components`]({{sit
 
 In order for the autocomplete to work, we assume a [**Suggest Query**](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html) has been configured on the Sinequa backend server. If you are doing this tutorial with our test server as the backend, a query has been configured for you 😉.
 
-## Importing the Autocomplete Module
+## Importing the Search Form component
 
 We will start by changing the search input with `SearchFormComponent`. In your `app.module.ts`, import it and add it to the `NgModule` declaration:
 
@@ -69,10 +69,12 @@ Your form should now look like this:
 We want to handle the autocomplete display inside its own component. Let's create a new component in `src/app/` named `autocomplete.ts`.
 
 ```ts
+import { Observable, of } from "rxjs";
+
 @Component({
     selector: "autocomplete",
     template: `
-Hello world!
+<span *ngIf="items$ | async; let items">{{items}}</span>
     `,
     styles: [`
 
@@ -80,13 +82,18 @@ Hello world!
 })
 export class Autocomplete implements OnInit {
 
+    items$: Observable<string>;
+
     constructor() {
     }
 
     ngOnInit() {
+        this.items$ = of('Hello world');
     }
 }
 ```
+
+In this code, you have `items$` being an Observable, meaning that you can watch it to retrieve in an asyncronous way some data. Here, you don't yet make any call but you pass the string "Hello world" using the rxjs `of()` method  that allows to inject some data asyncronously.
 
 ## Display the Autocomplete component
 
@@ -111,7 +118,7 @@ Let's now add the `ng-template` containing the autocomplete inside `<sq-search-f
 </sq-search-form>
 ```
 
-You should now see a "Hello world!" appear when you click on the input:
+You should now see a "Hello world" appear when you click on the input:
 
 ![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-helloworld.png)
 
@@ -119,19 +126,25 @@ You should now see a "Hello world!" appear when you click on the input:
 
 `sq-search-form` allows to pass variables to its template, so you now can add a new input to `autocomplete` to retrieve the query text.
 
-Let's start by adding the input to the component:
+Let's add the input to the component and change `items$` to return the input value:
 
 ```ts
-{% raw %}@Component({
-    selector: "autocomplete",
-    template: `
-Hello world! {{queryText}}
-    `,
-    ...
-})
-export class Autocomplete implements OnInit {
+{% raw %}import { ReplaySubject } from "rxjs";
+
+export class Autocomplete implements OnChanges, OnInit {
 
     @Input() queryText: string;
+
+    inputChange$ = new ReplaySubject(1);
+    items$: any;
+
+    ngOnInit() {
+        this.items$ = this.inputChange$;
+    }
+
+    ngOnChanges() {
+        this.inputChange$.next(this.queryText);
+    }
     ...{% endraw %}
 ```
 
@@ -149,9 +162,29 @@ It should properly appear:
 
 ![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-input.png)
 
+## Alter the displayed value
+
+If you wish to apply modifications to the input value, you can use rxjs `map()` method. Let's simply add "Hello world" before the input value:
+
+```ts
+{% raw %}import { map } from "rxjs";
+
+export class Autocomplete implements OnChanges, OnInit {
+
+    items$: Observable<string>;
+
+    ngOnInit() {
+        this.items$ = this.inputChange$.pipe(map(text => "Hello world " + text));
+    }
+```
+
+And here's the result:
+
+![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-alterinput.png)
+
 ## Retrieve the suggestions
 
-You now need to get the proper suggestions from what you type. Here's some code that will allow you to get the suggestions when you change the input:
+You now need to get the proper suggestions from what you type. For a better asyncronous handling of the value transformation, you can use rxjs `switchMap()` method which like `map()` allows you to change the value, but asynchronously, for example by making a call.
 
 ```ts
 {% raw %}import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
@@ -168,9 +201,6 @@ You now need to get the proper suggestions from what you type. Here's some code 
 })
 export class Autocomplete implements OnChanges, OnInit {
 
-    ...
-
-    inputChange$ = new ReplaySubject(1);
     items$: Observable<AutocompleteItem[] | undefined>;
 
     constructor(private suggestService: SuggestService) {
@@ -189,19 +219,21 @@ export class Autocomplete implements OnChanges, OnInit {
 }{% endraw %}
 ```
 
-This way, when the query text changes (detected through `ngOnChanges()`), we can notify `inputChange$` of the new value, triggering the `pipe` content defined in `ngOnInit()`.
-
-![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-suggestions.png)
-
-Notice that if you clear the input content, it looks odd. You can deactivate the triggering of the suggestions search using `filter`:
+You may have a NullPointerException in the console (`TypeError: Cannot read properties of undefined`) since `ngOnChanges()` is triggered at the component creation and that the search value is empty. To fix this you can deactivate the triggering of the suggestions search using rxjs `filter()`:
 
 ```ts
+import { filter } from "rxjs";
+
 this.items$ = this.inputChange$
     .pipe(
         filter(text => !!text), // prevents searching if there is no query text
         switchMap(() => this.suggestService.get(undefined, this.queryText)) // retrieve the suggestions
     );
 ```
+
+You can now see a list of suggestions when you type:
+
+![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-suggestions.png)
 
 Another thing to notice is that a call is performed at every input change (so 4 calls if you try searching "test"). The `debounceTime` method can be useful here since it adds a delay before performing what follows it to make sure no more changes is expected:
 
