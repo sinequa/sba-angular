@@ -11,30 +11,9 @@
   }
 }
 
-::ng-deep .sq-tooltip .btn {
-  color: white !important;
-
-  &:hover {
-    color: lightgray !important;
-  }
-}
-
-::ng-deep .has-tooltip:hover {
-  background-color: rgba(0, 0, 0, 0.15);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-}
-
 :host-context(.dark) {
-  .sq-tooltip {
+  :host ::ng-deep .sq-tooltip {
     background-color: #f0f0f0;
     color: #606060;
-  }
-
-  ::ng-deep .sq-tooltip .btn {
-    color: gray !important;
-
-    &:hover {
-      color: black !important;
-    }
   }
 }
