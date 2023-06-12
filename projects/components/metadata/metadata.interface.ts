@@ -2,6 +2,7 @@ import { Query } from '@sinequa/core/app-utils';
 import { CCColumn, EntityItem, Record } from '@sinequa/core/web-services';
 import { Observable } from 'rxjs';
 import { Action } from '@sinequa/components/action';
+import { SafeHtml } from '@angular/platform-browser';
 
 export interface MetadataItem {
     value: string | boolean | number;
@@ -38,5 +39,5 @@ export interface MetadataValue {
     isTree: boolean; // if is tree
     isEntity: boolean; // if is entity
     isCsv: boolean; // if is csv
-    fnEntityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
+    fnEntityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<SafeHtml | undefined>;
 }

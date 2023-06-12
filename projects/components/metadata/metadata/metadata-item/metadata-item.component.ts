@@ -7,6 +7,7 @@ import { EntityItem, isValueFilter, Record } from "@sinequa/core/web-services";
 import { MetadataService } from "../../metadata.service";
 import { MetadataItem, MetadataValue } from "../../metadata.interface";
 import { Observable, map, of } from "rxjs";
+import { SafeHtml } from "@angular/platform-browser";
 
 @Component({
     selector: "sq-metadata-item",
@@ -100,7 +101,7 @@ export class MetadataItemComponent implements OnChanges {
         this.valuesHeight = this.collapsed ? this.valuesMaxHeight : this.lineHeight;
     }
 
-    getTooltip = (valueItem: MetadataItem): Observable<{ entityExtract?: string, actions: Action[] }> | undefined => {
+    getTooltip = (valueItem: MetadataItem): Observable<{ entityExtract?: SafeHtml, actions: Action[] }> | undefined => {
         const hasActions = this.actions || this.filterable || this.excludable;
 
         if (!hasActions && !this.metadataValue.fnEntityTooltip) return undefined;
@@ -157,7 +158,7 @@ export class MetadataItemComponent implements OnChanges {
             return of({ actions })
         } else {
             return this.metadataValue.fnEntityTooltip({ entity: valueItem as EntityItem, record: this.record, query: this.query! })
-                .pipe(map((value: string | undefined) => ({ entityExtract: value, actions })));
+                .pipe(map((value: SafeHtml | undefined) => ({ entityExtract: value, actions })));
         }
     }
 

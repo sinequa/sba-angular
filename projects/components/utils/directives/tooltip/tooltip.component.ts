@@ -25,8 +25,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ]),
   ],
 })
-export class TooltipComponent {
-  data?: string | TemplateRef<any>;
+export class TooltipComponent<T=string> {
+  data?: T;
   template?: TemplateRef<any>;
   tooltipClass?: string;
 }

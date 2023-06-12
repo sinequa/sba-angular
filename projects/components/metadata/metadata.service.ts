@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { FieldValue, Utils } from '@sinequa/core/base';
 import { CCColumn, EntityItem, Record, TextChunksWebService, TextLocation } from '@sinequa/core/web-services';
@@ -12,8 +13,11 @@ type RecordType = FieldValue | EntityItem[];
 })
 export class MetadataService {
 
-  constructor(private textChunkWebService: TextChunksWebService,
-    private appService: AppService) { }
+  constructor(
+    private textChunkWebService: TextChunksWebService,
+    private appService: AppService,
+    private sanitizer: DomSanitizer
+  ) { }
 
   getMetadataValue(record: Record, query: Query, item: string, showEntityExtract?: boolean): MetadataValue {
     let valueItems: (MetadataItem | TreeMetadataItem)[] = [];
@@ -21,7 +25,7 @@ export class MetadataService {
     const isTree = !!column && AppService.isTree(column);
     const isEntity = !!column && AppService.isEntity(column);
     const isCsv = !!column && AppService.isCsv(column);
-    let fnEntityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>) | undefined;
+    let fnEntityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<SafeHtml | undefined>) | undefined;
 
     const values: RecordType = record[this.appService.getColumnAlias(column, item)];
 
@@ -132,9 +136,9 @@ export class MetadataService {
     const highlights = this.getHighlights();
     // Get the text at the location of the entity
     // The query is optional, but can be useful to resolve aliases and relevant extracts/matches
-    return this.textChunkWebService.getTextChunks(
-      record.id, [location], highlights, query, 1, 1)
-      .pipe(map(chunks => chunks?.[0]?.text));
+    return this.textChunkWebService.getTextChunks(record.id, [location], highlights, query, 1, 1).pipe(
+      map(chunks => this.sanitizer.bypassSecurityTrustHtml(chunks?.[0]?.text ?? ''))
+    );
   }
 
   protected getHighlights(): string[] {
