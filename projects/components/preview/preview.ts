@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
     passageHighlighter.style.display = 'none';
     document.body.appendChild(passageHighlighter);
 
-    document.addEventListener("mouseup", () => onMouseUp());
+    document.addEventListener("mouseup", () => setTimeout(() => onMouseUp()));
     document.addEventListener("mousemove", e => onMouseMove(e));
     window.addEventListener("scroll", () => returnMessage("scroll", {x: window.scrollX, y: window.scrollY}));
 
