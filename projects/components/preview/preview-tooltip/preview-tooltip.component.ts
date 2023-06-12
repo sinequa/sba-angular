@@ -121,6 +121,9 @@ export class PreviewTooltipComponent implements OnInit, OnDestroy {
   tooltipTimeout?: NodeJS.Timeout;
 
   onHighlightHover(event: EntityHoverEvent|undefined) {
+    if(this.text) {
+      return; // Text selection has priority over entity hover
+    }
     if(event) {
       this.cancelHideTooltip();
       this.showEntityTooltip(event);
@@ -136,7 +139,7 @@ export class PreviewTooltipComponent implements OnInit, OnDestroy {
       this.showTextTooltip(event);
     }
     else {
-      this.hideTooltip();
+      this.hideTextTooltip();
     }
   }
 
@@ -178,9 +181,17 @@ export class PreviewTooltipComponent implements OnInit, OnDestroy {
 
   showTextTooltip(event: TextSelectionEvent) {
     this.entity = undefined;
-    this.textActions?.forEach(action => action.data = event.selectedText);
+    this.textActions?.forEach(action => {
+      action.data = event.selectedText;
+      action.messageParams = {values:{text: event.selectedText}};
+    });
     this.text = event.selectedText;
     this.showTooltip(event.position);
+  }
+
+  hideTextTooltip() {
+    this.text = undefined;
+    this.hideTooltip();
   }
 
   initHideTooltip() {
