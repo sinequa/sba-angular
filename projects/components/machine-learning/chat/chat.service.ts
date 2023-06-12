@@ -144,16 +144,21 @@ export class ChatService {
 
   fetchStream(data: any): Observable<RawResponse> {
     data.stream = true;
+    let msgCount = 0;
     return this.jsonMethodWebService.post(this.GLLM_PLUGIN, data, {observe: 'events', responseType: 'text', reportProgress: true}).pipe(
       // Only keep download progress events
       filter((data: HttpEvent<string>): data is HttpDownloadProgressEvent => data.type === HttpEventType.DownloadProgress),
 
       // Retrieve and parse the last event of the stream
       map(data => {
-        let text = data.partialText!.trim();
-        let i = text.lastIndexOf('\n');
-        text = text.substring(i+1 + 'data: '.length);
-        return JSON.parse(text) as {content: string, tokens: number, stop?: boolean};
+        const messages = data.partialText!
+          .trim()
+          .split('\n\n')
+          .slice(msgCount)
+          .map(text => text.substring('data: '.length))
+          .map(text => JSON.parse(text) as {content: string, tokens: number, stop?: boolean});
+        msgCount += messages.length;
+        return messages.reduceRight((acc, json) => ({...acc, content: json.content+acc.content})) ;
       }),
 
       // Transform the result into a RawResponse
@@ -279,13 +284,20 @@ export class ChatService {
     content = marked(content);
     const refs = extractReferences(content, conversation, this.searchService.query);
     if(streaming) { // When streaming, we add a placeholder at the end of the message
-      refs.$content += `
+      const placeholder = `
         <span class="placeholder-glow">
           <span class="placeholder mx-1 col-1"></span>
           <span class="placeholder mx-1 col-4"></span>
           <span class="placeholder mx-1 col-2"></span>
         </span>
       `;
+      if(refs.$content.trim().endsWith('</p>')) {
+        const lastP = refs.$content.lastIndexOf('</p>');
+        refs.$content = refs.$content.substring(0, lastP) + placeholder + refs.$content.substring(lastP);
+      }
+      else {
+        refs.$content += placeholder;
+      }
     }
     return refs;
   }

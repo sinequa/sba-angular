@@ -47,6 +47,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   @Input() collapseBreakpoint: string = 'sm';
   @Input() size: string;
   @Input() enableDarkMode = true;
+  @Input() enableHelp = true;
   @Input() showCredits = true;
   @Input() display: keyof Principal = 'fullName';
   @Input() showText = false;
@@ -67,7 +68,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
 
 
   /** helper function to retrieve the help html file accordingly with the current locale */
-  private getHelpIndexUrl = (locale: string, options: HelpFolderOptions): string => {
+  static getHelpIndexUrl = (locale: string, options: HelpFolderOptions): string => {
     const { useLocale, useLocaleAsPrefix, indexFile, path, folder } = options;
 
     const localeFolder = useLocale ? `${locale}/` : null;
@@ -301,7 +302,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   }
 
   getHelpActions(): Action[] {
-    if (!this.loginService.complete) return [];
+    if (!this.enableHelp || !this.loginService.complete) return [];
 
     // "options" could be undefined
     // "helpDefaultFolderOptions" could be null, in this case map it to undefined
@@ -317,7 +318,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
         ...defaults,
         ...options,
       };
-      this.helpAction.href = this.appService.helpUrl(this.getHelpIndexUrl(name, helpFolderOptions));
+      this.helpAction.href = this.appService.helpUrl(BsUserMenuComponent.getHelpIndexUrl(name, helpFolderOptions));
       return [this.helpAction, ActionSeparator];
     }
 
