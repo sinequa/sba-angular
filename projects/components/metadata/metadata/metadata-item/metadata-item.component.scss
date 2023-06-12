@@ -2,10 +2,6 @@
     font-size: 0.875em;
 }
 
-.collapsable {
-    overflow: hidden;
-}
-
 .sq-metadata-col.metadata-table {
     display: table-cell;
 
@@ -14,13 +10,20 @@
     }
 }
 
-.sq-metadata-item {
-    .sq-filtered {
-        background-color: yellow !important;
-    }
+.sq-metadata-values.metadata-table {
+    display: block;
 
-    .sq-excluded {
-        background-color: red;
+    &.collapsed {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
+
+.sq-metadata-item {
+    &.sq-filtered, &.sq-excluded {
+        font-weight: bold;
     }
 
     &.has-tooltip {
