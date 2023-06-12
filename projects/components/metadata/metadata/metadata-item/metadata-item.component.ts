@@ -58,13 +58,6 @@ export class MetadataItemComponent implements OnChanges {
         return this.metadataValue.isTree || !!this.metadataValue.valueItems?.filter(v => !!v.value).length;
     }
 
-    get hasTooltip(): boolean {
-        return !!this.actions
-            || this.filterable
-            || this.excludable
-            || !!this.metadataValue.fnEntityTooltip;
-    }
-
     constructor(private metadataService: MetadataService,
         private searchService: SearchService,
         private appService: AppService,

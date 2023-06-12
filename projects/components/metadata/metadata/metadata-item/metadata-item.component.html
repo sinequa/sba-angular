@@ -23,8 +23,9 @@
                         [hoverableTooltip]="true" [sqTooltipData]="{valueItem: valueItem, part: part, index: $subIndex}"
                         [sqTooltipTemplate]="tooltip" [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'"
                         class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}">
-                        <span [class.sq-filtered]="part.filtered" [class.sq-excluded]="part.excluded">{{part |
-                            sqValue:metadataValue.column}}</span>
+                        <span [class.sq-filtered]="part.filtered" [class.sq-excluded]="part.excluded">
+                            {{part | sqValue:metadataValue.column}}
+                        </span>
                         <span *ngIf="$subIndex < valueItem.parts.length - 1"
                             class="sq-metadata-item-tree-node-separator">
                             {{'msg#metadata.item.treeNodeSeparator' | sqMessage}}
