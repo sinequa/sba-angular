@@ -1,6 +1,7 @@
 import {
   Directive,
   ElementRef,
+  HostBinding,
   HostListener,
   Input,
   OnDestroy,
@@ -71,6 +72,11 @@ export class TooltipDirective<T> implements OnDestroy {
    * Custom class for the tooltip
    */
   @Input() tooltipClass?: string;
+
+  /**
+   * Applies the "has-tooltip" class to its host when displayed
+   */
+  @HostBinding('class.has-tooltip') hasTooltip = false;
 
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
@@ -154,6 +160,8 @@ export class TooltipDirective<T> implements OnDestroy {
           this.clearSubscription();
         });
       }
+
+      this.hasTooltip = true;
     });
   }
 
@@ -179,7 +187,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "bottom",
           overlayX: "center",
           overlayY: "top",
-          offsetY: 8
+          offsetY: 4
         };
       case "right":
         return {
@@ -187,7 +195,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "center",
           overlayX: "start",
           overlayY: "center",
-          offsetX: 8
+          offsetX: 4
         };
       case "left":
         return {
@@ -195,7 +203,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "center",
           overlayX: "end",
           overlayY: "center",
-          offsetX: -8
+          offsetX: -4
         };
       default:
         return {
@@ -203,7 +211,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "top",
           overlayX: "center",
           overlayY: "bottom",
-          offsetY: -8
+          offsetY: -4
         };
     }
   }
@@ -224,5 +232,6 @@ export class TooltipDirective<T> implements OnDestroy {
       this.clearTimeout = undefined;
     }
     this.overlayRef?.detach();
+    this.hasTooltip = false;
   }
 }
