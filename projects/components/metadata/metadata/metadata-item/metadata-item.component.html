@@ -1,4 +1,4 @@
-<ng-container *ngIf="display && hasValues">
+<ng-container *ngIf="metadataValue.valueItems.length > 0">
     <!-- Icon -->
     <span *ngIf="icon" class="sq-metadata-col metadata-{{layout}} {{icon}}"></span>
 
@@ -17,17 +17,16 @@
 
         <!-- If tree -->
         <ng-container *ngIf="metadataValue.isTree">
-            <ng-container *ngFor="let valueItem of metadataValue.valueItems; let $index = index; let $last = last">
+            <ng-container *ngFor="let valueItem of metadataValue.valueItems; let $last = last">
                 <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
-                    <li *ngFor="let part of valueItem.parts; let $subIndex = index" [sqTooltip]="getTooltip"
-                        [hoverableTooltip]="true" [sqTooltipData]="{valueItem: valueItem, part: part, index: $subIndex}" [sqTooltipTemplate]="tooltip"
+                    <li *ngFor="let part of valueItem.parts; let $innerLast = last" [sqTooltip]="getTooltip"
+                        [hoverableTooltip]="true" [sqTooltipData]="part" [sqTooltipTemplate]="tooltip"
                         [placement]="'top'" [tooltipClass]="'p-0 bg-transparent'"
                         class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}">
                         <span [class.sq-filtered]="part.filtered" [class.sq-excluded]="part.excluded">
                             {{part | sqValue:metadataValue.column}}
                         </span>
-                        <span *ngIf="$subIndex < valueItem.parts.length - 1"
-                            class="sq-metadata-item-tree-node-separator">
+                        <span *ngIf="!$innerLast" class="sq-metadata-item-tree-node-separator">
                             {{'msg#metadata.item.treeNodeSeparator' | sqMessage}}
                         </span>
                     </li>
@@ -39,7 +38,7 @@
         </ng-container>
 
         <!-- Not a Tree-->
-        <span *ngIf="!metadataValue.isTree">
+        <ng-container *ngIf="!metadataValue.isTree">
             <span *ngFor="let valueItem of metadataValue.valueItems; let $last = last"
                 class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}"
                 [attr.title]="(label || metadataValue.fnEntityTooltip) ? null : (label | sqMessage)"
@@ -52,7 +51,7 @@
                     {{separator | sqMessage}}
                 </span>
             </span>
-        </span>
+        </ng-container>
 
         <ng-template #tooltip let-data>
             <div class="sq-metadata-tooltip">
