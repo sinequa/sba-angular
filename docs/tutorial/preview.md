@@ -9,22 +9,22 @@ nav_order: 7
 
 Now, we would like to display the **HTML preview** of a document when clicking on its title, including all the highlighted entities detected by Sinequa in the text of the document.
 
-As usual, the preview is packaged in a module from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html): the [`BsPreviewModule`]({{site.baseurl}}modules/components/preview.html).
+As usual, the preview is packaged in a module from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html): the [`PreviewModule`]({{site.baseurl}}modules/components/preview.html).
 
 Furthermore, we would like the preview to be displayed in **popup**. Again, we have a module for that: The [`BsModalModule`]({{site.baseurl}}modules/components/modal.html).
 
 ## Importing the Modal and Preview modules
 
-In your `app.module.ts`, import the `BsPreviewModule` and `BsModalModule` and add them to the `NgModule` declaration:
+In your `app.module.ts`, import the `PreviewModule` and `BsModalModule` and add them to the `NgModule` declaration:
 
 ```ts
-import { BsPreviewModule } from '@sinequa/components/preview';
+import { PreviewModule } from '@sinequa/components/preview';
 import { BsModalModule } from '@sinequa/components/modal';
 
 @NgModule({
   imports: [
     ...
-    BsPreviewModule,
+    PreviewModule,
     BsModalModule
 ```
 
@@ -139,43 +139,27 @@ Now your dialog should display the title of the document (notice we also changed
 
 ## Preview data
 
-Before we can display the HTML preview, we need to get the URL of this preview from the backend. This can be managed by the `PreviewService`.
-
-In the constructor of your `Preview` component, add the following asynchronous call:
+The component `sq-preview` handles automatically the loading and display of the HTML preview and requires only the record ID and the query.
 
 ```ts
-import { PreviewService } from '@sinequa/components/preview';
-import { SearchService } from '@sinequa/components/search';
-
-...
+@Component({
+    selector: "preview",
+    template: `
+<sq-modal [title]="record.title" [showFooter]="false">
+    <sq-preview #facet
+        [id]="record.id"
+        [query]="searchService.query">
+    </sq-preview>
+</sq-modal>
+    `
+})
 export class Preview {
 
-    url?: string; // URL of the HTML preview
-
     constructor(
-        ...
-        previewService: PreviewService,
-        searchService: SearchService){
-
-        previewService.getPreviewData(record.id, searchService.query).subscribe({
-            next: (data) => {
-                this.url = previewService.makeDownloadUrl(data.documentCachedContentUrl);
-            }
-        });
-```
-
-The preview data contains the `documentCachedContentUrl` property which is the one we need to load in an `<iframe>` element.
-
-## Displaying the HTML
-
-To display the HTML, we will use the `sq-preview-document-iframe` component from the Preview module rather than directly using an `iframe`, since it takes care of a few issues for us.
-
-We can modify the HTML template of our `Preview` component:
-
-```html
-<sq-modal [title]="record.title" [showFooter]="false">
-    <sq-preview-document-iframe [downloadUrl]="url"></sq-preview-document-iframe>
-</sq-modal>
+        @Inject(MODAL_MODEL) public record: Record,
+        public searchService: SearchService) {
+    }
+}
 ```
 
 ![Small Preview Modal]({{site.baseurl}}assets/tutorial/modal-small.png){: .d-block .mx-auto }
@@ -184,6 +168,16 @@ This works, but our large preview is displayed in a very small dialog... To fix 
 
 ```ts
 this.modalService.open(Preview, {model: record, fullscreen: true});
+```
+
+`sq-preview` has no default sizing so you can use the `style` attribute to have it to take the full height of the modal:
+
+```html
+<sq-preview #facet
+    class="h-100"
+    [id]="record.id"
+    [query]="searchService.query">
+</sq-preview>
 ```
 
 Finally, a fullscreen preview!
@@ -198,58 +192,60 @@ But, if you look closer and inspect the content of the HTML, you can actually se
 
 ![Entities in the HTML]({{site.baseurl}}assets/tutorial/preview-entities.png){: .d-block .mx-auto }
 
-What the application is missing is a `preview.css` file to apply colors to these elements.
+To add some highlights, `sq-preview` contains a `[highlightColors]` input. Let's add some to it with the following content:
 
-Let's create a new `preview.scss` file in our `src/styles/` directory, and add the following content:
+```ts
+import { PreviewHighlightColors } from "@sinequa/components/preview";
 
-```scss
-span.extractslocations {
-    background-color: #ecdcdc
-}
+...
 
-span.matchlocations {
-    background-color: #e9cdcd
-}
+@Component({
+    selector: "preview",
+    template: `
+<sq-modal [title]="record.title" [showFooter]="false">
+    <sq-preview #facet
+        class="h-100"
+        [highlightColors]="highlights"
+        [id]="record.id"
+        [query]="searchService.query">
+    </sq-preview>
+</sq-modal>
+    `
+})
+export class Preview {
 
-span.company {
-    background-color: #c0e1ee
-}
+    highlights: PreviewHighlightColors[] = [
+        {
+            name: 'company',
+            color: 'white',
+            bgColor: '#FF7675'
+        },
+        {
+            name: 'geo',
+            color: 'white',
+            bgColor: '#74B9FF'
+        },
+        {
+            name: 'person',
+            color: 'white',
+            bgColor: '#00ABB5'
+        },
+        {
+            name: 'extractslocations',
+            color: 'black',
+            bgColor: '#fffacd'
+        },
+        {
+            name: 'matchlocations',
+            color: 'black',
+            bgColor: '#ff0'
+        }
+    ];
 
-span.geo {
-    background-color: #bef0e5
-}
-
-span.person {
-    background-color: #ddecb8
-}
+    ...
 ```
 
-This doesn't actually have any effect, because by default Angular won't build separate CSS files...
-
-We have to edit the `angular.json` file at the root of our workspace, and replace the following lines:
-
-```json
-"styles": [
-    "projects/hello-search/src/styles/app.scss"
-],
-```
-
-By:
-
-```json
-"extractCss": true,
-"styles": [
-    {
-        "input": "projects/hello-search/src/styles/app.scss",
-        "bundleName": "app"
-    },
-    {
-        "input": "projects/hello-search/src/styles/preview.scss",
-        "bundleName": "preview",
-        "inject": false
-    }
-],
-```
+These properties will apply for each `name` classes their provided `color` and `bgColor` (e.g. the text color `white` and the background color `#FF7675` for the `company` class).
 
 And now... Voilà:
 

@@ -4,10 +4,12 @@ import {CollapseButton} from "./collapse-button.component";
 import {CommonModule} from "@angular/common";
 import {IntlModule} from "@sinequa/core/intl";
 import {UtilsModule} from "@sinequa/components/utils";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
     imports: [
         CommonModule,
+        BrowserAnimationsModule,
         IntlModule,
         UtilsModule
     ],
