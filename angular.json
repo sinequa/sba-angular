@@ -660,6 +660,15 @@
                 }
               ],
               "outputPath": "docs/assets/sq-doc-app"
+            },
+            "ci": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/components-docs/src/environments/environment.ts",
+                  "with": "projects/components-docs/src/environments/environment.ci.ts"
+                }
+              ],
+              "outputPath": "docs/assets/sq-doc-app"
             }
           },
           "defaultConfiguration": "production"
@@ -677,6 +686,9 @@
             },
             "mock": {
               "browserTarget": "components-docs:build:mock"
+            },
+            "ci": {
+              "browserTarget": "components-docs:build:ci"
             }
           }
         },
