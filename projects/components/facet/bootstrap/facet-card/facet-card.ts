@@ -112,12 +112,12 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     /**
      * Default placement of the title of All actions, if not specified in the action itself
      */
-    @Input() defaultTitlePlacement: Placement = "top";
+    @Input() defaultTooltipPlacement: Placement = "top";
 
     /**
      * Default fallback placements of the title of All actions, if not specified in the action itself
      */
-    @Input() defaultFallbackPlacements: Placement[] = ["top", "bottom"];
+    @Input() defaultTooltipFallbackPlacements: Placement[] = ["top", "bottom"];
 
     /**
      * Event triggered when the facet gets expanded or reduced
@@ -176,8 +176,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     constructor() {
 
         this.collapseAction = new Action({
-            titlePlacement: this.defaultTitlePlacement,
-            fallbackPlacements: this.defaultFallbackPlacements,
+            titlePlacement: this.defaultTooltipPlacement,
+            fallbackPlacements: this.defaultTooltipFallbackPlacements,
             action: (action, event) => {
                 // stop propagation to avoid the click outside event to be triggered
                 event.stopPropagation();
@@ -196,8 +196,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         });
 
         this.expandAction = new Action({
-            titlePlacement: this.defaultTitlePlacement,
-            fallbackPlacements: this.defaultFallbackPlacements,
+            titlePlacement: this.defaultTooltipPlacement,
+            fallbackPlacements: this.defaultTooltipFallbackPlacements,
             action: (action) => {
                 this._expanded = !this._expanded;
                 this.facetExpanded.next(this._expanded ? "expanded" : "reduced");
@@ -213,8 +213,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         });
 
         this.settingsAction = new Action({
-            titlePlacement: this.defaultTitlePlacement,
-            fallbackPlacements: this.defaultFallbackPlacements,
+            titlePlacement: this.defaultTooltipPlacement,
+            fallbackPlacements: this.defaultTooltipFallbackPlacements,
             action: (action) => {
                 this._settingsOpened = !this._settingsOpened;
                 this.settingsOpened.next(this._settingsOpened ? "opened" : "saved");
@@ -309,8 +309,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
 
     updateViews() {
         this.viewActions = this.views.map(view => new Action({
-            titlePlacement: this.defaultTitlePlacement,
-            fallbackPlacements: this.defaultFallbackPlacements,
+            titlePlacement: this.defaultTooltipPlacement,
+            fallbackPlacements: this.defaultTooltipFallbackPlacements,
             ...view.viewOptions,
             action: (action, event) => {
                 view.viewOptions?.action?.(action, event); // If any, execute the view's action function
@@ -357,8 +357,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
             actions.push(...this.actions);
         }
         return actions.map((action) => {
-          action.titlePlacement = action.titlePlacement || this.defaultTitlePlacement;
-          action.fallbackPlacements = action.fallbackPlacements || this.defaultFallbackPlacements;
+          action.titlePlacement = action.titlePlacement || this.defaultTooltipPlacement;
+          action.fallbackPlacements = action.fallbackPlacements || this.defaultTooltipFallbackPlacements;
           return action;
         });
     }
@@ -377,8 +377,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
             actions.push(...this.secondaryActions);
         }
         return actions.map((action) => {
-          action.titlePlacement = action.titlePlacement || this.defaultTitlePlacement;
-          action.fallbackPlacements = action.fallbackPlacements || this.defaultFallbackPlacements;
+          action.titlePlacement = action.titlePlacement || this.defaultTooltipPlacement;
+          action.fallbackPlacements = action.fallbackPlacements || this.defaultTooltipFallbackPlacements;
           return action;
         });
     }
