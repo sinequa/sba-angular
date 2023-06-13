@@ -157,7 +157,7 @@ export class TooltipDirective<TooltipData=undefined, TooltipDisplay=string> impl
   @HostListener("mouseleave")
   hide() {
     if (!this.clearTimeout) {
-      this.clearTimeout = setTimeout(() => this.clear(), this.hoverableTooltip ? 500 : 10);
+      this.clearTimeout = setTimeout(() => this.clear(), this.hoverableTooltip ? this.delay : 10);
     }
   }
 

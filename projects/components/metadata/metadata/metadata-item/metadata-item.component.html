@@ -8,10 +8,9 @@
     </span>
 
     <!-- Value -->
-    <span class="sq-metadata-col sq-metadata-values metadata-{{layout}}" [style.max-height.px]="valuesHeight"
-        [class.collapsable]="valuesHeight" [class.d-block]="layout === 'table'" #values>
+    <span class="sq-metadata-col sq-metadata-values metadata-{{layout}}" [ngClass]="{'collapsed': !!collapseRows && collapsed}" #values>
         <!-- Collapse button -->
-        <a *ngIf="collapseRows && needsCollapse" role="button" (click)="toggleCollapse()" class="collapse-button me-1">
+        <a *ngIf="needsCollapse" role="button" (click)="toggleCollapse()" class="collapse-button me-1">
             <i class="fas fa-fw fa-caret-{{collapsed? 'right' : 'down'}}"></i>
         </a>
 

@@ -1,8 +1,8 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { SearchService } from "@sinequa/components/search";
 import { UIService } from "@sinequa/components/utils";
-import { Query, ValueItem } from "@sinequa/core/app-utils";
+import { Query } from "@sinequa/core/app-utils";
 import { EntityItem, isValueFilter, Record } from "@sinequa/core/web-services";
 import { MetadataService } from "../../metadata.service";
 import { MetadataItem, MetadataValue } from "../../metadata.interface";
@@ -14,7 +14,7 @@ import { SafeHtml } from "@angular/platform-browser";
     templateUrl: "./metadata-item.component.html",
     styleUrls: ['./metadata-item.component.scss']
 })
-export class MetadataItemComponent implements OnChanges {
+export class MetadataItemComponent implements OnChanges, OnDestroy {
     @Input() record: Record;
     @Input("query") _query?: Query;
     @Input() layout: 'inline' | 'table' = 'inline';
@@ -37,17 +37,8 @@ export class MetadataItemComponent implements OnChanges {
     @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
 
     metadataValue: MetadataValue;
-    lineHeight: number | undefined;
-    valuesMaxHeight: number | undefined;
-    valuesHeight: number | undefined;
-
-    get collapsed(): boolean {
-        return this.collapseRows && this.valuesHeight === this.lineHeight;
-    }
-
-    get needsCollapse(): boolean {
-        return this.collapseRows && this.valuesMaxHeight! > this.lineHeight! * 2;
-    }
+    needsCollapse: boolean = false;
+    collapsed: boolean = true;
 
     get query(): Query {
         return this._query || this.searchService.query;
@@ -62,7 +53,7 @@ export class MetadataItemComponent implements OnChanges {
         this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
     }
 
-    onResize = () => this.updateMaxHeight()
+    onResize = () => this.updateCollapsed()
 
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
@@ -70,17 +61,12 @@ export class MetadataItemComponent implements OnChanges {
             this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.field, this.showEntityExtract);
         }
 
-        // Generate line height for collapsing
-        if (this.collapseRows === true) {
-            this.lineHeight = parseInt(getComputedStyle(this.el.nativeElement).lineHeight);
-            this.valuesHeight = this.lineHeight;
-            this.valuesMaxHeight = this.lineHeight;
-            setTimeout(() => this.updateMaxHeight());
-        } else {
-            this.lineHeight = undefined;
-            this.valuesHeight = undefined;
-            this.valuesMaxHeight = undefined;
-        }
+        this.needsCollapse = false;
+        this.collapsed = !!this.collapseRows;
+    }
+
+    ngOnDestroy(): void {
+        this.ui.removeElementResizeListener(this.el.nativeElement, this.onResize);
     }
 
     filterItem(item: MetadataItem, remove?: boolean, not?: boolean): void {
@@ -93,7 +79,7 @@ export class MetadataItemComponent implements OnChanges {
     }
 
     toggleCollapse(): void {
-        this.valuesHeight = this.collapsed ? this.valuesMaxHeight : this.lineHeight;
+        this.collapsed = !this.collapsed;
     }
 
     getTooltip = (valueItem: MetadataItem): Observable<{ entityExtract?: SafeHtml, actions: Action[] }> | undefined => {
@@ -138,9 +124,11 @@ export class MetadataItemComponent implements OnChanges {
 
             actions.push(filterAction, excludeAction, removeFilterAction);
 
-            const updateVisibility = (item: ValueItem) => {
+            const updateVisibility = (item: MetadataItem) => {
                 // Search for an existing filter on the current value and display actions accordingly
                 const filter = this.query.findFilter(f => isValueFilter(f) && f.field === this.field && f.value === item.value);
+                item.filtered = filter && filter.operator !== 'neq';
+                item.excluded = filter && filter.operator === 'neq';
                 filterAction.hidden = !this.filterable || !!filter;
                 removeFilterAction.hidden = (!this.filterable && !this.excludable) || !filter;
                 excludeAction.hidden = !this.excludable || !!filter;
@@ -157,9 +145,9 @@ export class MetadataItemComponent implements OnChanges {
         }
     }
 
-    private updateMaxHeight(): void {
+    private updateCollapsed(): void {
         if (this.valuesEl) { // Display or not the collapse icon
-            this.valuesMaxHeight = this.valuesEl.nativeElement.scrollHeight;
+            this.needsCollapse = this.collapseRows && (!this.collapsed || this.valuesEl.nativeElement.scrollHeight > this.valuesEl.nativeElement.clientHeight);
         }
     }
 
