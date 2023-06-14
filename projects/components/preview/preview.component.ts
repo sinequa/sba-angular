@@ -29,7 +29,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
   // Document management
   @Input() id: string;
-  @Input() query: Query;
+  @Input() query?: Query;
 
   // Scale management
   /** Default scale */
@@ -161,7 +161,8 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     if(changes.id || changes.query) {
 
       this.loading = true;
-      this.previewService.getPreviewData(this.id, this.query).subscribe(data => {
+      const query = this.query || this.searchService.query;
+      this.previewService.getPreviewData(this.id, query).subscribe(data => {
         this.data = data;
         if(this.url) {
           this.previewFrames.unsubscribe(this.url);
