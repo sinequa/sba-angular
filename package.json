@@ -17,9 +17,9 @@
     "buildvanilla": "ng build vanilla-search --configuration production",
     "buildpepper": "ng build pepper --configuration production",
     "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildanalytics && npm run buildvanilla && npm run buildpepper",
-    "makedoc-core": "cd projects/core && node ../../scripts/makedoc.js -d ../../docs/core -p ../../tsconfig.build.json -n \"Core\"",
-    "makedoc-components": "cd projects/components && node ../../scripts/makedoc.js -d ../../docs/components -p ../../tsconfig.build.json -n \"Components\"",
-    "makedoc-analytics": "cd projects/analytics && node ../../scripts/makedoc.js -d ../../docs/analytics -p ../../tsconfig.build.json -n \"Analytics\""
+    "makedoc-core": "cd projects/core && node ../../scripts/makedoc.js -d ../../docs/core -p tsconfig.doc.json -n \"Core\"",
+    "makedoc-components": "cd projects/components && node ../../scripts/makedoc.js -d ../../docs/components -p tsconfig.doc.json -n \"Components\"",
+    "makedoc-analytics": "cd projects/analytics && node ../../scripts/makedoc.js -d ../../docs/analytics -p tsconfig.doc.json -n \"Analytics\""
   },
   "compodoc": {
     "disablePrivate": true,

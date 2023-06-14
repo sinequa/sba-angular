@@ -40,6 +40,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Pipes</li>
   <li >MemorySizePipe</li>
@@ -71,8 +72,7 @@
             <p class="comment">
                 <p>A pipe to transform a number into a readable internationalized memory size label,
 for example &quot;126432&quot; into &quot;126 kB&quot;.</p>
-<p><span>Size:</span><span>{{ documentSize | sqMemorySize }}</span></p>
-
+<div><pre class="line-numbers"><code class="language-html">&lt;span&gt;Size:&lt;/span&gt;&lt;span&gt;{{ documentSize | sqMemorySize }}&lt;/span&gt;</code></pre></div>
             </p>
 
 
@@ -115,8 +115,8 @@ for example &quot;126432&quot; into &quot;126 kB&quot;.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">utils/pipes/memory-size-pipe.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">utils/pipes/memory-size-pipe.ts:19</a></div>
                 </td>
             </tr>
 
@@ -170,7 +170,7 @@ for example &quot;126432&quot; into &quot;126 kB&quot;.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe, ChangeDetectorRef} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {ChangeDetectorRef, Pipe} from &quot;@angular/core&quot;;
 import {AbstractIntlPipe, IntlService} from &quot;@sinequa/core/intl&quot;;
 import {FormatService} from &quot;@sinequa/core/app-utils&quot;;
 
@@ -182,12 +182,10 @@ import {FormatService} from &quot;@sinequa/core/app-utils&quot;;
  * &lt;span&gt;Size:&lt;/span&gt;&lt;span&gt;{{ documentSize | sqMemorySize }}&lt;/span&gt;
  */
 @Pipe({name: &quot;sqMemorySize&quot;, pure: false})
-export class MemorySizePipe extends AbstractIntlPipe {
+export class MemorySizePipe extends AbstractIntlPipe&lt;number, void&gt; {
     constructor(
-        protected formatService: FormatService,
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
+        protected formatService: FormatService, intlService: IntlService, cdr: ChangeDetectorRef) {
+        super(intlService, cdr);
     }
 
     override updateValue(key: number): void {
@@ -198,6 +196,7 @@ export class MemorySizePipe extends AbstractIntlPipe {
     </div>
 
 </div>
+
 
 
 

@@ -40,6 +40,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Pipes</li>
   <li >DatePipe</li>
@@ -99,7 +100,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateValue(key: number | Date, params: Intl.DateTimeFormatOptions)</code>
+                    <code>updateValue(key: number | Date | string, params: Intl.DateTimeFormatOptions)</code>
                 </td>
             </tr>
 
@@ -130,7 +131,7 @@
                                 <tr>
                                     <td>key</td>
                                     <td>
-                                            <code>number | Date</code>
+                                            <code>number | Date | string</code>
                                     </td>
 
                                     <td>
@@ -177,14 +178,14 @@
 import {AbstractIntlPipe, IntlService} from &quot;@sinequa/core/intl&quot;;
 
 @Pipe({name: &quot;sqDate&quot;, pure: false})
-export class DatePipe extends AbstractIntlPipe {
+export class DatePipe extends AbstractIntlPipe&lt;(Number | Date | string), Intl.DateTimeFormatOptions&gt; {
     constructor(
         intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }
 
-    override updateValue(key: number | Date, params: Intl.DateTimeFormatOptions): void {
+    override updateValue(key: number | Date | string, params: Intl.DateTimeFormatOptions): void {
         super.updateValue(key, params);
         this.value &#x3D; this.intlService.formatDate(key, params);
     }
@@ -192,6 +193,7 @@ export class DatePipe extends AbstractIntlPipe {
     </div>
 
 </div>
+
 
 
 

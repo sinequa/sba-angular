@@ -89,7 +89,7 @@ Error message
   .form-select {
     border: 0;
   }
-  
+
   input + button {
     z-index: 9 !important;
   }
@@ -180,7 +180,7 @@ Input with prepend/append icons
 }
 
 /**
-Header search input 
+Header search input
  */
 nav .input-group {
   .form-control {
@@ -200,4 +200,8 @@ nav .input-group {
 // remove padding from sq-dropdown-form's div containing the input already having one
 .sq-dropdown-form .form-control {
   padding: 0;
+}
+
+sq-scope .btn {
+  border: 0;
 }

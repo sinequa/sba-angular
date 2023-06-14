@@ -320,7 +320,7 @@ export class FacetService {
                         itembox: facetName,
                         itemcolumn: aggregation.column,
                         isitemexclude: options.not,
-                        "from-result-id": this.searchService.results?.id
+                        fromresultid: this.searchService.results?.id
                     }
                 });
             }
@@ -429,7 +429,7 @@ export class FacetService {
                     type: FacetEventType.ClearFilters,
                     detail: {
                         itembox: facetName,
-                        "from-result-id": this.searchService.results?.id
+                        fromresultid: this.searchService.results?.id
                     }
                 });
         }
@@ -518,7 +518,7 @@ export class FacetService {
                         item: {expression: select?.expression, facet: select?.facet},
                         itembox: facetName,
                         itemcolumn: aggregation.column,
-                        "from-result-id": !!this.searchService.results ? this.searchService.results.id : null
+                        fromresultid: !!this.searchService.results ? this.searchService.results.id : null
                     }
                 });
             }
@@ -927,7 +927,7 @@ export class FacetService {
                     value = Utils.isTrue(item.value);
                 }
                 if (item.column?.eType === EngineType.csv) {
-                    value = item.display || item.value || "";
+                    value = item.value || item.display || "";
                     const path = item.value?.slice(0, -1);
                     return ({count: 0, value, display: item.display, $column: item.column, $path: path, $excluded: (item?.not || item?.parent?.not)} as TreeAggregationNode);
                 }

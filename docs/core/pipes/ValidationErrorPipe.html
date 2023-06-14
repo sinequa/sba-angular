@@ -40,6 +40,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Pipes</li>
   <li >ValidationErrorPipe</li>
@@ -189,7 +190,7 @@ import {ValidationService} from &quot;./validation.service&quot;;
  * A pipe to display the first error in a &#x60;ValidationErrors&#x60; map.
  */
 @Pipe({name: &quot;sqValidationError&quot;, pure: false})
-export class ValidationErrorPipe extends AbstractIntlPipe {
+export class ValidationErrorPipe extends AbstractIntlPipe&lt;ValidationErrors, any&gt; {
     constructor(
         intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef,
@@ -201,13 +202,14 @@ export class ValidationErrorPipe extends AbstractIntlPipe {
         super.updateValue(key, params);
         const text &#x3D; this.validationService.getFirstErrorText(key);
         const info &#x3D; this.validationService.getFirstErrorInfo(key);
-        this.value &#x3D; text ? this.intlService.formatMessage(text, {values: info}) : undefined;
+        this.value &#x3D; text ? this.intlService.formatMessage(text, info) : undefined;
     }
 }
 </code></pre>
     </div>
 
 </div>
+
 
 
 

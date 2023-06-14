@@ -18,9 +18,14 @@ export class TopPassagesComponent extends AbstractFacet {
 
     // reset values
     this.currentPage = 0;
-    this.pageNumber = this.itemsPerPage === 1 ? this.passages.length : Math.floor(this.passages.length / this.itemsPerPage) + 1;
+    const pages = this.passages.length / this.itemsPerPage;
+    this.pageNumber = this.itemsPerPage === 1
+      ? this.passages.length
+      : (pages % 1 === 0 ? pages : Math.floor(pages) + 1);
   }
   @Input() collapsed: boolean;
+  @Input() hideDate: boolean = false;
+  @Input() dateFormat: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
   // Number of passages per page
   @Input() itemsPerPage = 3;
@@ -76,8 +81,8 @@ export class TopPassagesComponent extends AbstractFacet {
   }
 
   constructor(private sanitizer: DomSanitizer,
-              private auditService: AuditWebService,
-              private searchService: SearchService) {
+    private auditService: AuditWebService,
+    private searchService: SearchService) {
     super();
     this.setMinHeight();
   }
@@ -115,7 +120,7 @@ export class TopPassagesComponent extends AbstractFacet {
   }
 
   private notifyTopPassagesDisplay(passages: TopPassage[]) {
-      const auditEvents: AuditEvent[] = passages
+    const auditEvents: AuditEvent[] = passages
       .map((passage: TopPassage) => this.makeAuditEvent(AuditEventType.TopPassages_Display, passage));
     this.auditService.notify(auditEvents);
   }
@@ -125,9 +130,9 @@ export class TopPassagesComponent extends AbstractFacet {
     return {
       type,
       detail: {
-        text: this.searchService.query.text,
-        "record.id": passage.recordId,
-        "passage.id": passage.id,
+        querytext: this.searchService.query.text,
+        recordid: passage.recordId,
+        passageid: passage.id,
         score: passage.score,
         rank
       }

@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -148,8 +149,7 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
 import {AppService, FormatService, Query, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
 import {Record, EntityItem, DocumentAccessLists, CCColumn, TextChunksWebService, TextLocation} from &quot;@sinequa/core/web-services&quot;;
 import {FacetService} from &quot;@sinequa/components/facet&quot;;
-import {Observable, of} from &quot;rxjs&quot;;
-import {map} from &quot;rxjs/operators&quot;;
+import {Observable, of, map} from &quot;rxjs&quot;;
 
 export interface TreeValueItem extends ValueItem {
     parts: ValueItem[];
@@ -251,7 +251,7 @@ export class MetadataItem implements OnChanges {
                 this.valueItems.push({value: value});
             }
         }
-        
+
         const collapsable &#x3D; (this.isEntity || this.isCsv) &amp;&amp; !this.isTree; // Tree columns are multivalues, and therefore isCsv&#x3D;true
         if (changes.collapseRows || this.collapsed &#x3D;&#x3D;&#x3D; undefined) {
             this.collapsed &#x3D; collapsable &amp;&amp; this.collapseRows;
@@ -366,6 +366,7 @@ export class MetadataItem implements OnChanges {
 </code></pre>
     </div>
 </div>
+
 
 
 

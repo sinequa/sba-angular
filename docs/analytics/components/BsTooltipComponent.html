@@ -61,7 +61,7 @@
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>heatmap/bootstrap/tooltip.component.ts</code>
+    <code>tooltip/tooltip.component.ts</code>
 </p>
 
 
@@ -74,6 +74,10 @@
     <table class="table table-sm table-hover metadata">
         <tbody>
 
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
 
 
 
@@ -95,6 +99,12 @@
                 <td class="col-md-9"><code>
 .sq-tooltip {
     z-index: 10;
+    max-height: 100%;
+}
+
+.card-body {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sq-tooltip::after {
@@ -114,15 +124,18 @@
     right: -17px;
     border-color: transparent transparent transparent rgb(0,0,0,0.125);
 }
-    </code></td>
+  </code></td>
             </tr>
 
             <tr>
                 <td class="col-md-3">template</td>
-                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;div [ngStyle]&#x3D;&quot;style&quot; [ngClass]&#x3D;&quot;orientation&quot; class&#x3D;&quot;sq-tooltip position-absolute card&quot;&gt;
-    &lt;div class&#x3D;&quot;card-body bg-{{theme}} p-2&quot;&gt;
-        &lt;ng-content&gt;&lt;/ng-content&gt;
-    &lt;/div&gt;
+                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;div *ngIf&#x3D;&quot;manager.tooltip$ | async as tooltip&quot;
+  [ngStyle]&#x3D;&quot;tooltip.style&quot;
+  [ngClass]&#x3D;&quot;tooltip.orientation&quot;
+  class&#x3D;&quot;sq-tooltip position-absolute card&quot;&gt;
+  &lt;div class&#x3D;&quot;card-body bg-{{theme}} rounded-1 p-2&quot;&gt;
+    &lt;ng-container *ngTemplateOutlet&#x3D;&quot;template; context: {$implicit: tooltip.data}&quot;&gt;&lt;/ng-container&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 </code></pre></td>
             </tr>
@@ -143,6 +156,20 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#template" >template</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
 
                 <tr>
@@ -154,19 +181,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#left" >left</a>
-                            </li>
-                            <li>
-                                <a href="#orientation" >orientation</a>
-                            </li>
-                            <li>
-                                <a href="#right" >right</a>
+                                <a href="#manager" >manager</a>
                             </li>
                             <li>
                                 <a href="#theme" >theme</a>
-                            </li>
-                            <li>
-                                <a href="#top" >top</a>
                             </li>
                         </ul>
                     </td>
@@ -175,20 +193,6 @@
 
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Accessors</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                    <a href="#style" >style</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
         </tbody>
     </table>
 </section>
@@ -200,76 +204,19 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="left"></a>
-                        <b>left</b>
+                        <a name="manager"></a>
+                        <b>manager</b>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                        <i>Type : </i>        <code><a href="../classes/TooltipManager.html" target="_self" >TooltipManager&lt;any&gt;</a></code>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>0</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">heatmap/bootstrap/tooltip.component.ts:38</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="orientation"></a>
-                        <b>orientation</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>&quot;left&quot; | &quot;right&quot;</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;right&quot;</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">heatmap/bootstrap/tooltip.component.ts:37</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="right"></a>
-                        <b>right</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>0</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">heatmap/bootstrap/tooltip.component.ts:39</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">tooltip/tooltip.component.ts:51</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -290,93 +237,94 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>&quot;light&quot;</code>
+                        <i>Default value : </i><code>&#x27;light&#x27;</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">heatmap/bootstrap/tooltip.component.ts:41</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="top"></a>
-                        <b>top</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>0</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">heatmap/bootstrap/tooltip.component.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">tooltip/tooltip.component.ts:52</a></div>
                             </td>
                         </tr>
             </tbody>
         </table>
 </section>
-
 
 
 
 
     <section>
-    <h3 id="accessors">
-        Accessors
+    
+    <h3 id="inputs">
+        Properties
     </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="template"></a>
+                    <span class="name">
+                        <span ><b>template</b></span>
+                        <a href="#template"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="style"></a>
-                        <span class="name"><b>style</b><a href="#style"><span class="icon ion-ios-link"></span></a></span>
+                        <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
                     </td>
                 </tr>
-
                 <tr>
                     <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>style()</code></span>
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ContentChild(TemplateRef)<br />
+                        </code>
                     </td>
                 </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">heatmap/bootstrap/tooltip.component.ts:43</a></div>
-                                </td>
-                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">tooltip/tooltip.component.ts:53</a></div>
+                        </td>
+                    </tr>
 
-            </tbody>
-        </table>
+
+        </tbody>
+    </table>
 </section>
+
 </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input} from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from &#x27;@angular/core&#x27;;
+import { TooltipManager } from &#x27;./tooltip-manager&#x27;;
 
 @Component({
-    selector: &quot;sq-tooltip&quot;,
-    template: &#x60;
-&lt;div [ngStyle]&#x3D;&quot;style&quot; [ngClass]&#x3D;&quot;orientation&quot; class&#x3D;&quot;sq-tooltip position-absolute card&quot;&gt;
-    &lt;div class&#x3D;&quot;card-body bg-{{theme}} p-2&quot;&gt;
-        &lt;ng-content&gt;&lt;/ng-content&gt;
-    &lt;/div&gt;
+  standalone: true,
+  selector: &quot;sq-tooltip&quot;,
+  imports: [CommonModule],
+  template: &#x60;
+&lt;div *ngIf&#x3D;&quot;manager.tooltip$ | async as tooltip&quot;
+  [ngStyle]&#x3D;&quot;tooltip.style&quot;
+  [ngClass]&#x3D;&quot;tooltip.orientation&quot;
+  class&#x3D;&quot;sq-tooltip position-absolute card&quot;&gt;
+  &lt;div class&#x3D;&quot;card-body bg-{{theme}} rounded-1 p-2&quot;&gt;
+    &lt;ng-container *ngTemplateOutlet&#x3D;&quot;template; context: {$implicit: tooltip.data}&quot;&gt;&lt;/ng-container&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 &#x60;,
-    styles: [&#x60;
+  styles: [&#x60;
 .sq-tooltip {
     z-index: 10;
+    max-height: 100%;
+}
+
+.card-body {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sq-tooltip::after {
@@ -396,30 +344,15 @@
     right: -17px;
     border-color: transparent transparent transparent rgb(0,0,0,0.125);
 }
-    &#x60;]
+  &#x60;],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsTooltipComponent {
-    @Input() orientation: &quot;left&quot; | &quot;right&quot; &#x3D; &quot;right&quot;;
-    @Input() left &#x3D; 0;
-    @Input() right &#x3D; 0;
-    @Input() top &#x3D; 0;
-    @Input() theme: &quot;light&quot; | &quot;dark&quot; &#x3D; &quot;light&quot;;
-
-    get style() {
-        if(this.orientation &#x3D;&#x3D;&#x3D; &quot;right&quot;) {
-            return {
-                &#x27;left.px&#x27;: this.left + 7,
-                &#x27;top.px&#x27;: this.top - 21, // Align tooltip arrow
-            }
-        }
-        else {
-            return {
-                &#x27;right.px&#x27;: this.right + 7,
-                &#x27;top.px&#x27;: this.top - 21, // Align tooltip arrow
-            }
-        }
-    }
-}</code></pre>
+  @Input() manager: TooltipManager&lt;any&gt;;
+  @Input() theme: &#x27;light&#x27;|&#x27;dark&#x27; &#x3D; &#x27;light&#x27;;
+  @ContentChild(TemplateRef) template: TemplateRef&lt;any&gt;;
+}
+</code></pre>
     </div>
 
 
@@ -427,6 +360,12 @@ export class BsTooltipComponent {
             <pre class="line-numbers"><code class="language-scss">
 .sq-tooltip {
     z-index: 10;
+    max-height: 100%;
+}
+
+.card-body {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sq-tooltip::after {
@@ -446,7 +385,7 @@ export class BsTooltipComponent {
     right: -17px;
     border-color: transparent transparent transparent rgb(0,0,0,0.125);
 }
-    
+  
 </code></pre>
     </div>
 
@@ -475,12 +414,14 @@ export class BsTooltipComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div [ngStyle]="style" [ngClass]="orientation" class="sq-tooltip position-absolute card">    <div class="card-body bg-{{theme}} p-2">        <ng-content></ng-content>    </div></div></div>'
-    var COMPONENTS = [{'name': 'AgGridViewComponent', 'selector': 'sq-ag-grid-view'},{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsFacetDate', 'selector': 'sq-facet-date'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'DataModalComponent', 'selector': 'sq-data-modal'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FacetWrapperComponent', 'selector': 'facet-wrapper'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'MapComponent', 'selector': 'sq-googlemaps'},{'name': 'MoneyCloudComponent', 'selector': 'sq-money-cloud'},{'name': 'MoneyTimelineComponent', 'selector': 'sq-money-timeline'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'TimelineLegendComponent', 'selector': 'sq-timeline-legend'}];
-    var DIRECTIVES = [];
+        var COMPONENT_TEMPLATE = '<div><div *ngIf="manager.tooltip$ | async as tooltip"  [ngStyle]="tooltip.style"  [ngClass]="tooltip.orientation"  class="sq-tooltip position-absolute card">  <div class="card-body bg-{{theme}} rounded-1 p-2">    <ng-container *ngTemplateOutlet="template; context: {$implicit: tooltip.data}"></ng-container>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AgGridViewComponent', 'selector': 'sq-ag-grid-view'},{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsFacetDate', 'selector': 'sq-facet-date'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'DataModalComponent', 'selector': 'sq-data-modal'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FacetWrapperComponent', 'selector': 'facet-wrapper'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'MapComponent', 'selector': 'sq-googlemaps'},{'name': 'MoneyCloudComponent', 'selector': 'sq-money-cloud'},{'name': 'MoneyTimelineComponent', 'selector': 'sq-money-timeline'},{'name': 'MultiLevelPieChart', 'selector': 'sq-multi-level-pie-chart'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'TimelineLegendComponent', 'selector': 'sq-timeline-legend'}];
+    var DIRECTIVES = [{'name': 'FusionChartsDirective', 'selector': 'fusioncharts'},{'name': 'VisNetworkDirective', 'selector': '[visNetwork]'},{'name': 'VisTimelineDirective', 'selector': '[visTimeline]'}];
     var ACTUAL_COMPONENT = {'name': 'BsTooltipComponent'};
 </script>
 <script src="../js/tree.js"></script>
+
+
 
 
 

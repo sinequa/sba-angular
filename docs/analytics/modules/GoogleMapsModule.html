@@ -56,13 +56,13 @@
 <title>cluster_GoogleMapsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 156,-230.8 156,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_GoogleMapsModule_declarations</title>
-<polygon fill="none" stroke="black" points="21,-40.8 21,-92.8 143,-92.8 143,-40.8 21,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_GoogleMapsModule_exports</title>
 <polygon fill="none" stroke="black" points="19,-170.8 19,-222.8 145,-222.8 145,-170.8 19,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_GoogleMapsModule_declarations</title>
+<polygon fill="none" stroke="black" points="21,-40.8 21,-92.8 143,-92.8 143,-40.8 21,-40.8"/>
 </g>
 <!-- MapComponent -->
 <g id="node1" class="node">
@@ -167,7 +167,7 @@ import { BsActionModule } from &quot;@sinequa/components/action&quot;;
 import { BsFacetModule } from &quot;@sinequa/components/facet&quot;;
 import { BsSelectionModule } from &#x27;@sinequa/components/selection&#x27;;
 
-import { AgmCoreModule } from &#x27;@agm/core&#x27;;
+import { GoogleMapsModule as NgGoogleMapsModule } from &#x27;@angular/google-maps&#x27;;
 import { MapComponent } from &#x27;./map.component&#x27;;
 
 @NgModule({
@@ -178,8 +178,8 @@ import { MapComponent } from &#x27;./map.component&#x27;;
         BsActionModule,
         BsFacetModule,
         BsSelectionModule,
-        
-        AgmCoreModule,
+
+        NgGoogleMapsModule,
     ],
     declarations: [
         MapComponent
@@ -188,9 +188,12 @@ import { MapComponent } from &#x27;./map.component&#x27;;
         MapComponent
     ],
 })
-export class GoogleMapsModule {}</code></pre>
+export class GoogleMapsModule {}
+</code></pre>
     </div>
 </div>
+
+
 
 
 

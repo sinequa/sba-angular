@@ -52,8 +52,13 @@
 
 .sq-metadata-item:not(.sq-tabular) {
     display: inline;
+    white-space: nowrap; // Avoid new line after the icon or label
 
     .sq-metadata-item-label, .sq-metadata-item-values {
         display: inline;
+    }
+
+    .sq-metadata-item-values {
+        white-space: normal; // Wrap within the values instead
     }
 }

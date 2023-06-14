@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -350,12 +351,13 @@ method.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, Type, Injector, InjectionToken} from &quot;@angular/core&quot;;
-import {FormGroup, ValidatorFn} from &quot;@angular/forms&quot;;
+import {UntypedFormGroup, ValidatorFn} from &quot;@angular/forms&quot;;
 import {Overlay, OverlayConfig, OverlayRef} from &#x27;@angular/cdk/overlay&#x27;;
 import {ComponentPortal} from &#x27;@angular/cdk/portal&#x27;;
 import {Utils, Keys} from &quot;@sinequa/core/base&quot;;
 import {MessageParams} from &quot;@sinequa/core/intl&quot;; // Dependency to INTL !
 import {ModalRef, IModalRef} from &quot;./modal-ref&quot;;
+import { firstValueFrom } from &quot;rxjs&quot;;
 
 /** Describes the configuration object that can be passed when opening
  * a modal with the {@link ModalService}.
@@ -483,7 +485,7 @@ export interface PromptOptions extends ConfirmOptions {
     /**
      * If omitted, a single-line input is displayed. If specified, a textarea with the
      * given number of rows is displayed
-     */    
+     */
     rowCount?: number;
 }
 
@@ -511,7 +513,7 @@ export interface IModalButton {
      * The validation &#x60;FormGroup&#x60; that should be tested when the button is clicked.
      * The button will only perform its &#x60;action&#x60; when the validation is &#x60;valid&#x60;.
      */
-    validation?: FormGroup;
+    validation?: UntypedFormGroup;
     /**
      * Indicats whether the button should be rendered with an &#x60;&lt;a&gt;&#x60; tag rather than
      * a &#x60;&lt;button&gt;&#x60; tag.
@@ -549,7 +551,7 @@ export class ModalButton implements IModalButton {
      * The validation &#x60;FormGroup&#x60; that should be tested when the button is clicked.
      * The button will only perform its &#x60;action&#x60; when the validation is &#x60;valid&#x60;.
      */
-    validation: FormGroup;
+    validation: UntypedFormGroup;
     /**
      * Indicats whether the button should be rendered with an &#x60;&lt;a&gt;&#x60; tag rather than
      * a &#x60;&lt;button&gt;&#x60; tag.
@@ -673,6 +675,13 @@ export class ModalService {
         const overlayComponent &#x3D; this.attachDialogContainer(component, overlayRef, modalConfig, modalRef);
         modalRef.componentInstance &#x3D; overlayComponent;
         overlayRef.hostElement.classList.add(&quot;sq-modal-host&quot;);
+        if(modalConfig.width) {
+          overlayRef.hostElement.style.setProperty(&quot;--modal-width&quot;, modalConfig.width);
+        }
+        if(modalConfig.height) {
+          overlayRef.hostElement.style.setProperty(&quot;--modal-height&quot;, modalConfig.height);
+          overlayRef.hostElement.classList.add(&quot;sq-modal-fixed-height&quot;);
+        }
         if (modalConfig.closeOnBackdropClick) {
             // NB backdropClick will not fire if pointer-events are enabled on modal-host
             overlayRef.backdropClick().subscribe(() &#x3D;&gt; modalRef.close());
@@ -706,7 +715,7 @@ export class ModalService {
      */
     open(component: Type&lt;any&gt;, config: ModalConfig &#x3D; {}): Promise&lt;ModalResult&gt; {
         const modalRef &#x3D; this.openRef(component, config);
-        return modalRef.afterClosed().toPromise();
+        return firstValueFrom(modalRef.afterClosed());
     }
 
     private createOverlay(config: ModalConfig): OverlayRef {
@@ -720,7 +729,7 @@ export class ModalService {
             providers:[
                 {provide: ModalRef, useValue: modalRef},
                 {provide: MODAL_MODEL, useValue: config.model}
-            ], 
+            ],
             parent:this.injector
         });
         const containerPortal &#x3D; new ComponentPortal(component, null, injector);
@@ -846,6 +855,7 @@ export class ModalService {
 </code></pre>
     </div>
 </div>
+
 
 
 

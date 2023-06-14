@@ -42,6 +42,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
@@ -243,8 +244,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, OnDestroy, Type, InjectionToken, Optional} from &quot;@angular/core&quot;;
 import {HttpErrorResponse} from &quot;@angular/common/http&quot;;
 import {Router} from &quot;@angular/router&quot;;
-import {BehaviorSubject, Observable, forkJoin, of, throwError} from &quot;rxjs&quot;;
-import {flatMap} from &quot;rxjs/operators&quot;;
+import {BehaviorSubject, Observable, forkJoin, of, throwError, firstValueFrom, switchMap} from &quot;rxjs&quot;;
 import {Utils, SqError, SqErrorCode} from &quot;@sinequa/core/base&quot;;
 import {START_CONFIG, StartConfig, CCApp, PrincipalWebService, Principal,
     UserSettingsWebService, UserSettings, AuditWebService} from &quot;@sinequa/core/web-services&quot;;
@@ -445,47 +445,35 @@ export class LoginService implements OnDestroy {
             }
         }
 
-        interface ObservableLoginData {
-            app: Observable&lt;CCApp&gt; | undefined;
-            principal: Observable&lt;Principal&gt; | undefined;
-            userSettings: Observable&lt;UserSettings&gt; | undefined;
-        }
-
-        const makeObservables &#x3D; (): ObservableLoginData &#x3D;&gt; {
-            const observables: ObservableLoginData &#x3D; {
-                app: undefined,
-                principal: undefined,
-                userSettings: undefined
-            };
-            if (!this.appService.app || (appName &amp;&amp; this.appService.app.name !&#x3D;&#x3D; appName)) {
-                appNeeded &#x3D; true;
-                observables.app &#x3D; this.appService.init();
-            }
-            else {
-                observables.app &#x3D; of(this.appService.app);
-            }
-            let loadUserSettings &#x3D; false;
-            if (!this.principalService.principal) {
-                loadUserSettings &#x3D; true;
-                observables.principal &#x3D; this.principalService.load();
-            }
-            else {
-                observables.principal &#x3D; of(this.principalService.principal);
-            }
-            if (!this.userSettingsService.userSettings || loadUserSettings) {
-                observables.userSettings &#x3D; this.userSettingsService.load();
-            }
-            else {
-                observables.userSettings &#x3D; of(this.userSettingsService.userSettings);
-            }
-            return observables;
-        };
-
         const observable &#x3D; this.authenticationService.autoAuthenticate()
-            .pipe(flatMap((success) &#x3D;&gt; {
-                const observables &#x3D; makeObservables();
-                return forkJoin&lt;ObservableLoginData, keyof ObservableLoginData&gt;(observables);
+            .pipe(switchMap(() &#x3D;&gt; {
+                let app: Observable&lt;CCApp&gt;;
+                let userSettings: Observable&lt;UserSettings&gt;;
+                let principal: Observable&lt;Principal&gt;;
+                if (!this.appService.app || (appName &amp;&amp; this.appService.app.name !&#x3D;&#x3D; appName)) {
+                    appNeeded &#x3D; true;
+                    app &#x3D; this.appService.init();
+                }
+                else {
+                    app &#x3D; of(this.appService.app);
+                }
+                let loadUserSettings &#x3D; false;
+                if (!this.principalService.principal) {
+                    loadUserSettings &#x3D; true;
+                    principal &#x3D; this.principalService.load();
+                }
+                else {
+                    principal &#x3D; of(this.principalService.principal);
+                }
+                if (!this.userSettingsService.userSettings || loadUserSettings) {
+                    userSettings &#x3D; this.userSettingsService.load();
+                }
+                else {
+                    userSettings &#x3D; of(this.userSettingsService.userSettings);
+                }
+                return forkJoin({app, principal, userSettings});
             }));
+
         Utils.subscribe(observable,
             (result) &#x3D;&gt; {
                 console.log(&quot;loginService.login ok: &quot;, result);
@@ -592,7 +580,7 @@ export class LoginService implements OnDestroy {
                                 this.authenticationService.processedCredentials &#x3D; value;
                             }
                             if (!this.checkPrincipalPromise) {
-                                this.checkPrincipalPromise &#x3D; this.principalService.get(false).toPromise();
+                                this.checkPrincipalPromise &#x3D; firstValueFrom(this.principalService.get(false));
                             }
                             return this.checkPrincipalPromise
                                 .then((principal) &#x3D;&gt; {
@@ -642,6 +630,7 @@ export class LoginService implements OnDestroy {
 </code></pre>
     </div>
 </div>
+
 
 
 

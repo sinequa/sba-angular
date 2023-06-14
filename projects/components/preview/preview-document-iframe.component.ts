@@ -49,6 +49,7 @@ iframe {
     height: calc(100% / var(--factor));
     width: calc(100% / var(--factor));
     border: 0;
+    border-radius: var(--bs-card-inner-border-radius, .375rem);
 
     -moz-transform-origin: 0 0;
     -o-transform-origin: 0 0;

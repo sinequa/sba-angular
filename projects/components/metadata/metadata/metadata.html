@@ -1,4 +1,4 @@
-<sq-metadata-item *ngFor="let item of items; let $index = index"
+<sq-metadata-item *ngFor="let item of items"
     [record]="record"
     [item]="item"
     (select)="select($event.item, $event.valueItem)"
@@ -10,5 +10,4 @@
     [tabular]="tabular"
     [collapseRows]="collapseRows"
     [query]="query || searchService.query">
-    <span *ngIf="!tabular && $index < items.length - 1" class="ms-1 me-2">{{'msg#metadata.item.separator' | sqMessage}}</span>
 </sq-metadata-item>

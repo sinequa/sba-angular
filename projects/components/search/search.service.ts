@@ -579,9 +579,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     return this.makeAuditEvent({
                         type: AuditEventType.Search_Refine,
                         detail: {
-                            text: lastExpr.value,
+                            querytext: lastExpr.value,
                             itembox: lastSelect.facet,
-                            "from-result-id": !!this.results ? this.results.id : null
+                            fromresultid: !!this.results ? this.results.id : null
                         }
                     });
                 }
@@ -593,7 +593,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                             itembox: lastSelect.facet,
                             itemcolumn: lastExpr.field,
                             isitemexclude: lastExpr.not,
-                            "from-result-id": !!this.results ? this.results.id : null
+                            fromresultid: !!this.results ? this.results.id : null
                         }
                     });
                 }
@@ -612,9 +612,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 return this.makeAuditEvent({
                     type: AuditEventType.Search_Text,
                     detail: {
-                        text: this.query.text,
+                        querytext: this.query.text,
                         scope: this.query.scope,
-                        "neural.search": this.appService.isNeural() && this.query.neuralSearch !== false
+                        neuralsearch: this.appService.isNeural() && this.query.neuralSearch !== false
                     }
                 });
             }
@@ -753,10 +753,10 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             this.makeAuditEvent({
                 type: AuditEventType.Search_Text,
                 detail: {
-                    text: this.query.text,
+                    querytext: this.query.text,
                     scope: this.query.scope,
                     language: this.intlService.currentLocale.name,
-                    "neural.search": this.appService.isNeural() && this.query.neuralSearch !== false
+                    neuralsearch: this.appService.isNeural() && this.query.neuralSearch !== false
                 }
             }));
     }
@@ -768,9 +768,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             this.makeAuditEvent({
                 type: AuditEventType.Search_Refine,
                 detail: {
-                    text: text,
+                    querytext: text,
                     itembox: "refine",
-                    "from-result-id": !!this.results ? this.results.id : null
+                    fromresultid: !!this.results ? this.results.id : null
                 }
             }));
     }
@@ -781,7 +781,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             type: AuditEventType.Search_GotoPage,
             detail: {
                 page: page,
-                "from-result-id": !!this.results ? this.results.id : null
+                fromresultid: !!this.results ? this.results.id : null
             }
         }));
     }
@@ -801,7 +801,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     type: AuditEventType.Search_GotoPage,
                     detail: {
                         page: page,
-                        "from-result-id": !!this.results ? this.results.id : null
+                        fromresultid: !!this.results ? this.results.id : null
                     }
                 })
 
@@ -839,7 +839,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return this.navigate(undefined, this.makeAuditEvent({
             type: kind === DidYouMeanKind.Original ? AuditEventType.Search_DidYouMean_Original : AuditEventType.Search_DidYouMean_Correction,
             detail: {
-                text: text
+                querytext: text
             }
         }));
     }
@@ -903,7 +903,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 type: AuditEventType.Search_GotoTab,
                 detail: {
                     tab: tabName,
-                    "from-result-id": !!this.results ? this.results.id : null
+                    fromresultid: !!this.results ? this.results.id : null
                 }
             }));
     }
@@ -946,7 +946,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             record,
             results || resultId || "",
             {
-                text: this.query.text,
+                querytext: this.query.text,
                 querylang,
                 score
             },

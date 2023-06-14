@@ -579,8 +579,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Equivalent of former d3.mouse()
      */
     private point(node: SVGGElement, event: MouseEvent) {
-      var rect = node.getBoundingClientRect();
-      return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
+        var point = new DOMPoint(event.clientX, event.clientY);
+        point = point.matrixTransform(node.getScreenCTM()?.inverse());
+        return [point.x, point.y];
     }
 
     /**

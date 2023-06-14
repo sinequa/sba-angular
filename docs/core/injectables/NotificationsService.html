@@ -37,6 +37,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Injectables</li>
   <li >NotificationsService</li>
@@ -1524,7 +1525,7 @@ emit each time a notification is added. It will also emit
 </div>
 
                                 <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="../interfaces/Notification.html" target="_self" >Observable&lt;Notification&gt;</a></code>
+                                    <b>Returns : </b>        <code><a href="../interfaces/Notification.html" target="_self" >Observable&lt;Notification | undefined&gt;</a></code>
 
                                 </div>
                         </td>
@@ -1766,7 +1767,7 @@ export class NotificationsService implements OnDestroy {
      */
     notifications: Notification[];
     protected _events &#x3D; new Subject&lt;UpdatedEvent | DataUpdatedEvent&gt;();
-    protected _notificationsStream &#x3D; new Subject&lt;Notification&gt;();
+    protected _notificationsStream &#x3D; new Subject&lt;Notification|undefined&gt;();
 
     constructor() {
         this.data &#x3D; {};
@@ -1789,7 +1790,7 @@ export class NotificationsService implements OnDestroy {
      * emit each time a notification is added. It will also emit
      * &#x60;null&#x60; when notifications are deleted.
      */
-    get notificationsStream(): Observable&lt;Notification&gt; {
+    get notificationsStream(): Observable&lt;Notification|undefined&gt; {
         return this._notificationsStream;
     }
 
@@ -2039,6 +2040,7 @@ export class NotificationsService implements OnDestroy {
     </div>
 
 </div>
+
 
 
 

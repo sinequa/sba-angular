@@ -18,5 +18,5 @@ sq-feedback-menu button.btn {
 }
 
 .navbar.navbar-light.bg-light {
-    background-color: var(--brand, #{$white});
+    background-color: var(--brand, #{$white}) !important;
 }

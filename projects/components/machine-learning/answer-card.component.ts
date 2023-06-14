@@ -27,6 +27,8 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   @Input() results: Results;
   @Input() collapsed: boolean;
   @Input() showLikeButtons: boolean;
+  @Input() hideDate: boolean = false;
+  @Input() dateFormat: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'short', day: 'numeric'};
   @Output() previewOpened = new EventEmitter<Answer>();
   @Output() titleClicked = new EventEmitter<{ item: Answer, isLink: boolean }>();
   selectedAnswer: number;
@@ -126,12 +128,12 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     return {
       type,
       detail: {
-        text: this.searchService.query.text,
-        "answer.text": answer.text,
-        "record.id": answer.recordId,
-        "passage.id": answer.passage.id,
-        "af.score": answer["af.score"],
-        "rm.score": answer["rm.score"],
+        querytext: this.searchService.query.text,
+        answertext: answer.text,
+        recordid: answer.recordId,
+        passageid: answer.passage.id,
+        afscore: answer["af.score"],
+        rmscore: answer["rm.score"],
         rank
       }
     };

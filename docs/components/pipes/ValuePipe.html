@@ -40,6 +40,7 @@
 
 
 
+
 <ol class="breadcrumb">
   <li>Pipes</li>
   <li >ValuePipe</li>
@@ -106,8 +107,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">utils/pipes/value-pipe.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">utils/pipes/value-pipe.ts:14</a></div>
                 </td>
             </tr>
 
@@ -173,19 +174,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe, ChangeDetectorRef} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {ChangeDetectorRef, Pipe} from &quot;@angular/core&quot;;
 import {AbstractIntlPipe, IntlService} from &quot;@sinequa/core/intl&quot;;
 import {FormatService, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
 import {CCColumn} from &quot;@sinequa/core/web-services&quot;;
 import {Utils, FieldValue} from &quot;@sinequa/core/base&quot;;
 
 @Pipe({name: &quot;sqValue&quot;, pure: false})
-export class ValuePipe extends AbstractIntlPipe {
+export class ValuePipe extends AbstractIntlPipe&lt;(ValueItem | FieldValue), CCColumn&gt; {
     constructor(
-        protected formatService: FormatService,
-        intlService: IntlService,
-        changeDetectorRef: ChangeDetectorRef) {
-        super(intlService, changeDetectorRef);
+        protected formatService: FormatService, intlService: IntlService, cdr: ChangeDetectorRef) {
+        super(intlService, cdr);
     }
 
     override updateValue(key: ValueItem | FieldValue, params: CCColumn): void {
@@ -197,6 +196,7 @@ export class ValuePipe extends AbstractIntlPipe {
     </div>
 
 </div>
+
 
 
 
