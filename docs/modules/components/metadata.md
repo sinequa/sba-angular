@@ -40,105 +40,207 @@ import {enMetadata} from "@sinequa/components/metadata";
 const messages = Utils.merge({}, ..., enMetadata, appMessages);
 ```
 
-To work properly, you should also import the module's stylesheet in your own application's stylesheet (this stylesheet uses Bootstrap functions to generate colors for the metadata badges):
-
-```scss
-@import "../../../components/metadata/metadata.scss";
-```
-
 ## API usage
 
-This module exports the `Metadata` component that is responsible for displaying the metadata of a document.
+This module exports 2 main components: `MetadataItemComponent` which displays one metadata entry, and `MetadataComponent` which displays a list of metadata entries with a layout.
 
 An entry of metadata is simply a value of an index column of the considered document. Documents have many different types of metadata (mono-valued, multiple-valued, entities, tree-structured, text, numbers, dates, booleans...)
 
 For example, some of the metadata displayed by `vanilla-search` are:
 
-| Metadata title    | Index column  | Icon name in `icons.scss` |
-|-------------------|---------------| --------------------------|
-| Size              | size          | size                      |
-| Format            | docformat     | docformat                 |
-| Date              | modified      | modified                  |
-| Filename          | filename      | filename                  |
-| Sources           | treepath      | treepath                  |
+| Metadata title    | Index column  | Fontawesome Icon       |
+|-------------------|---------------| -----------------------|
+| Size              | size          | fas fa-weight-hanging  |
+| Format            | docformat     | fas fa-info-circle     |
+| Date              | modified      | far fa-calendar-alt    |
+| Filename          | filename      | far fa-file-alt        |
+| Sources           | treepath      | fas fa-folder-open     |
 
-The selector for the component is `sq-metadata` and it expects a number of inputs:
+### The `sq-metadata-item` selector
+
+This component displays one metadata entry and it expects these inputs:
+
+**Required parameters:**
+
+* `record`: The document whose metadata is being displayed.
+* `field`: The column name to retrieve the value from.
+
+**Optional parameters:**
+
+* `query` (default: `SearchService.query`): The query to apply any filter action to.
+* `label`: A label to insert before the value (which will look like "label: value").
+* `icon`: The Fontawesome class of the icon to insert before the label and value.
+* `fieldClass`: Any additional CSS classes you want to apply to the field value.
+* `filterable` (default: `false`): Whether you can add a filter on this metadata for the query. This will add a "Filter" button in a tooltip.
+* `excludable` (default: `false`): Whether you can add an exclusion filter on this metadata for the query. This will add an "Exclude" button in a tooltip.
+* `showEntityExtract` (default: `false`): Whether the entity extract should be displayed in a tooltip.
+* `actions`: Any additional actions for the metadata entry to display in a tooltip.
+* `collapseRows` (default: `true`): Whether the rows are collapsible, to save space.
+* `entityExtractMaxLines` (default: `4`): The maximum number of lines to display for the entity extract in the tooltip.
+* `actionsButtonsStyle` (default: `btn btn-secondary`): The style to apply to the action buttons.
+* `actionsButtonsSize` (default: `sm`): The size to apply to the action buttons.
+
+### The `sq-metadata` selector
+
+This component displays a list of `sq-metadata-item` and facilitates the layout which can either be linear or with one entry per line. It also allows to construct sentences to include metadata entries to.
 
 **Required parameters:**
 
 * `record`: The document whose metadata is being displayed,
-* `items` (`string[]`): The metadata entries of the document to be displayed, these are simply the names of index columns,
+* `config` (`(MetadataConfig | string)[]`): The metadata entries of the document to be displayed, this is a list containing some `MetadataConfig` objects which contain the parameters to apply for each metadata entry following what `sq-metadata-item` as inputs. There can also be strings in this array which allows you to make sentences with metadata entries in the middle of them (example below).
 
 **Optional parameters:**
 
-* `showTitles` (default: `true`): Whether to display the title of the metadata entry, these titles are defined in the configuration of the query web service, in **Advanced** tab > **Column Aliases** grid,
-* `showIcons` (default: `false`): Whether to display the icon of the metadata entry, these icons are defined in the `icons.scss` files, with the name of the icon entry being the same as the name of the index column.
-* `showCounts` (default: `true`): When the metadata is a list of entities (extracted from the text of the document), this option allows to display the number of occurrences of these entities in that document.
-* `showEntityTooltip` (default: `false`): For entities, when their location in the document is known, display a tooltip containing the first sentence of the document including this entity (See example below). For, this option to work, it is required to use Sinequa 11.7.0 or above (availability of the Text Chunks web service), and the entity locations must be returned by the Query web service (option available in the advanced tab of the query configuration).
-* `clickable` (default: `true`): Whether the metadata entries are clickable (in which case they are displayed as "badges" instead of plain text).
-* `searchOnClick` (default: `true`): When `true`, clicking on a metadata item produces a filter in the current query.
-* `tabular` (default: `true`): When `true`, the metadata is displayed as a table (1 row = 1 column), and when `false` all the metadata is displayed inline.
-* `collapseRows` (default: `true`): In tabular mode, when the data is multivalued (for entities and CSV columns), only display one line of data with a button to expand/collapse this line.
+* `query` (default: `SearchService.query`): The query to apply any filter action to.
+* `layout` (default: `inline`): The type of layout for the metadata entries list. This can only be "inline" (all next to each other) or "table" (one per line).
+* `actionsButtonsStyle` (default: `btn btn-secondary`): The style to apply to the action buttons.
+* `actionsButtonsSize` (default: `sm`): The size to apply to the action buttons.
 
 The component also emits an event when an element of the metadata is selected / clicked on.
 
-### Examples
+## Examples
+
+### Metadata
 
 <!-- <doc-metadata></doc-metadata> -->
 
 The following metadata is displayed with all the default options:
 
 ```ts
-this.metadata = ["authors", "docformat", "modified", "size", "treepath", "filename", "geo", "company"]
+this.metadata: MetadataConfig[] = [
+    {
+        field: "docformat",
+        label: "Format",
+        icon: "fas fa-info-circle"
+    },
+    {
+        field: "modified",
+        label: "Date",
+        icon: "far fa-calendar-alt"
+    },
+    {
+        field: "size",
+        label: "Size",
+        icon: "fas fa-weight-hanging"
+    },
+    {
+        field: "treepath",
+        label: "Source",
+        icon: "fas fa-folder-open"
+    },
+    {
+        field: "filename",
+        label: "Filename",
+        icon: "far fa-file-alt"
+    }
+];
 ```
 
 ```html
 <sq-metadata
-  [record]="record"
-  [items]="metadata">
+    [record]="openedDoc"
+    [config]="metadata"
+    [query]="searchService.query">
 </sq-metadata>
 ```
 
 ![Default metadata settings]({{site.baseurl}}assets/modules/metadata/metadata-default.png){: .d-block .mx-auto }
 
-In this other example, the same metadata is displayed with the following options:
+You can also add the `[layout]="'table'"` input to the component to have one entry per line.
 
-```html
-<sq-metadata
-  [record]="record"
-  [items]="metadata"
-  [showIcons]="true"
-  [showTitles]="false"
-  [showCounts]="false"
-  [clickable]="false"
-  [tabular]="false"
-  [collapseRows]="false">
-</sq-metadata>
+![Table metadata]({{site.baseurl}}assets/modules/metadata/metadata-table.png){: .d-block .mx-auto }
+
+The `filterable` and `excludable` parameters can be used to display the filtering buttons when hovering the metadata entry:
+
+```ts
+this.metadata: MetadataConfig[] = [
+    {
+        field: "docformat",
+        label: "Format",
+        icon: "fas fa-info-circle",
+        filterable: true,
+        excludable: true
+    },
+    {
+        field: "modified",
+        label: "Date",
+        icon: "far fa-calendar-alt",
+        filterable: true
+    },
+    ...
 ```
 
-![Inline metadata settings]({{site.baseurl}}assets/modules/metadata/metadata-inline.png){: .d-block .mx-auto }
+![Filter and Exclude]({{site.baseurl}}assets/modules/metadata/metadata-filters1.png){: .d-block .mx-auto }
 
-Here we activate the entity tooltip:
+![Filter only]({{site.baseurl}}assets/modules/metadata/metadata-filters2.png){: .d-block .mx-auto }
 
-```html
-<sq-metadata
-  [record]="record"
-  [items]="['geo','company','person']"
-  [showEntityTooltip]="true">
-</sq-metadata>
+Here is also with a custom action:
+
+```ts
+this.metadata: MetadataConfig[] = [
+    {
+        field: "docformat",
+        label: "Format",
+        icon: "fas fa-info-circle",
+        filterable: true,
+        excludable: true,
+        actions: [new Action({
+            text: "Test",
+            icon: "fas fa-user-edit",
+            action: () => {
+                // some code
+            }
+        })
+    },
+    ...
 ```
 
-![Entity tooltip]({{site.baseurl}}assets/modules/metadata/entity-tooltip.png){: .d-block .mx-auto }
+![Metadata custom action]({{site.baseurl}}assets/modules/metadata/metadata-actions.png){: .d-block .mx-auto }
 
-### Metadata Item
+As mentioned before, the `config` array input can also contain strings, allowing to create full sentences containing some metadata entries inside of it. Here is an example:
 
-This module also exports the `MetadataItem` component which is used by
-the `Metadata` component and displays a **single** metadata item. Using the `MetadaItem` component directly provides more layout flexibility,
-allowing other content to interspersed in the layout and different input properties to be specified for individual items. The component's
-selector is `sq-metadata-item` and it expects a number of inputs which are similar to those of the `Metadata` component.
-
-```html
-<sq-metadata-item [record]="record" [item]="'geo'"></sq-metadata-item>
+```ts
+this.metadata: (MetadataConfig | string)[] = [
+    "The document ",
+    {
+      field: "filename",
+      fieldClass: "mx-1 badge rounded-pill bg-secondary",
+      filterable: true
+    },
+    " has been created the ",
+    {
+      field: "modified",
+      fieldClass: "ms-1 sq-text"
+    }
+];
 ```
 
-![Single metadata item]({{site.baseurl}}assets/modules/metadata/metadata-item.png){: .d-block .mx-auto }
+Notice the `sq-text` class provided which makes it the same font size as the text since metadata entries are smaller by default.
+
+![Metadata custom action]({{site.baseurl}}assets/modules/metadata/metadata-sentence.png){: .d-block .mx-auto }
+
+### Metadata item
+
+While `sq-metadata` facilitates the layout, you can just use `sq-metadata-item` to display a metadata entry:
+
+```html
+<sq-metadata-item [record]="openedDoc" [field]="'modified'"></sq-metadata-item>
+```
+
+![Metadata item]({{site.baseurl}}assets/modules/metadata/metadata-item.png){: .d-block .mx-auto }
+
+Or with more parameters:
+
+```html
+<sq-metadata-item
+    [record]="openedDoc"
+    [field]="'modified'"
+    [icon]="'fas fa-phone'"
+    [fieldClass]="'badge rounded-pill bg-secondary'"
+    [filterable]="true"
+    [excludable]="true"
+    [label]="'Label'">
+</sq-metadata-item>
+```
+
+![Metadata item]({{site.baseurl}}assets/modules/metadata/metadata-item2.png){: .d-block .mx-auto }

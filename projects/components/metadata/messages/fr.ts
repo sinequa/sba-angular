@@ -62,6 +62,11 @@ export default {
             listSeparator: ", ",
             empty_boolean: 'false',
             empty_number: '0'
+        },
+        actions: {
+            filter: "Filtrer",
+            exclude: "Exclure",
+            removeFilter: "Retirer le filtre"
         }
     },
 };
