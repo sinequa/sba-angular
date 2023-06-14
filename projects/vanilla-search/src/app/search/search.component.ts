@@ -28,6 +28,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
   public openedDocChat?: InitChat;
+  public passageId?: string;
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
@@ -50,11 +51,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   public showFilterToggle = false;
 
   public results$: Observable<Results | undefined>;
-
-  // Whether the results contain answers/passages data (neural search)
-  public hasAnswers: boolean;
-  public hasPassages: boolean;
-  public passageId?: string;
 
   public readonly facetComponents = {
       ...DEFAULT_FACET_COMPONENTS,
@@ -138,8 +134,6 @@ export class SearchComponent implements OnInit, OnDestroy {
             this.openedDocChat = undefined;
             this.showFilters = false;
           }
-          this.hasAnswers = !!results?.answers?.answers?.length;
-          this.hasPassages = !!results?.topPassages?.passages?.length;
           if(results && results.records.length <= results.pageSize) {
             window.scrollTo({top: 0, behavior: 'auto'});
           }

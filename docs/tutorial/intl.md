@@ -52,7 +52,7 @@ In your `app.module.ts` file, notice that the `IntlModule` is imported from `@si
 
 ```ts
 import {IntlModule} from "@sinequa/core/intl";
-import {DefaultLocalesConfig} from "@sinequa/core";
+import {DefaultLocalesConfig} from "@sinequa/core/default-locales-config";
 
 ...
 
@@ -72,9 +72,7 @@ To do so, we need to create our own language files. We can start with English.
 
     ```ts
     import {LocaleData} from "@sinequa/core/intl";
-    import d3Format from "d3-format/locale/en-US.json";
-    import d3Time from "d3-time-format/locale/en-US.json";
-    import {enCore} from "@sinequa/core";
+    import {enCore} from "@sinequa/core/messages";
     import "intl/locale-data/jsonp/en-US"; // Safari
     import {Utils} from "@sinequa/core/base";
 
@@ -82,7 +80,10 @@ To do so, we need to create our own language files. We can start with English.
     import {enResult} from "@sinequa/components/result";
     import {enSearch} from "@sinequa/components/search";
 
-    let appMessages = {
+    const d3Format = require('d3-format/locale/en-US');
+    const d3Time = require('d3-time-format/locale/en-US');
+
+    const appMessages = {
 
         locale: {
             en: "English",
@@ -214,13 +215,14 @@ Inside this file, you need to **replace imports that point to English resources 
 For example:
 
 ```ts
-import d3Format from "d3-format/locale/fr-FR.json";
-import d3Time from "d3-time-format/locale/fr-FR.json";
-import {frCore} from "@sinequa/core";
+import {frCore} from "@sinequa/core/messages";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
 import {frFacet} from "@sinequa/components/facet";
 import {frResult} from "@sinequa/components/result";
 import {frSearch} from "@sinequa/components/search";
+
+const d3Format = require('d3-format/locale/fr-FR');
+const d3Time = require('d3-time-format/locale/fr-FR');
 ```
 
 Then you can translate all the text in `appMessages` to French. This should look like:
@@ -331,7 +333,7 @@ loadLocale(locale: string): Observable<LocaleData> {
 }
 ```
 
-- Ensure that lazily loaded locales are included in the compilation by including them explicitly in `tsconfig.app.json`:
+- Ensure that lazily loaded locales are included in the compilation by including them explicitly in `tsconfig.json`:
 
 ```json
 "include": [

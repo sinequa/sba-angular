@@ -45,13 +45,12 @@ Of course, there are many ways you could design your component. We propose the f
 ```html
 {% raw %}<div class="search container">
     <div class="row">
-
         <!-- Navbar -->
-        <nav class="navbar navbar-expand col-12 d-flex">
-            <a [routerLink]="['/home']" class="text-decoration-none">
+        <nav class="navbar col-12 d-flex">
+            <a [routerLink]="['/home']">
                 <h1>🔍 Hello Search</h1>
             </a>
-            <app-search-form class="flex-grow-1 mx-3"></app-search-form>
+            <app-search-form class="flex-grow-1 position-relative mx-3" style="min-height: 41px;"></app-search-form>
             <ul class="navbar-nav navbar-right">
                 <sq-saved-queries-menu></sq-saved-queries-menu>
             </ul>
@@ -78,11 +77,12 @@ Of course, there are many ways you could design your component. We propose the f
             <!-- Facets -->
             <div class="col-lg-4">
                 <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'">
-                    <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
+                    <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
                 </sq-facet-card>
 
                 <sq-facet-card [title]="'msg#facet.company.title'" [icon]="'fas fa-building'">
-                    <sq-facet-list #facet [results]="results" [aggregation]="'Company'" [allowExclude]="false" [allowAnd]="false"></sq-facet-list>
+                    <sq-facet-list #facet [results]="results" [aggregation]="'Company'" [allowExclude]="false"
+                        [allowAnd]="false"></sq-facet-list>
                 </sq-facet-card>
 
                 <sq-facet-card [title]="'msg#savedQueries.savedQueries'" [icon]="'fas fa-save'">
@@ -98,9 +98,7 @@ Of course, there are many ways you could design your component. We propose the f
                     <i class="fas fa-save"></i>
                 </button>
             </div>
-
         </ng-container>
-
     </div>
 </div>{% endraw %}
 ```
@@ -228,11 +226,11 @@ Let's piggy-back on the facet button feature: We will show the form on medium or
 
 ```html
 <!-- Navbar -->
-<nav ...>
+<nav class="navbar col-12 d-flex px-2 px-sm-0">
     <a ... *ngIf="ui.screenSizeIsGreater('xs') || !showFacet">
         ...
     </a>
-    <app-search-form class="flex-grow-1 mx-sm-3" *ngIf="ui.screenSizeIsGreater('xs') || showFacet"></app-search-form>
+    <app-search-form class="flex-grow-1 position-relative mx-sm-3" style="min-height: 41px;" *ngIf="ui.screenSizeIsGreater('xs') || showFacet"></app-search-form>
     <button class="btn btn-light ml-auto" ...>
         ...
     </button>

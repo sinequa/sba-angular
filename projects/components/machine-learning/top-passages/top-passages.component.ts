@@ -102,4 +102,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
     };
   }
 
+  public override isHidden(): boolean {
+    return !this.passages?.length;
+  }
 }

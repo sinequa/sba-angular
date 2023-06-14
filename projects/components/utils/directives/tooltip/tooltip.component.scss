@@ -1,35 +1,19 @@
 :host {
   display: block;
-}
 
-.sq-tooltip {
-  background-color: #494949;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-size: 14px;
-  max-width: 280px;
-}
-
-::ng-deep .sq-tooltip .btn {
-  color: white !important;
-
-  &:hover {
-    color: lightgray !important;
+  ::ng-deep .sq-tooltip {
+    background-color: #494949;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 14px;
+    max-width: 280px;
   }
 }
 
 :host-context(.dark) {
-  .sq-tooltip {
+  :host ::ng-deep .sq-tooltip {
     background-color: #f0f0f0;
     color: #606060;
-  }
-
-  ::ng-deep .sq-tooltip .btn {
-    color: gray !important;
-
-    &:hover {
-      color: black !important;
-    }
   }
 }

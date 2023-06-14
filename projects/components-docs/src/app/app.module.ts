@@ -65,7 +65,7 @@ export function startConfigInitializer(startConfigWebService: StartConfigWebServ
 
 // Application languages (intl service)
 import enLocale from "../locales/en";
-import { CREDENTIALS, LoginInterceptor } from '@sinequa/core/login';
+import { LoginInterceptor } from '@sinequa/core/login';
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -136,7 +136,6 @@ export class AppLocalesConfig implements LocalesConfig {
         { provide: APP_INITIALIZER, useFactory: startConfigInitializer, deps: [StartConfigWebService], multi: true },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         GlobalService,
-        { provide: CREDENTIALS, useValue: { userName: '', password: '' } },
         { provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true },
         ...environment.providers
     ],

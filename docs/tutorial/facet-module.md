@@ -57,26 +57,32 @@ This should display something like:
 
 Notice the `#facet` tag. It is important, as it allows the `sq-facet-card` to display the "action buttons" of its content in the top-right of the facet.
 
-We can also add a tree facet `sq-facet-tree`:
+`sq-facet-list` also adapts itself automatically according to the data type. Here with a tree type:
 
 ```html
 <sq-facet-card [title]="'Sources'" [icon]="'fas fa-sitemap'">
-    <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
+    <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
 </sq-facet-card>
 ```
 
-![Facet tree]({{site.baseurl}}assets/tutorial/facet-tree.png)
+![Facet tree]({{site.baseurl}}assets/tutorial/facet-list-tree.png)
 
 The facet components have many options that can be passed via *bindings*. For example, here is the full list of options for `sq-facet-list`:
 
 - `name`: Internal name of the facet (Optional, by default the aggregation name is used)
 - `results`: Results object (Required)
 - `aggregation`: Name of the aggregation configured on the back-end (Required)
+- `query`: A custom query to interfere when doing filtering actions (it uses by default the one from the `SearchService`)
 - `showCount`: Show the number of occurrences (default: `true`)
 - `searchable`: Allow to search for items in the facet (default: `true`)
 - `allowExclude`: Allow to exclude selected items (default: `true`)
 - `allowOr`: Allow to search various items in OR mode (default: `true`)
 - `allowAnd`: Allow to search various items in AND mode (default: `true`)
+- `focusSearch`: Whether after the page is loaded the HTML should focus on the search input (default: `false`)
+- `displayEmptyDistributionIntervals`: Whether empty distribution intervals will be displayed if the aggregration is a distribution (default: `false`)
+- `acceptNonAggregationItemFilter`: Whether filtered items which don't match an existing aggregation item should be added to filtered list (default: `true`)
+- `replaceCurrent`: Whether the previous "select" is removed first (default: `false`)
+- `expandedLevel`: The level to expand up to when this is a tree type of data (default: `2`)
 
 In real projects, you probably would not want to enable all these options at once. We can deactivate exclusion and the "AND" mode with:
 

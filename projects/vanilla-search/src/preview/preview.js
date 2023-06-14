@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         passageHighlighter.style.position = 'absolute';
         passageHighlighter.style.display = 'none';
         document.body.appendChild(passageHighlighter);
-        document.addEventListener("mouseup", function () { return onMouseUp(); });
+        document.addEventListener("mouseup", function () { return setTimeout(function () { return onMouseUp(); }); });
         document.addEventListener("mousemove", function (e) { return onMouseMove(e); });
         window.addEventListener("scroll", function () { return returnMessage("scroll", { x: window.scrollX, y: window.scrollY }); });
         if (highlights) {

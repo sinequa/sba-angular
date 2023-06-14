@@ -23,7 +23,7 @@
       (keyup.shift.enter)="onInputEnter()"> <!-- keyup.shift.enter is necessary for iOS13+: https://github.com/angular/angular/issues/32963 -->
 
     <!-- Clear Button (not displayed when expanded to avoid the confusion of users trying to close the box) -->
-    <button type="button" *ngIf="editedQuery.text && (hasFocus || !expanded)"
+    <button type="button" *ngIf="editedQuery.text"
       class="btn no-shadow p-0"
       [sqTooltip]="'msg#searchForm.clearAll' | sqMessage"
       (click)="clearForm()">
@@ -31,7 +31,7 @@
     </button>
 
     <!-- Toggle voice recognition -->
-    <button type="button" *ngIf="enableVoiceRecognition && voiceService.available && hasFocus"
+    <button type="button" *ngIf="enableVoiceRecognition && voiceService.available"
       class="btn no-shadow p-0 me-1"
       [sqTooltip]="'msg#searchForm.voiceRecognition' | sqMessage"
       (click)="toggleVoice()">
@@ -57,16 +57,17 @@
     </button>
 
     <!-- Filter count -->
-    <div *ngIf="showFilterCount && filterCount"
-      class="text-muted position-relative me-3"
+    <button *ngIf="showFilterCount && filterCount"
+      type="button"
+      class="p-0 text-muted bg-transparent border-0 position-relative me-3"
       [sqTooltip]="'msg#searchForm.filterCount' | sqMessage:{value: filterCount}"
-      (click)="onInputClick()">
+      (click)="onFilterCountClick()">
       <i class="fas fa-filter"></i>
       <span class="position-absolute bottom-0 badge rounded-pill bg-danger"
             style="font-size: 10px; left: 0.75rem;">
         {{filterCount}}
       </span>
-    </div>
+    </button>
 
     <ng-container *ngTemplateOutlet="toolbarAfterTpl; context: {$implicit: editedQuery}"></ng-container>
 

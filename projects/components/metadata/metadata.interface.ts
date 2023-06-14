@@ -1,16 +1,22 @@
 import { Query } from '@sinequa/core/app-utils';
 import { CCColumn, EntityItem, Record } from '@sinequa/core/web-services';
 import { Observable } from 'rxjs';
-import { ValueItem } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
+import { SafeHtml } from '@angular/platform-browser';
 
-export interface MetadataItem extends ValueItem {
+export interface MetadataItem {
+    value: string | boolean | number;
+    display?: string;
     filtered?: boolean; // Whether the item is included in the filters
     excluded?: boolean; // Whether the item is excluded from the filters
 }
 
-export interface TreeMetadataItem extends MetadataItem {
+export interface TreeMetadataItem {
     parts: MetadataItem[];
+}
+
+export function isTreeMetadataItem(item: MetadataItem | TreeMetadataItem): item is TreeMetadataItem {
+    return !!(item as TreeMetadataItem).parts;
 }
 
 export interface MetadataConfig {
@@ -21,7 +27,6 @@ export interface MetadataConfig {
     filterable?: boolean;
     excludable?: boolean;
     showEntityExtract?: boolean;
-    separator?: string;
     actions?: Action[];
     collapseRows?: boolean;
     entityExtractMaxLines?: number;
@@ -33,5 +38,5 @@ export interface MetadataValue {
     isTree: boolean; // if is tree
     isEntity: boolean; // if is entity
     isCsv: boolean; // if is csv
-    fnEntityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<string | undefined>;
+    fnEntityTooltip?: (data: { entity: EntityItem, record: Record, query: Query }) => Observable<SafeHtml | undefined>;
 }

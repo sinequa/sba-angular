@@ -98,7 +98,8 @@
             "tsConfig": "projects/hello-search/tsconfig.json",
             "preserveSymlinks": true,
             "assets": [
-              "projects/hello-search/src/assets"
+              "projects/hello-search/src/assets",
+              { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
             ],
             "styles": ["projects/hello-search/src/styles/app.scss"],
             "scripts": [],
@@ -788,7 +789,7 @@
               }
             },
             "development": {
-              "outputPath": "dist-debug/vanilla-search",
+              "outputPath": "dist-debug/components-docs",
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -801,6 +802,15 @@
                 {
                   "replace": "projects/components-docs/src/environments/environment.ts",
                   "with": "projects/components-docs/src/environments/environment.mock.ts"
+                }
+              ],
+              "outputPath": "docs/assets/sq-doc-app"
+            },
+            "ci": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/components-docs/src/environments/environment.ts",
+                  "with": "projects/components-docs/src/environments/environment.ci.ts"
                 }
               ],
               "outputPath": "docs/assets/sq-doc-app"
@@ -821,6 +831,9 @@
             },
             "mock": {
               "browserTarget": "components-docs:build:mock"
+            },
+            "ci": {
+              "browserTarget": "components-docs:build:ci"
             }
           }
         },
