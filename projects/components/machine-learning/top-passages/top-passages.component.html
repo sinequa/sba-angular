@@ -3,7 +3,7 @@
   sqMessage:{passagesNb: passages.length, documentsNb: documentsNb} }}
 </div>
 
-<ul class="list-group list-group-flush">
+<ul class="list-group list-group-flush" *ngIf="passages">
 
   <li role="button" *ngFor="let passage of passages" (click)="openPreview(passage)" class="list-group-item list-group-item-action sq-passage">
 

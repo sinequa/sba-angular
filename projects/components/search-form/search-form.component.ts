@@ -218,13 +218,15 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  onScopeChange() {
+  onFilterCountClick() {
+    delete this.editedQuery.filters;
     this.onFiltersChanged();
     this.searchInput.nativeElement.focus();
   }
 
-  get hasFocus() {
-    return this.searchInput?.nativeElement.matches(':focus');
+  onScopeChange() {
+    this.onFiltersChanged();
+    this.searchInput.nativeElement.focus();
   }
 
 

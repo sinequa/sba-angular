@@ -16,12 +16,6 @@ export const FEATURES: string[] = [
     "labels",                       // Allow users to tag documents with labels
     "alerts",                       // Allow users to subscribe to a regular alert for a particular query
     "suggests",                     // Display general text suggestions in the autocomplete
-    "advanced-form",                // Display an advanced search form
-    "keep-advanced-form-filters",   // When the user makes a new search query, do not reset the content of the autocomplete form
-    "keep-tab",                     // When the user makes a new search query, stay on the same tab
-    //"keep-filters",                 // When the user makes a new search query, do not reset the filters that are active (eg. from facets)
-    "toggle-keep-filters",          // Display a button to toggle the "keep-filter" option
-    //"voice-recognition",            // Display a button to trigger voice recognition (supported only on Chrome-based browsers and uses Google servers for processing)
 ];
 
 export type FacetParams = FacetListParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams;
@@ -198,33 +192,26 @@ export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHigh
 
 export const METADATA_CONFIG: MetadataConfig[] = [
     {
-        field: "authors",
-        label: "msg#metadata.authorsPluralLabel",
-        icon: "fas fa-user-edit"
-    },
-    {
-        field: "docformat",
-        label: "msg#metadata.docformatLabel",
-        icon: "fas fa-info-circle"
-    },
-    {
-        field: "modified",
-        label: "msg#metadata.modifiedLabel",
-        icon: "far fa-calendar-alt"
-    },
-    {
-        field: "size",
-        label: "msg#metadata.size_label",
-        icon: "fas fa-weight-hanging"
-    },
-    {
         field: "treepath",
         label: "msg#metadata.treepath_label",
-        icon: "fas fa-folder-open"
+        icon: "fas fa-fw fa-folder-open",
+        filterable: true,
+        collapseRows: true
     },
     {
         field: "filename",
         label: "msg#metadata.filename_label",
-        icon: "far fa-file-alt"
+        icon: "far fa-fw fa-file-alt"
+    },
+    {
+        field: "authors",
+        label: "msg#metadata.authorsPluralLabel",
+        icon: "fas fa-fw fa-user-edit",
+        filterable: true
+    },
+    {
+        field: "modified",
+        label: "msg#metadata.modifiedLabel",
+        icon: "far fa-fw fa-calendar-alt"
     }
 ];

@@ -6,7 +6,7 @@ export default {
     "clear": "Löschen",
     "voiceRecognition": "Sprachsuche",
     "listening": "Anhören läuft...",
-    "filterCount": "Es gibt {value, plural, one {einen aktiven Filter} other {{value} aktive Filter}}",
+    "filterCount": "{value} {value, plural, one {aktiven Filter} other {aktive Filter}} (zum Löschen klicken)",
     "apply": "Apply",
     "applyTitle": "Wenden Sie die neuen Filter an",
     "neural": {
