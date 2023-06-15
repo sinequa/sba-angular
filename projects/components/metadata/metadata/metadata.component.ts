@@ -21,7 +21,7 @@ export class MetadataComponent {
     /**
      * Class for the tooltip buttons
      */
-    @Input() actionsButtonsStyle = 'btn btn-primary';
+    @Input() actionsButtonsStyle = 'btn btn-secondary';
     /**
      * Size for the tooltip buttons
      */
