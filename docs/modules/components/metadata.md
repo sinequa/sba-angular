@@ -57,6 +57,8 @@ For example, some of the metadata displayed by `vanilla-search` are:
 
 ### The `sq-metadata-item` selector
 
+<doc-metadata-item></doc-metadata-item>
+
 This component displays one metadata entry and it expects these inputs:
 
 **Required parameters:**
@@ -80,6 +82,8 @@ This component displays one metadata entry and it expects these inputs:
 * `actionsButtonsSize` (default: `sm`): The size to apply to the action buttons.
 
 ### The `sq-metadata` selector
+
+<doc-metadata></doc-metadata>
 
 This component displays a list of `sq-metadata-item` and facilitates the layout which can either be linear or with one entry per line. It also allows to construct sentences to include metadata entries to.
 

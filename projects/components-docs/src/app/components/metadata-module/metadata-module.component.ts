@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DocMetadataComponent } from './metadata/metadata.component';
+import { DocMetadataItemComponent } from './metadata-item/metadata-item.component';
 
 @Component({
   selector: 'doc-metadata-module',
@@ -10,7 +11,8 @@ export class DocMetadataModuleComponent {
   title = 'Metadata Module';
 
   components = [
-    DocMetadataComponent
+    DocMetadataComponent,
+    DocMetadataItemComponent
   ];
 
   constructor() { }

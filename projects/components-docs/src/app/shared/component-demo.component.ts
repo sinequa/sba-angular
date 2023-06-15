@@ -11,10 +11,6 @@ import { Component, Input } from '@angular/core';
 
   // override just-the-docs.css for docs
 
-  sq-facet-card ::ng-deep .sq-primary-actions .btn {
-    box-shadow: none !important;
-  }
-
   sq-facet-card ::ng-deep ul > li::before,
   sq-facet-card ::ng-deep ul > li::marker {
     content: initial;
