@@ -1,0 +1,11 @@
+<doc-component-demo title="MetadataItemComponent" [html]="code">
+    <sq-metadata-item
+        [record]="globalService.record"
+        [field]="'filename'"
+        [icon]="'fas fa-file-alt'"
+        [fieldClass]="'badge rounded-pill bg-secondary'"
+        [filterable]="true"
+        [excludable]="true"
+        [label]="'Filename'">
+    </sq-metadata-item>
+</doc-component-demo>

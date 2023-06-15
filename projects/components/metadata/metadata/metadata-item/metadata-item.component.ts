@@ -20,7 +20,7 @@ export class MetadataItemComponent implements OnChanges, OnDestroy {
     @Input() layout: 'inline' | 'table' = 'inline';
 
     @Input() field: string;
-    @Input() label: string
+    @Input() label?: string
     @Input() icon?: string;
     @Input() fieldClass?: string;
     @Input() filterable?: boolean;
@@ -97,7 +97,7 @@ export class MetadataItemComponent implements OnChanges, OnDestroy {
 
             const filterAction = new Action({
                 icon: "fas fa-filter",
-                text: "Filter",
+                text: "msg#metadata.actions.filter",
                 action: () => {
                     this.filterItem(valueItem);
                     updateVisibility(valueItem);
@@ -106,7 +106,7 @@ export class MetadataItemComponent implements OnChanges, OnDestroy {
 
             const excludeAction = new Action({
                 icon: "fas fa-minus-circle",
-                text: "Exclude",
+                text: "msg#metadata.actions.exclude",
                 action: () => {
                     this.filterItem(valueItem, false, true);
                     updateVisibility(valueItem);
@@ -115,7 +115,7 @@ export class MetadataItemComponent implements OnChanges, OnDestroy {
 
             const removeFilterAction = new Action({
                 icon: "fas fa-times",
-                text: "Remove filter",
+                text: "msg#metadata.actions.removeFilter",
                 action: () => {
                     this.filterItem(valueItem, true);
                     updateVisibility(valueItem);
