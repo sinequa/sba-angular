@@ -1,7 +1,3 @@
-:host {
-    font-size: 0.875em;
-}
-
 .sq-metadata-col.metadata-table {
     display: table-cell;
 
@@ -29,10 +25,6 @@
     &.has-tooltip {
         background-color: rgba(0, 0, 0, 0.15);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-    }
-
-    &.sq-text {
-        font-size: 1rem;
     }
 }
 

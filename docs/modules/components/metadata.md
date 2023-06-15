@@ -212,12 +212,10 @@ this.metadata: (MetadataConfig | string)[] = [
     " has been created the ",
     {
       field: "modified",
-      fieldClass: "ms-1 sq-text"
+      fieldClass: "ms-1"
     }
 ];
 ```
-
-Notice the `sq-text` class provided which makes it the same font size as the text since metadata entries are smaller by default.
 
 ![Metadata custom action]({{site.baseurl}}assets/modules/metadata/metadata-sentence.png){: .d-block .mx-auto }
 
