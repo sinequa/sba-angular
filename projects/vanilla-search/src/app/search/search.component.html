@@ -71,7 +71,7 @@
         <!-- Results -->
         <div class="col-sm-12 col-lg-5" [ngClass]="{'col-md-8': showFilters, 'col-md-6': !showFilters}" *ngIf="showResults">
 
-            <div class="d-flex flex-wrap sq-toolbar">
+            <div class="result-toolbar d-flex flex-wrap">
 
                 <!-- Tabs -->
                 <sq-tabs class="w-100" [results]="results"></sq-tabs>
@@ -111,7 +111,7 @@
             </div>
 
             <!-- List of documents (for loop) -->
-            <ul class="record-list p-0">
+            <ul class="result-list p-0">
                 <li *ngFor="let record of results.records" class="record"
                   (click)="onDocumentClicked(record, $event)"
                   [ngClass]="{
