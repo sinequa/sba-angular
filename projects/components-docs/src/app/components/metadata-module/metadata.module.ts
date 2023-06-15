@@ -7,6 +7,7 @@ import { DocMetadataModuleComponent } from './metadata-module.component';
 import { DocMetadataComponent } from './metadata/metadata.component';
 import { MetadataModule } from "@sinequa/components/metadata";
 import { createElement } from 'src/app/shared/create-element';
+import { DocMetadataItemComponent } from './metadata-item/metadata-item.component';
 
 const routes: Routes = [
   { path: '', component: DocMetadataModuleComponent }
@@ -15,7 +16,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     DocMetadataModuleComponent,
-    DocMetadataComponent
+    DocMetadataComponent,
+    DocMetadataItemComponent
   ],
   imports: [
     CommonModule,
@@ -27,5 +29,6 @@ const routes: Routes = [
 export class DocMetadataModule {
   constructor() {
     createElement('doc-metadata', DocMetadataComponent);
+    createElement('doc-metadata-item', DocMetadataItemComponent);
   }
 }

@@ -6,7 +6,7 @@ export default {
     "clear": "Effacer",
     "voiceRecognition": "Recherche vocale",
     "listening": "Ecoute en cours...",
-    "filterCount": "Il y a {value} {value, plural, one {filtre actif} other {filtres actifs}}",
+    "filterCount": "{value} {value, plural, one {filtre actif} other {filtres actifs}} (cliquer pour effacer)",
     "apply": "Appliquer",
     "applyTitle": "Appliquer les nouveaux filtres",
     "neural": {

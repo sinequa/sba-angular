@@ -13,6 +13,8 @@
             [layout]="layout"
             [label]="c.label"
             [entityExtractMaxLines]="c.entityExtractMaxLines"
+            [actionsButtonsStyle]="actionsButtonsStyle"
+            [actionsButtonsSize]="actionsButtonsSize"
             [collapseRows]="c.collapseRows">
         </sq-metadata-item>
         <span *ngIf="isString(c)">{{c | sqMessage}}</span>
