@@ -50,11 +50,10 @@ For example, some of the metadata displayed by `vanilla-search` are:
 
 | Metadata title    | Index column  | Fontawesome Icon       |
 |-------------------|---------------| -----------------------|
-| Size              | size          | fas fa-weight-hanging  |
-| Format            | docformat     | fas fa-info-circle     |
-| Date              | modified      | far fa-calendar-alt    |
-| Filename          | filename      | far fa-file-alt        |
 | Sources           | treepath      | fas fa-folder-open     |
+| Filename          | filename      | far fa-file-alt        |
+| Date              | modified      | far fa-calendar-alt    |
+| Authors           | authors       | fas fa-user-edit       |
 
 ### The `sq-metadata-item` selector
 
@@ -138,9 +137,8 @@ this.metadata: MetadataConfig[] = [
 
 ```html
 <sq-metadata
-    [record]="openedDoc"
-    [config]="metadata"
-    [query]="searchService.query">
+    [record]="record"
+    [config]="metadata">
 </sq-metadata>
 ```
 
@@ -174,7 +172,7 @@ this.metadata: MetadataConfig[] = [
 
 ![Filter only]({{site.baseurl}}assets/modules/metadata/metadata-filters2.png){: .d-block .mx-auto }
 
-Here is also with a custom action:
+Here is an example with a custom action:
 
 ```ts
 this.metadata: MetadataConfig[] = [
@@ -224,7 +222,7 @@ Notice the `sq-text` class provided which makes it the same font size as the tex
 While `sq-metadata` facilitates the layout, you can just use `sq-metadata-item` to display a metadata entry:
 
 ```html
-<sq-metadata-item [record]="openedDoc" [field]="'modified'"></sq-metadata-item>
+<sq-metadata-item [record]="record" [field]="'modified'"></sq-metadata-item>
 ```
 
 ![Metadata item]({{site.baseurl}}assets/modules/metadata/metadata-item.png){: .d-block .mx-auto }
@@ -233,7 +231,7 @@ Or with more parameters:
 
 ```html
 <sq-metadata-item
-    [record]="openedDoc"
+    [record]="record"
     [field]="'modified'"
     [icon]="'fas fa-phone'"
     [fieldClass]="'badge rounded-pill bg-secondary'"
