@@ -86,9 +86,19 @@ app-autocomplete .list-group-flush > .list-group-item:last-child {
 }
 
 sq-tabs {
+  .nav-tabs {
+    margin-bottom: 0.5rem;
+  }
   .nav-item .count {
     font-size: 0.875em;
     color: $secondary;
+  }
+}
+
+sq-did-you-mean {
+  .sq-did-you-mean {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
   }
 }
 

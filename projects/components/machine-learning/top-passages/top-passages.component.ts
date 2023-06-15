@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService, Record } from "@sinequa/core/web-services";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { SearchService } from "@sinequa/components/search";
+import { delay } from "rxjs";
 
 @Component({
   selector: 'sq-top-passages',
@@ -39,6 +40,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   fetchPassagesRecords(passages: TopPassage[]): void {
     const ids = passages.filter(p => !p.$record).map(p => p.recordId);
     this.searchService.getRecords(ids)
+      .pipe(delay(0)) // Force async refresh of the view to scroll to the top
       .subscribe((records) => {
         // Post process passages
         this.passages = passages
@@ -100,5 +102,9 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
         answer
       }
     };
+  }
+
+  public override isHidden(): boolean {
+    return !this.passages?.length;
   }
 }

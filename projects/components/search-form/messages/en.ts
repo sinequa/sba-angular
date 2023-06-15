@@ -6,7 +6,7 @@ export default {
     "clear": "Clear",
     "voiceRecognition": "Vocal search",
     "listening": "Listening in progress...",
-    "filterCount": "There {value, plural, one {is one active filter} other {are {value} active filters}}",
+    "filterCount": "{value} {value, plural, one {active filter} other {active filters}} (click to clear)",
     "apply": "Apply",
     "applyTitle": "Apply the new filters",
     "neural": {
