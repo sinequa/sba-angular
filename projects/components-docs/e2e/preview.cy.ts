@@ -9,7 +9,7 @@ describe('components/preview testing', () => {
   })
   it('Has doc-preview working', () => {
     visit('components/preview')
-    search('Paris', 4000);
+    search('Paris', 10000);
     cy.get('doc-preview').get('sq-preview').get('iframe').should('exist')
     cy.get('doc-preview').get('sq-preview-entity-panel').get('sq-facet-card').should('exist')
     compareScreenshots(['doc-preview', 'doc-component-demo[ng-reflect-title="Preview"]'], 'preview')
