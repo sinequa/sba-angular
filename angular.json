@@ -572,7 +572,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "docs/assets/sq-doc-app",
+            "outputPath": "dist/components-docs",
             "index": "projects/components-docs/src/index.html",
             "main": "projects/components-docs/src/main.ts",
             "polyfills": "projects/components-docs/src/polyfills.ts",
@@ -599,13 +599,7 @@
               "diacritics",
               "date-fns/locale/_lib/buildFormatLongFn",
               "@microsoft/teams-js"
-            ],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            ]
           },
           "configurations": {
             "production": {
@@ -615,13 +609,7 @@
                   "with": "projects/components-docs/src/environments/environment.prod.ts"
                 }
               ],
-              "outputPath": "docs/assets/sq-doc-app",
-              "buildOptimizer": true,
               "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -659,7 +647,15 @@
                   "with": "projects/components-docs/src/environments/environment.mock.ts"
                 }
               ],
-              "outputPath": "docs/assets/sq-doc-app"
+              "outputPath": "docs/assets/sq-doc-app",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              }
             },
             "ci": {
               "fileReplacements": [
@@ -667,8 +663,7 @@
                   "replace": "projects/components-docs/src/environments/environment.ts",
                   "with": "projects/components-docs/src/environments/environment.ci.ts"
                 }
-              ],
-              "outputPath": "docs/assets/sq-doc-app"
+              ]
             }
           },
           "defaultConfiguration": "production"
