@@ -1,4 +1,4 @@
-import { CREDENTIALS } from '@sinequa/core/login';
+// import { CREDENTIALS } from '@sinequa/core/login';
 
 export const environment = {
   url: "https://localhost:4200",
@@ -6,6 +6,6 @@ export const environment = {
   production: false,
   mock: false,
   providers: [
-    { provide: CREDENTIALS, useValue: { userName: '', password: '' } }
+    // { provide: CREDENTIALS, useValue: { userName: '', password: '' } }
   ]
 };
