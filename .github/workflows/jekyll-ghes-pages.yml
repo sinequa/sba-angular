@@ -1,5 +1,5 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Build the SBA documentation on Github.com
+name: Build the SBA documentation on Github Enterprise
 
 on:
   # Runs on pushes targeting the default branch
@@ -23,8 +23,11 @@ concurrency:
 jobs:
   # Build job
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
+      # - name: Sudo cleanup (enabled with passwordless sudo)
+      #   run: sudo rm -rf ${{github.workspace}}/*
+
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -36,7 +39,10 @@ jobs:
           node-version: 18
 
       - name: Generate links in markdown files
-        run: node ./scripts/doc-preprocess.js https://github.com/sinequa/sba-angular
+        run: node ./scripts/doc-replace-baseurl.js
+
+      - name: Generate links in markdown files
+        run: node ./scripts/doc-preprocess.js https://github.sinequa.com/CustomerSolutions/sba-internal
 
       - run: npm ci
       - run: npm run builddocs
@@ -62,9 +68,9 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v1

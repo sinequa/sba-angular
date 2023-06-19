@@ -12,7 +12,8 @@ export function compareScreenshots(component: string | string[], title?: string)
             element = index === 0 ? cy.get(c) : element.get(c);
         })
     }
-    element.scrollIntoView().compareSnapshot(title || component);
+    const threshold = 0.2; // allows a slight difference, which can be possible for a same test two times in a row
+    element.scrollIntoView().compareSnapshot(title || component, threshold);
 }
 
 

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Contact
-nav_order: 10
+nav_order: 9
 description: Contact Us
 ---
 
