@@ -17,8 +17,8 @@ The preview module is also documented in the [tutorial]({{site.baseurl}}tutorial
 This module provides functionality to display the HTML preview of a document in Sinequa, as well as features to interact with the content of this preview:
 
 - A **service** that queries the server for the preview data (`PreviewData`) and manages the different ways of displaying the preview (in a popup, in a route or in a new tab/window).
-- A **core API** to display the HTML preview and interact with its content. It is composed of two components (`sq-preview-document-iframe` to display the preview and `sq-preview-tooltip`, a dynamic tooltip that can be inserted in the document) and a class (`PreviewDocument`) to interact with the content.
-- Additional **components** based on this core API and on the [Bootstrap](https://getbootstrap.com/) library to display and interact with the preview in different ways (faceted preview, popup, etc.).
+- A **core API** to display the HTML preview and interact with its content. It is composed of three components: `sq-preview` to display the preview, `sq-preview-tooltip`, a dynamic tooltip that can be inserted in the document, and `sq-preview-minimap` which adds a right bar with the location of the relevant extracts inside the document.
+- Additional **components** based on this core API to interact with the preview and display some related data (the extracts or entities list, etc.).
 
 ![Preview]({{site.baseurl}}assets/tutorial/modal-preview.png){: .d-block .mx-auto }
 
@@ -27,12 +27,12 @@ This module provides functionality to display the HTML preview of a document in 
 Import this module in your `app.module.ts`.
 
 ```ts
-import { BsPreviewModule } from '@sinequa/components/preview';
+import { PreviewModule } from '@sinequa/components/preview';
 
 @NgModule({
   imports: [
     ...
-    BsPreviewModule
+    PreviewModule
 ```
 
 This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
@@ -44,6 +44,34 @@ import {enPreview} from "@sinequa/components/preview";
 const messages = Utils.merge({}, ..., enPreview, appMessages);
 ```
 
+In order for some features to work such as passages highlightings or entities coloring, you need to load a `preview.js` file in your project. It is already set in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) which contains a `preview` folder in its `src` folder, then in `angular.json` at the project's root:
+
+```json
+"vanilla-search": {
+    ...
+    "architect": {
+        "build": {
+            ...
+            "assets": [
+                ...
+                "projects/vanilla-search/src/preview/preview.js"
+            ],
+```
+
+And then to avoid duplicates and still use it in the other projects like [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html):
+
+```json
+"hello-search": {
+    ...
+    "architect": {
+        "build": {
+            ...
+            "assets": [
+                ...
+                { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
+            ],
+```
+
 ## Preview Service
 
 The `PreviewService` provides the following API:
@@ -51,10 +79,6 @@ The `PreviewService` provides the following API:
 - `getPreviewData(id: string, query: Query, audit = true): Observable<PreviewData>`
 
     This method uses the `PreviewWebService` to obtain the `PreviewData` for a given document and search query and also takes care of generating audit events.
-
-- `makeDownloadUrl(url: string): SafeResourceUrl`
-
-    This method is necessary to sanitize the preview URL from `PreviewData`.
 
 - `openRoute(record: Record, query: Query, path = "preview")`
 
@@ -66,7 +90,7 @@ The `PreviewService` provides the following API:
 
 - `openModal(record: Record, query: Query, model: any)`
 
-    This method uses the `ModalService` to open a popup dialog with the preview. The component displayed by this modal is by default `sq-preview-popup`, but it can be replaced by your own custom component by adding it in to your providers in `app.module.ts`:
+    This method uses the `ModalService` to open a popup dialog with the preview. The component displayed by this modal is by default `sq-preview`, but it can be replaced by your own custom component by adding it in to your providers in `app.module.ts`:
 
     ```ts
     providers: [
@@ -79,31 +103,25 @@ The `PreviewService` provides the following API:
 
 ## Core API
 
-### Document iframe
+### Preview component
 
-The HTML preview is a standalone webpage with its styles and scripts. It must be displayed inside an `<iframe>` element. This is the role of the `sq-preview-document-iframe` component.
+The HTML preview is a standalone webpage with its styles and scripts. It must be displayed inside an `<iframe>` element. This is the role of the `sq-preview` component.
 
 The component expects the following inputs:
 
-- `downloadUrl`: The URL of the HTML preview. This URL is the sanitized version of the one provided by `PreviewData` (use `downloadUrl = previewService.makeDownloadUrl(data.documentCachedContentUrl)`).
-- `scalingFactor` (Optional): A factor for scaling the preview (generally downscaling), so you can see the whole preview in a small container.
-- `sandbox` (Optional): A string containing the sandbox value for the `sandbox` attribute. The `sandbox` attribute is used to restrict `iframe` content actions. By default, the value is set to : `allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts`. The `sandbox` input can be set to `null`, which (unlike `undefined`) removes the attribute completely.
+- `id`: The ID of the document. The component will use it to download the document data and display it properly.
+- `query` (Optional, default `SearchService.query`): The query to search the record data from which will impact the additional data such as the relevant extracts according to your search text.
+- `scale` (Optional, default `1`): The default document scale.
+- `scaleIncrement` (Optional, default `0.1`): The amount to increment/decrement when handling the scale.
+- `highlightColors` (Optional): A list of `PreviewHighlightColors` to provide information about the desired colors for some CSS classes.
+- `highlightEntities` (Optional, default `true`): Whether to highlight entities by default.
+- `highlightExtracts` (Optional, default `true`): Whether to highlight extracts by default.
+- `highlightActions` (Optional, default `true`): Whether to display the highlight actions.
+- `extracts` (Optional, default `["matchlocations", "extractslocations", "matchingpassages"]`): List of highlights considered as "extracts".
+- `usePassageHighlighter` (Optional, default `["extractslocations", "matchingpassages"]`): List of the CSS classes that the passage highlighter should consider.
+- `preferenceName` (Optional, default `preview`): Name of the preference property used to stored the highlight preferences.
 
-When the HTML preview finishes loading in the `<iframe>`, the component emits an `onPreviewReady` event. The event is an instance of `PreviewDocument`.
-
-### Preview Document
-
-The `PreviewDocument` class is a wrapper around the `document` object of the iframe. It exposes an API to manipulate the content of the preview.
-
-The main methods are the following:
-
-- `insertComponent(component)`: Appends a DOM element to the preview's `<body>`.
-- `getHighlightText(categoryId, index)`: Returns the text of the entity or highlight by id (`#categoryId_index`); these parameters are consistent with those available in `PreviewData`.
-- `selectHighlight(categoryId, index)`: Selects a specific entity of highlight (defined as the previous method). "Select" means we scroll the page to view the entity and add the `sq-current` class to its `<span>` element (which allows highlighting it via CSS).
-- `clearHighlightSelection()`: Remove any selected element (as defined in the previous method).
-- `updateHighlightFilterState(filters)`: Applies a global filter that turns highlighting on or off.
-- `filterHighlights(filters)`: Applies a global filter that turns highlighting on or off and clears the selection.
-- `toggleHighlight(category, on, value?)`: Turns on or off a category of highlights (eg. a type of entity), or a specific value if provided.
+When the HTML preview finishes loading, the component emits an empty `ready` event.
 
 ### Preview Tooltip
 
@@ -117,25 +135,18 @@ The core API also includes `sq-preview-tooltip`, a customizable component which 
 *Customized tooltip showing a "Search" action in Vanilla Search*
 {: .text-center }
 
-The tooltip is inserted in the preview by transclusion:
-
-```html
-<sq-preview-document-iframe [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
-
-    <!-- Tooltip injected in the preview -->
-    <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData">
-    </sq-preview-tooltip>
-
-</sq-preview-document-iframe>
-```
-
-The tooltip takes custom *actions* (See [Action Module](action.html)) as inputs for either the *entity hover* or the *text selection* behaviors shown above.
+The tooltip is inserted in the preview by transclusion. It takes custom *actions* (See [Action Module](action.html)) as inputs for either the *entity hover* or the *text selection* behaviors shown above.
 
 For example:
 
 ```html
-<sq-preview-tooltip ... [selectedTextActions]="tooltipTextActions">
-</sq-preview-tooltip>
+<sq-preview [id]="id">
+
+    <sq-preview-tooltip
+        [textActions]="tooltipTextActions">
+    </sq-preview-tooltip>
+
+</sq-preview>
 ```
 
 And:
@@ -154,54 +165,22 @@ this.tooltipTextActions = [new Action({
 
 The component `sq-preview-minimap` could be inserted within the HTML Preview to display a highlights's minimap.
 
-![minimap]({{site.baseurl}}assets/modules/preview/preview-minimap.png){: .d-block .mx-auto}*highlights mini map*{: text-center}
+![minimap]({{site.baseurl}}assets/modules/preview/preview-minimap.png){: .d-block .mx-auto }
+*highlights mini map*
+{: .text-center }
 
 The minimap is inserted by transclusion:
 
 ```html
-<sq-preview-document-iframe>
+<sq-preview [id]="id">
 
     <!-- minimap injected in the preview -->
-    <sq-preview-minimap #minimap [previewDocument]="previewDocument" [previewData]="previewData">
-    </sq-preview-minimap>
+    <sq-preview-minimap></sq-preview-minimap>
 
-</sq-preview-document-iframe>
+</sq-preview>
 ```
 
 ## Preview Components
-
-### Preview Facet
-
-The `sq-preview-facet-2` displays a scaled-down preview in a facet card (See [Facet Module](facet.html)).
-
-![Preview facet]({{site.baseurl}}assets/modules/preview/facet.png){: .d-block .mx-auto width="400px" }
-
-The component requires at least a `record` and a `query` as inputs (they are necessary to download the `PreviewData`).
-
-```html
-<sq-facet-card [title]="record.title">
-    <sq-facet-preview-2 #facet
-        [record]="record"
-        [query]="searchService.query">
-    </sq-facet-preview-2>
-</sq-facet-card>
-```
-
-The component also has the following optional input parameters:
-
-- `sandbox`: See [above](#document-iframe)
-- `height` (default: `500`): Height in pixels of the preview
-- `scalingFactor` (default: `0.6`): see [above](#document-iframe)
-- `downloadablePdf` (default: `true`): if a document has a PDF version stored in Sinequa, an action is displayed to download this version.
-- `highlightActions` (default: `true`): display actions for toggling the highlight of extracts and entities in the document
-- `highlightEntities` (default: `false`): whether or not to highlight the entities by default (the choice of the user is then memorized)
-- `highlightExtracts` (default: `false`): whether or not to highlight the entities by default (the choice of the user is then memorized)
-- `allExtracts` (default: `["matchlocations", "extractslocations", "matchingpassages"]`): Defines which highlights are considered as "extracts" (any other highlight provided by the server will be considered as an "entity")
-- `extracts` (default: `["matchlocations", "extractslocations", "matchingpassages"]`): subset of `allExtracts` that will actually be highlighted when toggling the "highlight extracts" button (the remaining ones will be ignored)
-
-This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)'s [Search component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search). It is enriched with custom templates and alternative views (for example, the preview actions are displayed above the iframe):
-
-![Preview facet]({{site.baseurl}}assets/modules/facet/actions.png){: .d-block .mx-auto }
 
 ### Extract Panel
 
@@ -209,10 +188,14 @@ The `sq-preview-extracts-panel` component displays the relevant extracts extract
 
 ![Extract panel]({{site.baseurl}}assets/modules/preview/extracts.png){: .d-block .mx-auto width="350px"}
 
-The component requires a `previewData` input and a `previewDocument`.
+The component requires the inputs `previewData` and `preview`. You may want to also provide `highlights` to apply some.
 
 ```html
-<sq-preview-extracts-panel [previewData]="previewData" [previewDocument]="previewDocument">
+<sq-preview-extracts-panel
+    [previewData]="previewData"
+    [preview]="preview"
+    [extractsNumber]="10"
+    [highlights]="previewHighlights">
 </sq-preview-extracts-panel>
 ```
 
@@ -224,11 +207,14 @@ The `sq-preview-entity-panel` component displays the lists of entities and match
 
 ![Entity panel]({{site.baseurl}}assets/modules/preview/entities.png){: .d-block .mx-auto width="350px" }
 
-The component requires a `previewData` input and a `previewDocument`.
+The component requires the inputs `previewData` and `preview`. You may want to also provide `highlights` to apply some.
 
 ```html
-<sq-preview-entities-panel [previewData]="previewData" [previewDocument]="previewDocument">
-</sq-preview-entities-panel>
+<sq-preview-entity-panel
+    [previewData]="previewData"
+    [preview]="preview"
+    [highlights]="previewHighlights">
+</sq-preview-entity-panel>
 ```
 
 This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
@@ -240,22 +226,3 @@ The `sq-preview-search-form` component is a simple search form that lets users s
 The search is actually triggered by navigating to the same URL but updating the `query.text` field. **⚠️ This assumes the component lives inside a "Preview" route which listens to URL changes and updates the `PreviewData` via the `PreviewService` accordingly**.
 
 <doc-preview-search-form></doc-preview-search-form>
-
-### Preview popup
-
-The `sq-preview-popup` is a "document navigator" user interface displayed in a popup (See [Modal Module](modal.html)). The component displayed *inside* the popup is actually `sq-preview-panel`.
-
-This component requires you to import a stylesheet ([`components/preview/bootstrap/preview.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/components/preview/bootstrap/preview.scss)) in your global `styles/app.scss`.
-
-![Preview popup]({{site.baseurl}}assets/modules/preview/popup.png){: .d-block .mx-auto }
-
-The popup can be displayed with:
-
-```ts
-this.previewService.openModal(this.record, this.query, {
-    displaySimilarDocuments: true,
-    metadata: ["filename", "authors", "size"]
-});
-```
-
-(As mentioned [above](#preview-service), you can replace this popup by your own custom component)
