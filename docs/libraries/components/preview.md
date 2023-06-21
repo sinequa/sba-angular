@@ -121,7 +121,13 @@ The component expects the following inputs:
 - `usePassageHighlighter` (Optional, default `["extractslocations", "matchingpassages"]`): List of the CSS classes that the passage highlighter should consider.
 - `preferenceName` (Optional, default `preview`): Name of the preference property used to stored the highlight preferences.
 
+By default, the highlights that are visible correspond to the `highlightEntities` and `highlightExtracts` inputs. If `highlightActions` is enabled, then the users have the possibility to toggle the highlights on and off.
+When this happens, their preference is stored in the user settings.
+Then the next time the component is displayed the preference is used instead of the `highlightEntities` and `highlightExtracts` parameters
+
 When the HTML preview finishes loading, the component emits an empty `ready` event.
+
+## Preview Components
 
 ### Preview Tooltip
 
@@ -179,8 +185,6 @@ The minimap is inserted by transclusion:
 
 </sq-preview>
 ```
-
-## Preview Components
 
 ### Extract Panel
 
