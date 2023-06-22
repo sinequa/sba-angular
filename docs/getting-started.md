@@ -21,7 +21,7 @@ If you are new to Sinequa and just want to see what is on the menu, you can star
 
 If you want to discover new functionalities that may be useful for an existing application, have a look at the [Components](libraries/components/components.html) and [Analytics](libraries/analytics/analytics.html) libraries. You can also test most of the SBA Framework's components in the [Vanilla Builder](#vanilla-builder) application.
 
-Sinequa also comes with pre-packaged applications (that are deployed out-of-the-box), so you can test these apps directly with your own data (See [prepackaged applications](#pre-packaged-applications) below).
+Sinequa also comes with pre-packaged apps (that are deployed out-of-the-box), and you can test these apps directly with your own data (See [prepackaged applications](#pre-packaged-applications) below).
 
 ## Create a first application
 
