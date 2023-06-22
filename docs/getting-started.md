@@ -35,7 +35,7 @@ Vanilla Builder is also a good way to discover and try out a wide range of compo
 
 ### Pre-packaged applications
 
-Another common way to get started is to copy one of the pre-packaged applications available in the [Sinequa administration](guides/2-server-config.html):
+Another common way to get started is to copy one of the pre-packaged apps available in the [Sinequa administration](guides/2-server-config.html):
 
 ![Prepackaged applications](assets/gettingstarted/prepackaged-apps.png)
 
