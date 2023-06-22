@@ -8,7 +8,7 @@ description: "Get started with the SBA Framework"
 # Getting Started
 {: .no_toc }
 
-The SBA Framework is used in a variety of contexts, by technical and non-technical people. This section presents different approaches to get started, depending on your role and overall objective.
+The SBA Framework is used in a variety of contexts by both technical and non-technical people. This section presents different approaches to getting started, depending on your role and overall objectives.
 
 We assume you are a Sinequa customer and you can access a Sinequa server in your organization (or at the very least that you can connect to our [training server](https://vm-su-sba.sinequa.com:13343)).
 
