@@ -41,7 +41,9 @@ Another common way to get started is to copy one of the pre-packaged apps availa
 
 However, please note the following warnings:
 
-⚠️ Copying the "app" object exposes a new application at the URL `<sinequa>/app/<app-name>`, but **it does not copy the application's workspace** (which contains the source code and build artifacts of the app). The new app is still referencing the original workspace (See [server configuration](guides/2-server-config.html)).
+⚠️ Copying the "app" object exposes a new application at the URL `<sinequa>/app/<app-name>`, but **it does not copy the application's workspace**, which contains the source code and build artifacts for the app. The new app will still be referencing the original workspace (See [server configuration](guides/2-server-config.html)).
+
+📝 Copying the "app" object is fine if you just want to customize the application's configuration and web services.
 
 ⚠️ While it is possible to copy the workspace as well, you should carefully consider Version Control and Continuous Integration for the long-term maintainability of your project (See our [Version Control](guides/5-version-control.html) and [Updates](guides/6-updates.html) guides).
 
