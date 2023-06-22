@@ -58,7 +58,7 @@ SBA developers should be familiar with the following topics:
 
 After ensuring an understanding of these topics, new developers should use this website to become familiar with Sinequa-specific concepts. In particular:
 
-- The [tutorial](tutorial/tutorial.html) is a good way to understand the main Sinequa services and components. It can be completed in a few hours.
+- The [tutorial](tutorial/tutorial.html) is a good way to learn about the main Sinequa services and components. It can be completed in a few hours.
 - The [architecture](guides/1-architecture.html), [development](guides/3-development.html) and [version control](guides/5-version-control.html) guides are important first reads as well.
 - The [tips & tricks](tipstricks/tipstricks.html) can also answer many common beginner questions.
 
