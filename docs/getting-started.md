@@ -27,7 +27,7 @@ Sinequa also comes with pre-packaged apps (that are deployed out-of-the-box), an
 
 ### Vanilla Builder
 
-A good way to get started -that does not require any developer skill- is to use the [Vanilla Builder](apps/5-vanilla-builder.html) application. Vanilla Builder is a no-code tool that lets administrators customize an application by drag-and-dropping components and editing their settings, appearance and behavior.
+A good way to get started that does not require any developer skills is to use the [Vanilla Builder](apps/5-vanilla-builder.html) application. Vanilla Builder is a no-code tool that lets administrators customize an application by drag-and-dropping components and editing their settings, appearance and behavior.
 
 When the customization is complete, it can be exported as a standalone application that can be [deployed](guides/4-deployment.html) independently on Sinequa.
 
