@@ -54,7 +54,7 @@ However, please note the following warnings:
 SBA developers should be familiar with the following topics:
 
 - General web development (HTML, CSS and JavaScript languages)
-- The basics of the [Angular](https://angular.io/tutorial) library (e.g., complete a tutorial)
+- The basics of the [Angular](https://angular.io/tutorial) web development framework (i.e., by completing an online tutorial)
 
 Then, new developers should use this website to become familiar with the Sinequa-specific concepts. In particular:
 
