@@ -17,7 +17,7 @@ In this documentation, we make the assumption that you are a Sinequa customer or
 
 ## Browse sample applications and components
 
-If you are new to Sinequa, and just want to see what is on the menu, you should start by browsing our list of [applications](apps/apps.html).
+If you are new to Sinequa and just want to see what is on the menu, you can start by browsing our list of [sample applications](apps/apps.html).
 
 If you want to discover new functionalities that may be useful for an existing application, have a look at the [Components](libraries/components/components.html) and [Analytics](libraries/analytics/analytics.html) libraries. You can also test most of the SBA Framework's components in the [Vanilla Builder](#vanilla-builder) application.
 
