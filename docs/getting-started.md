@@ -60,7 +60,7 @@ Then, new developers should use this website to become familiar with the Sinequa
 - The [architecture](guides/1-architecture.html), [development](guides/3-development.html) and [version control](guides/5-version-control.html) guides are important first reads as well.
 - The [tips & tricks](tipstricks/tipstricks.html) can also answer many common beginner questions.
 
-BUT, if you are a learn-by-doing person who doesn't read documentation if they can avoid it, and you really just want to get started ***now***, then let's go:
+BUT, if you are a learn-by-doing person who doesn't read documentation if they can avoid it and you really just want to get started ***now***, then let's go:
 
 1. Clone the repository
 
