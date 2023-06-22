@@ -16,7 +16,7 @@ The SBA Framework is [open-source](https://github.com/sinequa/sba-angular) and b
 The framework includes the following **libraries**:
 
 - [**Core**](libraries/core/core.html) (`@sinequa/core`): Provides services for calling the Sinequa REST API and authenticating users via standard protocols supported by Sinequa (OAuth, SAML, etc.).
-- [**Components**](libraries/components/components.html) (`@sinequa/components`): Provides a set of functionalities (eg. search, facets, autocomplete, preview, etc.) packaged as independant Angular modules. These modules include *components*, *directives* and *services* which can be assembled into full-fledged applications.
+- [**Components**](libraries/components/components.html) (`@sinequa/components`): Provides a set of functionalities (e.g., search, facets, autocomplete, preview, etc.) packaged as independent Angular modules. These modules include *components*, *directives* and *services*, which can be assembled into full-fledged applications.
 - [**Analytics**](libraries/analytics/analytics.html) (`@sinequa/analytics`): Provides a set of advanced visualization components (charts, grid, network, map, etc.), generally based on third-party libraries.
 - [**UI Builder**](libraries/ngx-ui-builder.html) (`@sinequa/ngx-ui-builder`): A standalone library to create no-code tools and applications. This library directly powers the [Vanilla Builder](apps/5-vanilla-builder.html) application.
 
