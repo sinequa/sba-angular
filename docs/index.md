@@ -22,7 +22,7 @@ The framework includes the following **libraries**:
 
 The framework also includes the following **applications** built directly with the above libraries. These applications can be used as-is or as a starting point for a new custom project.
 
-- [**Hello Search**](apps/1-hello-search.html) is a minimalistic application (the "Hello world" of search) used essentially for trainings and [tutorials]({{site.baseurl}}tutorial/tutorial.html).
+- [**Hello Search**](apps/1-hello-search.html) is a minimalistic application (the "Hello world" of search) used essentially for training and [tutorials]({{site.baseurl}}tutorial/tutorial.html).
 - [**Vanilla Search**](apps/2-vanilla-search.html) is a full-fledged Enterprise Search application. It features a faceted search User Interface, an advanced autocomplete, a highlighted document preview, and various functionalities like document tagging, saved queries, and so on.
 - [**Pepper**](apps/3-pepper.md) is a search & analytics application designed as an interactive dashboard. It is especially useful for advanced applications such as content analytics, e-discovery or investigation use-cases.
 - [**Usage Analytics**](apps/4-usage-analytics.html) is an application that displays metrics and timelines of the usage of Sinequa applications. It is an application meant to help administrators optimize the adoption of their SBAs. 
