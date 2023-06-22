@@ -38,7 +38,7 @@ The framework also includes the following **applications** built directly with t
 
 ## About Sinequa
 
-*Sinequa is an independent software vendor providing a search and analytics platform for Global 2000 companies and government agencies. Our platform, Sinequa ES, is deployed on four continents and the company has offices in New York, Paris (HQ), San Francisco, London, and Frankfurt.*
+*Sinequa brings the leading platform for intelligent search to large, global companies and government agencies. Our platform is deployed on four continents, and the company has offices in New York, Paris, San Francisco, London, and Frankfurt.*
 
 Sinequa excels at **searching** and **extracting** information from **unstructured data** (like text in natural language from documents, files and databases). The Sinequa ES platform can nevertheless process large amounts of both **structured and unstructured data**, enabling many use-cases in large and complex organizations, across industries. These use-cases include non-exhaustively: **Enterprise Search** (An entreprise-wide smart search engine, including many heterogeneous sources of content and tens of millions of documents), **360° Views** (Application retrieving all relevant information about a product, person or any other entity, across heterogenous and unstructured data sources), as well as more **specialized applications** (GDPR compliance, contract analysis, customer support portal, data loss prevention, pharmaceutical R&D, etc.).
 
