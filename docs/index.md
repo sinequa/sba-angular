@@ -20,7 +20,7 @@ The framework includes the following **libraries**:
 - [**Analytics**](libraries/analytics/analytics.html) (`@sinequa/analytics`): Provides a set of advanced visualization components (e.g., charts, grid, network, map, etc.), generally based on third-party libraries.
 - [**UI Builder**](libraries/ngx-ui-builder.html) (`@sinequa/ngx-ui-builder`): A standalone library to create no-code tools and applications. This library powers the [Vanilla Builder](apps/5-vanilla-builder.html) application directly.
 
-The framework also includes the following **applications**, directly built with the above libraries. These applications can be used as-is, or as a starting point for a new custom project.
+The framework also includes the following **applications** built directly with the above libraries. These applications can be used as-is or as a starting point for a new custom project.
 
 - [**Hello Search**](apps/1-hello-search.html) is a minimalistic application (the "Hello world" of search) used essentially for trainings and [tutorials]({{site.baseurl}}tutorial/tutorial.html).
 - [**Vanilla Search**](apps/2-vanilla-search.html) is a full-fledged Enterprise Search application. It features a faceted search User Interface, an advanced autocomplete, a highlighted document preview, and various functionalities like document tagging, saved queries, and so on.
