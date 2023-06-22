@@ -1,5 +1,6 @@
 <span *ngIf="iconClass"
-    class="{{iconClass}} fa-{{size}}x fa-fw"
+    class="{{iconClass}} {{otherClass}} sq-icon-file-{{record?.fileext}}"
     [style.color]="color"
+    [style.font-size.em]="size"
     title="{{icon || record.fileext}}">
 </span>

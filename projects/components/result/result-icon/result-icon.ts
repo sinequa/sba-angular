@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from "@angular/core";
-import { Record } from "@sinequa/core/web-services";
-import { defaultFormatIcons } from "./icons";
+import { Record as SqRecord } from "@sinequa/core/web-services";
+import { IconFormat, defaultFormatIcons } from "./icons";
 
 @Component({
     selector: "sq-result-icon",
@@ -10,7 +10,7 @@ export class ResultIcon implements OnChanges {
     /**
      * Record which file extension is displayed as an icon
      */
-    @Input() record: Record;
+    @Input() record: SqRecord;
 
     /**
      * Any forced icon to fetch from the mappings list
@@ -21,8 +21,8 @@ export class ResultIcon implements OnChanges {
      * Any icons overriding elements
      * This will still use the default icons but will patch it with the provided data
      */
-    @Input() set formatIcons(icons) {
-        this._formatIcons = { ...defaultFormatIcons, ...icons }
+    @Input() set formatIcons(icons: Record<string, IconFormat>) {
+        this._formatIcons = { ...defaultFormatIcons, ...(icons || {}) }
     }
 
     get formatIcons() {
@@ -39,6 +39,8 @@ export class ResultIcon implements OnChanges {
      */
     @Input() colorize: boolean = true;
 
+    @Input() otherClass: string = 'fa-fw';
+
     private _formatIcons = defaultFormatIcons;
 
     iconClass: string | undefined;
@@ -50,7 +52,7 @@ export class ResultIcon implements OnChanges {
 
         if (this.record || this.icon) {
             const mapping = this.formatIcons[this.icon || this.record.fileext] || this.formatIcons.file;
-            this.iconClass = `${mapping.style} fa-${mapping.icon}`;
+            this.iconClass = mapping.icon;
             this.color = this.colorize ? mapping.color : undefined;
         }
     }
