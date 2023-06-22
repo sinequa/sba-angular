@@ -75,7 +75,7 @@ BUT, if you are a learn-by-doing person who doesn't read documentation if they c
     npm install
     ```
 
-3. Build Vanilla Search and test it on our demo server (Sinequa account required):
+3. Build Vanilla Search and test it using our demo server (Sinequa account required):
 
     ```bash
     npm run start:vanilla
