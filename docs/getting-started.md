@@ -31,7 +31,7 @@ A good way to get started that does not require any developer skills is to use t
 
 When the customization is complete, it can be exported as a standalone application that can be [deployed](guides/4-deployment.html) independently on Sinequa.
 
-Vanilla Builder is also a good way to discover and try out a wide range of components available in the SBA Framework, without having to study the documentation and API.
+Vanilla Builder is also a good way to discover and try out a wide range of components available in the SBA Framework without having to study the documentation and API.
 
 ### Pre-packaged applications
 
