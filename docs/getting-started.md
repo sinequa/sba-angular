@@ -87,7 +87,7 @@ BUT, if you are a learn-by-doing person who doesn't read documentation if they c
 
 If you manage an existing application, you typically have to perform different tasks:
 
-- **Monitor the usage of the application** (evaluate the adoption, the relevance of search results, the performance of the engine, read user feedback, etc.). Fortunately, *there's an app for that!* The [Usage Analytics application](apps/4-usage-analytics.html) displays all this information within a set of dashboards.
+- **Monitor the usage of the application** (e.g., evaluate the adoption, the relevance of search results, the performance of the engine, read user feedback, etc.). Fortunately, *there's an app for that!* The [Usage Analytics application](apps/4-usage-analytics.html) displays all this information within a set of dashboards.
 
   📝 The SBA standard components and applications have a built-in audit system that records all relevant user actions into logs. These logs can be periodically indexed in an audit index. The Usage Analytics application computes metrics directly based on this data.
 
