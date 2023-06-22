@@ -27,7 +27,7 @@ The framework also includes the following **applications** built directly with t
 - [**Pepper**](apps/3-pepper.md) is a search & analytics application designed as an interactive dashboard. It is especially useful for advanced use cases such as content analytics, e-discovery or investigation.
 - [**Usage Analytics**](apps/4-usage-analytics.html) is an application that displays metrics and timelines of the usage of Sinequa applications. It is meant to help administrators optimize the adoption of their SBAs. 
 - [**Vanilla Builder**](apps/5-vanilla-builder.html) is a no-code application builder that lets Sinequa administrators customize the Vanilla Search user interface. It is a good way to get started with SBAs without having to learn technologies like Angular.
-- [**Chat Integration**](apps/6-chat-integration.md) is a sample integration of generative language models (such as GPT-4, powering [ChatGPT](https://openai.com/blog/chatgpt)) at the heart of the [Vanilla Search](apps/2-vanilla-search.md) application.
+- [**Chat Integration**](apps/6-chat-integration.md) is a sample integration for generative language models (such as GPT-4, powering [ChatGPT](https://openai.com/blog/chatgpt)) within the [Vanilla Search](apps/2-vanilla-search.md) application.
 
 
 <iframe src="https://player.vimeo.com/video/534455071" width="100%" height="400px" frameborder="0" title="Pepper" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
