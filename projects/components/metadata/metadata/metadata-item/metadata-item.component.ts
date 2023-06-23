@@ -3,7 +3,7 @@ import { Action } from "@sinequa/components/action";
 import { SearchService } from "@sinequa/components/search";
 import { UIService } from "@sinequa/components/utils";
 import { Query } from "@sinequa/core/app-utils";
-import { EntityItem, isValueFilter, Record } from "@sinequa/core/web-services";
+import { EntityItem, Filter, isValueFilter, Record } from "@sinequa/core/web-services";
 import { MetadataService } from "../../metadata.service";
 import { MetadataItem, MetadataValue } from "../../metadata.interface";
 import { Observable, map, of } from "rxjs";
@@ -73,7 +73,11 @@ export class MetadataItemComponent implements OnChanges, OnDestroy {
         if (remove) {
             this.query.removeFilters(f => isValueFilter(f) && f.field === this.field && f.value === item.value);
         } else {
-            this.query.addFilter({field: this.field, value: item.value, display: item.display, operator: not? 'neq' : undefined});
+            let filter: Filter = {field: this.field, value: item.value, display: item.display};
+            if(not) {
+              filter = {operator: 'not', filters: [filter]};
+            }
+            this.query.addFilter(filter);
         }
         this.searchService.search();
     }
