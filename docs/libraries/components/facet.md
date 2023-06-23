@@ -53,31 +53,33 @@ The facet card API is based on a generic **container** component, `sq-facet-card
 - The container displays the frame, icon, title, action buttons *around* the facet.
 - The content can be any Angular template displayed *within* the facet. If the content extends `AbstractFacet`, the container will automatically detect its dynamic list of actions (and other features) and display them.
 
-For example, the `sq-facet-list` component extends `AbstractFacet`. The component implements the `get actions()` method to provide a list of actions, which are dynamically displayed when you select facet items within the facet.
+For example, the `sq-facet-multi` component extends `AbstractFacet`. The component implements the `get actions()` method to provide a list of actions, which are dynamically displayed when you select facet items within the facet.
 
 ![Facet card and content]({{site.baseurl}}assets/modules/facet/facet-api.png){: .d-block .mx-auto width="350px"}
 
 ```html
-<sq-facet-card [title]="'Geography'" [icon]="'fas fa-globe-americas'" [expandable]="true">
-    <sq-facet-list #facet [results]="results" [aggregation]="'Geo'"></sq-facet-list>
+<sq-facet-card [collapsible]="false">
+    <sq-facet-multi #facet
+        [results]="results"
+        [facets]="facets"
+        [facetComponents]="facetComponents"
+        [title]="'Filters'">
+    </sq-facet-multi>
 </sq-facet-card>
 ```
 
-Notice the list of **actions** returned by `get actions()` in `BsFacetList` (a method of `AbstractFacet`):
+Notice the list of **actions** returned by `get actions()` in `BsFacetMultiComponent` (a method of `AbstractFacet`):
 
 ```ts
-get actions(): Action[] {
+override get actions(): Action[] {
+    const actions: Action[] = [];
 
-    let actions: Action[] = [];
-
-    let selected = this.getSelectedItems();
-
-    if(!this.hasSuggestions() && selected.length > 0) {
-        ...
+    if (!this.openedFacet && this.facets.some(facet => facet.$hasFiltered)) {
+      actions.push(this.clearAllFiltersAction);
     }
 
-    if(!this.hasSuggestions() && this.hasFiltered()) {
-        actions.push(this.clearFilters);
+    if(this.facetComponent){
+      actions.push(...this.facetActions);
     }
 
     return actions;
@@ -190,9 +192,7 @@ A complete example is the display of the preview:
     </ng-template>
 
     <ng-template #subHeaderTpl>
-        <sq-metadata [record]="openedDoc" [items]="metadata" [showTitles]="false" [showIcons]="true"
-            [tabular]="false" [clickable]="false">
-        </sq-metadata>
+        <sq-metadata [record]="openedDoc" [config]="metadata" class="small"></sq-metadata>
     </ng-template>
 
     <ng-template [sqFacetView]="{text: 'msg#facet.preview.viewPreview'}">
@@ -249,13 +249,11 @@ The `parameters` property is specific to the component `type`. In the example ab
 The Angular components displayed by the containers is provided as a `MapOf<Type<any>>`. By default, the containers support the standard components from the `@sinequa/components/facet` module:
 
 ```ts
-const default_facet_components: MapOf<Type<any>> = {
-    "list": BsFacetList,
-    "tree": BsFacetTree,
-    "my-search": BsMySearch,
-    "range": BsFacetRange,
-    "refine": BsRefine,
-    "tag-cloud": BsFacetTagCloud
+export const DEFAULT_FACET_COMPONENTS: MapOf<Type<any>> = {
+  "list": BsFacetList,
+  "range": BsFacetRange,
+  "refine": BsRefine,
+  "tag-cloud": BsFacetTagCloud
 }
 ```
 
@@ -265,7 +263,7 @@ But this list can be extended, to include components from other modules:
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 
 public facetComponents = {
-    ...default_facet_components,
+    ...DEFAULT_FACET_COMPONENTS,
     "date": BsFacetDate
 };
 ```
@@ -372,17 +370,14 @@ This component requires a:
 The `FacetService` provides the following functionality:
 
 - Provide access to the **facet data**, via the following methods:
-  - `facetService.getAggregation(aggregation name, results)`: Returns the `Aggregation` from the results (and takes care of initializing the aggregation items).
-  - `facetService.getTreeAggregation(facet name, aggregation name, results)`: Returns the `TreeAggregation` from the results (and takes care of initializing the tree aggregation items).
-  - `facetService.getAggregationCount(aggregation name)`: Returns the "count" parameter of a given aggregation, as configured on the server.
-  - `facetService.open(facet name, aggregation, item)`: Opens a collapsed node item in a tree aggregation (queries the server for the data inside that node).
-  - `facetService.loadData(aggregation name, skip, count)`: Loads more data from the server to append at the end of a list aggregation.
+  - `facetService.getAggregation(aggregation name, results)`: Returns the `ListAggregation` r `TreeAggregation` from the results (and takes care of initializing the aggregation items).
+  - `facetService.open(aggregation, item, query)`: Opens a collapsed node item in a tree aggregation (queries the server for the data inside that node).
+  - `facetService.loadData(aggregation name, query)`: Loads more data from the server to append at the end of a list aggregation.
 - Add and remove **search filters** (When a user clicks on an aggregation item in a facet):
-  - `facetService.addFilterSearch(facet name, aggregation, selected items)`: Add a filter to the query for a given facet and aggregation, and refresh the search.
-  - `facetService.removeFilterSearch(facet name, aggregation, selected items)`: Remove a filter from the query for a given facet and aggregation, and refresh the search.
-  - `facetService.clearFiltersSearch(facet name, all?)`: Clears filters from a facet, and refresh the search.
-  - `facetService.hasFiltered(facet name)`: Returns whether a facet has any active filter.
-  - `facetService.itemFiltered(facet name, aggregation, selected item)`: Returns whether a given facet *item* is currently filtered.
+  - `facetService.addFilterSearch(aggregation, selected items, options, query, facet name)`: Add a filter to the query for a given facet and aggregation, and refresh the search.
+  - `facetService.removeFilterSearch(aggregation, selected item, query, facet name)`: Remove a filter from the query for a given facet and aggregation, and refresh the search.
+  - `facetService.clearFiltersSearch(fields, all?, query, facet name)`: Clears filters from a facet, and refresh the search.
+  - `facetService.hasFiltered(field, query)`: Returns whether the query has an active filter for a field.
 - Manage the presence/absence of facets in **dynamic containers** like the facet bar component (the states of dynamic facet is stored in the User Settings):
   - `facetService.isFacetOpened(facet name)`: Test whether a facet is visible in a container.
   - `facetService.addFacet(facet state)`: Add a facet to a container.
@@ -405,52 +400,19 @@ The full list of inputs is:
    - `name`: The name of the search filter associated to this facet. If ommited, the aggregation name is used.
    - `showCount`: (**true** by default) Show/hide the number of occurrences.
    - `searchable`: (**true** by default) Whether the component allows to search for items in it.
+   - `focusSearch`: (**false** by default) Whether the search input should be focused automatically.
    - `allowExclude`: (**true** by default) Allow to exclude selected items.
    - `allowOr`: (**true** by default) Allow to search various items in OR combination.
    - `allowAnd`: (**true** by default) Allow to search various items in AND combination.
    - `displayEmptyDistributionIntervals`: (**false** by default) If the aggregration is a distribution, then this property defines whether empty distribution intervals should be displayed.
-   - `displayActions`: (**false** by default) Show/hide component's actions.
-   - `showProgressBar`: (**false** by default) Allow to display item count as proportional progress bar.
    - `acceptNonAggregationItemFilter`: (**true** by default) When false, filtered items which don't match an existing aggregation item, should not be added to the filtered list.
    - `replaceCurrent`: (**false** by default) If true, the current search filter associated to this facet will be cleared and replaced by the new value.
+   - `expandedLevel`: (**2** by default) The number of levels the list should be expanded to.
 
 This component can be used in two ways :
 
   - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetListConfig` interface.
-
-### Tree Facet
-
-The `sq-facet-tree` component displays a hierarchical list of metadata (tree aggregation). The user can click on items in the list to filter the results.
-
-![Tree facet]({{site.baseurl}}assets/modules/facet/facet-tree.png){: .d-block .mx-auto}
-
-This component requires at least a `Results` input and the name of the aggregation to work properly.
-
-The full list of inputs is:
-
-   - `results`: The current search results.
-   - `aggregation`: The name of the regular list of metadata.
-   - `name`: The name of the search filter associated to this facet. If ommited, the aggregation name is used.
-   - `showCount`: (**true** by default) Show/hide the number of occurrences.
-   - `searchable`: (**true** by default) Whether the component allows to search for items in it.
-   - `allowExclude`: (**true** by default) Allow to exclude selected items.
-   - `allowOr`: (**true** by default) Allow to search various items in OR combination.
-   - `displayActions`: (**false** by default) Show/hide component's actions.
-   - `expandedLevel`: (**2** by default) Allow to display item count as proportional progress bar.
-   - `forceMaxHeight`: (**true** by default) Allow to display a scrollbar automatically on long list items.
-
-This component can be used in two ways :
-
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'Sources'" [icon]="'fas fa-sitemap'">
-      <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
-  </sq-facet-card>
-  ```
-
-  - By transclusion within a parent component. This approach requires a config object implementing the `FacetTreeConfig` interface.
 
 ### Range Facet
 
@@ -471,42 +433,6 @@ This component can be used in two ways :
 
   - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetRangeConfig` interface.
-
-### My Search Facet
-
-The "My Search" facet `sq-mysearch` displays the current list of search criteria (similar to the [breadcrumbs component](search.html#breadcrumbs)).
-
-![My search facet]({{site.baseurl}}assets/modules/facet/facet-mysearch.PNG){: .d-block .mx-auto}
-
-The inputs of the component are:
-
-  - `results`: The results of the current search.
-  - `allowDeletion`: (**true** by default) Display icon to delete items.
-  - `displayFieldNames`: (**false** by default) Display each item's field.
-  - `collapsible`: (**false** by default) Make the div collapsible. It makes sens if used as breadcrumb.
-  - `useBadges`: (**false** by default) Add a badge likely style to items.
-  - `ignoreText`: (**true** by default) Ignore the search text and fielded search from being displayed.
-  - `excludedFacets`: (**["search-form"]** by default) Search filters originated from those facets will be excluded.
-
-This component can be used in different ways :
-
-  - Basic angular component and input bindings
-
-  ```html
-  <sq-facet-card [title]="'My Search'" [icon]="'fas fa-info'">
-      <sq-facet-mysearch #facet [results]="results"></sq-facet-mysearch>
-  </sq-facet-card>
-  ```
-
-  Or as breadcrumbs, use the following :
-
-  ```html
-  <div class="d-flex flex-row align-items-center flex-wrap">
-      <sq-facet-mysearch [results]="results" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
-  </div>
-  ```
-
-  - By transclusion within a parent component. This approach requires a config object implementing the `FacetMySearchConfig` interface.
 
 ### Refine Facet
 
@@ -545,7 +471,6 @@ The inputs of the component are:
   - `proportionalWeight`: (**true** by default) Define the size of each displayed item: common size for all or proportional size based on item's count.
   - `countThreshold`: (**0** by default) Lowest count under which items will not be taken into account.
   - `shuffleData`: (**false** by default) Wether data are rendered sorted according to their count or randomly.
-  - `isolateFacetFilters`: (**false** by default) Isolate tag-cloud filters from other facets.
 
 This component can be used in two ways :
 
