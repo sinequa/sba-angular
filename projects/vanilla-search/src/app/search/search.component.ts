@@ -252,4 +252,12 @@ export class SearchComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  /**
+   * Any icons mappings overrides
+   * Overrides "defaultFormatIcons" from @sinequa/components/result
+   */
+  get formatIcons(): any {
+    return this.appService.app?.data?.formatIcons;
+  }
+
 }

@@ -1,1 +1,6 @@
-<span class="far fa-file sq-icon-file-{{record.fileext}} fa-{{size}}x fa-fw" title="{{record.fileext}}"></span>
+<span *ngIf="iconClass"
+    class="{{iconClass}} {{otherClass}} sq-icon-file-{{record?.fileext}}"
+    [style.color]="color"
+    [style.font-size.em]="size"
+    title="{{icon || record.fileext}}">
+</span>
