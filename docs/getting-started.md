@@ -91,8 +91,26 @@ If you manage an existing application, you typically have to perform different t
 
   📝 The SBA standard components and applications have a built-in audit system that records all relevant user actions into logs. These logs can be periodically indexed in an audit index. The Usage Analytics application computes metrics directly based on this data.
 
-- **Modify the application's configuration**. Applications can be customized without changing their source to some extent. The Sinequa server lets
+- **Modify the application's configuration**. Applications can be customized without changing their source code (to some extent). There are three possibles ways to achieve this:
 
-- **Implement small changes in the application** (bug fixes, new features).
+  - Customizing the configuration of the application's web services, in particular the **query web service**. This is approach is documented in the [server configuration](guides/2-server-config.html) guide.
+  - Customizing the application's JSON [configuration](tipstricks/configuration.html). Each [application](apps/apps.html) has a set of internal settings that can be overriden by adding properties in the "Customization (JSON)" tab of the application. This includes typically: the list of facets, metadata, preview highlights, and it allows turning on or off certain functionalities (baskets, saved queries, etc.).
+  - Customizing the application UI with [Vanilla Builder](apps/5-vanilla-builder.html). Note that modifying the application in Vanilla Builder does not directly modifies its source code. It modifies a JSON configuration describing the layout and configuration of each component. This configuration is persisted in the administrator's [User Settings](tipstricks/user-settings.html), but it can also be downloaded and reopened later for further customization.
 
-- **Update the SBA Framework**
+- **Implement changes in the application code**. Making changes in the application's source code is more consequential than changes in the configuration, because there are multiple aspects to consider:
+
+  - The versioning of the code (see the [version control](guides/5-version-control.html) guide)
+  - The process of deployment (see the [deployment](guides/4-deployment.html) guide)
+  - And most importantly: any change that you apply may eventually conflict with a future update and/or might necessitate future maintenance (see next point).
+
+- **Update the SBA Framework**. Sinequa regularly [releases](releases/releases.html) new versions of the libraries and applications. These updates often introduce breaking changes:
+
+  - Library upgrades (Angular, Bootstrap, RxJS, D3, etc.) often introduce breaking changes. So when Sinequa upgrades these libraries, the entire codebase is migrated accordingly.
+  - As the SBA Framework evolves, bugs are fixed, features are added, and components & applications are refactored. These changes can be in direct conflict with how you use these components or how you customized these components.
+
+  ⚠️ If your application is heavily customized, these updates will probably be difficult. If your customization makes use of, say, Bootstrap, you will have to follow the relevant guide from Bootstrap to migrate your code.
+
+  Read carefully the [updates](guides/6-updates.html) guide to learn how to manage this situation, and how to prepare for them by adopting [development](guides/3-development.html) and [version control](guides/5-version-control.html) best practices.
+
+  📝 To recap: You must take the ownership of anything you customize. This includes taking the responsibility for fixing conflicts in future updates and potentially migrating your code when libraries are upgraded.
+  
