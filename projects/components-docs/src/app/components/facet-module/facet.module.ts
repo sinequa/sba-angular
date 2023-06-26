@@ -17,6 +17,8 @@ import { BsFacetModule } from '@sinequa/components/facet';
 import { BsTimelineModule } from '@sinequa/analytics/timeline';
 import { FormsModule } from '@angular/forms';
 import { createElement } from 'src/app/shared/create-element';
+import { HelloWorldComponent } from './hello-world/hello-world.component';
+import { DocFacetHelloWorldComponent } from './hello-world/facet-hello-world.component';
 
 const routes: Routes = [
   { path: '', component: DocFacetModuleComponent }
@@ -33,7 +35,9 @@ const routes: Routes = [
     DocFacetRangeComponent,
     DocFacetTagCloudComponent,
     DocFacetTestingComponent,
-    DocRefineComponent
+    DocRefineComponent,
+    HelloWorldComponent,
+    DocFacetHelloWorldComponent
   ],
   imports: [
     CommonModule,
@@ -54,5 +58,6 @@ export class DocFacetModule {
     createElement('doc-facet-multi', DocFacetMultiComponent);
     createElement('doc-facet-tag-cloud', DocFacetTagCloudComponent);
     createElement('doc-refine', DocRefineComponent);
+    createElement('doc-facet-hello-world', DocFacetHelloWorldComponent);
   }
 }
