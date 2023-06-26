@@ -53,38 +53,11 @@ The facet card API is based on a generic **container** component, `sq-facet-card
 - The container displays the frame, icon, title, action buttons *around* the facet.
 - The content can be any Angular template displayed *within* the facet. If the content extends `AbstractFacet`, the container will automatically detect its dynamic list of actions (and other features) and display them.
 
-For example, the `sq-facet-multi` component extends `AbstractFacet`. The component implements the `get actions()` method to provide a list of actions, which are dynamically displayed when you select facet items within the facet.
+For example:
 
-![Facet card and content]({{site.baseurl}}assets/modules/facet/facet-api.png){: .d-block .mx-auto width="350px"}
+<doc-facet-hello-world></doc-facet-hello-world>
 
-```html
-<sq-facet-card [collapsible]="false">
-    <sq-facet-multi #facet
-        [results]="results"
-        [facets]="facets"
-        [facetComponents]="facetComponents"
-        [title]="'Filters'">
-    </sq-facet-multi>
-</sq-facet-card>
-```
-
-Notice the list of **actions** returned by `get actions()` in `BsFacetMultiComponent` (a method of `AbstractFacet`):
-
-```ts
-override get actions(): Action[] {
-    const actions: Action[] = [];
-
-    if (!this.openedFacet && this.facets.some(facet => facet.$hasFiltered)) {
-      actions.push(this.clearAllFiltersAction);
-    }
-
-    if(this.facetComponent){
-      actions.push(...this.facetActions);
-    }
-
-    return actions;
-}
-```
+Notice the list of **actions** returned by `override get actions()` in `HelloWorldComponent` (a method of `AbstractFacet`):
 
 The API is very flexible and allows for very different types of facets:
 
@@ -370,7 +343,7 @@ This component requires a:
 The `FacetService` provides the following functionality:
 
 - Provide access to the **facet data**, via the following methods:
-  - `facetService.getAggregation(aggregation name, results)`: Returns the `ListAggregation` r `TreeAggregation` from the results (and takes care of initializing the aggregation items).
+  - `facetService.getAggregation(aggregation name, results)`: Returns the `ListAggregation` or `TreeAggregation` from the results (and takes care of initializing the aggregation items).
   - `facetService.open(aggregation, item, query)`: Opens a collapsed node item in a tree aggregation (queries the server for the data inside that node).
   - `facetService.loadData(aggregation name, query)`: Loads more data from the server to append at the end of a list aggregation.
 - Add and remove **search filters** (When a user clicks on an aggregation item in a facet):
