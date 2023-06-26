@@ -313,5 +313,26 @@ describe('IntlService', () => {
       const message = '<span class="sq-field">{value0}</span><span class="sq-separator">{value1}</span><span class="sq-value">{value2}</span>';
       expect(service.formatText(message, { value0: 'Meddra', value1: ': ', value2: 'Death' })).toEqual('<span class="sq-field">Meddra</span><span class="sq-separator">: </span><span class="sq-value">Death</span>');
     })
+
+    it('should warn when a translation message is missing', () => {
+      // translated messages are stored inside IntlService.currentLocale.data.messages
+      service.currentLocale.data = {
+        intl: { locale: 'en'},
+        messages: {
+          "results.all.tab": "All"
+        }
+      };
+
+      // spy the console.warn
+      const log = spyOn(console, "warn").and.callThrough();
+
+      // here no warn should be displayed as the translated message exist
+      expect(service.formatMessage("msg#results.all.tab")).toEqual("All");
+      expect(log).not.toHaveBeenCalled();
+
+      // here the translation does not exist so a warning should be displayed in the console
+      expect(service.formatMessage("msg#res.all.tab")).toEqual("msg#res.all.tab");
+      expect(log).toHaveBeenCalled();
+    })
   })
 })

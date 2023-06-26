@@ -548,6 +548,7 @@ export class IntlService implements OnDestroy {
         const messages = this.getMessages();
         let message = get(messages, key);
         if (!message) {
+            console.warn(`🌐[Translation][${this.currentLocale.name}] ${key} is missing`);
             const defaultMessages = this.getDefaultMessages();
             if (messages !== defaultMessages) {
                 message = get(defaultMessages, key);
