@@ -10,7 +10,7 @@ nav_order: 3
 
 *Facets* refer to the filters used to narrow down the results in a search interface (See [*Faceted Search*](https://en.wikipedia.org/wiki/Faceted_search)). In the SBA framework, the definition can extend more generally to other types of components that augment the search experience.
 
-The standard facets (list, tree...), need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**]({{site.baseurl}}gettingstarted/server-setup.html#query-web-service).
+The standard facets (list, tree...), need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**]({{site.baseurl}}guides/server-config.html#query-web-service).
 
 The Facet module is also documented in the [tutorial]({{site.baseurl}}tutorial/facet-module.html).
 
