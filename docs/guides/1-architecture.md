@@ -9,11 +9,18 @@ nav_order: 1
 
 ## Overview
 
-Search-Based Applications are [Single-Page Applications](https://en.wikipedia.org/wiki/Single-page_application) (SPAs). The business logic of the application runs in the user's browser. The application is bundled into a static JavaScript file that is downloaded on the application's startup. The application then communicates with Sinequa through its REST API.
+In the Sinequa administration, Search-Based Applications are listed under the "Apps" section. An **app** acts as entry point for all the necessary configuration and resources of the application. In particular:
+
+- The **web services** contain the configuration of the application's REST API endpoints.
+- The **workspace** contains the application's source code, dependencies and build artifacts.
+
+  📝 The source code and dependencies are only needed to *build* the application. The build artifacts are needed to *deploy* the application.
+
+SBAs are [Single-Page Applications](https://en.wikipedia.org/wiki/Single-page_application) (SPAs). The business logic of the application runs in the user's browser. The application is bundled into a static JavaScript file (generated during the build) that is downloaded on the application's startup. The application then communicates with Sinequa through its REST API.
 
 ![Client server architecture](../assets/guides/client-server.png)
 
-This architecture favors a clear separation of concerns between the generic services of the server and the specific business logic of the application. Notice that the application does not strictly need to be deployed on the Sinequa server. It could be deployed on a different server (or even on a CDN) as long as the application can communicate with the Sinequa REST API.
+This architecture allows for a clear separation of concerns between the generic web services and the specific business logic of the application. Notice that the application does not strictly need to be deployed on the Sinequa server. It could be deployed on a different server (or even on a CDN) as long as the application can communicate with the Sinequa REST API.
 
 The configuration of the SBA-related components on the server (i.e., app, workspace and web services) is documented in the following guide ([Server Configuration](2-server-config.html)).
 
@@ -55,7 +62,7 @@ The state can come from 4 places:
 - Browser URL: For example, a URL `/hello?query=world` encodes the state of the application (i.e., the page is "hello" and the query is "world"). The URL is "de facto" persisted as it remains the same when the user refreshes the page.
 - Local storage: Some state can be persisted in the Browser's local storage, for example, the preference for a dark theme.
 
-### Which service or component stores the state?
+### Which service or component manages the state?
 
 In an SBA, the state can exist in various places:
 
@@ -77,7 +84,7 @@ Angular supports different strategies for responding to state changes:
 In general, the state should be persisted if:
 
 - It is important to the user. For example, the current search query should be persisted if the user refreshes the page, so that they see the same results.
-- It cannot be recomputed from other state: For example, the current search results can be recomputed from the search query, so they do not need to be persisted.
+- It cannot be recomputed from other state: For example, the search query cannot be recomputed from something else, but the current search results can be recomputed from the search query, so they do not need to be persisted.
 
 The state can be persisted in the following places:
 
