@@ -140,13 +140,11 @@ The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/van
 
 The [Search Form component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search-form) is more advanced than the one developed in the [tutorial]({{site.baseurl}}tutorial/completed-app.html#search-form-component). It includes an advanced search form, and options to control the lifecycle of the query (for example: should the facet selections be reset when the user searches for new text?).
 
-Additionally, a custom [Autocomplete directive](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete-extended.directive.ts) allows to search into User Settings objects, such as the recent queries, documents, baskets, etc.
+Additionally, a custom [Autocomplete component](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete.component.ts) allows to search into User Settings objects, such as the recent queries, documents, baskets, etc.
 
 ![Search form]({{site.baseurl}}assets/modules/search-form.png){: .d-block .mx-auto }
 
 As in the tutorial, the [controller](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/search-form.component.ts) includes a `search()` method. Additionally, it manages the list of custom features that the autocomplete can search into, like the recent documents, the recent queries, the baskets and the saved queries (this list can be [configured](#configuration)).
-
-The [`sqAutocompleteExtended`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete-extended.directive.ts) directive extends the `sqAutocompleteFieldSearch` directive and adds the following:
 
 - The `getSuggestsObs()` method can search in custom objects, as mentioned above (in addition to the classical "Suggest Queries" configured on the server). Notice that, to merge the different sources of autocomplete, we use the [`forkJoin`](https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin) operator from [`rxjs`](https://www.learnrxjs.io/):
 
@@ -262,7 +260,7 @@ The styles of Vanilla Search come from various sources:
 
     ```scss
     // Bootstrap styles
-    @import "~bootstrap/scss/bootstrap"; 
+    @import "~bootstrap/scss/bootstrap";
 
     // Fontawesome
     $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
@@ -305,4 +303,3 @@ The styles of Vanilla Search come from various sources:
 - `styles/preview.scss` contains the styles of the preview (See [Custom Entities]({{site.baseurl}}tipstricks/entities.html)). Note that this stylesheet is built independently into `preview.css` (which gets injected in the HTML preview), but it *also* imported in the global stylesheet (which allows to have consistent color highlighting for entities between the app and the preview).
 - `styles/metadata.scss` is a dependencies of `preview.scss` where the styling of the highlights are defined.
 - `styles/dark-mode.scss` contains the rules that override the normal styles to produce a "dark mode". It is imported at the very end of the global stylesheet.
-  
