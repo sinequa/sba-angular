@@ -52,23 +52,21 @@ Each piece of state raises the following questions:
 
 ### Where does the state come from?
 
-The state can come from 4 places:
+State can originate from different places:
 
-- A call to the Sinequa REST API (e.g., search results).
+- User actions: For example, navigating in the application, typing text in the search bar or clicking on a facet modifies the state of the application.
+- Data from the Sinequa REST API (e.g., search results, saved queries, preferred UI language, etc.).
 
-  ⚠️ Note that prior to user authentication, the application will have no data from the server. A common mistake is calling the server too early (in a `ngOnInit` or `ngOnChanges` method). To avoid this, add an `*ngIf="loginService.complete"` test to components that should only be displayed after the user is authenticated.
+  ⚠️ Note that prior to user login, the application will have no data from the server. A common mistake is calling the server too early. To avoid this, add an `*ngIf="loginService.complete"` test to components that should only be displayed after the user is authenticated.
 
-- User actions: For example, typing text in the search bar or clicking on a facet modifies the state of the application
-- Browser URL: For example, a URL `/hello?query=world` encodes the state of the application (i.e., the page is "hello" and the query is "world"). The URL is "de facto" persisted as it remains the same when the user refreshes the page.
-- Local storage: Some state can be persisted in the Browser's local storage, for example, the preference for a dark theme.
 
 ### Which service or component manages the state?
 
 In an SBA, the state can exist in various places:
 
-- The `SearchService` stores both the (global) search query and search results (including aggregations). Many components modify `SearchService.query` to change the search criteria, and many components display properties or sub-properties of `SearchService.results` (in particular, `records`: the list of documents and `aggregations`: the list of metadata displayed in facets).
-- The [User Settings](../libraries/components/user-settings.html) are a storage system for user preferences and data. User settings are persisted on the Sinequa server and accessible only post-authentication.
-- Other state can exist locally within a component class. This state is lost when the component is destroyed (e.g., when the user navigates to another page). In [Vanilla Search](../apps/2-vanilla-search.html), the `SearchComponent` stores the document that is currently displayed in the preview panel.
+- The `SearchService` stores both the search query and search results. Many components can modify `SearchService.query` to change the search criteria, and many components display properties or sub-properties of `SearchService.results` (in particular, `records`: the list of documents and `aggregations`: the list of metadata displayed in facets).
+- The [User Settings](../libraries/components/user-settings.html) are a storage system for user preferences and data. User settings are persisted on the Sinequa server and accessible only post-login.
+- Other state can exist locally within a component class. This state is lost when the component is destroyed (e.g., when the user navigates to another page). For example, in [Vanilla Search](../apps/2-vanilla-search.html), the `SearchComponent` stores the document that is currently displayed in the preview panel.
 
 ### What happens when the state changes?
 
@@ -88,12 +86,12 @@ In general, the state should be persisted if:
 
 The state can be persisted in the following places:
 
-- The URL: Typically, the search query is encoded in the URL. This allows the user to bookmark the page and share the URL with other users. In fact, the `SearchService` listens to URL changes and performs new search queries accordingly.
+- The browser URL: A URL `/hello?query=world` encodes a navigation state (i.e., the page is "hello" and the query is "world"). The URL is "de facto" persisted as it remains the same when the user refreshes the page. In an SBA, the search query is generally encoded in the URL. This allows the user to bookmark the page and share the URL with other users. In fact, the `SearchService` listens to URL changes and performs new search queries accordingly.
 - [User settings](../libraries/components/user-settings.html) are well-suited for small amounts of data that are specific to the user. For example, the user's preferred language or the list of saved queries.
 - Other persistence systems can be used occasionally such as:
   - the browser's local storage (for example, to store the user's preferred theme)
   - Sinequa's engine metadata stores (used to attach custom metadata to documents such as labels)
-  - other server-side storage that could be accessed via a custom API endpoint (see for example the [comments module](../libraries/components/comments.md)).
+  - other server-side storage that could be accessed via a [custom API endpoint](../tipstricks/plugins.html) (see for example the [comments module](../libraries/components/comments.html)).
 
 ### Example: Searching for text
 
