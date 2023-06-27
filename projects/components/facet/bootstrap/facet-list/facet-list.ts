@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef, AfterViewInit} from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef, AfterViewInit, ContentChild, TemplateRef} from "@angular/core";
 import {Results, Aggregation, AggregationItem, Suggestion, TreeAggregationNode, ListAggregation, TreeAggregation} from "@sinequa/core/web-services";
 import {AddFilterOptions, FacetService} from "../../facet.service";
 import {AbstractFacet} from "../../abstract-facet";
@@ -33,7 +33,7 @@ export interface FacetListConfig extends FacetConfig<FacetListParams> {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsFacetList extends AbstractFacet implements FacetListParams, OnChanges, OnDestroy, AfterViewInit {
-    @Input() name: string; // If ommited, the aggregation name is used
+    @Input() name: string; // If omitted, the aggregation name is used
     @Input() results: Results;
     @Input() query?: Query;
     @Input() aggregation: string;
@@ -43,13 +43,28 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
     @Input() allowAnd: boolean = false; // Allow to search various items in AND mode
-    @Input() displayEmptyDistributionIntervals: boolean = false; // If the aggregration is a distribution, then this property controls whether empty distribution intervals will be displayed
+    @Input() displayEmptyDistributionIntervals: boolean = false; // If the aggregation is a distribution, then this property controls whether empty distribution intervals will be displayed
     @Input() acceptNonAggregationItemFilter = true; // when false, filtered items which don't match an existing aggregation item, should not be added to filtered list
     @Input() replaceCurrent = false; // if true, the previous "select" is removed first
     // Specific to tree facets
     @Input() expandedLevel: number = 2;
 
     @ViewChild("searchInput") searchInput: ElementRef<HTMLInputElement>;
+
+    /**
+     * Template used with content projection strategy, allowing user to customize each list item
+     * When not set, the default list item renderer is used.
+     *
+     * @example
+     * ```typescript
+     * <sq-facet-list [results]="results" aggregation="Person">
+     *   <ng-template #itemTpl let-item>
+     *      <li>{{ item.value }}</li>
+     *   <ng-template>
+     * </sq-facet-list>
+     * ```
+     */
+    @ContentChild("itemTpl", { static: true, read: TemplateRef}) public itemTpl?: TemplateRef<any>;
 
     items: (AggregationItem | TreeAggregationNode)[] = [];
 
@@ -315,8 +330,8 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     }
 
     /**
-     * Uses the suggestfield API to retrieve suggestions from the server
-     * The suggestions "override" the data from the distribution (until search results are cleared)
+     * Uses the `suggestfield` API to retrieve suggestions from the server
+     * The suggestions **override** the data from the distribution (until search results are cleared)
      */
     getSuggests(text: string, data: Aggregation): Observable<Suggestion[]> {
         const query = this.facetService.getDataQuery(this.results, this.query);
