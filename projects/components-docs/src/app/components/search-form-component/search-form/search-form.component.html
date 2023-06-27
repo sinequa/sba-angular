@@ -1,0 +1,14 @@
+<doc-component-demo title="SearchFormComponent" [html]="code" [ts]="code2">
+    <div class="d-flex position-relative mb-5">
+        <sq-search-form [query]="globalService.query">
+            <ng-template>
+                <div class="list-group list-group-flush">
+                    <a role="button" *ngFor="let suggestion of filteredSuggestions"
+                        class="list-group-item list-group-item-action">
+                        {{suggestion.display}} <small class="ms-1 text-secondary">{{suggestion.category}}</small>
+                    </a>
+                </div>
+            </ng-template>
+        </sq-search-form>
+    </div>
+</doc-component-demo>
