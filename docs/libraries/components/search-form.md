@@ -65,6 +65,61 @@ The component also emits two events:
 
 Additionally, the component also requires you to provide a template for the dropdown as displayed on the example just below, or in the [Autocomplete tutorial]({{site.baseurl}}tutorial/autocomplete.html).
 
-## Example
+## Examples
 
 <doc-search-form></doc-search-form>
+
+A more complex example could be what Pepper does which includes an `sq-filters-view` to allow adding filters to the query, then an `sq-facet-container` to display the filters when we select a category, and finally the `app-autocomplete` (taken from [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)) to display the suggestions.
+
+```html
+<sq-search-form #searchForm
+  [query]="searchService.query"
+  [showFilterCount]="true"
+  [autoSubmit]="false">
+
+  <ng-template let-query>
+
+    <div class="search-dropdown border-top m-2">
+
+      <div class="small fw-bold mb-1" *ngIf="query?.filters">
+        {{'msg#searchForm.currentFilters' | sqMessage}}
+      </div>
+
+      <sq-filters-view
+        [query]="query"
+        (filterEdit)="onFiltersChange()">
+      </sq-filters-view>
+
+      <hr *ngIf="query?.filters && facets?.length"/>
+
+      <sq-facet-container *ngIf="facets?.length"
+        [results]="searchService.results"
+        [query]="query"
+        [facetConfigs]="facets"
+        [facetComponents]="facetComponents">
+      </sq-facet-container>
+
+      <hr *ngIf="query.text" />
+
+      <app-autocomplete
+        [inputElement]="searchForm.searchInput.nativeElement"
+        [queryText]="query.text || ''"
+        [suggestTypes]="autocompleteSources"
+        (search)="onAutocompleteSearch($event, query)"
+        (select)="onAutocompleteSelect($event, query)">
+      </app-autocomplete>
+
+    </div>
+
+  </ng-template>
+
+</sq-search-form>
+```
+
+![Pepper Search Form]({{site.baseurl}}assets/modules/search-form/search-form-pepper.png){: .d-block .mx-auto }
+*Pepper's Search Form*
+{: .text-center }
+
+![Pepper Search Form]({{site.baseurl}}assets/modules/search-form/search-form-pepper-2.png){: .d-block .mx-auto }
+*Upon selecting a filter category*
+{: .text-center }
