@@ -36,6 +36,7 @@ import { DocSlideBuilderModule } from './components/slide-builder-module/slide-b
 import { DocStatusBarModule } from './components/status-bar-module/status-bar.module';
 import { DocUserSettingsModule } from './components/user-settings-module/user-settings.module';
 import { DocUtilsModule } from './components/utils-module/utils.module';
+import { DocSearchFormModule } from './components/search-form-component/search-form.module';
 import { DocAgGridModule } from './analytics/ag-grid-module/ag-grid.module';
 import { DocDashboardModule } from './analytics/dashboard-module/dashboard.module';
 import { DocFinanceModule } from './analytics/finance-module/finance.module';
@@ -129,7 +130,8 @@ export class AppLocalesConfig implements LocalesConfig {
         DocNgxChartsModule,
         DocTimelineModule,
         DocTooltipModule,
-        DocVisTimelineModule
+        DocVisTimelineModule,
+        DocSearchFormModule
     ],
     entryComponents: [],
     providers: [
