@@ -65,7 +65,7 @@ node (params.SBA_NODE) {
 
 		stage('NPM Install') {
 			// get the dependency modules
-			bat "npm i"
+			bat "npm ci"
 		}
 
 		// check if we are in standard case of build or merge/validation (case of PR)
@@ -140,7 +140,7 @@ node (params.SBA_NODE) {
 				echo ".installsqcomponents:"
 				cd ./projects/components
 				call npm --no-git-tag-version version ${sba_version}
-				call npm install @sinequa/core@${sba_version} --save-exact
+				call npm ci @sinequa/core@${sba_version} --save-exact
 				cd ../..
 				echo ".buildsqcomponents:"
 				call npm run buildcomponents
@@ -155,7 +155,7 @@ node (params.SBA_NODE) {
 				echo ".installsqanalytics:"
 				cd ./projects/analytics
 				call npm --no-git-tag-version version ${sba_version}
-				call npm install @sinequa/components@${sba_version} --save-exact
+				call npm ci @sinequa/components@${sba_version} --save-exact
 				cd ../..
 				echo ".buildsqanalytics:"
 				call npm run buildanalytics
