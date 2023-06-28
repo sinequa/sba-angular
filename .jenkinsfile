@@ -65,7 +65,7 @@ node (params.SBA_NODE) {
 
 		stage('NPM Install') {
 			// get the dependency modules
-			bat "npm i"
+			bat "npm ci"
 		}
 
 		// check if we are in standard case of build or merge/validation (case of PR)
