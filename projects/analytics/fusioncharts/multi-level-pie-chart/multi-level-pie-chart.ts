@@ -52,6 +52,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
     @Input() showPercentValues: boolean = false; // if enabled along with "showValues", values of ALL CHART'S plots will be shown as percentages
     @Input() chart: any = defaultMultiLevelChart;
     @Input() autohide = true;
+    @Input() clickable = true;
 
     /** Additional css classes */
     @Input() styles: string;
@@ -263,6 +264,7 @@ export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDe
      * @param $event
      */
     dataplotClick($event) {
+        if(!this.clickable) return;
         this.isRefreshing = true;
         const label = this.showValues ? $event.dataObj.label.substring(0, $event.dataObj.label.lastIndexOf(',')) : $event.dataObj.label;
         const item = this.getItem(label, this._data);

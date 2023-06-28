@@ -176,7 +176,7 @@
                 actionsSize="" class="mb-3 facet-preview" #previewFacet>
 
                 <ng-template #headerTpl>
-                    <sq-result-icon [record]="openedDoc" class="me-1"></sq-result-icon>
+                    <sq-result-icon [record]="openedDoc" [formatIcons]="formatIcons" class="me-1"></sq-result-icon>
                     <sq-result-title class="flex-grow-1" [record]="openedDoc" field="title" titleLinkBehavior="open-if-url">
                     </sq-result-title>
                 </ng-template>

@@ -127,7 +127,11 @@ export class ChatService {
       return this.fetchStream(data).pipe(
         map(res => this.processResponse(messages, res)),
         tap(res => _res = res), // Store the last version of the message so we can audit it in finalize()""
-        finalize(() => this.notifyAudit(_res.messagesHistory, _res.tokens))
+        finalize(() => {
+          if(_res) {
+            this.notifyAudit(_res.messagesHistory, _res.tokens);
+          }
+        })
       );
     }
 

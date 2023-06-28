@@ -12,3 +12,4 @@ export * from "./result-duplicates/result-duplicates.component";
 export * from "./result-duplicates-list/result-duplicates-list.component";
 export * from "./result-duplicates-spacer/result-duplicates-spacer.component";
 export * from "./messages/index";
+export * from "./result-icon/icons"

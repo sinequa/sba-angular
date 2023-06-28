@@ -45,10 +45,6 @@ node (params.SBA_NODE) {
 			def nmfolder = "node_modules"
 			echo ".Rmdir /s /q ${nmfolder}"
 			bat "if exist ${nmfolder} ( rmdir /s /q ${nmfolder} )"
-
-			// clean the npm cache
-			echo ".Cache clean force"
-			bat "npm cache clean --force"
 		}
 
 		stage('Create user') {
@@ -69,7 +65,7 @@ node (params.SBA_NODE) {
 
 		stage('NPM Install') {
 			// get the dependency modules
-			bat "npm i"
+			bat "npm ci"
 		}
 
 		// check if we are in standard case of build or merge/validation (case of PR)

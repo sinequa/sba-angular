@@ -35,6 +35,7 @@ const routes: Routes = [
       { path: 'slide-builder', loadChildren: () => import(`./components/slide-builder-module/slide-builder.module`).then(m => m.DocSlideBuilderModule) },
       { path: 'rfm', loadChildren: () => import(`./components/rfm-module/rfm.module`).then(m => m.DocRfmModule) },
       { path: 'status-bar', loadChildren: () => import(`./components/status-bar-module/status-bar.module`).then(m => m.DocStatusBarModule) },
+      { path: 'search-form', loadChildren: () => import(`./components/search-form-component/search-form.module`).then(m => m.DocSearchFormModule) },
     ]
   },
   {

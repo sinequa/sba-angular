@@ -5,7 +5,7 @@ parent: Guides
 nav_order: 2
 ---
 
-# Server-side setup
+# Server configuration
 
 ## Minimum configuration
 
@@ -13,17 +13,17 @@ The minimum configuration required to get started is an **App** and a **Query** 
 
 To create an **App** configuration, in the administration:
 
-- Go to *Search-based application > Apps*,
+- Go to *Search-based applications > Apps*,
 - In *Apps*, click *New Angular app*, give it a name then click *Ok*. You will be redirected to the configuration page of the new **App**.
 It is also pre-filled with the default web services.
 - If you want to use a different **Query** web service other than the default one, click *Edit*, and in the list of Queries,
 choose your web service and save.
 
-![New Angular app action]({{site.baseurl}}assets/gettingstarted/admin-new-angular-app-action.png)
+![New Angular app action]({{site.baseurl}}assets/gettingstarted/admin-new-angular-app-action.png){: .d-block .mx-auto }
 *'New Angular app' action in Apps*
 {: .text-center }
 
-At this point your Sinequa server can be used to develop an SBA and you can go to [Developer-side setup](dev-setup.html) or spend more time reading the documentation below to fully configure the server.
+At this point your Sinequa server can be used to develop an SBA and you can start the [development guide](development.html) or spend more time reading the documentation below to fully configure the server.
 
 ## Apps
 
@@ -160,8 +160,10 @@ The Preview web service form configures the access to document HTML previews (st
 It has two settings:
 
 - **.css file**: Contains one (or more) CSS file names that are injected in the HTML previews as `<link>` elements, either with a relative path (relative to the URL of the application), or an absolute URL.
-The default SBA includes a `styles/preview.scss` file which is built as `/preview.css`.
+The default SBA includes a `preview/preview.scss` file which is built as `/preview.css`.
 The default setting is therefore `preview.css`.
+- **.js file**: Contains one (or more) JS file names that are injected in the HTML previews as `<script>` elements, either with a relative path (relative to the URL of the application), or an absolute URL.
+The default setting is `preview/preview.js`. This is packaged by default in the SBA workspace. It is necessary to let the SBA interact with the content of the preview.
 - **Highlights to display**: Categories to be "highlighted" in the preview.
 For example, relevant extracts are highlighted by wrapping `<span>` tags around the relevant text.
 The visual highlight itself is effectively done by the aforementioned `preview.css` file (for example with a CSS rule of the type `background-color: yellow;`).
@@ -192,6 +194,8 @@ This service also exposes an auto-complete feature to easily search and select a
 
 The auto-complete web service essentially lists **suggest queries** that provide suggestions when the user types some text in a form.
 Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html) on suggest queries for more information.
+
+The last option "Match the search terms anywhere in field values" is useful for the facet component's search bar: A search for "York" will match both "New York" and "Yorkshire" values. However this option comes incurs a performance penalty, so it should be used only when necessary.
 
 ![Autocomplete configuration]({{site.baseurl}}assets/gettingstarted/admin-autocomplete.png)
 *Example of auto-complete configuration*

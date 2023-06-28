@@ -240,15 +240,15 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
   // Neural search
   get neuralSearch(): boolean {
-    return this.prefs.get("neural-search") !== false; // if undefined, default is true
+    return this.prefs.get(this.neuralSearchPref) !== false; // if undefined, default is true
   }
 
   set neuralSearch(val: boolean) {
     if(val) {
-      this.prefs.delete("neural-search");
+      this.prefs.delete(this.neuralSearchPref);
     }
     else {
-      this.prefs.set("neural-search", false); // if set, neural-search can only be false
+      this.prefs.set(this.neuralSearchPref, false); // if set, neural-search can only be false
     }
   }
 
