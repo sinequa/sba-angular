@@ -50,7 +50,7 @@ Note that both files include Bootstrap imports and come with an integrated Dark 
 
 Sinequa Theme overrides Bootstrap components using Sass files.
 If you want to customize your application, do not overrides the Sinequa Theme files. Instead:
-* override Bootstrap components as Sinequa Theme do [https://getbootstrap.com/docs/5.2/customize/overview/](https://getbootstrap.com/docs/5.2/customize/overview/)
+* override Bootstrap components as Sinequa Theme does [https://getbootstrap.com/docs/5.2/customize/overview/](https://getbootstrap.com/docs/5.2/customize/overview/)
 
 OR
 
