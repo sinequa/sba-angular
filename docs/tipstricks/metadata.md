@@ -56,45 +56,26 @@ You can directly display the value with something like:
 {% raw %}<span>{{ record['category'] }}</span>{% endraw %}
 ```
 
-For something more sophisticated, which includes a *label* and an icon, you can try:
+For something more sophisticated, which can include a *label* and an *icon*, you can try:
 
 ```html
 <sq-metadata
     [record]="record"
-    [items]="['metadata']"
-    [showTitles]="true"
-    [showIcons]="true"
-    [clickable]="false"
-    [spacing]="'compact'">
+    [config]="metadata">
 </sq-metadata>
 ```
 
-Note that the icon will be shown via a `class="sq-icon-category"` attribute. You need to assign an icon to `sq-icon-category`, which is done in `icons.scss`, if you are using [Vanilla-Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html).
+With a configuration like:
 
-```scss
-$sq-icons-map: (
-    ...
-    "category": ("tag", "s"),  // Results in 'sq-icon-category' = 'fas fa-tag', a font awesome icon
+```ts
+this.metadata: MetadataConfig[] = [
+    {
+        field: "category",
+        label: "Category",
+        icon: "far fa-file-alt"
+    }
+];
 ```
-
-Alternatively, you could assign the Font Awesome icon manually (see [documentation](https://fontawesome.com/how-to-use/on-the-web/using-with/sass)):
-
-```scss
-@import "./fontawesome/scss/fontawesome.scss";
-@import "./fontawesome/scss/solid.scss";
-@import "./fontawesome/scss/brands.scss";
-
-.sq-icon-category {
-  @extend %fa-icon;
-  @extend .fas; // Use @extend .fas; to create an icon in the Solid style
-
-  &:before {
-    content: fa-content($fa-var-tag);
-  }
-}
-```
-
-Or, you could create a completely custom icon (eg. based on an image), also via CSS (again, target the classname `sq-icon-category`). Have a look at [this Stack Overflow question](https://stackoverflow.com/questions/29576527/adding-icon-image-to-css-class-for-html-elements) for example.
 
 ## Custom formatter
 
@@ -176,14 +157,14 @@ If your aggregation is in the list and not empty, you can display a facet list c
 
 ## Filtering the results
 
-Both the `sq-metadata` component and the `sq-facet-list` components let you filter the results based on the value of metadata (for `sq-metadata`, with `[clickable]="true"`). Alternatively, you can apply these filters yourself by modifying the `Query` object and requesting new results to the server.
+Both the `sq-metadata` component and the `sq-facet-list` components let you filter the results based on the value of metadata (for `sq-metadata`, with the `filterable` and `excludable` parameters from `MetadataConfig`). Alternatively, you can apply these filters yourself by modifying the `Query` object and requesting new results to the server.
 
 In the context of a facet, use the `FacetService` (from `@sinequa/components/facet`). For example:
 
 ```ts
 let aggregation = this.facetService.getAggregation('Categories', results); // Get the aggregation data
 let item = aggregation.items.find(item => item === 'some category'); // Find the item you want to "click" on
-this.facetService.addFilterSearch('facet name', aggregation, item); // Apply the filter (to the Query) and refresh the search
+this.facetService.addFilterSearch(aggregation, item, undefined, undefined, 'facet name'); // Apply the filter (to the Query) and refresh the search
 ```
 
 In a more general context (not tied to a facet), you can use the `SearchService` (from `@sinequa/components/search`):
