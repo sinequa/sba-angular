@@ -34,20 +34,23 @@ With the theme:
 
 ## Importing/removing the theme
 
-In your `app.scss`, just add or remove this imports:
+In your `app.scss`, you have these lines:
 
 ```scss
-@import "@sinequa/components/theme/sinequa";
+// Sinequa global theme (contains Bootstrap imports)
+// @import "../../../components/theme/minimal";
+@import "../../../components/theme/sinequa";
 ```
 
-* Sinequa theme includes Bootstrap imports.
-* Sinequa theme come with an integrated Dark theme.
+To import or remove the theme, you can switch of import between `minimal` (the very basic one) and `sinequa` (with the complete theme).
+
+Note that both files include Bootstrap imports and come with an integrated Dark theme.
 
 ## Customization
 
 Sinequa Theme overrides Bootstrap components using Sass files.
 If you want to customize your application, do not overrides the Sinequa Theme files. Instead:
-* overrides Bootstrap components as Sinequa Theme do [https://getbootstrap.com/docs/5.2/customize/overview/](https://getbootstrap.com/docs/5.2/customize/overview/)
+* override Bootstrap components as Sinequa Theme do [https://getbootstrap.com/docs/5.2/customize/overview/](https://getbootstrap.com/docs/5.2/customize/overview/)
 
 OR
 
@@ -58,15 +61,3 @@ OR
   ```
   * contains Bootstrap imports
   * contains recommended imports to work with SBA components
-  * does not include Dark theme
-
-OR
-
-* import our `recommended` Bootstrap files
-
-  ```scss
-  @import "@sinequa/components/theme/recommended"
-  ```
-  * contains Bootstrap imports
-  * contains recommended imports with specific scss files to notifications and avdanced components.
-  * contains also a minimalist Bootstrap Dark theme.
