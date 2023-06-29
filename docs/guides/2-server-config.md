@@ -23,7 +23,7 @@ choose your web service and save.
 *'New Angular app' action in Apps*
 {: .text-center }
 
-At this point your Sinequa server can be used to develop an SBA and you can start the [development guide](development.html) or spend more time reading the documentation below to fully configure the server.
+At this point your Sinequa server can be used to develop an SBA and you can start the [development guide](3-development.html) or spend more time reading the documentation below to fully configure the server.
 
 ## Apps
 

@@ -24,10 +24,10 @@ The framework also includes the following **applications** built directly with t
 
 - [**Hello Search**](apps/1-hello-search.html) is a minimalistic application (the "Hello world" of search) used essentially for training and [tutorials]({{site.baseurl}}tutorial/tutorial.html).
 - [**Vanilla Search**](apps/2-vanilla-search.html) is a full-fledged Enterprise Search application. It features a faceted search User Interface, an advanced autocomplete, a highlighted document preview, and various functionalities like document tagging, saved queries, and so on.
-- [**Pepper**](apps/3-pepper.md) is a search & analytics application designed as an interactive dashboard. It is especially useful for advanced use cases such as content analytics, e-discovery or investigation.
+- [**Pepper**](apps/3-pepper.html) is a search & analytics application designed as an interactive dashboard. It is especially useful for advanced use cases such as content analytics, e-discovery or investigation.
 - [**Usage Analytics**](apps/4-usage-analytics.html) is an application that displays metrics and timelines of the usage of Sinequa applications. It is meant to help administrators optimize the adoption of their SBAs. 
 - [**Vanilla Builder**](apps/5-vanilla-builder.html) is a no-code application builder that lets Sinequa administrators customize the Vanilla Search user interface. It is a good way to get started with SBAs without having to learn technologies like Angular.
-- [**Chat Integration**](apps/6-chat-integration.md) is a sample integration for generative language models (such as GPT-4, powering [ChatGPT](https://openai.com/blog/chatgpt)) within the [Vanilla Search](apps/2-vanilla-search.md) application.
+- [**Chat Integration**](apps/6-chat-integration.html) is a sample integration for generative language models (such as GPT-4, powering [ChatGPT](https://openai.com/blog/chatgpt)) within the [Vanilla Search](apps/2-vanilla-search.html) application.
 
 
 <iframe src="https://player.vimeo.com/video/534455071" width="100%" height="400px" frameborder="0" title="Pepper" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

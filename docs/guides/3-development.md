@@ -5,80 +5,74 @@ parent: Guides
 nav_order: 3
 ---
 
-# Developer-side setup
+# SBA Development
 
 ## Prerequisites
 
-To develop a SBA, developers need to install various utilities:
+SBA developers should be familiar with [Angular](https://angular.io/) and [Bootstrap](https://getbootstrap.com/). Specific knowledge about Sinequa is not strictly required, although it is useful to understand where the data comes from, how it may be customized and what additional features may be enabled through custom APIs and plugins.
 
-- [**NodeJS**](https://nodejs.org/): Node and npm (Node Package Manager) are required to download and manage the dependencies of the project (like the [Angular](https://angular.io) library).
-- [**Visual Studio Code**](https://code.visualstudio.com/): The standard IDE (Integrated Development Environment) for Angular development.
+We recommend reading the [architecture](1-architecture.html) guide and completing the [tutorial](../tutorial/tutorial.html) before starting development. 
+
+## Development environment
+
+An SBA development environment requires the following tools and accesses:
+
+- [**NodeJS**](https://nodejs.org/): Node and npm (Node Package Manager) are required to download and manage the dependencies of the project (like the [Angular](https://angular.io) library). ⚠️ To pick the right version, check the [Angular documentation](https://angular.io/guide/versions) and compare it with the version of Angular found in your `package.json`.
+- [**Visual Studio Code**](https://code.visualstudio.com/): The recommended IDE (Integrated Development Environment) for Angular development.
 - [**Git**](https://git-scm.com/): The version control system allowing you to sync your workspace with a Git or Github repository, work collaboratively and deploy the project on a server.
+- Access to a Sinequa server over HTTP(S), and an account on this server with access to some data (for testing purposes).
+- An Internet connection, to download 3rd party libraries from the Internet, via [npm](https://www.npmjs.com/) (Node Package Manager). Note that this is not a strict requirement, since these libraries could be manually copied into the  environment.
 
-![NodeJs]({{site.baseurl}}assets/gettingstarted/node.png){: width="150px" .ml-5}
-![Visual Studio Code]({{site.baseurl}}assets/gettingstarted/vscode.png){: width="80px" .ml-5}
-![Git]({{site.baseurl}}assets/gettingstarted/git.png){: width="180px" .ml-5}
+⚠️ It can be tempting to use the Sinequa server as the development environment and/or use the administration console to make changes to the source code, but this is not recommended. Prefer using a local development environment (on your own computer) and deploy your app on the Sinequa server only when it is ready for production.
 
-## Minimum Development
+## Workspace
 
-It is possible to use sample applications, like [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), out-of-the-box on the Sinequa server. You have to [**unzip the default workspace**](server-setup.html#unzip-the-sinequa-angular-workspace), and [**reference one of the applications in your App**](#deploying-an-app-on-a-sinequa-server).
+The workspace is the directory containing the source code of your application. The dependencies of your project are declared in the `package.json` file at the root of the workspace. These dependencies are installed by running `npm install` (they are stored in the `node_modules` folder). The workspace also contains the configuration files for Angular (`angular.json`) and TypeScript (`tsconfig.json`).
 
-After this, your app will be served at `http(s)://<sinequa server>/app/your-app` and fully operational.
+There are two ways of creating a workspace, with different pros and cons:
 
-⚠️ Note that the apps packaged in the zipped workspace automatically detect and fetch some settings from the server, like the name of the App configured on the server and the authentication settings of the WebApp. This capability is not activated by default in the workspace available on this Github repository.
+### Use the standard workspace
 
-In the general case, to connect the app with your own server, edit [`projects/vanilla-search/src/app/app-module.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/app.module.ts) and set the following `StartConfig`:
-
-```ts
-export const startConfig: StartConfig = {
-    app: "<NAME OF YOUR APP>",
-    production: environment.production,
-    auditEnabled: true
-};
-```
-
-Then rebuild your app from the Workspace "Build Scripts" section: Your app should now be working correctly.
-
-## Angular Workspace
-
-The workspace of the SBA Framework is a directory that contains multiple libraries and apps, which share the same global configuration and dependencies (`package.json`, `tsconfig.json`, `angular.json`). For more information, please refer to the [Angular documentation](https://angular.io/guide/file-structure#multiple-projects) on this topic.
-
-As explained in the [introduction]({{site.baseurl}}intro), the SBA framework is based on an Angular Workspace containing three libraries ([`@sinequa/core`]({{site.baseurl}}modules/core/core.html), [`@sinequa/components`]({{site.baseurl}}modules/components/components.html)) and [`@sinequa/analytics`]({{site.baseurl}}modules/analytics/analytics.html)). This workspace is available from the Sinequa releases as a zip file (see [Server-side setup](server-setup.html#workspaces)) or directly from [this Github repository](https://github.com/sinequa/sba-angular).
-
-Once downloaded or cloned on the developer's computer, the workspace can be opened in Visual Studio Code (*Add Folder to Workspace* > *Open the root of the Workspace*).
-
-![Workspace in VS Code]({{site.baseurl}}assets/gettingstarted/workspace.png){: .d-block .mx-auto }
-*Workspace opened in Visual Studio Code*
-{: .text-center }
-
-## Dependencies
-
-An Angular project can have many **dependencies**, starting with Angular itself. The list of dependencies is listed in the `package.json` file at the root of the workspace. If the workspace is downloaded or cloned without its dependencies, the developer will need to install them.
-
-In Visual Studio Code, open a **Terminal** (*Terminal > New Terminal*).
-
-In the terminal run:
+The SBA Framework is developped as an open-source project on [Github](https://github.com/sinequa/sba-angular). New versions of the SBA framework are published at the same time as the releases of the Sinequa product. You can clone the repository and use the standard workspace as a starting point for your own project.
 
 ```bash
-npm install
+git clone https://github.com/sinequa/sba-angular.git my-project
+cd my-project
 ```
 
-This takes a few minutes to run. npm downloads the required libraries from the Internet and stores them in the `node_modules/` folder at the root of the workspace. You can ignore the recommendations to run `npm audit fix` at the end of the process.
+Updating the workspace is as simple as pulling the latest version from Github, although you may have to resolve some conflicts between your own code and the new version of the workspace (See [Updates](6-updates.html)).
 
-The dependencies can be updated by increasing the version number of a given library in `package.json` and running `npm install` again.
+The standard workspace contains the main Sinequa [libraries](../libraries/libraries.html) (Core, Components and Analytics) and sample [applications](../apps/apps.html) (Vanilla Search and Pepper).
 
-For example, to upgrate the Bootstrap library, just increment the version on this line:
+You can either **directly modify an existing application** or **create a new one** (and modify the `angular.json` accordingly):
 
-```json
-"bootstrap": "^4.4.1"
+- Directly modify an existing application if you do not intend to customize it significantly. The benefit is that you will be able to easily update the application by pulling the latest version of the workspace from Github, with a small amount of conflicts to manage.
+- Create a new application if you want to start from scratch or if you want to deviate significantly from a sample application. You will not have any conflict to resolve during updates, but you will need to manually update your application to benefit from the latest features of the SBA Framework.
+
+Using the standard workspace allows you to customize anything you want, including the low-level libraries. Having access to the source code of the libraries is also useful to understand how they work and how to write your own components.
+
+⚠️ The standard workspace is also packaged as a .zip file in the Sinequa product. However, if you use this file, you will not be able to update the workspace by pulling the latest version from Github!
+
+### Create a new workspace and install the npm packages
+
+You may prefer to create a new workspace from scratch and include only the npm packages you need. In this case, you must install the SBA Framework libraries in your project via [npm](https://www.npmjs.com/).
+
+```bash
+# Create a new Angular workspace
+ng new my-project
+cd my-project
+
+# Install the SBA Framework libraries
+npm install @sinequa/core @sinequa/components @sinequa/analytics --legacy-peer-deps
 ```
 
-⚠️ **We will keep updating dependencies in future versions of the workspaces we deliver.** If you want to update your workspace, you will need to update your `package.json` (potentially resolving conflicts with your own custom libraries) and re-run `npm install`. Such updates are generally not backward compatible (for example, new Angular version may use different syntax), and so require changes in your libs and applications.
-{: .fs-2 .p-3 }
+⚠️ The last command requires the `--legacy-peer-deps` flag to prevent npm from installing the **peer dependencies** automatically. We recommend installing the peer dependencies manually on a case by case basis. An alternative approach is copy the list of dependencies from the standard workspace's [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json) file.
+
+📝 With this approach, updating the SBA libraries is done via npm, using the `npm update @sinequa/<library>` command. The [Sinequa npm packages](https://www.npmjs.com/package/@sinequa/core) are published at same time as the Sinequa product.
 
 ## Building the libraries
 
-The workspace includes three libraries: [`@sinequa/core`]({{site.baseurl}}modules/core/core.html), [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) and [`@sinequa/analytics`]({{site.baseurl}}modules/analytics/analytics.html). These libraries need to be compiled before the apps. In the terminal, run:
+When using the standard workspace (see [above](#use-the-standard-workspace)), it is possible to build the SBA libraries. This step is NOT required, because applications can reference the libraries' source code directly, rather than the compiled code.
 
 ```bash
 npm run buildcore
@@ -86,111 +80,96 @@ npm run buildcomponents
 npm run buildanalytics
 ```
 
-<div markdown="1" class="fs-2 p-3">
-Note that we use `npm run`, followed by the name of a command defined in the **scripts** section of the `package.json` rather than just calling `ng build core` directly. This allows:
-- The command to work even if Angular CLI is not installed globally.
-- To run the command with increased memory as specified in the `.npmrc` file.
-</div>
+The `buildcore`, `buildcomponents` and `buildanalytics` scripts are defined in the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json). The builds are generated in the `/dist` folder at the root of your workspace.
 
-The libraries are built to the `/dist` folder at the root of your workspace. If you import code from `@sinequa/core` or `@sinequa/components`, this is where it comes from.
-
-Just like for the [dependencies](#dependencies), these three libraries will be regularly updated. Do not forget to re-run these build commands when you download or pull a new version of the workspace.
+📝 Prefer using `npm run <command>` vs `ng <command>`: This guarantees that you are using the same version of Angular as the one defined in the `package.json` file.
 
 ## Building an app
 
-At this point you are ready to build one of the sample applications included in the workspace. The only thing missing is the name of your App on this server. You need to specify it in the `src/app/app.module.ts` file:
+Building an application is similar to [building a library](#building-the-libraries):
 
-```ts
-export const startConfig: StartConfig = {
-    app: "<name of your app>",
-    production: environment.production
-};
+```bash	
+npm run buildvanilla
 ```
 
-For example, if you named your app "my-app" in the [Server-side setup](server-setup.html), this might look like this:
+This scripts runs the `ng build` command (see the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json)) which generates a build artifact in the `dist` folder. This build is needed to deploy the application on a server (See the [deployment guide](4-deployment.html)).
 
-```ts
-export const startConfig: StartConfig = {
-    app: "my-app",
-    production: environment.production
-};
-```
-
-You can now build and serve the app with:
+In order to test the application, developers generally use the `ng serve` command, which starts a local web server and serves the application on `http://localhost:4200`. This command is also defined in the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json) file:
 
 ```bash
-npm run ng serve hello-search
+npm run start:vanilla
 ```
 
-If the build is successful, you can access your app by navigating to [`http://localhost:4200`](http://localhost:4200) in your favorite browser.
+The `start:vanilla` script contains options that can be customized in function of your environment:
 
-Unfortunately, at this point your app probably fails because the Angular application is sending requests to `localhost:4200`, but your Sinequa API is served at a different location!
+```bash
+ng serve vanilla-search --ssl=true --proxy-config=./projects/vanilla-search/src/proxy.conf.json
+```
 
-![Server error]({{site.baseurl}}assets/gettingstarted/server-error.png)
+- `ssl=true` serves the app with HTTPS (using a self-signed certificate). This option might be necessary depending on the authentication method used by the Sinequa server.
+- `proxy-config` configures a proxy to redirect HTTP requests to the Sinequa server (See [below](#proxy) for more details)
 
-To solve this problem, we can configure a **proxy** to redirect the requests from `localhost:4200` to your server. Open the `hello-search/src/proxy.conf.json` file. If Sinequa runs on your own computer on the default port, the configuration should look like this:
+## Connecting to the Sinequa server
+
+### TL;DR
+
+Connect your app to the Sinequa server by:
+
+- Specifying the `app` property in the `StartConfig` object of the `app.module.ts` file. (Also specify the name of your webapp's login provider if any).
+- Specifying the `url` of the Sinequa server in the `proxy.conf.json`.
+
+### Basic configuration
+
+An app communicates with Sinequa via its REST API (See [architecture](1-architecture.html)). But how does the app know where to find the Sinequa server?
+
+The [standard workspace](#use-the-standard-workspace) contains a `StartConfig` object in the `app.module.ts` file of each application:
+
+```ts
+// Initialization of @sinequa/core
+export const startConfig: StartConfig = {
+    app: "training",
+    production: environment.production,
+    autoSAMLProvider: environment.autoSAMLProvider,
+    auditEnabled: true
+};
+```
+
+This object contains the following optional properties:
+- `url`: The URL of the Sinequa server. If not specified, the app will use the URL of the host server.
+- `app`: The name of the app on the Sinequa server. If not specified, the app will be inferred from the URL (`/app/<appname>`)
+- `autoSAMLProvider` or `autoOAuthProvider`: The name of the login provider on the Sinequa server (if any). If not specified, the app attempts to retrieve it from the server. See [Login methods](../tipstricks/login-methods.html) for more details.
+
+When building your app for deployment on a Sinequa server, it should be fine to omit the above properties.
+
+### Development configuration
+
+⚠️ During development, the `ng serve` command serves your app on `http://localhost:4200`, which is NOT the Sinequa server and does NOT contain the name of the app!
+
+This is why we recommend defining the `app` and login providers (if any). For the `url`, there are two possibilities:
+
+- If the `url` property is specified in the `StartConfig`, your browser URL (`http://localhost:4200`) and Sinequa URL will NOT match, and you will run into [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues. You can fix these issues by configuring `https://localhost:4200` as a permitted origin in Sinequa (See [CORS and WebApp configuration](2-server-config.html#cors-and-webapp-configuration)).
+- Alternatively, you can define a proxy configuration (See [below](#proxy)) so that your browser URL and Sinequa URL (seemingly) share the same origin.
+
+### Proxy
+
+The `--proxy-config` option makes the local server redirect HTTP requests from `http://localhost:4200` to the Sinequa server. From the point of view of the browser, the requests are sent to the same origin, so there are no CORS issues.
+
+The proxy configuration is a simple JSON file passed as an argument to the `ng serve` command.
 
 ```json
 {
-    "/api": {
-      "target": "http://localhost",
-      "secure": false
-    },
-
-    "/xdownload": {
-        "target": "http://localhost",
-        "secure": false
-    }
+    "context": [
+        "/api",
+        "/xdownload",
+        "/saml/redirect",
+        "/r"
+    ],
+    "target": "https://vm-su-sba.sinequa.com:13343",
+    "secure": false,
+    "changeOrigin": true
 }
 ```
 
-Complete documentation about the proxy configuration is available in the [Angular](https://angular.io/guide/build#proxying-to-a-backend-server) and [Webpack](https://webpack.js.org/configuration/dev-server/#devserverproxy) documentation.
+The `context` property is an array of paths that will be redirected to the `target` URL. The `secure` property indicates whether to validate the SSL certificate of the target server. The `changeOrigin` property indicates whether the origin of the request should be changed to the target URL.
 
-Now run the following command:
-
-```bash
-npm run ng serve hello-search -- --proxy-config=./projects/hello-search/src/proxy.conf.json
-```
-
-Now your app should work!
-
-![Hello Search Works]({{site.baseurl}}assets/gettingstarted/hello-search-works.png)
-
-Log in to the app with the same credentials as you would to log in to the administration interface. If you have set up a custom login method (SSO, SAML, OAuth...) on the Sinequa webapp, you may need to customize the `app.module.ts` a bit further (see [Login methods]({{site.baseurl}}tipstricks/login-methods.html)).
-
-## Deploying an app on a Sinequa server
-
-To deploy your app on the Sinequa server:
-
-- Build the app with the production flag: `ng build hello-search --prod` (it will be built under the `dist/` folder)
-- Upload your workspace on the Sinequa server, in `<sinequa directory>\data\sba\` (either via file transfer or preferably a `git pull` -- See [Workflows](workflow.html))
-- In the administration, open your app (under *Search-Based Applications > Apps*) and set the **Workspace application** to the one you uploaded.
-
-![Workspace application]({{site.baseurl}}assets/gettingstarted/admin-deploy.png){: .d-block .mx-auto }
-
-Your app is now served by Sinequa at the URL `http://<sinequa server>/app/<name of your App>` (note that `name of you App` refers to the name of the App object in the administration, not the name of the Angular project).
-
-Note that if the URL of the Sinequa server is different between development and production settings, you will need to use the `src/environments` files to differentiate between these two (See [Environment]({{site.baseurl}}tipstricks/environment.html)).
-
-## Deploying an app on another server
-
-An SBA can be deployed on any kind of server, like any other Angular application. However, we have the same problem as above: If we do nothing, the HTTP requests will be directed to the host server instead of the Sinequa server.
-
-There are two ways of solving this:
-
-- Use a **proxy**, similarly as above, but this time with a real production proxy.
-- Enable **cross-origin requests**. The Sinequa Webapp needs to be properly configured to enable this (See [CORS and WebApp configuration](server-setup.html#cors-and-webapp-configuration)). Additionally the Sinequa server needs to be served over HTTPS, due to strict restrictions of CORS by the modern web browsers.
-
-    In your `app.module.ts`, add the URL of the Sinequa server in the `StartConfig` object:
-
-    ```ts
-    export const startConfig: StartConfig = {
-        url: "https://my-sinequa-server",
-        app: "<name of your app>",
-        production: environment.production
-    };
-    ```
-
-    Note that this configuration replaces the `ng serve` proxy configuration.
-
-    ⚠️ Even with HTTPS enabled, CORS will limit some of functionalities of the SBA framework, like the interaction with the content of the preview (See [`PreviewDocument`]({{site.baseurl}}modules/components/preview.html#preview-document)).
+See the [Angular](https://angular.io/guide/build#proxying-to-a-backend-server) and [Webpack](https://webpack.js.org/configuration/dev-server/#devserverproxy) documentation for more details.

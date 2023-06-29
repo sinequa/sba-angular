@@ -243,7 +243,7 @@ If you need to enable Windows SSO with CORS, additional steps are needed:
 
     ![Login form]({{site.baseurl}}assets/tipstricks/iis-sso.png){: .d-block .mx-auto }
 
-4. If not already done, enable CORS in your WebApp configuration from the specified origins (See [Server configuration]({{site.baseurl}}guides/server-config.html)).
+4. If not already done, enable CORS in your WebApp configuration from the specified origins (See [Server configuration]({{site.baseurl}}guides/2-server-config.html)).
 
 5. **Add security rules into the web.config file**
 

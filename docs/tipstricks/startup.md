@@ -80,7 +80,7 @@ The key properties of the `StartConfig` are the following:
 - `app` (required): The name of the App defined on the Sinequa server.
 - `url` (optional): Can be used to specify the URL of the Sinequa server when the app is hosted at a different address (by default, the app's URL is used to query the web services).
 - `auditEnabled` (optional): Whether the audit is enabled in the app.
-- `autoOAuthProvider` and `autoSAMLProvider`, which are necessary for some [Login Methods](login-methods.md).
+- `autoOAuthProvider` and `autoSAMLProvider`, which are necessary for some [Login Methods](login-methods.html).
 - `production` (optional): A flag indicating whether the app is running in production mode or not.
 
 ### Application Routes
