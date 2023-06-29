@@ -46,6 +46,8 @@ const messages = Utils.merge({}, ..., enML, appMessages);
 
 This module exports the `AnswerCardComponent`, `TopPassagesComponent` and `PassageListComponent` components that are responsible for displaying the Neural Search data from your query.
 
+It also exports the ChatGPT related components such as `ChatComponent`, `ChatSettingsComponent` and `SavedChatsComponent`.
+
 ### Answer Component
 
 The answers are the possible direct answers the platform supposes from your query according to the documents it searches through.
@@ -54,28 +56,36 @@ The answers are the possible direct answers the platform supposes from your quer
 
 **Required parameters:**
 
-* `results`: The query's results which includes all the necessary data to display the answers
+* `results`: The query's results which includes all the necessary data to display the answers.
 
 **Optional parameters:**
 
-* `collapsed` (default: `false`): Whether the components starts collapsed
-* `showLikeButtons` (default: `false`): Whether the Like/Dislike buttons should be shown
+* `collapsed` (default: `false`): Whether the components starts collapsed.
+* `showLikeButtons` (default: `false`): Whether the Like/Dislike buttons should be shown.
+* `hideDate` (default: `false`): Whether the dates should be hidden.
+* `dateFormat` (default: `{ year: 'numeric', month: 'short', day: 'numeric' }`): The format for the dates.
+
+The component also emits `previewOpened`, triggered when the answer has been clicked and that we should open the preview, and also `titleClicked` upon clicking the title.
 
 ### Top Passages Component
 
 Similar as the Answer component, the Top Passages one displays the relevant passages that Neural Search has figured from your query according to your documents.
 
+The passages may include some answers which are included in spans with an `answer` class which allows to highlight them.
+
 <doc-top-passages></doc-top-passages>
 
 **Required parameters:**
 
-* `results`: The query's results which includes all the necessary data to display the passages
+* `results`: The query's results which includes all the necessary data to display the passages.
 
 **Optional parameters:**
 
-* `collapsed` (default: `false`): Whether the components starts collapsed
-* `itemsPerPage` (default: `3`): The number of passages to show per page. It can be 1 as for Answer or many at once
-* `lineNumber` (default: `3`): The number of lines to display per passages on collapsed state, they can be expanded afterwards
+* `collapsed` (default: `false`): Whether the components starts collapsed.
+* `hideDate` (default: `false`): Whether the dates should be hidden.
+* `dateFormat` (default: `{ year: 'numeric', month: 'short', day: 'numeric' }`): The format for the dates.
+
+The component also emits `passageClicked`, usually to open the preview, and `documentOpened` when the title is clicked.
 
 ### Passage List
 
@@ -87,9 +97,68 @@ It is placed in the mini preview where you can switch of view between the docume
 
 **Required parameters:**
 
-* `record`: The selected document from the results list
+* `record`: The selected document from the results list.
 
 **Optional parameters:**
 
-* `maxPassages`: The maximum number of passages to show from the passages list of the document
-* `passageId`: The id from a passage to make it expanded automatically
+* `maxPassages`: The maximum number of passages to show from the passages list of the document.
+* `passageId`: The id from a passage to expand it automatically.
+
+### Chat
+
+![Chat Component]({{site.baseurl}}assets/modules/machine-learning/chatgpt-facet.png){: .d-block .mx-auto }
+
+The chat opens a conversation instance with ChatGPT. It has a default configuration and therefore doesn't require any parameter in order to work, but there are many options to configure it.
+
+**Optional parameters:**
+
+* `chat`: A saved chat, to reload the previous messages, tokens and attachments. These conversations may be `SavedChat` (conversations manually saved by the user), or programmatically-constructed conversation starters (for example "take these documents and build a summary"). **(the `null` input is needed if no other input is provided to the component)**
+* `enableChat` (default: `true`): Whether it is allowed to chat with ChatGPT (we may want to disable it sometimes, like when we just want to display a summary, or any desired message that we can setup with the prompt configuration).
+* `searchMode` (default: `false`): When set to true, this enables "auto-search". This lets users trigger a Sinequa search query that constructs "attachments" (snippets of text from documents) that they can then inject in the conversation with ChatGPT. Auto-search is triggered directly from the Chat's input, by pressing the Tab key, or by click the Sinequa logo displayed to the right of the search bar.
+
+![Search mode]({{site.baseurl}}assets/modules/machine-learning/auto-search.png){: .d-block .mx-auto }
+
+* `query` (default: `SearchService.query`): The query to interact with when making requests (like when searching for attachments while in `searchMode`).
+* All properties from `defaultChatConfig` to override (model, UI, prompts, auto search properties)
+
+Here is the simplest possible usage of the chat component:
+
+```html
+<sq-chat [chat]="null"></sq-chat>
+```
+
+Another example could be to provide the list of passages and ask for a summary:
+
+```ts
+const passages = this.searchService.results?.topPassages?.passages;
+if(passages?.length) {
+  const attachments = this.chatService.addTopPassages(passages, []);
+  const prompt = `Please generate a summary of these passages`;
+  const messages = [
+    {role: 'system', display: false, content: prompt}
+  ];
+  this.chat = {messages, attachments};
+}
+```
+
+```html
+<sq-chat [chat]="chat"></sq-chat>
+```
+
+### Chat Settings
+
+![Chat Settings]({{site.baseurl}}assets/modules/machine-learning/chat-settings.png){: .d-block .mx-auto }
+
+This component allows to edit a chat configuration, which corresponds to all properties from the `ChatConfig` interface.
+
+It only requires the `config` input, and emits on `reset` when the user clicks on the Reset button.
+
+```html
+<sq-chat-settings [config]="chatConfig"></sq-chat-settings>
+```
+
+### Saved Chats
+
+`sq-chat` offers the possibility to save the chat session with ChatGPT. In order to load them back, this component can be used to display the list chats that have been saved.
+
+The component requires no input parameter. It will only emit the `SavedChat` with the `load` input upon clicking on a chat name, and you can also delete them in this list if you wish.
