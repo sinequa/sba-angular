@@ -46,7 +46,7 @@ const messages = Utils.merge({}, ..., enML, appMessages);
 
 This module exports the `AnswerCardComponent`, `TopPassagesComponent` and `PassageListComponent` components that are responsible for displaying the Neural Search data from your query.
 
-It also exports the ChatGPT related components such as `ChatComponent`, `ChatSettingsComponent` and `SavedChatsComponent`.
+It also exports components for chatting with a Generative Large Language Model: `ChatComponent`, `ChatSettingsComponent` and `SavedChatsComponent`.
 
 ### Answer Component
 
@@ -108,7 +108,7 @@ It is placed in the mini preview where you can switch of view between the docume
 
 ![Chat Component]({{site.baseurl}}assets/modules/machine-learning/chatgpt-facet.png){: .d-block .mx-auto }
 
-The chat opens a conversation instance with ChatGPT. It has a default configuration and therefore doesn't require any parameter in order to work, but there are many options to configure it.
+The chat opens a conversation instance with a Generative Large-Language Model service (such as Azure OpenAI, powering ChatGPT, or Google's PaLM). It has a default configuration and therefore doesn't require any parameter in order to work, but there are many options to configure it.
 
 **Optional parameters:**
 
@@ -159,6 +159,6 @@ It only requires the `config` input, and emits on `reset` when the user clicks o
 
 ### Saved Chats
 
-`sq-chat` offers the possibility to save the chat session with ChatGPT. In order to load them back, this component can be used to display the list chats that have been saved.
+`sq-chat` offers the possibility to save a chat session in the [user settings]({{site.baseurl}}libraries/components/user-settings.html). In order to load them back, the `sq-saved-chat` component can be used to display the list chats that have been saved.
 
 The component requires no input parameter. It will only emit the `SavedChat` with the `load` input upon clicking on a chat name, and you can also delete them in this list if you wish.
