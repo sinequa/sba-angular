@@ -46,6 +46,21 @@ To import or remove the theme, you can switch of import between `minimal` (the v
 
 Note that both files include Bootstrap imports and come with an integrated Dark theme.
 
+## Architecture
+
+As mentioned at the beginning, all files are located inside `@sinequa/components/theme`. They are organized as follow:
+
+* At the root are the main files to import or customize
+  * `minimal` and `sinequa` for the theme
+  * `breakpoints`, `colors`, `dark-colors` and `variables` with all the configurable variables to handle the colors, spacings, etc
+  * `dark` adds the handling of the dark colors when in dark mode
+* Inside `components` are some additional styling for the components
+* Inside `sba` are some more general SBA related styling
+
+The components are designed to be minimally styled, with the least styling to be usable with Bootstrap. They are also unopiniated with the most simple and neutral customization. This styling is available while using the `minimal` theme which only imports the basic files such as Bootstrap, Fontawesome and the minimum of files to have everything working.
+
+Only the `sinequa` theme inserts opiniated customization. It is based on `minimal` and imports with it all variables along with the files inside `components` and `sba`.
+
 ## Customization
 
 Sinequa Theme overrides Bootstrap components using Sass files.
