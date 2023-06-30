@@ -9,7 +9,7 @@ nav_order: 3
 
 ## Prerequisites
 
-SBA developers should be familiar with [Angular](https://angular.io/) and [Bootstrap](https://getbootstrap.com/). Specific knowledge about Sinequa is not strictly required, although it is useful to understand where the data comes from, how it may be customized and what additional features may be enabled through custom APIs and plugins.
+SBA developers should be familiar with [Angular](https://angular.io/) and [Bootstrap](https://getbootstrap.com/). Specific knowledge about Sinequa is not strictly required, although it is useful to understand where the data comes from, how it can be customized and what additional features can be enabled through custom APIs and plug-ins.
 
 We recommend reading the [architecture](1-architecture.html) guide and completing the [tutorial](../tutorial/tutorial.html) before starting development. 
 
@@ -19,17 +19,17 @@ An SBA development environment requires the following tools and accesses:
 
 - [**NodeJS**](https://nodejs.org/): Node and npm (Node Package Manager) are required to download and manage the dependencies of the project (like the [Angular](https://angular.io) library). ⚠️ To pick the right version, check the [Angular documentation](https://angular.io/guide/versions) and compare it with the version of Angular found in your `package.json`.
 - [**Visual Studio Code**](https://code.visualstudio.com/): The recommended IDE (Integrated Development Environment) for Angular development.
-- [**Git**](https://git-scm.com/): The version control system allowing you to sync your workspace with a Git or Github repository, work collaboratively and deploy the project on a server.
-- Access to a Sinequa server over HTTP(S), and an account on this server with access to some data (for testing purposes).
-- An Internet connection, to download 3rd party libraries from the Internet, via [npm](https://www.npmjs.com/) (Node Package Manager). Note that this is not a strict requirement, since these libraries could be manually copied into the  environment.
+- [**Git**](https://git-scm.com/): The version control system allowing you to sync your workspace with a Git or Github repository to work collaboratively and deploy the project on a server.
+- Access to a Sinequa server over HTTP(S) and an account on this server with access to some data (for testing purposes).
+- An Internet connection to download 3rd party libraries from the Internet via [npm](https://www.npmjs.com/) (Node Package Manager). Note that this is not a strict requirement since these libraries could be manually copied into the  environment.
 
-⚠️ It can be tempting to use the Sinequa server as the development environment and/or use the administration console to make changes to the source code, but this is not recommended. Prefer using a local development environment (on your own computer) and deploy your app on the Sinequa server only when it is ready for production.
+⚠️ It can be tempting to use the Sinequa server as the development environment and/or use the administration interface to make changes to the source code, but this is not recommended. The preference is to use a local development environment (on your own computer) and deploy your application on the Sinequa server only when it is ready for production.
 
 ## Workspace
 
 The workspace is the directory containing the source code of your application. The dependencies of your project are declared in the `package.json` file at the root of the workspace. These dependencies are installed by running `npm install` (they are stored in the `node_modules` folder). The workspace also contains the configuration files for Angular (`angular.json`) and TypeScript (`tsconfig.json`).
 
-There are two ways of creating a workspace, with different pros and cons:
+There are two ways to create a workspace with different pros and cons:
 
 ### Use the standard workspace
 
@@ -44,18 +44,18 @@ Updating the workspace is as simple as pulling the latest version from Github, a
 
 The standard workspace contains the main Sinequa [libraries](../libraries/libraries.html) (Core, Components and Analytics) and sample [applications](../apps/apps.html) (Vanilla Search and Pepper).
 
-You can either **directly modify an existing application** or **create a new one** (and modify the `angular.json` accordingly):
+You can either **modify an existing application directly** or **create a new one** (and modify the `angular.json` accordingly):
 
-- Directly modify an existing application if you do not intend to customize it significantly. The benefit is that you will be able to easily update the application by pulling the latest version of the workspace from Github, with a small amount of conflicts to manage.
-- Create a new application if you want to start from scratch or if you want to deviate significantly from a sample application. You will not have any conflict to resolve during updates, but you will need to manually update your application to benefit from the latest features of the SBA Framework.
+- Modify an existing application directly if you do not intend to customize it significantly. The benefit is that you can easily update the application by pulling the latest version of the workspace from Github with only a small amount of conflicts to manage.
+- Create a new application if you want to start from scratch or if you want to deviate significantly from a sample application. You will not have any conflicts to resolve during updates, but you will need to manually update your application to benefit from the latest features of the SBA Framework.
 
-Using the standard workspace allows you to customize anything you want, including the low-level libraries. Having access to the source code of the libraries is also useful to understand how they work and how to write your own components.
+Using the standard workspace allows you to customize anything you want, including the low-level libraries. Having access to the source code of the libraries is also useful to help you understand how they work and how to write your own components.
 
 ⚠️ The standard workspace is also packaged as a .zip file in the Sinequa product. However, if you use this file, you will not be able to update the workspace by pulling the latest version from Github!
 
 ### Create a new workspace and install the npm packages
 
-You may prefer to create a new workspace from scratch and include only the npm packages you need. In this case, you must install the SBA Framework libraries in your project via [npm](https://www.npmjs.com/).
+You can also create a new workspace from scratch and include only the npm packages you need. In this case, you must install the SBA Framework libraries in your project via [npm](https://www.npmjs.com/).
 
 ```bash
 # Create a new Angular workspace
@@ -66,13 +66,13 @@ cd my-project
 npm install @sinequa/core @sinequa/components @sinequa/analytics --legacy-peer-deps
 ```
 
-⚠️ The last command requires the `--legacy-peer-deps` flag to prevent npm from installing the **peer dependencies** automatically. We recommend installing the peer dependencies manually on a case by case basis. An alternative approach is copy the list of dependencies from the standard workspace's [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json) file.
+⚠️ This last command requires the `--legacy-peer-deps` flag to prevent npm from installing the **peer dependencies** automatically. We recommend installing the peer dependencies manually on a case-by-case basis. An alternative approach is to copy the list of dependencies from the standard workspace's [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json) file.
 
-📝 With this approach, updating the SBA libraries is done via npm, using the `npm update @sinequa/<library>` command. The [Sinequa npm packages](https://www.npmjs.com/package/@sinequa/core) are published at same time as the Sinequa product.
+📝 With this approach, updating the SBA libraries is done via npm using the `npm update @sinequa/<library>` command. The [Sinequa npm packages](https://www.npmjs.com/package/@sinequa/core) are published at same time as the Sinequa product.
 
 ## Building the libraries
 
-When using the standard workspace (see [above](#use-the-standard-workspace)), it is possible to build the SBA libraries. This step is NOT required, because applications can reference the libraries' source code directly, rather than the compiled code.
+When using the standard workspace (see [above](#use-the-standard-workspace)), it is possible to build the SBA libraries. This step is NOT required because applications can reference the libraries' source code directly rather than the compiled code.
 
 ```bash
 npm run buildcore
@@ -82,7 +82,7 @@ npm run buildanalytics
 
 The `buildcore`, `buildcomponents` and `buildanalytics` scripts are defined in the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json). The builds are generated in the `/dist` folder at the root of your workspace.
 
-📝 Prefer using `npm run <command>` vs `ng <command>`: This guarantees that you are using the same version of Angular as the one defined in the `package.json` file.
+📝 We recommend `npm run <command>` vs `ng <command>`: This guarantees that you are using the same version of Angular as the one defined in the `package.json` file.
 
 ## Building an app
 
@@ -92,7 +92,7 @@ Building an application is similar to [building a library](#building-the-librari
 npm run buildvanilla
 ```
 
-This scripts runs the `ng build` command (see the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json)) which generates a build artifact in the `dist` folder. This build is needed to deploy the application on a server (See the [deployment guide](4-deployment.html)).
+This script runs the `ng build` command (see the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json)), which generates a build artifact in the `dist` folder. This build is needed to deploy the application on a server (See the [deployment guide](4-deployment.html)).
 
 In order to test the application, developers generally use the `ng serve` command, which starts a local web server and serves the application on `http://localhost:4200`. This command is also defined in the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json) file:
 
@@ -100,7 +100,7 @@ In order to test the application, developers generally use the `ng serve` comman
 npm run start:vanilla
 ```
 
-The `start:vanilla` script contains options that can be customized in function of your environment:
+The `start:vanilla` script contains options that can be customized based on your environment:
 
 ```bash
 ng serve vanilla-search --ssl=true --proxy-config=./projects/vanilla-search/src/proxy.conf.json
