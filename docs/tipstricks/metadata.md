@@ -70,9 +70,9 @@ With a configuration like:
 ```ts
 this.metadata: MetadataConfig[] = [
     {
-        field: "category",
-        label: "Category",
-        icon: "far fa-file-alt"
+        field: "category", // the field in the record
+        label: "Category", // the label to put in front of the value, it can be a key to use with sqMessage
+        icon: "far fa-file-alt" // the Fontawesome class, you can find all available icons at https://fontawesome.com/v5/search
     }
 ];
 ```
@@ -159,7 +159,7 @@ If your aggregation is in the list and not empty, you can display a facet list c
 
 Both the `sq-metadata` component and the `sq-facet-list` components let you filter the results based on the value of metadata (for `sq-metadata`, with the `filterable` and `excludable` parameters from `MetadataConfig`).
 
-Alternatively, you can apply these filters yourself by modifying the `Query` object and requesting new results to the server. To do so, ou can use the `SearchService` (from `@sinequa/components/search`):
+Alternatively, you can apply these filters yourself by modifying the `Query` object and requesting new results to the server. To do so, you can use the `SearchService` (from `@sinequa/components/search`):
 
 ```ts
 this.searchService.query.addFilter({field: 'category', value: "<a category>"}) // Apply the filter (to the Query)
