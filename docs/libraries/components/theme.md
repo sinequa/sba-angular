@@ -58,8 +58,11 @@ Only the `sinequa` theme inserts opiniated customization. It is based on `minima
 
 ## Customization
 
+### How to customize
+
 Sinequa Theme overrides Bootstrap components using Sass files.
 If you want to customize your application, do not overrides the Sinequa Theme files. Instead:
+
 * override Bootstrap components as Sinequa Theme does [https://getbootstrap.com/docs/5.2/customize/overview/](https://getbootstrap.com/docs/5.2/customize/overview/)
 
 OR
@@ -71,3 +74,67 @@ OR
   ```
   * contains Bootstrap imports
   * contains recommended imports to work with SBA components
+
+### Examples
+
+#### Updating a few variables
+
+You may just want to use the whole Sinequa theme but update some properties like colors or borders. Let's say we want to :
+* change the facet header background
+* add a border to the facets and remove the border radius
+* change the links color
+
+You can have your `app.scss` like this in [Vanilla Search](../apps/2-vanilla-search.html):
+
+```scss
+// theme overrides
+$card-cap-bg: #ddffe4; // facet header background
+$card-border-width: .1rem; // facet border
+$card-border-radius: 0; // facet border radius
+
+// Sinequa global theme (contains Bootstrap imports)
+@import "../../../components/theme/sinequa";
+
+// SBA components custom CSS overrides
+@import "vanilla";
+
+// result title + result source color
+.sq-result-title, sq-result-source a {
+    color: green;
+}
+```
+
+This will change this :
+
+![Theme example before]({{site.baseurl}}assets/modules/theme/theme-example-1.png){: .d-block .mx-auto }
+
+Into this:
+
+![Theme example after]({{site.baseurl}}assets/modules/theme/theme-example-2.png){: .d-block .mx-auto }
+
+
+#### Customize the files you want
+
+You may also not want the whole package from what `sinequa` offers. In that case, you can import `minimal` and just what you need.
+
+A possibility would be to check at the `sinequa` content and pick what you need. Let's say you don't need the sba files, you can have your `app.scss` like this:
+
+```scss
+// the variables (needed in most components and sba files)
+@import "../../../components/theme/colors";
+@import "../../../components/theme/variables";
+
+// the minimal theme
+@import "../../../components/theme/minimal";
+
+// the components files
+@import "../../../components/theme/components/forms";
+@import "../../../components/theme/components/buttons";
+@import "../../../components/theme/components/dropdown";
+@import "../../../components/theme/components/tabs";
+@import "../../../components/theme/components/alerts";
+@import "../../../components/theme/components/pagination";
+
+// SBA components custom CSS overrides
+@import "vanilla";
+```
