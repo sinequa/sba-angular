@@ -177,9 +177,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "hello-search:build:development",
-            "ssl": true,
-            "proxyConfig": "projects/hello-search/src/proxy.conf.json"
+            "browserTarget": "hello-search:build:development"
           },
           "configurations": {
             "production": {
@@ -322,9 +320,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "vanilla-search:build:development",
-            "ssl": true,
-            "proxyConfig": "projects/vanilla-search/src/proxy.conf.json"
+            "browserTarget": "vanilla-search:build:development"
           },
           "configurations": {
             "production": {
@@ -478,9 +474,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pepper:build:development",
-            "ssl": true,
-            "proxyConfig": "projects/pepper/src/proxy.conf.json"
+            "browserTarget": "pepper:build:development"
           },
           "configurations": {
             "production": {
@@ -671,9 +665,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "components-docs:build:development",
-            "ssl": true,
-            "proxyConfig": "projects/components-docs/src/proxy.conf.json"
+            "browserTarget": "components-docs:build:development"
           },
           "configurations": {
             "production": {

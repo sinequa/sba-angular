@@ -6,6 +6,6 @@ has_children: true
 description: "SBA framework tutorial"
 ---
 
-# SBA framework tutorial
+# SBA Framework tutorial
 
-This section contains a tutorial to build your first SBA, starting from the [**Hello Search**]({{site.baseurl}}modules/hello-search/hello-search.html) app.
+This section contains a tutorial to build your first SBA, starting from the [**Hello Search**]({{site.baseurl}}modules/hello-search/hello-search.html) application.
