@@ -28,7 +28,7 @@ It is not the best practice to expose index column names in the front-end. You c
 
 ![Column alias]({{site.baseurl}}assets/tipstricks/alias.png){: .d-block .mx-auto }
 
-Now, your parameter is accessible under `record['category']`. The alias is used throughout the configuration of the SBA. Additionally, some Sinequa components (like `sq-metadata`) will use the *labels* to display that metadata. The labels can be raw strings, like **Category** and **Categories**, but the best practice is to use internationalization codes, as above (`msg#app.category.pluralLabel`). See [Internationalization]({{site.baseurl}}tutorial/intl.html).
+Now, your parameter is accessible under `record['category']`. The alias is used throughout the configuration of the SBA.
 
 While we are configuring the *Query*, we can also create an *aggregation* to feed our facet of categories. In the **General tab**, add a new line under the **Aggregations** table. Give it a meaningful name, like "Categories" and set the name of the column to your alias `category`. Optionally edit the configuration of your aggregation for more options:
 
@@ -56,45 +56,26 @@ You can directly display the value with something like:
 {% raw %}<span>{{ record['category'] }}</span>{% endraw %}
 ```
 
-For something more sophisticated, which includes a *label* and an icon, you can try:
+For something more sophisticated, which can include a *label* and an *icon*, you can try using the [Metadata component]({{site.baseurl}}libraries/components/metadata.html#the-sq-metadata-selector):
 
 ```html
 <sq-metadata
     [record]="record"
-    [items]="['metadata']"
-    [showTitles]="true"
-    [showIcons]="true"
-    [clickable]="false"
-    [spacing]="'compact'">
+    [config]="metadata">
 </sq-metadata>
 ```
 
-Note that the icon will be shown via a `class="sq-icon-category"` attribute. You need to assign an icon to `sq-icon-category`, which is done in `icons.scss`, if you are using [Vanilla-Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html).
+With a configuration like:
 
-```scss
-$sq-icons-map: (
-    ...
-    "category": ("tag", "s"),  // Results in 'sq-icon-category' = 'fas fa-tag', a font awesome icon
+```ts
+this.metadata: MetadataConfig[] = [
+    {
+        field: "category", // the field in the record
+        label: "Category", // the label to put in front of the value, it can be a key to use with sqMessage
+        icon: "far fa-file-alt" // the Fontawesome class, you can find all available icons at https://fontawesome.com/v5/search
+    }
+];
 ```
-
-Alternatively, you could assign the Font Awesome icon manually (see [documentation](https://fontawesome.com/how-to-use/on-the-web/using-with/sass)):
-
-```scss
-@import "./fontawesome/scss/fontawesome.scss";
-@import "./fontawesome/scss/solid.scss";
-@import "./fontawesome/scss/brands.scss";
-
-.sq-icon-category {
-  @extend %fa-icon;
-  @extend .fas; // Use @extend .fas; to create an icon in the Solid style
-
-  &:before {
-    content: fa-content($fa-var-tag);
-  }
-}
-```
-
-Or, you could create a completely custom icon (eg. based on an image), also via CSS (again, target the classname `sq-icon-category`). Have a look at [this Stack Overflow question](https://stackoverflow.com/questions/29576527/adding-icon-image-to-css-class-for-html-elements) for example.
 
 ## Custom formatter
 
@@ -176,19 +157,11 @@ If your aggregation is in the list and not empty, you can display a facet list c
 
 ## Filtering the results
 
-Both the `sq-metadata` component and the `sq-facet-list` components let you filter the results based on the value of metadata (for `sq-metadata`, with `[clickable]="true"`). Alternatively, you can apply these filters yourself by modifying the `Query` object and requesting new results to the server.
+Both the `sq-metadata` component and the `sq-facet-list` components let you filter the results based on the value of metadata (for `sq-metadata`, with the `filterable` and `excludable` parameters from `MetadataConfig`).
 
-In the context of a facet, use the `FacetService` (from `@sinequa/components/facet`). For example:
-
-```ts
-let aggregation = this.facetService.getAggregation('Categories', results); // Get the aggregation data
-let item = aggregation.items.find(item => item === 'some category'); // Find the item you want to "click" on
-this.facetService.addFilterSearch('facet name', aggregation, item); // Apply the filter (to the Query) and refresh the search
-```
-
-In a more general context (not tied to a facet), you can use the `SearchService` (from `@sinequa/components/search`):
+Alternatively, you can apply these filters yourself by modifying the `Query` object and requesting new results to the server. To do so, you can use the `SearchService` (from `@sinequa/components/search`):
 
 ```ts
-this.searchService.addFieldSelect("category", {value: "some category"}); // Apply the filter (to the Query)
+this.searchService.query.addFilter({field: 'category', value: "<a category>"}) // Apply the filter (to the Query)
 this.searchService.search(); // Request results to the server (with the new query)
 ```
