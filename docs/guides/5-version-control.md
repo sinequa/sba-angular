@@ -5,157 +5,149 @@ parent: Guides
 nav_order: 5
 ---
 
-# Workflows of the SBA Framework
+# Version Control
+{: .no_toc}
 
-There is not a single way of working with the SBA Framework, but there are different levels of sophistication, which offer different pros and cons. If you are working on a quick one-off project, prefer a [Local](#working-locally) [File-based](#file-based-workflow) Workflow. If you are working on a large, long-term project with many contributors, rather prefer a [Remote](#working-remotely) [Github-based](#github-based-workflow) Workflow.
+While using a Version Control system is not mandatory, it is highly recommended for any serious development project. Using a Version Control system such as Git allows you to:
 
-## Local vs. Remote
+- TOC
+{:toc}
 
-Traditionally, any development done in a Sinequa project has to be implemented and tested on a Sinequa server. The Sinequa server may occasionally be on the local computer of a developer, but this is unpractical in a complex project, as the divergence between the state of the server(s) and that of the developer(s) is difficult to manage.
+## Download the standard SBA workspace
 
-With the SBA framework, the development can take place anywhere, as long as the REST API of the Sinequa server is accessible. This means you can work:
-
-- **Locally**: ie, directly on the Sinequa server (whether it's a physical or virtual server, or just your own computer with Sinequa installed on it).
-- **Remotely**: ie, on any regular workstation that knows nothing of Sinequa, but can access its remote REST API (This is generally the recommended approach).
-
-### Working locally
-
-When working **locally**, your Angular workspace lives in the `<sinequa>/data/sba/<name of the workspace>` folder. You can initialize the Angular workspace by unzipping the default workspace provided with the Sinequa release. To do so, in the Sinequa administration, open *Search-Based Applications > Workspaces* and in the top-right click *New > Unzip the default workspace*. The unzipped workspace includes all third-party dependencies (`node_modules/` folder) and the builds of each library and app (`dist/` folder).
-
-Working locally makes the deployment very easy: you simply build your app for production, and it is ready to be served by Sinequa. It is adapted for quick projects with a single developer.
-
-When working locally, you can configure the `StartConfig` object in your `app.module.ts` like this:
-
-```ts
-export const startConfig: StartConfig = {
-    app: "<name-of-your-app>",
-    production: environment.production
-};
-```
-
-### Working remotely
-
-When working **remotely**, your Angular workspace can live anywhere on your computer. You can download and unzip the default workspace from the Sinequa release. To do so, in the Sinequa administration, open *Search-Based Applications > Workspaces* and in the top-right click *Download default workspace*/ The unzipped workspace includes all third-party dependencies (`node_modules/` folder) and the builds of each library and app (`dist/` folder).
-
-Working remotely is well suited to complex projects, involving multiple developers. Each developer can work on the app independently and merge their work via a system like Git (See [Git-based workflow](#git-based-workflow)). At some point, of course, you have to deploy your application on the Sinequa server. This can be done via file transfers or via Git (more on that below).
-
-When working remotely, you can use a **proxy**, as demonstrated in [Developer-side setup](dev-setup.html#building-an-app). Also read [`ng serve`](#ng-serve) below.
-
-Alternatively, you can use Cross-Origin requests, in which case you can specify the URL of your Sinequa server in the `StartConfig` object in your `app.module.ts` like this:
-
-```ts
-export const startConfig: StartConfig = {
-    url: "https://your-sinequa-server.com"
-    app: "<name-of-your-app>",
-    production: environment.production
-};
-```
-
-⚠️ Using [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) limits some functionalities of the framework and requires the Sinequa API to be served over HTTPS, as discussed in [Deploying an app on another server](dev-setup.html#deploying-an-app-on-another-server).
-
-### ng serve
-
-`ng serve` performs three actions:
-
-- It builds your application (by default with the debug settings)
-- It watches for changes in your code and updates the build immediately (the two first steps are equivalent to `ng build --watch`)
-- It serves your application on a local development server (by default `http://localhost:4200`)
-
-The third step means by definition that the app is not served from the same URL as Sinequa, which causes [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues. To resolve them, there are two options:
-
-- Proxy the Sinequa server so that your browser "thinks" that your app and the Sinequa server both live on the same server at `http://localhost:4200`. To do this, create a file `proxy.json` with the following content:
-
-    ```json
-    {
-        "/api": {
-            "target": "https://your-sinequa-server.com",
-            "secure": true,
-            "changeOrigin": true
-        },
-
-        "/xdownload": {
-            "target": "https://your-sinequa-server.com",
-            "secure": true,
-            "changeOrigin": true
-        },
-
-    }
-    ```
-
-    ⚠️ Note that if your app uses auth protocols like SAML, you may also need to proxy additional URLs, like `/saml/redirect`.
-
-    Then modify your `ng serve` command to use your proxy:
-
-    ```
-    npm run ng serve <your-app> -- --ssl=true --proxy-config=<path-to-proxy.json>
-    ```
-
-    The proxy file can have various other options. Read the [online documentation](https://angular.io/guide/build#proxying-to-a-backend-server).
-
-- Alternatively, configure the Sinequa Webapp to allow cross-origin requests (In the configuration of your *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests*, write `http://localhost:4200` or just `*`). As mentioned in [Deploying an app on another server](dev-setup.html#deploying-an-app-on-another-server), the Sinequa API must be accessible over HTTPS. This does not resolve all CORS issues (in particular if you are working on the document preview).
-
-Whether you work locally or remotely, you can build your app and use `ng serve`, as long as you correctly configure your `app.module.ts` (and/or a proxy) as described above. Alternatively, if you work locally, you can use `ng build --watch`, to build your app continuously but let Sinequa serve it at the URL `http(s)://<sinequa server>/app-debug/<name-of-the-app>`.
-
-## File-based Workflow
-
-The **File-based Workflow** consists in working with simple file transfers to move around your Angular workspace (eg. between your computer and server).
-
-Like [working locally](#working-remotely), this approach is useful for simple one-off projects with a single developer..
-
-**Pros:**
-
-- Simplest workflow possible.
-
-**Cons:**
-
-- Incompatible with team work.
-- Difficult to track changes in the code.
-- Difficult to update the code.
-
-## Git-based Workflow
-
-The **Git-based Workflow** consists in using a Git repository to manage the code of your Angular workspace. This allows you to work collaboratively and to track the changes in your app.
-
-![Git workflow]({{site.baseurl}}assets/gettingstarted/git-workflow.png){: .d-block .mx-auto width="500px" }
-
-In this process, the project repository contains the reference, and every developer (and the Sinequa server) *clones* this repository locally. Developers *commit* their changes and then *push* them to the central repository, resolving potential *merge* conflicts in the process. Deploying a new version on the server simply means running a `git pull` command on the server.
-
-When a new version of the workspace is *cloned* or *pulled* on a computer or server, it is generally necessary to run the following commands:
-
-- `npm install`, which updates the dependencies from the Internet. This step is required when a developer updates the list of dependencies in the `package.json` file. If the server does not have access to the Internet, the `node_modules/` folder needs to be updated manually, via file transfer.
-- `npm run buildcore`, which builds [`@sinequa/core`]({{site.baseurl}}modules/core/core.html). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
-- `npm run buildcomponents`, which builds [`@sinequa/components`]({{site.baseurl}}modules/components/components.html). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
-- `npm run buildanalytics`, which builds [`@sinequa/analytics`]({{site.baseurl}}modules/analytics/analytics.html). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
-- On the server: `npm run ng build <name-of-your-app> -- --prod`, which builds your app for release, which allows Sinequa to serve it.
-
-Note that all the commands above can be run directly from the administration user interface.
-
-**Pros:**
-
-- Enables collaborative team work.
-- Allows to track changes in the app.
-
-**Cons:**
-
-- Requires hosting a Git repository on a server.
-- Updating the code can occasionally require to resolve Git merge conflicts.
-
-## Github-based Workflow
-
-The **Github-based Workflow** is a variation of the above **Git-based Workflow**, in which the Git repository is originally *cloned* or *forked* from our official [Sinequa Github repository](https://github.com/sinequa/sba-angular).
-
-![Git workflow]({{site.baseurl}}assets/gettingstarted/github-workflow.png){: .d-block .mx-auto }
-
-This process helps address the issue of updating the Sinequa libraries and apps. Without it, you need to download new versions of the workspace and manually copy the code into your workspace. Instead, you can *pull from the upstream repository*, as described [here](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/merging-an-upstream-repository-into-your-fork). This may look like:
+Simply run on your local computer:
 
 ```bash
-git pull https://github.com/sinequa/sba-angular.git master   # Pull from the official repository
-# Resolve potential conflicts...
-git push origin master   # Update your project clone/fork
+git clone https://github.com/sinequa/sba-angular.git my-project
+cd my-project
 ```
 
-Keep in mind `origin` is your own clone/fork, which does not get updates automatically until you push them. When you perform such an update, keep in mind the Core and Components libraries were overwritten (that's the point), so don't forget to rebuild them.
+![Git clone]({{site.baseurl}}assets/guides/git-clone.png){: style="height: 300px;" }
 
-![Update from Github]({{site.baseurl}}assets/gettingstarted/git-update.png)
+The Git repository contains the source code of the SBA Framework, but the dependencies (i.e., the node modules) are not included. You need to install them with:
 
-Additionally, using the Github workflow allows you to **report issues** and **request changes** (bug fixes, new features) in our official repository, by submitting *pull requests*.
+```bash
+npm install
+```
+
+(Note that the list of dependencies is defined in the `package.json` file, and the exact library versions are defined in the `package-lock.json` file.)
+
+## Track changes in the code
+
+View your modified files with:
+
+```bash
+git status
+```
+
+A tool like [GitHub Desktop](https://desktop.github.com/) can also help you visualize the changes in your code.
+
+Commit your changes (to your local clone of the repository) with:
+
+```bash
+git add .
+git commit -m "My commit message"
+```
+
+![Git commit]({{site.baseurl}}assets/guides/git-commit.png){: style="height: 300px;" }
+
+## Work collaboratively with other developers
+
+When working collaboratively, you need a central repository to host the code. This can be a private repository on an internal server, or a public repository on a service like [Github](https://github.com).
+
+⚠️ If you cloned the official SBA repository, your local clone is configured to push to that repository. But obviously, you do not have write access to it! You need to add a new remote repository that you own and have write access to. For example:
+
+```bash
+git remote add internal https://my-internal-git-server/my-project.git
+```
+
+Then you can push your changes to that repository with:
+
+```bash
+git push internal master
+```
+
+Then, other developers can clone your repository with:
+
+```bash
+git clone https://my-internal-git-server/my-project.git
+```
+
+![Git push]({{site.baseurl}}assets/guides/git-push.png)
+
+Whenever new changes are pushed to the central repository, you can pull them with:
+
+```bash
+git pull internal master
+```
+
+![Git pull]({{site.baseurl}}assets/guides/git-pull.png){: style="height: 300px;" }
+
+`git pull` is actually a shortcut for `git fetch` (which downloads the changes) and `git merge` (which merges the changes into your local branch). If there are conflicts, the merge process will ask you to resolve them manually.
+
+⚠️ Note that, after a `git pull`, the project dependencies might have been updated, so you need to run `npm install` again.
+
+## Review and approve changes before they are deployed
+
+A good habit is working on a separate branch for each feature or bug fix. This allows you to review the changes before they are merged into the `master` branch.
+
+To create a new branch for a special feature, run:
+
+```bash
+git checkout -b my-feature
+```
+
+Then, commit your changes as usual.
+
+When you are ready to merge your changes into the `master` branch, push your branch to the central repository with:
+
+```bash
+git push internal my-feature
+```
+
+Then, on the central repository, create a Pull Request to merge your branch into the `master` branch. This will trigger a code review process, and the changes will only be merged into the `master` branch when they are approved.
+
+![Git pull request]({{site.baseurl}}assets/guides/git-pr.png){: style="height: 300px;" }
+
+After that, the branch can be deleted, and all developers can pull the changes with a simple `git pull`.
+
+![Git delete]({{site.baseurl}}assets/guides/git-delete.png){: style="height: 300px;" }
+
+## Update the code with new versions of the SBA Framework
+
+The SBA repository is updated regularly. The changes might conflict with your own code, so the update process can be complicated (See the [Updates guide](6-updates.html)).
+
+In the simple case when there are no conflict, you can run:
+
+```bash 
+# Fetch the latest changes from the official SBA repository (your "origin" remote)
+git fetch origin
+# Merge the changes into your local "master" branch
+git merge origin/master
+```
+
+Now your local master branch has all the commits from the official SBA repository AND all the commits from your project.
+
+![git merge]({{site.baseurl}}assets/guides/git-merge.png){: style="height: 300px;" }
+
+When there are conflicts (i.e., when the same lines of code were modified in both repositories), Git points them out and you need to resolve them manually (i.e., choose which change to keep, or a mix of both).
+
+## Deploy the code on a server
+
+A simple strategy to deploy your application on a Sinequa server is to clone the repository in the Sinequa data folder, run `npm install` and then build the application with `npm run buildvanilla` (this command can be executed from the administration interface). See the [deployment guide](4-deployment.html) for more details.
+
+![Deploying on Sinequa server with Git]({{site.baseurl}}assets/guides/git-server.png){: style="height: 300px;" }
+
+While this process works, it has some drawbacks:
+
+- It forces you to install the node modules on the server (requiring Internet access, and various tools)
+- It requires you to build the application on the server (which can be slow and consume resources)
+- It cannot be fully automated
+
+## Integrate with a Continuous Integration system
+
+A Continuous Integration (CI) system is a tool that automates the build and deployment process. It can be used to build and deploy your application on a Sinequa server, but also to run automated tests, and to perform other tasks. It can be configured to run automatically when new commits are pushed to the central repository.
+
+![Deploying on Sinequa server with a CI/CD pipeline]({{site.baseurl}}assets/guides/git-ci.png){: style="height: 300px;" }
+
+This requires that your CI system has access to the Sinequa server. This could be done by configuring the Sinequa server to allow remote access (e.g., via PowerShell Remoting). Alternatively, the CI system could be hosted on the same server as Sinequa.
