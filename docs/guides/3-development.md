@@ -98,9 +98,9 @@ This script runs the `ng build` command (see the [`package.json`](https://github
 
 In order to test the application, developers generally use the `ng serve` command, which performs 3 tasks:
 
-- build the application in development mode (like `ng build --configuration=development` would)
-- watch for changes in your code and update the build immediately (like the `--watch` flag would)
-- start a local web server and serve the application on `http://localhost:4200`.
+- builds the application in development mode (like `ng build --configuration=development` would)
+- watches for changes in your code and updates the build immediately (like the `--watch` flag would)
+- starts a local web server and serves the application on `http://localhost:4200`.
 
 This command is also defined in the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json) file and can be run with:
 
