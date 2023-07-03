@@ -37,7 +37,6 @@ With the theme:
 In your `app.scss`, you have these lines:
 
 ```scss
-// Sinequa global theme (contains Bootstrap imports)
 // @import "../../../components/theme/minimal";
 @import "../../../components/theme/sinequa";
 ```
@@ -115,7 +114,7 @@ Into this:
 
 #### Customize the files you want
 
-You may also not want the whole package from what `sinequa` offers. In that case, you can import `minimal` and just what you need.
+You may also not want the whole package from what `sinequa` offers. In that case, you can import `minimal` and then any other files you need.
 
 A possibility would be to check at the `sinequa` content and pick what you need. Let's say you don't need the sba files, you can have your `app.scss` like this:
 
