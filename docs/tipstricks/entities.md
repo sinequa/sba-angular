@@ -74,7 +74,7 @@ export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHigh
 ];
 ```
 
-In this case, the same highlights than the Preview are applied to the spans in the `sq-metadata-tooltip` class (for the metadata entity tooltip) and in the `sq-preview-extracts-panel` component (inside the list of extracts next to the preview of a document).
+In this case, the same highlights than the Preview are applied to the spans in the `sq-metadata-tooltip` class (for the [metadata entity tooltip]({{site.baseurl}}libraries/components/metadata.html)) and in the `sq-preview-extracts-panel` component (inside the list of extracts next to the preview of a document).
 
 ## Troubleshooting
 
