@@ -53,7 +53,7 @@ git commit -m "My commit message"
 
 ## Work collaboratively with other developers
 
-When working collaboratively, you need a central repository to host the code. This can be a private repository on an internal server, or a public repository on a service like [Github](https://github.com).
+When working collaboratively, you need a central repository to host the code. This can be a private repository on an internal server or a public repository on a service like [Github](https://github.com).
 
 ⚠️ If you cloned the official SBA repository, your local clone is configured to push to that repository. But obviously, you do not have write access to it! You need to add a new remote repository that you own and have write access to. For example:
 
@@ -85,7 +85,7 @@ git pull internal master
 
 `git pull` is actually a shortcut for `git fetch` (which downloads the changes) and `git merge` (which merges the changes into your local branch). If there are conflicts, the merge process will ask you to resolve them manually.
 
-⚠️ Note that, after a `git pull`, the project dependencies might have been updated, so you need to run `npm install` again.
+⚠️ Note that after a `git pull`, the project dependencies might have been updated, so you need to run `npm install` again.
 
 ## Review and approve changes before they are deployed
 
@@ -105,7 +105,7 @@ When you are ready to merge your changes into the `master` branch, push your bra
 git push internal my-feature
 ```
 
-Then, on the central repository, create a Pull Request to merge your branch into the `master` branch. This will trigger a code review process, and the changes will only be merged into the `master` branch when they are approved.
+Then in the central repository, create a Pull Request to merge your branch into the `master` branch. This will trigger a code review process, and the changes will only be merged into the `master` branch when they are approved.
 
 ![Git pull request]({{site.baseurl}}assets/guides/git-pr.png){: style="height: 300px;" }
 
@@ -117,7 +117,7 @@ After that, the branch can be deleted, and all developers can pull the changes w
 
 The SBA repository is updated regularly. The changes might conflict with your own code, so the update process can be complicated (See the [Updates guide](6-updates.html)).
 
-In the simple case when there are no conflict, you can run:
+In the simple case when there are no conflicts, you can run:
 
 ```bash 
 # Fetch the latest changes from the official SBA repository (your "origin" remote)
@@ -130,24 +130,24 @@ Now your local master branch has all the commits from the official SBA repositor
 
 ![git merge]({{site.baseurl}}assets/guides/git-merge.png){: style="height: 300px;" }
 
-When there are conflicts (i.e., when the same lines of code were modified in both repositories), Git points them out and you need to resolve them manually (i.e., choose which change to keep, or a mix of both).
+When there are conflicts (i.e., when the same lines of code were modified in both repositories), Git points them out, and you will need to resolve them manually (i.e., choose which change to keep, which change to discard, or a mix of both).
 
 ## Deploy the code on a server
 
-A simple strategy to deploy your application on a Sinequa server is to clone the repository in the Sinequa data folder, run `npm install` and then build the application with `npm run buildvanilla` (this command can be executed from the administration interface). See the [deployment guide](4-deployment.html) for more details.
+A simple strategy to deploy your application on a Sinequa server is to clone the repository in the Sinequa data folder, run `npm install` and then build the application with `npm run buildvanilla`. (This command can be executed from the administration interface.) See the [deployment guide](4-deployment.html) for more details.
 
 ![Deploying on Sinequa server with Git]({{site.baseurl}}assets/guides/git-server.png){: style="height: 300px;" }
 
 While this process works, it has some drawbacks:
 
-- It forces you to install the node modules on the server (requiring Internet access, and various tools)
+- It forces you to install the node modules on the server (requiring Internet access and various tools)
 - It requires you to build the application on the server (which can be slow and consume resources)
 - It cannot be fully automated
 
 ## Integrate with a Continuous Integration system
 
-A Continuous Integration (CI) system is a tool that automates the build and deployment process. It can be used to build and deploy your application on a Sinequa server, but also to run automated tests, and to perform other tasks. It can be configured to run automatically when new commits are pushed to the central repository.
+A Continuous Integration (CI) system is a tool that automates the build and deployment process. It can be used to build and deploy your application on a Sinequa server and also to run automated tests and perform other tasks. It can be configured to run automatically when new commits are pushed to the central repository.
 
 ![Deploying on Sinequa server with a CI/CD pipeline]({{site.baseurl}}assets/guides/git-ci.png){: style="height: 300px;" }
 
-This requires that your CI system has access to the Sinequa server. This could be done by configuring the Sinequa server to allow remote access (e.g., via PowerShell Remoting). Alternatively, the CI system could be hosted on the same server as Sinequa.
+Your CI system must have access to the Sinequa server. This could be done by configuring the Sinequa server to allow remote access (e.g., via PowerShell Remoting). Alternatively, the CI system could be hosted on the same server as Sinequa.
