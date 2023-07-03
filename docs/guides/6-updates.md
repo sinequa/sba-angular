@@ -9,15 +9,15 @@ nav_order: 6
 
 Sinequa publishes new versions of the SBA framework regularly (see [Releases](../releases/releases.md)).
 
-These releases include bug fixes, new features and improvements. It is therefore recommended to keep your application up-to-date with the latest version of the framework.
+These releases include bug fixes, new features and improvements. It is, therefore, recommended that you keep your application up-to-date with the latest version of the framework.
 
 However, the new version of the libraries may break your existing applications for various reasons:
 
 - We update Third-Party libraries (Angular, Bootstrap, RxJS, etc.), which may have breaking changes.
-- We may introduce breaking changes in our own APIs, for example to improve the design of our components.
+- We may introduce breaking changes in our own APIs, for example, to improve the design of our components.
 - Non-breaking changes (e.g., regular refactoring of our code) may conflict with your code if you have customized it independently.
 
-These changes potentially affect all files included in the standard workspace. If you [use the standard workspace](3-development.html#use-the-standard-workspace) as the basis for your application, you will face [**merge conflicts**](#merge-conflicts) when you try to update the framework (with a `git pull` or `git merge` command).
+These changes potentially affect all files included in the standard workspace. If you [use the standard workspace](3-development.html#use-the-standard-workspace) as the basis for your application, you will likely face [**merge conflicts**](#merge-conflicts) when you try to update the framework (with a `git pull` or `git merge` command).
 
 If you [use the NPM packages](3-development.html#create-a-new-workspace-and-install-the-npm-packages), the update will not generate merge conflict (using `npm update @sinequa/core ...`). But you will still have to [**migrate your code**](#migrate-your-code) to adapt to the new APIs.
 
@@ -27,26 +27,26 @@ If you [use the NPM packages](3-development.html#create-a-new-workspace-and-inst
 
 At first, merge conflicts look like they should be avoided at all costs. But conflicts are not a bad thing. They are a natural consequence of the fact that multiple developers work in parallel on the same codebase. Conflicts are a way for Git to ask you to **review the changes** and **decide which version to keep**.
 
-Git actually resolves most conflicts automatically, when it can. The remaining conflicts are the ones that require your attention.
+Git actually resolves most conflicts automatically when it can. The remaining conflicts are the ones that require your attention.
 
 ### Size matters
 
-When applying a **small change** to a component (changing only a few lines of code and preserving its general usage), it is generally fine to modify the component directly, even if it is part of the Sinequa [libraries](../libraries/libraries.md). The update process might generate conflicts, but they will be easy to resolve.
+When applying a **small change** to a component (i.e., changing only a few lines of code and preserving its general usage), it is generally fine to modify the component directly, even if it is part of the Sinequa [libraries](../libraries/libraries.md). The update process might generate conflicts, but they will be easy to resolve.
 
 When applying a **large change** to a component, the update process will generate conflicts that are more difficult to resolve. In this case, it is better to **copy** or **extend** the component. This way, you fully own your code and will not face conflicts during updates (although you may still have to [migrate your code](#migrate-your-code)).
 
-The same principle applies to the sample [applications](../apps/apps.md). If you want to make a small change to an application but leave the code ownership to Sinequa, you should modify the application directly. Conversely, if your application diverges too much from the original sample app, then you should take the full ownership of the application by making a copy and editing it.
+The same principle applies to the sample [applications](../apps/apps.md). If you want to make a small change to an application but leave the code ownership to Sinequa, you should modify the application directly. Conversely, if your application diverges too much from the original sample app, then you should take full ownership of the application by making a copy and editing it.
 
 ### Minimize conflicts
 
 Conflicts occur when Sinequa makes changes to files that you have also modified. To prevent conflicts, you can:
 
-- Avoid modifying the SBA framework files, when possible:
-  - Prefer using the input **parameters** and **templates** of the Sinequa components, when they exist.
-  - You could make a **copy** of a file and modify the copy. The drawback of this approach is that your copy will not be updated when the original file is updated! So this approach can actually make the update process harder.
-  - Alternatively, you can **extend** a component or a service by creating a new class that inherits from the original class. The benefit is that you can override the methods that you want to customize but the underlying code is still managed by Sinequa and benefits from updates.
+- Avoid modifying the SBA framework files when possible:
+  - Choose to use the input **parameters** and **templates** of the Sinequa components when they exist.
+  - Make a **copy** of a file and modify the copy. (The drawback of this approach is that your copy will not be updated when the original file is updated! So this approach can actually make the update process harder.)
+  - Alternatively, **extend** a component or a service by creating a new class that inherits from the original class. (The benefit here is that you can override the methods that you want to customize, but the underlying code is still managed by Sinequa and benefits from updates.)
   - Contact us or [**contribute**](7-contribute) if you think that your changes should be included in the SBA framework. We are open to contributions!
-- Avoid cosmetic changes, like changing the indentation or the order of the properties in a JSON file. These changes are not relevant and they will generate conflicts for no good reason. Note that these changes can sometimes be caused by your IDE or by a linter.
+- Avoid cosmetic changes like changing the indentation or the order of the properties in a JSON file. These changes are not relevant, and they will generate conflicts for no good reason. Note that these changes can sometimes be caused by your IDE or by a linter.
 
 ### Resolve conflicts
 
@@ -70,7 +70,7 @@ When a library is upgraded, it may introduce breaking changes. In this case, you
 
 ### SBA migrations
 
-When a new version of the SBA framework is released, we describe the changes in the [release notes](../releases/releases.md). You should read these notes to understand what has changed and what you need to do to migrate your code. When migrating from an older version, you should read all the release notes published since the version you are currently using.
+When a new version of the SBA framework is released, we describe the changes in the [release notes](../releases/releases.md). You should read these notes to understand what has changed and what you need to do to migrate your code. When migrating from an older version, you should read all the release notes published since the release of the version you are currently using.
 
 The sample applications of the SBA framework are good reference points to see how components are used. If a particular component generates errors after an update, you can check how it is used in the sample applications.
 
@@ -87,8 +87,8 @@ Similarly, some runtime errors can fill your browser console with a cascade of e
 A good approach is to use `ng serve` (or `ng build --configuration=development`) so that your browser can provide you with useful debugging information. Then, look at the first error in the list, and click on the first item in the stack trace that belongs to your code base (as opposed to internal Angular methods). This will give you two important pieces of information:
 
 - Which component or service to look at in your IDE.
-- Which variable was `undefined` (or more generally, what was the state that caused the error). From there you can pull the thread and understand what yielded this state.
+- Which variable was `undefined` (or more generally, what was the state that caused the error). From there, you can investigate further and determine what caused this state.
 
-After an update, it can happen that a component now expects a mandatory input parameter that was not provided. Compilation does not catch this type of error, but the runtime will.
+After an update, it's possible that a component can now expect a mandatory input parameter that was not required previously. Compilation does not catch this type of error, but the runtime will.
 
 ![Rune error](../assets/guides/runtime-error.png)
