@@ -94,7 +94,15 @@ npm run buildvanilla
 
 This script runs the `ng build` command (see the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json)), which generates a build artifact in the `dist` folder. This build is needed to deploy the application on a server (See the [deployment guide](4-deployment.html)).
 
-In order to test the application, developers generally use the `ng serve` command, which starts a local web server and serves the application on `http://localhost:4200`. This command is also defined in the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json) file:
+## Testing an app
+
+In order to test the application, developers generally use the `ng serve` command, which performs 3 tasks:
+
+- builds the application in development mode (like `ng build --configuration=development` would)
+- watches for changes in your code and updates the build immediately (like the `--watch` flag would)
+- starts a local web server and serves the application on `http://localhost:4200`.
+
+This command is also defined in the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json) file and can be run with:
 
 ```bash
 npm run start:vanilla
