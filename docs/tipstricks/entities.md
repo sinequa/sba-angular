@@ -23,50 +23,58 @@ Additionally, you need to configure your *Preview web service* to highlight this
 
 ![List of highlights]({{site.baseurl}}assets/tipstricks/highlights.png){: .d-block .mx-auto }
 
-You also need to define a *.css file name*. By default it should be `preview.css`, although you can name it differently and/or use an absolute URL.
-
 ## Highlighting entities
 
-If you open a document's HTML preview, your entity should not appear as highlighted (yet). You need to add some CSS rules, so that the entities marked with HTML tags are highlighted (eg. `<span class="person">Barack Obama</span>`).
+If you open a document's HTML preview, your entity may not appear as highlighted (yet). You need to add some configuration, so that the entities marked with HTML tags are highlighted (eg. `<span class="person">Barack Obama</span>`).
 
-Your app needs to generate a `preview.css` (as mentioned above) with these types of rules. If you use [Vanilla-Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), it already contains such a file ready to be customized. If you are starting from scratch, you can create a new `styles/preview.scss` file. In order to build it, you need to customize your `angular.json` file. For your app, instead of:
+In [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), you can find the default configuration in the `config.ts` file with the `PREVIEW_HIGHLIGHTS` constant:
 
-```json
-"styles": [
-    "projects/your-app/src/styles/app.scss"
-],
-```
-
-Write the following (to make sure the preview.scss gets built as its own preview.css file):
-
-```json
-"extractCss": true,
-"styles": [
+```ts
+export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
     {
-        "input": "projects/your-app/src/styles/app.scss",
-        "bundleName": "app"
+        name: 'company',
+        color: 'white',
+        bgColor: '#FF7675'
     },
     {
-        "input": "projects/your-app/src/styles/preview.scss",
-        "bundleName": "preview",
-        "lazy": true
-    }            
-],
+        name: 'geo',
+        color: 'white',
+        bgColor: '#74B9FF'
+    },
+    {
+        name: 'person',
+        color: 'white',
+        bgColor: '#00ABB5'
+    },
+    {
+        name: 'extractslocations',
+        color: 'black',
+        bgColor: '#fffacd'
+    },
+    {
+        name: 'matchlocations',
+        color: 'black',
+        bgColor: '#ff0'
+    }
+];
 ```
 
-You can write any type of CSS rules in this file. It will be loaded in your HTML preview (which itself is wrapped in an iframe).
+The understanding is pretty straight forward, where we define that the classes of name `name` take `color` as text color and `bgColor` as background color.
 
-If you use [Vanilla-Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), the `preview.scss` file already contain default rules, which you can feel free to edit. You can also add rules in `styles/metadata.scss` (which is imported by `preview.scss`). For example, to add a color and background color to your entity, you may write the following:
+This value is then passed by default to the [Preview component]({{site.baseurl}}libraries/components/preview.html) if there is no config for `previewHighlights` in the `AppService`.
 
-```scss
-$metadata : (
-    ...
-    your-entity-alias: (
-        main-color: #FF7675,
-        background-color: #FF7675,
-        color: black
-    ),   
+Just below in `config.ts` is the `SELECTORS_HIGHLIGHTS` constant which is used by the `HighlightService` to apply additional highlights to other components that require some. Note this can also be overriden if you configure the `highlights` parameter in the `AppService`.
+
+```ts
+export const SELECTORS_HIGHLIGHTS: {selectors: string[], highlights: PreviewHighlightColors[]}[] = [
+    {
+        selectors: ['.sq-metadata-tooltip span', 'sq-preview-extracts-panel span'],
+        highlights: PREVIEW_HIGHLIGHTS
+    }
+];
 ```
+
+In this case, the same highlights than the Preview are applied to the spans in the `sq-metadata-tooltip` class (for the metadata entity tooltip) and in the `sq-preview-extracts-panel` component (inside the list of extracts next to the preview of a document).
 
 ## Troubleshooting
 
@@ -79,9 +87,7 @@ If you followed the above steps but cannot see highlights in the preview, consid
 
 ![Entity]({{site.baseurl}}assets/tipstricks/entity.png){: .d-block .mx-auto }
 
-- Your `preview.css` might not be loaded in the HTML preview: In the inspector, look for the CSS file.
-
-![Preview CSS]({{site.baseurl}}assets/tipstricks/preview-network.png){: .d-block .mx-auto }
+- You have not setup properly the JS and/or CSS files as described on the [Preview Module]({{site.baseurl}}libraries/components/preview.html#preview-css-and-js-files) page.
 
 - Your CSS rules might be incorrect or overriden: Make sure that the `<span>` tags are properly targetted by the rules.
 

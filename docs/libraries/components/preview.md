@@ -44,7 +44,9 @@ import {enPreview} from "@sinequa/components/preview";
 const messages = Utils.merge({}, ..., enPreview, appMessages);
 ```
 
-In order for some features to work such as passages highlightings or entities coloring, you need to load a `preview.js` file in your project. It is already set in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) which contains a `preview` folder in its `src` folder, then in `angular.json` at the project's root:
+## Preview CSS and JS files
+
+In order for some features to work such as passages highlightings, entities coloring, the tooltip and the minimap, you need to load a `preview.js` file in your project. It is already set in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) which contains a `preview` folder in its `src` folder, then in `angular.json` at the project's root:
 
 ```json
 "vanilla-search": {
@@ -71,6 +73,28 @@ And then to avoid duplicates and still use it in the other projects like [Hello 
                 { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
             ],
 ```
+
+To customize further the CSS, you also need to add `preview.scss` in the `angular.json` file, which is also present in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html):
+
+```json
+"vanilla-search": {
+    ...
+    "architect": {
+        "build": {
+            ...
+            "styles": [
+                ...
+                {
+                    "input": "projects/vanilla-search/src/preview/preview.scss",
+                    "bundleName": "preview",
+                    "inject": false
+                }
+            ],
+```
+
+Because the preview is loaded in an iframe, those JS and CSS files have to be loaded separately from the rest of the application.
+
+If despite importing the JS file you cannot see any highlights, you may want to make sure the [Preview web service]({{site.baseurl}}guides/2-server-config.html#preview-web-service-default-_preview) is properly setup on the server.
 
 ## Preview Service
 
