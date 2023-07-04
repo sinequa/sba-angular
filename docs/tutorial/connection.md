@@ -7,7 +7,7 @@ nav_order: 2
 
 # Connection to the Sinequa server
 
-In this chapter we need to connect the [**Hello Search**]({{site.baseurl}}modules/hello-search/hello-search.html) app to the Sinequa test server. The URL of this server is: `https://vm-su-sba.sinequa.com:13343` and the name of the SBA configured on the server is just `'training'`. Additionally, the app is secured with the SAML protocol. The name of the identity provider is `'identity-dev'`.
+In this chapter we need to connect the [**Hello Search**]({{site.baseurl}}apps/1-hello-search.html) app to the Sinequa test server. The URL of this server is: `https://vm-su-sba.sinequa.com:13343` and the name of the SBA configured on the server is just `'training'`. Additionally, the app is secured with the SAML protocol. The name of the identity provider is `'identity-dev'`.
 
 In your `hello-search/` project, open the `src/app/app.module.ts` file, and replace the placeholders parameters in the `StartConfig` object:
 
@@ -36,7 +36,7 @@ If the build is successful, you can navigate to `https://localhost:4200` in your
 
 Note: the searchable content is composed of a few wikipedia pages and the Sinequa documentation.
 
-Before going to the [next step](search-module.html), take some time to analyze the source code of [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) and more specifically the `src/app/` subfolder, to fully understand its internal logic.
+Before going to the [next step](search-module.html), take some time to analyze the source code of [Hello Search]({{site.baseurl}}apps/1-hello-search.html) and more specifically the `src/app/` subfolder, to fully understand its internal logic.
 
 ---
 

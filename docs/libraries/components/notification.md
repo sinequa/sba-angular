@@ -64,4 +64,4 @@ It is imported and used in the `app.component.html` of `vanilla-search`.
 The `BsNotificationsManager` component is the component
 that is used to manage the list of notifications of your application.
 
-For more information about how you can manage the notification list, please refer to [Manage user notifications]({{site.baseurl}}modules/core/notification.html#manage-user-notifications)
+For more information about how you can manage the notification list, please refer to [Manage user notifications]({{site.baseurl}}libraries/core/notification.html#manage-user-notifications)
