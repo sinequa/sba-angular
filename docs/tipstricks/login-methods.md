@@ -2,7 +2,7 @@
 layout: default
 title: Login methods
 parent: Tips and Tricks
-nav_order: 10
+nav_order: 9
 ---
 
 # Login Methods

@@ -2,7 +2,7 @@
 layout: default
 title: Speed and Performance
 parent: Tips and Tricks
-nav_order: 13
+nav_order: 12
 ---
 
 # Speed and Performance
@@ -65,7 +65,7 @@ With this in place, you should notice the *Lazy chunk files*, while compiling yo
 
 ## Module Federation
 
-Historically, build tools (Webpack,…) assume that the entire program code is available when compiling. 
+Historically, build tools (Webpack,…) assume that the entire program code is available when compiling.
 Lazy loading is possible, but only from areas that were split off during compilation.
 
 This was the main motivation behind the creation of *Module Federation* as a new feature of *Webpack 5*. Hence, it allows loading separately compiled and deployed code (also called micro front-ends or plugins) into an application.
@@ -108,10 +108,10 @@ module.exports = {
             exposes: {
                 // The update
                 './Module': './projects/mfe/src/app/toto/toto.module.ts',
-            },        
+            },
             shared: {
-                "@angular/core": { singleton: true, strictVersion: true }, 
-                "@angular/common": { singleton: true, strictVersion: true }, 
+                "@angular/core": { singleton: true, strictVersion: true },
+                "@angular/common": { singleton: true, strictVersion: true },
                 "@angular/router": { singleton: true, strictVersion: true },
                 [...]
             }
@@ -134,11 +134,11 @@ module.exports = {
 
             // Make sure to use port 3000 defined on the first step while adding the package to the projects
             remotes: {
-                'mfe': "mfe@http://localhost:3000/remoteEntry.js" 
+                'mfe': "mfe@http://localhost:3000/remoteEntry.js"
             },
             shared: {
-                "@angular/core": { singleton: true, strictVersion: true }, 
-                "@angular/common": { singleton: true, strictVersion: true }, 
+                "@angular/core": { singleton: true, strictVersion: true },
+                "@angular/common": { singleton: true, strictVersion: true },
                 "@angular/router": { singleton: true, strictVersion: true },
                 [...]
             }
@@ -177,7 +177,7 @@ Once starting both applications side by side (`ng serve shell` and `ng serve mfe
 
 In the previous section, we assumed that micro front-ends, used in the shell, are already known by the developer.
 
-However, there might be situations where you don’t even know the list of micro front-ends upfront. For example, an application with different dynamic views based on user privileges. This information can be hold by an external system and fetched at runtime via HTTP request. 
+However, there might be situations where you don’t even know the list of micro front-ends upfront. For example, an application with different dynamic views based on user privileges. This information can be hold by an external system and fetched at runtime via HTTP request.
 
 To dynamically load a micro-frontend at runtime, you need to remove the registration of the micro front-end upfront within shell configuration :
 

@@ -2,7 +2,7 @@
 layout: default
 title: D3 and Angular
 parent: Tips and Tricks
-nav_order: 12
+nav_order: 11
 ---
 
 # Combining D3 and Angular

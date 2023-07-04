@@ -2,7 +2,7 @@
 layout: default
 title: User settings
 parent: Tips and Tricks
-nav_order: 7
+nav_order: 6
 ---
 
 # User Settings

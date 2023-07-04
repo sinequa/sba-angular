@@ -9,7 +9,7 @@ nav_order: 2
 
 *Vanilla Search* is a standard Enterprise Search app designed to be simple, efficient and easy to customize into a much more complex application.
 
-If you complete the [Tutorial]({{site.baseurl}}tutorial/tutorial.html), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) and the tutorial, to a full-fledged Enterprise Search app.
+If you complete the [Tutorial]({{site.baseurl}}tutorial/tutorial.html), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search]({{site.baseurl}}apps/1-hello-search.html) and the tutorial, to a full-fledged Enterprise Search app.
 
 The application has **three routes** made of **five components** (of course, these components include many subcomponents from the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library):
 

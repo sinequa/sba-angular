@@ -2,7 +2,7 @@
 layout: default
 title: Application Startup
 parent: Tips and Tricks
-nav_order: 17
+nav_order: 16
 ---
 
 # Application Startup

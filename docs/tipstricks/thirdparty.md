@@ -2,7 +2,7 @@
 layout: default
 title: Third Party Libraries
 parent: Tips and Tricks
-nav_order: 11
+nav_order: 10
 ---
 
 # Third-Party libraries

@@ -2,7 +2,7 @@
 layout: default
 title: Query Intent Detection
 parent: Tips and Tricks
-nav_order: 18
+nav_order: 17
 ---
 
 # Query Intent Detection
@@ -155,7 +155,7 @@ Then, to display the infocard, we simply create a component that displays the `p
     `
 })
 export class QueryIntentPeopleComponent {
-    
+
     constructor(
         public queryIntentsService: QueryIntentService
     ){}
@@ -246,7 +246,7 @@ This component is displayed only when the `QueryIntentService` has detected `for
 
 ```ts
     ignoreFormat = false;
-    
+
     cancelFormats() {
         // Remove the docformat selection
         this.searchService.query.removeSelect("docformat");
