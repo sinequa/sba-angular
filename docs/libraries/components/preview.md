@@ -10,7 +10,7 @@ nav_order: 5
 
 The preview module is also documented in the [tutorial]({{site.baseurl}}tutorial/preview.html).
 
-[Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html#preview-route) also has a documented [preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
+[Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html#preview-route) also has a documented [preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
 
 ## Features
 
@@ -46,7 +46,7 @@ const messages = Utils.merge({}, ..., enPreview, appMessages);
 
 ## Preview CSS and JS files
 
-In order for some features to work such as passages highlightings, entities coloring, the tooltip and the minimap, you need to load a `preview.js` file in your project. It is already set in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) which contains a `preview` folder in its `src` folder, then in `angular.json` at the project's root:
+In order for some features to work such as passages highlightings, entities coloring, the tooltip and the minimap, you need to load a `preview.js` file in your project. It is already set in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html) which contains a `preview` folder in its `src` folder, then in `angular.json` at the project's root:
 
 ```json
 "vanilla-search": {
@@ -60,7 +60,7 @@ In order for some features to work such as passages highlightings, entities colo
             ],
 ```
 
-And then to avoid duplicates and still use it in the other projects like [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html):
+And then to avoid duplicates and still use it in the other projects like [Hello Search]({{site.baseurl}}apps/1-hello-search.html):
 
 ```json
 "hello-search": {
@@ -74,7 +74,7 @@ And then to avoid duplicates and still use it in the other projects like [Hello 
             ],
 ```
 
-To customize further the CSS, you also need to add `preview.scss` in the `angular.json` file, which is also present in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html):
+To customize further the CSS, you also need to add `preview.scss` in the `angular.json` file, which is also present in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html):
 
 ```json
 "vanilla-search": {
@@ -106,7 +106,7 @@ The `PreviewService` provides the following API:
 
 - `openRoute(record: Record, query: Query, path = "preview")`
 
-    This method navigates to a URL of the form `#preview?id=...&query=...`, which means your app must have a `/preview` route which takes care of extracting these parameters for the URL, querying `getPreviewData()` and displaying the preview. This is the case in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html#preview-route).
+    This method navigates to a URL of the form `#preview?id=...&query=...`, which means your app must have a `/preview` route which takes care of extracting these parameters for the URL, querying `getPreviewData()` and displaying the preview. This is the case in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html#preview-route).
 
 - `openNewWindow(record: Record, query: Query)`
 
@@ -227,7 +227,7 @@ The component requires the inputs `previewData` and `preview`. You may want to a
 </sq-preview-extracts-panel>
 ```
 
-This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
+This component is used in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
 
 ### Entity Panel
 
@@ -245,7 +245,7 @@ The component requires the inputs `previewData` and `preview`. You may want to a
 </sq-preview-entity-panel>
 ```
 
-This component is used in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
+This component is used in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
 
 ### Search Form
 

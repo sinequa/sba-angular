@@ -8,4 +8,4 @@ description: "SBA framework tutorial"
 
 # SBA Framework tutorial
 
-This section contains a tutorial to build your first SBA, starting from the [**Hello Search**]({{site.baseurl}}modules/hello-search/hello-search.html) application.
+This section contains a tutorial to build your first SBA, starting from the [**Hello Search**]({{site.baseurl}}apps/1-hello-search.html) application.

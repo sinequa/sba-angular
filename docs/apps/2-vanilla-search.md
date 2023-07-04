@@ -9,9 +9,9 @@ nav_order: 2
 
 *Vanilla Search* is a standard Enterprise Search app designed to be simple, efficient and easy to customize into a much more complex application.
 
-If you complete the [Tutorial]({{site.baseurl}}tutorial/tutorial.html), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) and the tutorial, to a full-fledged Enterprise Search app.
+If you complete the [Tutorial]({{site.baseurl}}tutorial/tutorial.html), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search]({{site.baseurl}}apps/1-hello-search.html) and the tutorial, to a full-fledged Enterprise Search app.
 
-The application has **three routes** made of **five components** (of course, these components include many subcomponents from the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library):
+The application has **three routes** made of **five components** (of course, these components include many subcomponents from the [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) library):
 
 - The **App** component, which is essentially a wrapper for the [`<router-outlet>`](https://angular.io/api/router/RouterOutlet).
 - A **Home** route, greeting users with a search bar and some quick-access facets.
@@ -71,7 +71,7 @@ The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/van
 
 ## Search route
 
-The [Search route](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search) has a *navbar* on top, which includes a search bar ([Search Form component](#search-form)), and user menus coming from various libraries of [`@sinequa/components`]({{site.baseurl}}modules/components/components). Under it are a facet bar (with two facets) and the search results. It is also possible to open a preview of a document on the right, by selecting it in the results.
+The [Search route](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search) has a *navbar* on top, which includes a search bar ([Search Form component](#search-form)), and user menus coming from various libraries of [`@sinequa/components`]({{site.baseurl}}libraries/components/components). Under it are a facet bar (with two facets) and the search results. It is also possible to open a preview of a document on the right, by selecting it in the results.
 
 ![Search route]({{site.baseurl}}assets/modules/vanilla-search.png)
 
@@ -270,7 +270,7 @@ The styles of Vanilla Search come from various sources:
     @import "~@fortawesome/fontawesome-free/scss/solid";
     ```
 
-    Note that Bootstrap is used throughout the app (and the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library) via [well documented](https://getbootstrap.com/docs/4.4/getting-started/introduction/) class names. See [Responsive Design]({{site.baseurl}}tipstricks/responsive-design.html#bootstrap).
+    Note that Bootstrap is used throughout the app (and the [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) library) via [well documented](https://getbootstrap.com/docs/4.4/getting-started/introduction/) class names. See [Responsive Design]({{site.baseurl}}tipstricks/responsive-design.html#bootstrap).
 
 2. **Sinequa Modules stylesheets**, which are global-level styles that could not be encapsulated in the Angular components (for good reasons). Like Third-Party stylesheets, they are imported in the app's global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)):
 

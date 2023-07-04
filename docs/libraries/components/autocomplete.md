@@ -20,7 +20,7 @@ This module provides functionality to display an autocomplete dropdown panel und
 - A **service** that sends the autocomplete queries to the backend server and provides additional services.
 - A **component** that displays these results (styled with the [Bootstrap](https://getbootstrap.com/) library).
 
-Both the directive and the component are largely extensible and customizable (See [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)).
+Both the directive and the component are largely extensible and customizable (See [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html)).
 
 ![Autocomplete]({{site.baseurl}}assets/modules/autocomplete/autocomplete.png){: .d-block .mx-auto }
 
@@ -96,9 +96,9 @@ Of course, other attributes and directives may be applied along with the `sqAuto
 You can customize the behavior of the directive by extending it and enriching it. The following methods can be overriden:
 
 - `getSuggests()`: Takes the text typed by the user to get suggestions (via `getSuggestsObs()`) and pass them to `processSuggests()`. This method can be overriden to modify the text read in the input element and passed to `getSuggestObs()`.
-- `getSuggestsObs()`: Makes a call to the `SuggestService` to obtain suggestions (which are then passed to `processSuggests()`). It can be overridden to obtain suggestions in a different way (this is the case in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)).
+- `getSuggestsObs()`: Makes a call to the `SuggestService` to obtain suggestions (which are then passed to `processSuggests()`). It can be overridden to obtain suggestions in a different way (this is the case in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html)).
 - `processSuggests(items)`: Update the dropdown component with the suggestions. This method can be overridden to post process or filters the suggestions before they are displayed.
-- `select(item)` or `setAutocompleteItem(item)`: Methods called when an item is selected from the dropdown panel (either with the mouse or keyboard navigation). By default, the `<input>` text is set to the value of the autocomplete item, but other behavior can be implemented (opening a document, searching a custom query, etc.; this is the case in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html))
+- `select(item)` or `setAutocompleteItem(item)`: Methods called when an item is selected from the dropdown panel (either with the mouse or keyboard navigation). By default, the `<input>` text is set to the value of the autocomplete item, but other behavior can be implemented (opening a document, searching a custom query, etc.; this is the case in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html))
 - State change methods: `init()`, `start()`, `active()`, `open()`, `select()`. They can be overriden to insert new states or execute some custom code in specific states.
 
 The transition between the different states is depicted below:
@@ -115,7 +115,7 @@ The `SuggestService` provides the following methods:
 
 - `async searchData<T, Tcat extends string>(category: Tcat, query: string, data: T[], primaryText: (obj:T) => string, secondaryText?: (obj:T) => string[], label?: string) : Promise<ScoredAutocompleteItem<T, Tcat>[]>`:
 
-    This method allows to search within a list of objects of any type (`T`). It is useful to search within a small number of user objects on the client side. For example, in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), it is used to search within the recent queries, recent documents, saved queries and baskets.
+    This method allows to search within a list of objects of any type (`T`). It is useful to search within a small number of user objects on the client side. For example, in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html), it is used to search within the recent queries, recent documents, saved queries and baskets.
 
     It expects the following inputs:
 
@@ -140,7 +140,7 @@ The `sq-autocomplete-list` component is a fairly simple component that displays 
 </sq-autocomplete-list>{% endraw %}
 ```
 
-In the [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) application, the template (in [search-form.component.html](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/search-form.component.html)) looks like this:
+In the [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html) application, the template (in [search-form.component.html](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/search-form.component.html)) looks like this:
 
 ```html
 {% raw %}<ng-template #itemTpl let-item>

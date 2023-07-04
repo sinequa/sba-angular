@@ -23,7 +23,7 @@ In this tutorial, we are going to refactor our app to have 2 routes and 4 compon
 - The **App** component is going to host our **router outlet**.
 - The **Search** component is going to be equivalent to the current component we have at the moment.
 - The **Home** component is going to be our home page.
-- The **Search form** component (containing the one from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) with the autocomplete you created) will be displayed on both the home page and the search page.
+- The **Search form** component (containing the one from [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) with the autocomplete you created) will be displayed on both the home page and the search page.
 
 ![Routing of the app]({{site.baseurl}}assets/tutorial/routing.png){: .d-block .mx-auto width="500px" }
 *Our app will have four components and two routes*
@@ -39,7 +39,7 @@ In a terminal `cd` into `src/app/` and run the following commands:
 
 (Use `npm run ng` if Angular CLI is not installed globally)
 
-Note that Angular took care of add these new components to our `app.module.ts`, but you have a conflict with the SearchFormComponent from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html). You can fix it by creating an alias for it in the imports:
+Note that Angular took care of add these new components to our `app.module.ts`, but you have a conflict with the SearchFormComponent from [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html). You can fix it by creating an alias for it in the imports:
 
 ```ts
 import { SearchFormComponent as AppSearchFormComponent } from './search-form/search-form.component';

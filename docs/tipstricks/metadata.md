@@ -38,7 +38,7 @@ Read more about [aggregations](https://doc.sinequa.com/en.sinequa-es.v11/Content
 
 ## Displaying the value
 
-Your application probably displays results in a for-loop. In [Hello-Search]({{site.baseurl}}modules/hello-search/hello-search.html), it looks like this:
+Your application probably displays results in a for-loop. In [Hello-Search]({{site.baseurl}}apps/1-hello-search.html), it looks like this:
 
 ```html
 {% raw %}<div *ngFor="let record of results.records" class="record">
@@ -85,7 +85,7 @@ First of all, choose a name for the formatter, like `"prettifyCategory"`. Set th
 
 ![Custom formatter]({{site.baseurl}}assets/tipstricks/metadata-formatter.png){: .d-block .mx-auto }
 
-This custom formatter needs to be implemented in your Angular application. This is done by overriding the `FormatService`. An example is provided in the documentation of the [App Utils modules]({{site.baseurl}}modules/core/app-utils.html#format-service).
+This custom formatter needs to be implemented in your Angular application. This is done by overriding the `FormatService`. An example is provided in the documentation of the [App Utils modules]({{site.baseurl}}libraries/core/app-utils.html#format-service).
 
 1. Create your extension of the `FormatService` in your app.
 
