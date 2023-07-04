@@ -85,7 +85,7 @@ First of all, choose a name for the formatter, like `"prettifyCategory"`. Set th
 
 ![Custom formatter]({{site.baseurl}}assets/tipstricks/metadata-formatter.png){: .d-block .mx-auto }
 
-This custom formatter needs to be implemented in your Angular application. This is done by overriding the `FormatService`. An example is provided in the documentation of the [App Utils modules]({{site.baseurl}}modules/core/app-utils.html#format-service).
+This custom formatter needs to be implemented in your Angular application. This is done by overriding the `FormatService`. An example is provided in the documentation of the [App Utils modules]({{site.baseurl}}libraries/core/app-utils.html#format-service).
 
 1. Create your extension of the `FormatService` in your app.
 

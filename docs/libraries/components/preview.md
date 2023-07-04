@@ -10,7 +10,7 @@ nav_order: 5
 
 The preview module is also documented in the [tutorial]({{site.baseurl}}tutorial/preview.html).
 
-[Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html#preview-route) also has a documented [preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
+[Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html#preview-route) also has a documented [preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
 
 ## Features
 
@@ -106,7 +106,7 @@ The `PreviewService` provides the following API:
 
 - `openRoute(record: Record, query: Query, path = "preview")`
 
-    This method navigates to a URL of the form `#preview?id=...&query=...`, which means your app must have a `/preview` route which takes care of extracting these parameters for the URL, querying `getPreviewData()` and displaying the preview. This is the case in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html#preview-route).
+    This method navigates to a URL of the form `#preview?id=...&query=...`, which means your app must have a `/preview` route which takes care of extracting these parameters for the URL, querying `getPreviewData()` and displaying the preview. This is the case in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html#preview-route).
 
 - `openNewWindow(record: Record, query: Query)`
 

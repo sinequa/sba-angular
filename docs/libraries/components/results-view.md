@@ -12,7 +12,7 @@ nav_order: 16
 
 This module provides a way to manage multiple views of the search results. At the core, the `ResultsViewService` keeps track of the current active view, and the list of all available views. This service persists the view name in the URL, and manages the navigation and interactions with the `SearchService`.
 
-The module includes a component (coupled to the service) to select a view (among the list of all views), and a sample "grid" results view, that can be used as an alternative to a standard "list" results view. Other modules include other types of views, such as the [heatmap results view]({{site.baseurl}}modules/analytics/heatmap.html).
+The module includes a component (coupled to the service) to select a view (among the list of all views), and a sample "grid" results view, that can be used as an alternative to a standard "list" results view. Other modules include other types of views, such as the [heatmap results view]({{site.baseurl}}libraries/analytics/heatmap.html).
 
 ## Import
 

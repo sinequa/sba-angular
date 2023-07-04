@@ -10,7 +10,7 @@ nav_order: 6
 
 The User Settings modules are also documented in the [Tutorial]({{site.baseurl}}tutorial/user-settings.html) and in the [Tips & Tricks]({{site.baseurl}}tipstricks/user-settings.html) section.
 
-Also check the documention on the User Settings web service from the [Web Services libary]({{site.baseurl}}modules/core/web-services.html#user-settings-web-service) (in the Core library).
+Also check the documention on the User Settings web service from the [Web Services libary]({{site.baseurl}}libraries/core/web-services.html#user-settings-web-service) (in the Core library).
 
 ## Features
 

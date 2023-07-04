@@ -88,7 +88,7 @@ query.setAdvancedValue('size', undefined, AdvancedOperator.GT);
 The `FormatService` is used to format values retrieved from a Sinequa index according to their type and the current locale.
 Numbers, dates and booleans are all handled by default. Custom formatters can also be assigned to columns in the Sinequa
 administration. The `memorysize` and `language` formatters are provided by default. The strings used in these formatters
-are defined in the messages in the [Intl Module]({{site.baseurl}}modules/core/intl.html).
+are defined in the messages in the [Intl Module]({{site.baseurl}}libraries/core/intl.html).
 
 ```ts
 // The following will display "size: 2.92Kb" when using the en locale
@@ -158,6 +158,6 @@ public class ParseExpressionValue : FunctionPlugin
             // return the parsed value here
         }
         return null;
-    }		
+    }
 }
 ```

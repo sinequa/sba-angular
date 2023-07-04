@@ -7,7 +7,7 @@ nav_order: 9
 
 # Login Methods
 
-Sinequa supports different authentication protocols, involving different web services and processes. The general process of login (including authentication and initialization of the app) is managed by the `LoginService` provided in the [`@sinequa/core/login`]({{site.baseurl}}modules/core/login.html) library.
+Sinequa supports different authentication protocols, involving different web services and processes. The general process of login (including authentication and initialization of the app) is managed by the `LoginService` provided in the [`@sinequa/core/login`]({{site.baseurl}}libraries/core/login.html) library.
 
 The authentication process depends on the following parameters:
 
@@ -29,7 +29,7 @@ When Sinequa handles authentication rather than IIS (normal situation), it emits
 
 ![Json web token config]({{site.baseurl}}assets/tipstricks/json-web-tokens.png){: .d-block .mx-auto }
 
-The JWT is sent with every HTTP(S) request via the `sinequa-web-token` cookie. This allows Sinequa to know the identity of the user. When the token expires, Sinequa returns 401 errors (Unauthorized). Upon receiving this error, the SBA reinitiates the authentication process (the user does not see these errors because they are *intercepted* by the `LoginInterceptor` provided in the [`@sinequa/core/login`]({{site.baseurl}}modules/core/login.html) library).
+The JWT is sent with every HTTP(S) request via the `sinequa-web-token` cookie. This allows Sinequa to know the identity of the user. When the token expires, Sinequa returns 401 errors (Unauthorized). Upon receiving this error, the SBA reinitiates the authentication process (the user does not see these errors because they are *intercepted* by the `LoginInterceptor` provided in the [`@sinequa/core/login`]({{site.baseurl}}libraries/core/login.html) library).
 
 In the case of the SAML or OAuth protocols, an external service must authenticate the user. The browser navigates out of the SBA to this **Identity Provider** (for example, Google's Single Sign On). Then the browser navigates back to the Sinequa server, which redirects again to the Sinequa SBA, while delivering the JWT cookie.
 

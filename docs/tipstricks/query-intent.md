@@ -15,7 +15,7 @@ This functionality is exposed as a web service. The service takes in a user quer
 
 In the Sinequa administration, the Query Intents are configured in the _Search-Based Applications > App Dependencies > Query Intent Sets_ section. Once configured there, the Query Intent Set must be attached to the SBA's query web service (Under the _Search settings_ tab and _Query Options - Intents_ section).
 
-Requesting the intent of a query can then be done easily, by using `QueryIntentWebService` from the [`@sinequa/core/web-services`]({{site.baseurl}}modules/core/web-services.html) module:
+Requesting the intent of a query can then be done easily, by using `QueryIntentWebService` from the [`@sinequa/core/web-services`]({{site.baseurl}}libraries/core/web-services.html) module:
 
 ```ts
 this.queryIntentWebService.getQueryIntent(this.query);

@@ -63,7 +63,7 @@ In this tutorial, we generally refer to the second type of modules (Angular modu
 
 Some of these modules are based on the [**Bootstrap**](https://getbootstrap.com/) library. When a module or component depends on Bootstrap, its class name is prefixed with **`Bs`** (eg. `BsSearchModule`, `BsFacetList`).
 
-The tutorial is divided in chapters which each deals with a new Sinequa feature. These features come packaged as modules of the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library. The illustration below depicts in more details the content of a typical module/library which you will use in this tutorial.
+The tutorial is divided in chapters which each deals with a new Sinequa feature. These features come packaged as modules of the [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) library. The illustration below depicts in more details the content of a typical module/library which you will use in this tutorial.
 
 ![Sample module]({{site.baseurl}}assets/tutorial/modules2.png){: .d-block .mx-auto width="400px" }
 *Content of one of the libraries (green), including modules (blue), components (purple), services (red), styles (orange) and locales (grey)*
@@ -71,7 +71,7 @@ The tutorial is divided in chapters which each deals with a new Sinequa feature.
 
 **This gives you a natural checklist for dealing with these modules:**
 
-1. Take a look at the code of that module in the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library. In this example, inside: `projects/components/facet/`. This gives you a general idea of what components, directives and services are bundled with that module.
+1. Take a look at the code of that module in the [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) library. In this example, inside: `projects/components/facet/`. This gives you a general idea of what components, directives and services are bundled with that module.
 
 2. Import the module you're interested in in your `app.module.ts`:
 

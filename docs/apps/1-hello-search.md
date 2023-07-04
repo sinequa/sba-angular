@@ -15,7 +15,7 @@ nav_order: 1
 
 Hello Search has one Angular module (`AppModule`) in [`src/app/app.module.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.module.ts). It looks very much like the default `app.module.ts` you would get from creating a new Angular app with `ng new`, with some specific points:
 
-- We import required modules from [`@sinequa/core`]({{site.baseurl}}modules/core/core) and pass them configuration via their `forRoot()` methods.
+- We import required modules from [`@sinequa/core`]({{site.baseurl}}libraries/core/core) and pass them configuration via their `forRoot()` methods.
 - In particular we must pass the `StartConfig` object to the `WebServicesModule`. This object contains the **URL of the sinequa server** (which can be omitted when the app is hosted on the server) and the **name of the App** configured in the Sinequa administration.
 - We use `{provide: LocationStrategy, useClass: HashLocationStrategy},` to manage routes (which is not specific to Hello Search).
 
@@ -49,13 +49,13 @@ The results list displays the list of `Record` objects from a `Results` object p
 
 ```html
 {% raw %}<div *ngIf="results$ | async; let results">
-    <hr>    
+    <hr>
     <div *ngFor="let record of results.records" class="record">
         <a href="{{record.url1}}">
             <h3 [innerHtml]="record.displayTitle || record.title"></h3>
         </a>
         <div class="source">{{record.url1}}</div>
-        <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>       
+        <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>
     </div>
 </div>{% endraw %}
 ```
@@ -71,7 +71,7 @@ These buttons call the `login()` and `logout()` methods of the controller.
 
 **Notifications**:
 
-Notifications are typically some error messages coming from the Sinequa services and managed by the `NotificationModule` from [`@sinequa/core`]({{site.baseurl}}modules/core/core). If you fail to log in or to get data from the Sinequa indexes, you will likely see a message displayed at the bottom of the app.
+Notifications are typically some error messages coming from the Sinequa services and managed by the `NotificationModule` from [`@sinequa/core`]({{site.baseurl}}libraries/core/core). If you fail to log in or to get data from the Sinequa indexes, you will likely see a message displayed at the bottom of the app.
 
 ```html
 {% raw %}<ng-container *ngIf="notificationsService.notificationsStream | async as notification">
@@ -103,7 +103,7 @@ results$: Observable<Results>;
 
 **Constructor**:
 
-In the constructor, we inject the following services from [`@sinequa/core`]({{site.baseurl}}modules/core/core) (and initialize our `form`):
+In the constructor, we inject the following services from [`@sinequa/core`]({{site.baseurl}}libraries/core/core) (and initialize our `form`):
 - `LoginService`: Service in charge of authentication and initialization of other services.
 - `AppService`: Service in charge of retrieving the configuration of your application from the Sinequa server.
 - `QueryWebService`: Service in charge of sending *queries* and retrieving *results* from the Sinequa server.
@@ -116,7 +116,7 @@ constructor(
     public appService: AppService,
     public queryWebService: QueryWebService,
     public notificationsService: NotificationsService) {
-        
+
     this.form = this.formBuilder.group({
         "search": []
     });

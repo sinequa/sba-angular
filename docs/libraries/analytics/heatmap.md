@@ -14,7 +14,7 @@ This module includes a Heatmap visualization of 2-dimensional data based on the 
 
 - As a simple component taking data as an input and displaying it, unaware of Sinequa's API and data structures.
 - As a facet component, managing the transformation of an aggregation into the heatmap data, and displaying actions to customize this aggregation, as well as a settings panel.
-- As a results view component (mostly for compatibility), directly based on the facet component, but displayed in a slightly different way since the component is not meant to live in a `sq-facet-card` wrapper (See [Facet module]({{site.baseurl}}modules/components/facet.html)).
+- As a results view component (mostly for compatibility), directly based on the facet component, but displayed in a slightly different way since the component is not meant to live in a `sq-facet-card` wrapper (See [Facet module]({{site.baseurl}}libraries/components/facet.html)).
 
 ![Heatmap]({{site.baseurl}}assets/modules/heatmap/heatmap.png){: .d-block .mx-auto }
 
