@@ -329,7 +329,7 @@ Note that the style of the buttons can be customized via the `buttonClass` input
 
 This component lets the user choose between the "current results" and "all data":
 
-- The "current results" correspond to the normal behavior of facets.
+- The "current results" mode corresponds to the normal behavior of facets.
 - The "all data" mode corresponds to the aggregations computed with no filters over all indexes. This data is computed by the `FirstPageService` with a separate (potentially slow) query sent to the server. This mode is useful to display the facets on a home page, when no search has been performed yet.
 
 ### Facet Filters
