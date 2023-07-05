@@ -146,7 +146,7 @@ search() {
 
 The `login()` and `logout()` methods are essentially proxies to the corresponding methods in the `LoginService` which manages the authentication. Note that the `LoginService` also takes care of retrieving data from the server via three services:
 
-- The `AppService`, which retrieves the configuration of the applications.
+- The `AppWebService`, which retrieves the configuration of the applications.
 - The `PrincipalWebService`, which retrieves the user data from its domain (it includes the name, email, id, and other data).
 - The `UserSettingsWebService`, which retrieves the *User Settings* (more information in the [Tutorial]({{site.baseurl}}tutorial/user-settings.html) and the [Tips & Tricks]({{site.baseurl}}tipstricks/user-settings.html))
 
