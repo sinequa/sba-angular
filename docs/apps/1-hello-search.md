@@ -45,7 +45,7 @@ The search form has a search field `<input>`, and two buttons ("Search" and "Cle
 
 **Results**:
 
-The results list displays the list of `Record` objects from a `Results` object provided by the controller. The first `*ngIf` and `| async` allow to display the results only when they become available (it is *asynchronous*, since the server cannot respond instantaneously). Then, the `*ngFor` iterates through the list of results. Inside this `<div>`, when then display the title, source and relevant extracts of each document.
+The results list displays the list of `Record` objects from a `Results` object provided by the controller. The first `*ngIf` and `| async` allow to display the results only when they become available (it is *asynchronous*, since the server cannot respond instantaneously). Then, the `*ngFor` iterates through the list of results. Inside this `<div>`, we then display the title, source and relevant extracts of each document.
 
 ```html
 {% raw %}<div *ngIf="results$ | async; let results">
@@ -93,12 +93,14 @@ The controller ([`src/app/app.component.ts`](https://github.com/sinequa/sba-angu
 **Fields**:
 
 The `AppComponent` class has the following fields:
-- `form`: An Angular [`FormGroup`](https://angular.io/api/forms/FormGroup) object needed to interact with the content of a `<form>`.
-- `results$`: An [rxjs Observable](https://angular.io/guide/observables) of `Results` (since results are retrieved asynchronously).
+- `searchControl`: An Angular [`UntypedFormControl`](https://angular.io/api/forms/UntypedFormControl) object used to handle the search input value.
+- `form`: An Angular [`UntypedFormGroup`](https://angular.io/api/forms/UntypedFormGroup) object needed to interact with the content of a `<form>`.
+- `results$`: An [rxjs Observable](https://angular.io/guide/observables) of `Results` (since results are retrieved asynchronously) which can also be undefined.
 
 ```ts
-form: FormGroup;
-results$: Observable<Results>;
+searchControl: UntypedFormControl;
+form: UntypedFormGroup;
+results$: Observable<Results> | undefined;
 ```
 
 **Constructor**:
@@ -117,8 +119,9 @@ constructor(
     public queryWebService: QueryWebService,
     public notificationsService: NotificationsService) {
 
+    this.searchControl = new UntypedFormControl("");
     this.form = this.formBuilder.group({
-        "search": []
+        search: this.searchControl
     });
 }
 ```
@@ -127,14 +130,14 @@ constructor(
 
 The `search()` method is called when the user clicks on the "search" button. It performs the following tasks:
 - Create a new `Query` object (with the right name, retrieved from the app configuration.
-- Set the `query.text` to the value typed by the user in the search form (`this.form.get("search").value`).
+- Set the `query.text` to the value typed by the user in the search form (`this.searchControl.value`).
 - Send the query to the `QueryWebService` and get the results observable (`results$`). When results are available (asynchronously), the template will display them.
 
 ```ts
 search() {
-    let ccquery = this.appService.ccquery;
-    let query = new Query(ccquery ? ccquery.name : "_unknown");
-    query.text = this.form.get("search").value || "";
+    const ccquery = this.appService.ccquery;
+    const query = new Query(ccquery ? ccquery.name : "_unknown");
+    query.text = this.searchControl.value || "";
     this.results$ = this.queryWebService.getResults(query);
 }
 ```
@@ -143,13 +146,18 @@ search() {
 
 The `login()` and `logout()` methods are essentially proxies to the corresponding methods in the `LoginService` which manages the authentication. Note that the `LoginService` also takes care of retrieving data from the server via three services:
 
-- The `AppWebService`, which retrieves the configuration of the applications.
+- The `AppService`, which retrieves the configuration of the applications.
 - The `PrincipalWebService`, which retrieves the user data from its domain (it includes the name, email, id, and other data).
 - The `UserSettingsWebService`, which retrieves the *User Settings* (more information in the [Tutorial]({{site.baseurl}}tutorial/user-settings.html) and the [Tips & Tricks]({{site.baseurl}}tipstricks/user-settings.html))
 
 Additionally, we clear the results on log out, by removing the `results$` and emptying the search form.
 
 ```ts
+clear() {
+    this.results$ = undefined;
+    this.searchControl.setValue("");
+}
+
 login() {
     this.loginService.login();
 }
@@ -157,11 +165,6 @@ login() {
 logout() {
     this.clear();
     this.loginService.logout();
-}
-
-clear() {
-    this.results$ = null;
-    this.form.get("search").setValue("");
 }
 ```
 
