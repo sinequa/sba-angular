@@ -317,6 +317,21 @@ This component requires at least a `Results` input, the list of the `facets` con
 
 <doc-facet-multi></doc-facet-multi>
 
+### Facet Container
+
+The `sq-facet-container` component displays a list of buttons that users can click to open a facet.
+
+This component is used in the integrated search form of the [Pepper application](../../apps/3-pepper.md#integrated-search-form).
+
+<doc-facet-container></doc-facet-container>
+
+Note that the style of the buttons can be customized via the `buttonClass` input (default: `primary`).
+
+This component lets the user choose between the "current results" and "all data":
+
+- The "current results" mode corresponds to the normal behavior of facets.
+- The "all data" mode corresponds to the aggregations computed with no filters over all indexes. This data is computed by the `FirstPageService` with a separate (potentially slow) query sent to the server. This mode is useful to display the facets on a home page, when no search has been performed yet.
+
 ### Facet Filters
 
 <!-- <doc-facet-filters></doc-facet-filters> -->
