@@ -317,6 +317,10 @@ This component requires at least a `Results` input, the list of the `facets` con
 
 <doc-facet-multi></doc-facet-multi>
 
+### Facet Container
+
+
+
 ### Facet Filters
 
 <!-- <doc-facet-filters></doc-facet-filters> -->
