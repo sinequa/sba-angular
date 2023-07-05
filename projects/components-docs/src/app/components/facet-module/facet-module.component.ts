@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DocFacetBarComponent } from './facet-bar/facet-bar.component';
+import { DocFacetContainerComponent } from './facet-container/facet-container.component';
 import { DocFacetFiltersComponent } from './facet-filters/facet-filters.component';
 import { DocFacetListComponent } from './facet-list/facet-list.component';
 import { DocFacetMultiComponent } from './facet-multi/facet-multi.component';
@@ -23,6 +24,7 @@ export class DocFacetModuleComponent {
     DocFacetFiltersComponent,
     DocFacetListComponent,
     DocFacetMultiComponent,
+    DocFacetContainerComponent,
     DocFacetRangeComponent,
     DocFacetTagCloudComponent,
     // DocRefineComponent,
