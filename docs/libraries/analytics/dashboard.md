@@ -101,7 +101,7 @@ The widget configurations can be persisted in any storage system (including the 
 Therefore, storing the widget configuration could be done like this:
 
 ```ts
-save(widgets.map(widget => widget.state);
+save(widgets.map(widget => widget.state));
 ```
 
 And restoring them with:
