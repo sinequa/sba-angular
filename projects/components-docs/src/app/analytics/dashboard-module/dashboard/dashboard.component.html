@@ -1,3 +1,10 @@
-<doc-component-demo title="DashboardComponent" [html]="code">
-    <sq-dashboard [dashboard]="dashboard"></sq-dashboard>
+<doc-component-demo title="sq-dashboard" [html]="html" [ts]="ts">
+  <sq-dashboard [dashboard]="widgets" style="display: block; height: 400px;">
+    <ng-template let-widget>
+      <div class="card h-100">
+        <div class="card-header">{{widget.title}}</div>
+        <div class="card-body">{{widget.description}}</div>
+      </div>
+    </ng-template>
+  </sq-dashboard>
 </doc-component-demo>
