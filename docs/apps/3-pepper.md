@@ -13,78 +13,128 @@ nav_order: 3
 *The Pepper SBA sample*
 {: .text-center }
 
-Pepper has a single "search" route (which can easily replace the "search" route of Vanilla-Search, if the "home" and "preview" routes are required).
+Pepper has a single "search" route (which can easily replace the "search" route of Vanilla-Search if the "home" and "preview" routes are required).
 
-![Pepper]({{site.baseurl}}assets/modules/pepper.png)
+![Pepper]({{site.baseurl}}assets/apps/pepper.png)
+
+## Integrated search form
+
+The search form of Pepper is more advanced than the one of [Vanilla Search](2-vanilla-search.md). Because of the reduced "UI real estate" of the dashboard, the search form integrates the filters and facets in addition to the traditional autocomplete.
+
+![Pepper search form](../assets/apps/pepper-search-bar.png){: .d-block .mx-auto }
+
+This search form is composed of the following components:
+
+- The `sq-search-form` component (from [`@sinequa/components/search-form`](../libraries/components/search-form.md)), which displays the search input and the search button, and manages the expanded/collapsed state of the panel below.
+- The `sq-filters-view` component (from [`@sinequa/components/filters`](../libraries/components/filters.md)), which displays the filters (if any) in normal mode or advanced mode (letting users customize their query more deeply).
+- The `sq-facet-container` component (from [`@sinequa/components/facet`](../libraries/components/facet.html#facet-container)), which displays the list of available facets (aka "filters") and lets users click and open them.
+- The `app-autocomplete` component (from the [Vanilla Search](2-vanilla-search.md) application).
+
+This search form can be customized by editing the `app-search-form` component of Pepper.
 
 ## Dashboard
 
-The dashboard of Pepper is based on the [**angular-gridster2**](https://tiberiuzuld.github.io/angular-gridster2/) library.
+The dashboard of Pepper is based on the [`@sinequa/analytics/dashboard`](../libraries/analytics/dashboard.md) module, which itself is based on the [**angular-gridster2**](https://tiberiuzuld.github.io/angular-gridster2/) library.
 
-Dashboards can be customized by the user by dragging and resizing widgets, and adding new ones from a list of predefined widget types. A developer can easily add new widget types, or configure the existing ones.
+Dashboards can be customized by the user by dragging and resizing widgets and by adding new ones from a list of predefined widget types. A developer can easily add new widget types or configure the existing ones.
 
-Dashboards can be saved with a name, re-opened later, and shared with colleagues. A dropdown menu allows users to manage their dashboards and modify their settings.
+![Add widget popup]({{site.baseurl}}assets/apps/pepper-add-widget.png){: .d-block .mx-auto }
 
-![Dashboard menu]({{site.baseurl}}assets/modules/dashboard-menu.png){: .d-block .mx-auto }
+Pepper includes the following widgets by default:
 
-The dashboard also allows to open multiple document previews, just like other widgets. When the dashboard is reopened, these previews are fetched again from the Sinequa indexes.
+- **Network** (from [`@sinequa/analytics/network`](../libraries/analytics/network.md))
+- **Google Maps** (from [`@sinequa/analytics/googlemaps`](../libraries/analytics/googlemaps.md))
+- **Timeline** (from [`@sinequa/analytics/timeline`](../libraries/analytics/timeline.md))
+- **Chart** (from [`@sinequa/analytics/fusioncharts`](../libraries/analytics/fusioncharts.md))
+- **Heatmap** (from [`@sinequa/analytics/heatmap`](../libraries/analytics/heatmap.md))
+- **Tag cloud** (from [`@sinequa/components/facet`](../libraries/components/facet.html#tag-cloud-facet))
+- **Money cloud** and **Money timeline** (from [`@sinequa/analytics/finance`](../libraries/analytics/finance.md))
+
+The dashboard also allows you to open multiple **document previews** by clicking on documents from the result list. When the dashboard is reopened, these previews are fetched again from the Sinequa indexes.
 
 ![Dashboard preview]({{site.baseurl}}assets/modules/dashboard-preview.png){: .d-block .mx-auto }
 
 ## Architecture
 
-Pepper's search route look similar to Vanilla Search. In fact the navbar and results list are identical. Pepper's dashboard is located after this results list:
+Pepper's search route (`app-search` component) looks similar to Vanilla Search.
+
+Pepper's dashboard is defined in the `app-dashboard` component, which is displayed in the `app-search` component:
 
 ```html
-<gridster [options]="dashboardService.options">
-    <gridster-item [item]="item" *ngFor="let item of dashboardService.dashboard.items; index as i">
-        <sq-dashboard-item
-            [config]="item"
-            [results]="results"
-            [width]="item.width"
-            [height]="item.height">
-        </sq-dashboard-item>
-    </gridster-item>
-</gridster>
+<app-dashboard [results]="results"></app-dashboard>
 ```
 
-There are three levels in the above snippet:
+The definition of the list of widgets and their configuration is done in the `app-dashboard` component. Its template looks as follows:
 
-- `<gridster>`: The main component provided by the [angular-gridster2](https://tiberiuzuld.github.io/angular-gridster2/) library, which wraps the widgets provided inside. This component takes in the **`options`** of the Gridster dashboard (of type [`GridsterConfig`](https://github.com/tiberiuzuld/angular-gridster2/blob/master/projects/angular-gridster2/src/lib/gridsterConfig.interface.ts)). These options are all detailed in the library's [online documentation](https://tiberiuzuld.github.io/angular-gridster2/).
-- `<gridster-item>`: A component provided by the [angular-gridster2](https://tiberiuzuld.github.io/angular-gridster2/) library for wrapping each widget of the dashboard. This component will be responsible for managing the positioning, dragging and resizing of the widgets. The component takes in an **`item`** object (of type [`GridsterItem`](https://github.com/tiberiuzuld/angular-gridster2/blob/master/projects/angular-gridster2/src/lib/gridsterItem.interface.ts)).
-- `<sq-dashboard-item>`: A Sinequa component that is defined in the Pepper app (`app/dashboard/dashboard-item.component.ts`). This component is essentially a switch to display the right component in function of the widget type. The widget type is passed via the **`config`** input. Notice that the `item` input of `<gridster-item>` is also used for this `config` input. This is because we chose to use a single object to manage both the state of the widget ([`GridsterItem`](https://github.com/tiberiuzuld/angular-gridster2/blob/master/projects/angular-gridster2/src/lib/gridsterItem.interface.ts) interface) and its configuration (`DashboardItem` interface). The `DashboardItem` interface is in fact a direct extension of [`GridsterItem`](https://github.com/tiberiuzuld/angular-gridster2/blob/master/projects/angular-gridster2/src/lib/gridsterItem.interface.ts).
+```html
+<sq-dashboard [dashboard]="dashboard">
+  <ng-template let-widget>
+    <sq-facet-card
+      [title]="widget.state.title"
+      [icon]="widget.icon"
+      [collapsible]="false"
+      [actions]="widget.actions"
+      [ngSwitch]="widget.state.type">
 
-Notice in the snippet above that the list of dashboard items, as well the options of the dashboard, are managed by a new `DashboardService`. This Angular service, which lives in the Pepper app (`app/dashboard/dashboard.service.ts`), manages the following tasks:
+      <widget-type-foo *ngSwitchCase="'foo'">
+        
+      <widget-type-bar *ngSwitchCase="'bar'">
 
-- Storing the state of the dashboard and its global options.
-- Generating the dashboard menu shown above (`createDashboardActions()` method).
-- Saving, opening, deleting and sharing dashboards. The list of dashboards is persisted in the [User Settings]({{site.baseurl}}tipstricks/user-settings.html).
-- Managing URL changes / navigation, when a dashboard is opened, saved, deleted or imported.
-- Editing the dashboard (adding or removing items).
-- Emitting events when the dashboard changes.
+      ...
 
-## Adding new widgets
+    </sq-facet-card>
+  </ng-template>
+</sq-dashboard>
+```
+
+This snippet contains the following elements:
+
+- The `sq-dashboard` component (from [`@sinequa/analytics/dashboard`](../libraries/analytics/dashboard.md)). This component handles the dashboard layout and configuration management.
+- The `ng-template` encapsulates one widget. The `sq-dashboard` component will create one instance of this template for each widget in the dashboard.
+- All widgets are displayed within an `sq-facet-card` component (from [`@sinequa/components/facet`](../libraries/components/facet.md)). This component is used to display the widget title, icon and actions.
+- Within this card, an `ngSwitch` directive is used to display the appropriate widget component, depending on the type of the widget.
+
+Internally, the `app-dashboard` component uses the `DashboardService` (from [`@sinequa/analytics/dashboard`](../libraries/analytics/dashboard.md)). This service handles the following tasks:
+
+- Exporting and importing the dashboard state in JSON format.
+- Displaying the "Add Widget" popup shown above.
+- Creating new widgets based on a `WidgetOption` object.
+
+The `app-dashboard` component persists the state of the dashboard in the [User Preferences]({{site.baseurl}}tipstricks/user-preferences.html).
+
+## Developing new widgets
 
 Pepper is meant to be customized easily, especially to let developers create new types of widgets, either generic or specific to their project.
 
-Adding a widget will impact several parts of the code, and several aspects must be taken into account:
+Adding a widget will impact different parts of the code, and the following must be considered:
 
-- The widget must be displayed (within its parent component `sq-dashboard-item`).
-- The widget creation must be triggered somewhere in the application (upon initialization or user action).
+- The widget must be displayed (within its parent component `app-dashboard`).
 - The widget must be synchronized with other widgets and the results list.
-- The widget might have properties needing to be persisted.
+- The widget might have properties that need to be persisted.
 - The widget size must adapt to the dashboard grid.
 
-### Widget display
+### Widget definition
 
-The widget's display must be implemented in the `sq-dashboard-item` component (`app/dashboard/dashboard-item.component`). The template of this component is composed of a `sq-facet-card` (see [facets](../components/facet.html)) wrapping a Switch-Case directive to display the desired component (either a chart, map, network, etc.). Therefore, adding a new component means simply adding a new "case" such as:
+A widget is defined by adding a new `WidgetOption` object to the list of options of the `app-dashboard` component. This object defines the following properties:
+
+- `type`: A unique identifier for the widget type.
+- `icon`: The icon of the widget.
+- `text`: The name of the widget (displayed next to the icon).
+- `state`: An object that can be used to store a custom state of the widget (see below).
+- `init`: A function that is called when the widget is created. This function can be used to initialize the state of the widget (see below).
+- `unique` (default: `true`): A boolean indicating whether the widget is unique (only one instance of this widget can exist in the dashboard).
+- `maximizable` (default: `true`): A boolean indicating whether the widget can be maximized (taking up the whole dashboard).
+- `removable` (default: `true`): A boolean indicating whether the widget can be removed from the dashboard.
+- `renamable` (default: `false`): A boolean indicating whether the widget can be renamed.
+- `rows` (default: `2`): The number of rows the widget takes in the dashboard grid.
+- `cols` (default: `2`): The number of columns the widget takes in the dashboard grid.
+
+The widget's display must be implemented in the `app-dashboard` HTML template (see above). Adding a new component simply means adding a new "case" such as:
 
 ```html
 <my-custom-widget *ngSwitchCase="'my-custom-type'" [results]="results">
 </my-custom-widget>
 ```
-
-Your widget might require other input parameters, that you can create and manage inside `dashboard-item.component.ts` (generally, binding the global `results` as an input of your component is needed to refresh the widget upon new results). The component might also generate events, which you will want to handle in the controller as well.
 
 ### Widget creation / initialization
 
@@ -92,43 +142,31 @@ The creation of the widget can occur in different ways:
 
   1. By clicking the "Add Widget" button and selecting your widget type.
   2. On initialization, when a default dashboard is created.
-  3. Upon another type of user action (eg. we open the preview when the user selects a document).
+  3. When another type of user action is taken (e.g., we open the preview when the user clicks on a document).
 
-In any case, it is necessary to create a `DashboardItemOption`, an object consisting of a widget's `type`, `name`, `icon` and a `unique` property (that can prevent users from creating two components of this type). Existing dahsboard options are defined in the `DashboardService`.
+#### Add Widget popup
 
-For example, the option to create a "Map" widget is as follow:
+A custom widget will automatically be included in the "Add Widget" popup as soon as it is added to the list of `WidgetOption` objects in the `app-dashboard` component.
 
-```ts
-export const MAP_WIDGET: DashboardItemOption = {
-    type: 'map',
-    icon: 'fas fa-globe-americas fa-fw',
-    text: 'Map',
-    unique: true
-};
-```
+If you *do not* want your widget to be displayed in the popup, you can customize the `addWidget()` method of `app-dashboard` (there is already a special rule for excluding the preview widget).
 
-To include a new widget via the "Add Widget" button, simply include your `DashboardItemOption` in the list passed to the `createDashboardActions()` method, which looks as follows in the search component. The service will include these options in the modal displayed when clicking on the "Add Widget" button (`sq-dashboard-add-item` component).
+#### Default dashboard
+
+The list of widgets included in the default dashboard is defined in the `app-dashboard` component (`defaultWidget` property).
+
+The default widgets include:
 
 ```ts
-// The modal will propose to create maps, timelines, network, charts and heatmap (some of these must be unique though)
-this.dashboardService.createDashboardActions([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, HEATMAP_WIDGET]);
+defaultWidgets =  ['map', 'timeline', 'network', 'chart'];
 ```
 
-To include a new widget on initialization (in the "default" dashboard), add it to the list passed to the `setDefaultDashboard()` method. By default it looks as follows (in the search component):
+#### Manual creation
 
-```ts
-// The default dashboard includes a map, timeline, network and chart
-this.dashboardService.setDefaultDashboard([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET]);
-```
+Adding a widget programmatically (like when opening a document preview) can be done in 3 steps:
 
-Finally, if you want to add a widget programmatically, just pass your dashboard option to the `addWidget()` method:
-
-```ts
-// This adds a new widget with default size to the curent dashboard (ptional arguments can be passed to set the size and other settings)
-this.dashboardService.addWidget(PREVIEW_WIDGET);
-```
-
-This method returns the `item` object (of type `DashboardItem`) that will be passed to the `sq-dashboard-item` component. You can add or modify properties of this `item`: This is useful if your widget expects specific types of inputs. For example, the preview widget requires a record `id` that is not available from the other inputs of the `DashboardItem` component.
+1. Create a `WidgetOption` object (see above).
+2. Create a `Widget` object by calling `DashboardService.createWidget(option)`.
+3. Add the widget to the dashboard by calling `DashboardComponent.add(widget)`. (Notice that the `app-dashboard` component has access to an instance of `DashboardComponent`.)
 
 ### Widget synchronization
 
@@ -142,70 +180,103 @@ Similarly, widgets can listen to other types of global events. For example, the 
 
 ### Widget persistence
 
-The *state* of your widget can be defined in three locations:
+Users expect that when they refresh the page, the dashboard is restored in the same state as they left it. This means that the state of the widgets must be persisted.
 
-- The internal state of the component (for example, how much I have zoomed on the map). This state is not persisted: If you refresh the page, or if you reopen a saved dashboard, this internal state is reset to its defaults.
-- The inputs passed to the component from its parent (`sq-dashboard-item`). These inputs often consist of the **`Results`** object (or a subset of these results, like a `Record` or an `Aggregation`). This state is not persisted either: If you refresh the page, new results are obtained, transformed and passed to your component.
-- The inputs stored in the `DashboardItem` object. These inputs *are* persisted, because (by definition) the state of the dashboard that is persisted is essentially the list of `DashboardItem`. When you refresh the page, the dashboard items are downloaded from the user settings, allowing to display the widgets in the same state as you left them. When you share a dashboard with a colleague, the URL contains the serialized list of items.
+The dashboard component automatically persists any data stored in the `widget.state` object. This object is serialized in JSON format and stored in the user preferences.
 
-In the standard components, the items that are persisted are for example:
+#### To persist or not to persist
+
+Not all of the state needs to be persisted. For example, your custom widget might look like the following:
+
+```html
+<my-custom-widget *ngSwitchCase="'my-custom-type'"
+  [constant]="'Hello world'"
+  [results]="results"
+  [parameter]="widget.parameter"
+  [parameterPersistent]="widget.state.parameter">
+</my-custom-widget>
+```
+
+This example shows different types of inputs that a widget can have:
+
+- Constants: fixed values that are hard-coded or defined in the app configuration.
+- Variables: Values that may change at any time (for example, the `results` object).
+- Parameters: values defined when the widget is created and stored in the `widget` object (but lost or recomputed when you refresh the page).
+- Persistent parameters: parameters that are stored in `widget.state` and persisted in the user settings.
+
+Only the minimum amount of information should be persisted in `widget.state`. If a complex object can be re-computed based on the state, it is better to do so than to persist it.
+
+For example:
+
+- If your component expects a `Results` object, do not store the `Results` object in the state. Instead, store the `Query` object and generate the `Results` object when the widget is created.
+- If your component expects a `Record` object, store the `id` of the record and generate the `Record` object when the widget is created.
+
+For example, in the standard components, the persisted items include:
 
 - For all widgets: Widget size and position in the dashboard.
 - For the **preview** widget: **id** of the opened document and the **search query** yielding that document.
 - For the **chart** widget: Selected aggregation and chart type.
 
-If your custom widget needs to have a part of the state persisted, a few things need to happen:
+#### Initializing the widget
 
-- In your component, that state must exist as an *optional* input (typically with a default value, to manage the case when the component is first created):
+The definition of the `WidgetOption` is very important to properly initialize the state. For example:
 
-    ```ts
-    @Input() myParam = false;
-    ```
+```ts
+option = {
+  type: "my-custom-type",
+  icon: "fas fa-chart-bar",
+  text: "My custom widget",
+  ...defaultOptions,
+  state: {
+    param: "Hello world",
+  },
+  init: (widget) => widget.otherParam = createComplexObject(widget),
+}
+```
 
-- When your component changes that state, it should emit an event:
+In the above example, `param` is the default state (that can be later modified during the life of the widget). `otherParam` is a complex object that is generated when the widget is created and does not need to be persisted.
 
-    ```ts
-    @Output() myParamChange = new EventEmitter<boolean>();
+Note that the `init` method will also be called when the widget is restored from the user preferences to guarantee that `otherParam` is always defined.
 
-    ...
-    this.myParam = !this.myParam;
-    this.myParamChange.next(myParam);
-    ```
+#### Handling state changes
 
-- In the template of `sq-dashboard-item`, bind the `myParam` input to its value in the `config` object and listen to the event to call an event handler:
+If the (persisted) state of your custom widget changes, it should be reflected in the user preferences.
 
-    ```html
-    <my-custom-widget
-        [myParam]="config['myParam']"
-        (myParamChange)="onMyParamChange($event)">
-    </my-custom-widget>
-    ```
+The simplest way to achieve this is to call `DashboardComponent.update(widget, state)`, where `state` is only a "patch" of the state that has changed.
 
-- In the controller of `sq-dashboard-item`, implement the following handler:
+For example, when the user modifies the `chartType` property of a chart widget, an event handler is called:
 
-    ```ts
-    onMyParamChange(myParamValue: boolean) {
-        this.config['myParam'] = myParamValue;
-        this.dashboardService.notifyItemChange(this.config);
-    }
-    ```
+```ts
+(typeChange)="dashboardComponent.update(widget, {chartType: $event})"
+```
 
-    It is important to notify the `DashboardService` of the change in the dashboard, so the state can be immediately persisted if Auto-save is activated.
-
-Note that you can greatly simplify the above if your component directly has access to the `DashboardItem` and `DashboardService` (but that means your component won't be reusable outside of the context of a dashboard).
+(In turn, the `sq-dashboard` component triggers a `(changed)` event handled by the `app-dashboard` component, which saves the state in the user preferences.)
 
 ### Widget sizing
 
-One difficulty of building widgets is that their size is strongly constrained by the dashboard, so the components cannot take their ideal size: they must adapt to any size (for example by forcing a width and height of 100% or by scrolling vertically or horizontally) or conform to an explicit size provided by the parent (`sq-dashboard-item`).
+One difficulty in building widgets is that their size is strongly constrained by the dashboard, so the components cannot take their ideal size. They must be able to adapt to any size (for example, by forcing a width and height of 100% or by scrolling vertically or horizontally) or conform to an explicit size (in pixels) provided by the parent (`sq-dashboard`) via the `widget.width` and `widget.height` properties.
 
 The built-in components behave differently in that respect:
 
 - The network's canvas takes the available space using `width: 100%` and `height: 100%`.
 - The charts are explicitly resized when the dashboard is initialized or resized.
-- The map's `height` is bound explicitly (the width automatically takes 100%).
-- The heatmap and timeline are svg-based and are redrawn when resized: the `width` and `height` are therefore bound explicitly.
+- The map's `height` is bound explicitly (i.e., the width is automatically 100%).
+- The heatmap and timeline are svg-based and are redrawn when resized. Therefore, the `width` and `height` are explicitly bound.
 
-If your component must be redrawn when its size changes, it is likely to need an interface similar to the timeline or heatmap components. Concretely, it will probably require explicit width and height inputs (probably with default values). The `ngOnChange()` will then catch any change of dimension from the parent, and trigger the redrawing:
+For example a custom widget with a fixed size and scrollable content might look like:
+
+```html
+<div *ngSwitchCase="'my-custom-type'"
+  class="overflow-auto"
+  [ngStyle]="{
+    'height.px': widget.height,
+    'width.px': widget.width
+  }">
+  content
+</div>
+```
+
+If your component must be redrawn when its size changes, it is likely to need an interface similar to the timeline or heatmap components. Concretely, it will probably require explicit width and height inputs (probably with default values). The `ngOnChange()` will then catch any change of dimension from the parent and trigger the redrawing:
 
 ```ts
 @Input() width = 600;
@@ -223,11 +294,10 @@ The `width` and `height` inputs may also be used in the template. For example:
 {% raw %}
 
 ```html
-<svg width="{{width}}+'px'" height="{{height}}+'px'">
+<svg width="{{width}}" height="{{height}}">
    ...
 </svg>
 ```
 
 {% endraw %}
 
-Note that in the parent `sq-dashboard-item` component, the width and height of the item are inputs of the component and are automatically refreshed when the dashboard is modified. However, an `innerheight` parameter is computed in `ngOnChanges()` to account for the height of the facet header.
