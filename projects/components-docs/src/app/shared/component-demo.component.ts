@@ -9,11 +9,11 @@ import { Component, Input } from '@angular/core';
     margin-bottom: 1rem;
   }
 
-  // override just-the-docs.css for docs
+  /* override just-the-docs.css for docs */
 
-  sq-facet-card ::ng-deep ul > li::before,
-  sq-facet-card ::ng-deep ul > li::marker {
-    content: initial;
+  :host ::ng-deep li::before,
+  :host ::ng-deep li::marker {
+    content: none;
   }`]
 })
 export class DocComponentDemoComponent {

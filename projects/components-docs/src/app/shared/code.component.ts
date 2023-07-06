@@ -6,6 +6,7 @@ import highlightJs from 'highlight.js';
   template: `<pre class="p-3"><code [innerHTML]="formattedCode"></code></pre>`,
   styles: [`pre {
     background-color: aliceblue;
+    margin: 0;
   }`]
 })
 export class DocCodeComponent implements OnChanges {
