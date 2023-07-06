@@ -7,13 +7,6 @@ import { Component, Input } from '@angular/core';
     display: block;
     margin-top: 1rem;
     margin-bottom: 1rem;
-  }
-
-  /* override just-the-docs.css for docs */
-
-  :host ::ng-deep li::before,
-  :host ::ng-deep li::marker {
-    content: none;
   }`]
 })
 export class DocComponentDemoComponent {

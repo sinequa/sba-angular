@@ -56,15 +56,38 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   }
 }
 
-doc-component-demo > sq-facet-card > .card,
-sq-facet-card.doc-component-demo > .card {
-  border-radius: 0;
+/* override just-the-docs.css for docs */
 
-  & > .card-header {
+doc-component-demo,
+sq-facet-card.doc-component-demo {
+  & > sq-facet-card > .card,
+  & > .card {
     border-radius: 0;
-    background-color: #f5f6fa;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    padding-right: 0 !important;
+
+    & > .card-header {
+      border-radius: 0;
+      background-color: #f5f6fa;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+
+  li::before,
+  li::marker {
+    content: none !important;
+  }
+
+  .btn {
+    box-shadow: none !important;
+
+    &.btn-primary,
+    &.btn-primary:hover {
+      background-image: none !important;
+    }
+  }
+
+  .search-input {
+    position: initial;
   }
 }
