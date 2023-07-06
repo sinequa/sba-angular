@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { DEFAULT_FACET_COMPONENTS, FacetConfig } from '@sinequa/components/facet';
+import { Query } from '@sinequa/core/app-utils';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-multi',
-  templateUrl: './facet-multi.component.html'
+  selector: 'doc-facet-container',
+  templateUrl: './facet-container.component.html'
 })
-export class DocFacetMultiComponent extends BaseComponent {
+export class DocFacetContainerComponent extends BaseComponent {
 
-  facetComponents = {
-    ...DEFAULT_FACET_COMPONENTS,
-    "date": BsFacetDate
-  }
+  query = new Query("");
 
   facets: FacetConfig<any>[] = [
     {
@@ -83,14 +81,18 @@ export class DocFacetMultiComponent extends BaseComponent {
     },
   ];
 
+  facetComponents = {
+    ...DEFAULT_FACET_COMPONENTS,
+    "date": BsFacetDate
+  }
+
   code1 =
-`<sq-facet-card>
-  <sq-facet-multi #facet
-      [results]="results"
-      [facets]="facets"
-      [facetComponents]="facetComponents">
-  </sq-facet-multi>
-</sq-facet-card>`;
+`<sq-facet-container
+  [results]="results"
+  [query]="query"
+  [facetConfigs]="facets"
+  [facetComponents]="facetComponents">
+</sq-facet-container>`;
 
   code2 = `facets: FacetConfig<any>[] = [
     {
@@ -165,7 +167,10 @@ export class DocFacetMultiComponent extends BaseComponent {
     ...DEFAULT_FACET_COMPONENTS,
     "date": BsFacetDate
   }
-
   `;
+
+  ngOnInit() {
+    this.query.addFilter({field: "geo", value: "FRANCE"});
+  }
 
 }

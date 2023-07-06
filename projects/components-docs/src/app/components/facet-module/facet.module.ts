@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { createElement } from 'src/app/shared/create-element';
 import { HelloWorldComponent } from './hello-world/hello-world.component';
 import { DocFacetHelloWorldComponent } from './hello-world/facet-hello-world.component';
+import { DocFacetContainerComponent } from './facet-container/facet-container.component';
 
 const routes: Routes = [
   { path: '', component: DocFacetModuleComponent }
@@ -32,6 +33,7 @@ const routes: Routes = [
     DocFacetFiltersComponent,
     DocFacetListComponent,
     DocFacetMultiComponent,
+    DocFacetContainerComponent,
     DocFacetRangeComponent,
     DocFacetTagCloudComponent,
     DocFacetTestingComponent,
@@ -56,6 +58,7 @@ export class DocFacetModule {
     createElement('doc-facet-range', DocFacetRangeComponent);
     createElement('doc-facet-bar', DocFacetBarComponent);
     createElement('doc-facet-multi', DocFacetMultiComponent);
+    createElement('doc-facet-container', DocFacetContainerComponent);
     createElement('doc-facet-tag-cloud', DocFacetTagCloudComponent);
     createElement('doc-refine', DocRefineComponent);
     createElement('doc-facet-hello-world', DocFacetHelloWorldComponent);
