@@ -3,7 +3,7 @@ layout: default
 title: Utils Module
 parent: Components
 grand_parent: Libraries
-nav_order: 15
+nav_order: 23
 ---
 
 # Utils Module

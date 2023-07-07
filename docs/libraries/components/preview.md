@@ -3,7 +3,7 @@ layout: default
 title: Preview Module
 parent: Components
 grand_parent: Libraries
-nav_order: 5
+nav_order: 7
 ---
 
 # Preview Module

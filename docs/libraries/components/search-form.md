@@ -3,7 +3,7 @@ layout: default
 title: Search Form Component
 parent: Components
 grand_parent: Libraries
-nav_order: 22
+nav_order: 5
 ---
 
 # Search Form Component
