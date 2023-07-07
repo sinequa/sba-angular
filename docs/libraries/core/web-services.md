@@ -130,7 +130,7 @@ The service also has an events property which can be subscribed to. A `changed` 
 The query web service issues a Sinequa search `Query` and retrieves an observable of the `Results`. The query name used must correspond one of the
 queries configured on the application in the Sinequa administration.
 
-See the [documentation of the query object](query.md).
+See the [documentation of the query object](app-utils.md#query).
 
 ```ts
     const query = new Query('my-query-name');

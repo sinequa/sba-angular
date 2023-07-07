@@ -10,7 +10,7 @@ nav_order: 4
 
 ## Features
 
-This module provides 3 components to visualize the [filters](../core/query.md#filtering-the-metadata) of a `Query` object.
+This module provides 3 components to visualize the [filters](../core/app-utils.md#filtering-the-metadata) of a `Query` object.
 
 A query can contain a "tree" of filters defining the boolean conditions for filtering the search results. These filters might look like:
 
@@ -37,7 +37,7 @@ query.addFilter({
 });
 ```
 
-See more details about the supported filters in the [documentation of the Query objects](../core/query.md#filtering-the-metadata).
+See more details about the supported filters in the [documentation of the Query objects](../core/app-utils.md#filtering-the-metadata).
 
 The filters would then be represented by the following tree (in the `sq-filters-editor` component):
 
