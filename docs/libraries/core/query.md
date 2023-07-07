@@ -94,6 +94,27 @@ query.addFilter({
 });
 ```
 
+The `Query` has various helper methods to manage the filters:
+
+- `addFilter`: Adds a filter to the query.
+- `findFilter`: Return the first filter in the filter tree that matches the given predicate.
+
+  For example, find all filters on the "source" field:
+
+  ```ts
+  query.findFilter(f => isFieldFilter(f) && f.field === "source");
+  ```
+
+- `findAllFilters`: Return all filters in the filter tree that match the given predicate.
+- `findFieldFilters`: Return all filters in the filter tree that are field filters (with a `field` property, as opposed to `and`/`or`/`not` filters) and that match the given field(s).
+- `findValueFilters`: Return all filters in the filter tree that are value filters (with a `value` property, as opposed to `and`/`or`/`not`/`in`/`between`/`null` filters) and that match the given field(s).
+- `findSameFilter`: Return the first filter in the filter tree that is equivalent to the given filter.
+- `forEachFilter`: Execute a function on each filter in the filter tree.
+- `getFilterCount`: Return the number of filters in the filter tree.
+- `removeFilters`: Remove all filters in the filter tree that match the given predicate.
+- `removeSameFilter`: Remove the first filter in the filter tree that is equivalent to the given filter.
+- `removeFieldFilters`: Remove all filters in the filter tree that are field filters (with a `field` property, as opposed to `and`/`or`/`not` filters) and that match the given field(s).
+
 ## Sorting the results
 
 The `sort` property is used to sort the results. It must be configured in the query web service. For example, if the query web service has a sort named "date", then:
