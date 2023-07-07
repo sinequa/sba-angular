@@ -3,7 +3,7 @@ layout: default
 title: Metadata Module
 parent: Components
 grand_parent: Libraries
-nav_order: 8
+nav_order: 6
 ---
 
 # Metadata Module

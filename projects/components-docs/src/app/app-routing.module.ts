@@ -19,6 +19,7 @@ const routes: Routes = [
       { path: 'result', loadChildren: () => import(`./components/result-module/result.module`).then(m => m.DocResultModule) },
       { path: 'autocomplete', loadChildren: () => import(`./components/autocomplete-module/autocomplete.module`).then(m => m.DocAutocompleteModule) },
       { path: 'facet', loadChildren: () => import(`./components/facet-module/facet.module`).then(m => m.DocFacetModule) },
+      { path: 'filters', loadChildren: () => import(`./components/filters-module/filters.module`).then(m => m.DocFiltersModule) },
       { path: 'preview', loadChildren: () => import(`./components/preview-module/preview.module`).then(m => m.DocPreviewModule) },
       { path: 'metadata', loadChildren: () => import(`./components/metadata-module/metadata.module`).then(m => m.DocMetadataModule) },
       { path: 'baskets', loadChildren: () => import(`./components/baskets-module/baskets.module`).then(m => m.DocBasketsModule) },

@@ -3,7 +3,7 @@ layout: default
 title: Sinequa Theme
 parent: Components
 grand_parent: Libraries
-nav_order: 21
+nav_order: 11
 ---
 
 # Sinequa Theme

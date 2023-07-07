@@ -1,16 +1,20 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { FormsModule } from "@angular/forms";
+
+import { IntlModule, Locale, LocalesConfig } from "@sinequa/core/intl";
+import { LoginInterceptor } from '@sinequa/core/login';
+import { WebServicesModule, StartConfig, StartConfigWebService } from "@sinequa/core/web-services";
+
+import { environment } from "../environments/environment";
+
+import { GlobalService } from './shared/global.service';
 import { AppRoutingModule } from './app-routing.module';
 import { DocAppComponent } from './app.component';
-import { IntlModule, Locale, LocalesConfig } from "@sinequa/core/intl";
-import { WebServicesModule, StartConfig, StartConfigWebService } from "@sinequa/core/web-services";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { FormsModule } from "@angular/forms";
 import { DocMenuComponent } from './menu/menu.component';
 import { DocNavbarComponent } from './navbar/navbar.component';
-import { environment } from "../environments/environment";
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { GlobalService } from './shared/global.service';
 import { DocMachineLearningModule } from './components/machine-learning-module/machine-learning.module';
 import { DocActionModule } from './components/action-module/action.module';
 import { DocAdvancedModule } from './components/advanced-module/advanced.module';
@@ -20,6 +24,7 @@ import { DocBasketsModule } from './components/baskets-module/baskets.module';
 import { DocCollapseModule } from './components/collapse-module/collapse.module';
 import { DocCommentsModule } from './components/comments-module/comments.module';
 import { DocFacetModule } from './components/facet-module/facet.module';
+import { DocFiltersModule } from './components/filters-module/filters.module';
 import { DocFeedbackModule } from './components/feedback-module/feedback.module';
 import { DocLabelsModule } from './components/labels-module/labels.module';
 import { DocMetadataModule } from './components/metadata-module/metadata.module';
@@ -66,7 +71,6 @@ export function startConfigInitializer(startConfigWebService: StartConfigWebServ
 
 // Application languages (intl service)
 import enLocale from "../locales/en";
-import { LoginInterceptor } from '@sinequa/core/login';
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -103,6 +107,7 @@ export class AppLocalesConfig implements LocalesConfig {
         DocCollapseModule,
         DocCommentsModule,
         DocFacetModule,
+        DocFiltersModule,
         DocFeedbackModule,
         DocLabelsModule,
         DocMachineLearningModule,

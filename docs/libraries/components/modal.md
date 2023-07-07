@@ -3,7 +3,7 @@ layout: default
 title: Modal Module
 parent: Components
 grand_parent: Libraries
-nav_order: 11
+nav_order: 19
 ---
 
 # Modal Module
