@@ -10,16 +10,36 @@ nav_order: 4
 
 ## Features
 
-This module provides 3 components to visualize the *filters* of a `Query` object.
+This module provides 3 components to visualize the [filters](../core/query.md#filtering-the-metadata) of a `Query` object.
 
-A query can contain a "tree" of filters defining the boolean conditions for filtering the search results. For example, a query might the filters:
+A query can contain a "tree" of filters defining the boolean conditions for filtering the search results. These filters might look like:
 
 - Source: "Documentation"
 - And either:
   - Format: "pdf"
   - Format: "html"
 
-Which is represented by the following tree (in the `sq-filters-editor` component):
+These filters would be added to a `query` object with the `addFilter` method:
+
+```ts
+query.addFilter({
+  operator: "and",
+  filters: [
+    {field: "Source", value: "Documentation"},
+    {
+      operator: "or",
+      filters: [
+        {field: "Format", value: "pdf"},
+        {field: "Format", value: "html"},
+      ]
+    }
+  ]
+});
+```
+
+See more details about the supported filters in the [documentation of the Query objects](../core/query.md#filtering-the-metadata).
+
+The filters would then be represented by the following tree (in the `sq-filters-editor` component):
 
 ![Filters Editor]({{site.baseurl}}assets/modules/filters/filters-editor.png){: .d-block .mx-auto }
 
