@@ -20,6 +20,7 @@ import { createElement } from 'src/app/shared/create-element';
 import { HelloWorldComponent } from './hello-world/hello-world.component';
 import { DocFacetHelloWorldComponent } from './hello-world/facet-hello-world.component';
 import { DocFacetContainerComponent } from './facet-container/facet-container.component';
+import { DocTemplateCustomizationComponent } from './template-customization/template-customization.component';
 
 const routes: Routes = [
   { path: '', component: DocFacetModuleComponent }
@@ -39,7 +40,8 @@ const routes: Routes = [
     DocFacetTestingComponent,
     DocRefineComponent,
     HelloWorldComponent,
-    DocFacetHelloWorldComponent
+    DocFacetHelloWorldComponent,
+    DocTemplateCustomizationComponent
   ],
   imports: [
     CommonModule,
@@ -62,5 +64,6 @@ export class DocFacetModule {
     createElement('doc-facet-tag-cloud', DocFacetTagCloudComponent);
     createElement('doc-refine', DocRefineComponent);
     createElement('doc-facet-hello-world', DocFacetHelloWorldComponent);
+    createElement('doc-template-customization', DocTemplateCustomizationComponent);
   }
 }

@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DocFusionchartsModuleComponent } from './fusioncharts-module.component';
 import { DocChartComponent } from './chart/chart.component';
 import { DocMultiLevelPieChartComponent } from './multi-level-pie-chart/multi-level-pie-chart.component';
+import { DocMultipleViewsComponent } from '../../analytics/fusioncharts-module/multiple-views/multiple-views.component';
 import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
 import { createElement } from 'src/app/shared/create-element';
 
@@ -26,6 +27,7 @@ FusionCharts.options.creditLabel = false;
   declarations: [
     DocFusionchartsModuleComponent,
     DocChartComponent,
+    DocMultipleViewsComponent,
     DocMultiLevelPieChartComponent
   ],
   imports: [
@@ -40,5 +42,6 @@ export class DocFusionchartsModule {
   constructor() {
     createElement('doc-chart', DocChartComponent);
     createElement('doc-multi-level-pie-chart', DocMultiLevelPieChartComponent);
+    createElement('doc-multiple-views', DocMultipleViewsComponent);
   }
 }

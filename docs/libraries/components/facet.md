@@ -69,25 +69,7 @@ It is possible to inject multiple views inside the same facet card. Views need t
 
 For example, one might want to display an aggregation viewed as a facet list OR as a chart.
 
-```html
-<sq-facet-card [title]="'Geography'" [icon]="'fas fa-globe-americas'">
-
-    <!-- List view -->
-    <ng-template [sqFacetView]="{icon: 'fas fa-list', title: 'List view'}">
-        <sq-facet-list #facet [results]="results" [aggregation]="'Geo'"></sq-facet-list>
-    </ng-template>
-
-    <!-- Chart view -->
-    <ng-template [sqFacetView]="{icon: 'fas fa-chart-bar', title: 'Chart view'}">
-        <sq-fusion-chart #facet [results]="results" [aggregation]="'Geo'"></sq-fusion-chart>
-    </ng-template>
-
-</sq-facet-card>
-```
-
-The template above results in the following display:
-
-![Multiple views]({{site.baseurl}}assets/modules/facet/views.png){: .d-block .mx-auto}
+<doc-multiple-views></doc-multiple-views>
 
 Adding/removing views is as easy as modifying the list of `ng-template`s injected into the facet card. The `[sqFacetView]` input is an `Action` object that is used to display the buttons to toggle between views.
 
@@ -100,22 +82,9 @@ It is possible to inject `ng-template`s to customize specific parts of the facet
 - The footer template (`#footerTpl`)
 - The settings template (`#settingsTpl`)
 
-```html
-<sq-facet-card actionsClass="ms-auto">
+Here is an example (notice the settings button in the top right, which displays the settings template):
 
-    <sq-facet-list #facet [results]="results" [aggregation]="'Geo'"></sq-facet-list>
-
-    <ng-template #headerTpl><i>Custom header</i></ng-template>
-    <ng-template #subHeaderTpl><i>Custom sub-header</i></ng-template>
-    <ng-template #footerTpl><i>Custom footer</i></ng-template>
-    <ng-template #settingsTpl><i>Custom settings</i></ng-template>
-
-</sq-facet-card>
-```
-
-This results in the following view (notice the settings button in the top right, which displays the settings template):
-
-![Custom templates]({{site.baseurl}}assets/modules/facet/templates.png)
+<doc-template-customization></doc-template-customization>
 
 Note that these templates can be injected in 2 different ways:
 
