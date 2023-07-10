@@ -20,7 +20,8 @@
     "builddocs": "ng build components-docs --configuration=mock",
     "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildanalytics && npm run buildvanilla && npm run buildpepper",
     "buildpreview": "npx -p typescript tsc projects/components/preview/preview.ts -outFile projects/vanilla-search/src/preview/preview.js -removeComments true",
-    "doc-preprocess": "npx run ./scripts/doc-preprocess.js"
+    "doc-preprocess": "npx run ./scripts/doc-preprocess.js",
+    "cypress:base": "npx cypress run --env type=base --config screenshotsFolder=cypress/snapshots/base"
   },
   "private": true,
   "dependencies": {
@@ -109,7 +110,7 @@
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
     "cypress": "^12.10.0",
-    "cypress-image-diff-js": "^1.23.0",
+    "cypress-visual-regression": "^3.0.0",
     "eslint": "^8.18.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsdoc": "^39.3.6",
