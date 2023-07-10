@@ -12,7 +12,7 @@ This application relies on [dataset web service(s)](https://doc.sinequa.com/en.s
 
 ![Usage analytics]({{site.baseurl}}assets/apps/usage-analytics.PNG)
 
-*Usage analytics* has **a unique route** made of many subcomponents from the [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) and [`@sinequa/analytics`]({{site.baseurl}}libraries/analytics/components.html) library:
+*Usage analytics* has **a unique route** made of many subcomponents from the [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) and [`@sinequa/analytics`]({{site.baseurl}}libraries/analytics/analytics.html) library:
 
 - The **App** component, which is essentially a wrapper for the [`<router-outlet>`](https://angular.io/api/router/RouterOutlet).
 - A **Audit** route, allowing users to browse analytic dashboards and customize them. Dashboards are built on top of the [**angular-gridster2**](https://tiberiuzuld.github.io/angular-gridster2/) library.
