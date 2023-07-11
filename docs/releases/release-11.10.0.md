@@ -347,6 +347,24 @@ Note that the data used by this application can be either real data from a Sineq
 
 ## Usage Analytics
 
+- Removed programmatically added boundaries of value 0 in timeline-typed widgets and updated the curve type used to draw the timeline.
+- Disabled change selection on timeline zooming (to avoid unwanted selection changes when zooming in/out).
+- Empty timeline-typed widgets are now displaying *no data to display* message.
+- Added native plot of multiple time series from different queries in timeline-typed widgets.
+- Changed the display of tooltips in timeline-typed widgets in order to fit the case of multiple time series charts.
+- Added a toggle button to timeline-typed widgets to display time series of the preceding period. 
+- Enabled *Rename dashboard" action in the dashboard toolbar.
+- Fixed log errors when trying to switch from Chart to Grid view.
+- Added a custom configuration to the column *timestamp*, in the default query configuration so that it will be automatically well-formatted.
+- Enabled the feature to use multiple dataset web services in the same application. Queries having the same name are now overriden by the last one in the last dataset web service (from left to right).
+- The dashboard service `DashboardItemOption` object now has proper typing for the `parameters` argument, enables typing each widget (timeline, chart, grid ...). New configuration interfaces are documented in the [Usage analytics documentation](https://github.com/sinequa/usage-analytics).
+- Added new type `heatmap chart`, based on `sq-heatmap` component (see above), allowing to display analytic indicator requesting *cross-distribution*.
+- Added new type `multi level pie chart`, allowing to display hierarchical-tree indicator. This new component is documented in the [Analytics library](../libraries/analytics/fusioncharts.md).
+- Reorganized *Palette of widgets* and *default dashboards*.
+- Refreshed look & feel, based on the new Sinequa Theme (see above).
+- Added link to a new *Help page*, including detailed informations and explanations of the overall context of the application.
+- *Help page* and *feedback* buttons could be displayed or not, depending on the respective JSON configuration properties `enableHelpPageLink` and `enableUserFeedbackMenu`.
+- Grid rows are now selectable (with a checkbox) and the selection is handled by `onGridSelectionChanged()` in the `dashboard-item.component.ts`. 
 
 ## Vanilla Builder
 
