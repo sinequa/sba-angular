@@ -303,24 +303,15 @@ This component lets the user choose between the "current results" and "all data"
 
 ### Facet Filters
 
-<!-- <doc-facet-filters></doc-facet-filters> -->
-
 The `sq-facet-filters` components displays facets as a navigation bar where each item is a facet displayed as a dropdown component.
 
-![Facet Filters]({{site.baseurl}}assets/modules/facet/facet-filters.png){: .d-block .mx-auto}
+<doc-facet-filters></doc-facet-filters>
 
 This component requires a:
   - `Results` input.
   - `FacetConfig<T>[]`: A list of facets' configuration. This list can be passed directly via the `[facets]` input (as for the [Multiple type facet](#multiple-type-facet)). Or it can be injected with the `BsFacetModule.forRoot()` method (as for the [Facet bar](#facet-bar)). This 2nd option is interesting when `enableCustomization` is set to `true`.
-  - `facetComponents`: Optionally, a list of custom components.
+  - `facetComponents`: Optionally, a map of "facet types" (`"list"`, `"range"`, `"date"`, etc.) to facet components (`BsFacetList`, `BsFacetRange`, `BsFacetDate`, etc.).
   - `enableCustomization`: Optionally, turns on user customization of the list of facets displayed in the component.
-
-
-```html
-<nav class="navbar navbar-expand">
-    <sq-facet-filters [results]="results" [facets]="facets" [facetComponents]="facetComponents"></sq-facet-filters>
-</nav>
-```
 
 ## Facet Service
 
