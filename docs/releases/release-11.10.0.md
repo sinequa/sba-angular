@@ -210,7 +210,7 @@ This new module is documented in the [Components library](../libraries/component
 
 - Refactoring of the `sq-result-icon` component: Rather than relying on a global stylesheet to map file extensions to icons, the component now accepts a custom mapping as input (a default mapping is provided with the same icons as those previously defined in CSS).
 
-- New `showMustInclude` option added to `sq-missing-terms` to allows forcing a missing term to be included in the query.
+- New `showMustInclude` option added to `sq-missing-terms` to allow users to force a missing term to be included in the query.
 - Added internationalization of the treepath items in `sq-result-source`.
 - The `sq-result-thumbnail` component does NOT wrap the thumbnail in a link anymore if either `linkBehavior` is false or if the URL of the document is empty.
 
@@ -340,7 +340,7 @@ The new `sq-chat` component (see above) allows to interact with a Large Language
 Components-docs is a new application not meant to be used as a "starter application" (unlike Vanilla or Pepper). It is included for various technical reasons:
 
 - It is used to generate the interactive examples in the SBA documentation (using Angular Elements).
-- It is used to quickly visualize components that are not used by default in Vanilla or Pepper.
+- It is used to quickly visualize and test components that are not included by default in Vanilla or Pepper.
 - It is used to run the end-to-end tests of the SBA components with Cypress.
 
 Note that the data used by this application can be either real data from a Sinequa server, or mocked data (included in the application itself).
