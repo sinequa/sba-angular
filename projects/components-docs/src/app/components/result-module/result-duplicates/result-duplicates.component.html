@@ -1,0 +1,11 @@
+<doc-component-demo title="sq-result-duplicates and sq-result-duplicates-spacer" [html]="html" [ts]="ts" [css]="css">
+  <ul>
+    <li *ngFor="let record of records" class="d-flex m-0" [ngClass]="{duplicate: record.$isDuplicate}">
+      <sq-result-duplicates-spacer [record]="record"></sq-result-duplicates-spacer>
+      <div class="d-flex flex-column">
+        <sq-result-title [record]="record"></sq-result-title>
+        <sq-result-duplicates [record]="record" class="small text-muted"></sq-result-duplicates>
+      </div>
+    </li>
+  </ul>
+</doc-component-demo>

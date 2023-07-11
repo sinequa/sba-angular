@@ -205,10 +205,12 @@ This new module is documented in the [Components library](../libraries/component
 - Three new components allow to display exact and approximate* duplicate documents in a result list:
 
   - `sq-result-duplicates`: A simple component that displays the number of exact and approximate duplicates for a given document.
-  - `sq-result-duplicates-spacer`: A component meant to differentiate approximate duplicates in a results
+  - `sq-result-duplicates-spacer`: A component that visually differentiates approximate duplicates in a results list.
   - `sq-result-duplicates-list`: Displays a list of "approximate duplicates" for a given document.
+  
+  *: "Approximate duplicates" are determined by a developer-supplied function (see `SearchOptions`) that compares two documents and returns a boolean.
 
-  *: "Approximate duplicates" are determined by a developer-supplied function that compares two documents and returns a boolean.
+  See the [Result module documentation](../libraries/components/result.md#duplicate-documents) for more information.
 
 - Refactoring of the `sq-result-icon` component: Rather than relying on a global stylesheet to map file extensions to icons, the component now accepts a custom mapping as input (a default mapping is provided with the same icons as those previously defined in CSS).
 
@@ -332,7 +334,12 @@ The heatmap component properly handles filtering and formatting of the data (ent
 
 - Only one dashboard can be saved in the user settings (as opposed to a list of named dashboards)
 
-## Components-docs
+
+## LLM Integration
+
+The new `sq-chat` component (see above) allows to interact with a Large Language Model (LLM). This component was integrated in a custom version of Vanilla Search currently available on a separate branch of the repository (`chatgpt-integration`). On top of the chat itself, an "assistant" component acts as an interface between the Search interface and the chat (to perform Retrieval Augmented Generation). This application is documented in the [LLM integration documentation](../apps/6-llm-integration.md).
+
+## Component-docs
 
 Components-docs is a new application not meant to be used as a "starter application" (unlike Vanilla or Pepper). It is included for various technical reasons:
 
@@ -361,19 +368,19 @@ Those components are now prefixed by `uib_`
 Before:
 ```json
 {
-  id: "...",
-  logoLight: "/assets/vanilla-logo.png",
-  logoDark: "/assets/vanilla-logo_dark.png"
+  "id": "...",
+  "logoLight": "/assets/vanilla-logo.png",
+  "logoDark": "/assets/vanilla-logo_dark.png"
 }
 ```
 
 After:
 ```json
 {
-  id: "...",
-  images: {
-    logoLight: {filename: "/assets/vanilla-logo.png" }
-    logoDark: { filename: "/assets/vanilla-logo_dark.png" }
+  "id": "...",
+  "images": {
+    "logoLight": {"filename": "/assets/vanilla-logo.png" },
+    "logoDark": { "filename": "/assets/vanilla-logo_dark.png" }
   }
 }
 ```

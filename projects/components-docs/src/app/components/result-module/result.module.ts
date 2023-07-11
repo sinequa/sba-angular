@@ -15,6 +15,7 @@ import { DocSponsoredResultsComponent } from './sponsored-results/sponsored-resu
 import { DocUserRatingComponent } from './user-rating/user-rating.component';
 import { ResultModule } from "@sinequa/components/result";
 import { createElement } from 'src/app/shared/create-element';
+import { DocResultDuplicatesComponent } from './result-duplicates/result-duplicates.component';
 
 const routes: Routes = [
   { path: '', component: DocResultModuleComponent }
@@ -31,7 +32,8 @@ const routes: Routes = [
     DocResultTitleComponent,
     DocResultsCounterComponent,
     DocSponsoredResultsComponent,
-    DocUserRatingComponent
+    DocUserRatingComponent,
+    DocResultDuplicatesComponent
   ],
   imports: [
     CommonModule,
@@ -51,5 +53,6 @@ export class DocResultModule {
     createElement('doc-results-counter', DocResultsCounterComponent);
     createElement('doc-result-icon', DocResultIconComponent);
     createElement('doc-result-source', DocResultSourceComponent);
+    createElement('doc-result-duplicates', DocResultDuplicatesComponent);
   }
 }
