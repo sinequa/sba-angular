@@ -207,7 +207,7 @@ This new module is documented in the [Components library](../libraries/component
   - `sq-result-duplicates`: A simple component that displays the number of exact and approximate duplicates for a given document.
   - `sq-result-duplicates-spacer`: A component meant to differentiate approximate duplicates in a results
   - `sq-result-duplicates-list`: Displays a list of "approximate duplicates" for a given document.
-  
+
   *: "Approximate duplicates" are determined by a developer-supplied function that compares two documents and returns a boolean.
 
 - Refactoring of the `sq-result-icon` component: Rather than relying on a global stylesheet to map file extensions to icons, the component now accepts a custom mapping as input (a default mapping is provided with the same icons as those previously defined in CSS).
@@ -332,9 +332,9 @@ The heatmap component properly handles filtering and formatting of the data (ent
 
 - Only one dashboard can be saved in the user settings (as opposed to a list of named dashboards)
 
-## Component-docs
+## Components-docs
 
-Component-docs is a new application not meant to be used as a "starter application" (unlike Vanilla or Pepper). It is included for various technical reasons:
+Components-docs is a new application not meant to be used as a "starter application" (unlike Vanilla or Pepper). It is included for various technical reasons:
 
 - It is used to generate the interactive examples in the SBA documentation (using Angular Elements).
 - It is used to quickly visualize components that are not used by default in Vanilla or Pepper.
