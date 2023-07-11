@@ -135,12 +135,12 @@ Take a look at it's configuration object:
   keepAdvancedSearchFilters: true
 }
 ```
-All properties after `classes` are the component's inputs default values. If you want kept some inputs not configurable, do not include them in the configuration.
+All properties after `classes` are the component's inputs default values. If you want keep some inputs not configurable, do not include them in the configuration.
 
-Now, to allow a user to customize this values, you need to set a *configurator*.  
-*Configurators* are all sets inside a special HTML tag: `<uib-configurator></uib-configurator>`
+Now, to allow an user to customize this values, you need to set a *configurator*.  
+*Configurators* are all set inside a special HTML tag: `<uib-configurator></uib-configurator>`
 
-In our example, the *configutor*'s template look like this:
+In our example, the *configutor*'s template looks like this:
 ```html
 <uib-configurator>
   ...
@@ -152,7 +152,7 @@ In our example, the *configutor*'s template look like this:
 </uib-configurator>
 ```
 Here we tell to the **ui-builder** which *configurator* to use with `search-form`.  
-The `context` associated is (to be simple) the `search-form`'s configuration object, so the *configurator* know how to interact with the component.
+The `context` associated is (to be simple) the `search-form`'s configuration object, so the *configurator* knows how to interact with the component.
 
 Building a *configurator* is quite easy.
 
@@ -185,21 +185,21 @@ export class SearchFormLegacyConfiguratorComponent {
   ]
 }
 ```
-**ui-builder** come with multiple built-in components and *configurators* ready to use.
+**ui-builder** comes with multiple built-in components and *configurators* ready to use.
 Here `<uib-multi-selector></uib-multi-selector>` is a kind of checkboxes list.
 
-*Configurators* are displayed in the **ui-builder** panel, but while drag'n dropping component inside a &nbsp; `uib-zone`, those *configurators* can also be displayed as a modal window. 
+*Configurators* are displayed in the **ui-builder** panel, but while drag'n dropping component inside a `uib-zone`, those *configurators* can also be displayed as a modal window. 
 
-You must have now a good understanding how the **ui-builder** work in the backstage.
+You must have now a good understanding how the **ui-builder** works in the backstage.
 
 ## Static export
-Static website generation are done using Angular's schematics provided by the **ui-builder** library.
+Static website generation is done using Angular's schematics provided by the **ui-builder** library.
 
 This step can be done by the **Platform** using a json plugin.
 
 But you can also do this using a command line.  
 Inside the `package-json` file you can find a `make-static` script.
-This script tell to the Angular's schematics how to convert `<uib-zone>` and `uib-directive` is a static website application.
+This script tells to the Angular's schematics how to convert `<uib-zone>` and `uib-directive` in a static website application.
 
 Before, you need to download the configuration as a JSON file.
 
@@ -209,9 +209,9 @@ Take a look to this script:
 
 ```
 
-* `--app-module-dependencies` is a configuration's dependencies file specific to vanilla-builder. It allow to remove useless dependencies depending on what components you use inside the application.
+* `--app-module-dependencies` is a configuration's dependencies file specific to vanilla-builder. It allows to remove useless dependencies depending on what components you use inside the application.
 * `--config` is the path of the project's configuration json previously downloaded.
 * `--config-path` is the path of the **config.ts** file to use to paste the global configuration.
 * `--config-identifier` is the name of the constant to use inside the **config.ts** file to paste the configuration. By default it's value is `GLOBAL_CONFIG`, so it's optional if you don't use your own value.
 
-When the static generation ends, a full static Angular's application will be available without any traces of the **ui-builder**'s components and directives and all the global configuration will be written inside the **config.ts** file and use by de configuration service by default.
+When the static generation ends, a full static Angular's application will be available without any traces of the **ui-builder**'s components and directives. All the global configuration will be written inside the **config.ts** file and used by de configuration service by default.
