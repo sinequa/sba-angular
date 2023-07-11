@@ -347,8 +347,8 @@ Note that the data used by this application can be either real data from a Sineq
 
 ## Vanilla Builder
 
-- support new metadata component
-- support new preview component
+- supports new metadata component
+- supports new preview component
 - add global configuration as a service
 - new global configurator
 - new image selector configurator
@@ -378,5 +378,5 @@ After:
 }
 ```
 
-When a previous configuration is detected, a automatic conversion will be done.
-In the case where this conversion don't work, just update manually the image using the builder.
+When a previous configuration is detected, an automatic conversion will be done.
+In the case where this conversion doesn't work, just update manually the image using the builder.
