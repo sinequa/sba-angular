@@ -71,7 +71,20 @@ The `sq-result-thumbnail` component displays the thumbnail of a document, if it 
 
 ### Icon
 
-The `sq-result-icon` component displays the icon of a document, defined by its **file extension** (`record.fileExt`). This component simply inserts a `<span>` element with a class name including the file extension. You need to map these extensions to actual icons in your stylesheet. In [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html), this is done with [Font Awesome](https://fontawesome.com/) icons, via the [`src/styles/icons.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/icons.scss) stylesheet.
+The `sq-result-icon` component displays the icon of a document, defined by its **file extension** (`record.fileExt`). This component simply inserts a `<span>` element with a class name including the file extension.
+
+The extensions are mapped with icons and colors in the TypeScript. A default mapping of file extension (string) to an icon and color (`IconFormat`) is defined in the component.
+
+Custom icons can be provided via the `formatIcons` input from the component which you can use to both override the ones defined by default, and to add some extensions that may not be in that list. For example:
+
+```ts
+const formatIcons: Record<string, IconFormat> = {
+  "html": { icon: "fas fa-browser", color: 'purple' },
+  "abcd": { icon: "fas fa-users", color: '#123456' }
+}
+```
+
+[Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html) allows overriding the mappings using the app configuration on the server (as for the facets, metadata, etc.) or it could be also defined in `config.ts`.
 
 <doc-result-icon></doc-result-icon>
 
