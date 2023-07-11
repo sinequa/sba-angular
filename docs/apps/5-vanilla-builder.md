@@ -42,7 +42,7 @@ Usually, a **configurator** widget is associated to a SBA components. But it's n
 * Specific to Application component
 
 Each application's pages contains a specific **configurator** component.  
-This component describe how to customize the page and which SBA components are allowed to drop within it.
+This component describes how to customize the page and which SBA components are allowed to drop within it.
 
 |configurator|description|
 |---|---|
@@ -57,8 +57,8 @@ This component describe how to customize the page and which SBA components are a
 |global-service|use the configuration from the **ui-builder** when builder is enable and use the **config.ts** configuration in static mode (see [static export section](#static-export)) |
 
 ### /toolbar
-The toolbar component allow you to add custom options to the **ui-builder**'s toolbar.  
-By default, the **ui-builder**'s toolbar contain only the `eye` icon used to enable/disable the **ui-builder** and the undo/redo buttons.
+The toolbar component allows you to add custom options to the **ui-builder**'s toolbar.  
+By default, the **ui-builder**'s toolbar contains only the `eye` icon used to enable/disable the **ui-builder** and the undo/redo buttons.
 
 To add your own buttons, just add them inside the `<uib-toolbar></uib-toolbar>` tag.
 
@@ -67,7 +67,7 @@ This file contains the configuration by default.
 When you reset your configuration, the content of this file will be applied.
 
 Configuration are split in multiple configuration's constants to ease it's customization.  
-Updating this file, allow you to specify your own configuration when the application is first launched but also when you reset the whole configuration.
+Updating this file, allows you to specify your own configuration when the application is first launched but also when you reset the whole configuration.
 
 
 ## The ngx-ui-builder directives
@@ -91,10 +91,10 @@ Below a snippet of the `Home` page template (html)
 
 Here a zone called `home` is set.  
 Inside this zone, a `uib-directive` called `search-form` is set.  
-Now, the **ui-builder** library know the `app-search-form` component can be customized.  
+Now, the **ui-builder** library knows the `app-search-form` component can be customized.  
 As you can notice in this example, `app-search-form` is not a SBA component: indeed, the **uib-builder** can be used with any kind of components. 
 
-Now, take a look of the `home` configuration object:
+Now, take a look at the `home` configuration object:
 ```json
 {
   id: 'home',
@@ -105,9 +105,9 @@ Now, take a look of the `home` configuration object:
 ```
 
 This configuration is associated with the `uib-zone` with the id `home`.
-So, this describe the zone:
+So, this describes the zone:
 * the zone is a container (`type: '_container'`)
-* the zone contain various components (`items: [...]`). Each component within this array will be rendered by index order.
+* the zone contains various components (`items: [...]`). Each component within this array will be rendered by index order.
 * class is just for css styling the host element
 
 In the `items` property, you can notice the `search-form` id. This tells the **ui-builder** library to render a component whose id is `search-form`
