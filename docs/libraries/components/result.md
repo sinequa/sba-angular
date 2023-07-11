@@ -134,3 +134,23 @@ The `sq-user-rating` component supports additional optional parameters:
 - `titles`: Similar to `values`, this input allows to define the tooltip texts displayed when hovering over the stars.
 - `caption`: A caption for the ratings, displayed before the stars.
 - `showAverage`: A boolean to display or not the average rating from all users (after the stars).
+
+### Duplicate documents
+
+This module includes 3 components to manage duplicate documents:
+
+- Exact duplicates are the documents excluded from the results list by the engine, using a "group by" clause. This deduplication is generally based on the `exacthash` or `nearhash` columns. By definition, exact duplicates are not returned by the WebApp and therefore NOT displayed in the result list.
+
+- Near (or approximate) duplicates are determined by a developer-supplied function (in the `SearchOptions`) that compares two documents and returns a boolean. By definition, near duplicates are returned by the WebApp and present in the result list (only their appearance is modified). The order of the results list is not modified and a near duplicate always follows either its "parent" document or another near duplicate.
+
+`sq-result-duplicates` displays the number of exact and near duplicates of a document. 
+
+`sq-result-duplicates-spacer`: A component that visually differentiates **near duplicates** in a results list.
+
+<doc-result-duplicates></doc-result-duplicates>
+
+`sq-result-duplicates-list`: Retrieves and displays the list of **exact duplicates** for a given document.
+
+```html
+<sq-result-duplicates-list [record]="record"></sq-result-duplicates-list>
+```

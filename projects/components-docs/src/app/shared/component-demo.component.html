@@ -16,4 +16,10 @@
     </div>
   </ng-template>
 
+  <ng-template *ngIf="css" [sqFacetView]="{text: 'CSS'}">
+    <div class="card-body">
+      <doc-code [code]="css" language="css"></doc-code>
+    </div>
+  </ng-template>
+
 </sq-facet-card>

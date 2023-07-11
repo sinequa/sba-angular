@@ -14,5 +14,6 @@ export class DocComponentDemoComponent {
   @Input() title: string;
   @Input() html: string;
   @Input() ts: string;
+  @Input() css: string;
 
 }
