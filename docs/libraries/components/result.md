@@ -73,7 +73,7 @@ The `sq-result-thumbnail` component displays the thumbnail of a document, if it 
 
 The `sq-result-icon` component displays the icon of a document, defined by its **file extension** (`record.fileExt`). This component simply inserts a `<span>` element with a class name including the file extension.
 
-The extensions are mapped with icons and colors in the TypeScript. A default mapping of file extension (string) to an icon and color ([`IconFormat`](https://github.com/sinequa/sba-angular/blob/master/projects/components/result/result-icon/icons.ts)) is defined in the component. The icons are based on [Font Awesome](https://fontawesome.com/).
+The extensions are mapped with icons and colors in the TypeScript. A default mapping of file extension (string) to an icon and color (`IconFormat`) is defined in the component.
 
 Custom icons can be provided via the `formatIcons` input from the component which you can use to both override the ones defined by default, and to add some extensions that may not be in that list. For example:
 
