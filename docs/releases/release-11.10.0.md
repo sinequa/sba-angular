@@ -359,7 +359,7 @@ Note that the data used by this application can be either real data from a Sineq
 Those components are now prefixed by `uib_`
 - `search-form` component was renamed `search-form-legacy`
 
-⚠️ As the global configuration structure has changed may occurs weird effects with existing configuration. Specifically with images.
+⚠️ As the global configuration structure has changed, weird effects might occur with existing configuration. Specifically with images.
 
 Before:
 ```json
