@@ -347,3 +347,36 @@ Note that the data used by this application can be either real data from a Sineq
 
 ## Vanilla Builder
 
+- support new metadata component
+- support new preview component
+- add global configuration as a service
+- new global configurator
+- new image selector configurator
+- move checkbox, color picker, image selector and multi-select components to the **ngx-ui-builder library**.
+Those components are now prefixed by `uib_`
+- `search-form` component was renamed `search-form-legacy`
+
+⚠️ As the global configuration structure has changed may occurs weird effects with existing configuration. Specifically with images.
+
+Before:
+```json
+{
+  id: "...",
+  logoLight: "/assets/vanilla-logo.png",
+  logoDark: "/assets/vanilla-logo_dark.png"
+}
+```
+
+After:
+```json
+{
+  id: "...",
+  images: {
+    logoLight: {filename: "/assets/vanilla-logo.png" }
+    logoDark: { filename: "/assets/vanilla-logo_dark.png" }
+  }
+}
+```
+
+When a previous configuration is detected, a automatic conversion will be done.
+In the case where this conversion don't work, just update manually the image using the builder.
