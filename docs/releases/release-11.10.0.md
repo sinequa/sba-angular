@@ -26,11 +26,7 @@ The [SBA documentation](https://sinequa.github.io/sba-angular/) has been signifi
 
 ## End-to-end tests
 
-This release introduces end-to-end tests for the SBA components. These tests are written with [Cypress](https://www.cypress.io/) and defined in the `cypress` folder of the repository.
-
-The tests are run on the new `projects/components-docs` application which centralizes all of Sinequa components from `projects/analytics` and `projects/components` (see below).
-
-The tests consist primarily in rendering the components and comparing their visual appearance with a reference screenshot. The reference screenshots are stored in the `cypress/snapshots` folder.
+This release introduces end-to-end (e2e) tests for the SBA components. These tests are written with [Cypress](https://www.cypress.io/) and defined in the `cypress` folder of the repository. These tests cover the (new) `projects/components-docs` application which centralizes all of Sinequa components from `projects/analytics` and `projects/components` (see below). These tests consist primarily in rendering each component and comparing its visual appearance with a reference screenshot. The reference screenshots are stored in the `cypress/snapshots` folder.
 
 # Library updates
 
@@ -89,7 +85,7 @@ The tests consist primarily in rendering the components and comparing their visu
 
 - ⚠️ Removed support for login in a popup window using `ng2-ui-auth` (unmaintained library).
 - The Login interceptor now sends the UI language to the platform (via headers and/or body).
-- The Login interceptor now intercepts network errors (eg. 0, 503, 504) and automatically performs retries (progressively spaced in time, à la gmail) while displaying a special notification to the user.
+- The Login interceptor now intercepts network errors (eg. 0, 503, 504) and automatically performs retries (progressively spaced in time, as in gmail) while displaying a special notification to the user.
 - The Login service now supports hard-coded credentials for development or CI purposes. Credentials can be injected in an app module's providers:
 
   ```ts
