@@ -47,7 +47,7 @@ export class PreviewComponent implements OnDestroy {
   // State of the preview
   collapsedPanel = false;
   homeRoute = "/home";
-  subpanel = "chat";
+  subpanel = "extracts";
   extractsType: string;
   minimapType = "extractslocations";
   tabs: Tab[];
@@ -132,9 +132,9 @@ export class PreviewComponent implements OnDestroy {
     if (this.id && this.previewData) {
       this.preview.selectMostRelevant();
       this.tabs = [
+        this.getTab('extracts'),
         this.getTab('chat'),
         this.getTab('network'),
-        this.getTab('extracts'),
         this.getTab('entities')
       ];
       this.initChat();
