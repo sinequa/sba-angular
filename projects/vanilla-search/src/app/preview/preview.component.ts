@@ -133,9 +133,9 @@ export class PreviewComponent implements OnDestroy {
       this.preview.selectMostRelevant();
       this.tabs = [
         this.getTab('extracts'),
+        this.getTab('entities'),
         this.getTab('chat'),
-        this.getTab('network'),
-        this.getTab('entities')
+        this.getTab('network')
       ];
       this.initChat();
       this.extractsType = this.previewData.highlightsPerCategory['matchingpassages']?.values.length?
