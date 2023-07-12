@@ -16,7 +16,7 @@ This module includes a single sample component which displays a menu letting a u
 
 ## Import
 
-Import this module in your `app.module.ts`. Also import the Angular Google Maps module to include your Google Maps API key:
+Import this module in your `app.module.ts`:
 
 ```ts
 import { BsFeedbackModule } from '@sinequa/components/feedback';

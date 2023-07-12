@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DocResultDuplicatesComponent } from './result-duplicates/result-duplicates.component';
 import { DocResultExtractsComponent } from './result-extracts/result-extracts.component';
 import { DocResultIconComponent } from './result-icon/result-icon.component';
 import { DocResultMissingTermsComponent } from './result-missing-terms/result-missing-terms.component';
@@ -26,7 +27,8 @@ export class DocResultModuleComponent {
     DocResultTitleComponent,
     DocResultsCounterComponent,
     DocSponsoredResultsComponent,
-    DocUserRatingComponent
+    DocUserRatingComponent,
+    DocResultDuplicatesComponent
   ];
 
   constructor() { }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FacetConfig } from '@sinequa/components/facet';
+import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { DEFAULT_FACET_COMPONENTS, FacetConfig } from '@sinequa/components/facet';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
@@ -7,6 +8,11 @@ import { BaseComponent } from 'src/app/shared/base.component';
   templateUrl: './facet-multi.component.html'
 })
 export class DocFacetMultiComponent extends BaseComponent {
+
+  facetComponents = {
+    ...DEFAULT_FACET_COMPONENTS,
+    "date": BsFacetDate
+  }
 
   facets: FacetConfig<any>[] = [
     {
@@ -70,19 +76,20 @@ export class DocFacetMultiComponent extends BaseComponent {
         allowCustomRange: true,
         showCustomRange: true,
         replaceCurrent: true,
-        displayEmptyDistributionIntervals: true
+        displayEmptyDistributionIntervals: true,
+        timelineHeight: 100,
+        timelineWidth: 500
       }
     },
   ];
 
-  code1 = `<sq-facet-card
-    title="Multi"
-    [collapsible]="false">
-    <sq-facet-multi
-        [results]="results"
-        [facets]="facets"
-        #facet>
-    </sq-facet-multi>
+  code1 =
+`<sq-facet-card>
+  <sq-facet-multi #facet
+      [results]="results"
+      [facets]="facets"
+      [facetComponents]="facetComponents">
+  </sq-facet-multi>
 </sq-facet-card>`;
 
   code2 = `facets: FacetConfig<any>[] = [
@@ -147,9 +154,18 @@ export class DocFacetMultiComponent extends BaseComponent {
             allowCustomRange: true,
             showCustomRange: true,
             replaceCurrent: true,
-            displayEmptyDistributionIntervals: true
+            displayEmptyDistributionIntervals: true,
+            timelineHeight: 100,
+            timelineWidth: 500
         }
     },
-  ];`;
+  ];
+
+  facetComponents = {
+    ...DEFAULT_FACET_COMPONENTS,
+    "date": BsFacetDate
+  }
+
+  `;
 
 }

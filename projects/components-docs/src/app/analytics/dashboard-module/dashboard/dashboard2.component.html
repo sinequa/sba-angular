@@ -1,0 +1,37 @@
+<doc-component-demo title="sq-dashboard (advanced)" [html]="html" [ts]="ts">
+  <sq-dashboard
+    [dashboard]="widgets"
+    [horizontalPadding]="2"
+    [verticalPadding]="46"
+    style="display: block; height: 400px;">
+
+    <ng-template let-widget>
+      <sq-facet-card
+        [title]="widget.state.title"
+        [icon]="widget.icon"
+        [collapsible]="false"
+        [actions]="widget.actions"
+        [actionsFirst]="false"
+        [ngSwitch]="widget.state.type">
+
+        <sq-facet-list *ngSwitchCase="'list'"
+          #facet
+          [results]="globalService.results"
+          [aggregation]="'Geo'"
+          class="d-block overflow-auto" style="height: var(--sq-widget-height)">
+        </sq-facet-list>
+
+        <sq-fusion-chart *ngSwitchCase="'chart'"
+          #facet
+          [results]="globalService.results"
+          [aggregation]="'Company'"
+          [width]="widget.width"
+          [height]="widget.height"
+          (initialized)="$event.resizeTo(widget.width, widget.height)">
+        </sq-fusion-chart>
+
+      </sq-facet-card>
+    </ng-template>
+
+  </sq-dashboard>
+</doc-component-demo>

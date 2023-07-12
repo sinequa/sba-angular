@@ -3,7 +3,7 @@ layout: default
 title: Search Form Component
 parent: Components
 grand_parent: Libraries
-nav_order: 22
+nav_order: 5
 ---
 
 # Search Form Component
@@ -69,7 +69,7 @@ Additionally, the component also requires you to provide a template for the drop
 
 <doc-search-form></doc-search-form>
 
-A more complex example could be what Pepper does which includes an `sq-filters-view` to allow adding filters to the query, then an `sq-facet-container` to display the filters when we select a category, and finally the `app-autocomplete` (taken from [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html)) to display the suggestions.
+A more complex example could be what Pepper does which includes an `sq-filters-view` to allow adding filters to the query, then an `sq-facet-container` to display the filters when we select a category, and finally the `app-autocomplete` (taken from [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html)) to display the suggestions.
 
 ```html
 <sq-search-form #searchForm

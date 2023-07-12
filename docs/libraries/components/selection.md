@@ -3,7 +3,7 @@ layout: default
 title: Selection Module
 parent: Components
 grand_parent: Libraries
-nav_order: 10
+nav_order: 18
 ---
 
 # Selection Module
@@ -101,7 +101,7 @@ Additionally, the service includes the following properties:
 
     For example, the Baskets service can register an action to add the selected documents to a basket. If the action includes an update method, it can, for example, hide itself if there is no selected document.
 
-    These actions can be registered within a service or a component, typically at the start of the application. For example, in [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), the actions are registered in the `AppComponent`'s constructor:
+    These actions can be registered within a service or a component, typically at the start of the application. For example, in [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html), the actions are registered in the `AppComponent`'s constructor:
 
     ```ts
     this.selectionService.selectionActions.push(this.savedQueriesService.selectedRecordsAction);

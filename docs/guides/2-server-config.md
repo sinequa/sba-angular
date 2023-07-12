@@ -23,7 +23,7 @@ choose your web service and save.
 *'New Angular app' action in Apps*
 {: .text-center }
 
-At this point your Sinequa server can be used to develop an SBA and you can start the [development guide](development.html) or spend more time reading the documentation below to fully configure the server.
+At this point, your Sinequa server can be used to develop an SBA, and you can start the [development guide](3-development.html) or spend more time reading the documentation below to learn more about fully configuring the server.
 
 ## Apps
 
@@ -92,7 +92,7 @@ The list of Web Services can be found in the administration interface under *Sea
 ### Query web service (default: *_query*)
 
 The **Query** web service is one of the most integrated and sophisticated web service of Sinequa.
-It is at the heart of our application samples, [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) and [Pepper]({{site.baseurl}}modules/pepper/pepper.html).
+It is at the heart of our application samples, [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html) and [Pepper]({{site.baseurl}}apps/3-pepper.html).
 This service allows to build complex search queries (incl. tabs, facet selection, advanced search, etc.) to retrieve data from the Sinequa indexes.
 
 The **General** tab of the Query web service configuration allows the configuration of these key parameters:

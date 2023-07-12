@@ -153,7 +153,7 @@ This components requires at least a `Results` input to work properly.
 
 ### Page Size Selector
 
-The `sq-page-size-selector` component displays a button allowing the user to select the number of results per page from a dropdown menu (`query.pageSize` parameter). The component is based on the [Action module]({{site.baseurl}}modules/components/action.html).
+The `sq-page-size-selector` component displays a button allowing the user to select the number of results per page from a dropdown menu (`query.pageSize` parameter). The component is based on the [Action module]({{site.baseurl}}libraries/components/action.html).
 
 This components requires at least a `Results` input to work properly.
 
@@ -161,7 +161,7 @@ This components requires at least a `Results` input to work properly.
 
 ### Sort selector
 
-The `sq-sort-selector` component displays a button allowing the user to select the sorting criteria (by relevance, by date, etc.). It controls the `query.orderBy` parameter (the different values can be configured server-side in the [Query]({{site.baseurl}}guides/server-config.html#query-web-service)). The component is based on the [Action module]({{site.baseurl}}modules/components/action.html).
+The `sq-sort-selector` component displays a button that allows the user to select the sorting criteria (by relevance, by date, etc.). It controls the `query.orderBy` parameter (the different values can be configured server-side in the [**Query web service**]({{site.baseurl}}guides/2-server-config.html#query-web-service)). The component is based on the [Action module]({{site.baseurl}}libraries/components/action.html).
 
 ![Sort selector]({{site.baseurl}}assets/modules/search/sort-selector.png)
 

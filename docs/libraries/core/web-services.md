@@ -32,7 +32,7 @@ Services in this module use `SqHttpClient` which derives from Angular's `HttpCli
 - pipes the returned observable through the `share` operator so that only one request is issued for multiple subscribers
 - prevents *identical* concurrent requests by caching pending responses
 
-Authentication is typically performed by the [Login Module]({{site.baseurl}}modules/core/login.html) which provides an Angular `HttpInterceptor` to handle `HTTP 401` errors and
+Authentication is typically performed by the [Login Module]({{site.baseurl}}libraries/core/login.html) which provides an Angular `HttpInterceptor` to handle `HTTP 401` errors and
 automatically initiate the authentication process with the Sinequa server.
 
 Information on the usage of the various services follows:
@@ -130,10 +130,12 @@ The service also has an events property which can be subscribed to. A `changed` 
 The query web service issues a Sinequa search `Query` and retrieves an observable of the `Results`. The query name used must correspond one of the
 queries configured on the application in the Sinequa administration.
 
+See the [documentation of the query object](app-utils.md#query).
+
 ```ts
     const query = new Query('my-query-name');
     query.text = 'football';
-    this.queryWebService.getResults().subscribe(
+    this.queryWebService.getResults(query).subscribe(
         (results) => {
             console.log('results:', results);
         }
@@ -273,7 +275,7 @@ The Query Export Web Service provides methods for exporting the results of Sineq
 The number of documents exported is limited by the `Maximum number of results by index` setting on the associated
 `Query` in the Sinequa administration console. The output of the Query Export Web Service can be passed to the Download Web
 Service to save the results to disk. There are methods for exporting all the results (`exportResult`), a selection of the
-results (`exportSelection`) and the results of executing a saved query (`exportSavedQuery`). 
+results (`exportSelection`) and the results of executing a saved query (`exportSavedQuery`).
 
 Export the results of a query in CSV format and have the browser download the output to a file:
 

@@ -49,13 +49,45 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
     padding: 0;
   }
 
-  .card-body {
-    padding-top: 2rem;
-  }
-
   .blue-bg {
     display: inline-flex;
     background-color: $blue-100;
     border: .4rem solid $blue-100;
+  }
+}
+
+/* override just-the-docs.css for docs */
+
+doc-component-demo,
+sq-facet-card.doc-component-demo {
+  & > sq-facet-card > .card,
+  & > .card {
+    border-radius: 0;
+
+    & > .card-header {
+      border-radius: 0;
+      background-color: #f5f6fa;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+
+  li::before,
+  li::marker {
+    content: none !important;
+  }
+
+  .btn {
+    box-shadow: none !important;
+
+    &.btn-primary,
+    &.btn-primary:hover {
+      background-image: none !important;
+    }
+  }
+
+  .search-input {
+    position: initial;
   }
 }

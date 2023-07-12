@@ -7,7 +7,7 @@ nav_order: 8
 
 # User Settings Features
 
-[`User Settings`]({{site.baseurl}}modules/components/user-settings.html) allow you to store and retrieve user-specific data on the Sinequa server. Multiple features are based on User Settings:
+[`User Settings`]({{site.baseurl}}libraries/components/user-settings.html) allow you to store and retrieve user-specific data on the Sinequa server. Multiple features are based on User Settings:
 
 - Saved Queries (Save a particular query to reuse it later)
 - Recent Queries (Indifferently save all latest queries)
@@ -18,7 +18,7 @@ nav_order: 8
 
 These features come packaged in modules. The first 3 are packaged in the Saved Queries module, the baskets in the Baskets module, the alerts in the Alerts module and the chat in the Machine Leaning module.
 
-Additionally the [User Settings module]({{site.baseurl}}modules/components/user-settings.html) provide a `UserPreferences` utility to easily store key-values data for the current user on the server (this can be useful for UI settings for example).
+Additionally the [User Settings module]({{site.baseurl}}libraries/components/user-settings.html) provide a `UserPreferences` utility to easily store key-values data for the current user on the server (this can be useful for UI settings for example).
 
 In this chapter of the tutorial, we will add **Saved Queries** to our app. This will consist of a **menu** to save a query at any given time, and a **facet** to display these saved queries. The other User-Settings-based features mentioned above include very much the same kind of functionality, feel free to integrate them as well!
 

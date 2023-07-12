@@ -3,7 +3,7 @@ layout: default
 title: Metadata Module
 parent: Components
 grand_parent: Libraries
-nav_order: 8
+nav_order: 6
 ---
 
 # Metadata Module
@@ -74,7 +74,7 @@ This component displays one metadata entry and it expects these inputs:
 * `fieldClass`: Any additional CSS classes you want to apply to the field value.
 * `filterable` (default: `false`): Whether you can add a filter on this metadata for the query. This will add a "Filter" button in a tooltip.
 * `excludable` (default: `false`): Whether you can add an exclusion filter on this metadata for the query. This will add an "Exclude" button in a tooltip.
-* `showEntityExtract` (default: `false`): Whether the entity extract should be displayed in a tooltip.
+* `showEntityExtract` (default: `false`): Whether the entity extract should be displayed in a tooltip. Note that there are some prerequisites on the server like checking "return entity locations" in the [Query web service]({{site.baseurl}}guides/2-server-config.html#query-web-service-default-_query).
 * `actions`: Any additional actions for the metadata entry to display in a tooltip.
 * `collapseRows` (default: `true`): Whether the rows are collapsible, to save space.
 * `entityExtractMaxLines` (default: `4`): The maximum number of lines to display for the entity extract in the tooltip.
@@ -175,6 +175,10 @@ this.metadata: MetadataConfig[] = [
 ![Filter and Exclude]({{site.baseurl}}assets/modules/metadata/metadata-filters1.png){: .d-block .mx-auto }
 
 ![Filter only]({{site.baseurl}}assets/modules/metadata/metadata-filters2.png){: .d-block .mx-auto }
+
+If a metadata is an entity, you can set the `showEntityExtract` parameter as `true` to display the entity extract when you hover it:
+
+![Entity tooltip]({{site.baseurl}}assets/modules/metadata/metadata-entity-tooltip.png){: .d-block .mx-auto }
 
 Here is an example with a custom action:
 

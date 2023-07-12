@@ -9,9 +9,9 @@ nav_order: 7
 
 Now, we would like to display the **HTML preview** of a document when clicking on its title, including all the highlighted entities detected by Sinequa in the text of the document.
 
-As usual, the preview is packaged in a module from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html): the [`PreviewModule`]({{site.baseurl}}modules/components/preview.html).
+As usual, the preview is packaged in a module from [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html): the [`PreviewModule`]({{site.baseurl}}libraries/components/preview.html).
 
-Furthermore, we would like the preview to be displayed in **popup**. Again, we have a module for that: The [`BsModalModule`]({{site.baseurl}}modules/components/modal.html).
+Furthermore, we would like the preview to be displayed in **popup**. Again, we have a module for that: The [`BsModalModule`]({{site.baseurl}}libraries/components/modal.html).
 
 ## Importing the Modal and Preview modules
 

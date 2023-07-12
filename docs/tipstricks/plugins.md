@@ -2,7 +2,7 @@
 layout: default
 title: Server-side Plugins
 parent: Tips and Tricks
-nav_order: 16
+nav_order: 15
 ---
 
 # Server-side Plugins
@@ -245,7 +245,7 @@ import { JsonMethodPluginService } from '@sinequa/core/web-services';
     }
 ```
 
-Note that event an empty `JsonMethodPlugin` performs things like user authentication (taking into account the different types of SSO). By default, only administrators are allowed to use these plugins, but it is possible to change this rule by overriding the `GetRequiredAuthLevel()` method:
+Note that even an empty `JsonMethodPlugin` performs things like user authentication (taking into account the different types of SSO). By default, only administrators are allowed to use these plugins, but it is possible to change this rule by overriding the `GetRequiredAuthLevel()` method:
 
 ```c#
 public override JsonMethodAuthLevel GetRequiredAuthLevel()

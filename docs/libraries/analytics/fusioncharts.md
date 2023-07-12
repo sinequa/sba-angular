@@ -104,7 +104,7 @@ By default, a FusionCharts theme is used (it can be modified using the above [ch
 
 - `defaultColor`: When specified, will be used as the background color for the data items (eg. the bars of a bar chart).
 - `filteredColor` (default: `#C3E6CB`): Displays the *filtered* items (items that have been clicked on to filter the results) in a distinctive color.
-- `selectedColor` (default: `#8186d4`): Displays the items that belong to a *selected document* (managed by the `SelectionService` - see [Selection Module]({{site.baseurl}}modules/components/selection.html)) in a distinctive color.
+- `selectedColor` (default: `#8186d4`): Displays the items that belong to a *selected document* (managed by the `SelectionService` - see [Selection Module]({{site.baseurl}}libraries/components/selection.html)) in a distinctive color.
 
 ![Custom colors]({{site.baseurl}}assets/modules/fusioncharts/colors.png){: .d-block .mx-auto }
 

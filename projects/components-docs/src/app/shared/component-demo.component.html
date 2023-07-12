@@ -1,4 +1,4 @@
-<sq-facet-card [title]="title" [collapsible]="false" [buttonsStyle]="'light shadow-none'">
+<sq-facet-card [title]="title" [collapsible]="false" [buttonsStyle]="'light shadow-none rounded-0'" [actionsSize]="'md'" class="shadow">
 
   <div *sqFacetView="{text: 'Component'}" class="card-body">
     <ng-content></ng-content>
@@ -13,6 +13,12 @@
   <ng-template *ngIf="ts" [sqFacetView]="{text: 'TypeScript'}">
     <div class="card-body">
       <doc-code [code]="ts" language="typescript"></doc-code>
+    </div>
+  </ng-template>
+
+  <ng-template *ngIf="css" [sqFacetView]="{text: 'CSS'}">
+    <div class="card-body">
+      <doc-code [code]="css" language="css"></doc-code>
     </div>
   </ng-template>
 

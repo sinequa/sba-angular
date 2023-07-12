@@ -3,7 +3,7 @@ layout: default
 title: Modal Module
 parent: Components
 grand_parent: Libraries
-nav_order: 11
+nav_order: 19
 ---
 
 # Modal Module
@@ -17,7 +17,7 @@ The `Modal` module is divised into two parts:
 
 This documentation page focuses on the Bootstrap flavor components of `Modal`.
 
-Please refer to the document of the [core modal module]({{site.baseurl}}modules/core/modal.html) for the usage of the generic module.
+Please refer to the document of the [core modal module]({{site.baseurl}}libraries/core/modal.html) for the usage of the generic module.
 
 ## Import
 

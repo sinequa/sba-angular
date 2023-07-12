@@ -2,7 +2,7 @@
 layout: default
 title: Query Intent Detection
 parent: Tips and Tricks
-nav_order: 18
+nav_order: 17
 ---
 
 # Query Intent Detection
@@ -15,7 +15,7 @@ This functionality is exposed as a web service. The service takes in a user quer
 
 In the Sinequa administration, the Query Intents are configured in the _Search-Based Applications > App Dependencies > Query Intent Sets_ section. Once configured there, the Query Intent Set must be attached to the SBA's query web service (Under the _Search settings_ tab and _Query Options - Intents_ section).
 
-Requesting the intent of a query can then be done easily, by using `QueryIntentWebService` from the [`@sinequa/core/web-services`]({{site.baseurl}}modules/core/web-services.html) module:
+Requesting the intent of a query can then be done easily, by using `QueryIntentWebService` from the [`@sinequa/core/web-services`]({{site.baseurl}}libraries/core/web-services.html) module:
 
 ```ts
 this.queryIntentWebService.getQueryIntent(this.query);
@@ -104,7 +104,7 @@ In our `QueryIntentService` let's add a method that looks for the "people" inten
 
     // People Query intent data
     person?: string;
-    personData = new ReplaySubject<Results>(1);
+    personData = new ReplaySubject<Results|undefined>(1);
 
     processPeople(event: SearchService.NewQueryIntentsEvent) {
         // Look for the "people" intent
@@ -129,7 +129,7 @@ In our `QueryIntentService` let's add a method that looks for the "people" inten
         // If none, we want to stop displaying the infocard, if any
         else if(people.length === 0) {
             this.person = undefined;
-            this.personData.next();
+            this.personData.next(undefined);
         }
     }
 ```
@@ -155,7 +155,7 @@ Then, to display the infocard, we simply create a component that displays the `p
     `
 })
 export class QueryIntentPeopleComponent {
-    
+
     constructor(
         public queryIntentsService: QueryIntentService
     ){}
@@ -246,7 +246,7 @@ This component is displayed only when the `QueryIntentService` has detected `for
 
 ```ts
     ignoreFormat = false;
-    
+
     cancelFormats() {
         // Remove the docformat selection
         this.searchService.query.removeSelect("docformat");

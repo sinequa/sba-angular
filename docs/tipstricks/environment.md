@@ -2,7 +2,7 @@
 layout: default
 title: Environment
 parent: Tips and Tricks
-nav_order: 9
+nav_order: 8
 ---
 
 # Environments

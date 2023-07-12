@@ -8,9 +8,9 @@ nav_order: 3
 
 # Facet Module
 
-*Facets* refer to the filters used to narrow down the results in a search interface (See [*Faceted Search*](https://en.wikipedia.org/wiki/Faceted_search)). In the SBA framework, the definition can extend more generally to other types of components that augment the search experience.
+*Facets* refer to the filters used to narrow down the list of results in a search interface (See [*Faceted Search*](https://en.wikipedia.org/wiki/Faceted_search)). In the SBA framework, the definition can extend more generally to other types of components that augment the search experience.
 
-The standard facets (list, tree...), need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**]({{site.baseurl}}guides/server-config.html#query-web-service).
+The standard facets (list, tree...) need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**]({{site.baseurl}}guides/2-server-config.html#query-web-service).
 
 The Facet module is also documented in the [tutorial]({{site.baseurl}}tutorial/facet-module.html).
 
@@ -69,25 +69,7 @@ It is possible to inject multiple views inside the same facet card. Views need t
 
 For example, one might want to display an aggregation viewed as a facet list OR as a chart.
 
-```html
-<sq-facet-card [title]="'Geography'" [icon]="'fas fa-globe-americas'">
-
-    <!-- List view -->
-    <ng-template [sqFacetView]="{icon: 'fas fa-list', title: 'List view'}">
-        <sq-facet-list #facet [results]="results" [aggregation]="'Geo'"></sq-facet-list>
-    </ng-template>
-
-    <!-- Chart view -->
-    <ng-template [sqFacetView]="{icon: 'fas fa-chart-bar', title: 'Chart view'}">
-        <sq-fusion-chart #facet [results]="results" [aggregation]="'Geo'"></sq-fusion-chart>
-    </ng-template>
-
-</sq-facet-card>
-```
-
-The template above results in the following display:
-
-![Multiple views]({{site.baseurl}}assets/modules/facet/views.png){: .d-block .mx-auto}
+<doc-multiple-views></doc-multiple-views>
 
 Adding/removing views is as easy as modifying the list of `ng-template`s injected into the facet card. The `[sqFacetView]` input is an `Action` object that is used to display the buttons to toggle between views.
 
@@ -100,22 +82,9 @@ It is possible to inject `ng-template`s to customize specific parts of the facet
 - The footer template (`#footerTpl`)
 - The settings template (`#settingsTpl`)
 
-```html
-<sq-facet-card actionsClass="ms-auto">
+Here is an example (notice the settings button in the top right, which displays the settings template):
 
-    <sq-facet-list #facet [results]="results" [aggregation]="'Geo'"></sq-facet-list>
-
-    <ng-template #headerTpl><i>Custom header</i></ng-template>
-    <ng-template #subHeaderTpl><i>Custom sub-header</i></ng-template>
-    <ng-template #footerTpl><i>Custom footer</i></ng-template>
-    <ng-template #settingsTpl><i>Custom settings</i></ng-template>
-
-</sq-facet-card>
-```
-
-This results in the following view (notice the settings button in the top right, which displays the settings template):
-
-![Custom templates]({{site.baseurl}}assets/modules/facet/templates.png)
+<doc-template-customization></doc-template-customization>
 
 Note that these templates can be injected in 2 different ways:
 
@@ -317,26 +286,32 @@ This component requires at least a `Results` input, the list of the `facets` con
 
 <doc-facet-multi></doc-facet-multi>
 
-### Facet Filters
+### Facet Container
 
-<!-- <doc-facet-filters></doc-facet-filters> -->
+The `sq-facet-container` component displays a list of buttons that users can click to open a facet.
+
+This component is used in the integrated search form of the [Pepper application](../../apps/3-pepper.md#integrated-search-form).
+
+<doc-facet-container></doc-facet-container>
+
+Note that the style of the buttons can be customized via the `buttonClass` input (default: `primary`).
+
+This component lets the user choose between the "current results" and "all data":
+
+- The "current results" mode corresponds to the normal behavior of facets.
+- The "all data" mode corresponds to the aggregations computed with no filters over all indexes. This data is computed by the `FirstPageService` with a separate (potentially slow) query sent to the server. This mode is useful to display the facets on a home page, when no search has been performed yet.
+
+### Facet Filters
 
 The `sq-facet-filters` components displays facets as a navigation bar where each item is a facet displayed as a dropdown component.
 
-![Facet Filters]({{site.baseurl}}assets/modules/facet/facet-filters.png){: .d-block .mx-auto}
+<doc-facet-filters></doc-facet-filters>
 
 This component requires a:
   - `Results` input.
   - `FacetConfig<T>[]`: A list of facets' configuration. This list can be passed directly via the `[facets]` input (as for the [Multiple type facet](#multiple-type-facet)). Or it can be injected with the `BsFacetModule.forRoot()` method (as for the [Facet bar](#facet-bar)). This 2nd option is interesting when `enableCustomization` is set to `true`.
-  - `facetComponents`: Optionally, a list of custom components.
+  - `facetComponents`: Optionally, a map of "facet types" (`"list"`, `"range"`, `"date"`, etc.) to facet components (`BsFacetList`, `BsFacetRange`, `BsFacetDate`, etc.).
   - `enableCustomization`: Optionally, turns on user customization of the list of facets displayed in the component.
-
-
-```html
-<nav class="navbar navbar-expand">
-    <sq-facet-filters [results]="results" [facets]="facets" [facetComponents]="facetComponents"></sq-facet-filters>
-</nav>
-```
 
 ## Facet Service
 

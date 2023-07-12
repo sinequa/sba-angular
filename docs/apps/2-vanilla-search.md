@@ -9,9 +9,9 @@ nav_order: 2
 
 *Vanilla Search* is a standard Enterprise Search app designed to be simple, efficient and easy to customize into a much more complex application.
 
-If you complete the [Tutorial]({{site.baseurl}}tutorial/tutorial.html), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) and the tutorial, to a full-fledged Enterprise Search app.
+If you complete the [Tutorial]({{site.baseurl}}tutorial/tutorial.html), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search]({{site.baseurl}}apps/1-hello-search.html) and the tutorial, to a full-fledged Enterprise Search app.
 
-The application has **three routes** made of **five components** (of course, these components include many subcomponents from the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library):
+The application has **three routes** made of **five components** (of course, these components include many subcomponents from the [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) library):
 
 - The **App** component, which is essentially a wrapper for the [`<router-outlet>`](https://angular.io/api/router/RouterOutlet).
 - A **Home** route, greeting users with a search bar and some quick-access facets.
@@ -40,15 +40,11 @@ You can also switch to a dark theme, by clicking the button under the search bar
 
 ![Home route]({{site.baseurl}}assets/modules/vanilla-dark.png)
 
-You can easily change the logo and application name, at the top of the [template](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/home/home.component.html):
+You can easily change the logo at the top of the [template](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/home/home.component.html):
 
 ```html
 {% raw %}<!-- Home page logo -->
-<img src="assets/vanilla-logo.png" id="logo" *ngIf="!isDark()">
-<img src="assets/vanilla-logo-dark.png" id="logo" *ngIf="isDark()">
-
-<!-- Home page title -->
-<h1>{{ 'msg#app.name' | sqMessage }}</h1>{% endraw %}
+<img src="{{ (isDark$ | async) ? 'assets/sinequa-logo-dark-lg.png' : 'assets/sinequa-logo-light-lg.png' }}" id="logo" class="mb-5">{% endraw %}
 ```
 
 This is followed by the [search form](#search-form) in the center.
@@ -65,13 +61,12 @@ These facets can of course be added or removed, directly in the component templa
 The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/home/home.component.ts) manages:
 
 - Login and Logout, via the `LoginService`.
-- Recent document behaviour (we open the preview).
 - Light / Dark theme toggling.
 - The list of facets to display and their responsive sizing.
 
 ## Search route
 
-The [Search route](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search) has a *navbar* on top, which includes a search bar ([Search Form component](#search-form)), and user menus coming from various libraries of [`@sinequa/components`]({{site.baseurl}}modules/components/components). Under it are a facet bar (with two facets) and the search results. It is also possible to open a preview of a document on the right, by selecting it in the results.
+The [Search route](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search) has a *navbar* on top, which includes a search bar ([Search Form component](#search-form)), and user menus coming from various libraries of [`@sinequa/components`]({{site.baseurl}}libraries/components/components). Under it are a facet bar (with two facets) and the search results. It is also possible to open a preview of a document on the right, by selecting it in the results.
 
 ![Search route]({{site.baseurl}}assets/modules/vanilla-search.png)
 
@@ -90,25 +85,37 @@ The [template](https://github.com/sinequa/sba-angular/blob/master/projects/vanil
 The main view under the navbar includes:
 
 - A Facet Bar on the left, with by default:
-  - A hierarchical source facet: `sq-facet-tree`
+  - A hierarchical source facet: `sq-facet-list`
   - A multiple metadata facet: `sq-facet-multi`
 - In the center, a list of results, including:
   - Tabs: `sq-tabs`
-  - Breadcrumbs: `sq-breadcrumbs`
-  - A Results counter: `sq-results-counter`
-  - A Sort selector: `sq-sort-selector`
   - A "Did you mean?" component: `sq-did-you-mean`
   - Sponsored links: `sq-sponsored-results`
+  - The filters list applied to the query: `sq-filters-view`
+  - A facet displaying the top passages: `sq-facet-card` containing `sq-top-passages`
+  - A Results counter: `sq-results-counter`
+  - A Sort selector: `sq-sort-selector`
   - For each document:
     - A selector (checkbox): `sq-result-selector`
     - The document's title: `sq-result-title`
     - The document's source: `sq-result-source`
     - The document's relevant extracts: `sq-result-extracts`
     - The document's missing terms: `sq-result-missing-terms`
-  - A pager: `sq-pager`
-- And on the right:
+    - The document's labels: `sq-labels`
+    - The document's duplicates: `sq-result-duplicates`
+    - The document's thumbnail: `sq-result-thumbnail`
+  - An infinite scroller: `sq-scroller`
+- On the right, an `sq-facet-card` containing:
+  - An image and description when no document is currently selected
+  - Document details when one is selected:
+    - The document's icon: `sq-result-icon`
+    - The document's title: `sq-result-title`
+    - The document's metadata: `sq-metadata`
+    - The document's passages (in a view tab): `sq-passage-list`
+    - The document's preview (in a view tab): `sq-preview`
+    - The document's duplicates (in a view tab): `sq-result-duplicates-list`
+- And at the bottom left corner:
   - A list of actions available for the currently selected document(s): `sq-results-selector`
-  - A mini-preview facet for the currently clicked document: `sq-facet-preview-2`
 
 The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search/search.component.ts) manages:
 
@@ -126,7 +133,7 @@ The [Preview route](https://github.com/sinequa/sba-angular/tree/master/projects/
 - A list of relevant extracts (`sq-preview-extracts-panel`), to quickly navigate to the important parts of the document.
 - A list of entities and relevant keywords (`sq-preview-entity-panel`), to visualize the diversity of topics, navigate between them and control their highlighting.
 
-On the right, the HTML preview is displayed within the `sq-preview-document-iframe` container. Additionally, a dynamic tooltip (`sq-preview-tooltip`) is inserted in the HTML preview, to provide additional functionality when users hover their mouse over entities, or select text.
+On the right, the HTML preview is displayed within the `sq-preview` component. Additionally, a dynamic tooltip (`sq-preview-tooltip`) is inserted in the HTML preview to provide additional functionality when users hover their mouse over entities or select text, and a minimap (`sq-preview-minimap`) is also inserted to add a right bar to preview container that allows to identify the extracts' locations more easily.
 
 ![Preview route]({{site.baseurl}}assets/modules/vanilla-preview.png)
 
@@ -134,31 +141,29 @@ The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/van
 
 - Navigation events (fetch the preview data when the page is reloaded, or when we search for text within the document).
 - Preview Tooltip custom actions (like the search button when text is selected)
-- Checking/Unchecking entities based on User Preferences.
+- The list of entities highlights that `sq-preview`, `sq-preview-extracts-panel` and `sq-preview-entity-panel` have to display (which can be modified via [configuration](#configuration)).
 
 ## Search form
 
-The [Search Form component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search-form) is more advanced than the one developed in the [tutorial]({{site.baseurl}}tutorial/completed-app.html#search-form-component). It includes an advanced search form, and options to control the lifecycle of the query (for example: should the facet selections be reset when the user searches for new text?).
-
-Additionally, a custom [Autocomplete component](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete.component.ts) allows to search into User Settings objects, such as the recent queries, documents, baskets, etc.
+The [Search Form component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search-form) uses `sq-search-form` as the one developed in the [tutorial]({{site.baseurl}}tutorial/completed-app.html#search-form-component), but with a more advanced [Autocomplete component](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete.component.ts) allowing to search into User Settings objects, such as the recent queries, documents, baskets, etc.
 
 ![Search form]({{site.baseurl}}assets/modules/search-form.png){: .d-block .mx-auto }
 
-As in the tutorial, the [controller](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/search-form.component.ts) includes a `search()` method. Additionally, it manages the list of custom features that the autocomplete can search into, like the recent documents, the recent queries, the baskets and the saved queries (this list can be [configured](#configuration)).
+The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/search-form.component.ts) includes a search method with `onAutocompleteSearch()` triggered when the [autocomplete component](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete.component.ts) emits that it should trigger the search. Additionally, it manages the list of custom features that the autocomplete can search into, like the recent documents, the recent queries, the baskets and the saved queries (this list can be [configured](#configuration)).
 
-- The `getSuggestsObs()` method can search in custom objects, as mentioned above (in addition to the classical "Suggest Queries" configured on the server). Notice that, to merge the different sources of autocomplete, we use the [`forkJoin`](https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin) operator from [`rxjs`](https://www.learnrxjs.io/):
+The [autocomplete component](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete.component.ts) is responsible for getting the suggestions when typing.
+
+- The `getSuggests()` method can search in custom objects, as mentioned above (in addition to the classical "Suggest Queries" configured on the server). Notice that, to merge the different sources of autocomplete, we use the [`forkJoin`](https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin) operator from [`rxjs`](https://www.learnrxjs.io/):
 
     ```ts
     // The forkJoin method allows to merge the suggestions into a single array, so the parent
     // directive only sees a single source.
-    return forkJoin(...dataSources).pipe(
-        map((suggests) => {
-            return [].concat(...suggests);
-        }),
-        catchError((err, caught) => {
-            console.error(err);
-            return [];
-        })
+    return forkJoin(dataSources).pipe(
+      map(suggests => suggests
+        .flat()
+        .sort(this.sortComparator)
+        .slice(0, this.maxItems)
+      )
     );
     ```
 
@@ -166,28 +171,17 @@ As in the tutorial, the [controller](https://github.com/sinequa/sba-angular/blob
 
     ```ts
     searchRecentDocuments(text: string): Promise<AutocompleteItem[]> {
-        return this.suggestService.searchData<RecentDocument>(
-            'recent-document',
-            text,
-            this.recentDocumentsService.recentdocuments,
-            (doc: RecentDocument) => doc.title,
-            (doc: RecentDocument) => ([] as string[]).concat(doc.url1, doc.treepath, doc.authors),
-            "msg#searchForm.recentDocument");
+        return this.suggestService.searchData(
+        'recent-document',
+        text,
+        this.recentDocumentsService.recentdocuments,
+        doc => doc.title,
+        doc => ([] as string[]).concat(doc.url1, doc.treepath, doc.authors),
+        "msg#searchForm.recentDocument");
     }
     ```
 
-- The `select()` method performs custom actions, depending on the category of suggestion. For example, recent documents are directly opened, via `previewService.openRoute()`, saved queries are searched in the `/search` route, etc.
-
-Furthermore, the search form displays the following options (when focused or hovered), to enrich the search experience :
-
-![Search form]({{site.baseurl}}assets/modules/search-form-options.PNG){: .d-block .mx-auto }
-
-- The `clear` button allows users to reset the content of the search input (text and/or fielded search items).
-- The `filter` button provides the ability to decide wether the applied search criteria should be kept while searching for new text.
-- The `microphone` button enables the voice recognition and thus a vocal search. Notice that this option is browser-related.
-- The last button on the top right is responsible of displaying the `advanced search form`.
-
-These functionalities can be turned on or off, using the configuration file (`config.ts`).
+- The `selectItem()` method performs custom actions, depending on the category of suggestion. For example, recent documents are directly opened, via `previewService.openRoute()`, saved queries are searched in the `/search` route, etc.
 
 ## Configuration
 
@@ -206,28 +200,33 @@ The components of Vanilla Search described above use three configuration objects
     ```ts
     {
         name: "geo",
+        aggregation: "Geo",
         title: "msg#facet.geo.title",
         type: "list",
-        aggregation: "Geo",
-        icon: "fas fa-globe-americas",
-        showCount: true,
-        searchable: true,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false
+        icon: "fas fa-fw fa-globe-americas",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
     }
     ```
 
     Of course, these facets require a corresponding [**Aggregation**](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-ws-queries.html) to exist on the Sinequa server, and consequently within the `Results` object.
 
-- `METADATA`: a list of metadata fields displayed in the "mini-preview", within a `sq-metadata` component (More information in the [Custom Metadata]({{site.baseurl}}tipstricks/metadata.html) section).
+- `METADATA_CONFIG`: a list of `MetadataConfig` to be displayed in the "mini-preview", within a `sq-metadata` component (More information in the [Custom Metadata]({{site.baseurl}}tipstricks/metadata.html) section).
+- `PREVIEW_HIGHLIGHTS`: a list of `PreviewHighlightColors` used in the preview related components to define the highlights colors for the different entities (More information in the [Custom Entities]({{site.baseurl}}tipstricks/entities.html) section).
 
-The three objects above can be customized statically in the `src/config.ts` file. It is also possible to override their value dynamically, via the "Customization (JSON)" tab of your App (See [Configuration]({{site.baseurl}}tipstricks/configuration.html)). For example, you could configure the following object to override the metadata:
+The four objects above can be customized statically in the `src/config.ts` file. It is also possible to override their value dynamically, via the "Customization (JSON)" tab of your App (See [Configuration]({{site.baseurl}}tipstricks/configuration.html)). For example, you could configure the following object to override the features:
 
 ```json
 {
-    "metadata": [
-        "authors", "docformat", "modified", "size", "treepath", "filename"
+    "features": [
+        "recent-queries", "saved-queries", "baskets", "labels", "alerts", "suggests"
     ]
 }
 ```
@@ -244,11 +243,11 @@ else
 For example, in [`search.component.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search/search.component.ts) the metadata displayed in the "mini-preview" comes from the following method:
 
 ```ts
-import { METADATA } from '../../config'; // src/config.ts
+import { FEATURES } from '../../config'; // src/config.ts
 
 ...
-public get metadata(): string[] {
-    return this.appService.app?.data?.metadata as string[] || METADATA;
+public get features(): string[] {
+    return this.appService.app?.data?.features as string[] || FEATURES;
 }
 ```
 
@@ -256,50 +255,42 @@ public get metadata(): string[] {
 
 The styles of Vanilla Search come from various sources:
 
-1. **Third-Party stylesheets**, in particular [**Bootstrap**](https://getbootstrap.com/). Third-Party stylesheets are imported in the app's global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)):
+1. **Third-Party stylesheets**, in particular [**Bootstrap**](https://getbootstrap.com/). Third-Party stylesheets are imported in the `minimal` and `sinequa` theme from [`Sinequa Theme`]({{site.baseurl}}libraries/components/theme.html) that you can import in your global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)):
 
     ```scss
-    // Bootstrap styles
-    @import "~bootstrap/scss/bootstrap";
-
-    // Fontawesome
-    $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
-    @import "~@fortawesome/fontawesome-free/scss/fontawesome";
-    @import "~@fortawesome/fontawesome-free/scss/brands";
-    @import "~@fortawesome/fontawesome-free/scss/regular";
-    @import "~@fortawesome/fontawesome-free/scss/solid";
+    // Sinequa global theme (contains Bootstrap imports)
+    // @import "../../../components/theme/minimal";
+    @import "../../../components/theme/sinequa";
     ```
 
-    Note that Bootstrap is used throughout the app (and the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library) via [well documented](https://getbootstrap.com/docs/4.4/getting-started/introduction/) class names. See [Responsive Design]({{site.baseurl}}tipstricks/responsive-design.html#bootstrap).
+    Note that Bootstrap is used throughout the app (and the [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) library) via [well documented](https://getbootstrap.com/docs/4.4/getting-started/introduction/) class names. See [Responsive Design]({{site.baseurl}}tipstricks/responsive-design.html#bootstrap).
 
-2. **Sinequa Modules stylesheets**, which are global-level styles that could not be encapsulated in the Angular components (for good reasons). Like Third-Party stylesheets, they are imported in the app's global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)):
+2. **Sinequa Modules stylesheets**, which are global-level styles that could not be encapsulated in the Angular components (for good reasons). They are imported in the app's global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)):
 
     ```scss
-    // Sinequa components stylesheets
-    @import "../../../components/action/bootstrap/action.scss";
-    @import "../../../components/notification/bootstrap/notification.scss";
-    @import "../../../components/preview/bootstrap/preview.scss";
-    @import "../../../components/metadata/metadata.scss";
+    @import "../../../components/theme/breakpoints";
     ```
 
 3. **Components stylesheets**, like [`home.component.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/home/home.component.scss), [`search.component.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search/search.component.scss), [`preview.component.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/preview/preview.component.scss).
 
     This is generally the preferred way of styling components (besides Bootstrap), since the CSS is well encapsulated in your component scope (there cannot be side-effects to other components) and it alleviates the global stylesheet.
 
-4. **The app's global stylesheet** ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)) itself. This stylesheet contains many rules that *override* the rules in the above stylesheets. For example, we restyle the tabs component:
+4. **The app's global stylesheet** ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)). This file is mostly used to setup the variables and handling imports. Even though it is possible to make changes there, we advise to use [`src/styles/vanilla.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/vanilla.scss) to make custom changes. This stylesheet contains many rules that *override* the rules in the above stylesheets. For example, we restyle the tabs component:
 
     ```scss
     sq-tabs {
+        .nav-tabs {
+            margin-bottom: 0.5rem;
+        }
         .nav-item .count {
-            font-size: 0.9em;
-            color: $secondary-color;
+            font-size: 0.875em;
+            color: $secondary;
         }
     }
     ```
 
 5. Other styles imported by the global stylesheets:
 
-- `styles/icons.scss` contains mappings between metadata names and Font Awesome icons (see [Custom Metadata]({{site.baseurl}}tipstricks/metadata.html)).
-- `styles/preview.scss` contains the styles of the preview (See [Custom Entities]({{site.baseurl}}tipstricks/entities.html)). Note that this stylesheet is built independently into `preview.css` (which gets injected in the HTML preview), but it *also* imported in the global stylesheet (which allows to have consistent color highlighting for entities between the app and the preview).
-- `styles/metadata.scss` is a dependencies of `preview.scss` where the styling of the highlights are defined.
-- `styles/dark-mode.scss` contains the rules that override the normal styles to produce a "dark mode". It is imported at the very end of the global stylesheet.
+- `styles/icons.scss` contains many classes defining icons.
+- `styles/vanilla.scss` contains the overrides as described above.
+- `styles/dark.scss` contains the rules that override the normal styles to produce a "dark mode". It is imported at the very end of `styles/vanilla.scss`.

@@ -6,7 +6,7 @@ import { BaseComponent } from 'src/app/shared/base.component';
   selector: 'doc-metadata',
   templateUrl: './metadata.component.html',
   styles: [`
-  // override just-the-docs.css for docs
+  /* override just-the-docs.css for docs */
   :host ::ng-deep ol > li::before {
       content: initial;
   }

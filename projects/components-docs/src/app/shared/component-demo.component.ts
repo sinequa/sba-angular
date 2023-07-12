@@ -7,13 +7,6 @@ import { Component, Input } from '@angular/core';
     display: block;
     margin-top: 1rem;
     margin-bottom: 1rem;
-  }
-
-  // override just-the-docs.css for docs
-
-  sq-facet-card ::ng-deep ul > li::before,
-  sq-facet-card ::ng-deep ul > li::marker {
-    content: initial;
   }`]
 })
 export class DocComponentDemoComponent {
@@ -21,5 +14,6 @@ export class DocComponentDemoComponent {
   @Input() title: string;
   @Input() html: string;
   @Input() ts: string;
+  @Input() css: string;
 
 }

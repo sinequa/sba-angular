@@ -3,7 +3,10 @@ import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
   selector: 'doc-facet-testing',
-  templateUrl: './facet-testing.component.html'
+  templateUrl: './facet-testing.component.html',
+  styles: [`::ng-deep :host > sq-facet-card > .card > .card-header {
+    background-color: #f5f6fa !important;
+  }`]
 })
 export class DocFacetTestingComponent extends BaseComponent {
 

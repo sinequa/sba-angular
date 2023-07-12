@@ -5,15 +5,18 @@
  */
 export function compareScreenshots(component: string | string[], title?: string) {
     let element;
+    let name;
     if (typeof component === 'string') {
         element = cy.get(component);
+        name = component;
     } else {
         component.forEach((c, index) => {
             element = index === 0 ? cy.get(c) : element.get(c);
+            name = c;
         })
     }
-    const threshold = 0.2; // allows a slight difference, which can be possible for a same test two times in a row
-    element.scrollIntoView().compareSnapshot(title || component, threshold);
+    const threshold = 0.1; // allows a slight difference, which can be possible for a same test two times in a row
+    element.scrollIntoView().compareSnapshot(title || name || component, threshold);
 }
 
 

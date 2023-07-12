@@ -2,7 +2,7 @@
 layout: default
 title: Application Startup
 parent: Tips and Tricks
-nav_order: 17
+nav_order: 16
 ---
 
 # Application Startup
@@ -78,9 +78,9 @@ The `StartConfig` data can be populated in 2 different ways:
 The key properties of the `StartConfig` are the following:
 
 - `app` (required): The name of the App defined on the Sinequa server.
-- `url` (optional): Can be used to specify the URL of the Sinequa server when the app is hosted at a different address (by default, the app's URL is used to query the web services).
+- `url` (optional): Can be used to specify the URL of the Sinequa server when the app is hosted at a different address. (By default, the app's URL is used to query the web services.)
 - `auditEnabled` (optional): Whether the audit is enabled in the app.
-- `autoOAuthProvider` and `autoSAMLProvider`, which are necessary for some [Login Methods](login-methods.md).
+- `autoOAuthProvider` and `autoSAMLProvider`, which are necessary for some [Login Methods](login-methods.html).
 - `production` (optional): A flag indicating whether the app is running in production mode or not.
 
 ### Application Routes
@@ -176,7 +176,7 @@ These breakpoints must be injected in the list of **providers** (they are used e
 
 The selection options (`SelectionOptions`) allow to customize the behavior of the `SelectionService`, which keeps track of the documents selected by the user via checkboxes (aka selectors).
 
-The options are detailed in the [documentation]({{site.baseurl}}modules/components/selection.html) of the `SelectionModule`.
+The options are detailed in the [documentation]({{site.baseurl}}libraries/components/selection.html) of the `SelectionModule`.
 
 These options must be injected in the list of **providers**:
 
@@ -235,7 +235,7 @@ Where
 
 ### Results Views
 
-Results views can be configured to display search results in different ways. The configuration is described in the [documentation]({{site.baseurl}}modules/components/results-view.html) of the Results Views module.
+Results views can be configured to display search results in different ways. The configuration is described in the [documentation]({{site.baseurl}}libraries/components/results-view.html) of the Results Views module.
 
 The list of views (`ResultsView` objects) and the default one must be injected in the `BsResultsViewModule`:
 
@@ -290,7 +290,7 @@ A [provider](https://angular.io/guide/providers) is an instruction to the Depend
 
 In the `AppModule`, we see typically three types of providers:
 
-1. `APP_INITIALIZER`: An app initializer is a piece of code that can be inserted in the Angular initialization process (before Angular starts rendering components). It can be especially useful to fetch some required configuration from the server. The [`@sinequa/core`]({{site.baseurl}}modules/core/core.html) library already injects a few initializers implicitly, but it is possible to add new ones. In particular, we provide a `StartConfigInitializer` to automatically fetch configuration from the Sinequa server (see [Startup configuration](#startup-configuration)).
+1. `APP_INITIALIZER`: An app initializer is a piece of code that can be inserted in the Angular initialization process (before Angular starts rendering components). It can be especially useful to fetch some required configuration from the server. The [`@sinequa/core`]({{site.baseurl}}libraries/core/core.html) library already injects a few initializers implicitly, but it is possible to add new ones. In particular, we provide a `StartConfigInitializer` to automatically fetch configuration from the Sinequa server (see [Startup configuration](#startup-configuration)).
 2. `HTTP_INTERCEPTORS`: An HTTP interceptor is a piece of code that hooks into the Angular HTTP client. It can "intercept" any request sent to the server, to perform some global actions. By default, three interceptors are injected:
 
     - The `LoginInterceptor` takes care of triggering the authentication process when the server sends back a 401 error (Unauthorized). When the authentication is complete, the interceptor plays back the failed query. See [Login methods](login-methods.html).
