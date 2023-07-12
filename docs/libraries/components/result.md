@@ -71,7 +71,20 @@ The `sq-result-thumbnail` component displays the thumbnail of a document, if it 
 
 ### Icon
 
-The `sq-result-icon` component displays the icon of a document, defined by its **file extension** (`record.fileExt`). This component simply inserts a `<span>` element with a class name including the file extension. You need to map these extensions to actual icons in your stylesheet. In [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html), this is done with [Font Awesome](https://fontawesome.com/) icons, via the [`src/styles/icons.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/icons.scss) stylesheet.
+The `sq-result-icon` component displays the icon of a document, defined by its **file extension** (`record.fileExt`). This component simply inserts a `<span>` element with a class name including the file extension.
+
+The extensions are mapped with icons and colors in the TypeScript. A default mapping of file extension (string) to an icon and color (`IconFormat`) is defined in the component.
+
+Custom icons can be provided via the `formatIcons` input from the component which you can use to both override the ones defined by default, and to add some extensions that may not be in that list. For example:
+
+```ts
+const formatIcons: Record<string, IconFormat> = {
+  "html": { icon: "fas fa-browser", color: 'purple' },
+  "abcd": { icon: "fas fa-users", color: '#123456' }
+}
+```
+
+[Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html) allows overriding the mappings using the app configuration on the server (as for the facets, metadata, etc.) or it could be also defined in `config.ts`.
 
 <doc-result-icon></doc-result-icon>
 
@@ -121,3 +134,23 @@ The `sq-user-rating` component supports additional optional parameters:
 - `titles`: Similar to `values`, this input allows to define the tooltip texts displayed when hovering over the stars.
 - `caption`: A caption for the ratings, displayed before the stars.
 - `showAverage`: A boolean to display or not the average rating from all users (after the stars).
+
+### Duplicate documents
+
+This module includes 3 components to manage duplicate documents:
+
+- Exact duplicates are the documents excluded from the results list by the engine, using a "group by" clause. This deduplication is generally based on the `exacthash` or `nearhash` columns. By definition, exact duplicates are not returned by the WebApp and therefore NOT displayed in the result list.
+
+- Near (or approximate) duplicates are determined by a developer-supplied function (in the `SearchOptions`) that compares two documents and returns a boolean. By definition, near duplicates are returned by the WebApp and present in the result list (only their appearance is modified). The order of the results list is not modified and a near duplicate always follows either its "parent" document or another near duplicate.
+
+`sq-result-duplicates` displays the number of exact and near duplicates of a document. 
+
+`sq-result-duplicates-spacer`: A component that visually differentiates **near duplicates** in a results list.
+
+<doc-result-duplicates></doc-result-duplicates>
+
+`sq-result-duplicates-list`: Retrieves and displays the list of **exact duplicates** for a given document.
+
+```html
+<sq-result-duplicates-list [record]="record"></sq-result-duplicates-list>
+```

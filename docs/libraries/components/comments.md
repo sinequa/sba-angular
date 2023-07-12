@@ -3,7 +3,7 @@ layout: default
 title: Comments Module
 parent: Components
 grand_parent: Libraries
-nav_order: 18
+nav_order: 15
 ---
 
 # Comments Module

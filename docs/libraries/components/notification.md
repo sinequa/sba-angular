@@ -3,7 +3,7 @@ layout: default
 title: Notification Module
 parent: Components
 grand_parent: Libraries
-nav_order: 14
+nav_order: 22
 ---
 
 # Notification Module

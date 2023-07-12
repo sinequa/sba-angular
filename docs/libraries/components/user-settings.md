@@ -3,7 +3,7 @@ layout: default
 title: User Settings Modules
 parent: Components
 grand_parent: Libraries
-nav_order: 6
+nav_order: 9
 ---
 
 # User Settings Modules

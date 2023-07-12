@@ -36,52 +36,138 @@ The service provides facilities for working with various Sinequa configuration e
 
 ## Query
 
-The App Utils module contains a `Query` class which implements the `IQuery` interface. This class provides methods for working
-with faceted search (`selects`) and advanced search parameters.
+The `Query` object is the main input of the query web service (see [web services](web-services.md#query-web-service) and [server configuration](../../guides/2-server-config.md#web-services)). It specifies the search query and its parameters.
 
-A select expression uses Sinequa fielded search syntax. For example, to include a filter on the authors column in a query:
+### Creation
 
-```ts
-const query = new Query(this.appService.ccquery.name);
-query.addSelect('authors:[tolkein, martin]', 'Authors');
-```
-
-A select can removed either by its index or by the name of the associated facet. In the latter case
-there is an option to remove all selects pertaining to the facet.
+A `Query` is created with:
 
 ```ts
-// Remove the first select from the list
-query.removeSelect(0);
-// Remove all selects in the Authors facet
-query.removeSelect('Authors', true);
+const query = new Query("<name of the query web service>");
 ```
 
-Advanced search parameters are added by specifying their field (or column) name and the value (string, number, Date, boolean) or
-an array of such values.
+### Searching for text
+
+Specifying the fulltext query is done with the `text` property:
 
 ```ts
-const query = new Query(this.appService.ccquery.name);
-query.setAdvancedValue('authors', ['tolkein', 'martin']);
+query.text = "my search query";
 ```
 
-An advanced operator can also be specified to implement ranges:
+### Selecting a tab or scope
+
+The `tab` property is used to select a tab:
 
 ```ts
-import { AdvancedOperator } from '@sinequa/core/web-services';
-...
-// where size > 1024 and size <= 30720
-query.setAdvancedValue('size', 1024, AdvancedOperator.GT);
-query.setAdvancedValue('size', 30720, AdvancedOperator.LTE);
+query.tab = "tab name";
 ```
 
-Advanced search parameters can be removed by specifying `undefined` as the value. If an operator was included
-when adding the value then it must also be specified when removing it.
+Similarly, the `scope` property is used to select a scope:
 
 ```ts
-// The following two lines are equivalent...
-query.removedAdvancedValue('size', AdvancedOperator.GT);
-query.setAdvancedValue('size', undefined, AdvancedOperator.GT);
+query.scope = "scope name";
 ```
+
+### Filtering the metadata
+
+A "filter" is a condition applied on the metadata of the documents. For example, a filter could be "the document's source is 'Documentation'":
+
+```ts
+query.addFilter({
+  field: "source",
+  value: "Documentation"
+});
+```
+
+There are different types of filters, that roughly correspond to the SQL operators supported by the Sinequa engine:
+
+- Equals: `{field: "source", value: "Documentation"}` (the `eq` operator is implicit)
+- Not equals: `{field: "source", value: "Documentation", operator: "neq"}`
+- Greater than: `{field: "size", value: 1000, operator: "gt"}`
+- Greater than or equals: `{field: "size", value: 1000, operator: "gte"}`
+- Less than: `{field: "size", value: 1000, operator: "lt"}`
+- Less than or equals: `{field: "size", value: 1000, operator: "lte"}`
+- Between: `{field: "size", start: 1000, end: 2000, operator: "between"}`
+- Like: `{field: "title", value: "Sinequa", operator: "like"}`
+- Contains: `{field: "authors", value: "John", operator: "contains"}`
+- Regex: `{field: "format", value: "doc[xm]?", operator: "regex"}`
+- In: `{field: "format", values: ["pdf", "doc", "docx"], operator: "in"}`
+- Null: `{field: "msgto", operator: "null", not: true}`
+
+Additionally, the `operator` property can be set to `"and"`, `"or"` or `"not"` to combine multiple filters:
+
+```ts
+query.addFilter({
+  operator: "and",
+  filters: [
+    {field: "treepath", value: "/Documentation/Sinequa/"},
+    {
+      operator: "or",
+      filters: [
+        {field: "docformat", value: "pdf"},
+        {field: "docformat", value: "html"},
+      ]
+    }
+  ]
+});
+```
+
+It is also possible to specify a `display` property to customize the display of the filter in the UI:
+
+```ts
+query.addFilter({
+  field: "treepath",
+  value: "/Documentation/Sinequa/",
+  display: "Sinequa"
+});
+```
+
+The `Query` has various helper methods to manage the filters:
+
+- `addFilter`: Adds a filter to the query.
+- `findFilter`: Return the first filter in the filter tree that matches the given predicate.
+
+  For example, find all filters on the "source" field:
+
+  ```ts
+  query.findFilter(f => isFieldFilter(f) && f.field === "source");
+  ```
+
+- `findAllFilters`: Return all filters in the filter tree that match the given predicate.
+- `findFieldFilters`: Return all filters in the filter tree that are field filters (with a `field` property, as opposed to `and`/`or`/`not` filters) and that match the given field(s).
+- `findValueFilters`: Return all filters in the filter tree that are value filters (with a `value` property, as opposed to `and`/`or`/`not`/`in`/`between`/`null` filters) and that match the given field(s).
+- `findSameFilter`: Return the first filter in the filter tree that is equivalent to the given filter.
+- `forEachFilter`: Execute a function on each filter in the filter tree.
+- `getFilterCount`: Return the number of filters in the filter tree.
+- `removeFilters`: Remove all filters in the filter tree that match the given predicate.
+- `removeSameFilter`: Remove the first filter in the filter tree that is equivalent to the given filter.
+- `removeFieldFilters`: Remove all filters in the filter tree that are field filters (with a `field` property, as opposed to `and`/`or`/`not` filters) and that match the given field(s).
+
+### Sorting the results
+
+The `sort` property is used to sort the results. It must be configured in the query web service. For example, if the query web service has a sort named "date", then:
+
+```ts
+query.sort = "date";
+```
+
+### Paging
+
+The `page` property is used to specify the page of results to fetch:
+
+```ts
+query.page = 2;
+```
+
+The `pageSize` property is used to specify the number of results per page:
+
+```ts
+query.pageSize = 20;
+```
+
+### Other properties
+
+The `Query` object has other less frequently used properties that can be configured. See the source code for more details.
 
 ## Format Service
 

@@ -3,7 +3,7 @@ layout: default
 title: Selection Module
 parent: Components
 grand_parent: Libraries
-nav_order: 10
+nav_order: 18
 ---
 
 # Selection Module

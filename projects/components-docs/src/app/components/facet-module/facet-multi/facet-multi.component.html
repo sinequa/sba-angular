@@ -1,6 +1,9 @@
-<doc-component-demo title="BsFacetMultiComponent" [html]="code1" [ts]="code2">
-    <sq-facet-card title="Multi" [collapsible]="false">
-        <sq-facet-multi [results]="globalService.results" [facets]="facets"
-            #facet></sq-facet-multi>
+<doc-component-demo title="sq-facet-multi" [html]="code1" [ts]="code2">
+    <sq-facet-card>
+        <sq-facet-multi #facet
+            [results]="globalService.results"
+            [facets]="facets"
+            [facetComponents]="facetComponents">
+        </sq-facet-multi>
     </sq-facet-card>
 </doc-component-demo>

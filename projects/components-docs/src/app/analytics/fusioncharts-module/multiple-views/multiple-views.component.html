@@ -1,0 +1,15 @@
+<doc-component-demo title="Multiple views" [html]="code">
+    <sq-facet-card [title]="'Collections'" [icon]="'fas fa-folder'">
+
+        <!-- List view -->
+        <ng-template [sqFacetView]="{icon: 'fas fa-list', title: 'List view'}">
+            <sq-facet-list #facet [results]="results" [aggregation]="aggregation"></sq-facet-list>
+        </ng-template>
+
+        <!-- Chart view -->
+        <ng-template [sqFacetView]="{icon: 'fas fa-chart-bar', title: 'Chart view'}">
+            <sq-fusion-chart #facet [results]="results" [aggregation]="aggregation"></sq-fusion-chart>
+        </ng-template>
+
+    </sq-facet-card>
+</doc-component-demo>

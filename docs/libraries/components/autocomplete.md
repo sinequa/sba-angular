@@ -3,7 +3,7 @@ layout: default
 title: Autocomplete Module
 parent: Components
 grand_parent: Libraries
-nav_order: 4
+nav_order: 10
 ---
 
 # Autocomplete Module

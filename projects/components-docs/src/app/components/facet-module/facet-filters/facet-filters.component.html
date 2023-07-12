@@ -1,3 +1,9 @@
-<doc-component-demo title="BsFacetFilters" [html]="code">
-    <sq-facet-filters [results]="globalService.results" [facets]="facets"></sq-facet-filters>
+<doc-component-demo title="sq-facet-filters" [html]="html" [ts]="ts">
+  <nav class="navbar navbar-expand">
+    <sq-facet-filters
+      [results]="globalService.results"
+      [facets]="facets"
+      [facetComponents]="facetComponents">
+    </sq-facet-filters>
+  </nav>
 </doc-component-demo>

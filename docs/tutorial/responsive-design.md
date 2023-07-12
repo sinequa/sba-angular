@@ -113,7 +113,7 @@ Notice a few things in the code:
 
 - We put the search form inside the `<nav>` (of course, you can make a different choice)
 - We display the results, facets and footer only if there are results (with the `<ng-container *ngIf="searchService.resultsStream | async as results">` element)
-- We wrapped our components inside `.container`, `.row` and `.col` elements. These are standard Boostrap classes (see [Grid system](https://getbootstrap.com/docs/4.0/layout/grid/)).
+- We wrapped our components inside `.container`, `.row` and `.col` elements. These are standard Bootstrap classes (see [Grid system](https://getbootstrap.com/docs/4.0/layout/grid/)).
 - We used size modifiers, like the `-lg-` in `col-lg-8`. This means that this rule will apply only on large screens. On small screen, the rule reverts to a regular `.col` element.
 
 However, our initial specifications are not met for medium and small screens! If you reduce the size of the screen, you notice that the filters are not hidden, they have just been wrapped under the results. Also, we need some buttons in the navbar to toggle the visibility of the facets and the search form...

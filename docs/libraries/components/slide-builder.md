@@ -3,7 +3,7 @@ layout: default
 title: Slide Builder Module
 parent: Components
 grand_parent: Libraries
-nav_order: 19
+nav_order: 14
 ---
 
 # Slide Builder Module

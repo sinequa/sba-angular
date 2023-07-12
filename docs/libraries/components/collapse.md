@@ -3,7 +3,7 @@ layout: default
 title: Collapse Module
 parent: Components
 grand_parent: Libraries
-nav_order: 13
+nav_order: 21
 ---
 
 # Collapse Module
