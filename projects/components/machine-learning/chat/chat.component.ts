@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { Record } from "@sinequa/core/web-services";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
@@ -185,14 +185,18 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     );
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     this.chatService.attachmentModel = this.model;
-    if(this.chat) {
-      this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
+
+    if (!this.messages$.value || changes.chat) {
+      if (this.chat) {
+        this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
+      }
+      else {
+        this.loadDefaultChat();
+      }
     }
-    else {
-      this.loadDefaultChat();
-    }
+
     this.updateActions();
     this.updateModelDescription();
   }
