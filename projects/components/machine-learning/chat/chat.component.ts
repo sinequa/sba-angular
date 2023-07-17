@@ -151,12 +151,15 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         this.loadingAttachments = false;
         this.updateTokensPercentage();
         this.question = this.suggestQuestion(attachments);
-        setTimeout(() => this.questionInput?.nativeElement.focus());
       })
     );
 
     this.sub.add(
       this.chatService.savedChats$.subscribe(() => this.updateActions())
+    )
+
+    this.sub.add(
+      this.chatService.receivedResponse$.subscribe(() => this.questionInput?.nativeElement.focus())
     )
 
     this.openChatAction = new Action({
