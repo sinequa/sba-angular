@@ -111,6 +111,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() extendAfter =              defaultChatConfig.extendAfter;
 
   @Input() query?: Query;
+  @Input() reloadOnSettingsChange = false;
   @Output() data = new EventEmitter<ChatMessage[]>();
   @Output() referenceClicked = new EventEmitter<Record>();
 
@@ -134,6 +135,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   sub = new Subscription();
   dataSubscription: Subscription | undefined;
+
+  loaded = false;
 
   /** Variables that depend on the type of model in use */
   modelDescription?: GllmModelDescription;
@@ -186,15 +189,18 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   }
 
   ngOnChanges() {
-    this.chatService.attachmentModel = this.model;
-    if(this.chat) {
-      this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
+    if (this.reloadOnSettingsChange || !this.loaded) {
+      this.chatService.attachmentModel = this.model;
+      if (this.chat) {
+        this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
+      }
+      else {
+        this.loadDefaultChat();
+      }
+      this.updateActions();
+      this.updateModelDescription();
+      this.loaded = true;
     }
-    else {
-      this.loadDefaultChat();
-    }
-    this.updateActions();
-    this.updateModelDescription();
   }
 
   ngOnDestroy(): void {
