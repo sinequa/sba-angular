@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { Record } from "@sinequa/core/web-services";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
@@ -111,7 +111,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() extendAfter =              defaultChatConfig.extendAfter;
 
   @Input() query?: Query;
-  @Input() reloadOnSettingsChange = false;
   @Output() data = new EventEmitter<ChatMessage[]>();
   @Output() referenceClicked = new EventEmitter<Record>();
 
@@ -135,8 +134,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   sub = new Subscription();
   dataSubscription: Subscription | undefined;
-
-  loaded = false;
 
   /** Variables that depend on the type of model in use */
   modelDescription?: GllmModelDescription;
@@ -188,19 +185,20 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     );
   }
 
-  ngOnChanges() {
-    if (this.reloadOnSettingsChange || !this.loaded) {
-      this.chatService.attachmentModel = this.model;
+  ngOnChanges(changes: SimpleChanges) {
+    this.chatService.attachmentModel = this.model;
+
+    if (!this.messages$.value || changes.chat) {
       if (this.chat) {
         this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
       }
       else {
         this.loadDefaultChat();
       }
-      this.updateActions();
-      this.updateModelDescription();
-      this.loaded = true;
     }
+
+    this.updateActions();
+    this.updateModelDescription();
   }
 
   ngOnDestroy(): void {
