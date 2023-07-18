@@ -4,6 +4,7 @@ import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "../../abstract-facet";
 import { FacetViewDirective } from "../facet-view.directive";
 import { Placement } from "@sinequa/components/utils";
+import { UserPreferences } from "@sinequa/components/user-settings";
 
 @Component({
     selector: "sq-facet-card",
@@ -173,7 +174,7 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
 
     private subs = new Subscription();
 
-    constructor() {
+    constructor(public prefs: UserPreferences) {
 
         this.collapseAction = new Action({
             titlePlacement: this.defaultTooltipPlacement,
@@ -182,6 +183,9 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
                 // stop propagation to avoid the click outside event to be triggered
                 event.stopPropagation();
                 this._collapsed = !this._collapsed;
+                if (this.title) {
+                    this.prefs.set(`facet-collapsed-${this.title}`, this._collapsed);
+                }
                 this.facetCollapsed.next(this._collapsed ? "collapsed" : "expanded");
                 if (!!this.facetComponent) {
                     this.facetComponent.onCollapse(this._collapsed);
@@ -231,7 +235,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
 
     ngOnInit() {
         // Initialize actions
-        this._collapsed = this.startCollapsed;
+        const collapsed = this.collapsible && this.title ? this.prefs.get(`facet-collapsed-${this.title}`) : undefined;
+        this._collapsed = collapsed || this.startCollapsed;
         this._expanded = this.startExpanded;
         this._settingsOpened = this.startSettingsOpened;
 
