@@ -13,8 +13,8 @@
 
     <ul class="list-group list-group-flush">
       <ng-container *ngFor="let item of items"
-          [ngTemplateOutlet]="itemTpl"
-          [ngTemplateOutletContext]="{$implicit: item}">
+          [ngTemplateOutlet]="itemTpl || defaultItemTpl"
+          [ngTemplateOutletContext]="{$implicit: item, instance: this}">
       </ng-container>
 
       <li *ngIf="!suggests && data?.$hasMore"
@@ -31,7 +31,7 @@
 </div>
 
 <!-- Template for displaying an aggregation item-->
-<ng-template #itemTpl let-item>
+<ng-template #defaultItemTpl let-item>
     <li class="list-group-item list-group-item-action d-flex"
         [ngClass]="{'sq-selected': item.$selected, 'sq-filtered': item.$filtered}"
         role="button" (click)="filterItem(item, $event)">
@@ -68,8 +68,8 @@
     <!-- Tree aggregation sub-elements -->
     <ng-container *ngIf="item.$opened">
         <ng-container *ngFor="let i of item.items"
-            [ngTemplateOutlet]="itemTpl"
-            [ngTemplateOutletContext]="{$implicit: i}">
+            [ngTemplateOutlet]="itemTpl || defaultItemTpl"
+            [ngTemplateOutletContext]="{$implicit: i, instance: this}">
         </ng-container>
     </ng-container>
 </ng-template>
