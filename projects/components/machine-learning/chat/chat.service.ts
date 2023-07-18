@@ -58,9 +58,6 @@ export class ChatService {
    */
   attachments$ = new BehaviorSubject<ChatAttachmentWithTokens[]>([]);
 
-  /**  Triggered when a response is definitively received */
-  receivedResponse$ = new BehaviorSubject(undefined);
-
   /** LLM used for computing the number of tokens in text */
   attachmentModel: GllmModel = 'GPT35Turbo';
 
@@ -132,7 +129,6 @@ export class ChatService {
         tap(res => _res = res), // Store the last version of the message so we can audit it in finalize()""
         finalize(() => {
           if(_res) {
-            this.receivedResponse$.next(undefined);
             this.notifyAudit(_res.messagesHistory, _res.tokens);
           }
         })
@@ -142,8 +138,7 @@ export class ChatService {
     // Regular mode
     return this.fetchAll(data).pipe(
       map(res => this.processResponse(messages, res)),
-      tap(({tokens, messagesHistory}) => this.notifyAudit(messagesHistory, tokens)),
-      finalize(() => this.receivedResponse$.next(undefined))
+      tap(({tokens, messagesHistory}) => this.notifyAudit(messagesHistory, tokens))
     );
   }
 
