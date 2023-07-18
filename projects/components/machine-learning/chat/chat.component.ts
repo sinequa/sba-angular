@@ -161,10 +161,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       this.chatService.savedChats$.subscribe(() => this.updateActions())
     )
 
-    this.sub.add(
-      this.chatService.receivedResponse$.subscribe(() => this.questionInput?.nativeElement.focus())
-    )
-
     this.openChatAction = new Action({
       icon: 'fas fa-folder-open',
       title: 'Open Saved chat',
