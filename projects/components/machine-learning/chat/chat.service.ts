@@ -2,13 +2,11 @@ import { Injectable } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { AuditEvent, AuditWebService, JsonMethodPluginService, Record, RelevantExtract, Results, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
 import { BehaviorSubject, defaultIfEmpty, filter, finalize, forkJoin, map, Observable, of, scan, Subject, switchMap, tap } from "rxjs";
-import { marked } from "marked";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Validators } from "@angular/forms";
 import { Chunk, equalChunks, insertChunk } from "./chunk";
 import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, GllmModel, GllmModelDescription, GllmTokenQuota, GllmTokens, RawMessage, RawResponse, SavedChat } from "./types";
-import { extractReferences } from "./references";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { HttpDownloadProgressEvent, HttpEvent, HttpEventType } from "@angular/common/http";
 import { LoginService } from "@sinequa/core/login";
@@ -256,9 +254,6 @@ export class ChatService {
             chatMessage.$attachment = {...message.$attachment, $record};
           }
         }
-        if(message.role === 'assistant') {
-          Object.assign(chatMessage, this.processMessage(message.content, chatMessages));
-        }
         chatMessages.push(chatMessage);
         return chatMessages;
       }, [] as ChatMessage[]))
@@ -271,39 +266,9 @@ export class ChatService {
       tokens: response.tokens,
       messagesHistory: [
         ...messages,
-        {
-          ...rawMessage,
-          ...this.processMessage(rawMessage.content, messages, response.streaming)
-        }
+        { ...rawMessage }
       ]
     }
-  }
-
-  /**
-   * Generates the $content and $references fields on a ChatMessage
-   * If the message if from the assistant, we attempt to extract references
-   * from it.
-   */
-  processMessage(content: string, conversation: ChatMessage[], streaming?: boolean): {$content: string, $references: {refId: number, $record: Record}[]} {
-    content = marked(content);
-    const refs = extractReferences(content, conversation, this.searchService.query);
-    if(streaming) { // When streaming, we add a placeholder at the end of the message
-      const placeholder = `
-        <span class="placeholder-glow">
-          <span class="placeholder mx-1 col-1"></span>
-          <span class="placeholder mx-1 col-4"></span>
-          <span class="placeholder mx-1 col-2"></span>
-        </span>
-      `;
-      if(refs.$content.trim().endsWith('</p>')) {
-        const lastP = refs.$content.lastIndexOf('</p>');
-        refs.$content = refs.$content.substring(0, lastP) + placeholder + refs.$content.substring(lastP);
-      }
-      else {
-        refs.$content += placeholder;
-      }
-    }
-    return refs;
   }
 
   /**
