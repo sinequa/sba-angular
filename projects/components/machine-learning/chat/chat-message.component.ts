@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Out
 import { Record } from "@sinequa/core/web-services";
 import { SearchService } from "@sinequa/components/search";
 import { ChatAttachment, ChatMessage } from "./types";
-import { getReferenceMatches } from "./references";
 
 import { unified, Plugin, Processor } from "unified";
 import remarkParse from "remark-parse";
@@ -68,7 +67,7 @@ export class ChatMessageComponent implements OnChanges {
       visit(tree, "text", (node: Text, index: number, parent: Parent) => {
         const text = node.value;
 
-        const matches = getReferenceMatches(text);
+        const matches = this.getReferenceMatches(text);
 
         // Quit if no references were found
         if(matches.length === 0) {
@@ -115,6 +114,30 @@ export class ChatMessageComponent implements OnChanges {
 
       return tree;
     }
+  }
+
+  /**
+   * Replace any occurrence of the range pattern (eg. [2-8]) with an explicit
+   * list of references (eg. [2][3][4][5][6][7][8])
+   */
+  replaceRangeFormat(content: string): string {
+    return content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+)\-(\d+)\]/g, (str, first, last) => {
+      if(!isNaN(+first) && !isNaN(+last) && (+last) - (+first) > 0 && (+last) - (+first) < 10) {
+        str = '';
+        for(let i=+first; i<=+last; i++) {
+          str += `[${i}]`;
+        }
+      }
+      return str;
+    });
+  }
+
+  /**
+   * Match all references in a given message
+   */
+  getReferenceMatches(content: string) {
+    content = this.replaceRangeFormat(content);
+    return Array.from(content.matchAll(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+(,\s*[ \d]+)*\s*)\]/g));
   }
 
 }
