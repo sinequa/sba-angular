@@ -241,7 +241,7 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     ngOnInit() {
         // Initialize actions
         const collapsed = this.preference ? this.prefs.get(this.preference) : undefined;
-        this._collapsed = collapsed || this.startCollapsed;
+        this._collapsed = collapsed ?? this.startCollapsed;
         this._expanded = this.startExpanded;
         this._settingsOpened = this.startSettingsOpened;
 
