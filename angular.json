@@ -272,7 +272,12 @@
               "diacritics",
               "date-fns-tz",
               "date-fns/locale/_lib/buildFormatLongFn",
-              "@microsoft/teams-js"
+              "@microsoft/teams-js",
+              "debug",
+              "extend",
+              "is-buffer",
+              "component-emitter",
+              "keycharm"
             ]
           },
           "configurations": {
