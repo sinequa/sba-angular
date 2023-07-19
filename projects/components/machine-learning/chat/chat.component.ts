@@ -142,9 +142,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   assistantIcon: string;
   privacyUrl: string;
 
-  get streaming(): boolean {
-    return this.stream && !!this.dataSubscription && !this.dataSubscription.closed
-  }
+  streaming$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     public chatService: ChatService,
@@ -287,17 +285,17 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.loading = true;
     this.cdr.detectChanges();
     this.dataSubscription?.unsubscribe();
+    this.streaming$.next(true);
     this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP, this.googleContextPrompt, this.stream)
       .subscribe(
-        res => {
-          this.lastChatResponse = res;
-          this.updateData(res.messagesHistory, res.tokens);
+        res => this.updateData(res.messagesHistory, res.tokens),
+        () => {
+          this.streaming$.next(false);
         },
-        () => { },
         () => {
           this.dataSubscription = undefined;
-          this.updateData(this.lastChatResponse.messagesHistory, this.lastChatResponse.tokens, true);
           this.questionInput?.nativeElement.focus();
+          this.streaming$.next(false);
         }
       );
     this.scrollDown();
@@ -313,30 +311,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     return attachmentMessages;
   }
 
-  updateData(messages: ChatMessage[], tokens: number, last?: boolean) {
-    const message = messages[messages.length - 1];
-    if (this.streaming) { // When streaming, we add a placeholder at the end of the message
-      const placeholder = `
-          <span class="placeholder-glow">
-            <span class="placeholder mx-1 col-1"></span>
-            <span class="placeholder mx-1 col-4"></span>
-            <span class="placeholder mx-1 col-2"></span>
-          </span>
-        `;
-      if (message.$content?.trim().endsWith('</p>')) {
-        const lastP = message.$content.lastIndexOf('</p>');
-        this.lastContent = message.$content;
-        message.$content = message.$content.substring(0, lastP) + placeholder + message.$content.substring(lastP);
-      }
-      else {
-        this.lastContent = message.$content;
-        message.$content += placeholder;
-      }
-    }
-    // "last" makes sure there are no placeholders included if this is the last data handling
-    if (last) {
-      message.$content = this.lastContent;
-    }
+  updateData(messages: ChatMessage[], tokens: number) {
     this.messages$.next(messages);
     this.data.emit(messages);
     this.loading = false;
@@ -434,6 +409,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   cancelStream() {
     this.dataSubscription?.unsubscribe();
     this.dataSubscription = undefined;
-    this.updateData(this.lastChatResponse.messagesHistory, this.lastChatResponse.tokens, true);
+    this.streaming$.next(false);
   }
 }
