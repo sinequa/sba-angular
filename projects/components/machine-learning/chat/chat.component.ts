@@ -7,7 +7,7 @@ import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatService, SearchAttachmentsOptions } from "./chat.service";
-import { ChatAttachment, ChatMessage, ChatResponse, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
+import { ChatAttachment, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
 
 export interface ChatConfig extends SearchAttachmentsOptions {
   // Model
