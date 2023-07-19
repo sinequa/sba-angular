@@ -134,8 +134,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   sub = new Subscription();
   dataSubscription: Subscription | undefined;
-  lastContent: string | undefined;
-  lastChatResponse: ChatResponse;
 
   /** Variables that depend on the type of model in use */
   modelDescription?: GllmModelDescription;
@@ -290,7 +288,10 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
       .subscribe(
         res => this.updateData(res.messagesHistory, res.tokens),
         () => this.terminateStream(),
-        () => this.terminateStream()
+        () => {
+          this.terminateStream();
+          this.questionInput?.nativeElement.focus();
+        }
       );
     this.scrollDown();
   }
