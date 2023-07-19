@@ -64,12 +64,8 @@ a.disabled {
 
 .sq-stop-generating {
   position: absolute;
-  width: 100%;
+  left: 0;
+  right: 0;
   bottom: 95px;
-
-  button {
-    white-space: nowrap;
-    display: block;
-    margin: auto;
-  }
+  text-align: center;
 }

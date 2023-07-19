@@ -297,7 +297,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         () => {
           this.dataSubscription = undefined;
           this.updateData(this.lastChatResponse.messagesHistory, this.lastChatResponse.tokens, true);
-          this.cdr.detectChanges();
           this.questionInput?.nativeElement.focus();
         }
       );
