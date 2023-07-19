@@ -99,6 +99,11 @@
     <a *ngIf="searchMode" role="button" [ngClass]="{disabled: !question}" class="ms-3 mb-0 text-nowrap" (click)="searchAttachments()" sqTooltip="Search Before Chat" placement="top">
       <img src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="120px">
     </a>
+    <div class="sq-stop-generating" *ngIf="streaming">
+      <button class="btn btn-sm btn-outline-secondary shadow" (click)="cancelStream()">
+        <i class="fas fa-stop me-1"></i> Stop generating
+      </button>
+    </div>
   </div>
 </ng-template>
 

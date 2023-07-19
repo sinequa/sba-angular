@@ -61,3 +61,15 @@ a.disabled {
 .no-max-height {
   max-height: initial !important;
 }
+
+.sq-stop-generating {
+  position: absolute;
+  width: 100%;
+  bottom: 95px;
+
+  button {
+    white-space: nowrap;
+    display: block;
+    margin: auto;
+  }
+}

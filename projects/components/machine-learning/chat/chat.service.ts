@@ -286,24 +286,7 @@ export class ChatService {
    */
   processMessage(content: string, conversation: ChatMessage[], streaming?: boolean): {$content: string, $references: {refId: number, $record: Record}[]} {
     content = marked(content);
-    const refs = extractReferences(content, conversation, this.searchService.query);
-    if(streaming) { // When streaming, we add a placeholder at the end of the message
-      const placeholder = `
-        <span class="placeholder-glow">
-          <span class="placeholder mx-1 col-1"></span>
-          <span class="placeholder mx-1 col-4"></span>
-          <span class="placeholder mx-1 col-2"></span>
-        </span>
-      `;
-      if(refs.$content.trim().endsWith('</p>')) {
-        const lastP = refs.$content.lastIndexOf('</p>');
-        refs.$content = refs.$content.substring(0, lastP) + placeholder + refs.$content.substring(lastP);
-      }
-      else {
-        refs.$content += placeholder;
-      }
-    }
-    return refs;
+    return extractReferences(content, conversation, this.searchService.query);
   }
 
   /**
