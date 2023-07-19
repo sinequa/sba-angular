@@ -388,11 +388,4 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.openChatAction.hidden = this.openChatAction.children.length === 0;
   }
 
-  onReferenceClicked(record: Record, event: MouseEvent) {
-    const url = record.url1 || record.originalUrl;
-    if(!url) {
-      event.preventDefault();
-    }
-    this.referenceClicked.emit(record);
-  }
 }

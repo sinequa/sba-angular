@@ -26,12 +26,8 @@ export interface RawMessage {
  * a list of the references extracted from that message
  */
 export interface ChatMessage extends RawMessage {
-  /** This content is formatted to be properly displayed in the UI */
-  $content?: string;
   /** Messages from the user can have attachments */
   $attachment?: ChatAttachment;
-  /** Messages from the assistant can have references that refer to attachments ids */
-  $references?: {refId: number; $record: Record}[];
 }
 
 /**

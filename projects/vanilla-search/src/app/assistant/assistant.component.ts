@@ -5,7 +5,6 @@ import { SearchService } from "@sinequa/components/search";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { AppService } from "@sinequa/core/app-utils";
 import { AuditWebService, Results, Record } from "@sinequa/core/web-services";
-import { marked } from "marked";
 import { filter, map, Observable, Subscription, switchMap, tap } from "rxjs";
 import { AssistantService } from "./assistant.service";
 
@@ -146,11 +145,11 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
 
         // The starting point: a user's search query
         const query = `I am searching for "${this.searchService.query.text}" in a search engine.`;
-        messages.push({role: 'user', content: query, display: false, $content: query});
+        messages.push({role: 'user', content: query, display: false});
 
         // Provide an answer, if any
         if(suggestions.answer) {
-          messages.push({role: 'assistant', content: suggestions.answer, display: true, $content: marked(suggestions.answer)});
+          messages.push({role: 'assistant', content: suggestions.answer, display: true});
         }
 
         if(suggestions.query || suggestions.sources) {
@@ -175,7 +174,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
             })
           ];
 
-          messages.push({role: 'assistant', content, display: true, $content: marked(content), $actions});
+          messages.push({role: 'assistant', content, display: true, $actions});
         }
 
         this.chat!.updateData(messages, 0);
@@ -206,7 +205,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
                     }
                   })
                 ]
-                messages.push({role: 'assistant', content: answer, display: true, $content: answer, $actions});
+                messages.push({role: 'assistant', content: answer, display: true, $actions});
                 this.chat.updateData(messages, this.chat.tokens!);
               }
               else {
