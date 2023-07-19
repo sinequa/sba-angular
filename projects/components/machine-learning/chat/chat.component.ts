@@ -285,18 +285,12 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.loading = true;
     this.cdr.detectChanges();
     this.dataSubscription?.unsubscribe();
-    this.streaming$.next(true);
+    this.streaming$.next(this.stream);
     this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP, this.googleContextPrompt, this.stream)
       .subscribe(
         res => this.updateData(res.messagesHistory, res.tokens),
-        () => {
-          this.streaming$.next(false);
-        },
-        () => {
-          this.dataSubscription = undefined;
-          this.questionInput?.nativeElement.focus();
-          this.streaming$.next(false);
-        }
+        () => this.terminateStream(),
+        () => this.terminateStream()
       );
     this.scrollDown();
   }
@@ -406,7 +400,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.referenceClicked.emit(record);
   }
 
-  cancelStream() {
+  terminateStream() {
     this.dataSubscription?.unsubscribe();
     this.dataSubscription = undefined;
     this.streaming$.next(false);

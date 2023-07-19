@@ -100,7 +100,7 @@
       <img src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="120px">
     </a>
     <div class="sq-stop-generating" *ngIf="streaming$ | async">
-      <button class="btn btn-sm btn-outline-secondary shadow" (click)="cancelStream()">
+      <button class="btn btn-sm btn-outline-secondary shadow" (click)="terminateStream()">
         <i class="fas fa-stop me-1"></i> Stop generating
       </button>
     </div>
