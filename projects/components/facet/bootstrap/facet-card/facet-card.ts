@@ -91,6 +91,11 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     @Input() hideActionsCollapsed: boolean = true;
 
     /**
+     * A name to save the collapse status in the preferences to save it for next sessions
+     */
+    @Input() preference?: string;
+
+    /**
      * Whether the facet can be expanded (default: false)
      */
     @Input() expandable: boolean = false;
@@ -183,8 +188,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
                 // stop propagation to avoid the click outside event to be triggered
                 event.stopPropagation();
                 this._collapsed = !this._collapsed;
-                if (this.title) {
-                    this.prefs.set(`facet-collapsed-${this.title}`, this._collapsed);
+                if (this.preference) {
+                    this.prefs.set(this.preference, this._collapsed);
                 }
                 this.facetCollapsed.next(this._collapsed ? "collapsed" : "expanded");
                 if (!!this.facetComponent) {
@@ -235,7 +240,7 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
 
     ngOnInit() {
         // Initialize actions
-        const collapsed = this.collapsible && this.title ? this.prefs.get(`facet-collapsed-${this.title}`) : undefined;
+        const collapsed = this.preference ? this.prefs.get(this.preference) : undefined;
         this._collapsed = collapsed || this.startCollapsed;
         this._expanded = this.startExpanded;
         this._settingsOpened = this.startSettingsOpened;
