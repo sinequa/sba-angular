@@ -37,22 +37,6 @@ li.list-group-item {
   background-color: #ededed;
 }
 
-.references .reference, .message-content ::ng-deep .reference{
-  font-size: 0.7em;
-  font-weight: bold;
-  position: relative;
-  bottom: 0.3em;
-  padding: 0 0.2em;
-  margin: 0 0.1em;
-  border-radius: 0.2em;
-  background-color: lightblue;
-  color: black !important;
-}
-
-.message-content ::ng-deep .placeholder-glow .placeholder {
-  animation-duration: 0.4s;
-}
-
 a.disabled {
   cursor: default;
   opacity: 0.5;
