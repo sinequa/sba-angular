@@ -45,3 +45,11 @@ a.disabled {
 .no-max-height {
   max-height: initial !important;
 }
+
+.sq-stop-generating {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -50px;
+  text-align: center;
+}

@@ -140,6 +140,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   assistantIcon: string;
   privacyUrl: string;
 
+  streaming$ = new BehaviorSubject<boolean>(false);
+
   constructor(
     public chatService: ChatService,
     public searchService: SearchService,
@@ -281,11 +283,15 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.loading = true;
     this.cdr.detectChanges();
     this.dataSubscription?.unsubscribe();
+    this.streaming$.next(this.stream);
     this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP, this.googleContextPrompt, this.stream)
       .subscribe(
         res => this.updateData(res.messagesHistory, res.tokens),
-        () => { },
-        () => this.questionInput?.nativeElement.focus()
+        () => this.terminateStream(),
+        () => {
+          this.terminateStream();
+          this.questionInput?.nativeElement.focus();
+        }
       );
     this.scrollDown();
   }
@@ -308,7 +314,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.chatService.attachments$.next([]); // This updates the tokensPercentage
     this.question = '';
     this.scrollDown();
-    this.dataSubscription = undefined;
   }
 
   suggestQuestion(attachments: ChatAttachment[]) {
@@ -388,4 +393,9 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.openChatAction.hidden = this.openChatAction.children.length === 0;
   }
 
+  terminateStream() {
+    this.dataSubscription?.unsubscribe();
+    this.dataSubscription = undefined;
+    this.streaming$.next(false);
+  }
 }
