@@ -1,0 +1,40 @@
+<!-- Message icon -->
+<span class="me-3" [title]="message.role" [ngSwitch]="message.role">
+  <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
+  <i [ngClass]="assistantIcon" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
+</span>
+
+<!-- Message body -->
+<div class="flex-grow-1" style="min-width: 0;">
+
+  <remark class="message-content" [markdown]="message.content" [processor]="processor">
+
+    <ng-template remarkTemplate="chat-reference" let-ref>
+      <a *ngIf="referenceMap.get(ref.refId) as attachment"
+        [href]="attachment.$record.url1 || attachment.$record.originalUrl || '#'"
+        class="reference"
+        [sqTooltip]="attachment.chunks[0].text | slice:0:100">{{ref.refId}}</a>
+    </ng-template>
+
+  </remark>
+
+  <!-- List of reference, if any -->
+  <div *ngIf="references?.length" class="references small">
+    <b>References:</b>
+    <ul class="list-group">
+      <ng-container *ngFor="let reference of references">
+        <li *ngIf="referenceMap.get(reference) as attachment" class="text-truncate" [title]="attachment.$record.title">
+          <span class="reference me-1">{{reference}}</span>
+          <a [href]="attachment.$record.url1 || attachment.$record.originalUrl || '#'"
+            target="_blank"
+            (click)="onReferenceClicked(attachment.$record, $event)">
+            {{attachment.$record.title}}
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>
+
+<!-- Message actions (optional) -->
+<div [sq-action-buttons]="{items: message.$actions, style: 'link', size: 'sm', rightAligned: true}" *ngIf="message.$actions"></div>
