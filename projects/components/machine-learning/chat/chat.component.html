@@ -5,31 +5,12 @@
     <ng-container *ngFor="let message of messages; let i = index">
       <!-- Regular messages -->
       <li class="list-group-item d-flex" *ngIf="message.display && !message.$attachment">
-        <!-- Message icon -->
-        <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
-          <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
-          <i [ngClass]="assistantIcon" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
-        </span>
-        <!-- Message body -->
-        <div class="flex-grow-1" style="min-width: 0;">
-          <div class="message-content" [innerHTML]="message.$content ?? message.content"></div>
-          <!-- List of reference, if any -->
-          <div *ngIf="message.$references?.length" class="references small">
-            <b>References:</b>
-            <ul class="list-group">
-              <li *ngFor="let reference of message.$references" class="text-truncate" [title]="reference.$record.title">
-                <span class="reference me-1">{{reference.refId}}</span>
-                <a href="{{reference.$record.url1 || reference.$record.originalUrl || '#'}}"
-                  target="_blank"
-                  (click)="onReferenceClicked(reference.$record, $event)">
-                  {{reference.$record.title}}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!-- Message actions (optional) -->
-        <div [sq-action-buttons]="{items: message.$actions, style: 'link', size: 'sm', rightAligned: true}" *ngIf="message.$actions"></div>
+        <sq-chat-message
+          [message]="message"
+          [conversation]="messages"
+          [assistantIcon]="assistantIcon"
+          (referenceClicked)="referenceClicked.emit($event)">
+        </sq-chat-message>
       </li>
       <!-- Attachment messages -->
       <li *ngIf="message.display && message.$attachment"

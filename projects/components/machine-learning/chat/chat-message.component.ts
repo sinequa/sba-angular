@@ -1,0 +1,120 @@
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import { Record } from "@sinequa/core/web-services";
+import { SearchService } from "@sinequa/components/search";
+import { ChatAttachment, ChatMessage } from "./types";
+import { getReferenceMatches } from "./references";
+
+import { unified, Plugin, Processor } from "unified";
+import remarkParse from "remark-parse";
+import { visit, CONTINUE } from "unist-util-visit";
+import { Text, Parent, Content } from "mdast";
+import { Node } from "unist";
+
+@Component({
+  selector: "sq-chat-message",
+  templateUrl: "./chat-message.component.html",
+  styleUrls: ["./chat-message.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ChatMessageComponent implements OnChanges {
+  @Input() message: ChatMessage;
+  @Input() conversation: ChatMessage[];
+  @Input() assistantIcon: string;
+  @Output() referenceClicked = new EventEmitter<Record>();
+
+  processor: Processor;
+
+  references: number[] = [];
+  referenceMap = new Map<number, ChatAttachment>();
+
+  constructor(
+    public searchService: SearchService
+  ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.message && this.message.role === "assistant") {
+      this.references = [];
+      this.referenceMap.clear();
+      for(let m of this.conversation) {
+        if(m.$attachment) {
+          this.referenceMap.set(m.$refId!, m.$attachment);
+        }
+      }
+      this.processor = unified()
+        .use(remarkParse)
+        .use(this.referencePlugin);
+    }
+  }
+
+  onReferenceClicked(record: Record, event: MouseEvent) {
+    const url = record.url1 || record.originalUrl;
+    if(!url) {
+      event.preventDefault();
+    }
+    this.referenceClicked.emit(record);
+  }
+
+  /**
+   * This Unified plugin looks a text nodes and replaces any reference in the
+   * form [1], [2,3,4], [3-5], etc. with custom nodes of type "chat-reference".
+   */
+  referencePlugin: Plugin = () => {
+
+    return (tree: Node) => {
+
+      const references = new Set<number>();
+
+      // Visit all text nodes
+      visit(tree, "text", (node: Text, index: number, parent: Parent) => {
+        const text = node.value;
+
+        const matches = getReferenceMatches(text);
+
+        // Quit if no references were found
+        if(matches.length === 0) {
+          return CONTINUE;
+        }
+
+        const nodes: (Content & {end: number})[] = [];
+
+        for(let match of matches) {
+          const refId = +match[1];
+          // We find a valid reference in the text
+          if(!isNaN(refId)) {
+            references.add(refId); // Add it to the set of used references
+
+            // If needed, insert a text node before the reference
+            const current = nodes.at(-1) ?? {end: 0};
+            if (match.index! > current.end) {
+              nodes.push({ type: "text", value: text.substring(current.end, match.index!), end: match.index! });
+            }
+
+            // Add a custom reference node
+            nodes.push({ type: "chat-reference", refId, end: match.index! + match[0].length } as any);
+          }
+        }
+
+        // Quit if no references were found
+        if(nodes.length === 0) {
+          return CONTINUE;
+        }
+
+        if(nodes.at(-1)!.end < text.length) {
+          nodes.push({ type: "text", value: text.substring(nodes.at(-1)!.end, text.length), end: text.length });
+        }
+
+        // Delete the current text node from the parent and replace it with the new nodes
+        parent.children.splice(index, 1, ...nodes);
+
+        return index + nodes.length; // Visit the next node after the inserted ones
+      });
+
+      if(references.size > 0) {
+        this.references = Array.from(references.values()).sort((a,b) => a-b);
+      }
+
+      return tree;
+    }
+  }
+
+}
