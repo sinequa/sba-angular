@@ -1,14 +1,15 @@
 
 <div *ngIf="messages$ | async as messages; else loadingTpl" class="h-100 d-flex flex-column">
 
-  <ul class="list-group list-group-flush overflow-auto" #messageList>
-    <ng-container *ngFor="let message of messages; let i = index">
+  <ul class="list-group list-group-flush overflow-auto pb-5" #messageList>
+    <ng-container *ngFor="let message of messages; let last = last">
       <!-- Regular messages -->
       <li class="list-group-item d-flex" *ngIf="message.display && !message.$attachment">
         <sq-chat-message
           [message]="message"
           [conversation]="messages"
           [assistantIcon]="assistantIcon"
+          [streaming]="last && streaming"
           (referenceClicked)="referenceClicked.emit($event)">
         </sq-chat-message>
       </li>
@@ -76,12 +77,12 @@
       (keyup.enter)="submitQuestion()"
       (keyup.shift.enter)="submitQuestion()"
       (keydown.tab)="searchAttachments($event)"
-      [disabled]="loading || loadingAttachments || tokensPercentage >= 100 || chatService.quotaPercentage >= 100">
+      [disabled]="loading || streaming || loadingAttachments || tokensPercentage >= 100 || chatService.quotaPercentage >= 100">
     <a *ngIf="searchMode" role="button" [ngClass]="{disabled: !question}" class="ms-3 mb-0 text-nowrap" (click)="searchAttachments()" sqTooltip="Search Before Chat" placement="top">
       <img src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="120px">
     </a>
-    <div class="sq-stop-generating" *ngIf="streaming$ | async">
-      <button class="btn btn-sm btn-outline-secondary shadow" (click)="terminateStream()">
+    <div class="sq-stop-generating" *ngIf="streaming">
+      <button class="btn btn-sm btn-outline-secondary shadow" (click)="terminateFetch()">
         <i class="fas fa-stop me-1"></i> Stop generating
       </button>
     </div>

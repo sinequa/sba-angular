@@ -17,4 +17,7 @@
 
 .message-content ::ng-deep .placeholder-glow .placeholder {
   animation-duration: 0.4s;
+  width: 12px;
+  height: 1rem;
+  vertical-align: text-bottom;
 }
