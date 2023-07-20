@@ -2,9 +2,11 @@
 <div *ngIf="messages$ | async as messages; else loadingTpl" class="h-100 d-flex flex-column">
 
   <ul class="list-group list-group-flush overflow-auto pb-5" #messageList>
-    <ng-container *ngFor="let message of messages; let last = last">
+    <ng-container *ngFor="let message of messages; let index = index; let last = last">
       <!-- Regular messages -->
-      <li class="list-group-item d-flex" *ngIf="message.display && !message.$attachment">
+      <li class="list-group-item d-flex" *ngIf="message.display && !message.$attachment"
+          [class.opacity-50]="messageToEdit && messageToEdit < index + 1"
+          (mouseenter)="hoveredMessage = index" (mouseleave)="hoveredMessage = undefined">
         <sq-chat-message
           [message]="message"
           [conversation]="messages"
@@ -12,6 +14,17 @@
           [streaming]="last && streaming"
           (referenceClicked)="referenceClicked.emit($event)">
         </sq-chat-message>
+
+        <div class="sq-chat-message-action" *ngIf="!streaming && !messageToEdit && hoveredMessage === index">
+          <button class="btn btn-sm btn-light shadow me-1" *ngIf="message.role !== 'assistant' && messageToEdit !== index" sqTooltip="Edit message"
+                  (click)="editMessage(index)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-light shadow me-1" *ngIf="message.role === 'assistant'" sqTooltip="Regenerate message"
+                  (click)="regenerateMessage(index)">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+        </div>
       </li>
       <!-- Attachment messages -->
       <li *ngIf="message.display && message.$attachment"
@@ -81,6 +94,10 @@
     <a *ngIf="searchMode" role="button" [ngClass]="{disabled: !question}" class="ms-3 mb-0 text-nowrap" (click)="searchAttachments()" sqTooltip="Search Before Chat" placement="top">
       <img src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="120px">
     </a>
+    <button class="btn btn-secondary ms-2" *ngIf="messageToEdit !== undefined" sqTooltip="Cancel edition"
+            (click)="messageToEdit = undefined; question = ''">
+      Cancel
+    </button>
     <div class="sq-stop-generating" *ngIf="streaming">
       <button class="btn btn-sm btn-outline-secondary shadow" (click)="terminateFetch()">
         <i class="fas fa-stop me-1"></i> Stop generating

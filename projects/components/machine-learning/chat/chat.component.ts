@@ -141,6 +141,9 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   assistantIcon: string;
   privacyUrl: string;
 
+  hoveredMessage?: number;
+  messageToEdit?: number;
+
   constructor(
     public chatService: ChatService,
     public searchService: SearchService,
@@ -212,7 +215,13 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   submitQuestion() {
     if(this.question.trim() && this.messages$.value) {
       const attachments = this.chatService.attachments$.value;
-      this.fetchAnswer(this.question.trim(), this.messages$.value, attachments);
+      if (this.messageToEdit) {
+        this.messages$.next(this.messages$.value.slice(0, this.messageToEdit));
+        this.messageToEdit = undefined;
+      }
+      setTimeout(() => {
+        this.fetchAnswer(this.question.trim(), this.messages$.value!, attachments);
+      })
     }
   }
 
@@ -291,7 +300,9 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         },
         complete: () => {
           this.terminateFetch();
-          this.questionInput?.nativeElement.focus();
+          setTimeout(() => {
+            this.questionInput?.nativeElement.focus();
+          })
         }
       });
     this.scrollDown();
@@ -400,5 +411,17 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.streaming = false;
     this.loading = false;
     this.cdr.markForCheck();
+  }
+
+  editMessage(index: number) {
+    this.messageToEdit = index;
+    this.question = this.messages$.value![index].content;
+    this.questionInput?.nativeElement.focus();
+  }
+
+  regenerateMessage(index: number) {
+    const slicedMessages = this.messages$.value!.slice(0, index);
+    this.messages$.next(slicedMessages);
+    this.fetch(slicedMessages);
   }
 }
