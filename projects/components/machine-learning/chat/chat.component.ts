@@ -118,6 +118,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
 
   loading = false;
+  streaming = false;
   loadingAttachments = false;
   messages$ = new BehaviorSubject<ChatMessage[] | undefined>(undefined);
 
@@ -139,8 +140,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   modelDescription?: GllmModelDescription;
   assistantIcon: string;
   privacyUrl: string;
-
-  streaming$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     public chatService: ChatService,
@@ -283,16 +282,18 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.loading = true;
     this.cdr.detectChanges();
     this.dataSubscription?.unsubscribe();
-    this.streaming$.next(this.stream);
     this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP, this.googleContextPrompt, this.stream)
-      .subscribe(
-        res => this.updateData(res.messagesHistory, res.tokens),
-        () => this.terminateStream(),
-        () => {
-          this.terminateStream();
+      .subscribe({
+        next: res => this.updateData(res.messagesHistory, res.tokens),
+        error: err => {
+          this.terminateFetch();
+          console.error(err);
+        },
+        complete: () => {
+          this.terminateFetch();
           this.questionInput?.nativeElement.focus();
         }
-      );
+      });
     this.scrollDown();
   }
 
@@ -310,6 +311,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.messages$.next(messages);
     this.data.emit(messages);
     this.loading = false;
+    this.streaming = this.stream; // streaming = false set in terminateFetch
     this.tokens = tokens;
     this.chatService.attachments$.next([]); // This updates the tokensPercentage
     this.question = '';
@@ -338,12 +340,11 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     if(this.messages$.value) {
       this.messages$.next(undefined); // Reset chat
     }
-    this.loading = false;
     this.question = '';
     this.tokensPercentage = 0;
     this.tokensAbsolute = 0;
     this.tokens = 0;
-    this.dataSubscription?.unsubscribe();
+    this.terminateFetch();
   }
 
   loadDefaultChat() {
@@ -393,9 +394,11 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.openChatAction.hidden = this.openChatAction.children.length === 0;
   }
 
-  terminateStream() {
+  terminateFetch() {
     this.dataSubscription?.unsubscribe();
     this.dataSubscription = undefined;
-    this.streaming$.next(false);
+    this.streaming = false;
+    this.loading = false;
+    this.cdr.markForCheck();
   }
 }

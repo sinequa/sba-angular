@@ -7,7 +7,7 @@
 <!-- Message body -->
 <div class="flex-grow-1" style="min-width: 0;">
 
-  <remark class="message-content" [markdown]="message.content" [processor]="processor">
+  <remark *ngIf="message.role === 'assistant'; else plainTextTpl" class="message-content" [markdown]="message.content" [processor]="processor">
 
     <ng-template remarkTemplate="chat-reference" let-ref>
       <a *ngIf="referenceMap.get(ref.refId) as attachment"
@@ -16,7 +16,17 @@
         [sqTooltip]="attachment.chunks[0].text | slice:0:100">{{ref.refId}}</a>
     </ng-template>
 
+    <ng-template remarkTemplate="streaming-placeholder">
+      <span class="placeholder-glow" *ngIf="streaming">
+        <span class="placeholder ms-1"></span>
+      </span>
+    </ng-template>
+
   </remark>
+
+  <ng-template #plainTextTpl>
+    <div class="message-content">{{message.content}}</div>
+  </ng-template>
 
   <!-- List of reference, if any -->
   <div *ngIf="references?.length" class="references small">
