@@ -174,6 +174,9 @@ export class AssistantService {
     let prompt = this.prefs.get(name);
     if(typeof prompt !== 'string') {
       prompt = this.appService.app?.data?.[name];
+      if (typeof prompt === 'object') {
+        prompt = prompt[this.intlService.currentLocale.name]
+      }
     }
     if(typeof prompt !== 'string') {
       prompt = defaultPrompts[name];
