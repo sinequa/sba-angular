@@ -4,27 +4,18 @@
   <ul class="list-group list-group-flush overflow-auto pb-5" #messageList>
     <ng-container *ngFor="let message of messages; let index = index; let last = last">
       <!-- Regular messages -->
-      <li class="list-group-item d-flex" *ngIf="message.display && !message.$attachment"
-          [class.opacity-50]="messageToEdit && messageToEdit < index + 1"
-          (mouseenter)="hoveredMessage = index" (mouseleave)="hoveredMessage = undefined">
+      <li class="list-group-item d-flex p-0" *ngIf="message.display && !message.$attachment"
+          [class.opacity-50]="messageToEdit && messageToEdit < index + 1">
         <sq-chat-message
           [message]="message"
           [conversation]="messages"
           [assistantIcon]="assistantIcon"
           [streaming]="last && streaming"
+          [canEdit]="!loading && messageToEdit === undefined && message.role !== 'assistant'"
+          [canRegenerate]="!loading && messageToEdit === undefined && message.role === 'assistant'"
+          (edit)="editMessage(index)" (regenerate)="regenerateMessage(index)"
           (referenceClicked)="referenceClicked.emit($event)">
         </sq-chat-message>
-
-        <div class="sq-chat-message-action" *ngIf="!streaming && !messageToEdit && hoveredMessage === index">
-          <button class="btn btn-sm btn-light shadow me-1" *ngIf="message.role !== 'assistant' && messageToEdit !== index" sqTooltip="Edit message"
-                  (click)="editMessage(index)">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button class="btn btn-sm btn-light shadow me-1" *ngIf="message.role === 'assistant'" sqTooltip="Regenerate message"
-                  (click)="regenerateMessage(index)">
-            <i class="fas fa-sync-alt"></i>
-          </button>
-        </div>
       </li>
       <!-- Attachment messages -->
       <li *ngIf="message.display && message.$attachment"

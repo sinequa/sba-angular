@@ -28,6 +28,18 @@
     <div class="message-content">{{message.content}}</div>
   </ng-template>
 
+  <!-- Edit / Regenerate floating actions -->
+  <div class="sq-chat-message-action" *ngIf="!streaming">
+    <button class="btn btn-sm btn-light shadow mt-1 me-1" *ngIf="canEdit" sqTooltip="Edit message"
+            (click)="edit.emit(message)">
+      <i class="fas fa-edit"></i>
+    </button>
+    <button class="btn btn-sm btn-light shadow mt-1 me-1" *ngIf="canRegenerate" sqTooltip="Regenerate message"
+            (click)="regenerate.emit(message)">
+      <i class="fas fa-sync-alt"></i>
+    </button>
+  </div>
+
   <!-- List of reference, if any -->
   <div *ngIf="references?.length" class="references small">
     <b>References:</b>

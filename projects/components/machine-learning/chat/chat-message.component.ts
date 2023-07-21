@@ -20,7 +20,11 @@ export class ChatMessageComponent implements OnChanges {
   @Input() conversation: ChatMessage[];
   @Input() assistantIcon: string;
   @Input() streaming: boolean;
+  @Input() canEdit: boolean = false;
+  @Input() canRegenerate: boolean = false;
   @Output() referenceClicked = new EventEmitter<Record>();
+  @Output() edit = new EventEmitter<ChatMessage>();
+  @Output() regenerate = new EventEmitter<ChatMessage>();
 
   processor: Processor;
 

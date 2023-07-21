@@ -141,7 +141,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   assistantIcon: string;
   privacyUrl: string;
 
-  hoveredMessage?: number;
   messageToEdit?: number;
 
   constructor(
