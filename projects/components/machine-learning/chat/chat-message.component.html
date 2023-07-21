@@ -22,6 +22,16 @@
       </span>
     </ng-template>
 
+    <ng-template remarkTemplate="code" let-node>
+      <div class="card mb-2">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>{{node.lang}}</span>
+          <button class="btn btn-light btn-sm" (click)="copyToClipboard(node.value)"><i class="fas fa-fw fa-clipboard"></i> Copy code</button>
+        </div>
+        <pre class="language-{{node.lang}} my-0 rounded-0 rounded-bottom"><code class="language-{{node.lang}}">{{node.value}}</code></pre>
+      </div>
+    </ng-template>
+
   </remark>
 
   <ng-template #plainTextTpl>
