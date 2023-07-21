@@ -62,15 +62,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
-  passages?: TopPassage[];
-  topPassagesActions = [
-    new Action({
-      title: 'Attach to chat',
-      icon: 'fas fa-paperclip',
-      action: () => this.attachAll()
-    })
-  ]
-
   private subscription = new Subscription();
 
   constructor(
@@ -148,8 +139,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           }
         }),
 
-        tap((results) => this.updateSelected(this.chatService.attachments$.value, results)),
-        tap((results) => this.passages = results?.topPassages?.passages)
+        tap((results) => this.updateSelected(this.chatService.attachments$.value, results))
       );
 
     this.chatService.attachments$.subscribe(attachments => this.updateSelected(attachments, this.searchService.results));
@@ -322,9 +312,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.chatService.addExtractsSync(record, [extract]);
   }
 
-  attachAll(passages?: TopPassage[]) {
-    if (!passages && !this.passages) return;
-    this.chatService.addTopPassagesSync(passages || this.passages!, []);
+  attachAll(passages: TopPassage[]) {
+    this.chatService.addTopPassagesSync(passages, []);
   }
 
   updateSelected(attachments: ChatAttachment[], results: Results | undefined) {
