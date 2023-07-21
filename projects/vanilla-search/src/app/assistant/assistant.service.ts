@@ -175,8 +175,7 @@ export class AssistantService {
     if(typeof prompt !== 'string') {
       prompt = this.appService.app?.data?.[name];
       if (typeof prompt === 'object') {
-        const language = this.intlService.currentLocale.name;
-        if (prompt[language]) return prompt[language];
+        prompt = prompt[this.intlService.currentLocale.name]
       }
     }
     if(typeof prompt !== 'string') {
