@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ChangeDetectorRef } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ChangeDetectorRef, AfterViewInit, ElementRef } from "@angular/core";
 import { Record } from "@sinequa/core/web-services";
 import { SearchService } from "@sinequa/components/search";
 import { ChatAttachment, ChatMessage } from "./types";
@@ -8,6 +8,11 @@ import remarkParse from "remark-parse";
 import { visit, CONTINUE, EXIT } from "unist-util-visit";
 import { Text, Parent, Content } from "mdast";
 import { Node } from "unist";
+import { UIService } from "@sinequa/components/utils";
+
+declare module Prism {
+  function highlightAllUnder(el: HTMLElement): void;
+}
 
 @Component({
   selector: "sq-chat-message",
@@ -15,7 +20,7 @@ import { Node } from "unist";
   styleUrls: ["./chat-message.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatMessageComponent implements OnChanges {
+export class ChatMessageComponent implements OnChanges, AfterViewInit {
   @Input() message: ChatMessage;
   @Input() conversation: ChatMessage[];
   @Input() assistantIcon: string;
@@ -29,7 +34,9 @@ export class ChatMessageComponent implements OnChanges {
 
   constructor(
     public searchService: SearchService,
-    public cdr: ChangeDetectorRef
+    public ui: UIService,
+    public cdr: ChangeDetectorRef,
+    public el: ElementRef
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -50,6 +57,10 @@ export class ChatMessageComponent implements OnChanges {
         this.processor = this.processor.use(() => this.placeholderPlugin);
       }
     }
+  }
+
+  ngAfterViewInit(): void {
+    Prism?.highlightAllUnder?.(this.el.nativeElement);
   }
 
   onReferenceClicked(record: Record, event: MouseEvent) {
@@ -155,4 +166,7 @@ export class ChatMessageComponent implements OnChanges {
     return Array.from(content.matchAll(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+(,\s*[ \d]+)*\s*)\]/g));
   }
 
+  copyToClipboard(text: string) {
+    this.ui.copyToClipboard(text);
+  }
 }
