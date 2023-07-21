@@ -140,7 +140,7 @@ node (params.SBA_NODE) {
 				echo ".installsqcomponents:"
 				cd ./projects/components
 				call npm --no-git-tag-version version ${sba_version}
-				call npm install @sinequa/core@${sba_version} --save-exact
+				call npm install @sinequa/core@${sba_version} --save-exact --legacy-peer-deps
 				cd ../..
 				echo ".buildsqcomponents:"
 				call npm run buildcomponents
@@ -155,7 +155,7 @@ node (params.SBA_NODE) {
 				echo ".installsqanalytics:"
 				cd ./projects/analytics
 				call npm --no-git-tag-version version ${sba_version}
-				call npm install @sinequa/components@${sba_version} --save-exact
+				call npm install @sinequa/components@${sba_version} --save-exact --legacy-peer-deps
 				cd ../..
 				echo ".buildsqanalytics:"
 				call npm run buildanalytics

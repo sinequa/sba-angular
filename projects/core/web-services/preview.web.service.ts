@@ -44,15 +44,11 @@ export interface Location {
  * Describes highlight data for a set of locations
  */
 export interface HighlightDataPerLocation {
-    [index: number]: {
-        start: number,
-        length: number,
-        values: string[],
-        displayValue: string,
-        positionInCategories: { [category: string]: number }
-    };
-
-    size(): number;
+    start: number,
+    length: number,
+    values: string[],
+    displayValue: string,
+    positionInCategories: { [category: string]: number }
 }
 
 /**
@@ -63,8 +59,13 @@ export interface PreviewData {
     resultId: string;
     cacheId: string;
     highlightsPerCategory: HighlightDataPerCategory;
-    highlightsPerLocation: HighlightDataPerLocation;
+    highlightsPerLocation: HighlightDataPerLocation[];
     documentCachedContentUrl: string;
+}
+
+export interface CustomHighlights {
+    category: string;
+    highlights: Array<{offset: number, length: number}>;
 }
 
 /**
@@ -82,13 +83,14 @@ export class PreviewWebService extends HttpService {
      * @param query The query context
      * @param auditEvents Audit events to store on the server
      */
-    public get(id: string, query: IQuery, auditEvents?: AuditEvents): Observable<PreviewData> {
+    public get(id: string, query: IQuery, customHighlights?: CustomHighlights[], auditEvents?: AuditEvents): Observable<PreviewData> {
         return this.httpClient.post<PreviewData>(this.makeUrl("preview"), {
             app: this.appName,
             action: "get",
             id,
             query,
             browserUrl: this.startConfig.browserUrl,
+            customHighlights,
             $auditRecord: auditEvents
         }).pipe(shareReplay(1));
     }
