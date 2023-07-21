@@ -127,7 +127,7 @@ export class ChatService {
         tap(res => _res = res), // Store the last version of the message so we can audit it in finalize()""
         finalize(() => {
           if(_res) {
-            this.notifyAudit(_res.messagesHistory, _res.tokens);
+            this.notifyAudit(_res.messagesHistory, model.name, _res.tokens);
           }
         })
       );
@@ -136,7 +136,7 @@ export class ChatService {
     // Regular mode
     return this.fetchAll(data).pipe(
       map(res => this.processResponse(messages, res)),
-      tap(({tokens, messagesHistory}) => this.notifyAudit(messagesHistory, tokens))
+      tap(({tokens, messagesHistory}) => this.notifyAudit(messagesHistory, model.name, tokens))
     );
   }
 
@@ -696,7 +696,7 @@ export class ChatService {
     });
   }
 
-  notifyAudit(messagesHistory: ChatMessage[], tokens: number) {
+  notifyAudit(messagesHistory: ChatMessage[], model: string, tokens: number) {
     let numberOfUserMessages = 0;
     let numberOfAttachments = 0;
     let numberOfAssistantMessages = 0;
@@ -708,10 +708,11 @@ export class ChatService {
     this.auditService.notify({
       type: 'Chat_Messages',
       detail: {
-        message: messagesHistory.map(m => m.role + ': '+ (m.$attachment? `attachment ${m.$attachment?.$record.title}` : m.content)).join('\n\n'),
+        message: messagesHistory.map(m => m.role.toUpperCase() + ': '+ (m.$attachment? `attachment ${m.$attachment?.$record.title}` : m.content)).join('\n\n'),
         numberOfUserMessages,
         numberOfAttachments,
         numberOfAssistantMessages,
+        model,
         tokens
       }
     });

@@ -174,7 +174,7 @@
                 [viewActionsAreSecondary]="true"
                 secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-light rounded shadow on-hover"
                 viewActionsClass="d-block btn-group mt-2" viewButtonsStyle="outline-primary" [actions]="previewCustomActions"
-                actionsSize="" class="mb-3 facet-preview" #previewFacet>
+                actionsSize="" class="mb-3 facet-preview">
 
                 <ng-template #headerTpl>
                     <sq-result-icon [record]="openedDoc" [formatIcons]="formatIcons" class="me-1"></sq-result-icon>
@@ -191,11 +191,6 @@
                     ></sq-metadata>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#preview.viewPassages'}" [default]="true" *ngIf="openedDoc.$hasPassages"
-                    #passagesList>
-                    <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
-                </ng-template>
-
                 <ng-template [sqFacetView]="{text: 'msg#preview.viewPreview'}">
                     <sq-preview #facet
                         style="height: calc(100vh - 300px);"
@@ -203,7 +198,8 @@
                         [highlightColors]="previewHighlights"
                         [highlightEntities]="false"
                         [preferenceName]="'mini-preview'"
-                        [scale]="0.8">
+                        [scale]="0.8"
+                        (ready)="onPreviewReady(facet)">
                     </sq-preview>
                 </ng-template>
 

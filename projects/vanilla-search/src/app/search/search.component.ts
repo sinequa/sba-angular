@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable, Subscription, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
-import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
-import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
+import { DEFAULT_FACET_COMPONENTS, FacetConfig } from '@sinequa/components/facet';
+import { PreviewHighlightColors, PreviewService, Preview } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { UIService } from '@sinequa/components/utils';
@@ -28,7 +28,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
   public openedDocChat?: InitChat;
-  public passageId?: string;
+  public preview?: Preview;
+  public passageId?: number;
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
@@ -58,9 +59,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   public isDark: boolean;
-
-  @ViewChild("previewFacet") previewFacet: BsFacetCard;
-  @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
 
   private subscription = new Subscription();
 
@@ -188,28 +186,49 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   openMiniPreview(record: Record, passageId?: number) {
-    this.openedDoc = record;
-    this.openedDocChat = {
-      messages: [{
-        role: 'system',
-        display: false,
-        content: this.assistantService.getPrompt("previewPrompt", record)
-      }],
-      attachments: this.chatService.addDocument(record, [], 2048, 5, 10).pipe(
-        tap(() => this.auditService.notify({
-          type: 'Chat_Summarize_Document',
-          detail: this.previewService.getAuditPreviewDetail(record.id, this.searchService.query, record, this.searchService.results?.id)
-        }))
-      )
-    }
-    this.passageId = passageId?.toString();
-    if (this.passageId) {
-      if (this.previewFacet && this.passagesList) {
-        this.previewFacet.setView(this.passagesList);
+    this.passageId = passageId;
+
+    if(this.openedDoc !== record) {
+      this.preview = undefined;
+      this.openedDoc = record;
+      this.openedDocChat = {
+        messages: [{
+          role: 'system',
+          display: false,
+          content: this.assistantService.getPrompt("previewPrompt", record)
+        }],
+        attachments: this.chatService.addDocument(record, [], 2048, 5, 10).pipe(
+          tap(() => this.auditService.notify({
+            type: 'Chat_Summarize_Document',
+            detail: this.previewService.getAuditPreviewDetail(record.id, this.searchService.query, record, this.searchService.results?.id)
+          }))
+        )
       }
     }
+    else {
+      // Select the passage in the already open preview
+      this.selectPassage();
+    }
+
     if (this.ui.screenSizeIsLessOrEqual('md')) {
       this.showFilters = false; // Hide filters on small screens if a document gets opened
+    }
+  }
+
+  onPreviewReady(preview: Preview) {
+    this.preview = preview;
+    this.selectPassage();
+  }
+
+  /**
+   * Select the selected matchingpassage in the preview, if any
+   */
+  selectPassage() {
+    if(this.passageId !== undefined && this.preview) {
+      const passage = this.preview.data?.record.matchingpassages?.passages.find(p => p.id === this.passageId);
+      if(passage) {
+        this.preview.selectStart("matchingpassages", passage.rlocation[0]);
+      }
     }
   }
 

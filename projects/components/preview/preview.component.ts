@@ -353,11 +353,18 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
         .find(v => v.value === value);
       if(entity) {
         const start = entity.locations[index].start;
-        const id = Object.values(this.data.highlightsPerLocation)
-          .find(l => l.start === start && l.values.includes(entity.value))?.positionInCategories[type];
-        if(typeof id=== 'number') {
-          this.select(`${type}_${id}`);
-        }
+        this.selectStart(type, start, entity.value);
+      }
+    }
+  }
+
+  selectStart(type: string, start: number, value?: string) {
+    if(this.data) {
+      const location = Object.values(this.data.highlightsPerLocation)
+        .find(l => l.start === start && l.positionInCategories.hasOwnProperty(type) && (!value || l.values.includes(value)));
+      const id = location?.positionInCategories[type];
+      if(typeof id === 'number') {
+        this.select(`${type}_${id}`);
       }
     }
   }
