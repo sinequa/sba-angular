@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {Observable, Subject, tap} from "rxjs";
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {AuthenticationService} from "@sinequa/core/login";
-import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent, Results} from "@sinequa/core/web-services";
+import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent, Results, CustomHighlights} from "@sinequa/core/web-services";
 import {JsonObject, Utils} from "@sinequa/core/base";
 import {ModalService} from "@sinequa/core/modal";
 import {SearchService} from "@sinequa/components/search";
@@ -72,7 +72,7 @@ export class PreviewService {
         return query;
     }
 
-    public getPreviewData(id: string, query: Query, audit = true): Observable<PreviewData> {
+    public getPreviewData(id: string, query: Query, customHighlights?: CustomHighlights[], audit = true): Observable<PreviewData> {
         let auditEvent: AuditEvent | undefined;
         const record = this.searchService.getRecordFromId(id);
         const resultId = record ? this.searchService.results?.id : undefined;
@@ -84,7 +84,7 @@ export class PreviewService {
         }
         query = this.makeQuery(query);
         this._events.next({type: PreviewEventType.Data, record, query});
-        return this.previewWebService.get(id, query, auditEvent).pipe(
+        return this.previewWebService.get(id, query, customHighlights, auditEvent).pipe(
           tap(data => data.resultId = resultId || "")
         );
     }

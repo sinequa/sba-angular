@@ -166,12 +166,12 @@ export class PreviewTooltipComponent implements OnInit, OnDestroy {
           new Action({
             icon: 'fas fa-chevron-left',
             disabled: this.entity.index === 0,
-            action: () => this.preview?.selectEntity({...this.entity!, index: this.entity!.index-1})
+            action: () => this.preview?.selectEntity(this.entity!.type, this.entity!.value, this.entity!.index-1)
           }),
           new Action({
             icon: 'fas fa-chevron-right',
             disabled: this.entity.index === this.entity.count-1,
-            action: () => this.preview?.selectEntity({...this.entity!, index: this.entity!.index+1})
+            action: () => this.preview?.selectEntity(this.entity!.type, this.entity!.value, this.entity!.index+1)
           })
         ];
         this.showTooltip(event.position);
