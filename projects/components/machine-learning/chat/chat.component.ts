@@ -218,9 +218,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         this.messages$.next(this.messages$.value.slice(0, this.messageToEdit));
         this.messageToEdit = undefined;
       }
-      setTimeout(() => {
-        this.fetchAnswer(this.question.trim(), this.messages$.value!, attachments);
-      })
+      this.fetchAnswer(this.question.trim(), this.messages$.value!, attachments);
     }
   }
 
