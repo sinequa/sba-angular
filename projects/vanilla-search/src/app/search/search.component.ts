@@ -10,10 +10,10 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { AuditEventType, AuditWebService, MatchingPassage, Record, RelevantExtract, Results, TopPassage } from '@sinequa/core/web-services';
+import { AuditEventType, AuditWebService, CustomHighlights, MatchingPassage, Record, RelevantExtract, Results, TopPassage } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { ChatAttachment, ChatService, InitChat } from '@sinequa/components/machine-learning';
+import { ChatAttachment, ChatAttachmentOpen, ChatService, InitChat } from '@sinequa/components/machine-learning';
 import { AssistantService } from '../assistant/assistant.service';
 import { MetadataConfig } from '@sinequa/components/metadata';
 
@@ -30,6 +30,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   public openedDocChat?: InitChat;
   public preview?: Preview;
   public passageId?: number;
+  public snippetId?: number;
+  public customHighlights?: CustomHighlights[];
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
@@ -195,8 +197,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
-  openMiniPreview(record: Record, passageId?: number) {
+  openMiniPreview(record: Record, passageId?: number, customHighlights?: CustomHighlights[], snippetId?: number) {
     this.passageId = passageId;
+    this.snippetId = snippetId;
+    this.customHighlights = customHighlights;
 
     if(this.openedDoc !== record) {
       this.preview = undefined;
@@ -218,6 +222,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     else {
       // Select the passage in the already open preview
       this.selectPassage();
+      this.selectSnippet();
     }
 
     if (this.ui.screenSizeIsLessOrEqual('md')) {
@@ -225,9 +230,18 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  openMiniPreviewWithChunks(ref: ChatAttachmentOpen) {
+    // Reuse existing highlights to avoid reloading the preview
+    const highlights = ref.$record === this.openedDoc && ref.chunks[ref.$chunkIndex] === this.customHighlights?.[0].highlights[0] ?
+      this.customHighlights :
+      [{category: "snippet", highlights: [ref.chunks[ref.$chunkIndex]]}];
+    this.openMiniPreview(ref.$record, undefined, highlights, 0);
+  }
+
   onPreviewReady(preview: Preview) {
     this.preview = preview;
     this.selectPassage();
+    this.selectSnippet();
   }
 
   /**
@@ -239,6 +253,12 @@ export class SearchComponent implements OnInit, OnDestroy {
       if(passage) {
         this.preview.selectStart("matchingpassages", passage.rlocation[0]);
       }
+    }
+  }
+
+  selectSnippet() {
+    if(this.snippetId !== undefined && this.preview) {
+      this.preview.select(`snippet_${this.snippetId}`);
     }
   }
 
