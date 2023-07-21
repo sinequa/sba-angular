@@ -4,7 +4,7 @@
   <ul class="list-group list-group-flush overflow-auto pb-5" #messageList>
     <ng-container *ngFor="let message of messages; let last = last">
       <!-- Regular messages -->
-      <li class="list-group-item d-flex" *ngIf="message.display && !message.$attachment">
+      <li class="list-group-item" *ngIf="message.display && !message.$attachment">
         <sq-chat-message
           [message]="message"
           [conversation]="messages"
