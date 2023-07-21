@@ -172,6 +172,10 @@ export class AssistantService {
 
   getRawPrompt(name: keyof typeof defaultPrompts) {
     let prompt = this.prefs.get(name);
+    const language = this.intlService.currentLocale.name;
+    if (prompt[language]) {
+      return prompt[language];
+    }
     if(typeof prompt !== 'string') {
       prompt = this.appService.app?.data?.[name];
     }
