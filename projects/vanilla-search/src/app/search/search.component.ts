@@ -13,7 +13,7 @@ import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, AuditWebService, CustomHighlights, MatchingPassage, Record, RelevantExtract, Results, TopPassage } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { ChatAttachment, ChatAttachmentOpen, ChatService, InitChat } from '@sinequa/components/machine-learning';
+import { ChatAttachment, ChatAttachmentOpen, ChatConfig, ChatService, InitChat } from '@sinequa/components/machine-learning';
 import { AssistantService } from '../assistant/assistant.service';
 import { MetadataConfig } from '@sinequa/components/metadata';
 
