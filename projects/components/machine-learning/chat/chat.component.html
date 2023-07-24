@@ -14,7 +14,8 @@
           [canEdit]="!loading && !streaming && messageToEdit === undefined && message.role !== 'assistant'"
           [canRegenerate]="!loading && !streaming && messageToEdit === undefined && message.role === 'assistant'"
           (edit)="editMessage(index)" (regenerate)="regenerateMessage(index)"
-          (referenceClicked)="referenceClicked.emit($event)">
+          (referenceClicked)="referenceClicked.emit($event)"
+          (openPreview)="openPreview.emit($event)">
         </sq-chat-message>
       </li>
       <!-- Attachment messages -->

@@ -12,14 +12,29 @@
     <ng-template remarkTemplate="chat-reference" let-ref>
       <a *ngIf="referenceMap.get(ref.refId) as attachment"
         [href]="attachment.$record.url1 || attachment.$record.originalUrl || '#'"
+        target="_blank"
+        (click)="onReferenceClicked(attachment.$record, $event)"
         class="reference"
-        [sqTooltip]="attachment.chunks[0].text | slice:0:100">{{ref.refId}}</a>
+        [sqTooltip]="attachment"
+        [sqTooltipTemplate]="tooltipTpl"
+        [hoverableTooltip]="true"
+        >{{ref.refId}}</a>
     </ng-template>
 
     <ng-template remarkTemplate="streaming-placeholder">
       <span class="placeholder-glow" *ngIf="streaming">
         <span class="placeholder ms-1"></span>
       </span>
+    </ng-template>
+
+    <ng-template remarkTemplate="code" let-node>
+      <div class="card mb-2">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>{{node.lang}}</span>
+          <button class="btn btn-light btn-sm" (click)="copyToClipboard(node.value)"><i class="fas fa-fw fa-clipboard"></i> Copy code</button>
+        </div>
+        <pre class="language-{{node.lang}} my-0 rounded-0 rounded-bottom"><code class="language-{{node.lang}}">{{node.value}}</code></pre>
+      </div>
     </ng-template>
 
   </remark>
@@ -39,6 +54,16 @@
       <i class="fas fa-sync-alt"></i>
     </button>
   </div>
+  <ng-template #tooltipTpl let-ref>
+    <div class="sq-tooltip">
+      <div class="text-center mb-2">
+        <a role="button" (click)="openPreview.emit(ref)">
+          <i class="fas fa-fw fa-eye"></i> Document preview
+        </a>
+      </div>
+      <span class="sq-passage-text">{{ref.chunks[ref.$chunkIndex].text}}</span>
+    </div>
+  </ng-template>
 
   <!-- List of reference, if any -->
   <div *ngIf="references?.length" class="references small">

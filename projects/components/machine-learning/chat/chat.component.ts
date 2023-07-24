@@ -7,7 +7,7 @@ import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
 import { ChatService, SearchAttachmentsOptions } from "./chat.service";
-import { ChatAttachment, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
+import { ChatAttachment, ChatAttachmentOpen, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
 
 export interface ChatConfig extends SearchAttachmentsOptions {
   // Model
@@ -113,6 +113,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() query?: Query;
   @Output() data = new EventEmitter<ChatMessage[]>();
   @Output() referenceClicked = new EventEmitter<Record>();
+  @Output() openPreview = new EventEmitter<ChatAttachmentOpen>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;

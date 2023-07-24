@@ -31,3 +31,18 @@
   right: 0;
   top: 0;
 }
+
+.sq-tooltip {
+  font-size: 12px;
+
+  a {
+    color: white;
+  }
+
+  .sq-passage-text {
+    display: -webkit-box;
+    -webkit-line-clamp: var(--line-clamp, 10);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

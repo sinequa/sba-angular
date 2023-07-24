@@ -1,13 +1,18 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ChangeDetectorRef } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ChangeDetectorRef, AfterViewInit, ElementRef } from "@angular/core";
 import { Record } from "@sinequa/core/web-services";
 import { SearchService } from "@sinequa/components/search";
-import { ChatAttachment, ChatMessage } from "./types";
+import { ChatAttachmentOpen, ChatMessage } from "./types";
 
 import { unified, Processor } from "unified";
 import remarkParse from "remark-parse";
 import { visit, CONTINUE, EXIT } from "unist-util-visit";
 import { Text, Parent, Content } from "mdast";
 import { Node } from "unist";
+import { UIService } from "@sinequa/components/utils";
+
+declare module Prism {
+  function highlightAllUnder(el: HTMLElement): void;
+}
 
 @Component({
   selector: "sq-chat-message",
@@ -15,7 +20,7 @@ import { Node } from "unist";
   styleUrls: ["./chat-message.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatMessageComponent implements OnChanges {
+export class ChatMessageComponent implements OnChanges, AfterViewInit {
   @Input() message: ChatMessage;
   @Input() conversation: ChatMessage[];
   @Input() assistantIcon: string;
@@ -25,15 +30,18 @@ export class ChatMessageComponent implements OnChanges {
   @Output() referenceClicked = new EventEmitter<Record>();
   @Output() edit = new EventEmitter<ChatMessage>();
   @Output() regenerate = new EventEmitter<ChatMessage>();
+  @Output() openPreview = new EventEmitter<ChatAttachmentOpen>();
 
   processor: Processor;
 
-  references: number[] = [];
-  referenceMap = new Map<number, ChatAttachment>();
+  references: string[] = [];
+  referenceMap = new Map<string, ChatAttachmentOpen>();
 
   constructor(
     public searchService: SearchService,
-    public cdr: ChangeDetectorRef
+    public ui: UIService,
+    public cdr: ChangeDetectorRef,
+    public el: ElementRef
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -42,7 +50,11 @@ export class ChatMessageComponent implements OnChanges {
       this.referenceMap.clear();
       for(let m of this.conversation) {
         if(m.$attachment) {
-          this.referenceMap.set(m.$refId!, m.$attachment);
+          for(let i = 0; i < m.$attachment.chunks.length; i++) {
+            const refId = `${m.$refId}.${i}`;
+            this.referenceMap.set(refId, {...m.$attachment, $chunkIndex: i});
+          }
+          this.referenceMap.set(''+m.$refId!, {...m.$attachment, $chunkIndex: 0});
         }
       }
 
@@ -56,6 +68,10 @@ export class ChatMessageComponent implements OnChanges {
     }
   }
 
+  ngAfterViewInit(): void {
+    Prism?.highlightAllUnder?.(this.el.nativeElement);
+  }
+
   onReferenceClicked(record: Record, event: MouseEvent) {
     const url = record.url1 || record.originalUrl;
     if(!url) {
@@ -66,7 +82,7 @@ export class ChatMessageComponent implements OnChanges {
 
   /**
    * This Unified plugin looks a text nodes and replaces any reference in the
-   * form [1], [2,3,4], [3-5], etc. with custom nodes of type "chat-reference".
+   * form [1], [2.3], etc. with custom nodes of type "chat-reference".
    */
   referencePlugin = (tree: Node) => {
 
@@ -86,10 +102,11 @@ export class ChatMessageComponent implements OnChanges {
       const nodes: (Content & {end: number})[] = [];
 
       for(let match of matches) {
-        const refId = +match[1];
+        const refId = match[1].trim();
+        const [ref] = refId.split(".");
         // We find a valid reference in the text
-        if(!isNaN(refId)) {
-          references.add(refId); // Add it to the set of used references
+        if(!isNaN(+ref)) {
+          references.add(+ref); // Add it to the set of used references
 
           // If needed, insert a text node before the reference
           const current = nodes.at(-1) ?? {end: 0};
@@ -118,7 +135,9 @@ export class ChatMessageComponent implements OnChanges {
     });
 
     if(references.size > 0) {
-      this.references = Array.from(references.values()).sort((a,b) => a-b);
+      this.references = Array.from(references.values())
+        .sort((a,b) => a-b)
+        .map(r => ''+r);
       this.cdr.detectChanges();
     }
 
@@ -136,27 +155,13 @@ export class ChatMessageComponent implements OnChanges {
   }
 
   /**
-   * Replace any occurrence of the range pattern (eg. [2-8]) with an explicit
-   * list of references (eg. [2][3][4][5][6][7][8])
-   */
-  replaceRangeFormat(content: string): string {
-    return content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+)\-(\d+)\]/g, (str, first, last) => {
-      if(!isNaN(+first) && !isNaN(+last) && (+last) - (+first) > 0 && (+last) - (+first) < 10) {
-        str = '';
-        for(let i=+first; i<=+last; i++) {
-          str += `[${i}]`;
-        }
-      }
-      return str;
-    });
-  }
-
-  /**
    * Match all references in a given message
    */
   getReferenceMatches(content: string) {
-    content = this.replaceRangeFormat(content);
-    return Array.from(content.matchAll(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\d+(,\s*[ \d]+)*\s*)\]/g));
+    return Array.from(content.matchAll(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\s*\d+(?:\.\d+)?\s*)\]/g));
   }
 
+  copyToClipboard(text: string) {
+    this.ui.copyToClipboard(text);
+  }
 }
