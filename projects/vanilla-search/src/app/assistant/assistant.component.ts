@@ -180,6 +180,13 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
 
         this.chat!.updateData(messages, 0);
 
+        this.auditService.notify({
+          type: "Chat_Meeseeks",
+          detail: {
+            queryText: suggestions.query
+          }
+        });
+
       }),
 
       // If there are suggestions of query changes, re-run a search with these suggestions
@@ -261,6 +268,13 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
         this.chat!.resetChat();
         this.chat!.loading = true;
         this.chat!.cdr.detectChanges();
+
+        this.auditService.notify({
+          type: "Chat_Autoanswer",
+          detail: {
+            queryText: this.searchService.query.text
+          }
+        });
       }),
 
       // Build attachments from the results
