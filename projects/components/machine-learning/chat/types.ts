@@ -58,6 +58,10 @@ export interface ChatAttachment extends RawAttachment {
   $expanded?: boolean;
 }
 
+export interface ChatAttachmentOpen extends ChatAttachment {
+  $chunkIndex: number;
+}
+
 /**
  * Chat Attachment for which we know the number
  * of tokens it consumes

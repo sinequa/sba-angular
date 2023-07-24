@@ -10,7 +10,8 @@
           [conversation]="messages"
           [assistantIcon]="assistantIcon"
           [streaming]="last && streaming"
-          (referenceClicked)="referenceClicked.emit($event)">
+          (referenceClicked)="referenceClicked.emit($event)"
+          (openPreview)="openPreview.emit($event)">
         </sq-chat-message>
       </li>
       <!-- Attachment messages -->
