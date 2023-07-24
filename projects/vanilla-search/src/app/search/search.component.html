@@ -205,7 +205,18 @@
                 </ng-template>
 
                 <ng-template [sqFacetView]="{text: 'Summary'}" *ngIf="openedDocChat">
-                  <sq-chat [chat]="openedDocChat" [displayAttachments]="false"></sq-chat>
+                    <sq-chat [chat]="openedDocChat"
+                        [displayAttachments]="false"
+                        [model]="chatConfig.model"
+                        [temperature]="chatConfig.temperature"
+                        [topP]="chatConfig.topP"
+                        [maxTokens]="chatConfig.maxTokens"
+                        [googleContextPrompt]="chatConfig.googleContextPrompt"
+                        [stream]="chatConfig.stream"
+                        [searchMode]="assistantService.assistantMode === 'Auto-Search'"
+                        [initialSystemPrompt]="chatConfig.initialSystemPrompt"
+                        [initialUserPrompt]="chatConfig.initialUserPrompt">
+                    </sq-chat>
                 </ng-template>
 
                 <ng-template [sqFacetView]="{text: 'msg#preview.viewDuplicates'}" *ngIf="openedDoc.groupcount && openedDoc.groupcount > 1">

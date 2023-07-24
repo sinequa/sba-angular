@@ -13,7 +13,7 @@ import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, AuditWebService, MatchingPassage, Record, RelevantExtract, Results, TopPassage } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { ChatAttachment, ChatService, InitChat } from '@sinequa/components/machine-learning';
+import { ChatAttachment, ChatConfig, ChatService, InitChat } from '@sinequa/components/machine-learning';
 import { AssistantService } from '../assistant/assistant.service';
 import { MetadataConfig } from '@sinequa/components/metadata';
 
@@ -352,5 +352,9 @@ export class SearchComponent implements OnInit, OnDestroy {
         r.$selected = !!attachments.find(a => a.recordId === r.id);
       }
     }
+  }
+
+  get chatConfig() : ChatConfig {
+    return this.assistantService.chatConfig;
   }
 }

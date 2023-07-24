@@ -6,7 +6,7 @@ import { IntlService } from '@sinequa/core/intl';
 import { SearchService } from '@sinequa/components/search';
 import { UIService } from '@sinequa/components/utils';
 import { FEATURES } from '../../config';
-import { InitChat } from '@sinequa/components/machine-learning';
+import { ChatConfig, InitChat } from '@sinequa/components/machine-learning';
 import { PrincipalWebService } from '@sinequa/core/web-services';
 import { AssistantService } from '../assistant/assistant.service';
 
@@ -83,6 +83,13 @@ export class HomeComponent implements OnInit {
    */
   public get homeFacets(): string[] {
     return this.features.filter(feature => ['recent-documents', 'recent-queries', 'saved-queries', 'baskets'].indexOf(feature) !== -1);
+  }
+
+  /**
+   * Returns the assistant's saved chat config
+   */
+  public get chatConfig() : ChatConfig {
+    return this.assistantService.chatConfig;
   }
 
   /**
