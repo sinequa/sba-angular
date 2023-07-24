@@ -300,7 +300,8 @@ export class ChatService {
         }
       }
     }
-    return `<document id="${id}" ${metas}>${text.join('\n...\n')}</document>`;
+    const parts = text.map((t, i) => `<part id="${id}.${i+1}">${t}</part>`);
+    return `<document id="${id}" ${metas}>${parts.join('\n\n')}</document>`;
   }
 
   /**

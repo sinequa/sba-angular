@@ -36,7 +36,8 @@
     [extendBefore]="chatConfig.extendBefore"
     [extendAfter]="chatConfig.extendAfter"
 
-    (referenceClicked)="onReferenceClicked($event)">
+    (referenceClicked)="onReferenceClicked($event)"
+    (openPreview)="openPreview.emit($event)">
   </sq-chat>
 
   <div *ngIf="chatSettingsAction.selected">

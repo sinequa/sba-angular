@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, OnDestroy, Output, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
-import { ChatAttachment, ChatComponent, ChatConfig, ChatMessage, ChatService } from "@sinequa/components/machine-learning";
+import { ChatAttachment, ChatAttachmentOpen, ChatComponent, ChatConfig, ChatMessage, ChatService } from "@sinequa/components/machine-learning";
 import { SearchService } from "@sinequa/components/search";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { AppService } from "@sinequa/core/app-utils";
@@ -21,6 +21,7 @@ interface ChatSuggestion {
 export class AssistantComponent implements AfterViewInit, OnDestroy {
 
   @Output() referenceClicked = new EventEmitter<{record: Record, isLink: boolean}>();
+  @Output() openPreview = new EventEmitter<ChatAttachmentOpen>();
 
   sub = new Subscription();
 
