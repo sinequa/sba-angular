@@ -16,7 +16,16 @@
 
     </div>
 
-    <sq-chat *ngIf="initChat" style="max-width: 500px;" [chat]="initChat" [enableChat]="false"></sq-chat>
+    <sq-chat *ngIf="initChat" style="max-width: 500px;"
+        [chat]="initChat"
+        [enableChat]="false"
+        [model]="chatConfig.model"
+        [temperature]="chatConfig.temperature"
+        [topP]="chatConfig.topP"
+        [maxTokens]="chatConfig.maxTokens"
+        [stream]="chatConfig.stream"
+        [googleContextPrompt]="chatConfig.googleContextPrompt">
+    </sq-chat>
 
     <!-- Home facets -->
     <div class="sq-home-facet-bar container mt-3" *ngIf="homeFacets.length">

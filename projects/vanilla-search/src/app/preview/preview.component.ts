@@ -11,7 +11,7 @@ import { PreviewService, PreviewHighlightColors, Preview } from '@sinequa/compon
 import { SearchService } from '@sinequa/components/search';
 import { IntlService } from '@sinequa/core/intl';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
-import { ChatService, InitChat } from '@sinequa/components/machine-learning';
+import { ChatConfig, ChatService, InitChat } from '@sinequa/components/machine-learning';
 import { AssistantService } from '../assistant/assistant.service';
 import { ProviderFactory } from '@sinequa/analytics/network';
 import { GptProvider } from './network.provider';
@@ -256,5 +256,9 @@ export class PreviewComponent implements OnDestroy {
 
   public get previewHighlights(): PreviewHighlightColors[] {
     return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
+  }
+
+  public get chatConfig() : ChatConfig {
+    return this.assistantService.chatConfig;
   }
 }

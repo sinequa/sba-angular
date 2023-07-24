@@ -1,5 +1,5 @@
 import { BaseProvider, NodeType, ProviderFactory, Node } from "@sinequa/analytics/network";
-import { ChatService } from "@sinequa/components/machine-learning";
+import { ChatConfig, ChatService } from "@sinequa/components/machine-learning";
 import { Query } from "@sinequa/core/app-utils";
 import { Record as SqRecord} from "@sinequa/core/web-services";
 import { BehaviorSubject, filter, finalize, map, switchMap } from "rxjs";
@@ -41,6 +41,10 @@ export class GptProvider extends BaseProvider {
     this.getData(undefined);
   }
 
+  get chatConfig() : ChatConfig {
+    return this.assistantService.chatConfig;
+  }
+
   override getData(context) {
     super.getData(this.context || context);
 
@@ -65,7 +69,7 @@ export class GptProvider extends BaseProvider {
         ]),
 
         // Fetch the messages from the chat service
-        switchMap(messages => this.chatService.fetch(messages, "GPT4-8K", 1, 1000, 1, undefined, true)),
+        switchMap(messages => this.chatService.fetch(messages, this.chatConfig.model, this.chatConfig.temperature, this.chatConfig.maxTokens, this.chatConfig.topP, this.chatConfig.googleContextPrompt, this.chatConfig.stream)),
 
         // Extract the GPT network from the messages
         map(messages => {

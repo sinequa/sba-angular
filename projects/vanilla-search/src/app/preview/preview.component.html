@@ -71,7 +71,13 @@
         [chat]="chat"
         [displayAttachments]="false"
         [searchMode]="true"
-        [query]="chatQuery">
+        [query]="chatQuery"
+        [model]="chatConfig.model"
+        [temperature]="chatConfig.temperature"
+        [topP]="chatConfig.topP"
+        [maxTokens]="chatConfig.maxTokens"
+        [googleContextPrompt]="chatConfig.googleContextPrompt"
+        [stream]="chatConfig.stream">
       </sq-chat>
     </ng-container>
 
