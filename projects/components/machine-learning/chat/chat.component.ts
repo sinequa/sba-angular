@@ -215,7 +215,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   submitQuestion() {
     if(this.question.trim() && this.messages$.value) {
       const attachments = this.chatService.attachments$.value;
-      if (this.messageToEdit) {
+      if (this.messageToEdit !== undefined) {
         this.messages$.next(this.messages$.value.slice(0, this.messageToEdit));
         this.messageToEdit = undefined;
       }
