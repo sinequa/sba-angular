@@ -21,3 +21,18 @@
   height: 1rem;
   vertical-align: text-bottom;
 }
+
+.sq-tooltip {
+  font-size: 12px;
+
+  a {
+    color: white;
+  }
+
+  .sq-passage-text {
+    display: -webkit-box;
+    -webkit-line-clamp: var(--line-clamp, 10);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
