@@ -29,7 +29,7 @@
   </ng-template>
 
   <!-- Edit / Regenerate floating actions -->
-  <div class="sq-chat-message-action" *ngIf="!streaming">
+  <div class="sq-chat-message-action">
     <button class="btn btn-sm btn-light shadow mt-1 me-1" *ngIf="canEdit" sqTooltip="Edit message"
             (click)="edit.emit(message)">
       <i class="fas fa-edit"></i>

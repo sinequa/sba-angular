@@ -1,9 +1,6 @@
 
 :host {
   display: flex;
-  height: 100%;
-  width: 100%;
-  padding: .5rem 1rem;
 
   &:not(:hover) .sq-chat-message-action {
     display: none;

@@ -4,15 +4,15 @@
   <ul class="list-group list-group-flush overflow-auto pb-5" #messageList>
     <ng-container *ngFor="let message of messages; let index = index; let last = last">
       <!-- Regular messages -->
-      <li class="list-group-item d-flex p-0" *ngIf="message.display && !message.$attachment"
+      <li class="list-group-item" *ngIf="message.display && !message.$attachment"
           [class.opacity-50]="messageToEdit && messageToEdit < index + 1">
         <sq-chat-message
           [message]="message"
           [conversation]="messages"
           [assistantIcon]="assistantIcon"
           [streaming]="last && streaming"
-          [canEdit]="!loading && messageToEdit === undefined && message.role !== 'assistant'"
-          [canRegenerate]="!loading && messageToEdit === undefined && message.role === 'assistant'"
+          [canEdit]="!loading && !streaming && messageToEdit === undefined && message.role !== 'assistant'"
+          [canRegenerate]="!loading && !streaming && messageToEdit === undefined && message.role === 'assistant'"
           (edit)="editMessage(index)" (regenerate)="regenerateMessage(index)"
           (referenceClicked)="referenceClicked.emit($event)">
         </sq-chat-message>
