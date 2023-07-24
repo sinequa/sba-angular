@@ -20,10 +20,12 @@
         [chat]="initChat"
         [enableChat]="false"
         [model]="chatConfig.model"
-        [googleContextPrompt]="chatConfig.googleContextPrompt"
-        [initialSystemPrompt]="chatConfig.initialSystemPrompt"
-        [initialUserPrompt]="chatConfig.initialUserPrompt"
-    ></sq-chat>
+        [temperature]="chatConfig.temperature"
+        [topP]="chatConfig.topP"
+        [maxTokens]="chatConfig.maxTokens"
+        [stream]="chatConfig.stream"
+        [googleContextPrompt]="chatConfig.googleContextPrompt">
+    </sq-chat>
 
     <!-- Home facets -->
     <div class="sq-home-facet-bar container mt-3" *ngIf="homeFacets.length">

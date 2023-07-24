@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { SearchFormComponent } from "@sinequa/components/search-form";
-import { ChatService } from "@sinequa/components/machine-learning";
+import { ChatConfig, ChatService } from "@sinequa/components/machine-learning";
 import { AssistantService } from "../assistant/assistant.service";
 
 @Component({
@@ -52,6 +52,10 @@ export class AppSearchFormComponent {
     query.text = text;
   }
 
+  get chatConfig() : ChatConfig {
+    return this.assistantService.chatConfig;
+  }
+
   translating = false;
   translate(query: Query) {
     const text = query.text;
@@ -60,7 +64,7 @@ export class AppSearchFormComponent {
       this.chatService.fetch([
         {role: 'system', content: this.assistantService.getPrompt("translatePrompt"), display: false},
         {role: 'user', content: text, display: false},
-      ], 'GPT35Turbo', 1.0, 1000, 1.0)
+      ], this.chatConfig.model, this.chatConfig.temperature, this.chatConfig.maxTokens, this.chatConfig.topP, this.chatConfig.googleContextPrompt, this.chatConfig.stream)
       .subscribe(res => {
         query.text = res.messagesHistory.at(-1)?.content.replace(/\"/g, '');
         this.translating = false;
