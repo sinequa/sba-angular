@@ -10,7 +10,8 @@
   <remark *ngIf="message.role === 'assistant'; else plainTextTpl" class="message-content" [markdown]="message.content" [processor]="processor">
 
     <ng-template remarkTemplate="chat-reference" let-ref>
-      <a *ngIf="referenceMap.get(ref.refId) as attachment"
+
+      <a *ngIf="referenceMap.get(ref.refId) as attachment; else staticRefTpl"
         [href]="attachment.$record.url1 || attachment.$record.originalUrl || '#'"
         target="_blank"
         (click)="onReferenceClicked(attachment.$record, $event)"
@@ -19,6 +20,11 @@
         [sqTooltipTemplate]="tooltipTpl"
         [hoverableTooltip]="true"
         >{{ref.refId}}</a>
+
+      <ng-template #staticRefTpl>
+        <span class="reference">{{ref.refId}}</span>
+      </ng-template>
+
     </ng-template>
 
     <ng-template remarkTemplate="streaming-placeholder">
