@@ -5,7 +5,7 @@ import { SearchService } from "@sinequa/components/search";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { AppService } from "@sinequa/core/app-utils";
 import { AuditWebService, Results, Record } from "@sinequa/core/web-services";
-import { filter, map, Observable, Subscription, switchMap, tap } from "rxjs";
+import { delay, filter, map, Observable, Subscription, switchMap, tap } from "rxjs";
 import { AssistantService } from "./assistant.service";
 
 interface ChatSuggestion {
@@ -179,6 +179,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
         }
 
         this.chat!.updateData(messages, 0);
+        this.chat!.terminateFetch();
 
         this.auditService.notify({
           type: "Chat_Meeseeks",
@@ -215,6 +216,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
                 ]
                 messages.push({role: 'assistant', content: answer, display: true, $actions});
                 this.chat.updateData(messages, this.chat.tokens!);
+                this.chat.terminateFetch();
               }
               else {
                 this.chat.loading = false;
@@ -280,10 +282,12 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
       // Build attachments from the results
       switchMap((results: Results) =>
         this.chatService.searchAttachments(results, this.assistantService.chatConfig)
-      )
+      ),
+      delay(0) // For asynchronous rendering in case there a no results
 
     ).subscribe((attachments: ChatAttachment[]) => {
-      if(attachments?.length && this.chat) {
+      if(!this.chat) return;
+      if(attachments?.length) {
         // Finally feed the chat with the attachments and ask it to provide an answer
         const sysPrompt = this.assistantService.chatConfig.initialSystemPrompt;
         const ansPrompt = this.assistantService.getPrompt("answerPrompt");
@@ -292,6 +296,10 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
           {role: 'system', content, display: false},
           ...this.chatService.prepareAttachmentMessages(attachments, [], false)
         ]);
+      }
+      else {
+        this.chat.updateData([{role: 'assistant', content: "Please modify your search criteria to retrieve some results", display: true}], 0);
+        this.chat.terminateFetch();
       }
     });
   }
