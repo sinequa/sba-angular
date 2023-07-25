@@ -15,7 +15,7 @@ const defaultPrompts = {
 The below documents contains extracts returned by a search engine. Your job is to perform 2 tasks:
 1 - Try to answer the Query in one short sentence. If you can't or don't have enough context or information from any documents to answer the query, just say so.
 2 - Generate a single summary of all the documents in the context of the Query, using between 5 to 12 sentences.
-Make sure you include the references in the form [id].
+Make sure you include the references in the form [id] or [id.part].
 Answer using using markdown syntax.
 Query: {query.text}`,
   searchPrompt: `
