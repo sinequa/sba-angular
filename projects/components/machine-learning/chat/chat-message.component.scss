@@ -1,6 +1,10 @@
 
 :host {
   display: flex;
+
+  &:not(:hover) .sq-chat-message-action {
+    display: none;
+  }
 }
 
 .references .reference, .message-content ::ng-deep .reference{
@@ -20,6 +24,12 @@
   width: 12px;
   height: 1rem;
   vertical-align: text-bottom;
+}
+
+.sq-chat-message-action {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .sq-tooltip {
