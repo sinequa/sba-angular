@@ -72,7 +72,7 @@ From now on, it's your turn to generate the response.
   `,
   answer2Prompt: `
 Given the above documents, can you provide an answer to my query?
-You can refer to the documents by their [id] (eg. [2], [7]...) and you can use markdown syntax for formatting.
+You can refer to the documents by their [id] (eg. [2], [7]...) or [id.part] (eg. [5.2], [14.3]), and you can use markdown syntax for formatting.
 If there is not enough information to answer, just say so. Do not try to make up an answer.
 Query: {query.text}`,
   networkPrompt: `
