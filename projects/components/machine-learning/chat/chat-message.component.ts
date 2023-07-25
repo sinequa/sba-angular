@@ -51,7 +51,7 @@ export class ChatMessageComponent implements OnChanges, AfterViewInit {
       for(let m of this.conversation) {
         if(m.$attachment) {
           for(let i = 0; i < m.$attachment.chunks.length; i++) {
-            const refId = `${m.$refId}.${i}`;
+            const refId = `${m.$refId}.${i+1}`;
             this.referenceMap.set(refId, {...m.$attachment, $chunkIndex: i});
           }
           this.referenceMap.set(''+m.$refId!, {...m.$attachment, $chunkIndex: 0});
@@ -90,8 +90,9 @@ export class ChatMessageComponent implements OnChanges, AfterViewInit {
 
     // Visit all text nodes
     visit(tree, "text", (node: Text, index: number, parent: Parent) => {
-      const text = node.value;
+      let text = node.value;
 
+      text = this.reformatReferences(text);
       const matches = this.getReferenceMatches(text);
 
       // Quit if no references were found
@@ -155,10 +156,19 @@ export class ChatMessageComponent implements OnChanges, AfterViewInit {
   }
 
   /**
+   * Reformat [ids: 12.2, 42.5] to [12.2][42.5]
+   */
+  reformatReferences(content: string) {
+    return content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\s*(?:,?\s*\d+(?:\.\d+)?\s*)+)\]/g,
+      (str, match: string) => `[${match.split(',').join("] [")}]`
+    );
+  }
+
+  /**
    * Match all references in a given message
    */
   getReferenceMatches(content: string) {
-    return Array.from(content.matchAll(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\s*\d+(?:\.\d+)?\s*)\]/g));
+    return Array.from(content.matchAll(/\[(\s*\d+(?:\.\d+)?\s*)\]/g));
   }
 
   copyToClipboard(text: string) {
