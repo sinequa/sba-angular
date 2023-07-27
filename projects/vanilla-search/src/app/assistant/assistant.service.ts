@@ -214,8 +214,8 @@ export class AssistantService {
   configPatchDone = false;
 
   get chatConfig(): ChatConfig {
-    let config = this.prefs.get('chat-config') || {};
-    if(!this.configPatchDone) {
+    let config = this.prefs.get('chat-config');
+    if(!config || !this.configPatchDone) {
       let defaultChatConfigOverride = this.appService.app?.data?.chatConfig;
       if(typeof defaultChatConfigOverride !== 'object') {
         defaultChatConfigOverride = {};
@@ -233,6 +233,10 @@ export class AssistantService {
 
   saveChatConfig() {
     this.prefs.set('chat-config', this.chatConfig)
+  }
+
+  resetChatConfig() {
+    this.prefs.delete('chat-config');
   }
 
   get assistantMode(): 'Meeseeks' | 'Manual' | 'Auto-Search' | 'Auto-Answer' {
