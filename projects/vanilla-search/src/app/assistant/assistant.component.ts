@@ -331,8 +331,8 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  resetChatSettings() {
-    this.assistantService.resetChatConfig();
+  resetAssistant() {
+    this.assistantService.resetAssistant();
   }
 
   get chatConfig() : ChatConfig {

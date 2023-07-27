@@ -235,8 +235,13 @@ export class AssistantService {
     this.prefs.set('chat-config', this.chatConfig)
   }
 
-  resetChatConfig() {
-    this.prefs.delete('chat-config');
+  resetAssistant() {
+    this.prefs.delete('assistant-mode');
+    this.prefs.delete('assistant-collapsible');
+    this.prefs.delete('assistant-start-collapsed');
+    this.resetPrompt('searchPrompt');
+    this.resetPrompt('answerPrompt');
+    this.resetPrompt('answer2Prompt');
   }
 
   get assistantMode(): 'Meeseeks' | 'Manual' | 'Auto-Search' | 'Auto-Answer' {
