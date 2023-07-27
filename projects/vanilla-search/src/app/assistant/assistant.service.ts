@@ -235,6 +235,10 @@ export class AssistantService {
     this.prefs.set('chat-config', this.chatConfig)
   }
 
+  resetChatConfig() {
+    this.prefs.delete('chat-config');
+  }
+
   get assistantMode(): 'Meeseeks' | 'Manual' | 'Auto-Search' | 'Auto-Answer' {
     return this.prefs.get('assistant-mode') ?? 'Auto-Answer';
   }
