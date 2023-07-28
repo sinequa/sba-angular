@@ -184,8 +184,8 @@ export class AssistantService {
     return prompt;
   }
 
-  resetPrompt(name: keyof typeof defaultPrompts) {
-    this.prefs.delete(name);
+  resetPrompt(name: keyof typeof defaultPrompts, skipSync?: boolean) {
+    this.prefs.delete(name, skipSync);
   }
 
   getPrompt(name: keyof typeof defaultPrompts, record?: Record, other?: any) {
@@ -236,12 +236,13 @@ export class AssistantService {
   }
 
   resetAssistant() {
-    this.prefs.delete('assistant-mode');
-    this.prefs.delete('assistant-collapsible');
-    this.prefs.delete('assistant-start-collapsed');
-    this.resetPrompt('searchPrompt');
-    this.resetPrompt('answerPrompt');
-    this.resetPrompt('answer2Prompt');
+    this.prefs.delete('assistant-mode', true);
+    this.prefs.delete('assistant-collapsible', true);
+    this.prefs.delete('assistant-start-collapsed', true);
+    this.resetPrompt('searchPrompt', true);
+    this.resetPrompt('answerPrompt', true);
+    this.resetPrompt('answer2Prompt', true);
+    this.prefs.sync();
   }
 
   get assistantMode(): 'Meeseeks' | 'Manual' | 'Auto-Search' | 'Auto-Answer' {
