@@ -8,10 +8,11 @@
     "element-resize-detector": "^1.2.1",
     "@angular-slider/ngx-slider": "^2.0.4",
     "ngx-bootstrap": "^8.0.0",
-    "@popperjs/core": "^2.10.2",
-    "remark": "^14.0.3"
+    "@popperjs/core": "^2.10.2"
   },
   "dependencies": {
-    "@sinequa/core": "^0.0.1"
+    "@sinequa/core": "^0.0.1",
+    "ngx-remark": "0.0.6-ng14",
+    "remark": "^14.0.3"
   }
 }
