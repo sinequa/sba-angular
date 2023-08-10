@@ -1,0 +1,10 @@
+<sq-facet-card [title]="'msg#uploader.uploadedList'" [icon]="'fas fa-fw fa-cloud-upload-alt primary-icon'"
+  [actions]="[refreshAction, deleteAction, clearAction]">
+  <div class="list-group list-group-flush">
+    <div class="list-group-item list-group-item-action" *ngFor="let record of records"
+      (click)="onDocumentClicked.emit(record)">
+      <input class="form-check-input me-1" type="checkbox" (click)="addRecordForDelete(record, $event)">
+      {{record.filename}}
+    </div>
+  </div>
+</sq-facet-card>

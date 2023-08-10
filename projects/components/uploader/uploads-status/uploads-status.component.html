@@ -1,0 +1,11 @@
+<sq-facet-card [title]="'msg#uploader.uploadsStatus'" [icon]="'fas fa-fw fa-spinner primary-icon'">
+  <div class="list-group list-group-flush">
+    <div class="list-group-item list-group-item-action d-flex align-items-center" *ngFor="let data of tokensData; let index = index">
+      <span class="flex-grow-1">
+        {{data.token.name}} - {{indexed(data.tokenData) ? ('msg#uploader.indexed' | sqMessage) : ('msg#uploader.pending'
+        | sqMessage)}}
+      </span>
+      <button class="btn btn-sm btn-link ms-2" (click)="removeToken(index)"><i class="fas fa-trash"></i></button>
+    </div>
+  </div>
+</sq-facet-card>

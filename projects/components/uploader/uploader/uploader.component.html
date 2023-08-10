@@ -1,0 +1,13 @@
+<input type="file" [multiple]="true" #file [style.display]="'none'" (change)="onInputChange($event)">
+<button class="btn btn-secondary w-100" (click)="file.click();">
+  <i class="fas fa-upload me-2"></i>{{'msg#uploader.upload' | sqMessage}}
+</button>
+<div class="drop-area text-center bg-light px-3 py-5" [class.dragging]="dragging" (dragover)="dragEvent(true, $event)"
+  (dragleave)="dragEvent(false, $event)" (dragend)="dragEvent(false, $event)"
+  (drop)="dragEvent(false, $event); onDrop($event)">
+  {{'msg#uploader.dragdrop' | sqMessage}}
+</div>
+
+<span *ngIf="uploaded">
+  {{'msg#uploader.uploaded' | sqMessage:{values: {added: stats?.nbDocAdded || 0, updated: stats?.nbDocUpdated || 0, warning: stats?.nbDocWarning || 0} } }}
+</span>
