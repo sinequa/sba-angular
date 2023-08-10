@@ -55,38 +55,45 @@ export class IndexingService {
   readTokens(): Observable<(TokenData | undefined)[]> {
     const errorTokens: TokenInfo[] = [];
     const observables = this.tokens.map(token => this.readToken(token.token).pipe(catchError(error => {
-      errorTokens.push(token);
+      if (error.error?.errorCode === 501) { // Plugin returns a 501 when it cannot find a token
+        errorTokens.push(token);
+      }
       return of(undefined);
     })));
     return forkJoin(observables).pipe(
       tap(() => {
         this.tokens = this.tokens.filter(token => !errorTokens.find(t => t.token === token.token));
-        setTimeout(() => { // waiting before deleting the tokens in case we need to wait for a login
-          console.log('deleting errorTokens', errorTokens);
-          this.saveTokens();
-        }, 5000);
+        this.saveTokens();
       }),
     )
   }
 
-  /** Fetch tokens from local storage */
+  /**
+   * Fetch tokens from local storage
+   */
   fetchTokens(): void {
     const tokens = localStorage.getItem(this.storageItem);
     this.tokens = tokens ? JSON.parse(tokens) : [];
   }
 
-  /** Save tokens in the local storage */
+  /**
+   * Save tokens in the local storage
+   */
   saveTokens() {
     localStorage.setItem(this.storageItem, JSON.stringify(this.tokens));
   }
 
-  /** Save a new token */
+  /**
+   * Save a new token
+   */
   addToken(token: TokenInfo): void {
     this.tokens.push(token);
     this.saveTokens();
   }
 
-  /** Remove token */
+  /**
+   * Remove token
+   */
   removeToken(index: number): void {
     this.tokens.splice(index, 1);
     this.saveTokens();

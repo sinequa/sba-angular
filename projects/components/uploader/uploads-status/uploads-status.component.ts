@@ -27,6 +27,8 @@ export class UploadsStatusComponent implements OnChanges {
   }
 
   fetchTokensData(): void {
+    this.tokensData = [];
+    if (!this.indexingService.tokens.length) return;
     this.indexingService.readTokens().subscribe((data: (TokenData | undefined)[]) => {
       console.log('readTokens', data);
       this.tokensData = (data.filter(d => d !== undefined) as TokenData[]).map((d, index) => ({ token: this.indexingService.tokens[index], tokenData: d }));
