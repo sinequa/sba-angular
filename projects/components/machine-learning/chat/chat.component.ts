@@ -257,8 +257,6 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   }
 
   updateModelDescription() {
-    if (this.customAssistantIcon) return;
-
     this.modelDescription = this.chatService.getModel(this.model);
     switch(this.modelDescription?.provider) {
       case 'Google':
