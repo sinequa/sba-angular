@@ -9,7 +9,7 @@
         <sq-chat-message
           [message]="message"
           [conversation]="messages"
-          [assistantIcon]="customAssistantIcon || modelAssistantIcon"
+          [assistantIcon]="customAssistantIcon || assistantIcon"
           [streaming]="last && streaming"
           [canEdit]="(loading | async) === false && !streaming && messageToEdit === undefined && message.role !== 'assistant'"
           [canRegenerate]="(loading | async) === false && !streaming && messageToEdit === undefined && message.role === 'assistant'"

@@ -142,7 +142,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   /** Variables that depend on the type of model in use */
   modelDescription?: GllmModelDescription;
-  modelAssistantIcon: string;
+  assistantIcon: string;
   privacyUrl: string;
 
   messageToEdit?: number;
@@ -262,15 +262,15 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.modelDescription = this.chatService.getModel(this.model);
     switch(this.modelDescription?.provider) {
       case 'Google':
-        this.modelAssistantIcon = 'sq-google';
+        this.assistantIcon = 'sq-google';
         this.privacyUrl = '';
         break;
       case 'OpenAI':
-        this.modelAssistantIcon = 'sq-chatgpt';
+        this.assistantIcon = 'sq-chatgpt';
         this.privacyUrl = 'https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy';
         break;
       case 'Cohere':
-        this.modelAssistantIcon = 'sq-cohere';
+        this.assistantIcon = 'sq-cohere';
         this.privacyUrl = 'https://cohere.com/security';
         break;
     }
