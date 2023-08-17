@@ -1,5 +1,5 @@
 
-<div *ngIf="messages$ | async as messages; else loadingTpl" class="h-100 d-flex flex-column">
+<div *ngIf="messages$ | async as messages; else loadingTpl || loadingTplDefault" class="h-100 d-flex flex-column">
 
   <ul class="list-group list-group-flush overflow-auto pb-5" #messageList>
     <ng-container *ngFor="let message of messages; let index = index; let last = last">
@@ -9,10 +9,10 @@
         <sq-chat-message
           [message]="message"
           [conversation]="messages"
-          [assistantIcon]="assistantIcon"
+          [assistantIcon]="customAssistantIcon || assistantIcon"
           [streaming]="last && streaming"
-          [canEdit]="!loading && !streaming && messageToEdit === undefined && message.role !== 'assistant'"
-          [canRegenerate]="!loading && !streaming && messageToEdit === undefined && message.role === 'assistant'"
+          [canEdit]="(loading | async) === false && !streaming && messageToEdit === undefined && message.role !== 'assistant'"
+          [canRegenerate]="(loading | async) === false && !streaming && messageToEdit === undefined && message.role === 'assistant'"
           (edit)="editMessage(index)" (regenerate)="regenerateMessage(index)"
           (referenceClicked)="referenceClicked.emit($event)"
           (openPreview)="openPreview.emit($event)">
@@ -26,8 +26,8 @@
       </li>
     </ng-container>
 
-    <li class="list-group-item" *ngIf="loading">
-      <ng-container *ngTemplateOutlet="loadingTpl"></ng-container>
+    <li class="list-group-item" *ngIf="loading | async">
+      <ng-container *ngTemplateOutlet="loadingTpl || loadingTplDefault"></ng-container>
     </li>
   </ul>
 
@@ -63,7 +63,7 @@
 
 <!-- NG TEMPLATES-->
 
-<ng-template #loadingTpl>
+<ng-template #loadingTplDefault>
   <div class="spinner-grow text-success d-block mx-auto my-5" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
@@ -82,7 +82,7 @@
       (keyup.enter)="submitQuestion()"
       (keyup.shift.enter)="submitQuestion()"
       (keydown.tab)="searchAttachments($event)"
-      [disabled]="loading || streaming || loadingAttachments || tokensPercentage >= 100 || chatService.quotaPercentage >= 100">
+      [disabled]="(loading | async) || streaming || loadingAttachments || tokensPercentage >= 100 || chatService.quotaPercentage >= 100">
     <a *ngIf="searchMode" role="button" [ngClass]="{disabled: !question}" class="ms-3 mb-0 text-nowrap" (click)="searchAttachments()" sqTooltip="Search Before Chat" placement="top">
       <img src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="120px">
     </a>
@@ -120,7 +120,7 @@
 </ng-template>
 
 <ng-template #attachmentListTpl>
-  <ng-container *ngIf="loadingAttachments" [ngTemplateOutlet]="loadingTpl"></ng-container>
+  <ng-container *ngIf="loadingAttachments" [ngTemplateOutlet]="loadingTpl || loadingTplDefault"></ng-container>
 
   <ul class="list-group list-group-flush overflow-auto" *ngIf="chatService.attachments$ | async as attachments">
 
