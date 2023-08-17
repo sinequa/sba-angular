@@ -91,6 +91,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() textBeforeAttachments =    defaultChatConfig.textBeforeAttachments;
   @Input() displayAttachments =       defaultChatConfig.displayAttachments;
   @Input() showCredits = true;
+  @Input() customAssistantIcon?: string;
 
   // Prompts
   @Input() initialSystemPrompt =      defaultChatConfig.initialSystemPrompt;
@@ -139,7 +140,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   /** Variables that depend on the type of model in use */
   modelDescription?: GllmModelDescription;
-  assistantIcon: string;
+  modelAssistantIcon: string;
   privacyUrl: string;
 
   messageToEdit?: number;
@@ -254,18 +255,20 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   }
 
   updateModelDescription() {
+    if (this.customAssistantIcon) return;
+
     this.modelDescription = this.chatService.getModel(this.model);
     switch(this.modelDescription?.provider) {
       case 'Google':
-        this.assistantIcon = 'sq-google';
+        this.modelAssistantIcon = 'sq-google';
         this.privacyUrl = '';
         break;
       case 'OpenAI':
-        this.assistantIcon = 'sq-chatgpt';
+        this.modelAssistantIcon = 'sq-chatgpt';
         this.privacyUrl = 'https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy';
         break;
       case 'Cohere':
-        this.assistantIcon = 'sq-cohere';
+        this.modelAssistantIcon = 'sq-cohere';
         this.privacyUrl = 'https://cohere.com/security';
         break;
     }
