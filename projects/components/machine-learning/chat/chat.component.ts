@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
-import { Record } from "@sinequa/core/web-services";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
-import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
+import { Record } from "@sinequa/core/web-services";
+import { BehaviorSubject, Observable, Subscription, delay, map, of, switchMap } from "rxjs";
 import { ChatService, SearchAttachmentsOptions } from "./chat.service";
 import { ChatAttachment, ChatAttachmentOpen, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
 
@@ -118,6 +118,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
+
+  @ContentChild('loadingTpl') loadingTpl?: TemplateRef<any>;
 
   loading = false;
   streaming = false;

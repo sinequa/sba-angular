@@ -1,5 +1,5 @@
 
-<div *ngIf="messages$ | async as messages; else loadingTpl" class="h-100 d-flex flex-column">
+<div *ngIf="messages$ | async as messages; else loadingTpl || loadingTplDefault" class="h-100 d-flex flex-column">
 
   <ul class="list-group list-group-flush overflow-auto pb-5" #messageList>
     <ng-container *ngFor="let message of messages; let index = index; let last = last">
@@ -27,7 +27,7 @@
     </ng-container>
 
     <li class="list-group-item" *ngIf="loading">
-      <ng-container *ngTemplateOutlet="loadingTpl"></ng-container>
+      <ng-container *ngTemplateOutlet="loadingTpl || loadingTplDefault"></ng-container>
     </li>
   </ul>
 
@@ -63,7 +63,7 @@
 
 <!-- NG TEMPLATES-->
 
-<ng-template #loadingTpl>
+<ng-template #loadingTplDefault>
   <div class="spinner-grow text-success d-block mx-auto my-5" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
@@ -120,7 +120,7 @@
 </ng-template>
 
 <ng-template #attachmentListTpl>
-  <ng-container *ngIf="loadingAttachments" [ngTemplateOutlet]="loadingTpl"></ng-container>
+  <ng-container *ngIf="loadingAttachments" [ngTemplateOutlet]="loadingTpl || loadingTplDefault"></ng-container>
 
   <ul class="list-group list-group-flush overflow-auto" *ngIf="chatService.attachments$ | async as attachments">
 
