@@ -115,13 +115,13 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Output() data = new EventEmitter<ChatMessage[]>();
   @Output() referenceClicked = new EventEmitter<Record>();
   @Output() openPreview = new EventEmitter<ChatAttachmentOpen>();
+  @Output() loading = new EventEmitter<boolean>(false);
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
 
   @ContentChild('loadingTpl') loadingTpl?: TemplateRef<any>;
 
-  loading = false;
   streaming = false;
   loadingAttachments = false;
   messages$ = new BehaviorSubject<ChatMessage[] | undefined>(undefined);
@@ -291,7 +291,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
    * @param messages
    */
   public fetch(messages: ChatMessage[]) {
-    this.loading = true;
+    this.loading.next(true);
     this.cdr.detectChanges();
     this.dataSubscription?.unsubscribe();
     this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP, this.googleContextPrompt, this.stream)
@@ -324,7 +324,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   updateData(messages: ChatMessage[], tokens: number) {
     this.messages$.next(messages);
     this.data.emit(messages);
-    this.loading = false;
+    this.loading.next(false);
     this.streaming = this.stream; // streaming = false set in terminateFetch
     this.tokens = tokens;
     this.chatService.attachments$.next([]); // This updates the tokensPercentage
@@ -376,7 +376,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   openChat(messages: RawMessage[], tokens?: GllmTokens, attachments$?: Observable<ChatAttachment[]|ChatAttachment>) {
     this.resetChat();
-    this.loading = true;
+    this.loading.next(true);
     this.dataSubscription = this.chatService.restoreMessages(messages)
       .pipe(
         delay(0), // In case the observer completes synchronously, the delay forces async update and prevents "change after checked" error
@@ -412,7 +412,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.dataSubscription?.unsubscribe();
     this.dataSubscription = undefined;
     this.streaming = false;
-    this.loading = false;
+    this.loading.next(false);
     this.cdr.markForCheck();
   }
 
