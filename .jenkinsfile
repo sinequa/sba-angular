@@ -25,7 +25,7 @@ tag_prefix    = "rel_"
 // .npmrc variables for verdaccio connection
 scope  = "@sinequa"
 fnpmrc = '.npmrc'
-anpmrc = ["always-auth=true", "registry=${url}/", "scope=${scope}"]
+anpmrc = ["always-auth=true", "registry=${url}/", "scope=${scope}", "scripts-prepend-node-path=true"]
 
 
 // run job on a specific node if needed
@@ -40,6 +40,26 @@ node (params.SBA_NODE) {
 		def rootDir = pwd()
 		def jf = load "${rootDir}/.jenkins_function.groovy"
 		
+		// get the branch name
+		def myBranch = jf.getBranch()
+
+		// get the npm path (if empty, the file path does not exist)
+		def myNPM = jf.getNPMpath("npm.cmd")
+		if (myNPM == "" ) {
+			// get node executable for the branch
+			jf.getIceNode(myBranch)
+			// get the npm path
+			myNPM = jf.getNPMpath("npm.cmd")
+		}
+		// A path must be found to do something
+		if (myNPM == "" ) {
+			currentBuild.result = "FAILURE"
+			throw err
+		}
+		println "npm.cmd used (${myBranch}): ${myNPM}"
+		println "Version: "
+		bat "@call ${myNPM} -v"
+		
 		stage('Clean') {
 			// delete dependency modules 
 			def nmfolder = "node_modules"
@@ -48,7 +68,7 @@ node (params.SBA_NODE) {
 			
 			// clean the npm cache
 			echo ".Cache clean force"
-			bat "npm cache clean --force"
+			bat "@call ${myNPM} cache clean --force"
 		}
 		
 		stage('Create user') {
@@ -57,7 +77,7 @@ node (params.SBA_NODE) {
 			// add connection infos in .npmrc file
 			jf.appendFile(fnpmrc, anpmrc)
 			// check the connection
-			bat "npm whoami"
+			bat "@call ${myNPM} whoami"
 		}
 		
 		stage('copyNpmrc') {
@@ -69,7 +89,7 @@ node (params.SBA_NODE) {
 		
 		stage('NPM Install') {
 			// get the dependency modules
-			bat "npm i"
+			bat "@call ${myNPM} i"
 		}
 
 		// check if we are in standard case of build or merge/validation (case of PR)
@@ -79,32 +99,32 @@ node (params.SBA_NODE) {
 			// validate the build in a PR after a commit
 			// build sinequa core modules
 			stage('Build Core') {
-				echo "npm run buildcore --if-present"
-				bat  "npm run buildcore --if-present"
+				echo "${myNPM} run buildcore --if-present"
+				bat  "@call ${myNPM} run buildcore --if-present"
 			}
 			stage('Build Components') {
-				echo "npm run buildcomponents --if-present"
-				bat  "npm run buildcomponents --if-present"
+				echo "${myNPM} run buildcomponents --if-present"
+				bat  "@call ${myNPM} run buildcomponents --if-present"
 			}
 			stage('Build Analytics') {
-				echo "npm run buildanalytics --if-present"
-				bat  "npm run buildanalytics --if-present"
+				echo "${myNPM} run buildanalytics --if-present"
+				bat  "@call ${myNPM} run buildanalytics --if-present"
 			}			
 			stage('Test Components') {
-				echo "npm run test components -- --watch=false"
-				bat  "npm run test components -- --watch=false"
+				echo "${myNPM} run test components -- --watch=false"
+				bat  "@call ${myNPM} run test components -- --watch=false"
 			}
 			stage('Build HelloSearch') {
-				echo "npm run buildhellosearch --if-present"
-				bat  "npm run buildhellosearch --if-present"
+				echo "${myNPM} run buildhellosearch --if-present"
+				bat  "@call ${myNPM} run buildhellosearch --if-present"
 			}
 			stage('Build Vanilla') {
-				echo "npm run buildvanilla --if-present"
-				bat  "npm run buildvanilla --if-present"
+				echo "${myNPM} run buildvanilla --if-present"
+				bat  "@call ${myNPM} run buildvanilla --if-present"
 			}
 			stage('Build Pepper') {
-				echo "npm run buildpepper --if-present"
-				bat  "npm run buildpepper --if-present"
+				echo "${myNPM} run buildpepper --if-present"
+				bat  "@call ${myNPM} run buildpepper --if-present"
 			}
 
 		} else {
@@ -119,46 +139,46 @@ node (params.SBA_NODE) {
 			// build sinequa core modules
 			stage('Build Core') {	
 				bat """
-				echo ".installsqcore:"
+				echo ".tag core:"
 				cd ./projects/core
-				call npm --no-git-tag-version version ${sba_version}
+				@call ${myNPM} --no-git-tag-version version ${sba_version}
 				cd ../..
-				echo ".buildsqcore:"
-				call npm run buildcore
-				echo ".unpublishsqcore:"
-				call npm unpublish @sinequa/core@${sba_version}
-				echo ".publishsqcore:"
-				call npm publish ./dist/core --tag ${sba_tag}
+				echo ".buildcore:"
+				@call ${myNPM} run buildcore
+				echo ".unpublish core:"
+				@call ${myNPM} unpublish @sinequa/core@${sba_version}
+				echo ".publish core:"
+				@call ${myNPM} publish ./dist/core --tag ${sba_tag}
 				"""
 			}
 			stage('Build Components') {
 				bat """
-				echo ".installsqcomponents:"
+				echo ".tag components and install core:"
 				cd ./projects/components
-				call npm --no-git-tag-version version ${sba_version}
-				call npm install @sinequa/core@${sba_version} --save-exact
+				@call ${myNPM} --no-git-tag-version version ${sba_version}
+				@call ${myNPM} install @sinequa/core@${sba_version} --save-exact
 				cd ../..
-				echo ".buildsqcomponents:"
-				call npm run buildcomponents
-				echo ".unpublishsqcomponents:"
-				call npm unpublish @sinequa/components@${sba_version}
-				echo ".publishsqcomponents:"
-				call npm publish ./dist/components --tag ${sba_tag}
+				echo ".buildcomponents:"
+				@call ${myNPM} run buildcomponents
+				echo ".unpublish components:"
+				@call ${myNPM} unpublish @sinequa/components@${sba_version}
+				echo ".publish components:"
+				@call ${myNPM} publish ./dist/components --tag ${sba_tag}
 				"""
 			}
 			stage('Build Analytics') {
 				bat """
-				echo ".installsqanalytics:"
+				echo ".tag analytics and install components:"
 				cd ./projects/analytics
-				call npm --no-git-tag-version version ${sba_version}
-				call npm install @sinequa/components@${sba_version} --save-exact
+				@call ${myNPM} --no-git-tag-version version ${sba_version}
+				@call ${myNPM} install @sinequa/components@${sba_version} --save-exact
 				cd ../..
-				echo ".buildsqanalytics:"
-				call npm run buildanalytics
-				echo ".unpublishsqanalytics:"
-				call npm unpublish @sinequa/analytics@${sba_version}
-				echo ".publishsqanalytics:"
-				call npm publish ./dist/analytics --tag ${sba_tag}
+				echo ".buildanalytics:"
+				@call ${myNPM} run buildanalytics
+				echo ".unpublish analytics:"
+				@call ${myNPM} unpublish @sinequa/analytics@${sba_version}
+				echo ".publish analytics:"
+				@call ${myNPM} publish ./dist/analytics --tag ${sba_tag}
 				"""
 			}
 			
