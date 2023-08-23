@@ -58,4 +58,4 @@ export const environment = {
 };
 ```
 
-Note that the `url` parameter can be omitted if your application is hosted on the Sinequa server or if you use a proxy (the `url` will just be inferred from the browser URL). It can also be omitted if you use a proxy with `ng serve` (See [workflows]({{site.baseurl}}gettingstarted/workflow#ng-serve)).
+Note that the `url` parameter can be omitted if your application is hosted on the Sinequa server or if you use a proxy (the `url` will just be inferred from the browser URL). It can also be omitted if you use a proxy with `ng serve` (See [Getting Started]({{site.site.baseurl}}getting-started.html#develop-an-application)).

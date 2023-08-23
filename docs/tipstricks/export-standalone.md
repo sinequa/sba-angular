@@ -137,7 +137,7 @@ In order to use the Sinequa API, you need to be logged in. This means that at le
 
 ### CORS
 
-If you embed components in a third-party application, this application will probably have a URL different from the Sinequa server's URL. This means you will need to enable CORS in your WebApp configuration (See [CORS and WebApp Configuration]({{site.baseurl}}guides/2-server-config.html#cors-and-webapp-configuration) and [Deploying an App on another server]({{site.baseurl}}guides/3-development.html#deploying-an-app-on-another-server)).
+If you embed components in a third-party application, this application will probably have a URL different from the Sinequa server's URL. This means you will need to enable CORS in your WebApp configuration (See [CORS and WebApp Configuration]({{site.baseurl}}guides/2-server-config.html#cors-and-webapp-configuration) and [Deploying an App on another server]({{site.baseurl}}guides/4-deployment.html#deploying-an-sba-on-another-server)).
 
 Note that CORS limits certain functionalities due to security restrictions in the browser. In order to get around CORS issues, consider using a proxy or reverse-proxy (so that the app is served from the same URL as the Sinequa REST API).
 

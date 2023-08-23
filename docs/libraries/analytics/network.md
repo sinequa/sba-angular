@@ -92,7 +92,7 @@ Finally, keep in mind that nothing prevents you from programming your own provid
 
 <!-- <doc-network></doc-network> -->
 
-The `sq-network` component is a facet component (See [Facet module]({{site.baseurl}}/modules/components/facet.html)), which is best used within a facet card:
+The `sq-network` component is a facet component (See [Facet module]({{site.baseurl}}/libraries/components/facet.html)), which is best used within a facet card:
 
 ```html
 <sq-facet-card [title]="'Network'" [icon]="'fas fa-project-diagram'">
@@ -273,7 +273,7 @@ const provider = providerFactory.createRecordsProvider(doc, [struct], records, t
 
 The `SelectedRecordsProvider` class is a direct extension of `RecordsProvider`. The difference is that the provider listens to the `SelectionService` and provides record nodes from the list of selected records.
 
-⚠️ The `SelectionService` must be set-up to store *records* instead of just *record ids* (See [Selection module]({{site.baseurl}}/modules/components/selection.html#selection-service)).
+⚠️ The `SelectionService` must be set-up to store *records* instead of just *record ids* (See [Selection module]({{site.baseurl}}/libraries/components/selection.html#selection-service)).
 
 This provider lets you easily see the common properties of two or more selected records.
 
@@ -321,7 +321,7 @@ Notice here that we did not use the factory's built-in method for generating a n
 
 ### Aggregation Provider
 
-The `AggregationProvider` class provides nodes and edges generated from an *aggregation*. Aggregations are computed by the Sinequa engine based on the content of one column (or more) of an index. Aggregation are typically used to compute the content of facets (See [Facet Module]({{site.baseurl}}/modules/components/facet.html)).
+The `AggregationProvider` class provides nodes and edges generated from an *aggregation*. Aggregations are computed by the Sinequa engine based on the content of one column (or more) of an index. Aggregation are typically used to compute the content of facets (See [Facet Module]({{site.baseurl}}/libraries/components/facet.html)).
 
 The aggregation provider can be used to generate different types of relations between metadata:
 
@@ -600,7 +600,7 @@ Actions associated to a node, edge or provider are displayed as buttons or menus
 
 ![Actions]({{site.baseurl}}assets/modules/network/actions.png){: .d-block .mx-auto }
 
-These "actions" (see [Action module]({{site.baseurl}}/modules/components/action.html)) come from the providers (`NetworkProvider`) and can be customized by overriding an existing provider or implementing your own provider from scratch (in fact a provider can be created for the sole purpose of displaying actions for some categories of nodes or edges).
+These "actions" (see [Action module]({{site.baseurl}}/libraries/components/action.html)) come from the providers (`NetworkProvider`) and can be customized by overriding an existing provider or implementing your own provider from scratch (in fact a provider can be created for the sole purpose of displaying actions for some categories of nodes or edges).
 
 The providers have three methods that can be implemented to provide actions:
 

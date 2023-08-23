@@ -313,8 +313,8 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
 3. Insert this list of buttons in your `app.component.html` with the `sq-action-buttons` directive, next to the existing Login/Logout buttons:
 
     ```html
-    <button class="btn btn-light" ...>Logout</button>
-    <button class="btn btn-light" ...>Login</button>
+    <button ...>Logout</button>
+    <button ...>Login</button>
     <span [sq-action-buttons]="{items: languageActions}"></span>
     ```
 
