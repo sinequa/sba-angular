@@ -234,7 +234,7 @@ The third part of the server-side configuration that powers the SBA framework is
 The SBA Framework includes an Angular workspace available on [Github](https://github.com/sinequa/sba-angular), which is also shipped with Sinequa releases as a **zip file**.
 This archive can be unzipped, downloaded and uploaded on the Sinequa server via the Sinequa administration.
 
-The workspaces are located in `<Sinequa data folder>\sba`, which is where Sinequa looks for them, to display their content in the administration and to serve the built applications that they contain. This is also where you would deploy your application for Sinequa to serve it (via an upload, or a `git pull` -- See [Workflows](workflow.html)).
+The workspaces are located in `<Sinequa data folder>\sba`, which is where Sinequa looks for them, to display their content in the administration and to serve the built applications that they contain. This is also where you would deploy your application for Sinequa to serve it (via an upload, or a `git pull` -- See [Workspace]({{site.baseurl}}guides/3-development.html#workspace)).
 
 The **Workspaces** section displays the workspaces under `<Sinequa data folder>\sba`. It is located in the administration under *Search-Based Applications > Workspaces*:
 
@@ -246,7 +246,7 @@ At the start, there will be no workspace pre-loaded in Sinequa ES.
 You can:
 
 - either load the default Sinequa Angular workspace from a default zip provided with your Sinequa release,
-- or clone the [Github repository](https://github.com/sinequa/sba-angular) in `<Sinequa data folder>/sba` (See [Workflows](workflow.html)),
+- or clone the [Github repository](https://github.com/sinequa/sba-angular) in `<Sinequa data folder>/sba` (See [Workspace]({{site.baseurl}}guides/3-development.html#workspace)),
 - or import your own Angular workspace, noting that only multi-project Angular workspaces are supported (cf. [multi-project Angular workspace](https://angular.io/guide/file-structure#multiple-projects) for more information about Angular workspace type).
 
 ### Unzip the Sinequa Angular workspace
@@ -383,7 +383,7 @@ To create a new App, go to **More actions > New app from**, where you can choose
 
 ## CORS and WebApp configuration
 
-The **REST API** of Sinequa can be used by a remote application (which is the case when you serve your app with `ng serve`, without a proxy -- See [Workflows](workflow.html#ng-serve)). Note that this mode causes [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) issues.
+The **REST API** of Sinequa can be used by a remote application (which is the case when you serve your app with `ng serve`, without a proxy -- See [Connecting to the Sinequa server]({{site.baseurl}}guides/3-development.html#connecting-to-the-sinequa-server)). Note that this mode causes [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) issues.
 
 - *Distributed Architecture > Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will use to test your app locally. For example, `http://localhost:4200` (or just `*`).
 - *Distributed Architecture > Webapp > Stateless Mode > Return HTTP error codes* enabled (default).
