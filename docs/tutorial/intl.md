@@ -25,7 +25,7 @@ For example, if you dictionary looks like:
 }
 ```
 
-Then this the following template is rendered as:
+Then the following template is rendered as:
 
 <div class="code-example">
 
@@ -154,8 +154,8 @@ And in your `en.ts` file:
 
 ```json
 {
-    "search": {
-        "button": "Search"
+    search: {
+        button: "Search"
     }
 }
 ```
@@ -249,7 +249,7 @@ results: {
 },
 ```
 
-Notice in this dictionary that the language names themselves ("English", "Français", etc.) need to have an entry (`locale.en`, `locale.fr`) in order to display them in the future language menu.
+Notice in this dictionary that the language names themselves ("English", "Français", etc.) need to have an entry (`locale.en`, `locale.fr`) in order to display them in the future language menu. You might want to add the `locale.fr` entry to `en.ts` as well.
 
 Finally, import this locale and add it to your `AppLocalesConfig`:
 
