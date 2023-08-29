@@ -19,3 +19,7 @@
     border: $dropdown-border-width solid #{$error-1};
   }
 }
+
+.dropdown-menu {
+  --bs-dropdown-bg: #{$white};
+}
