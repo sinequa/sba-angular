@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-uploader',
-  templateUrl: './uploader.component.html',
-  styleUrls: ['./uploader.component.scss']
+  templateUrl: './uploader.component.html'
 })
 export class UploaderComponent {
 

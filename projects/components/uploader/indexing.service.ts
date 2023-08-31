@@ -92,10 +92,13 @@ export class IndexingService {
   }
 
   /**
-   * Remove token
+   * Remove tokens
    */
-  removeToken(index: number): void {
-    this.tokens.splice(index, 1);
+  removeTokens(tokens: TokenInfo[]): void {
+    tokens.forEach(token => {
+      const index = this.tokens.indexOf(this.tokens.find(t => t.name === token.name)!);
+      this.tokens.splice(index, 1);
+    });
     this.saveTokens();
   }
 

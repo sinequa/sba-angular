@@ -1,5 +1,3 @@
-<div class="bg-white p-4">
-    <sq-uploader (uploadedToken)="newToken=$event"></sq-uploader>
-    <sq-uploads-status class="d-block my-3" [token]="newToken"></sq-uploads-status>
-    <sq-uploads-list></sq-uploads-list>
-</div>
+<sq-modal [title]="'msg#uploader.title'">
+    <sq-uploader></sq-uploader>
+</sq-modal>

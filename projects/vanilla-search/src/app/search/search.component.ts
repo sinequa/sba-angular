@@ -378,7 +378,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   openUploader() {
-    this.modalService.open(UploaderComponent);
+    this.modalService.open(UploaderComponent, {width: '50vw'});
   }
 
   get chatConfig() : ChatConfig {

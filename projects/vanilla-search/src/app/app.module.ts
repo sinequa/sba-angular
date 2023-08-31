@@ -32,7 +32,7 @@ import { PreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule } from '@sinequa/components/selection';
 import { MLModule } from '@sinequa/components/machine-learning';
-import { UploaderModule } from '@sinequa/components/uploader';
+import { UploaderComponent } from '@sinequa/components/uploader';
 
 import { SearchFormComponent } from "@sinequa/components/search-form";
 import { FiltersModule } from "@sinequa/components/filters";
@@ -47,7 +47,7 @@ import { PreviewComponent } from './preview/preview.component';
 import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { AutocompleteComponent } from "./search-form/autocomplete.component";
 import { AssistantComponent } from "./assistant/assistant.component";
-import { UploaderComponent } from './uploader/uploader.component';
+import { UploaderComponent as AppUploaderComponent } from './uploader/uploader.component';
 
 // Environment
 import { environment } from "../environments/environment";
@@ -148,8 +148,7 @@ export const breakpoints = {
         MLModule,
         FiltersModule,
         SearchFormComponent,
-        UploaderModule,
-
+        UploaderComponent,
         NetworkModule
     ],
     declarations: [
@@ -160,7 +159,7 @@ export const breakpoints = {
         AppSearchFormComponent,
         AutocompleteComponent,
         AssistantComponent,
-        UploaderComponent
+        AppUploaderComponent
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa
