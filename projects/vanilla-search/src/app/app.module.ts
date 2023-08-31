@@ -47,7 +47,6 @@ import { PreviewComponent } from './preview/preview.component';
 import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { AutocompleteComponent } from "./search-form/autocomplete.component";
 import { AssistantComponent } from "./assistant/assistant.component";
-import { UploaderComponent as AppUploaderComponent } from './uploader/uploader.component';
 
 // Environment
 import { environment } from "../environments/environment";
@@ -158,8 +157,7 @@ export const breakpoints = {
         PreviewComponent,
         AppSearchFormComponent,
         AutocompleteComponent,
-        AssistantComponent,
-        AppUploaderComponent
+        AssistantComponent
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa

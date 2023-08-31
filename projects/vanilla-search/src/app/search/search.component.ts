@@ -16,8 +16,6 @@ import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { ChatAttachment, ChatAttachmentOpen, ChatConfig, ChatService, InitChat } from '@sinequa/components/machine-learning';
 import { AssistantService } from '../assistant/assistant.service';
 import { MetadataConfig } from '@sinequa/components/metadata';
-import { ModalService } from '@sinequa/core/modal';
-import { UploaderComponent } from '../uploader/uploader.component';
 
 @Component({
   selector: 'app-search',
@@ -80,7 +78,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
-    private modalService: ModalService,
     public searchService: SearchService,
     public selectionService: SelectionService,
     public loginService: LoginService,
@@ -375,10 +372,6 @@ export class SearchComponent implements OnInit, OnDestroy {
         r.$selected = !!attachments.find(a => a.recordId === r.id);
       }
     }
-  }
-
-  openUploader() {
-    this.modalService.open(UploaderComponent, {width: '50vw'});
   }
 
   get chatConfig() : ChatConfig {
