@@ -6,7 +6,7 @@ import { forkJoin } from 'rxjs';
 import { Record } from '@sinequa/core/web-services';
 import { Action, BsActionModule } from '@sinequa/components/action';
 import { IntlModule } from '@sinequa/core/intl';
-import { BsFacetModule } from '../facet';
+import { AbstractFacet, BsFacetModule } from '../facet';
 import { ConfirmType, ModalButton, ModalResult, ModalService } from '@sinequa/core/modal';
 import { BsModalModule } from '../modal';
 
@@ -17,7 +17,7 @@ import { BsModalModule } from '../modal';
   standalone: true,
   imports: [CommonModule, IntlModule, BsActionModule, BsFacetModule, BsModalModule]
 })
-export class UploaderComponent implements OnInit {
+export class UploaderComponent extends AbstractFacet implements OnInit {
 
   refreshAction: Action;
   deleteAction: Action;
@@ -39,6 +39,7 @@ export class UploaderComponent implements OnInit {
     private indexingService: IndexingService,
     private modalService: ModalService
   ) {
+    super();
 
     this.refreshAction = new Action({
       icon: 'fas fa-sync-alt',
@@ -83,6 +84,10 @@ export class UploaderComponent implements OnInit {
     this.indexingService.fetchTokens();
     this.fetchTokensData();
   }
+
+  override get actions(): Action[] {
+    return [this.viewAction, this.refreshAction, this.deleteAction, this.clearAction];
+}
 
   /**********************
    * UPLOADER

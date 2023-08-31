@@ -68,7 +68,10 @@
             </sq-facet-card>
 
             <!-- Documents uploader -->
-            <sq-uploader></sq-uploader>
+            <sq-facet-card [title]="'msg#uploader.uploadedList'" [icon]="'fas fa-fw fa-cloud-upload-alt primary-icon'"
+                [collapsible]="false">
+                <sq-uploader #facet></sq-uploader>
+            </sq-facet-card>
         </div>
 
         <!-- Results -->
