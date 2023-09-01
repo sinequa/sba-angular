@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UploaderService } from './uploader.service';
-import { IndexingService, TokenData, TokenInfo } from './indexing.service';
 import { forkJoin } from 'rxjs';
 import { Record } from '@sinequa/core/web-services';
 import { Action, BsActionModule } from '@sinequa/components/action';
 import { IntlModule } from '@sinequa/core/intl';
-import { AbstractFacet, BsFacetModule } from '../facet';
+import { AbstractFacet, BsFacetModule } from '@sinequa/components/facet';
 import { ConfirmType, ModalButton, ModalResult, ModalService } from '@sinequa/core/modal';
-import { BsModalModule } from '../modal';
+import { BsModalModule } from '@sinequa/components/modal';
+import { UploaderService } from './uploader.service';
+import { IndexingService, TokenData, TokenInfo } from './indexing.service';
 
 @Component({
   selector: 'sq-uploader',
@@ -23,6 +23,7 @@ export class UploaderComponent extends AbstractFacet implements OnInit {
   deleteAction: Action;
   clearAction: Action;
   viewAction: Action;
+  _actions: Action[];
 
   records: Record[];
   idsToDelete: string[] = [];
@@ -71,11 +72,11 @@ export class UploaderComponent extends AbstractFacet implements OnInit {
         this.uploadView = !this.uploadView;
         action.icon = this.uploadView ? 'fas fa-list' : 'fas fa-upload';
         action.title = this.uploadView ? 'msg#uploader.switchList' : 'msg#uploader.switchUploader';
-        this.refreshAction.update();
-        this.deleteAction.update();
-        this.clearAction.update();
+        this._actions.forEach(a => a.update());
       }
     });
+
+    this._actions = [this.viewAction, this.refreshAction, this.deleteAction, this.clearAction];
 
   }
 
@@ -86,8 +87,8 @@ export class UploaderComponent extends AbstractFacet implements OnInit {
   }
 
   override get actions(): Action[] {
-    return [this.viewAction, this.refreshAction, this.deleteAction, this.clearAction];
-}
+    return this._actions;
+  }
 
   /**********************
    * UPLOADER
@@ -208,8 +209,7 @@ export class UploaderComponent extends AbstractFacet implements OnInit {
     } else { // add otherwise
       this.idsToDelete.push(record.id);
     }
-    this.deleteAction.update();
-    this.clearAction.update();
+    this._actions.forEach(a => a.update());
   }
 
   /** Delete documents from idsToDelete list */
@@ -219,8 +219,7 @@ export class UploaderComponent extends AbstractFacet implements OnInit {
     this.uploaderService.delete(this.idsToDelete)
       .subscribe(() => {
         this.idsToDelete = [];
-        this.deleteAction.update();
-        this.clearAction.update();
+        this._actions.forEach(a => a.update());
         this.getUploadsList();
       });
   }
