@@ -163,7 +163,7 @@ node (params.SBA_NODE) {
 				echo ".tag components and install core:"
 				cd ./projects/components
 				@call ${myNPM} --no-git-tag-version version ${sba_version}
-				@call ${myNPM} install @sinequa/core@${sba_version} --save-exact
+				@call ${myNPM} install @sinequa/core@${sba_version} --save-exact  --legacy-peer-deps
 				cd ../..
 				echo ".buildcomponents:"
 				@call ${myNPM} run buildcomponents
@@ -178,7 +178,7 @@ node (params.SBA_NODE) {
 				echo ".tag analytics and install components:"
 				cd ./projects/analytics
 				@call ${myNPM} --no-git-tag-version version ${sba_version}
-				@call ${myNPM} install @sinequa/components@${sba_version} --save-exact
+				@call ${myNPM} install @sinequa/components@${sba_version} --save-exact --legacy-peer-deps
 				cd ../..
 				echo ".buildanalytics:"
 				@call ${myNPM} run buildanalytics
