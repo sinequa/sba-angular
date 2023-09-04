@@ -19,12 +19,7 @@ import { IndexingService, TokenData, TokenInfo } from './indexing.service';
 })
 export class UploaderComponent extends AbstractFacet implements OnInit {
 
-  refreshAction: Action;
-  deleteAction: Action;
-  clearAction: Action;
-  viewAction: Action;
   _actions: Action[];
-
   records: Record[];
   idsToDelete: string[] = [];
 
@@ -42,14 +37,14 @@ export class UploaderComponent extends AbstractFacet implements OnInit {
   ) {
     super();
 
-    this.refreshAction = new Action({
+    const refreshAction = new Action({
       icon: 'fas fa-sync-alt',
       title: 'msg#uploader.refreshUploads',
       action: () => this.getUploadsList(),
       updater: action => action.hidden = this.uploadView
     });
 
-    this.deleteAction = new Action({
+    const deleteAction = new Action({
       icon: 'fas fa-trash',
       title: 'msg#uploader.deleteUploads',
       hidden: !this.idsToDelete.length,
@@ -57,7 +52,7 @@ export class UploaderComponent extends AbstractFacet implements OnInit {
       updater: action => action.hidden = this.uploadView || !this.idsToDelete.length
     });
 
-    this.clearAction = new Action({
+    const clearAction = new Action({
       icon: 'fas fa-trash',
       title: 'msg#uploader.clearUploads',
       hidden: this.idsToDelete.length > 0,
@@ -65,7 +60,7 @@ export class UploaderComponent extends AbstractFacet implements OnInit {
       updater: action => action.hidden = this.uploadView || this.idsToDelete.length > 0
     });
 
-    this.viewAction = new Action({
+    const viewAction = new Action({
       icon: 'fas fa-upload',
       title: 'msg#uploader.switchUploader',
       action: action => {
@@ -76,7 +71,7 @@ export class UploaderComponent extends AbstractFacet implements OnInit {
       }
     });
 
-    this._actions = [this.viewAction, this.refreshAction, this.deleteAction, this.clearAction];
+    this._actions = [viewAction, refreshAction, deleteAction, clearAction];
 
   }
 
