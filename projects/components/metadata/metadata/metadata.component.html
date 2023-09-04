@@ -15,7 +15,8 @@
             [entityExtractMaxLines]="c.entityExtractMaxLines"
             [actionsButtonsStyle]="actionsButtonsStyle"
             [actionsButtonsSize]="actionsButtonsSize"
-            [collapseRows]="c.collapseRows">
+            [collapseRows]="c.collapseRows"
+            (valueClicked)="valueClicked.emit($event)">
         </sq-metadata-item>
         <span *ngIf="isString(c)">{{c | sqMessage}}</span>
     </ng-container>
