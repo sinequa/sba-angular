@@ -32,6 +32,7 @@ import { PreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule } from '@sinequa/components/selection';
 import { MLModule } from '@sinequa/components/machine-learning';
+import { UploaderComponent } from '@sinequa/components/uploader';
 
 import { SearchFormComponent } from "@sinequa/components/search-form";
 import { FiltersModule } from "@sinequa/components/filters";
@@ -146,7 +147,7 @@ export const breakpoints = {
         MLModule,
         FiltersModule,
         SearchFormComponent,
-
+        UploaderComponent,
         NetworkModule
     ],
     declarations: [

@@ -1,0 +1,7 @@
+.drop-area {
+    border: .2rem dashed transparent;
+
+    &.dragging {
+        border-color: grey;
+    }
+}

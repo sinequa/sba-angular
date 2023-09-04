@@ -1,0 +1,34 @@
+<div *ngIf="uploadView" class="p-2">
+  <input type="file" [multiple]="true" #file [style.display]="'none'" (change)="onInputChange($event)">
+  <button class="btn btn-secondary w-100" (click)="file.click();">
+    <i class="fas fa-upload me-2"></i>{{'msg#uploader.upload' | sqMessage}}
+  </button>
+  <div class="drop-area text-center bg-light px-3 py-5" [class.dragging]="dragging" (dragover)="dragEvent(true, $event)"
+    (dragleave)="dragEvent(false, $event)" (dragend)="dragEvent(false, $event)"
+    (drop)="dragEvent(false, $event); onDrop($event)">
+    {{'msg#uploader.dragdrop' | sqMessage}}
+  </div>
+
+  <div class="list-group list-group-flush my-3" *ngIf="pendingTokens.length">
+    <div class="list-group-item list-group-item-action d-flex align-items-center"
+      *ngFor="let data of pendingTokens; let index = index">
+      <span class="flex-grow-1">
+        <span class="fas fa-spinner fa-spin"></span>
+        {{'msg#uploader.indexing' | sqMessage}} {{data.token.name}}....... ({{indexingCount(data.tokenData)}})
+      </span>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="!uploadView">
+  <div class="list-group list-group-flush">
+    <div class="list-group-item text-center text-muted fst-italic small unstriped py-5"
+      *ngIf="!records || !records.length">
+      {{'msg#uploader.noUploads' | sqMessage}}
+    </div>
+    <div class="list-group-item list-group-item-action" *ngFor="let record of records">
+      <input class="form-check-input me-1" type="checkbox" (click)="addRecordForDelete(record, $event)">
+      {{record.filename}}
+    </div>
+  </div>
+</ng-container>

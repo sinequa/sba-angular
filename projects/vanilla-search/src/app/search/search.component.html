@@ -66,6 +66,12 @@
                     [facetComponents]="facetComponents">
                 </sq-facet-multi>
             </sq-facet-card>
+
+            <!-- Documents uploader -->
+            <sq-facet-card [title]="'msg#uploader.uploadedList'" [icon]="'fas fa-fw fa-cloud-upload-alt primary-icon'"
+                [collapsible]="false" [tooltip]="'Uploaded documents are only visible to you. Files are NOT stored on the server. Sinequa only stores the text content and HTML preview.'">
+                <sq-uploader #facet></sq-uploader>
+            </sq-facet-card>
         </div>
 
         <!-- Results -->
