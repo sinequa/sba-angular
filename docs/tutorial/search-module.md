@@ -81,6 +81,8 @@ Also, remove the now unused imports:
 Now in your `app.component.html`, replace the occurrences of `results$` by `searchService.resultsStream`.
 
 ```html
+    <button *ngIf="searchService.resultsStream | async" type="button" (click)="clear()">Clear</button>
+</form>
 <div *ngIf="searchService.resultsStream | async; let results">
     <hr>
     <div *ngFor="let record of results.records" class="record">
