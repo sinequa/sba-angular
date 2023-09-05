@@ -69,6 +69,7 @@ Your form should now look like this:
 We want to handle the autocomplete display inside its own component. Let's create a new component in `src/app/` named `autocomplete.ts`.
 
 ```ts
+{% raw %}import { Component, OnInit } from "@angular/core";
 import { Observable, of } from "rxjs";
 
 @Component({
@@ -90,7 +91,7 @@ export class Autocomplete implements OnInit {
     ngOnInit() {
         this.items$ = of('Hello world');
     }
-}
+}{% endraw %}
 ```
 
 In this code, you have `items$` being an Observable, meaning that you can watch it to retrieve in an asyncronous way some data. Here, you don't yet make any call but you pass the string "Hello world" using the rxjs `of()` method  that allows to inject some data asyncronously.
@@ -129,7 +130,9 @@ You should now see a "Hello world" appear when you click on the input:
 Let's add the input to the component and change `items$` to return the input value:
 
 ```ts
-{% raw %}import { ReplaySubject } from "rxjs";
+{% raw %}import { Input, OnChanges } from "@angular/core";
+import { ReplaySubject } from "rxjs";
+
 
 export class Autocomplete implements OnChanges, OnInit {
 
@@ -175,19 +178,20 @@ export class Autocomplete implements OnChanges, OnInit {
 
     ngOnInit() {
         this.items$ = this.inputChange$.pipe(map(text => "Hello world " + text));
-    }
+    }{% endraw %}
 ```
 
 And here's the result:
 
-![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-alterinput.png)
+![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete-altervalue.png)
 
 ## Retrieve the suggestions
 
 You now need to get the proper suggestions from what you type. For a better asyncronous handling of the value transformation, you can use rxjs `switchMap()` method which like `map()` allows you to change the value, but asynchronously, for example by making a call.
 
 ```ts
-{% raw %}import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
+{% raw %}import { switchMap } from "rxjs";
+import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
 
 @Component({
     ...
@@ -201,6 +205,7 @@ You now need to get the proper suggestions from what you type. For a better asyn
 })
 export class Autocomplete implements OnChanges, OnInit {
 
+    ...
     items$: Observable<AutocompleteItem[] | undefined>;
 
     constructor(private suggestService: SuggestService) {

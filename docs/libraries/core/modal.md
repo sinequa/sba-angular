@@ -41,8 +41,8 @@ to wait for the user interaction with the popup.
 
 ### ModalService
 
-The [`ModalService`]({{site.baseurl}}/core/injectables/ModalService.html) can be injected to
-your component when you need to inform user or to ask for user interaction before executing a procedure.
+The `ModalService` can be injected to your component when you need to inform user or to ask for user interaction
+before executing a procedure.
 
 The service provides four public methods that creates four commonly types of popup:
 
@@ -152,7 +152,7 @@ confirm(
 ): Promise<ModalResult>     // A Promise to wait for user interaction
 ```
 
-The input of this method is a [`ConfirmOptions`]({{site.baseurl}}/core/interfaces/ConfirmOptions.html)
+The input of this method is a `ConfirmOptions`
 
 ```typescript
 interface ConfirmOptions {
@@ -164,10 +164,10 @@ interface ConfirmOptions {
 }
 ```
 
-Each button of a popup is of type [`ModalButton`]({{site.baseurl}}/core/classes/ModalButton.html),
+Each button of a popup is of type `ModalButton`,
 which can be created by `new ModalButtion(options)`.
 
-The input of the constructor is of type [`IModalButton`]({{site.baseurl}}/core/interfaces/IModalButton.html)
+The input of the constructor is of type `IModalButton`
 
 ```typescript
 interface IModalButton {
@@ -227,7 +227,7 @@ open(
 ): Promise<ModalResult>         // A Promise to wait for user interaction
 ```
 
-The configuration of a modal is a [`ModalConfig`]({{site.baseurl}}/core/interfaces/ModalConfig.html)
+The configuration of a modal is a `ModalConfig`
 
 ```typescript
 interface ModalConfig {
@@ -268,10 +268,10 @@ In effect, many of the popups used by Sinequa components are created using this 
 
 | Component name | UI popup |
 | ---------------|----------|
-|[`BsEditSavedQuery`]({{site.baseurl}}/components/components/BsEditSavedQuery.html) | New saved query |
-|[`BsManageSavedQueries`]({{site.baseurl}}/components/components/BsManageSavedQueries.html) | Manage saved queries |
-| [`BsEditAlert`]({{site.baseurl}}/components/components/BsEditAlert.html) | Alert |
-| [`BsEditBasket`]({{site.baseurl}}/components/components/BsEditBasket.html) | Basket |
+| `BsEditSavedQuery` | New saved query |
+| `BsManageSavedQueries` | Manage saved queries |
+| `BsEditAlert` | Alert |
+| `BsEditBasket` | Basket |
 
 When hoisting the modal popup with your own component, you may want to transfer data back and forth with the component.
 

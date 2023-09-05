@@ -17,7 +17,7 @@ This module is a wrapper of the open-source [ngx-charts](https://swimlane.github
 The module includes two components:
 
 - A chart component displaying given input data, unaware of Sinequa's API and data structures. It supports different chart types from the [ngx-charts](https://swimlane.github.io/ngx-charts/) library.
-- A "facet" component taking care of pre-processing the aggregation data available in the results, and passing it to the chart component. Its API is similar to that of the [List Facet component]({{site.baseurl}}/modules/components/facet.html#list-facet).
+- A "facet" component taking care of pre-processing the aggregation data available in the results, and passing it to the chart component. Its API is similar to that of the [List Facet component]({{site.baseurl}}/libraries/components/facet.html#list-facet).
 
 ![Chart]({{site.baseurl}}assets/modules/ngx-charts/chart.png){: .d-block .mx-auto }
 
@@ -104,4 +104,4 @@ The `sq-facet-ngx-chart` component accepts the following inputs:
 - `chartType` (`undefined` defaults to a vertical bar chart): Defines the type of chart to display. Available options: `'horizontalbar'`, `'pie'`, `'advancedpie'`, `'piegrid'`, `'treemap'`, `'numbercard'`, `'gauge'`.
 - `colorScheme` **or** `colors`: By default a list of `colors` is provided, containing a single color, resulting in all the chart items being drawn with the same color. It is possible to provide a custom list of `colors` with multiple values instead. It is also possible to set `colors` to `null` or `undefined` and instead provide a `colorScheme` (among the options: `vivid`, `natural`, `cool`, `fire`, `solar`, `air`,... see the [source code](https://github.com/swimlane/ngx-charts/blob/master/projects/swimlane/ngx-charts/src/lib/utils/color-sets.ts)).
 - `filteredColor` (default: `#C3E6CB`): If the `colors` input is provided, items which are *filtered* (have been clicked on to filter the results) will be displayed with this color.
-- `selectedColor` (default: `#7acce5`): If the `colors` input is provided, items belonging to a *selected* document (managed by the `SelectionService` - see [Selection Module]({{site.baseurl}}/modules/components/selection.html)) will be displayed with this color.
+- `selectedColor` (default: `#7acce5`): If the `colors` input is provided, items belonging to a *selected* document (managed by the `SelectionService` - see [Selection Module]({{site.baseurl}}/libraries/components/selection.html)) will be displayed with this color.

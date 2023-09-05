@@ -15,7 +15,7 @@ In the case of the Sinequa SBA Framework, the parameters which often need to be 
 - `auditEnabled`: Whether or not to enable audit logging
 - `autoSAMLProvider`, `autoOAuthProvider`: Name of the login providers configured on the server
 - `production`: Whether the app is built for production or not
-- `url`: URL of the Sinequa server (if you are using [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) -- See [Workflows]({{site.baseurl}}gettingstarted/workflow.html#working-remotely)).
+- `url`: URL of the Sinequa server (if you are using [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) -- See [Connecting to the Sinequa server]({{site.baseurl}}guides/3-development.html#connecting-to-the-sinequa-server)).
 
 To take an example, let's say you have to develop your SBA with a Sinequa server at `https://sinequa-dev.customer.com` and you will deploy your production application on `https://sinequa.customer.com`. You may have something like the following:
 
@@ -58,4 +58,4 @@ export const environment = {
 };
 ```
 
-Note that the `url` parameter can be omitted if your application is hosted on the Sinequa server or if you use a proxy (the `url` will just be inferred from the browser URL). It can also be omitted if you use a proxy with `ng serve` (See [workflows]({{site.baseurl}}gettingstarted/workflow#ng-serve)).
+Note that the `url` parameter can be omitted if your application is hosted on the Sinequa server or if you use a proxy (the `url` will just be inferred from the browser URL). It can also be omitted if you use a proxy with `ng serve` (See [Getting Started]({{site.site.baseurl}}getting-started.html#develop-an-application)).

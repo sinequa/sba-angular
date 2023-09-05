@@ -28,7 +28,7 @@ At this point, you can build and serve your app (from the root of the workspace)
 npm run ng serve hello-search -- --ssl=true --proxy-config=./projects/hello-search/src/proxy.conf.json
 ```
 
-Please read the [Getting Started]({{site.baseurl}}gettingstarted/dev-setup.html#building-an-app) section if you wonder about the `proxyConfig` argument.
+Please read the [Getting Started]({{site.baseurl}}getting-started.html#develop-an-application) section if you wonder about the `proxyConfig` argument.
 
 If the build is successful, you can navigate to `https://localhost:4200` in your favorite web browser. You should be greeted by a login page (this is where your need your Sinequa account). Put in your credentials and you should be redirected to the simplest of search pages. Type some keywords and search!
 

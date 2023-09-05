@@ -159,6 +159,6 @@ It only requires the `config` input, and emits on `reset` when the user clicks o
 
 ### Saved Chats
 
-`sq-chat` offers the possibility to save a chat session in the [user settings]({{site.baseurl}}libraries/components/user-settings.html). In order to load them back, the `sq-saved-chat` component can be used to display the list chats that have been saved.
+`sq-chat` offers the possibility to save a chat session in the [User Settings]({{site.baseurl}}libraries/components/user-settings.html). In order to load them back, the `sq-saved-chat` component can be used to display the list chats that have been saved.
 
 The component requires no input parameter. It will only emit the `SavedChat` with the `load` input upon clicking on a chat name, and you can also delete them in this list if you wish.
