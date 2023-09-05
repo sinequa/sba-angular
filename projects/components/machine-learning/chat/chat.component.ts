@@ -116,6 +116,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Output() referenceClicked = new EventEmitter<Record>();
   @Output() openPreview = new EventEmitter<ChatAttachmentOpen>();
   @Output() loading = new EventEmitter<boolean>(false);
+  @Output() error = new EventEmitter<any>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
@@ -298,6 +299,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         error: err => {
           this.terminateFetch();
           console.error(err);
+          this.error.emit(err);
         },
         complete: () => {
           this.terminateFetch();
