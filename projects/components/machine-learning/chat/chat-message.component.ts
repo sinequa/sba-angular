@@ -159,8 +159,8 @@ export class ChatMessageComponent implements OnChanges, AfterViewInit {
    * Reformat [ids: 12.2, 42.5] to [12.2][42.5]
    */
   reformatReferences(content: string) {
-    return content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\s*(?:,?\s*\d+(?:\.\d+)?\s*)+)\]/g,
-      (str, match: string) => `[${match.split(',').join("] [")}]`
+    return content.replace(/\[(?:ids?:?\s*)?(?:documents?:?\s*)?(\s*(?:,?\s*\d+(?:\.\d+)?(?:\.part)?\s*)+)\]/g,
+      (str, match: string) => `[${match.replace(/\.part/g, "").split(',').join("] [")}]`
     );
   }
 

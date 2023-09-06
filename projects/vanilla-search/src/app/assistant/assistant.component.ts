@@ -94,7 +94,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
       // Cancel default chat and display the spinner
       tap(() => {
         this.chat!.resetChat();
-        this.chat!.loading = true;
+        this.chat!.loading.emit(true);
         this.chat!.cdr.detectChanges();
       }),
 
@@ -129,7 +129,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
 
       // Turn off spinner
       tap(suggestions => {
-        this.chat!.loading = false;
+        this.chat!.loading.emit(false);
         this.chat!.cdr.detectChanges();
         if(!suggestions) {
           this.chat!.loadDefaultChat();
@@ -193,7 +193,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
       // If there are suggestions of query changes, re-run a search with these suggestions
       switchMap((suggestion: ChatSuggestion) => {
         if(suggestion.query || suggestion.sources) {
-          this.chat!.loading = true;
+          this.chat!.loading.emit(true);
           this.chat!.cdr.detectChanges();
           const query = this.searchService.query.copy();
           this.applySuggestions(suggestion.query, suggestion.sources, query);
@@ -219,7 +219,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
                 this.chat.terminateFetch();
               }
               else {
-                this.chat.loading = false;
+                this.chat.loading.emit(false);
                 this.chat.cdr.detectChanges();
               }
             }),
@@ -236,7 +236,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
 
       // Turn on spinner
       tap(() => {
-        this.chat!.loading = true;
+        this.chat!.loading.emit(true);
         this.chat!.cdr.detectChanges()
       }),
 
@@ -268,7 +268,7 @@ export class AssistantComponent implements AfterViewInit, OnDestroy {
       // Cancel default chat and display the spinner
       tap(() => {
         this.chat!.resetChat();
-        this.chat!.loading = true;
+        this.chat!.loading.emit(true);
         this.chat!.cdr.detectChanges();
 
         this.auditService.notify({
