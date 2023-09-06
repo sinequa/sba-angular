@@ -3,7 +3,9 @@
 
 // fontawesome and sinequa recommended imports
 // need some bootstrap mixins
-@import "_minimal";
+@import "minimal";
+@import "fortawesome-free";
+@import "components/root";
 
 // Sinequa components stylesheets
 @import "../advanced/bootstrap/advanced.scss";
@@ -14,6 +16,7 @@
 @import "components/tabs";
 @import "components/alerts";
 @import "components/pagination";
+@import "components/modals";
 
 @import "sba/facets";
 @import "sba/results";

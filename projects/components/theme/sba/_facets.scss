@@ -8,6 +8,10 @@ sq-facet-card {
     }
   }
 
+  .card {
+    --bs-card-bg: #{$white};
+  }
+
   .card-header {
     font-weight: $card-cap-font-weight;
 

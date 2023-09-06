@@ -1,15 +1,15 @@
+import { HttpDownloadProgressEvent, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Validators } from "@angular/forms";
 import { SearchService } from "@sinequa/components/search";
-import { AuditEvent, AuditWebService, JsonMethodPluginService, Record, RelevantExtract, Results, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
-import { BehaviorSubject, defaultIfEmpty, filter, finalize, forkJoin, map, Observable, of, scan, Subject, switchMap, tap } from "rxjs";
+import { UserPreferences } from "@sinequa/components/user-settings";
+import { LoginService } from "@sinequa/core/login";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
-import { Validators } from "@angular/forms";
+import { AuditEvent, AuditWebService, JsonMethodPluginService, Record, RelevantExtract, Results, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
+import { BehaviorSubject, Observable, Subject, defaultIfEmpty, filter, finalize, forkJoin, map, of, scan, switchMap, tap } from "rxjs";
 import { Chunk, equalChunks, insertChunk } from "./chunk";
 import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, GllmModel, GllmModelDescription, GllmTokenQuota, GllmTokens, RawMessage, RawResponse, SavedChat } from "./types";
-import { UserPreferences } from "@sinequa/components/user-settings";
-import { HttpDownloadProgressEvent, HttpEvent, HttpEventType } from "@angular/common/http";
-import { LoginService } from "@sinequa/core/login";
 
 export interface SearchAttachmentsOptions {
   /** Max number of top passages to include */
@@ -74,7 +74,7 @@ export class ChatService {
   ];
   defaultAttachmentMetadata = ['title', 'modified'];
 
-  initialized$ = new Subject<boolean>();
+  initialized$ = new BehaviorSubject<boolean>(false);
   models?: GllmModelDescription[];
   quota?: GllmTokenQuota;
   quotaPercentage = 0;
