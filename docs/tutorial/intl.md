@@ -17,10 +17,10 @@ For example, if you dictionary looks like:
 
 ```json
 {
-    "hello": "bonjour",
-    "fruits": {
-        "strawberry": "fraise",
-        "apple": "pomme"
+    hello: "bonjour",
+    fruits: {
+        strawberry: "fraise",
+        apple: "pomme"
     }
 }
 ```
@@ -215,8 +215,11 @@ Inside this file, you need to **replace imports that point to English resources 
 For example:
 
 ```ts
+import {LocaleData} from "@sinequa/core/intl";
 import {frCore} from "@sinequa/core/messages";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
+import {Utils} from "@sinequa/core/base";
+
 import {frFacet} from "@sinequa/components/facet";
 import {frResult} from "@sinequa/components/result";
 import {frSearch} from "@sinequa/components/search";
@@ -249,6 +252,8 @@ results: {
 },
 ```
 
+You will also need to replace the `export` section to change the `en-US` occurences into `fr-FR`, and update all the `en` messages files with their french ones (for example `enCore` into `frCore`).
+
 Notice in this dictionary that the language names themselves ("English", "Français", etc.) need to have an entry (`locale.en`, `locale.fr`) in order to display them in the future language menu. You might want to add the `locale.fr` entry to `en.ts` as well.
 
 Finally, import this locale and add it to your `AppLocalesConfig`:
@@ -264,7 +269,7 @@ locales: Locale[] = [
 
 Now your application supports multiple language, but you have no way to easily switch between them!
 
-Let's add a button for each language, next to the Login and Logout buttons. We will use another module to this end: the [**Action module**]({{site.baseurl}}libraries/components/action.html). This module, which is used extensively across the framework, allows to easily create dynamic lists of buttons and menus and support many useful options.
+Let's add a button for each language, next to the Login and Logout buttons (that you can also internationalize). We will use another module to this end: the [**Action module**]({{site.baseurl}}libraries/components/action.html). This module, which is used extensively across the framework, allows to easily create dynamic lists of buttons and menus and support many useful options.
 
 1. Import the Action module in your `app.module.ts`.
 
@@ -312,11 +317,11 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
 
 3. Insert this list of buttons in your `app.component.html` with the `sq-action-buttons` directive, next to the existing Login/Logout buttons:
 
-    ```html
-    <button ...>Logout</button>
-    <button ...>Login</button>
+    ```html{% raw %}
+    <button ...>{{ msg#app.logout | sqMessage }}</button>
+    <button ...>{{ msg#app.login | sqMessage }}</button>
     <span [sq-action-buttons]="{items: languageActions}"></span>
-    ```
+    {% endraw %}```
 
     ![Language buttons]({{site.baseurl}}assets/tutorial/intl-buttons.png)
 
