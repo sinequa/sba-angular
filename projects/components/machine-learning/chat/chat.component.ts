@@ -396,6 +396,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         }
         else if(tokens) {
           this.updateData(messages, tokens.used); // If the last message if from the assistant, we can load the conversation right away
+          this.terminateFetch();
         }
       });
   }
