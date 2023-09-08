@@ -9,6 +9,7 @@ import { visit, CONTINUE, EXIT } from "unist-util-visit";
 import { Text, Parent, Content } from "mdast";
 import { Node } from "unist";
 import { UIService } from "@sinequa/components/utils";
+import remarkGfm from "remark-gfm";
 
 declare module Prism {
   function highlightAllUnder(el: HTMLElement): void;
@@ -60,6 +61,7 @@ export class ChatMessageComponent implements OnChanges, AfterViewInit {
 
       this.processor = unified()
         .use(remarkParse)
+        .use(remarkGfm)
         .use(() => this.referencePlugin);
 
       if(this.streaming) {

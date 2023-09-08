@@ -26,6 +26,39 @@
   vertical-align: text-bottom;
 }
 
+.message-content ::ng-deep img {
+  max-width: 100%;
+}
+
+.message-content ::ng-deep table {
+  display: block;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  min-width: 100%;
+  overflow-x: auto;
+  table-layout: fixed;
+
+  tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+
+  th,
+  td {
+    padding: .625em;
+    text-align: center;
+  }
+
+  th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+}
+
 .sq-chat-message-action {
   position: absolute;
   right: 0;
