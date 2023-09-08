@@ -53,13 +53,15 @@ import { SearchFormComponent as AppSearchFormComponent } from './search-form/sea
 
 ## Refactoring
 
-1. Open your `app.component.ts` and `app.component.html`, and migrate the content to `search.component.ts` and `search.component.html`, **except for the login and notifications management** (which we need to be on all routes). ⚠️ Be careful not to overwrite components class names and Angular selector with a copy-paste!
+1. Open your `app.component.ts` and `app.component.html`, and move all of their respective content to `search.component.ts` and `search.component.html`, **except for the login (buttons and respective methods) and notifications management (the notification container and its deleteNotification method)** as they need to be on all routes. ⚠️ Be careful not to overwrite components class names and Angular selector with a copy-paste!
 
 2. Add the `router-outlet` to `app.component.html`. You should have something like this (note that we positioned the notifications with `position: fixed` in the bottom right):
 
     ```html
     {% raw %}<router-outlet></router-outlet>
 
+    <button *ngIf="loginService.complete" type="button" (click)="logout()">{{ msg#app.logout | sqMessage }}</button>
+    <button *ngIf="!loginService.complete" type="button" (click)="login()">{{ msg#app.login | sqMessage }}</button>
     <ng-container *ngIf="notificationsService.notificationsStream | async as notification">
         <div *ngIf="deleteNotification(notification)" class="notification position-fixed" style="bottom: 5px; right: 5px; width: 500px">
             <div *ngIf="notification.title" class="title">
