@@ -36,6 +36,15 @@ def get_pkg_version() {
 	return pkg_version
 }
 
+// function to build the package tag from the version
+def get_pkg_tag(sba_version) {
+	def pkg_tag = sba_version.split(pkg_suffix)[0]
+	pkg_tag = pkg_tag.trim()
+	pkg_tag = "${tag_prefix}${pkg_tag}"
+	echo "pkg_tag: ${pkg_tag}"
+	return pkg_tag
+}
+
 // function to check if we are in PR or another branch
 def buildOrMerge() {
 	def typeAction = ""
@@ -45,6 +54,27 @@ def buildOrMerge() {
 		typeAction = "merge"
 	}
 	return typeAction
+}
+// get the branch name and the version number from the right jenkins variable 
+def getBranch() {
+	def tmpBranch=""
+	// PR : 
+	//   BRANCH_NAME: PR-8208
+	//   CHANGE_TARGET: release/11.7.0
+	// BRANCH
+	//   BRANCH_NAME: develop
+	//   BRANCH_NAME: release/11.7.0
+	// return: release/11.7.0
+
+	if (env.BRANCH_NAME.contains("PR-")) {
+		tmpBranch = env.CHANGE_TARGET
+	} else {
+		tmpBranch = env.BRANCH_NAME
+	}
+	echo "tmpBranch: ${tmpBranch}"
+
+	echo "Branch returned: ${tmpBranch}"
+	return tmpBranch
 }
 
 // get the branch name and the version number from the right jenkins variable 
@@ -60,12 +90,7 @@ def findBranchNumber() {
 	// return: release%2F11.7.0
 
 	echo "Triggering job for branch ${env.BRANCH_NAME}"
-	if (env.BRANCH_NAME.contains("PR-")) {
-		tmpBranch = env.CHANGE_TARGET
-	} else {
-		tmpBranch = env.BRANCH_NAME
-	}
-	echo "tmpBranch: ${tmpBranch}"
+	tmpBranch = getBranch()
 
 	theBranch = tmpBranch.replace("/", "%2F")
 	echo "Branch returned: ${theBranch}"
@@ -130,4 +155,49 @@ def sendMessage(color, specificMessage, logfile="") {
 		emailext(from: "build@sinequa.com",  to: "${to}", attachLog:false, subject: "${subject}", body: "${message}\n\n")
 	}
 }
+
+// get the path of npm in the version of the branch
+def getIceNode(branchName) {
+	println "Get nodejs from ICE for the release ${branchName}"
+	def cmd = "&git clone --no-checkout --depth 1 --filter=blob:none --branch ${branchName} --single-branch ${env:GIT_ROOT_URL}/Product/ice ice" + "\n"
+	cmd += "cd ice" + "\n"
+	cmd += "&git sparse-checkout init --cone" + "\n"
+	cmd += "&git sparse-checkout set distrib/programs/win/node/" + "\n"
+	cmd += "&git checkout ${branchName}" + "\n"
+	cmd += "cd .." + "\n"
+	// println cmd
+	try {
+		def ret = powershell(returnStdout: true, script: cmd)
+	} catch (err) {
+		currentBuild.result = "FAILURE"
+		throw err
+	}
+}
+
+// get the path of npm in the version of the branch
+def getNPMpath(pgm) {
+	println "Get $pgm path"
+	def pgmPath = ""
+	
+	// def cmd = '\$npmPath="ice\\distrib\\programs\\win\\node\\14.16.0\\' + pgm + '"' + "\n"
+	def cmd = '\$npmPath = Get-Childitem -path ./ice -file ' + pgm + ' -recurse -ErrorAction SilentlyContinue | select fullname | Out-String -stream | select-object -skip 3 | select-object -first 1'+ "\n"
+	cmd += "if ( \$null -ne \$npmPath ) {" + "\n"
+	cmd += " if ( Test-Path \$npmPath -PathType leaf ) {" + "\n"
+	cmd += " Write-Output \$npmPath" + "\n"
+	cmd += " } else {" + "\n"
+	cmd += ' Write-Output ""' + "\n"
+	cmd += " }" + "\n"
+	cmd += "} else {" + "\n"
+	cmd += 'Write-Output ""' + "\n"
+	cmd += "}" + "\n"
+	// println cmd
+	
+	pgmPath = powershell(returnStdout: true, script: cmd)
+	// remove CR/LF
+	pgmPath = pgmPath.trim()
+	
+	println "Path found: "+ pgmPath
+	return pgmPath
+}
+
 return this
