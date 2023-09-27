@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AutocompleteItem } from '@sinequa/components/autocomplete';
+import { SearchFormComponent } from '@sinequa/components/search-form';
 import { LoginService } from '@sinequa/core/login';
 import { BaseComponent } from 'src/app/shared/base.component';
 
@@ -58,10 +59,12 @@ get filteredSuggestions(): AutocompleteItem[] {
     { display: 'component', category: 'related term' },
   ];
 
+  @ViewChild("searchForm") searchForm: SearchFormComponent;
+
   get filteredSuggestions(): AutocompleteItem[] {
     return this.suggestions
       .filter(suggestion => suggestion.display.toLowerCase()
-        .indexOf((this.globalService.query.text || '').toLowerCase()) !== -1);
+        .indexOf((this.searchForm.searchInput.nativeElement.value || '').toLowerCase()) !== -1);
   }
 
   constructor(private loginService: LoginService) {
