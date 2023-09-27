@@ -179,7 +179,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             }
         }
         this._events.next({type: "new-results", results: this.results});
-        this._resultsStream.next(this.results);
+        this._resultsStream.next(results);
     }
 
     public setResults(results: T) {
@@ -794,8 +794,10 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 this.getResults(this.query, auditEvents)
                     .subscribe(results => {
                         if(this.results && results) {
-                            this.results.records = [...this.results?.records || [], ...results.records] || [];
-                            this._resultsStream.next(this.results);
+                            const records = [...this.results?.records || [], ...results.records] || [];
+                            results.records = records;
+                            this.results = results;
+                            this._resultsStream.next(results);
                         }
                         this.fetchingLoadMore = false;
                     });
