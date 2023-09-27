@@ -64,7 +64,7 @@ get filteredSuggestions(): AutocompleteItem[] {
   get filteredSuggestions(): AutocompleteItem[] {
     return this.suggestions
       .filter(suggestion => suggestion.display.toLowerCase()
-        .indexOf((this.searchForm.searchInput.nativeElement.value || '').toLowerCase()) !== -1);
+        .indexOf((this.globalService.query.text || this.searchForm.searchInput.nativeElement.value || '').toLowerCase()) !== -1);
   }
 
   constructor(private loginService: LoginService) {
