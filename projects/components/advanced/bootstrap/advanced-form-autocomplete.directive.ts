@@ -112,6 +112,18 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
      * @param event
      */
     @HostListener("input", ["$event"]) inputChanged(event: Event) {
+        // If there is text in the <input/> and not selected from the dropdown ==> set the item manually
+        if (!!this.getInputValue() && this.getInputValue() !== "") {
+            const item = {
+                display: this.getInputValue(),
+                normalized: this.getInputValue(),
+                category: "",
+            }
+            this.UpdateItem.next(item);
+        } else {
+            this.UpdateItem.next(undefined);
+        }
+
         switch (this.getState()) {
             case AutocompleteState.OPENED:
                 this.suggest(); // Just request more data, but no state change
