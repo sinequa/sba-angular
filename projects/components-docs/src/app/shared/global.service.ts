@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { Action, ActionSeparator } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
 import { AppService, Query } from '@sinequa/core/app-utils';
+import { LoginService } from '@sinequa/core/login';
 import { PreviewData, Results } from '@sinequa/core/web-services';
 import { Record } from "@sinequa/core/web-services";
+import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,7 +18,8 @@ export class GlobalService {
   previewData: PreviewData;
   // previewDocument: PreviewDocument;
 
-  loading = true;
+  //loading = true;
+  loading = new BehaviorSubject<boolean>(true);
 
   actions: Action[] = [
     new Action({
@@ -54,20 +57,22 @@ export class GlobalService {
   }
 
   constructor(private searchService: SearchService,
+    public loginService: LoginService,
     private appService: AppService) {
 
     this.query.text = environment.mock ? 'text' : '';
     this.query.action = 'search';
     this.query.page = 2;
     this.query.pageSize = 2;
-    if (environment.mock) {
-      this.appService.init().subscribe(() => {
-        this.loading = false;
-      });
-    } else {
-      this.loading = false;
-    }
-    this.search();
+
+    this.loginService.events.pipe(
+        filter(event => event.type === "login-complete" || event.type === "session-changed"),
+        switchMap(() => this.appService.init())
+    ).subscribe(
+        (data) =>  {
+            this.search();
+            this.loading.next(false);
+        });
   }
 
   search(): void {
