@@ -33,11 +33,6 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   text-decoration: none;
 }
 
-// CDK drag & drop
-.cdk-drag-preview {
-    z-index: 2000 !important;
-}
-
 // Validation
 sq-validation-message {
     @extend .invalid-feedback;
@@ -266,6 +261,23 @@ sq-facet-list .facet-results-scrollable {
 
 .extracts-date {
     font-weight: 500;
+}
+
+// === CDK drag & drop overrides ===
+.cdk-drag-preview {
+    z-index: 2000 !important;
+}
+
+// By default z-index is 1000, but Bootstrap's navbar z-index is 1020
+// tooltips must be displayed in front of the navbar
+.cdk-overlay-container {
+    z-index: 1030 !important;
+}
+
+// When the page has been scrolled down, the top offset of the overlay is incorrect
+// this is fixed in Angular 14, that's why this issue does not occurs in next SBA versions
+.cdk-global-scrollblock {
+    top: 0 !important;
 }
 
 @import 'dark-mode';
