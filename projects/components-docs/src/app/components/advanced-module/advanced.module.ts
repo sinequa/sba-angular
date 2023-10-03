@@ -14,6 +14,8 @@ import { DocDateRangePickerComponent } from './date-range-picker/date-range-pick
 import { DocSelectComponent } from './select/select.component';
 import { BsAdvancedModule } from '@sinequa/components/advanced';
 import { createElement } from 'src/app/shared/create-element';
+import { DocAdvancedFormComponent } from './advanced-form/doc-advanced-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', component: DocAdvancedModuleComponent }
@@ -29,11 +31,14 @@ const routes: Routes = [
     DocAdvancedFormSelectComponent,
     DocDatePickerComponent,
     DocDateRangePickerComponent,
-    DocSelectComponent
+    DocSelectComponent,
+    DocAdvancedFormComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule,
     DocBaseModule,
     BsAdvancedModule
   ]
@@ -48,5 +53,6 @@ export class DocAdvancedModule {
     createElement('doc-date-picker', DocDatePickerComponent);
     createElement('doc-date-range-picker', DocDateRangePickerComponent);
     createElement('doc-select', DocSelectComponent);
+    createElement('doc-advanced-form', DocAdvancedFormComponent);
   }
 }
