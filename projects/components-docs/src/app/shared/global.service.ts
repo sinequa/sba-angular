@@ -18,7 +18,6 @@ export class GlobalService {
   previewData: PreviewData;
   // previewDocument: PreviewDocument;
 
-  //loading = true;
   loading = new BehaviorSubject<boolean>(true);
 
   actions: Action[] = [
