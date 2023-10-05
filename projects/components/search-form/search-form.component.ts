@@ -8,7 +8,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { IntlModule } from "@sinequa/core/intl";
 import { UtilsModule, VoiceRecognitionService } from "@sinequa/components/utils";
-import { UserPreferences } from "@sinequa/components/user-settings";
+import { BsUserSettingsModule, HelpFolderOptions, UserPreferences } from "@sinequa/components/user-settings";
 import { compareFilters } from "@sinequa/core/web-services";
 
 @Component({
@@ -16,7 +16,7 @@ import { compareFilters } from "@sinequa/core/web-services";
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IntlModule, UtilsModule, BsSearchModule],
+  imports: [CommonModule, FormsModule, IntlModule, UtilsModule, BsSearchModule, BsUserSettingsModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
@@ -28,6 +28,8 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() enableVoiceRecognition = true;
   @Input() enableNeuralSearch = true;
   @Input() neuralSearchPref = "neural-search";
+  @Input() enableHelpPage = true;
+  @Input() helpFolderOptions: HelpFolderOptions;
 
   @Output("search") searchEvent = new EventEmitter<boolean>();
   @Output("expanded") expandedEvent = new EventEmitter<boolean>();

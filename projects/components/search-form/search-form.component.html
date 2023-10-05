@@ -68,6 +68,12 @@
       </span>
     </button>
 
+    <sq-help-button
+        *ngIf="enableHelpPage"
+        [helpFolderOptions]="helpFolderOptions"
+        styleClass="p-0 text-muted bg-transparent border-0 position-relative me-0">
+    </sq-help-button>
+
   </div>
 
   <div *ngIf="expanded">

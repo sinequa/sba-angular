@@ -2,7 +2,8 @@
   [query]="searchService.query"
   [searchRoute]="searchRoute"
   [showFilterCount]="true"
-  [autoSubmit]="false"> <!-- The search form won't autosubmit on "Enter", instead the autocomplete captures this event and acts accordindly -->
+  [autoSubmit]="false"
+  [helpFolderOptions]="helpFolderOptions"> <!-- The search form won't autosubmit on "Enter", instead the autocomplete captures this event and acts accordindly -->
 
   <ng-template let-query>
 
