@@ -1,8 +1,12 @@
 <doc-component-demo title="sq-advanced-form" [html]="code1" [ts]="code2">
     <div class="d-flex position-relative mb-5">
-        <div *ngIf="formInit" class="d-flex flex-column align-items-stretch ps-3 pe-2 py-1">
+        <div *ngIf="!firstPageService.firstPage" class="d-flex flex-column align-items-stretch ps-3 pe-2 py-1">
+            <span class="fas fa-sync fa-spin fa-fw"></span>
+        </div>
+        <div *ngIf="firstPageService.firstPage && formInit" class="d-flex flex-column align-items-stretch ps-3 pe-2 py-1">
             <form novalidate [formGroup]="form">
                 <sq-advanced-form-select [form]="form" [field]="'treepath'" [multiple]="true"></sq-advanced-form-select>
+                <sq-advanced-form-select [form]="form" [field]="'authors'" [multiple]="true"></sq-advanced-form-select>
                 <sq-advanced-form-range [form]="form" [field]="'size'"></sq-advanced-form-range>
                 <sq-advanced-form-range [form]="form" [field]="'modified'"></sq-advanced-form-range>
                 <sq-advanced-form-multi-input [form]="form" [field]="'person'" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"></sq-advanced-form-multi-input>

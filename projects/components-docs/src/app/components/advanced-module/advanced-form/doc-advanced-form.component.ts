@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { AdvancedService } from "@sinequa/components/advanced";
 import { FirstPageService, SearchService } from "@sinequa/components/search";
 import { AppService, Query } from "@sinequa/core/app-utils";
-import { Subscription, debounceTime } from "rxjs";
+import { Subscription, debounceTime, take } from "rxjs";
 import { BaseComponent } from "src/app/shared/base.component";
 import { environment } from "src/environments/environment";
 import { RESULTS } from "src/mocks/data/results";
@@ -12,7 +12,7 @@ import { RESULTS } from "src/mocks/data/results";
     selector: 'doc-advanced-form',
     templateUrl: './doc-advanced-form.component.html'
 })
-export class DocAdvancedFormComponent extends BaseComponent implements OnInit, OnChanges, OnDestroy {
+export class DocAdvancedFormComponent extends BaseComponent implements OnChanges, OnDestroy {
     @Input() query: Query;
     @Output() filterEdit = new EventEmitter<Query>();
 
@@ -117,7 +117,7 @@ updateQuery() {
         public searchService: SearchService,
         public firstPageService: FirstPageService,
         public advancedService: AdvancedService,
-        private formBuilder: UntypedFormBuilder
+        private formBuilder: UntypedFormBuilder,
     ) {
         super();
         if (environment.mock) {
@@ -127,13 +127,10 @@ updateQuery() {
             if (!state) {
                 this.query = this.globalService.query;
                 this.form = this.formBuilder.group({});
+                this.subscriptions.add(this.form.valueChanges.pipe(debounceTime(1000)).subscribe(() => this.updateQuery()));
                 this.initAdvancedForm();
             }
         });
-    }
-
-    ngOnInit() {
-        this.subscriptions.add(this.form.valueChanges.pipe(debounceTime(1000)).subscribe(() => this.updateQuery()));
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -148,20 +145,25 @@ updateQuery() {
 
     /** Initialize the advanced form with all the controls */
     initAdvancedForm() {
-        this.form.addControl('treepath', this.advancedService.createSelectControl('treepath', undefined, undefined, this.query));
-        this.form.addControl('authors', this.advancedService.createSelectControl('authors', undefined, undefined, this.query));
-        this.form.addControl('size', this.advancedService.createRangeControl('size',
-            [ this.advancedService.validators.range('size') ], undefined, this.query
-        ));
-        this.form.addControl('modified', this.advancedService.createRangeControl('modified',
-            [
-            this.advancedService.validators.range('modified'),
-            this.advancedService.validators.date('modified')
-            ], undefined, this.query
-        ));
-        this.form.addControl('person', this.advancedService.createMultiInputControl('person', undefined, undefined, this.query));
-        this.form.addControl('docformat', this.advancedService.createInputControl('docformat', undefined, undefined, this.query));
-        this.formInit = true;
+        this.firstPageService.getFirstPage().pipe(take(1)).subscribe(
+            () => {},
+            () => {},
+            () => {
+                this.form.addControl('treepath', this.advancedService.createSelectControl('treepath', undefined, undefined, this.query));
+                this.form.addControl('authors', this.advancedService.createSelectControl('authors', undefined, undefined, this.query));
+                this.form.addControl('size', this.advancedService.createRangeControl('size',
+                    [ this.advancedService.validators.range('size') ], undefined, this.query
+                ));
+                this.form.addControl('modified', this.advancedService.createRangeControl('modified',
+                    [
+                    this.advancedService.validators.range('modified'),
+                    this.advancedService.validators.date('modified')
+                    ], undefined, this.query
+                ));
+                this.form.addControl('person', this.advancedService.createMultiInputControl('person', undefined, undefined, this.query));
+                this.form.addControl('docformat', this.advancedService.createInputControl('docformat', undefined, undefined, this.query));
+                this.formInit = true;
+            });
     }
 
     /** Update form values according to changes at query level */
