@@ -13,7 +13,8 @@
     "searchForm": {
         "scopeTitle": "Suchbereich: {name}",
         "recentQuery": "Letzte Suche",
-        "recentDocument": "Letztes Dokument"
+        "recentDocument": "Letztes Dokument",
+        "helpButton": "Mehr über die Suche erfahren"
     },
 
     "facet": {

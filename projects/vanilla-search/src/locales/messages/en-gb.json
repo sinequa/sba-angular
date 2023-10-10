@@ -13,7 +13,8 @@
     "searchForm": {
         "scopeTitle": "Scope: {name}",
         "recentQuery": "Recent query",
-        "recentDocument": "Recent document"
+        "recentDocument": "Recent document",
+        "helpButton": "Learn more about search"
     },
 
     "baskets": {

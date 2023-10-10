@@ -3,7 +3,7 @@
   [searchRoute]="searchRoute"
   [showFilterCount]="true"
   [autoSubmit]="false"
-  [helpFolderOptions]="helpFolderOptions"> <!-- The search form won't autosubmit on "Enter", instead the autocomplete captures this event and acts accordindly -->
+  [enableHelpPage]="false"> <!-- The search form won't autosubmit on "Enter", instead the autocomplete captures this event and acts accordindly -->
 
   <ng-template let-query>
 
@@ -15,6 +15,14 @@
       (select)="onAutocompleteSelect($event, query)">
     </app-autocomplete>
 
+    <hr class="mx-2 mb-0 mt-1"/>
+
+    <sq-help-button
+        [helpFolderOptions]="helpFolderOptions"
+        [text]="'msg#searchForm.helpButton'"
+        [tooltip]="undefined"
+        styleClass="border-0 mx-2 px-2">
+    </sq-help-button>
   </ng-template>
 
 </sq-search-form>

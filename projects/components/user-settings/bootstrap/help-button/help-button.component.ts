@@ -13,12 +13,12 @@ import { APP_HELP_FOLDER_OPTIONS, BsUserMenuComponent, HelpFolderOptions } from 
 export class BsHelpButtonComponent {
 
     @Input() helpFolderOptions: HelpFolderOptions;
-    @Input() tooltip: string = "msg#userMenu.help";
-    @Input() text: string;
-    @Input() icon: string = "fas fa-question";
-    @Input() styleClass: string = "btn-primary";
-    @Input() tooltipPlacement: Placement = "bottom";
-    @Input() fallbackPlacements: Placement[] = ["top", "bottom"];
+    @Input() tooltip?: string = "msg#userMenu.help";
+    @Input() text?: string;
+    @Input() icon?: string = "fas fa-question";
+    @Input() styleClass?: string = "btn-primary";
+    @Input() tooltipPlacement?: Placement = "bottom";
+    @Input() fallbackPlacements?: Placement[] = ["top", "bottom"];
 
     constructor(
         public intlService: IntlService,
