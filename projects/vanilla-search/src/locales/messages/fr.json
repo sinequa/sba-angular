@@ -13,7 +13,8 @@
     "searchForm": {
         "scopeTitle": "Champ d'application : {name}",
         "recentQuery": "Recherche récente",
-        "recentDocument": "Document récent"
+        "recentDocument": "Document récent",
+        "helpButton": "En savoir plus sur la recherche"
     },
 
     "baskets": {

@@ -12,6 +12,7 @@ import {UtilsModule} from "@sinequa/components/utils";
 import {BsEditUserSettings} from "./edit-user-settings/edit-user-settings";
 import {BsUserSettingsEditor} from './user-settings-editor/user-settings-editor';
 import {BsUserMenuComponent} from './user-menu/user-menu.component';
+import { BsHelpButtonComponent } from "./help-button/help-button.component";
 
 @NgModule({
     imports: [
@@ -26,10 +27,10 @@ import {BsUserMenuComponent} from './user-menu/user-menu.component';
         UtilsModule,
     ],
     declarations: [
-        BsEditUserSettings, BsUserSettingsEditor, BsUserMenuComponent
+        BsEditUserSettings, BsUserSettingsEditor, BsUserMenuComponent, BsHelpButtonComponent
     ],
     exports: [
-        BsEditUserSettings, BsUserSettingsEditor, BsUserMenuComponent
+        BsEditUserSettings, BsUserSettingsEditor, BsUserMenuComponent, BsHelpButtonComponent
     ],
 })
 export class BsUserSettingsModule {
