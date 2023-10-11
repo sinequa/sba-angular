@@ -1,16 +1,18 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { AdvancedService } from "@sinequa/components/advanced";
 import { FirstPageService, SearchService } from "@sinequa/components/search";
 import { AppService, Query } from "@sinequa/core/app-utils";
 import { Subscription, debounceTime, take } from "rxjs";
 import { BaseComponent } from "src/app/shared/base.component";
+import { environment } from "src/environments/environment";
+import { RESULTS } from "src/mocks/data/results";
 
 @Component({
     selector: 'doc-advanced-form',
     templateUrl: './doc-advanced-form.component.html'
 })
-export class DocAdvancedFormComponent extends BaseComponent implements OnInit, OnChanges, OnDestroy {
+export class DocAdvancedFormComponent extends BaseComponent implements OnChanges, OnDestroy {
     @Input() query: Query;
     @Output() filterEdit = new EventEmitter<Query>();
 
@@ -115,20 +117,20 @@ updateQuery() {
         public searchService: SearchService,
         public firstPageService: FirstPageService,
         public advancedService: AdvancedService,
-        private formBuilder: UntypedFormBuilder
+        private formBuilder: UntypedFormBuilder,
     ) {
         super();
+        if (environment.mock) {
+            this.firstPageService.firstPage = RESULTS as any;
+        }
         this.globalService.loading.subscribe((state) => {
             if (!state) {
+                this.query = this.globalService.query;
+                this.form = this.formBuilder.group({});
+                this.subscriptions.add(this.form.valueChanges.pipe(debounceTime(1000)).subscribe(() => this.updateQuery()));
                 this.initAdvancedForm();
             }
         });
-    }
-
-    ngOnInit() {
-        this.query = this.globalService.query;
-        this.form = this.formBuilder.group({});
-        this.subscriptions.add(this.form.valueChanges.pipe(debounceTime(1000)).subscribe(() => this.updateQuery()));
     }
 
     ngOnChanges(changes: SimpleChanges): void {
