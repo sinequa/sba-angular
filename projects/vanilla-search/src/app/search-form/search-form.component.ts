@@ -36,12 +36,11 @@ export class AppSearchFormComponent {
 
   @ViewChild("searchForm") searchForm: SearchFormComponent;
 
-
-
   public helpFolderOptions: HelpFolderOptions = {
     path: '/r/_sinequa/webpackages/help',
     indexFile: 'olh-search.html#sdard-search',
   }
+
   constructor(
     public searchService: SearchService
   ) {}
