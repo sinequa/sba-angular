@@ -86,6 +86,13 @@
         "home": "Home",
         "downloadPdf": "Download PDF version",
         "original": "Original document"
+    },
+
+    "noResult": {
+        "title": "We couldn't find relevant documents that match your search query!",
+        "description": "Consider using keywords that are likely to be present on the relevant pages. For instance, try \"travel policy US \" instead of \"How much can I spend for a lunch in New Jersey?\".",
+        "help": "If you need assistance, check out additional",
+        "link": "search tips"
     }
 
 }

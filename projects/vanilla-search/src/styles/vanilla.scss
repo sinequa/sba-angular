@@ -216,6 +216,14 @@ sq-filters-view {
   }
 }
 
+sq-help-button {
+  .btn-help {
+    color: #0d6efd;
+    padding: 0px;
+    margin: -4px 0px 0px -8px;
+  }
+}
+
 /**
   adjust facet preview's height to take 100% of the viewport minus navbar and
   preview facet's header

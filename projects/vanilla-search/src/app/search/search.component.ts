@@ -14,6 +14,7 @@ import { AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/
 import { FacetParams, FACETS, FEATURES, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { MetadataConfig } from '@sinequa/components/metadata';
+import { HelpFolderOptions } from '@sinequa/components/user-settings';
 
 @Component({
   selector: 'app-search',
@@ -53,6 +54,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   public readonly facetComponents = {
       ...DEFAULT_FACET_COMPONENTS,
       "date": BsFacetDate
+  }
+
+  public helpFolderOptions: HelpFolderOptions = {
+    path: '/r/_sinequa/webpackages/help',
+    indexFile: 'olh-search.html#sdard-search',
   }
 
   public isDark: boolean;
