@@ -188,6 +188,9 @@ export class AppComponent implements AfterViewInit {
 
 ```html
 {% raw %}<router-outlet></router-outlet>
+
+<button *ngIf="loginService.complete" type="button" (click)="logout()">{{ msg#app.logout | sqMessage }}</button>
+<button *ngIf="!loginService.complete" type="button" (click)="login()">{{ msg#app.login | sqMessage }}</button>
 <ng-container *ngIf="notificationsService.notificationsStream | async as notification">
     <div *ngIf="deleteNotification(notification)" class="notification position-fixed" style="bottom: 5px; right: 5px; width: 500px">
         <div *ngIf="notification.title" class="title">

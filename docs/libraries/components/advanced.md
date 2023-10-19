@@ -257,10 +257,15 @@ The `AdvancedModule` embeds its own directives to handle custom features of the 
 
 ## Sample use case
 
-A working example has been built on top of the above bricks and packaged within **vanilla-search** app.
-In this section, we will go through the main keys of how to easily instantiate an advanced-search form :
+A working example could be the integration of an *advanced search form* in the search form used in [Pepper application](../../apps/3-pepper.md#integrated-search-form).
 
-1. First of all, we need to build the form according to the configuration we set above. This is done via `_instantiateAdvancedForm()` in the `search-form.component.ts`. The main idea is to add each FormControl to the form object. Here, you can easily apply validators as much as you want :
+In this section, we will go through the main keys of how to easily instantiate an advanced search form :
+
+1. First of all, we need to build the form. The best practice is to create a new component containing all the business logic. 
+
+<doc-advanced-form></doc-advanced-form>
+
+The main idea is to start by adding your controls to the form object. Here, you can easily apply validators as much as you want :
 ```typescript
   this.form.addControl('treepath', this.advancedService.createSelectControl('treepath'));
   this.form.addControl('modified', this.advancedService.createRangeControl('modified',
@@ -276,26 +281,38 @@ In this section, we will go through the main keys of how to easily instantiate a
   You can also note that the build process of the form is set in the callback of `this.firstPageService.getFirstPage()`. Its role is to load autocompletion suggestions and whatever data needed in the initialization of advanced-search components.
   You should **carefully** notice that the **name** of each formControl is exactly the **same as** its **field** property.
 
-2. Next step is to mutually update of the **form** and the **query** according to users interactions. Thus, we listen to each query update in `onInit()` and we update the query according to form changes in `search()`. To do so respectively :
-```typescript
-  this._searchSubscription = this.searchService.queryStream.subscribe(query => {
-    ...
-    this.form.get('treepath')?.setValue(this.advancedService.getValue('treepath'));
-    this.form.get('modified')?.setValue(this.advancedService.getRangeValue('modified'));
-    this.form.get('person')?.setValue(this.advancedService.getValue('person'));
-    this.form.get('docformat')?.setValue(this.advancedService.getValue('docformat'));
-    ...
-  });
-```
-  and
-```typescript
-  this.advancedService.setSelect('treepath', this.form.get('treepath')?.value);
-  this.advancedService.setRangeSelect('modified', this.form.get('modified')?.value);
-  this.advancedService.setSelect('person', this.form.get('person')?.value);
-  this.advancedService.setSelect('docformat', this.form.get('docformat')?.value);
-```
-3. The final step is to design the look & feel of your advanced-search form as you want.
+2. Next step is to mutually update of the **form** and the **query** according to users interactions. This is the role of both methods `updateFormOnQueryChange()` and `updateQuery()`.
 
-The example built in the packaged sample looks like this :
+3. Then, feel free to design the look & feel of your advanced search form as you want.
 
-![Labels]({{site.baseurl}}assets/modules/advanced/advanced-search.PNG){: .d-block .mx-auto }
+4. Once the component is ready, you can integrate it in the search form :
+
+```html
+<sq-search-form #searchForm
+  [query]="searchService.query"
+  [showFilterCount]="true"
+  [autoSubmit]="false">
+
+  <ng-template let-query>
+
+    <div class="search-dropdown border-top m-2">
+
+        ...
+
+        <hr/>
+
+        <div class="small fw-bold mb-1 ms-3 me-auto">Advanced Search Form:</div>
+        <!-- The new advanced search form you have just created ! -->
+        <sq-advanced-form
+            [query]="query"
+            (filterEdit)="onFiltersChange()">
+        </sq-advanced-form>
+
+        ...
+
+    </div>
+
+  </ng-template>
+
+</sq-search-form>
+```

@@ -7,6 +7,7 @@ import { DocAdvancedFormSelectComponent } from './advanced-form-select/advanced-
 import { DocDatePickerComponent } from './date-picker/date-picker.component';
 import { DocDateRangePickerComponent } from './date-range-picker/date-range-picker.component';
 import { DocSelectComponent } from './select/select.component';
+import { DocAdvancedFormComponent } from './advanced-form/doc-advanced-form.component';
 
 @Component({
   selector: 'doc-advanced-module',
@@ -24,7 +25,8 @@ export class DocAdvancedModuleComponent {
     DocAdvancedFormSelectComponent,
     DocDatePickerComponent,
     DocDateRangePickerComponent,
-    DocSelectComponent
+    DocSelectComponent,
+    DocAdvancedFormComponent
   ];
 
   constructor() { }
