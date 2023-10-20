@@ -50,6 +50,12 @@ node (params.SBA_NODE) {
 			// get the npm path
 			myNPM = jf.getNPMpath("npm.cmd")
 		}
+		if (myNPM == "" ) {
+			// get node executable from develop
+			jf.getIceNode("develop")
+			// get the npm path
+			myNPM = jf.getNPMpath("npm.cmd")
+		}
 		// A path must be found to do something
 		if (myNPM == "" ) {
 			currentBuild.result = "FAILURE"
