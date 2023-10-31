@@ -252,5 +252,8 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
   toggleNeuralSearch() {
     this.neuralSearch = !this.neuralSearch;
+    if (this.editedQuery?.text) {
+      this.applyFilters();
+    }
   }
 }
