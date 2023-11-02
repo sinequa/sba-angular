@@ -19,7 +19,7 @@ export class FiltersComponent implements OnChanges {
   @Input() showOperator = true;
   @Input() allowRemove = true;
   @Input() allowNesting = false;
-  @Input() containerClass = 'text-nowrap';
+  @Input() filtersClass = 'text-nowrap';
   @Output() filterEdit = new EventEmitter<Query>();
 
   exprFilter?: ExprFilter;
