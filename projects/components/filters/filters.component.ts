@@ -6,8 +6,8 @@ import { Filter, ExprFilter, ValueFilter, NullFilter, InFilter, BetweenFilter, i
   selector: 'sq-filters',
   templateUrl: './filters.component.html',
   styles: [`
-a:not(:hover) {
-  color: rgb(0,0,0,.5);
+a {
+  color: inherit;
 }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,6 +19,7 @@ export class FiltersComponent implements OnChanges {
   @Input() showOperator = true;
   @Input() allowRemove = true;
   @Input() allowNesting = false;
+  @Input() containerClass = 'text-nowrap';
   @Output() filterEdit = new EventEmitter<Query>();
 
   exprFilter?: ExprFilter;
