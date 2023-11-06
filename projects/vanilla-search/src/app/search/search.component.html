@@ -112,7 +112,7 @@
             </div>
 
             <!-- List of documents (for loop) -->
-            <ul class="result-list p-0">
+            <ul class="result-list p-0" *ngIf="results.records?.length > 0; else noResult">
                 <li *ngFor="let record of results.records" class="record"
                   (click)="onDocumentClicked(record, $event)"
                   [ngClass]="{
@@ -139,6 +139,20 @@
                     </sq-result-thumbnail>
                 </li>
             </ul>
+
+            <ng-template #noResult>
+              <div class="alert alert-warning" role="alert" >
+                <div class="d-flex align-items-center">
+                  <i class="far fa-sad-tear fs-1 me-2 mb-2"></i>
+                  <h5>{{'msg#noResult.title' | sqMessage}}</h5>
+                </div>
+                <p>{{'msg#noResult.description' | sqMessage}}</p>
+                <hr>
+                <p class="mb-0">{{'msg#noResult.help' | sqMessage}}
+                  <sq-help-button [helpFolderOptions]="helpFolderOptions" [icon]="undefined" [text]="'msg#noResult.link' | sqMessage" [tooltip]="undefined" styleClass="btn-help"></sq-help-button>
+                </p>
+              </div>
+            </ng-template>
 
             <!-- Infinite scroll -->
             <sq-scroller></sq-scroller>
