@@ -1,7 +1,9 @@
-import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
+
+import { Injectable } from "@angular/core";
+
 import { HttpService } from "./http.service";
-import { Results } from "./query.web.service";
+import { Results } from "./types";
 
 export type Dataset = {[key: string]: Results|DatasetError};
 

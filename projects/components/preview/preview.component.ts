@@ -1,15 +1,18 @@
+import { BehaviorSubject, Observable, Subject, of } from "rxjs";
+
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
-import { AppService, Query } from "@sinequa/core/app-utils";
-import { AuditEventType, CustomHighlights, PreviewData } from "@sinequa/core/web-services";
 import { UserPreferences } from "@sinequa/components/user-settings";
-import { PreviewFrameService } from "./preview-frames.service";
-import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { UIService } from "@sinequa/components/utils";
+import { AppService, Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
+import { CustomHighlights, PreviewData } from "@sinequa/core/web-services";
+
+import { PreviewFrameService } from "./preview-frames.service";
 import { PreviewService } from "./preview.service";
 
 export interface PreviewHighlightColors {
@@ -150,7 +153,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     this.pdfDownloadAction = new Action({
       icon: "fas fa-fw fa-file-pdf",
       title: "msg#preview.downloadPdf",
-      action: () => this.searchService.notifyOpenOriginalDocument(this.data!.record, undefined, AuditEventType.Doc_CachePdf)
+      action: () => this.searchService.notifyOpenOriginalDocument(this.data!.record, undefined, "Doc_CachePdf")
     });
 
     this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);

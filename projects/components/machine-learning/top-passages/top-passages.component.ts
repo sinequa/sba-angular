@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
-import { Results, TopPassage, AuditEvent, AuditEventType, AuditWebService, Record } from "@sinequa/core/web-services";
+import { delay } from "rxjs";
+
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
+
 import { AbstractFacet } from '@sinequa/components/facet';
 import { SearchService } from "@sinequa/components/search";
-import { delay } from "rxjs";
+import { AuditEvent, AuditWebService, Record, Results, TopPassage } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-top-passages',
@@ -29,7 +31,7 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
     super();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.documentsNb = 0;
     this.passages = undefined;
     if(this.results.topPassages?.passages?.length) {
@@ -78,13 +80,13 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   }
 
   private notifyTopPassagesClick(passage: TopPassage) {
-    const auditEvent: AuditEvent = this.makeAuditEvent(AuditEventType.TopPassages_Click, passage);
+    const auditEvent: AuditEvent = this.makeAuditEvent("TopPassages_Click", passage);
     this.auditService.notify(auditEvent);
   }
 
   private notifyTopPassagesDisplay(passages: TopPassage[]) {
     const auditEvents: AuditEvent[] = passages
-      .map((passage: TopPassage) => this.makeAuditEvent(AuditEventType.TopPassages_Display, passage));
+      .map((passage: TopPassage) => this.makeAuditEvent("TopPassages_Display", passage));
     this.auditService.notify(auditEvents);
   }
 

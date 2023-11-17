@@ -1,72 +1,9 @@
-import {Injectable} from "@angular/core";
-import {Observable, throwError, catchError, distinctUntilChanged, shareReplay} from "rxjs";
-import {HttpService} from "./http.service";
-import {IQuery} from "./query/query";
-import {Record} from "./query.web.service";
-import {AuditEvents} from "./audit.web.service";
+import { Observable, catchError, distinctUntilChanged, shareReplay, throwError } from "rxjs";
 
-/**
- * Describes highlight data for a set of categories
- */
-export interface HighlightDataPerCategory {
-    [key: string] : CategoryHighlightData;
-}
+import { Injectable } from "@angular/core";
 
-/**
- * Describes highlight data for a category
- */
-export interface CategoryHighlightData {
-    categoryDisplayLabel: string;
-    categoryDisplayLabelPlural: string;
-    categoryFilterAllLabel: string;
-    categoryFilterNoneLabel: string;
-    values: HighlightValue[];
-}
-
-/**
- * Describes a highlight value
- */
-export interface HighlightValue {
-    value: string;
-    displayValue: string;
-    locations: Location[];
-}
-
-/**
- * Describes a single highlight location
- */
-export interface Location {
-    start: number;
-    enclosingLength: number;
-}
-
-/**
- * Describes highlight data for a set of locations
- */
-export interface HighlightDataPerLocation {
-    start: number,
-    length: number,
-    values: string[],
-    displayValue: string,
-    positionInCategories: { [category: string]: number }
-}
-
-/**
- * Describes the data returned by [PreviewWebService.get]{@link PreviewWebService#get}
- */
-export interface PreviewData {
-    record: Record;
-    resultId: string;
-    cacheId: string;
-    highlightsPerCategory: HighlightDataPerCategory;
-    highlightsPerLocation: HighlightDataPerLocation[];
-    documentCachedContentUrl: string;
-}
-
-export interface CustomHighlights {
-    category: string;
-    highlights: Array<{offset: number, length: number}>;
-}
+import { HttpService } from "./http.service";
+import { AuditEvents, CustomHighlights, IQuery, PreviewData } from "./types";
 
 /**
  * A service for calling the preview web service
@@ -103,7 +40,7 @@ export class PreviewWebService extends HttpService {
      */
     public getHtmlPreview(url: string): Observable<any> {
         return this.httpClient.get(url, {responseType: "text"}).pipe(
-            catchError(err => throwError(err)),
+            catchError(err => throwError(() => err)),
             distinctUntilChanged(),
             shareReplay(1)
         );

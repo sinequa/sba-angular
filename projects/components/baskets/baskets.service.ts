@@ -140,11 +140,7 @@ export class BasketsService implements OnDestroy {
      * Using this service creates the list of baskets if it does not already exist.
      */
     public get baskets() : Basket[] {
-        if(!this.userSettingsService.userSettings)
-            this.userSettingsService.userSettings = {};
-        if(!this.userSettingsService.userSettings["baskets"])
-            this.userSettingsService.userSettings["baskets"] = [];
-        return this.userSettingsService.userSettings["baskets"];
+        return this.userSettingsService.get("baskets");
     }
 
     /**

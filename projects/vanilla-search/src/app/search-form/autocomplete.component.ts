@@ -1,12 +1,12 @@
-import { Input, Output, Component, EventEmitter, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
 import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
 import { BasketsService } from "@sinequa/components/baskets";
 import { PreviewService } from "@sinequa/components/preview";
 import { RecentDocumentsService, RecentQueriesService, SavedQueriesService } from "@sinequa/components/saved-queries";
 import { SearchService } from "@sinequa/components/search";
 import { AppService } from "@sinequa/core/app-utils";
-import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
-import { fromEvent, merge, of, Observable, from, forkJoin, Subscription, BehaviorSubject } from "rxjs";
+import { AuditWebService } from "@sinequa/core/web-services";
+import { BehaviorSubject, Observable, Subscription, forkJoin, from, fromEvent, merge, of } from "rxjs";
 import { debounceTime, map, switchMap } from "rxjs/operators";
 
 
@@ -139,7 +139,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
    * @param item
    */
   selectItem(item: AutocompleteItem) {
-    this.audit.notify({type: AuditEventType.Search_AutoComplete, detail:{display: item.display, category: item.category }})
+    this.audit.notify({type: "Search_AutoComplete", detail:{display: item.display, category: item.category }})
 
     if(item.category === "recent-document"){
       this.previewService.openRoute(item['data'], this.searchService.makeQuery());

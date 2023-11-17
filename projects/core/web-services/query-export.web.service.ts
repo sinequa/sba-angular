@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+
+import { HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { Utils } from "@sinequa/core/base";
+
 import { HttpService } from './http.service';
-import {Utils} from "@sinequa/core/base";
-import { ExportOutputFormat, ExportSourceType } from './config/ccapp';
-import { IQuery } from './query/query';
-import { Results } from "./query.web.service";
-import { AuditEventType } from './audit.web.service';
+import { ExportOutputFormat, ExportSourceType, IQuery, Results } from "./types";
 
 /**
  * A service to export the result of a query.
@@ -28,19 +28,19 @@ export class QueryExportWebService extends HttpService {
         if (!this.appName) {
             const errorMessage = 'No app';
             this.logErrorToConsole(methodName, errorMessage);
-            return throwError({ error: errorMessage});
+            return throwError(() => ({ error: errorMessage}));
         }
 
         if (!webService) {
             const errorMessage = 'No web service';
             this.logErrorToConsole(methodName, errorMessage);
-            return throwError({ error: errorMessage});
+            return throwError(() => ({ error: errorMessage}));
         }
 
         if (!format || format as ExportOutputFormat === ExportOutputFormat.None) {
             const errorMessage = 'No output format';
             this.logErrorToConsole(methodName, errorMessage);
-            return throwError({ error: errorMessage});
+            return throwError(() => ({ error: errorMessage}));
         }
 
         return undefined;
@@ -73,7 +73,7 @@ export class QueryExportWebService extends HttpService {
         if (!query) {
             const errorMessage = 'No query';
             this.logErrorToConsole(methodName, errorMessage);
-            return throwError({ error: errorMessage});
+            return throwError(() => ({ error: errorMessage}));
         }
 
         const postData = {
@@ -85,9 +85,9 @@ export class QueryExportWebService extends HttpService {
             maxCount: maxCount ? maxCount.toString() : undefined,
             exportedColumns: exportedColumns,
             $auditRecord: {
-                type: AuditEventType.Search_ExportCSV,
+                type: "Search_ExportCSV",
                 detail: {
-                    resultid: !!results ? results.id : undefined
+                    resultid: results ? results.id : undefined
                 }
             }
         };
@@ -124,13 +124,13 @@ export class QueryExportWebService extends HttpService {
         if (!query) {
             const errorMessage = 'No query';
             this.logErrorToConsole(methodName, errorMessage);
-            return throwError({ error: errorMessage});
+            return throwError(() => ({ error: errorMessage}));
         }
 
         if (!selection || selection.length === 0) {
             const errorMessage = 'No selection';
             this.logErrorToConsole(methodName, errorMessage);
-            return throwError({ error: errorMessage});
+            return throwError(() => ({ error: errorMessage}));
         }
 
         const postData = {
@@ -143,9 +143,9 @@ export class QueryExportWebService extends HttpService {
             maxCount: maxCount ? maxCount.toString() : undefined,
             exportedColumns: exportedColumns,
             $auditRecord: {
-                type: AuditEventType.Search_Selection_ExportCSV,
+                type: "Search_Selection_ExportCSV",
                 detail: {
-                    resultid: !!results ? results.id : undefined
+                    resultid: results ? results.id : undefined
                 }
             }
         };
@@ -179,7 +179,7 @@ export class QueryExportWebService extends HttpService {
         if (!queryName) {
             const errorMessage = 'No saved query';
             this.logErrorToConsole(methodName, errorMessage);
-            return throwError({ error: errorMessage});
+            return throwError(() => ({ error: errorMessage}));
         }
 
         const postData = {
@@ -191,7 +191,7 @@ export class QueryExportWebService extends HttpService {
             maxCount: maxCount ? maxCount.toString() : undefined,
             exportedColumns: exportedColumns,
             $auditRecord: {
-                type: AuditEventType.Search_SavedQuery_ExportCSV,
+                type: "Search_SavedQuery_ExportCSV",
                 detail: {
                     query: queryName
                 }

@@ -1,4 +1,5 @@
 import {NgModule} from "@angular/core";
+
 import {BaseModule} from "@sinequa/core/base";
 import {IntlModule} from "@sinequa/core/intl";
 import {WebServicesModule} from "@sinequa/core/web-services";

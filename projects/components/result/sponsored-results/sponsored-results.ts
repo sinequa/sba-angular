@@ -1,8 +1,9 @@
-import {Component, Input, OnChanges, SimpleChanges, OnInit, ChangeDetectorRef} from '@angular/core';
-import {Utils} from "@sinequa/core/base";
-import {LinkResult, SponsoredLinksWebService, AuditWebService, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
-import {AppService, Query} from "@sinequa/core/app-utils";
-import {SearchService} from "@sinequa/components/search";
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+
+import { SearchService } from "@sinequa/components/search";
+import { AppService, Query } from "@sinequa/core/app-utils";
+import { Utils } from "@sinequa/core/base";
+import { AuditEvent, AuditWebService, LinkResult, SponsoredLinksWebService } from "@sinequa/core/web-services";
 
 @Component({
     selector: 'sq-sponsored-results',
@@ -123,7 +124,7 @@ export class SponsoredResults implements OnChanges, OnInit {
             const auditEvents: AuditEvent[] = [];
             this.sponsoredlinks.forEach(link => {
                 auditEvents.push({
-                    type: AuditEventType.Link_Display,
+                    type: "Link_Display",
                     detail: {
                         resultid: this.searchService.results && this.searchService.results.id,
                         linkid: link.id,
@@ -138,7 +139,7 @@ export class SponsoredResults implements OnChanges, OnInit {
     }
 
     click(link: LinkResult) {
-        this.auditService.notifySponsoredLink(AuditEventType.Link_Click, link,
+        this.auditService.notifySponsoredLink("Link_Click", link,
             this.searchService.results && this.searchService.results.id || "");
     }
 

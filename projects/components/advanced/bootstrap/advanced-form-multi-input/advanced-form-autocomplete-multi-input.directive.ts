@@ -1,13 +1,15 @@
 import {
     Directive,
-    Input,
-    Output,
     EventEmitter,
     HostListener,
+    Input,
+    Output,
 } from "@angular/core";
+
 import { AutocompleteItem } from "@sinequa/components/autocomplete";
-import { BsAdvancedFormAutocomplete } from "../advanced-form-autocomplete.directive";
 import { Keys } from "@sinequa/core/base";
+
+import { BsAdvancedFormAutocomplete } from "../advanced-form-autocomplete.directive";
 
 @Directive({
     selector: "[sqAdvancedFormAutocompleteMultiInput]",
@@ -64,7 +66,7 @@ export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomp
     /**
      * Listens to blur events (out of focus) on the <input> host and overrides the parent blur events
      */
-    @HostListener("blur", ["$event"]) override blur(event: FocusEvent) {
+    @HostListener("blur", ["$event"]) override blur() {
         this._manageSetAutocompleteItem();
         this.init();
     }

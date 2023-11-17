@@ -1,10 +1,12 @@
+import { Observable, map, of } from "rxjs";
+
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
-import { SearchService } from "@sinequa/components/search";
+
 import { AbstractFacet } from '@sinequa/components/facet';
+import { SearchService } from "@sinequa/components/search";
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Answer, AuditEvent, AuditEventType, AuditWebService, Results } from "@sinequa/core/web-services";
-import { map, Observable, of } from "rxjs";
 
 @Component({
   selector: 'sq-answer-card',
@@ -58,12 +60,12 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   }
 
   openPreview(answer: Answer) {
-    this.notifyAnswer(AuditEventType.Answer_Click, answer);
+    this.notifyAnswer("Answer_Click", answer);
     this.previewOpened.next(answer);
   }
 
   onTitleClicked(isLink: boolean, answer: Answer) {
-    this.notifyAnswer(AuditEventType.Answer_Click, answer);
+    this.notifyAnswer("Answer_Click", answer);
     this.titleClicked.next({ item: answer, isLink });
   }
 
@@ -80,7 +82,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   setAnswer() {
     const answer = this.answers[this.selectedAnswer];
     if (!!answer) {
-      this.notifyAnswer(AuditEventType.Answer_Display, answer);
+      this.notifyAnswer("Answer_Display", answer);
       if (!!answer.$record) {
         this.answer$ = of(answer);
       } else {
@@ -102,7 +104,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   }
 
   private setLiked(answer: Answer, liked: boolean) {
-    const type = liked ? AuditEventType.Answer_Liked : AuditEventType.Answer_Disliked;
+    const type = liked ? "Answer_Liked" : "Answer_Disliked";
     if (answer.$liked === liked) {
       answer.$liked = undefined;
       this.auditService.notify(this.makeAuditEvent(type + "_Cancelled", answer));
@@ -121,7 +123,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
 
   private notifyAnswerResult(answers: Answer[]) {
     const auditEvents: AuditEvent[] = answers
-      .map((answer: Answer) => this.makeAuditEvent(AuditEventType.Answer_Result, answer));
+      .map((answer: Answer) => this.makeAuditEvent("Answer_Result", answer));
     this.auditService.notify(auditEvents);
   }
 

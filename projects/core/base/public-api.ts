@@ -1,12 +1,7 @@
 export * from "./error";
-export * from "./field-value";
-export * from "./iterator-adaptor";
-export * from "./json";
-export * from "./keyboard";
-export * from "./map-of";
-export * from "./ref";
+export * from "./types";
+
 export * from "./pattern-matcher";
 export * from "./utils";
 export * from "./base.module";
-export * from "./strict-union";
 export * from "./diacritics";

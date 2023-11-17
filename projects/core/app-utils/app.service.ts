@@ -1,32 +1,18 @@
-import {Injectable, Inject, OnDestroy} from "@angular/core";
-import {Observable, Subject, map} from "rxjs";
-import {Utils, MapOf, PatternMatcher} from "@sinequa/core/base";
-import {IntlService} from "@sinequa/core/intl";
-import {FormatService} from "./format.service";
-import {AppWebService, AuditEvents, START_CONFIG, StartConfig,
-    CCApp, CCQuery, CCLabels, CCAutocomplete, CCColumn, CCIndex, CCWebService, CCConfig, CCList, CCAggregation,
-    EngineType, EngineTypeModifier, MINIMUM_COMPATIBLE_SERVER_API_VERSION} from "@sinequa/core/web-services";
+import { Observable, Subject, map } from "rxjs";
 
-/**
- * A base event from which all events that can be issued by the {@link AppService} are derived
- */
-export interface AppEvent {
-    type: "query-changed";
-}
+import { Inject, Injectable, OnDestroy } from "@angular/core";
 
-/**
- * This event is fired each time the [ccquery]{@link AppService#ccquery} member is modified.
- */
-export interface QueryChangedEvent extends AppEvent {
-    type: "query-changed";
-    current?: CCQuery;
-    previous?: CCQuery;
-}
+import { PatternMatcher, Utils } from "@sinequa/core/base";
+import { IntlService } from "@sinequa/core/intl";
+import {
+    AppWebService, AuditEvents, CCAggregation, CCApp,
+    CCAutocomplete, CCColumn, CCConfig, CCIndex, CCLabels, CCList, CCQuery, CCWebService, EngineType, EngineTypeModifier,
+    MINIMUM_COMPATIBLE_SERVER_API_VERSION, START_CONFIG, StartConfig
+} from "@sinequa/core/web-services";
 
-/**
- * A union of the different events that the {@link AppService} can generate
- */
-export type AppEvents = QueryChangedEvent;
+import { FormatService } from "./format.service";
+import { AppEvents } from "./types";
+
 /**
  * A service to manage the Sinequa SBA configuration
  */
@@ -35,7 +21,7 @@ export type AppEvents = QueryChangedEvent;
 })
 export class AppService implements OnDestroy {
     // Should match AdditionalQueryableColumns in Engine.cs
-    private static extraColumns: MapOf<CCColumn> = {
+    private static extraColumns: Record<string, CCColumn> = {
         id: AppService.makeColumn("id", "string"),
         text: AppService.makeColumn("text", "varchar"),
         documentlanguages: AppService.makeColumn("documentlanguages", "csv", "ci"),
@@ -68,9 +54,9 @@ export class AppService implements OnDestroy {
      * The suggest queries configured on the application
      */
     suggestQueries: string[];
-    private columnsByQuery: MapOf<MapOf<CCColumn>>;
-    private columnsByIndex: MapOf<MapOf<CCColumn>>;
-    private aggregationsByQuery: MapOf<MapOf<CCAggregation>>;
+    private columnsByQuery: Record<string, Record<string, CCColumn>>;
+    private columnsByIndex: Record<string, Record<string, CCColumn>>;
+    private aggregationsByQuery: Record<string, Record<string,CCAggregation>>;
     private _defaultCCQuery?: CCQuery;
     private _ccquery?: CCQuery;
 
@@ -325,21 +311,18 @@ export class AppService implements OnDestroy {
     }
 
     /**
-     * Refresh the application configuration, reinitializing the service if it has changed
+     * Refresh the application configuration, reinitialize the service if it has changed
      *
      * @param auditEvents Any associated audit events that should be stored
      */
     refresh(auditEvents?: AuditEvents): Observable<CCApp | undefined> {
-        const observable = this.appWebService.refresh(this.app ? this.app.versionId : "", auditEvents);
-        observable.subscribe(
-            response => {
-                if (!response.upToDate && response.app) {
-                    this.setApp(response.app);
-                }
-                return response;
+        return this.appWebService.refresh(this.app ? this.app.versionId : "", auditEvents)
+        .pipe(map(({upToDate, app}) => {
+            if (!upToDate && app) {
+                this.setApp(app);
             }
-        );
-        return observable.pipe(map(_ => this.app));
+            return app;
+        }));
     }
 
     /**
@@ -374,7 +357,7 @@ export class AppService implements OnDestroy {
         }
     }
 
-    private _makeColumnMapForIndex(columnMap: MapOf<CCColumn>, ccindex: CCIndex) {
+    private _makeColumnMapForIndex(columnMap: Record<string, CCColumn>, ccindex: CCIndex) {
         if (!ccindex || !ccindex.columns) {
             return;
         }
@@ -389,7 +372,7 @@ export class AppService implements OnDestroy {
         }
     }
 
-    private _makeColumnMapForQuery(columnMap: MapOf<CCColumn>, ccquery: CCQuery) {
+    private _makeColumnMapForQuery(columnMap: Record<string, CCColumn>, ccquery: CCQuery) {
         if (!ccquery || !ccquery.columnsInfo || !ccquery.columnsInfo.columns) {
             return;
         }
@@ -445,7 +428,7 @@ export class AppService implements OnDestroy {
         if (!this.app) {
             return;
         }
-        let columnMap: MapOf<CCColumn>;
+        let columnMap: Record<string, CCColumn>;
 
         // Queries
         if (this.app.queries) {
@@ -497,8 +480,8 @@ export class AppService implements OnDestroy {
         if (this.app.queries) {
             for (const ccquery of Object.values(this.app.queries)) {
                 if (ccquery) {
-                    const aggregationMap = {} as MapOf<CCAggregation>;
-                    for(let ccagg of ccquery.aggregations) {
+                    const aggregationMap = {} as Record<string, CCAggregation>;
+                    for(const ccagg of ccquery.aggregations) {
                         ccagg.column = this.resolveColumnAlias(ccagg.column); // Always use the alias when it exists
                         aggregationMap[ccagg.name.toLowerCase()] = ccagg;
                     }
@@ -546,7 +529,7 @@ export class AppService implements OnDestroy {
      * Return the current {@link CCQuery}
      */
     get ccquery(): CCQuery | undefined {
-        if (!!this._ccquery) {
+        if (this._ccquery) {
             return this._ccquery;
         }
         return this._defaultCCQuery;

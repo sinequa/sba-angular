@@ -1,10 +1,12 @@
-import {Injectable, InjectionToken, Inject, Type, OnDestroy} from "@angular/core";
-import {Subject} from "rxjs";
-import {UserSettingsWebService, AuditEvents, AuditEvent} from "@sinequa/core/web-services";
-import {ModalService, ModalResult} from "@sinequa/core/modal";
-import {Query} from "@sinequa/core/app-utils";
-import {Utils} from "@sinequa/core/base";
-import {SearchService} from "@sinequa/components/search";
+import { Subject } from "rxjs";
+
+import { Inject, Injectable, InjectionToken, OnDestroy, Type } from "@angular/core";
+
+import { SearchService } from "@sinequa/components/search";
+import { Query } from "@sinequa/core/app-utils";
+import { Utils } from "@sinequa/core/base";
+import { ModalResult, ModalService } from "@sinequa/core/modal";
+import { AuditEvent, AuditEvents, UserSettingsWebService } from "@sinequa/core/web-services";
 
 // From core/models/usersettings
 export namespace Alert {
@@ -130,7 +132,7 @@ export class AlertsService implements OnDestroy {
         @Inject(WINDOW) private window : Window
     ){
         // Listen to the user settings
-        this.userSettingsService.events.subscribe(event => {
+        this.userSettingsService.events.subscribe(() => {
             // E.g. new login occurs
             // ==> Menus need to be rebuilt
             this.events.next({type: AlertEventType.Loaded});
@@ -151,12 +153,12 @@ export class AlertsService implements OnDestroy {
      * Using this service creates the list of alerts if it does not already exist.
      */
     public get alerts() : Alert[]{
-        if(!this.userSettingsService.userSettings)
-            this.userSettingsService.userSettings = {};
-        if(!this.userSettingsService.userSettings["alerts"])
-            this.userSettingsService.userSettings["alerts"] = [];
-        return <Alert[]> (<unknown>this.userSettingsService.userSettings["alerts"]);
-    } // TODO: remove cast when UserSettings is updated
+        return this.userSettingsService.get("alerts");
+    }
+
+    public set alerts(alerts: Alert[]){
+        this.userSettingsService.set("alerts", alerts);
+    }
 
     /**
      * Triggers any event among AlertChangeEvent

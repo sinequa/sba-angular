@@ -1,34 +1,46 @@
-import {Injectable, OnDestroy} from "@angular/core";
-import {Subject, Observable} from "rxjs";
-import {HttpService} from "./http.service";
-import {Utils} from "@sinequa/core/base";
-import {AuditEvents} from "./audit.web.service";
+import { Subject, Observable } from "rxjs";
 
+import { Injectable, OnDestroy } from "@angular/core";
+
+import { Utils } from "@sinequa/core/base";
+
+import { HttpService } from "./http.service";
+import { AuditEvents } from "./types";
+
+type StringWithAutocomplete<T> = T | (string & Record<never, never>);
+type UserSettingsKeys = StringWithAutocomplete<keyof UserSettingsBase>;
+
+type UserSettingsBase = {
+    language?: string,
+    skipCount?: number,
+    email?: string
+}
 /**
  * Minimal built-in user settings. Can be extended in the context of
  * complex applications to store user data, preferences, objects, etc.
  */
-export interface UserSettings {
-    language?: string;
-    skipCount?: number;
-    email?: string;
-    [key: string]: any;
-}
+export type UserSettings = UserSettingsBase & Record<string, any>
 
 /**
  * A base event from which all events that can be issued by the {@link UserSettingsWebService} are derived
  */
-export interface UserSettingsEvent {
-    type: "changed";
-}
 
+
+export type UserSettingsChangedEvent = {
+    type: "changed"
+}
+export type UserSettingsLoadEvent = {
+    type: "load"
+}
+export type UserSettingsResetEvent = {
+    type: "reset"
+}
 /**
  * This event is fired each time the [userSettings]{@link UserSettingsWebService#userSettings} member is modified.
  * Typically this will be at login / logoff and also if the "override user" admin feature is used.
  */
-export interface UserSettingsChangedEvent extends UserSettingsEvent {
-    type: "changed";
-}
+export type UserSettingsEvent = UserSettingsChangedEvent | UserSettingsLoadEvent | UserSettingsResetEvent;
+
 
 /**
  * A service for calling the usersettings web service
@@ -46,7 +58,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
      * A reviver function that, if set, will be called on the user settings when they are loaded
      */
     reviver: (us: UserSettings) => void;
-    private _events = new Subject<UserSettingsChangedEvent>();
+    private _events = new Subject<UserSettingsEvent>();
 
     constructor() {
         super();
@@ -60,7 +72,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
     /**
      * The observable events emitted by this service
      */
-    get events(): Observable<UserSettingsChangedEvent> {
+    get events(): Observable<UserSettingsEvent> {
         return this._events;
     }
 
@@ -76,15 +88,14 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
      */
     set userSettings(value: UserSettings | undefined) {
         this._userSettings = value;
-        this._events.next({type: "changed"});
+        this._events.next({ type: "changed" });
     }
 
-    //TODO remove
     /**
      * @deprecated use "userSettings" get property to retrieve the user settings
      * @returns User settings object or undefined
      */
-    public getUserSettings(): UserSettings | undefined{
+    public getUserSettings(): UserSettings | undefined {
         return this.userSettings;
     }
 
@@ -101,6 +112,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
         });
         Utils.subscribe(observable,
             (response) => {
+                this._events.next({ type: "load" });
                 this.userSettings = response;
                 if (this.userSettings) {
                     if (this.reviver) {
@@ -159,7 +171,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
     /**
      * Resets User Settings (emits a change event and audit events).
      */
-    public reset() {
+    public reset(): Observable<void> {
         // Save current state
         const currentState = this.userSettings;
         // Reset User settings (and emit an event!)
@@ -168,7 +180,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             type: 'UserSettings_Reset'
         });
         observable.subscribe({
-            next: () => {},
+            next: () => this._events.next({ type: "reset" }),
             error: () => this.userSettings = currentState // Restore previous state
         })
         return observable;
@@ -191,5 +203,40 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             }
         }
         return json;
+    }
+
+    /**
+     * Sets the value of a user setting key.
+     * @param key The key of the user setting to set.
+     * @param value The value to set for the user setting.
+     * @template T The type of the value to set.
+     */
+    public set<T>(key: UserSettingsKeys, value: T[]) {
+        const setting = this.ensuresSettingsKeyExist<T>(key);
+        setting.push(...value);
+    }
+
+    /**
+     * Retrieves the value associated with the specified user settings key.
+     * @param key The user settings key to retrieve the value for.
+     * @returns The value associated with the specified key.
+     */
+    public get<T>(key: UserSettingsKeys): T[] {
+        return this.ensuresSettingsKeyExist(key);
+    }
+
+
+    /**
+     * Ensures that the specified key exists in the user settings object. If the key does not exist,
+     * it will be added with an empty array as its value.
+     *
+     * @template T The type of the value associated with the specified key.
+     * @param key The key to ensure exists in the user settings object.
+     * @returns The value associated with the specified key.
+     */
+    private ensuresSettingsKeyExist<T>(key: UserSettingsKeys): T[] {
+        if (!this.userSettings) this.userSettings = {};
+        if (!this.userSettings[key]) this.userSettings[key] = [];
+        return this.userSettings[key];
     }
 }

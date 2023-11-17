@@ -4,7 +4,7 @@ import { Observable, of, Subscription, filter, switchMap, tap } from 'rxjs';
 
 import { Utils } from "@sinequa/core/base";
 import { LoginService } from "@sinequa/core/login";
-import { AuditEventType, Results } from "@sinequa/core/web-services";
+import { Results } from "@sinequa/core/web-services";
 
 import { SearchService } from "./search.service";
 
@@ -104,7 +104,7 @@ export class FirstPageService implements OnDestroy {
         const query = this.searchService.makeQuery({ isFirstPage: true });
 
         // side effect, set cache results, then return "results" as observable
-        return this.searchService.getResults(query, { type: AuditEventType.Search_FirstPage }, { searchInactive: true })
+        return this.searchService.getResults(query, { type: "Search_FirstPage" }, { searchInactive: true })
             .pipe(tap(results => this.firstPage = results))
     }
 }

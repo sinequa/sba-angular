@@ -1,10 +1,12 @@
-import {Injectable} from "@angular/core";
-import {Observable, map} from "rxjs";
-import {HttpService} from "./http.service";
-import {Utils} from "@sinequa/core/base";
-import {IntlService} from "@sinequa/core/intl";
-import {IQuery} from "./query/query";
-import {AuditEventType} from "./audit.web.service";
+import { Observable, map } from "rxjs";
+
+import { Injectable } from "@angular/core";
+
+import { Utils } from "@sinequa/core/base";
+import { IntlService } from "@sinequa/core/intl";
+
+import { HttpService } from "./http.service";
+import { IQuery } from "./types";
 
 /**
  * Describes the object returned by the list action of the labels web service
@@ -114,7 +116,7 @@ export class LabelsWebService extends HttpService {
             $auditRecord: {
                 auditEvents: [
                     {
-                        type: AuditEventType.Label_AddDoc,
+                        type: "Label_AddDoc",
                         detail: {
                             public: _public,
                             label: !!labels ? labels.toString() : null,
@@ -157,7 +159,7 @@ export class LabelsWebService extends HttpService {
             $auditRecord: {
                 auditEvents: [
                     {
-                        type: AuditEventType.Label_RemoveDoc,
+                        type: "Label_RemoveDoc",
                         detail: {
                             public: _public,
                             label: !!labels ? labels.toString() : null,
@@ -198,7 +200,7 @@ export class LabelsWebService extends HttpService {
             newLabel: newLabel,
             public: _public,
             auditEvents: {
-                type: AuditEventType.Label_Rename,
+                type: "Label_Rename",
                 detail: {
                     public: _public,
                     oldlabel: !!labels ? labels.toString() : null,
@@ -228,7 +230,7 @@ export class LabelsWebService extends HttpService {
             labels: labels,
             public: _public,
             auditEvents: {
-                type: AuditEventType.Label_Delete,
+                type: "Label_Delete",
                 detail: {
                     public: _public,
                     label: !!labels ? labels.toString() : null
@@ -260,7 +262,7 @@ export class LabelsWebService extends HttpService {
             query: query,
             public: _public,
             auditEvents: {
-                type: AuditEventType.Label_Add,
+                type: "Label_Add",
                 detail: {
                     public: _public,
                     label: !!labels ? labels.toString() : null,
@@ -293,7 +295,7 @@ export class LabelsWebService extends HttpService {
             query: query,
             public: _public,
             auditEvents: {
-                type: AuditEventType.Label_Delete,
+                type: "Label_Delete",
                 detail: {
                     public: _public,
                     label: !!labels ? labels.toString() : null,

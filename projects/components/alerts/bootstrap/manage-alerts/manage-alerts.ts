@@ -1,10 +1,12 @@
-import {Component, Inject, OnInit} from "@angular/core";
-import {ValidatorFn} from "@angular/forms";
-import {CdkDragDrop} from "@angular/cdk/drag-drop";
-import {MODAL_MODEL, ModalButton, ModalResult} from "@sinequa/core/modal";
-import {Utils} from "@sinequa/core/base";
-import {AuditEvent, AuditEventType} from "@sinequa/core/web-services";
-import {AlertsService, Alert, AlertEventType, ManageAlertsModel} from "../../alerts.service";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { Component, Inject, OnInit } from "@angular/core";
+import { ValidatorFn } from "@angular/forms";
+
+import { Utils } from "@sinequa/core/base";
+import { MODAL_MODEL, ModalButton, ModalResult } from "@sinequa/core/modal";
+import { AuditEvent } from "@sinequa/core/web-services";
+
+import { Alert, AlertEventType, AlertsService, ManageAlertsModel } from "../../alerts.service";
 
 @Component({
     selector: "sq-manage-alerts",
@@ -43,7 +45,7 @@ export class BsManageAlerts implements OnInit {
         this.model.alerts.splice(index, 1);
         this.removeAllButton.visible = this.model.alerts.length > 0;
         this.addAuditEvent({
-            type: AuditEventType.Alert_Delete,
+            type: "Alert_Delete",
             detail: {
                 alert: alert.name
             }
@@ -59,7 +61,7 @@ export class BsManageAlerts implements OnInit {
                     if (result) {
                         Utils.copy(alert1, alert);
                         this.addAuditEvent({
-                            type: AuditEventType.Alert_Edit,
+                            type: "Alert_Edit",
                             detail: {
                                 alert: alert.name
                             }
@@ -73,7 +75,7 @@ export class BsManageAlerts implements OnInit {
     dropped(drop: CdkDragDrop<Alert[]>) {
         Utils.arrayMove(this.model.alerts, drop.previousIndex, drop.currentIndex);
     }
-    
+
     private createButtons() {
         this.buttons = [
             this.removeAllButton = new ModalButton({
@@ -104,7 +106,7 @@ export class BsManageAlerts implements OnInit {
             })
         ];
     }
-    
+
     private createYesNoButtons() {
         this.buttons = [
             new ModalButton({

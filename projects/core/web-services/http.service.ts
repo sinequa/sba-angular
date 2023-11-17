@@ -1,8 +1,11 @@
-import {HttpParams} from "@angular/common/http";
+import { HttpParams } from "@angular/common/http";
 import { inject } from "@angular/core";
-import {Utils, MapOf} from "@sinequa/core/base";
+
+import { Utils } from "@sinequa/core/base";
+
 import { SqHttpClient } from "./http-client";
-import {START_CONFIG} from "./start-config.web.service";
+import { API_ENDPOINTS } from "./types";
+import { START_CONFIG } from "./start-config.web.service";
 
 /**
  * A base helper class for web services. It holds the {@link StartConfig} for the app
@@ -25,7 +28,7 @@ export abstract class HttpService {
      *
      * @param api An API name
      */
-    makeUrl(api: string): string {
+    makeUrl(api: API_ENDPOINTS): string {
         return Utils.addUrl(this.startConfig.apiPath!, api);
     }
 
@@ -34,7 +37,7 @@ export abstract class HttpService {
      *
      * @param params A map of parameter values
      */
-    makeParams(params: MapOf<string | boolean | number | Date | object | undefined>): HttpParams {
+    makeParams(params: Record<string, string | boolean | number | Date | object | undefined>): HttpParams {
         return Utils.makeHttpParams(params);
     }
 }

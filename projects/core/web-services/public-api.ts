@@ -1,7 +1,6 @@
-export * from "./config/ccapp";
+export * from "./types";
 
-export * from "./query/query";
-export * from "./suggest/suggestion";
+export * from "./utils-filters";
 
 export * from "./app.web.service";
 export * from "./audit.web.service";

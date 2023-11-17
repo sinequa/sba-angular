@@ -1,77 +1,10 @@
-import {Injectable, OnDestroy} from "@angular/core";
-import {Subject, Observable, map} from "rxjs";
-import {HttpService} from "./http.service";
-import {Utils} from "@sinequa/core/base";
+import { Observable, Subject, catchError, map, tap, throwError } from "rxjs";
 
-/**
- * Describes a Sinequa princpal
- */
-export interface Principal {
-    id: string;
-    id2: string;
-    id3: string;
-    id4: string;
-    id5: string;
-    name: string;
-    email: string;
-    description: string;
-    longName: string;
-    userId: string;
-    fullName: string;
-    isAdministrator: boolean;
-    isDelegatedAdmin: boolean;
-    param1: string;
-    param2: string;
-    param3: string;
-    param4: string;
-    param5: string;
-    param6: string;
-    param7: string;
-    param8: string;
-    param9: string;
-    param10: string;
-}
+import { Injectable, OnDestroy } from "@angular/core";
 
-export interface PrincipalUserInfo {
-    id: string;
-    userId: string;
-    name: string;
-    fullName: string;
-    longName: string;
-    email: string;
-    isUser: string;
-    isGroup: string;
-}
+import { HttpService } from "./http.service";
+import { Principal, PrincipalEvent, PrincipalParams, PrincipalUserIdsParams, PrincipalUserInfo } from "./types";
 
-export interface PrincipalParams {
-    offset?: number;    // 0
-    limit?: number;     // 10
-    isUser?: boolean;   // true
-    isGroup?: boolean;  // true
-    search?: string;    // search by name, fullname or email
-
-}
-
-export interface PrincipalUserIdsParams {
-    offset?: number;    // 0
-    limit?: number;     // 10
-    userIds: string[];
-}
-
-/**
- * A base event from which all events that can be issued by the {@link PrincipalWebService} are derived
- */
-export interface PrincipalEvent {
-    type: "changed";
-}
-
-/**
- * This event is fired each time the [principal]{@link PrincipalWebService#principal} member is modified.
- * Typically this will be at login / logoff and also if the "override user" admin feature is used.
- */
-export interface PrincipalChangedEvent extends PrincipalEvent {
-    type: "changed";
-}
 
 /**
  * A service for calling the principal web service
@@ -81,7 +14,7 @@ export interface PrincipalChangedEvent extends PrincipalEvent {
 })
 export class PrincipalWebService extends HttpService implements OnDestroy {
     private _principal: Principal | undefined;
-    private _events = new Subject<PrincipalChangedEvent>();
+    private _events = new Subject<PrincipalEvent>();
 
     ngOnDestroy() {
         this._events.complete();
@@ -90,7 +23,7 @@ export class PrincipalWebService extends HttpService implements OnDestroy {
     /**
      * The observable events emitted by this service
      */
-    get events(): Observable<PrincipalChangedEvent> {
+    get events(): Observable<PrincipalEvent> {
         return this._events;
     }
 
@@ -149,17 +82,15 @@ export class PrincipalWebService extends HttpService implements OnDestroy {
     /**
      * Gets the principal from the server based on the current login credentials and sets the
      * principal member
+     *
      */
     load(): Observable<Principal> {
-        const observable = this.get();
-        Utils.subscribe(observable,
-            (response) => {
-                this.principal = response;
-                return response;
-            },
-            (error) => {
+        return this.get().pipe(
+            catchError(error => {
                 console.log("principalService.get failure - error: ", error);
-            });
-        return observable;
+                return throwError(() => error);
+            }),
+            tap(principal => this.principal = principal)
+        )
     }
 }

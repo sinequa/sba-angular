@@ -1,7 +1,8 @@
-import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
-import {ValueItem} from "@sinequa/core/app-utils";
-import {AuditEventType, Record} from "@sinequa/core/web-services";
-import {SearchService} from "@sinequa/components/search";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+
+import { SearchService } from "@sinequa/components/search";
+import { ValueItem } from "@sinequa/core/app-utils";
+import { Record } from "@sinequa/core/web-services";
 
 @Component({
     selector: "sq-result-source",
@@ -54,7 +55,7 @@ export class ResultSource {
 
     notifyClick() {
       if(this.url) {
-        this.searchService.notifyOpenOriginalDocument(this.record, undefined, AuditEventType.Click_ResultLink);
+        this.searchService.notifyOpenOriginalDocument(this.record, undefined, "Click_ResultLink");
       }
     }
 

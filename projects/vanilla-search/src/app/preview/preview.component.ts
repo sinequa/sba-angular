@@ -1,15 +1,15 @@
-import { Component, OnDestroy, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 
-import { AuditEventType, PreviewData, Tab } from '@sinequa/core/web-services';
-import { AppService, Query } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
-import { PreviewService, PreviewHighlightColors, Preview } from '@sinequa/components/preview';
+import { Preview, PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
+import { PreviewData, Tab } from '@sinequa/core/web-services';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 
 export interface EntitiesState {
@@ -131,7 +131,7 @@ export class PreviewComponent implements OnDestroy {
 
   notifyPdf() {
     if (this.previewData) {
-      this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, AuditEventType.Doc_CachePdf);
+      this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, "Doc_CachePdf");
     }
   }
 

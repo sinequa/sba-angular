@@ -114,11 +114,7 @@ export class RecentDocumentsService implements OnDestroy {
      * Using this service creates the list of recent documents if it does not already exist.
      */
     public get recentdocuments() : RecentDocument[]{
-        if(!this.userSettingsService.userSettings)
-            this.userSettingsService.userSettings = {};
-        if(!this.userSettingsService.userSettings["recentDocuments"])
-            this.userSettingsService.userSettings["recentDocuments"] = [];
-        return this.userSettingsService.userSettings["recentDocuments"];
+        return this.userSettingsService.get("recentDocuments");
     }
 
     /**

@@ -1,13 +1,15 @@
-import {Injectable, InjectionToken, Inject, Type, Optional} from "@angular/core";
-import {Router} from "@angular/router";
-import {Observable, Subject, tap} from "rxjs";
-import {AppService, Query} from "@sinequa/core/app-utils";
-import {AuthenticationService} from "@sinequa/core/login";
-import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent, Results, CustomHighlights} from "@sinequa/core/web-services";
-import {JsonObject, Utils} from "@sinequa/core/base";
-import {ModalService} from "@sinequa/core/modal";
-import {SearchService} from "@sinequa/components/search";
-import {RecentDocumentsService} from '@sinequa/components/saved-queries';
+import { Observable, Subject, tap } from "rxjs";
+
+import { Inject, Injectable, InjectionToken, Optional, Type } from "@angular/core";
+import { Router } from "@angular/router";
+
+import { RecentDocumentsService } from '@sinequa/components/saved-queries';
+import { SearchService } from "@sinequa/components/search";
+import { AppService, Query } from "@sinequa/core/app-utils";
+import { JsonObject, Utils } from "@sinequa/core/base";
+import { AuthenticationService } from "@sinequa/core/login";
+import { ModalService } from "@sinequa/core/modal";
+import { AuditEvent, CustomHighlights, PreviewData, PreviewWebService, Record, Results } from "@sinequa/core/web-services";
 
 export const enum PreviewEventType {
     Data = "Preview_Data",
@@ -78,7 +80,7 @@ export class PreviewService {
         const resultId = record ? this.searchService.results?.id : undefined;
         if (audit) {
             auditEvent = {
-                type: AuditEventType.Doc_Preview,
+                type: "Doc_Preview",
                 detail: this.getAuditPreviewDetail(id, query, record, resultId)
             };
         }
