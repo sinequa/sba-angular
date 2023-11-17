@@ -7,15 +7,13 @@ import { MetadataConfig } from '@sinequa/components/metadata';
 import { Preview, PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
+import { HelpFolderOptions } from '@sinequa/components/user-settings';
 import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
-import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { MetadataConfig } from '@sinequa/components/metadata';
-import { HelpFolderOptions } from '@sinequa/components/user-settings';
+import { AuditWebService, Record, Results } from '@sinequa/core/web-services';
+import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 
 @Component({
   selector: 'app-search',
