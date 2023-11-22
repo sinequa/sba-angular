@@ -4,7 +4,7 @@ import { AbstractControl, UntypedFormBuilder, UntypedFormGroup } from "@angular/
 import { SearchService } from "@sinequa/components/search";
 import { AppService, Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
-import { Results } from "@sinequa/core/web-services";
+import { AuditEventType, Results } from "@sinequa/core/web-services";
 
 import { AbstractFacet } from "../../abstract-facet";
 import { FacetConfig } from "../../facet-config";
@@ -88,7 +88,7 @@ export class BsRefine extends AbstractFacet implements FacetRefineParams, OnChan
             this.query.addRefine(text);
             if(this.facetService.canSearch(this.query)) {
                 this.searchService.search(undefined, {
-                    type: "Search_Refine",
+                    type: AuditEventType.Search_Refine,
                     detail: {
                         text: text,
                         itembox: "refine",

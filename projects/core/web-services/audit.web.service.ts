@@ -8,6 +8,7 @@ import { Utils } from "@sinequa/core/base";
 import { HttpService } from "./http.service";
 import { AuditEvent, AuditEvents , AuditEventType , Record, Results } from "./types";
 import { LinkResult } from "./sponsored-links.web.service";
+import { AuditEventTypeValues } from "./types/audit/AuditEventType";
 
 // this type is used only to avoid Record collision with the Record type from Typescript
 type MapOf<T> = { [key: string]: T };
@@ -48,7 +49,9 @@ export class AuditWebService extends HttpService {
      * @param parameters Additional information
      */
     notifySponsoredLink(
-        evt: AuditEventType, sl: LinkResult, resultId: string,
+        evt: AuditEventType | AuditEventTypeValues,
+        sl: LinkResult,
+        resultId: string,
         parameters?: MapOf<string | number | boolean | undefined>): Observable<void> {
         const detail = {
             linkid: sl.id,
@@ -77,7 +80,9 @@ export class AuditWebService extends HttpService {
      * @param rfmParameters Additional RFM parameters
      */
     notifyDocument(
-        evt: AuditEventType, doc: Record, resultsOrId: Results | string,
+        evt: AuditEventType | AuditEventTypeValues,
+        doc: Record,
+        resultsOrId: Results | string,
         parameters?: MapOf<string | number | boolean | undefined>,
         rfmParameters?: MapOf<string | number | boolean | undefined>): Observable<void> {
         let resultId: string | null;
@@ -126,7 +131,7 @@ export class AuditWebService extends HttpService {
                 // Second event triggered when we come back
                 document.addEventListener('visibilitychange', () => {
                     if (document.visibilityState === 'visible') {
-                        this.notify({ type: "Navigation_Return" });
+                        this.notify({ type: AuditEventType.Navigation_Return });
                     }
                 }, { once: true });
             }
@@ -179,7 +184,7 @@ export class AuditWebService extends HttpService {
         };
 
         const data: AuditEvent = {
-            type: "Search_Exit_Logout",
+            type: AuditEventType.Search_Exit_Logout,
             detail
         };
 
@@ -196,7 +201,7 @@ export class AuditWebService extends HttpService {
         };
 
         const data: AuditEvent = {
-            type: "Search_Login_Success",
+            type: AuditEventType.Search_Login_Success,
             detail
         };
 
@@ -213,7 +218,7 @@ export class AuditWebService extends HttpService {
             return of(undefined);
         }
         const observable = this.httpClient.post<void>(this.makeUrl(AuditWebService.endpoint), {
-            event: "None",
+            event: AuditEventType.None,
             app: this.appName,
             $auditRecord: auditEvents
         });
@@ -229,7 +234,7 @@ export class AuditWebService extends HttpService {
         const route = this.router?.url.substr(1).split('?')[0]; // Extract route name
         if (route && route !== this.previousRoute) {
             this.notify({
-                type: `Navigation_Route`,
+                type:  AuditEventType.Navigation_Route,
                 detail: {
                     detail: route
                 }

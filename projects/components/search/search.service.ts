@@ -17,6 +17,7 @@ import {
     Filter, IMulti, IQuery, ListAggregation, QueryAnalysis,
     QueryIntent, QueryIntentAction, QueryIntentData, QueryIntentMatch, QueryIntentWebService, QueryWebService, Record, Results, Tab, TreeAggregation, TreeAggregationNode
 } from "@sinequa/core/web-services";
+import { AuditEventTypeValues } from "@sinequa/core/web-services/types/audit/AuditEventType";
 
 export interface SearchOptions {
     /** Name of routes for which we want the search service to work (incl. storing the query in the URL) */
@@ -726,7 +727,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 this._events.next(event);
                 if(intents.length > 0) {
                     const events = intents.map(intent => ({
-                        type: "Search_QueryIntent_Detected",
+                        type: AuditEventType.Search_QueryIntent_Detected,
                         detail: {
                             querytext: this.query.text,
                             item: intent.name,
@@ -759,7 +760,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 analyzeQueryText: true
             },
             this.makeAuditEvent({
-                type: "Search_Text",
+                type: AuditEventType.Search_Text,
                 detail: {
                     querytext: this.query.text,
                     scope: this.query.scope,
@@ -772,7 +773,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     gotoPage(page: number): Promise<boolean> {
         this.query.page = page;
         return this.navigate(undefined, this.makeAuditEvent({
-            type: "Search_GotoPage",
+            type: AuditEventType.Search_GotoPage,
             detail: {
                 page: page,
                 fromresultid: this.results ? this.results.id : null
@@ -792,7 +793,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 this.query.page = page;
 
                 const auditEvents = this.makeAuditEvent({
-                    type: "Search_GotoPage",
+                    type: AuditEventType.Search_GotoPage,
                     detail: {
                         page: page,
                         fromresultid: this.results ? this.results.id : null
@@ -825,7 +826,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         this.query.text = text;
         this.query.spellingCorrectionMode = "dymonly";
         return this.navigate(undefined, this.makeAuditEvent({
-            type: kind === DidYouMeanKind.Original ? "Search_DidYouMean_Original" : "Search_DidYouMean_Correction",
+            type: kind === DidYouMeanKind.Original ? AuditEventType.Search_DidYouMean_Original : AuditEventType.Search_DidYouMean_Correction,
             detail: {
                 querytext: text
             }
@@ -874,7 +875,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         this._events.next({type: "before-select-tab", query: this.query});
         return this.search(options,
             this.makeAuditEvent({
-                type: "Search_GotoTab",
+                type: AuditEventType.Search_GotoTab,
                 detail: {
                     tab: tabName,
                     fromresultid: this.results ? this.results.id : null
@@ -904,14 +905,14 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return undefined;
     }
 
-    notifyOpenOriginalDocument(record: Record, resultId?: string, type: AuditEventType = "Click_ResultLink"): void {
+    notifyOpenOriginalDocument(record: Record, resultId?: string, type: AuditEventType | AuditEventTypeValues = AuditEventType.Click_ResultLink): void {
         const results = this.results && this.results.records && this.results.records.includes(record) ? this.results : undefined;
         this._events.next({ type: "open-original-document", record });
         const querylang = this.results?.queryAnalysis?.queryLanguage
             || this.query?.questionLanguage
             || this.appService?.ccquery?.questionLanguage;
         let score: number | undefined;
-        if (type === "Click_ResultLink") {
+        if (type === AuditEventType.Click_ResultLink) {
             const passages = record?.matchingpassages?.passages;
             score = passages && passages.length ? passages[0].score : undefined;
         }

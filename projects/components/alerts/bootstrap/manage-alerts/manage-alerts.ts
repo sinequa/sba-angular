@@ -4,7 +4,7 @@ import { ValidatorFn } from "@angular/forms";
 
 import { Utils } from "@sinequa/core/base";
 import { MODAL_MODEL, ModalButton, ModalResult } from "@sinequa/core/modal";
-import { AuditEvent } from "@sinequa/core/web-services";
+import { AuditEvent, AuditEventType } from "@sinequa/core/web-services";
 
 import { Alert, AlertEventType, AlertsService, ManageAlertsModel } from "../../alerts.service";
 
@@ -45,7 +45,7 @@ export class BsManageAlerts implements OnInit {
         this.model.alerts.splice(index, 1);
         this.removeAllButton.visible = this.model.alerts.length > 0;
         this.addAuditEvent({
-            type: "Alert_Delete",
+            type: AuditEventType.Alert_Delete,
             detail: {
                 alert: alert.name
             }
@@ -61,7 +61,7 @@ export class BsManageAlerts implements OnInit {
                     if (result) {
                         Utils.copy(alert1, alert);
                         this.addAuditEvent({
-                            type: "Alert_Edit",
+                            type: AuditEventType.Alert_Edit,
                             detail: {
                                 alert: alert.name
                             }

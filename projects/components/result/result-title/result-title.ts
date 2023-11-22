@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, ViewEncapsulation } 
 
 import { SearchService } from "@sinequa/components/search";
 import { Utils } from "@sinequa/core/base";
-import { Record } from "@sinequa/core/web-services";
+import { AuditEventType, Record } from "@sinequa/core/web-services";
 
 
 @Component({
@@ -83,7 +83,7 @@ export class ResultTitle implements OnChanges {
     public click() : boolean {
         const isLink = this.hasLinkBehaviour && !!this.url; // true if this is a regular link (performs the default action)
         if(isLink) {
-          const type = this.record[this.urlColumn]? "Click_ResultLink" : "Doc_CacheOriginal";
+          const type = this.record[this.urlColumn]? AuditEventType.Click_ResultLink : AuditEventType.Doc_CacheOriginal;
           this.searchService.notifyOpenOriginalDocument(this.record, undefined, type);
         }
         this.titleClicked.emit(isLink); // Can be use to trigger actions

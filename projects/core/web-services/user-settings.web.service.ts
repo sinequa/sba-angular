@@ -5,7 +5,7 @@ import { Injectable, OnDestroy } from "@angular/core";
 import { Utils } from "@sinequa/core/base";
 
 import { HttpService } from "./http.service";
-import { AuditEvents } from "./types";
+import { AuditEventType, AuditEvents } from "./types";
 
 type StringWithAutocomplete<T> = T | (string & Record<never, never>);
 type UserSettingsKeys = StringWithAutocomplete<keyof UserSettingsBase>;
@@ -177,7 +177,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
         // Reset User settings (and emit an event!)
         this.userSettings = {};
         const observable = this.save({
-            type: 'UserSettings_Reset'
+            type: AuditEventType.UserSettings_Reset
         });
         observable.subscribe({
             next: () => this._events.next({ type: "reset" }),

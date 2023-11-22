@@ -17,6 +17,7 @@ import { IntlService } from "@sinequa/core/intl";
 import { ModalResult, ModalService } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
 import {
+    AuditEventType,
     LabelsRights,
     LabelsWebService,
     PrincipalWebService,
@@ -396,7 +397,7 @@ export class LabelsService implements OnDestroy {
 
         this.searchService.addFieldSelect(field, items);
         return this.searchService.search(undefined, {
-            type: "Label_Open",
+            type: AuditEventType.Label_Open,
             detail: {
                 label: !!labels ? labels.toString() : null,
                 public: _public,

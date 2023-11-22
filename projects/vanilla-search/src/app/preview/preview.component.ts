@@ -9,7 +9,7 @@ import { Preview, PreviewHighlightColors, PreviewService } from '@sinequa/compon
 import { SearchService } from '@sinequa/components/search';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
-import { PreviewData, Tab } from '@sinequa/core/web-services';
+import { AuditEventType, PreviewData, Tab } from '@sinequa/core/web-services';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 
 export interface EntitiesState {
@@ -131,7 +131,7 @@ export class PreviewComponent implements OnDestroy {
 
   notifyPdf() {
     if (this.previewData) {
-      this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, "Doc_CachePdf");
+      this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, AuditEventType.Doc_CachePdf);
     }
   }
 

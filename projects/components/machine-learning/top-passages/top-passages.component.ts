@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 
 import { AbstractFacet } from '@sinequa/components/facet';
 import { SearchService } from "@sinequa/components/search";
-import { AuditEvent, AuditWebService, Record, Results, TopPassage } from "@sinequa/core/web-services";
+import { AuditEvent, AuditEventType, AuditWebService, Record, Results, TopPassage } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-top-passages',
@@ -80,13 +80,13 @@ export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   }
 
   private notifyTopPassagesClick(passage: TopPassage) {
-    const auditEvent: AuditEvent = this.makeAuditEvent("TopPassages_Click", passage);
+    const auditEvent: AuditEvent = this.makeAuditEvent(AuditEventType.TopPassages_Click, passage);
     this.auditService.notify(auditEvent);
   }
 
   private notifyTopPassagesDisplay(passages: TopPassage[]) {
     const auditEvents: AuditEvent[] = passages
-      .map((passage: TopPassage) => this.makeAuditEvent("TopPassages_Display", passage));
+      .map((passage: TopPassage) => this.makeAuditEvent(AuditEventType.TopPassages_Display, passage));
     this.auditService.notify(auditEvents);
   }
 

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { Action } from '@sinequa/components/action';
@@ -12,7 +13,7 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { AuditWebService, Record, Results } from '@sinequa/core/web-services';
+import { AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 
 @Component({
@@ -232,7 +233,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   closeDocument(){
     if(this.openedDoc){
       this.auditService.notify({
-        type: "Preview_Close",
+        type: AuditEventType.Preview_Close,
         detail: this.previewService.getAuditPreviewDetail(this.openedDoc.id, this.searchService.query, this.openedDoc, this.searchService.results?.id)
       });
       this.openedDoc = undefined;

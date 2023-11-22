@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Utils } from "@sinequa/core/base";
 
 import { HttpService } from './http.service';
-import { ExportOutputFormat, ExportSourceType, IQuery, Results } from "./types";
+import { AuditEventType, ExportOutputFormat, ExportSourceType, IQuery, Results } from "./types";
 
 /**
  * A service to export the result of a query.
@@ -85,7 +85,7 @@ export class QueryExportWebService extends HttpService {
             maxCount: maxCount ? maxCount.toString() : undefined,
             exportedColumns: exportedColumns,
             $auditRecord: {
-                type: "Search_ExportCSV",
+                type: AuditEventType.Search_ExportCSV,
                 detail: {
                     resultid: results ? results.id : undefined
                 }
@@ -143,7 +143,7 @@ export class QueryExportWebService extends HttpService {
             maxCount: maxCount ? maxCount.toString() : undefined,
             exportedColumns: exportedColumns,
             $auditRecord: {
-                type: "Search_Selection_ExportCSV",
+                type: AuditEventType.Search_Selection_ExportCSV,
                 detail: {
                     resultid: results ? results.id : undefined
                 }
@@ -191,7 +191,7 @@ export class QueryExportWebService extends HttpService {
             maxCount: maxCount ? maxCount.toString() : undefined,
             exportedColumns: exportedColumns,
             $auditRecord: {
-                type: "Search_SavedQuery_ExportCSV",
+                type: AuditEventType.Search_SavedQuery_ExportCSV,
                 detail: {
                     query: queryName
                 }

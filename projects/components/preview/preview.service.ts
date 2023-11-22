@@ -9,7 +9,7 @@ import { AppService, Query } from "@sinequa/core/app-utils";
 import { JsonObject, Utils } from "@sinequa/core/base";
 import { AuthenticationService } from "@sinequa/core/login";
 import { ModalService } from "@sinequa/core/modal";
-import { AuditEvent, CustomHighlights, PreviewData, PreviewWebService, Record, Results } from "@sinequa/core/web-services";
+import { AuditEvent, AuditEventType, CustomHighlights, PreviewData, PreviewWebService, Record, Results } from "@sinequa/core/web-services";
 
 export const enum PreviewEventType {
     Data = "Preview_Data",
@@ -80,7 +80,7 @@ export class PreviewService {
         const resultId = record ? this.searchService.results?.id : undefined;
         if (audit) {
             auditEvent = {
-                type: "Doc_Preview",
+                type: AuditEventType.Doc_Preview,
                 detail: this.getAuditPreviewDetail(id, query, record, resultId)
             };
         }
