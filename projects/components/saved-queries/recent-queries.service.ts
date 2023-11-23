@@ -93,11 +93,7 @@ export class RecentQueriesService implements OnDestroy {
      * Using this service creates the list of recent queries if it does not already exist.
      */
     public get recentqueries() : RecentQuery[]{
-        if(!this.userSettingsService.userSettings)
-            this.userSettingsService.userSettings = {};
-        if(!this.userSettingsService.userSettings["recentQueries"])
-            this.userSettingsService.userSettings["recentQueries"] = [];
-        return this.userSettingsService.userSettings["recentQueries"];
+        return this.userSettingsService.get("recentQueries");
     }
 
     /**

@@ -1,10 +1,12 @@
-import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
+
+import { Injectable } from "@angular/core";
+
 import { HttpService } from "./http.service";
-import { Record } from "./query.web.service";
+import { Record } from "./types";
 
 /**
- * A service for calling the similardocuments web service
+ * A service for calling the similar documents web service
  */
 @Injectable({
   providedIn: "root"

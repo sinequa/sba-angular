@@ -1,9 +1,11 @@
-import {Injectable} from "@angular/core";
 import {Observable, of, map} from "rxjs";
-import {HttpService} from "./http.service";
+
+import {Injectable} from "@angular/core";
+
 import {Utils} from "@sinequa/core/base";
-import {Suggestion} from "./suggest/suggestion";
-import {IQuery} from "./query/query";
+
+import {HttpService} from "./http.service";
+import { IQuery, Suggestion } from "./types";
 
 /**
  * A service for calling the suggestfield web service

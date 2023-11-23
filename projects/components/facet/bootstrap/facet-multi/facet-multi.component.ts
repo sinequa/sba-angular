@@ -1,12 +1,15 @@
-import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges, Type, OnDestroy } from '@angular/core';
-import { Results } from '@sinequa/core/web-services';
-import { AbstractFacet } from '../../abstract-facet';
-import { FacetConfig, DEFAULT_FACET_COMPONENTS } from "../../facet-config";
-import { Action } from '@sinequa/components/action';
-import { FacetEventType, FacetService } from '../../facet.service';
-import { MapOf, Utils } from '@sinequa/core/base';
-import { Query } from '@sinequa/core/app-utils';
 import { Subscription } from 'rxjs';
+
+import { ChangeDetectorRef, Component, ComponentRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, Type } from '@angular/core';
+
+import { Action } from '@sinequa/components/action';
+import { Query } from '@sinequa/core/app-utils';
+import { MapOf, Utils } from '@sinequa/core/base';
+import { Results } from '@sinequa/core/web-services';
+
+import { AbstractFacet } from '../../abstract-facet';
+import { DEFAULT_FACET_COMPONENTS, FacetConfig } from "../../facet-config";
+import { FacetEventType, FacetService } from '../../facet.service';
 
 declare interface FacetMultiConfig extends FacetConfig<{displayEmptyDistributionIntervals?: boolean}> {
   // Properties internally setup by this component
@@ -136,7 +139,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges, O
     facet.$hasMore = false;
     facet.$hasFiltered = false;
 
-    for(let aggregation of Utils.asArray(facet.aggregation)) {
+    for(const aggregation of Utils.asArray(facet.aggregation)) {
       const agg = this.facetService.getAggregation(aggregation, this.results);
       if(agg) {
         facet.$fields.push(agg.column);
@@ -169,7 +172,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges, O
    * Also, update list of inputs passed to child facets
    */
   ngOnChanges(changes: SimpleChanges) {
-    for(let facet of this.facets) {
+    for(const facet of this.facets) {
       this.initFacet(facet);
     }
     // Update list of inputs used by child facet

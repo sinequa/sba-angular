@@ -1,22 +1,25 @@
-import {Injectable, Optional, Inject, OnDestroy, InjectionToken} from "@angular/core";
-import {Subject, Observable, of, throwError, from, filter, switchMap, tap} from "rxjs";
-import IntlMessageFormat, { Formats } from "intl-messageformat";
-import memoizeFormatConstructor from "intl-format-cache";
-// TODO - check loading of locale data per locale - the ponyfill doesn't seem to work
+import { Observable, Subject, filter, from, of, switchMap, tap, throwError } from "rxjs";
+
+import { Inject, Injectable, InjectionToken, OnDestroy, Optional } from "@angular/core";
+
+// TODO - check loading of locale data per locale - the polyfill doesn't seem to work
 // import "@formatjs/intl-relativetimeformat/polyfill";
 import "intl-pluralrules";
-import get from "lodash/get";
-import {Utils, MapOf, JsonObject} from "@sinequa/core/base";
 // We support loading d3 bundled and unbundled as it is typically easier
 // for others to integrate bundled examples but some 3rd party libs (eg swimlane/charts)
 // load d3 unbundled.
-import {FormatLocaleDefinition, formatDefaultLocale} from "d3-format";
-import {TimeLocaleDefinition, timeFormatDefaultLocale} from "d3-time-format";
+import { FormatLocaleDefinition, formatDefaultLocale } from "d3-format";
+import { TimeLocaleDefinition, timeFormatDefaultLocale } from "d3-time-format";
 
-import { isValid, parse, setDefaultOptions, toDate, Locale as fnsLocale, parseISO } from "date-fns";
-import { enUS, fr, de } from 'date-fns/locale';
+import { Locale as fnsLocale, isValid, parse, parseISO, setDefaultOptions, toDate } from "date-fns";
+import { de, enUS, fr } from 'date-fns/locale';
 
 import buildFormatLongFn from "date-fns/locale/_lib/buildFormatLongFn";
+import memoizeFormatConstructor from "intl-format-cache";
+import IntlMessageFormat, { Formats } from "intl-messageformat";
+import get from "lodash/get";
+
+import { Utils } from "@sinequa/core/base";
 
 // french and german locales add only one 'y' instead of 'yyyy' as we expected
 // so we customize this part
@@ -158,7 +161,7 @@ export interface LocaleData {
     /**
      * The messages (ICU Message syntax) for this locale
      */
-    messages: JsonObject;
+    messages: {};
 }
 
 /**
@@ -221,7 +224,7 @@ export const LOCALES_CONFIG = new InjectionToken<LocalesConfig>('LOCALES_CONFIG'
  * Describes the object to specify custom ICU Message formats
  */
 export interface IntlFormats extends Formats {
-    relativeTime?: MapOf<Intl.RelativeTimeFormatOptions>;
+    relativeTime?: Record<string, Intl.RelativeTimeFormatOptions>;
 }
 
 /**
@@ -464,12 +467,12 @@ export class IntlService implements OnDestroy {
     use(locale: string, store = true): Observable<string> {
         const newLocale = this.getLocale(locale);
         if (!newLocale) {
-            return throwError({error: "unsupported locale"});
+            return throwError(() => ({error: "unsupported locale"}));
         }
 
         return from(!!newLocale.data ? of(newLocale.data) : this.loadData(locale))
             .pipe(
-                filter(_ => this.currentLocale?.name !== newLocale.name ),
+                filter(() => this.currentLocale?.name !== newLocale.name ),
                 switchMap(data => {
                     this.currentLocale = newLocale;
 
@@ -509,7 +512,7 @@ export class IntlService implements OnDestroy {
                     }
                     return of(this.intlLocale);
                 }),
-                tap(_ => this.currentLocale.name),
+                tap(() => this.currentLocale.name),
                 tap(name => console.log("Setting locale :", name)),
                 tap(name => this._events.next({ locale: name }))
             );
@@ -657,7 +660,7 @@ export class IntlService implements OnDestroy {
      * @param values Values referenced by an ICU message
      * @return The formatted message. If the key is not resolved then it is returned unprocessed
      */
-    formatMessage(key: string, values?: MapOf<any>): string {
+    formatMessage(key: string, values?: Record<string, any>): string {
         key = Utils.trim(key);
         const sysLangStr = this.sysLang(key);
         if (sysLangStr !== key) {

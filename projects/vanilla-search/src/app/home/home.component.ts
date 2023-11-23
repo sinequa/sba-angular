@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
 
   /**
    * Returns the list of features activated in the top right menus.
-   * The configuration from the config.ts file can be overriden by configuration from
+   * The configuration from the config.ts file can be overridden by configuration from
    * the app configuration on the server
    */
   public get features(): string[] {

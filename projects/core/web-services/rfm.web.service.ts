@@ -1,8 +1,11 @@
-import {Injectable} from "@angular/core";
-import {Observable, EMPTY} from "rxjs";
-import {HttpService} from "./http.service";
-import {Utils, MapOf} from "@sinequa/core/base";
-import {Results, RFMData} from "./query.web.service";
+import { EMPTY, Observable } from "rxjs";
+
+import { Injectable } from "@angular/core";
+
+import { Utils } from "@sinequa/core/base";
+
+import { HttpService } from "./http.service";
+import { API_ENDPOINTS, RFMData, Results } from "./types";
 
 /**
  * A service for calling the search.rfm web service
@@ -11,7 +14,7 @@ import {Results, RFMData} from "./query.web.service";
     providedIn: "root"
 })
 export class RfmWebService extends HttpService {
-    private static readonly endpoint = "search.rfm";
+    private static readonly endpoint: API_ENDPOINTS = "search.rfm";
 
     /**
      * Get RFM data for a set of results
@@ -19,7 +22,7 @@ export class RfmWebService extends HttpService {
      * @param rfm The name of the RFM
      * @param results The results for which to retrieve RFM data
      */
-    getRfmData(rfm: string, results: Results): Observable<MapOf<RFMData>> {
+    getRfmData(rfm: string, results: Results): Observable<Record<string, RFMData>> {
         const ids: string[] = [];
         for (const record of results.records) {
             if (!!record.flags && record.flags.indexOf("r") !== -1) {
@@ -34,7 +37,7 @@ export class RfmWebService extends HttpService {
             queryHash: results.rfmQueryHash,
             ids
         };
-        const observable = this.httpClient.post<MapOf<RFMData>>(this.makeUrl(RfmWebService.endpoint), data);
+        const observable = this.httpClient.post<Record<string, RFMData>>(this.makeUrl(RfmWebService.endpoint), data);
         Utils.subscribe(observable,
             (response) => response,
             (error) => {

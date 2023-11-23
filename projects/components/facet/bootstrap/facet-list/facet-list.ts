@@ -1,13 +1,17 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, ViewChild, ElementRef, AfterViewInit, ContentChild, TemplateRef} from "@angular/core";
-import {Results, Aggregation, AggregationItem, Suggestion, TreeAggregationNode, ListAggregation, TreeAggregation} from "@sinequa/core/web-services";
-import {AddFilterOptions, FacetService} from "../../facet.service";
-import {AbstractFacet} from "../../abstract-facet";
-import {Observable, debounceTime, distinctUntilChanged, switchMap, finalize, Subscription, of, Subject} from 'rxjs';
-import {FormControl, FormGroup} from '@angular/forms';
-import { FacetConfig } from "../../facet-config";
-import { Query } from "@sinequa/core/app-utils";
+import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, finalize, of, switchMap } from 'rxjs';
+
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
+import { FormControl, FormGroup } from '@angular/forms';
+
+
 import { SearchService } from "@sinequa/components/search";
+import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
+import { Aggregation, AggregationItem, ListAggregation, Results, Suggestion, TreeAggregation, TreeAggregationNode } from "@sinequa/core/web-services";
+
+import { AbstractFacet } from "../../abstract-facet";
+import { FacetConfig } from "../../facet-config";
+import { AddFilterOptions, FacetService } from "../../facet.service";
 
 export interface FacetListParams {
     showCount?: boolean;
@@ -118,7 +122,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         if (changes.results || changes.aggregation) {     // New data from the search service
             this.data = this.facetService.getAggregation(this.aggregation, this.results);
             if(this.data?.isTree && this.data.items) {
-                this.expandItems(this.data.items);
+                this.expandItems(this.data.items as TreeAggregationNode[]);
             }
             this.data?.items?.forEach(item => item.$selected = false); // Reinitialize the source aggregation's selected items
             this.selected = [];

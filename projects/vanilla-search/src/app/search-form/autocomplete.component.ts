@@ -1,4 +1,4 @@
-import { Input, Output, Component, EventEmitter, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
 import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
 import { BasketsService } from "@sinequa/components/baskets";
 import { PreviewService } from "@sinequa/components/preview";
@@ -6,7 +6,7 @@ import { RecentDocumentsService, RecentQueriesService, SavedQueriesService } fro
 import { SearchService } from "@sinequa/components/search";
 import { AppService } from "@sinequa/core/app-utils";
 import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
-import { fromEvent, merge, of, Observable, from, forkJoin, Subscription, BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable, Subscription, forkJoin, from, fromEvent, merge, of } from "rxjs";
 import { debounceTime, map, switchMap } from "rxjs/operators";
 
 

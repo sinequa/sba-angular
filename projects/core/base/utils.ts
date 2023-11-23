@@ -1,17 +1,19 @@
-import {HttpParams, HttpParameterCodec} from "@angular/common/http";
-import {Observable, Subscription} from "rxjs";
-import {remove as removeDiacritics} from "diacritics";
+import { Observable, Subscription } from "rxjs";
+
+import { HttpParameterCodec, HttpParams } from "@angular/common/http";
+
+import { format, isValid, parseISO } from "date-fns";
+import { remove as removeDiacritics } from "diacritics";
 import jsSHA from "jssha";
-import {MapOf} from "./map-of";
-import {FieldValue} from "./field-value";
-import kebabCase from "lodash/kebabCase";
-import snakeCase from "lodash/snakeCase";
 import camelCase from "lodash/camelCase";
 import escape from "lodash/escape";
-import unescape from "lodash/unescape";
 import isEqual from "lodash/isEqual";
+import kebabCase from "lodash/kebabCase";
+import snakeCase from "lodash/snakeCase";
+import unescape from "lodash/unescape";
 import uniq from "lodash/uniq";
-import { format, isValid, parseISO } from "date-fns";
+
+import { FieldValue } from "./types/field-value";
 
 // Because of: https://github.com/angular/angular/issues/18261
 class SqHttpParameterCodec implements HttpParameterCodec {
@@ -87,7 +89,7 @@ export class Timer {
      */
     readonly start = performance.now();
     /**
-     * Contains the current durartion in milliseconds of the `Timer` object
+     * Contains the current duration in milliseconds of the `Timer` object
      */
     duration = 0;
 
@@ -271,7 +273,7 @@ export class Utils {
      * Makes a deep copy of the passed object or array and returns it.
      * Copies of source objects of the following types: `TypedArray`, `Date`, `RegExp` `Node` are
      * made using the appropriate constructor. Arrays are created using `[]`. Other objects are created
-     * using `Object.create` passing the source object's protptype, if any.
+     * using `Object.create` passing the source object's prototype, if any.
      *
      * @param source The source item to copy (`Object`, `Array`, `TypedArray`, `Date`, `RegExp`, `Node`)
      * @param destination An optional item to use as the destination. If passed, the item is cleared
@@ -500,7 +502,7 @@ export class Utils {
      * @param date The `Date` to convert
      */
     static toSysDateStr(date: Date): string {
-        // with Typescript, this confition will never occurs
+        // with Typescript, this condition will never occurs
         if (!date) {
             return "";
         }
@@ -901,7 +903,7 @@ export class Utils {
 
         // arrays, strings and jQuery/jqLite objects are array like
         // * jqLite is either the jQuery or jqLite constructor function
-        // * we have to check the existance of jqLite first as this method is called
+        // * we have to check the existence of jqLite first as this method is called
         //   via the forEach method when constructing the jqLite object in the first place
         if (Array.isArray(obj) || Utils.isString(obj) /*|| (jqLite && obj instanceof jqLite)*/) return true;
 
@@ -936,7 +938,7 @@ export class Utils {
      * @param ms The time to delay in milliseconds
      */
     static delay(ms: number = 0): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve) => {
             window.setTimeout(() => {
                 resolve();
             }, ms);
@@ -1189,7 +1191,7 @@ export class Utils {
     private static regExEscapeRegEx = /[-\/\\^$*+?.()|[\]{}]/g;
 
     /**
-     * Return a string where any regular expresion operators are escaped
+     * Return a string where any regular expression operators are escaped
      */
     static regExEscape(s: string): string {
         if (!s) {
@@ -1296,14 +1298,14 @@ export class Utils {
     }
 
     /**
-     * Return `true` if a string is valid as a simple value for the Sinequa admininistration
+     * Return `true` if a string is valid as a simple value for the Sinequa administration
      */
     static isValidSimpleName(name: string): boolean {
         return /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name);
     }
 
     /**
-     * Return `true` if a string is valid as a scoped (`.` separated) simple value for the Sinequa admininistration
+     * Return `true` if a string is valid as a scoped (`.` separated) simple value for the Sinequa administration
      */
     static isValidScopedSimpleName(name: string): boolean {
         return /^[a-zA-Z_]([\.]?[a-zA-Z0-9_]+)*$/.test(name);
@@ -1401,7 +1403,7 @@ export class Utils {
     /**
      * Get a field with passed name from an object. The field name is matched insensitive of case
      */
-    static getField<T>(obj: MapOf<T>, name: string): T | undefined {
+    static getField<T>(obj: Record<string, T>, name: string): T | undefined {
         if (!Utils.isObject(obj) || Utils.isEmpty(name)) {
             return undefined;
         }
@@ -1503,7 +1505,7 @@ export class Utils {
     }
 
     /**
-     * Create a debounce function that delays invoking `func` until after `wait` millseconds have elapsed since the previous invocation.
+     * Create a debounce function that delays invoking `func` until after `wait` milliseconds have elapsed since the previous invocation.
      *
      * @param func The function to debounce
      * @param wait The delay in milliseconds to wait before calling `func`
@@ -1531,7 +1533,9 @@ export class Utils {
         };
 
         return function(this: any) {
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
             context = this;
+            // eslint-disable-next-line prefer-rest-params
             args = arguments;
             if (every) {
                 every.apply(context, args);
@@ -1555,9 +1559,9 @@ export class Utils {
      *
      * @param func The function to throttle
      * @param wait The number of milliseconds to throttle invocations to
-     * @param options Options to control the throttling behaviour
+     * @param options Options to control the throttling behavior
      */
-    static throttle(func: (...params) => any, wait: number, options: ThrottleSettings = {}): (...pararms) => any {
+    static throttle(func: (...params) => any, wait: number, options: ThrottleSettings = {}): (...params) => any {
         let timeout, context, args, result;
         let previous = 0;
 
@@ -1572,7 +1576,9 @@ export class Utils {
             const now = Date.now();
             if (!previous && options.leading === false) previous = now;
             const remaining = wait - (now - previous);
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
             context = this;
+            // eslint-disable-next-line prefer-rest-params
             args = arguments;
             if (remaining <= 0 || remaining > wait) {
                 if (timeout) {
@@ -1642,7 +1648,7 @@ export class Utils {
      * @param url The url to which to add the parameters
      * @param params An object whose fields should be added as parameters
      */
-    static addSearchParams(url: string, params: MapOf<any>): string {
+    static addSearchParams(url: string, params: Record<string, any>): string {
         if (!url || !params) {
             return url;
         }
@@ -1709,7 +1715,7 @@ export class Utils {
     /**
      * Return an `HttpParams` object containing the fields in the passed object
      */
-    static makeHttpParams(params: MapOf<string | boolean | number | Date | object | undefined>): HttpParams {
+    static makeHttpParams(params: Record<string, string | boolean | number | Date | object | undefined>): HttpParams {
         let httpParams = new HttpParams({encoder: new SqHttpParameterCodec()});
         if (params) {
             for (const param in params) {
@@ -1845,11 +1851,15 @@ export class Utils {
 
     /**
      * Set the contents of a target array to the contents of a source array
+     * remove all elements from target and add all elements from source
      *
      * @param target The target array
      * @param source The source array
+     *
+     * @deprecated prefers non mutable operations, because target is modified by reference here
      */
     static arraySet(target: any[], source: any[]): any[] {
+        // eslint-disable-next-line prefer-spread
         return target.splice.apply(target, [0, target.length].concat(source));
     }
 

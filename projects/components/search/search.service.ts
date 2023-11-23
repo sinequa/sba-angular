@@ -1,14 +1,23 @@
-import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
-import {Router, NavigationEnd, Params, NavigationExtras} from "@angular/router";
-import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, finalize} from "rxjs";
-import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
-    QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation, IQuery, Aggregation} from "@sinequa/core/web-services";
-import {AppService, FormatService, ValueItem, Query} from "@sinequa/core/app-utils";
-import {NotificationsService} from "@sinequa/core/notification";
-import {LoginService} from "@sinequa/core/login";
-import {IntlService} from "@sinequa/core/intl";
-import {Utils} from "@sinequa/core/base";
+/* eslint-disable import/export */
+import { BehaviorSubject, Observable, Subject, Subscription, finalize, map, of, switchMap, tap, throwError } from "rxjs";
+
+import { Inject, Injectable, InjectionToken, OnDestroy, Optional } from "@angular/core";
+import { NavigationEnd, NavigationExtras, Params, Router } from "@angular/router";
+
+
+import { AppService, FormatService, Query, ValueItem } from "@sinequa/core/app-utils";
+import { Utils } from "@sinequa/core/base";
+import { IntlService } from "@sinequa/core/intl";
+import { LoginService } from "@sinequa/core/login";
+import { NotificationsService } from "@sinequa/core/notification";
+import {
+    Aggregation, AuditEvent,
+    AuditEventType,
+    AuditEvents, AuditWebService, CCQuery, CCTab, DidYouMeanKind,
+    Filter, IMulti, IQuery, ListAggregation, QueryAnalysis,
+    QueryIntent, QueryIntentAction, QueryIntentData, QueryIntentMatch, QueryIntentWebService, QueryWebService, Record, Results, Tab, TreeAggregation, TreeAggregationNode
+} from "@sinequa/core/web-services";
+import { AuditEventTypeValues } from "@sinequa/core/web-services/types/audit/AuditEventType";
 
 export interface SearchOptions {
     /** Name of routes for which we want the search service to work (incl. storing the query in the URL) */
@@ -197,7 +206,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                         const event: SearchService.ProcessQueryIntentActionEvent = {type: "process-query-intent-action", action: action, intent: intent, analysis: results.queryAnalysis};
                         this._events.next(event);
                         if (!event.actionProcessed) {
-                            if (!!action.data) {
+                            if (action.data) {
                                 switch (action.type) {
                                     case "tab":
                                         if (results.queryAnalysis.initial && this.query &&
@@ -350,7 +359,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         const tab = this.getCurrentTab();
         return this.queryService.getResults(query, auditEvents,
             this.makeQueryIntentData({
-                tab: !!tab ? tab.name : undefined,
+                tab: tab ? tab.name : undefined,
                 queryIntents: (query.spellingCorrectionMode !== "dymonly") ? options.queryIntents : undefined,
                 queryAnalysis: (query.spellingCorrectionMode !== "dymonly") ? options.queryAnalysis : undefined
             })
@@ -420,7 +429,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
       for(const aggregation of results.aggregations) {
         // Populate aggregation map
-        results.$aggregationMap[aggregation.name.toLowerCase()] = aggregation;
+        results.$aggregationMap[aggregation.name.toLowerCase()] = aggregation as ListAggregation | TreeAggregation;
 
         // Columns and aggregation configuration
         aggregation.$cccolumn = this.appService.getColumn(aggregation.column, ccquery);
@@ -433,15 +442,15 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
         // List aggregations
         if(!aggregation.isTree) {
-          this.initializeAggregation(aggregation);
+          this.initializeAggregation(aggregation as ListAggregation);
         }
         // Tree aggregations
         else {
-          this.initializeTreeAggregation(aggregation);
+          this.initializeTreeAggregation(aggregation as TreeAggregation);
         }
 
         // Custom initialization
-        this.options.initializeAggregation?.(query, aggregation);
+        this.options.initializeAggregation?.(query, aggregation as Aggregation);
       }
     }
 
@@ -718,7 +727,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 this._events.next(event);
                 if(intents.length > 0) {
                     const events = intents.map(intent => ({
-                        type: "Search_QueryIntent_Detected",
+                        type: AuditEventType.Search_QueryIntent_Detected,
                         detail: {
                             querytext: this.query.text,
                             item: intent.name,
@@ -767,7 +776,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             type: AuditEventType.Search_GotoPage,
             detail: {
                 page: page,
-                fromresultid: !!this.results ? this.results.id : null
+                fromresultid: this.results ? this.results.id : null
             }
         }));
     }
@@ -787,7 +796,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     type: AuditEventType.Search_GotoPage,
                     detail: {
                         page: page,
-                        fromresultid: !!this.results ? this.results.id : null
+                        fromresultid: this.results ? this.results.id : null
                     }
                 })
 
@@ -869,7 +878,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 type: AuditEventType.Search_GotoTab,
                 detail: {
                     tab: tabName,
-                    fromresultid: !!this.results ? this.results.id : null
+                    fromresultid: this.results ? this.results.id : null
                 }
             }));
     }
@@ -896,7 +905,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return undefined;
     }
 
-    notifyOpenOriginalDocument(record: Record, resultId?: string, type = AuditEventType.Click_ResultLink): void {
+    notifyOpenOriginalDocument(record: Record, resultId?: string, type: AuditEventType | AuditEventTypeValues = AuditEventType.Click_ResultLink): void {
         const results = this.results && this.results.records && this.results.records.includes(record) ? this.results : undefined;
         this._events.next({ type: "open-original-document", record });
         const querylang = this.results?.queryAnalysis?.queryLanguage

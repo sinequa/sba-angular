@@ -1,15 +1,17 @@
-import {Pipe} from "@angular/core";
-import {AbstractIntlPipe} from "./abstract-intl.pipe";
-import {Utils, MapOf} from "@sinequa/core/base";
+import { Pipe } from "@angular/core";
+
+import { Utils } from "@sinequa/core/base";
+
+import { AbstractIntlPipe } from "./abstract-intl.pipe";
 
 /**
  * Describes the parameters that can be passed to the [sqMessage]{@link MessagePipe} pipe
  */
-export interface MessageParams {
+export type MessageParams = {
     /**
      * Values that can be referenced from ICU messages
      */
-    values?: MapOf<any>;
+    values?: Record<string, any>
 }
 
 /**
@@ -29,7 +31,7 @@ export class MessagePipe extends AbstractIntlPipe<any, Record<string, any>> {
             this.value = value;
             return;
         }
-        let values: MapOf<any> | undefined;
+        let values: Record<string, any> | undefined;
         if (params) {
             values = params.values ? params.values : params;
         }

@@ -1,10 +1,11 @@
 import { ChangeDetectorRef } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import { IntlService, Locale, LocaleData, LocalesConfig, LOCALES_CONFIG } from "@sinequa/core/intl";
-import { NumberPipe } from "./number-pipe";
 
+import { IntlService, LOCALES_CONFIG, Locale, LocaleData, LocalesConfig } from "@sinequa/core/intl";
 import msgUS from "@sinequa/core/intl/messages/en";
 import msgFR from "@sinequa/core/intl/messages/fr";
+
+import { NumberPipe } from "./number-pipe";
 
 const localeDataFR: LocaleData = {
   intl: {
@@ -68,7 +69,7 @@ describe("NumberPipe", () => {
     const service = TestBed.inject(IntlService);
     service.use("fr", false).subscribe(_ => {
       expect(pipe.transform(123.01)).toEqual("123,01");
-      // beware, in fench, as specail space character is set instead of a simple space
+      // beware, in French, as special space character is set instead of a simple space
       expect(pipe.transform(123_456)).toEqual('123 456');
       expect(pipe.transform(123_456_000)).toEqual("123 456 000");
 

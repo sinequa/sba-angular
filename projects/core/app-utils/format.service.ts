@@ -1,19 +1,13 @@
-import {Injectable} from "@angular/core";
-import {IntlService} from "@sinequa/core/intl";
-import {Utils, FieldValue} from "@sinequa/core/base";
-import {CCColumn} from "@sinequa/core/web-services";
-import {format} from "d3-format";
-import { AppService } from "./app.service";
+import { Injectable } from "@angular/core";
 
-/**
- * Describes a value item object that includes a {@link FieldValue} and an optional display value
- * to override standard field value formatting
- */
-export interface ValueItem {
-    value: FieldValue;
-    display?: string;
-    count?: number; // Following ES-11166, the number of occurrence for an entity can be included
-}
+import { format } from "d3-format";
+
+import { FieldValue, Utils } from "@sinequa/core/base";
+import { IntlService } from "@sinequa/core/intl";
+import { CCColumn } from "@sinequa/core/web-services";
+
+import { AppService } from "./app.service";
+import { ValueItem } from "./types/ValueItem";
 
 /**
  * This service provides methods for locale-sensitive formatting and parsing of values that can be found in
@@ -116,7 +110,7 @@ export class FormatService {
      * @returns
      */
     formatMoney(value: string): string {
-        let [currency, val] = value.split(" ");
+        const [currency, val] = value.split(" ");
         return `${currency} ${this.moneyFormatter(+val)}`;
     }
 
@@ -305,7 +299,7 @@ export class FormatService {
      * @returns
      */
     formatRaw(value: ValueItem | FieldValue): string {
-        let [val] = this.getValueAndDisplay(value);
+        const [val] = this.getValueAndDisplay(value);
         if(Array.isArray(val)) {
             return val.map(v => Utils.isString(v)? v : v.value).join(';');
         }

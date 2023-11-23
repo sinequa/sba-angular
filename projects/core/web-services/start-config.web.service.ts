@@ -1,7 +1,10 @@
-import {Injectable, InjectionToken, Optional, Inject} from "@angular/core";
-import {Observable} from "rxjs";
+import { Observable } from "rxjs";
+
+import { Inject, Injectable, InjectionToken, Optional } from "@angular/core";
+
 import atomic from "atomicjs";
-import {Utils} from "@sinequa/core/base";
+
+import { Utils } from "@sinequa/core/base";
 
 /**
  * An {@link InjectionToken} to access the app's {@link StartConfig} instance
@@ -236,7 +239,7 @@ export class StartConfigWebService {
                     observer.next(serverConfig);
                     observer.complete();
                 })
-                .catch(error => {
+                .catch(() => {
                     console.log("sinequa-config.json not found");
                     observer.next({});
                     observer.complete();

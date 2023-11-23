@@ -63,7 +63,6 @@
         "curly": "off",
         "eol-last": "off",
         "guard-for-in": "off",
-        "import/order": "off",
         "jsdoc/check-alignment": "off",
         "jsdoc/newline-after-description": "off",
         "jsdoc/no-types": "off",

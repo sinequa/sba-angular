@@ -1,8 +1,10 @@
-import {Directive, Input, OnInit, DoCheck, InjectionToken, Type, Inject, ViewContainerRef} from "@angular/core";
-import {UntypedFormGroup, AbstractControl} from "@angular/forms";
-import {Utils, MapOf} from "@sinequa/core/base";
-import {LoadComponentService, LoadedComponent} from "@sinequa/core/load-component";
-import {ValidationService} from "./validation.service";
+import { Directive, DoCheck, Inject, InjectionToken, Input, OnInit, Type, ViewContainerRef } from "@angular/core";
+import { AbstractControl, UntypedFormGroup } from "@angular/forms";
+
+import { Utils } from "@sinequa/core/base";
+import { LoadComponentService, LoadedComponent } from "@sinequa/core/load-component";
+
+import { ValidationService } from "./validation.service";
 
 /**
  * Describes the options that can be passed to {@link ValidationDirective}.
@@ -34,7 +36,7 @@ export interface ValidationOptions {
      * Custom error messages to use for the validators. By default the messages defined in
      * {@link ValidationService} are used.
      */
-    errorMessages?: MapOf<string>;
+    errorMessages?: Record<string, string>;
 }
 
 /**
@@ -61,7 +63,7 @@ export class ValidationDirective implements OnInit, DoCheck {
     private validClass?: string;
     private invalidClass?: string;
     private childSelector?: string;
-    private errorMessages?: MapOf<string>;
+    private errorMessages?: Record<string, string>;
     private validationMessage: LoadedComponent;
     private active: boolean;
     private valid: boolean;

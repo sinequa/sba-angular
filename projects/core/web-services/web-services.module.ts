@@ -1,17 +1,19 @@
+import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 
 import {NgModule, ModuleWithProviders, APP_INITIALIZER} from "@angular/core";
-import {CommonModule} from "@angular/common";
 
 // Intl is required by various web services
 import {BaseModule} from "@sinequa/core/base";
 import {IntlModule} from "@sinequa/core/intl";
+
 // StartConfig
+import {WEB_SERVICES_MODULE_PROVIDERS} from "./module.providers";
 import {StartConfigWebService, START_CONFIG, StartConfig} from "./start-config.web.service";
 
-import {WEB_SERVICES_MODULE_PROVIDERS} from "./module.providers";
 
 // Used to ensure that the StartConfigWebService is instantiated
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService): () => Promise<void> {
     const init = () => Promise.resolve();
     return init;
