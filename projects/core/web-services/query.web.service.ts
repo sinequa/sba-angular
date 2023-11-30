@@ -1,4 +1,4 @@
-import {Injectable, Inject, inject} from "@angular/core";
+import {Injectable, Inject} from "@angular/core";
 import {Observable, throwError} from "rxjs";
 import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
@@ -7,7 +7,6 @@ import {Utils, FieldValue} from "@sinequa/core/base";
 import {IQuery} from "./query/query";
 import {AuditEvents} from "./audit.web.service";
 import {CCColumn, SpellingCorrectionMode} from "./config/ccapp";
-import {NotificationsService} from "../notification";
 
 /**
  * Describes the results of a call to the query web service
@@ -765,8 +764,7 @@ export interface TopPassage {
 export class QueryWebService<T extends Results = Results> extends HttpService {
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
-        public httpClient: SqHttpClient,
-        public notificationService: NotificationsService) {
+        public httpClient: SqHttpClient) {
         super(startConfig);
     }
 
@@ -796,7 +794,6 @@ export class QueryWebService<T extends Results = Results> extends HttpService {
             },
             (error) => {
                 console.log("queryService.getResults failure - error: ", error);
-                this.notificationService.error("msg#error.queryError");
             });
         return observable;
     }
