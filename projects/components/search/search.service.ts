@@ -418,6 +418,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 // when an exception occurs, set the search active flag to false
                 // this will stop the loading bar
                 this.searchActive = false;
+                this.notificationsService.error("msg#error.queryError");
                 return throwError(error);
             })
         );
