@@ -763,11 +763,10 @@ export interface TopPassage {
     providedIn: "root"
 })
 export class QueryWebService<T extends Results = Results> extends HttpService {
-    protected notificationService = inject(NotificationsService);
-
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
-        public httpClient: SqHttpClient) {
+        public httpClient: SqHttpClient,
+        public notificationService: NotificationsService) {
         super(startConfig);
     }
 
