@@ -23,6 +23,7 @@ export default {
         "principalSwitched": "the logged in user has changed",
         "userOverrideFailure": "unable to override user",
         "responseLoadFailure": "failed to load response",
+        "queryError": "There has been a server error. This can be caused by a query syntax error, please verify on the \"Selection Queries Syntax\" documentation page: https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.syntax.selection-query.html",
         "unknownError": "unknown error"
     },
 
