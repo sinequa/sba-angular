@@ -1,6 +1,6 @@
 import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
 import {Router, NavigationEnd, Params, NavigationExtras} from "@angular/router";
-import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, finalize} from "rxjs";
+import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, catchError} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation, IQuery, Aggregation} from "@sinequa/core/web-services";
@@ -355,8 +355,17 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 queryAnalysis: (query.spellingCorrectionMode !== "dymonly") ? options.queryAnalysis : undefined
             })
         ).pipe(
-            tap(results => this.initializeResults(query, results)),
-            finalize(() => this.searchActive = false) // Called on complete or error
+            tap((results) => {
+                this.initializeResults(query, results);
+                this.searchActive = false;
+            }),
+            catchError((error) => {
+                // when an exception occurs, set the search active flag to false
+                // this will stop the loading bar
+                this.searchActive = false;
+                this.notificationsService.error("msg#error.queryError");
+                return throwError(error);
+            })
         );
     }
 
