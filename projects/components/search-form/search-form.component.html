@@ -1,4 +1,4 @@
-<div class="form-control" [ngClass]="{expanded: expanded}" (sqClickOutside)="onClickOutside()">
+<div class="form-control" [ngClass]="{expanded: expanded}" (sqClickOutside)="onClickOutside()" (mouseenter)="hovered=true" (mouseleave)="hovered=false">
 
   <div class="search-input-container d-flex align-items-center">
 
@@ -22,6 +22,14 @@
       (keyup.enter)="onInputEnter()"
       (keyup.shift.enter)="onInputEnter()"> <!-- keyup.shift.enter is necessary for iOS13+: https://github.com/angular/angular/issues/32963 -->
 
+
+    <!-- Toggle voice recognition -->
+    <button type="button" *ngIf="hovered"
+      class="btn no-shadow p-0 me-1"
+      [sqTooltip]="(persistedFilters ? 'msg#searchForm.persistedFiltersOn' : 'msg#searchForm.persistedFiltersOff') | sqMessage"
+      (click)="toggleFiltersPersist()">
+      <i class="fas fa-fw fa-filter" [ngClass]="persistedFilters ? 'light-green' : 'text-muted'"></i>
+    </button>
 
     <!-- Clear Button (not displayed when expanded to avoid the confusion of users trying to close the box) -->
     <button type="button" *ngIf="editedQuery.text"

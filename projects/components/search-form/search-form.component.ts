@@ -28,6 +28,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() enableVoiceRecognition = true;
   @Input() enableNeuralSearch = true;
   @Input() neuralSearchPref = "neural-search";
+  @Input() persistedFiltersPref = "persisted-filters";
 
   @Output("search") searchEvent = new EventEmitter<boolean>();
   @Output("expanded") expandedEvent = new EventEmitter<boolean>();
@@ -36,6 +37,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
   @ViewChild('searchInput') searchInput: ElementRef<HTMLInputElement>;
 
+  hovered = false;
   expanded: boolean;
   filterCount: number;
 
@@ -141,6 +143,10 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
     if(!this.expanded !== collapse) { // Collapse
       this.expanded = !collapse;
       this.expandedEvent.emit(this.expanded);
+    }
+
+    if (!this.persistedFilters && isTextSearch) {
+      delete this.query.filters;
     }
 
     this.search(isTextSearch); // Actually search
@@ -255,5 +261,23 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
     if (this.editedQuery?.text) {
       this.applyFilters();
     }
+  }
+
+  // Whether filters are persisted to new text queries
+  get persistedFilters(): boolean {
+    return this.prefs.get(this.persistedFiltersPref) !== false; // if undefined, default is true
+  }
+
+  set persistedFilters(val: boolean) {
+    if(val) {
+      this.prefs.delete(this.persistedFiltersPref);
+    }
+    else {
+      this.prefs.set(this.persistedFiltersPref, false); // if set, neural-search can only be false
+    }
+  }
+
+  toggleFiltersPersist() {
+    this.persistedFilters = !this.persistedFilters;
   }
 }
