@@ -1,9 +1,8 @@
 /* eslint-disable import/export */
-import { BehaviorSubject, Observable, Subject, Subscription, finalize, map, of, switchMap, tap, throwError } from "rxjs";
+import { BehaviorSubject, Observable, Subject, Subscription, catchError, map, of, switchMap, tap, throwError } from "rxjs";
 
 import { Inject, Injectable, InjectionToken, OnDestroy, Optional } from "@angular/core";
 import { NavigationEnd, NavigationExtras, Params, Router } from "@angular/router";
-
 
 import { AppService, FormatService, Query, ValueItem } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
@@ -364,8 +363,17 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 queryAnalysis: (query.spellingCorrectionMode !== "dymonly") ? options.queryAnalysis : undefined
             })
         ).pipe(
-            tap(results => this.initializeResults(query, results)),
-            finalize(() => this.searchActive = false) // Called on complete or error
+            tap((results) => {
+                this.initializeResults(query, results);
+                this.searchActive = false;
+            }),
+            catchError((error) => {
+                // when an exception occurs, set the search active flag to false
+                // this will stop the loading bar
+                this.searchActive = false;
+                this.notificationsService.error("msg#error.queryError");
+                return throwError(error);
+            })
         );
     }
 

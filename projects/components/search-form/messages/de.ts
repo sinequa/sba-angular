@@ -5,6 +5,8 @@ export default {
     "clearAll": "Suche löschen",
     "clear": "Löschen",
     "voiceRecognition": "Sprachsuche",
+    "persistedFiltersOn": "Filter werden bei neuer Suche beibehalten",
+    "persistedFiltersOff": "Filter bei neuer Suche entfernt",
     "listening": "Anhören läuft...",
     "filterCount": "{value} {value, plural, one {aktiven Filter} other {aktive Filter}} (zum Löschen klicken)",
     "apply": "Apply",

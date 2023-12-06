@@ -593,7 +593,7 @@ export class FacetService {
      * @param suggestQuery
      */
     public suggest(text: string, field: string, query = this.searchService.query): Observable<Suggestion[]> {
-      return this.suggestService.getFields(text, [field], query);
+      return this.suggestService.get(this.appService.suggestQueries[0], text, [field], query);
     }
 
     /**
