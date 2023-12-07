@@ -21,7 +21,7 @@ export class BsEditAlert implements OnInit, OnDestroy {
     canUpdateQuery: boolean;
     updateQuery: boolean;
     weekdays = {
-        'monday': Alert.Days.Monday, 
+        'monday': Alert.Days.Monday,
         'tuesday': Alert.Days.Tuesday,
         'wednesday': Alert.Days.Wednesday,
         'thursday': Alert.Days.Thursday,
@@ -29,17 +29,19 @@ export class BsEditAlert implements OnInit, OnDestroy {
         'saturday': Alert.Days.Saturday,
         'sunday': Alert.Days.Sunday
     };
-    
+
     showDirtyMessage = false;
-    
+
     // Preserve original property order
     originalOrder = (a: KeyValue<string, Alert.Days>, b: KeyValue<string, Alert.Days>): number => 0
-    
+
     private alertDaysControl: FormControl;
     private alertNameControl: FormControl;
     private alertFrequencyControl: FormControl;
     private alertTimesControl: FormControl;
     private alertActiveControl: FormControl;
+    private alertRespectTabSelectionControl: FormControl;
+    private alertCombineWithOtherAlertsControl: FormControl;
     private updateQueryControl: FormControl;
 
     constructor(
@@ -72,12 +74,16 @@ export class BsEditAlert implements OnInit, OnDestroy {
         this.alertFrequencyControl = new FormControl(this.alert.frequency);
         this.alertTimesControl = new FormControl(this.alert.times); // TODO validator
         this.alertActiveControl = new FormControl(this.alert.active);
+        this.alertRespectTabSelectionControl = new FormControl(this.alert.respectTabSelection);
+        this.alertCombineWithOtherAlertsControl = new FormControl(this.alert.combine);
         this.updateQueryControl = new FormControl(this.updateQuery);
         this.form = this.formBuilder.group({
             alertName: this.alertNameControl,
             alertFrequency: this.alertFrequencyControl,
             alertTimes: this.alertTimesControl,
             alertActive: this.alertActiveControl,
+            alertRespectTabSelection: this.alertRespectTabSelectionControl,
+            alertCombineWithOtherAlerts: this.alertCombineWithOtherAlertsControl,
             updateQuery: this.updateQueryControl
         });
         this.formChanges = Utils.subscribe(this.form.valueChanges,
@@ -87,10 +93,12 @@ export class BsEditAlert implements OnInit, OnDestroy {
                 this.alert.times = this.alertTimesControl.value;
                 this.alert.active = this.alertActiveControl.value;
                 this.alert.days = this.alertDaysControl.value;
+                this.alert.respectTabSelection = this.alertRespectTabSelectionControl.value;
+                this.alert.combine = this.alertCombineWithOtherAlertsControl.value;
                 this.updateQuery = this.updateQueryControl.value;
             }
         );
-        
+
         this.createButtons();
     }
 
