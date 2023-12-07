@@ -22,7 +22,9 @@ export default {
         "active": "Active",
         "updateQuery": "Update Query",
         "runQuery": "Run Query",
-        "lossDataMessage": "Do you want to leave without saving your modifications?"
+        "lossDataMessage": "Do you want to leave without saving your modifications?",
+        "respectTabSelection": "Respect tab selection",
+        "combineWithOtherAlerts": "Combine with other alerts"
     },
 
     "manageAlerts": {

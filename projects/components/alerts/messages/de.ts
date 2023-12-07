@@ -22,7 +22,9 @@ export default {
         "active": "Aktiv",
         "updateQuery": "Aktualisiere Suchanfrage",
         "runQuery": "Führe Suchanfrage aus",
-        "lossDataMessage": "Möchten Sie gehen, ohne Ihre Änderungen zu speichern?"
+        "lossDataMessage": "Möchten Sie gehen, ohne Ihre Änderungen zu speichern?",
+        "respectTabSelection": "Auswahl der Registerkarte respektieren",
+        "combineWithOtherAlerts": "Kombinieren mit anderen Ausschreibungen"
     },
 
     "manageAlerts": {

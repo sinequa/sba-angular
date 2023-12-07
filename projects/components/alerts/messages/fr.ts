@@ -22,7 +22,9 @@ export default {
         "active": "Active",
         "updateQuery": "Mettre à jour la requête",
         "runQuery": "Exécuter la requête",
-        "lossDataMessage": "Voulez-vous quitter sans sauvegarder vos modifications ?"
+        "lossDataMessage": "Voulez-vous quitter sans sauvegarder vos modifications ?",
+        "respectTabSelection": "Repecter la séléction des onglets",
+        "combineWithOtherAlerts": "Combiner avec d'autres alertes"
     },
 
     "manageAlerts": {
