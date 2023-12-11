@@ -28,6 +28,14 @@
                 <input class="form-check-input" type="checkbox" id="alertActive" formControlName="alertActive">
                 <label role="button" for="alertActive" class="form-check-label user-select-none cursor-pointer">{{'msg#editAlert.active' | sqMessage}}</label>
             </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="alertRespectTabSelection" formControlName="alertRespectTabSelection">
+                <label role="button" for="alertRespectTabSelection" class="form-check-label user-select-none cursor-pointer">{{'msg#editAlert.respectTabSelection' | sqMessage}}</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="alertCombineWithOtherAlerts" formControlName="alertCombineWithOtherAlerts">
+                <label role="button" for="alertCombineWithOtherAlerts" class="form-check-label user-select-none cursor-pointer">{{'msg#editAlert.combineWithOtherAlerts' | sqMessage}}</label>
+            </div>
             <div *ngIf="canUpdateQuery" class="form-check">
                 <input class="form-check-input" type="checkbox" id="updateQuery" formControlName="updateQuery">
                 <label role="button" for="updateQuery" class="form-check-label user-select-none cursor-pointer">{{'msg#editAlert.updateQuery' | sqMessage}}</label>
