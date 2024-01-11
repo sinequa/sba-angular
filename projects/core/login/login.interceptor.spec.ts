@@ -82,7 +82,7 @@ describe("login interceptor", () => {
     const message = '401 error';
 
     // Make an HTTP GET request
-    await httpClient.get("/data")
+    await httpClient.get("/api/v1/data")
       .subscribe({
         next: res => fail('should have failed with the 401 error'),
         error: (err: HttpErrorResponse) => {
@@ -91,7 +91,7 @@ describe("login interceptor", () => {
       });
 
     // The following `expectOne()` will match the request's URL.
-    const req = httpMock.expectOne("/data?ui-language=fr");
+    const req = httpMock.expectOne("/api/v1/data?ui-language=fr");
 
     // Respond with mock error
     req.flush(message, { status: 401, statusText: 'Unauthorized' });
@@ -109,7 +109,7 @@ describe("login interceptor", () => {
     const message = '403 Forbidden';
 
     // Make an HTTP GET request
-    await httpClient.get("/data")
+    await httpClient.get("/api/v1/data")
       .subscribe({
         next: res => fail('should have failed with the 403 error'),
         error: (err: HttpErrorResponse) => {
@@ -118,7 +118,7 @@ describe("login interceptor", () => {
       });
 
     // The following `expectOne()` will match the request's URL.
-    const req = httpMock.expectOne("/data?ui-language=fr");
+    const req = httpMock.expectOne("/api/v1/data?ui-language=fr");
 
     // Respond with mock error
     req.flush(message, {status: 403, statusText: 'Forbidden'});
@@ -127,12 +127,12 @@ describe("login interceptor", () => {
   });
 
   it("should intercept request", async () => {
-    await httpClient.get("/data")
+    await httpClient.get("/api/v1/data")
       .subscribe(res => {
         expect(res).toEqual("ok");
       });
 
-    const req = httpMock.expectOne("/data?ui-language=fr");
+    const req = httpMock.expectOne("/api/v1/data?ui-language=fr");
     req.flush("ok");
 
     expect(req.request.params.has("noAutoAuthentication")).toBeFalse();
@@ -146,11 +146,11 @@ describe("login interceptor", () => {
     // noIntercept
     const params = new HttpParams().set("noIntercept", "noIntercept")
 
-    httpClient.get("/data", {params}).subscribe(res => {
+    httpClient.get("/api/v1/data", {params}).subscribe(res => {
       expect(res).toEqual("ok");
     });
 
-    const req = httpMock.expectOne("/data?noIntercept=noIntercept");
+    const req = httpMock.expectOne("/api/v1/data?noIntercept=noIntercept");
     req.flush("ok");
 
   });
