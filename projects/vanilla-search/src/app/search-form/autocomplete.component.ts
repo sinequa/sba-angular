@@ -179,7 +179,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       this.recentQueriesService.recentqueries,
       (query) => query.query.text || "",
       undefined,
-      "msg#searchForm.recentQuery");
+      "msg#autocomplete.recentQuery");
   }
 
   /**
@@ -193,7 +193,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       this.recentDocumentsService.recentdocuments,
       doc => doc.title,
       doc => ([] as string[]).concat(doc.url1, doc.treepath, doc.authors),
-      "msg#searchForm.recentDocument");
+      "msg#autocomplete.recentDocument");
   }
 
   /**
@@ -207,7 +207,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       this.savedQueriesService.savedqueries,
       (query) => query.name,
       (query) => [query.description || "", query.query.text || ""],
-      "msg#editSavedQuery.title");
+      "msg#autocomplete.savedQuery");
   }
 
   /**
@@ -221,7 +221,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       this.basketsService.baskets,
       (bsk) => bsk.name,
       (bsk) => [bsk.description || ""],
-      "msg#editBasket.title");
+      "msg#autocomplete.basket");
   }
 
   /**

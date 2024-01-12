@@ -17,6 +17,10 @@
     },
 
     "autocomplete": {
+      "recentQuery": "Letzte Suche",
+      "savedQuery": "Gespeicherte Suchanfrage",
+      "recentDocument": "Letztes Dokument",
+      "basket": "Ablagekorb",
       "concept": "Konzept",
       "textlexicon": "Lexikon"
     },
