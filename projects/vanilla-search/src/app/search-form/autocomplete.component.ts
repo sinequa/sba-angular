@@ -161,8 +161,10 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       case "recent-query": return "fas fa-history fa-fw";
       case "basket": return "fas fa-inbox fa-fw";
       case "saved-query": return "fas fa-save fa-fw";
+      case "concept": return "far fa-lightbulb fa-fw";
+      case "textlexicon": return "fas fa-feather-alt fa-fw";
     }
-    return "far fa-lightbulb fa-fw";
+    return "fas fa-lightbulb fa-fw";
   }
 
 
