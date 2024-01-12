@@ -16,6 +16,11 @@
         "recentDocument": "Letztes Dokument"
     },
 
+    "autocomplete": {
+      "concept": "Konzept",
+      "textlexicon": "Lexikon"
+    },
+
     "facet": {
         "preview": {
             "title": "Vorschau"

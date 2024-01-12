@@ -1,5 +1,5 @@
 import { Input, Output, Component, EventEmitter, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
-import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
+import { AutocompleteItem, SuggestService, ScoredAutocompleteItem } from "@sinequa/components/autocomplete";
 import { BasketsService } from "@sinequa/components/baskets";
 import { PreviewService } from "@sinequa/components/preview";
 import { RecentDocumentsService, RecentQueriesService, SavedQueriesService } from "@sinequa/components/saved-queries";
@@ -107,7 +107,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     // Methods returning (observable of) suggestions from different sources
     const dataSources: Observable<AutocompleteItem[]>[] = this.suggestTypes.map(source => {
       switch(source) {
-        case 'suggests': return  this.suggestService.get(this.suggestQuery, value);
+        case 'suggests': return  from(this.searchSuggestServices(value));
         case 'baskets': return from(this.searchBaskets(value));
         case 'recent-documents': return from(this.searchRecentDocuments(value));
         case 'recent-queries': return from(this.searchRecentQueries(value));
@@ -222,6 +222,18 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       "msg#editBasket.title");
   }
 
+  /**
+   * Search for the input text with app suggest service and return autocomplete items asynchronously
+   * expects that locales/messages files contains "autocomplete.[item.category]" entry.
+   * @param text
+   */
+  searchSuggestServices(text: string): Observable<ScoredAutocompleteItem<undefined,string>[]> {
+    return this.suggestService.get(this.suggestQuery, text).pipe(
+      map(items => items
+    .map(item => ({...item, label:"msg#autocomplete." + item.category}))
+      )
+    )
+  }
 
   // Keyboard navigation and actions
 

@@ -16,6 +16,11 @@
         "recentDocument": "Document récent"
     },
 
+    "autocomplete": {
+      "concept": "Concept",
+      "textlexicon": "Lexique"
+    },
+
     "baskets": {
         "baskets": "Collections",
         "addToBasket": "Ajouter à la collection",
