@@ -177,7 +177,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
    */
   searchRecentQueries(text: string): Promise<AutocompleteItem[]> {
     const defaultRecentQueries = Promise.resolve(this.recentQueriesService.recentqueries.map(
-      (query) => ({display: query.query.text, category: 'recent-query'}) as AutocompleteItem
+      (query) => ({display: query.query.text, category: 'recent-query', label: "msg#searchForm.recentQuery"}) as AutocompleteItem
     ));
     const suggestedRecentQueries =  this.suggestService.searchData(
       'recent-query',
