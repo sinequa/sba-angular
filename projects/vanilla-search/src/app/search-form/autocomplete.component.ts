@@ -8,6 +8,7 @@ import { AppService } from "@sinequa/core/app-utils";
 import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 import { fromEvent, merge, of, Observable, from, forkJoin, ReplaySubject, Subscription } from "rxjs";
 import { debounceTime, map, switchMap } from "rxjs/operators";
+import { IntlService } from "@sinequa/core/intl";
 
 
 @Component({
@@ -47,6 +48,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   subscription: Subscription;
 
   constructor(
+    public intlService: IntlService,
     public suggestService: SuggestService,
     public appService: AppService,
     public previewService: PreviewService,
@@ -232,7 +234,15 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   searchSuggestServices(text: string): Observable<ScoredAutocompleteItem<undefined,string>[]> {
     return this.suggestService.get(this.suggestQuery, text).pipe(
       map(items => items
-    .map(item => ({...item, label:"msg#autocomplete." + item.category}))
+        .map(item => { 
+                    const localeMsg = "msg#autocomplete." + item.category;
+                    if (this.intlService.formatMessage(localeMsg) === localeMsg)
+                         return item;
+                    else return ({...item, label:"msg#autocomplete." + item.category});
+                  }
+                )
+      
+//        .map(item => ({...item, label:"msg#autocomplete." + item.category}))
       )
     )
   }
