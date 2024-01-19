@@ -1,5 +1,5 @@
 import { Input, Output, Component, EventEmitter, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
-import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
+import { AutocompleteItem, SuggestService, ScoredAutocompleteItem } from "@sinequa/components/autocomplete";
 import { BasketsService } from "@sinequa/components/baskets";
 import { PreviewService } from "@sinequa/components/preview";
 import { RecentDocumentsService, RecentQueriesService, SavedQueriesService } from "@sinequa/components/saved-queries";
@@ -8,6 +8,7 @@ import { AppService } from "@sinequa/core/app-utils";
 import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 import { fromEvent, merge, of, Observable, from, forkJoin, ReplaySubject, Subscription } from "rxjs";
 import { debounceTime, map, switchMap } from "rxjs/operators";
+import { IntlService } from "@sinequa/core/intl";
 
 
 @Component({
@@ -47,6 +48,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   subscription: Subscription;
 
   constructor(
+    public intlService: IntlService,
     public suggestService: SuggestService,
     public appService: AppService,
     public previewService: PreviewService,
@@ -107,7 +109,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     // Methods returning (observable of) suggestions from different sources
     const dataSources: Observable<AutocompleteItem[]>[] = this.suggestTypes.map(source => {
       switch(source) {
-        case 'suggests': return  this.suggestService.get(this.suggestQuery, value);
+        case 'suggests': return  from(this.searchSuggestServices(value));
         case 'baskets': return from(this.searchBaskets(value));
         case 'recent-documents': return from(this.searchRecentDocuments(value));
         case 'recent-queries': return from(this.searchRecentQueries(value));
@@ -161,8 +163,10 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       case "recent-query": return "fas fa-history fa-fw";
       case "basket": return "fas fa-inbox fa-fw";
       case "saved-query": return "fas fa-save fa-fw";
+      case "concept": return "far fa-lightbulb fa-fw";
+      case "textlexicon": return "fas fa-feather-alt fa-fw";
     }
-    return "far fa-lightbulb fa-fw";
+    return "fas fa-lightbulb fa-fw";
   }
 
 
@@ -177,7 +181,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       this.recentQueriesService.recentqueries,
       (query) => query.query.text || "",
       undefined,
-      "msg#searchForm.recentQuery");
+      "msg#autocomplete.recentQuery");
   }
 
   /**
@@ -191,7 +195,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       this.recentDocumentsService.recentdocuments,
       doc => doc.title,
       doc => ([] as string[]).concat(doc.url1, doc.treepath, doc.authors),
-      "msg#searchForm.recentDocument");
+      "msg#autocomplete.recentDocument");
   }
 
   /**
@@ -205,7 +209,7 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       this.savedQueriesService.savedqueries,
       (query) => query.name,
       (query) => [query.description || "", query.query.text || ""],
-      "msg#editSavedQuery.title");
+      "msg#autocomplete.savedQuery");
   }
 
   /**
@@ -219,9 +223,29 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
       this.basketsService.baskets,
       (bsk) => bsk.name,
       (bsk) => [bsk.description || ""],
-      "msg#editBasket.title");
+      "msg#autocomplete.basket");
   }
 
+  /**
+   * Search for the input text with app suggest service and return autocomplete items asynchronously
+   * expects that locales/messages files contains "autocomplete.[item.category]" entry.
+   * @param text
+   */
+  searchSuggestServices(text: string): Observable<ScoredAutocompleteItem<undefined,string>[]> {
+    return this.suggestService.get(this.suggestQuery, text).pipe(
+      map(items => items
+        .map(item => { 
+                    const localeMsg = "msg#autocomplete." + item.category;
+                    if (this.intlService.formatMessage(localeMsg) === localeMsg)
+                         return item;
+                    else return ({...item, label:"msg#autocomplete." + item.category});
+                  }
+                )
+      
+//        .map(item => ({...item, label:"msg#autocomplete." + item.category}))
+      )
+    )
+  }
 
   // Keyboard navigation and actions
 
