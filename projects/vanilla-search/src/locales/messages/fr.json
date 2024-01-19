@@ -17,11 +17,11 @@
     },
 
     "autocomplete": {
-      "recentQuery": "Recherche récente",
+      "recentQuery": "Requête récente",
       "savedQuery": "Requête sauvegardée",
       "recentDocument": "Document récent",
       "basket": "Collection",
-      "concept": "Concept",
+      "concepts": "Concept",
       "textlexicon": "Lexique"
     },
 
