@@ -284,7 +284,7 @@ export class DashboardComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   resize() {
-    this.gridster.resize();
+    this.gridster.onResize();
   }
 
 }
