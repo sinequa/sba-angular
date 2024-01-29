@@ -208,7 +208,7 @@
                 <ng-template [sqFacetView]="{text: 'msg#preview.viewPreview'}">
                     <sq-preview #facet
                         style="height: calc(100vh - 300px);"
-                        [id]="openedDoc.id"
+                        [id]="openedDoc?.id"
                         [highlightColors]="previewHighlights"
                         [highlightEntities]="false"
                         [preferenceName]="'mini-preview'"

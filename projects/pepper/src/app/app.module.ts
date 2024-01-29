@@ -158,13 +158,13 @@ FusionCharts.options.creditLabel = false;
         SearchFormComponent,
 
         FusionChartsModule.forRoot(FusionCharts, charts, FusionTheme, CandyTheme),
-        AppDashboardComponent
+        AppDashboardComponent,
+        AutocompleteComponent
     ],
     declarations: [
         AppComponent,
         SearchComponent,
         AppSearchFormComponent,
-        AutocompleteComponent
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa

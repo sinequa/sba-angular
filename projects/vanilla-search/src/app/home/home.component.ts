@@ -1,14 +1,24 @@
+import { AsyncPipe, CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { AppService } from '@sinequa/core/app-utils';
-import { LoginService } from '@sinequa/core/login';
-import { IntlService } from '@sinequa/core/intl';
+import { BsBasketsModule } from '@sinequa/components/baskets';
+import { BsFacetModule } from '@sinequa/components/facet';
+import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
 import { SearchService } from '@sinequa/components/search';
 import { UIService } from '@sinequa/components/utils';
+import { AppService } from '@sinequa/core/app-utils';
+import { IntlModule, IntlService } from '@sinequa/core/intl';
+import { LoginService } from '@sinequa/core/login';
 import { FEATURES } from '../../config';
+import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
+  imports: [AsyncPipe, CommonModule, NgIf, NgFor,
+    AppSearchFormComponent, IntlModule, BsFacetModule,
+    BsSavedQueriesModule, BsBasketsModule
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

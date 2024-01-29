@@ -1,24 +1,44 @@
+import { AsyncPipe, CommonModule, NgClass } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { Action } from '@sinequa/components/action';
-import { DEFAULT_FACET_COMPONENTS, FacetConfig } from '@sinequa/components/facet';
-import { MetadataConfig } from '@sinequa/components/metadata';
-import { Preview, PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
-import { SearchService } from '@sinequa/components/search';
-import { SelectionService } from '@sinequa/components/selection';
-import { HelpFolderOptions } from '@sinequa/components/user-settings';
-import { UIService } from '@sinequa/components/utils';
+import { BsAlertsModule } from '@sinequa/components/alerts';
+import { BsBasketsModule } from '@sinequa/components/baskets';
+import { BsFacetModule, DEFAULT_FACET_COMPONENTS, FacetConfig } from '@sinequa/components/facet';
+import { BsFeedbackModule } from '@sinequa/components/feedback';
+import { FiltersModule } from '@sinequa/components/filters';
+import { BsLabelsModule } from '@sinequa/components/labels';
+import { MLModule } from '@sinequa/components/machine-learning';
+import { MetadataConfig, MetadataModule } from '@sinequa/components/metadata';
+import { Preview, PreviewHighlightColors, PreviewModule, PreviewService } from '@sinequa/components/preview';
+import { ResultModule } from '@sinequa/components/result';
+import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
+import { BsSearchModule, SearchService } from '@sinequa/components/search';
+import { SearchFormComponent } from '@sinequa/components/search-form';
+import { BsSelectionModule, SelectionService } from '@sinequa/components/selection';
+import { BsUserSettingsModule, HelpFolderOptions } from '@sinequa/components/user-settings';
+import { UIService, UtilsModule } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
-import { IntlService } from '@sinequa/core/intl';
+import { IntlModule, IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, AuditWebService, Filter, Record, Results } from '@sinequa/core/web-services';
 import { Observable, Subscription, filter, tap } from 'rxjs';
 
 import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
+import { AppSearchFormComponent } from '../search-form/search-form.component';
 
 @Component({
   selector: 'app-search',
+  standalone: true,
+  imports: [RouterModule, CommonModule, NgClass, AsyncPipe,
+    IntlModule,
+    SearchFormComponent, BsBasketsModule, BsSavedQueriesModule, BsAlertsModule,
+    BsLabelsModule, BsUserSettingsModule, BsFeedbackModule, BsSearchModule,
+    BsFacetModule, FiltersModule, ResultModule, BsSelectionModule, MetadataModule,
+    MLModule, UtilsModule, PreviewModule, AppSearchFormComponent
+  ],
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
@@ -53,8 +73,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   public results$: Observable<Results | undefined>;
 
   public readonly facetComponents = {
-      ...DEFAULT_FACET_COMPONENTS,
-      "date": BsFacetDate
+    ...DEFAULT_FACET_COMPONENTS,
+    "date": BsFacetDate
   }
 
   public helpFolderOptions: HelpFolderOptions = {
@@ -129,7 +149,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * Mutates the results/records if desired and updates the page title.
    */
   ngOnInit() {
-    this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", { search: "" }));
+    this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {  search: ""  }));
 
     this.searchService.events
       .pipe(filter(event => event.type === "new-results"))
@@ -145,13 +165,13 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.results$ = this.searchService.resultsStream
       .pipe(
         tap(results => {
-          this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
+          this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", { search: this.searchService.query.text || "" }));
           if (!this.showResults) {
             this.openedDoc = undefined;
             this.showFilters = false;
           }
-          if(results && results.records.length <= results.pageSize) {
-            window.scrollTo({top: 0, behavior: 'auto'});
+          if (results && results.records.length <= results.pageSize) {
+            window.scrollTo({ top: 0, behavior: 'auto' });
           }
         })
       );
@@ -194,7 +214,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * @param event
    */
   onDocumentClicked(record: Record, event: Event) {
-    if(!this.isClickAction(event)){
+    if (!this.isClickAction(event)) {
       this.openMiniPreview(record);
     }
   }
@@ -203,7 +223,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     this.passageId = passageId;
 
-    if(this.openedDoc !== record) {
+    if (this.openedDoc !== record) {
       this.preview = undefined;
       this.openedDoc = record;
     }
@@ -226,9 +246,9 @@ export class SearchComponent implements OnInit, OnDestroy {
    * Select the selected matchingpassage in the preview, if any
    */
   selectPassage() {
-    if(this.passageId !== undefined && this.preview) {
+    if (this.passageId !== undefined && this.preview) {
       const passage = this.preview.data?.record.matchingpassages?.passages.find(p => p.id === this.passageId);
-      if(passage) {
+      if (passage) {
         this.preview.selectStart("matchingpassages", passage.rlocation[0]);
       }
     }
@@ -240,7 +260,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * @param isLink
    */
   openPreviewIfNoUrl(record: Record, isLink: boolean) {
-    if(!isLink){
+    if (!isLink) {
       this.previewService.openRoute(record, this.searchService.query);
     }
   }
@@ -248,14 +268,14 @@ export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Responds to the preview facet being closed by a user action
    */
-  closeDocument(){
-    if(this.openedDoc){
+  closeDocument() {
+    if (this.openedDoc) {
       this.auditService.notify({
         type: AuditEventType.Preview_Close,
         detail: this.previewService.getAuditPreviewDetail(this.openedDoc.id, this.searchService.query, this.openedDoc, this.searchService.results?.id)
       });
       this.openedDoc = undefined;
-      if(this.ui.screenSizeIsEqual('md')){
+      if (this.ui.screenSizeIsEqual('md')) {
         this.showFilters = true; // Show filters on medium screen when document is closed
       }
     }
@@ -263,16 +283,16 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   // Make sure the click is not meant to trigger an action
   private isClickAction(event: Event): boolean {
-    const target = event.target as HTMLElement|null;
+    const target = event.target as HTMLElement | null;
     return event.type !== 'click' || !!target?.matches("a, a *, input, input *, button, button *");
   }
 
   /**
    * Show or hide the left facet bar (small screen sizes)
    */
-  toggleFilters(){
+  toggleFilters() {
     this.showFilters = !this.showFilters;
-    if(this.showFilters){ // Close document if filters are displayed
+    if (this.showFilters) { // Close document if filters are displayed
       this.openedDoc = undefined;
     }
   }
@@ -281,7 +301,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Show or hide the user menus (small screen sizes)
    */
-  toggleMenu(){
+  toggleMenu() {
     this.showMenu = !this.showMenu;
     this.showSearch = !this.showMenu;
   }
@@ -290,7 +310,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * Determine whether to show or hide results
    */
   get showResults(): boolean {
-    if(this.ui.screenSizeIsLessOrEqual('sm')){
+    if (this.ui.screenSizeIsLessOrEqual('sm')) {
       return !this.showFilters && !this.openedDoc;
     }
     return true;
