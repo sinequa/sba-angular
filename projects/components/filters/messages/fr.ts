@@ -7,6 +7,7 @@ export default {
       "gt": " > ",
       "lte": " ≤ ",
       "lt": " < ",
+      "contains": " contient ",
       "between": " entre ",
       "in": " parmi ",
       "and": " et ",
