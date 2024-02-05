@@ -99,6 +99,13 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   safeUrl?: SafeResourceUrl;  // Sanitized URL, ready for the iframe
   data?: PreviewData;         // The preview data returned by the /api/v1/preview web service
 
+  /**
+   * Determines if the file format is Excel.
+   * This allow to display the preview in a different way (without sandbox).
+   * @returns {boolean} True if the file format is Excel, false otherwise.
+   */
+    get isExcelDocFormat() { return ["xlsx","xls"].includes(this.data?.record.docformat || "")}
+
   constructor(
     public previewService: PreviewService,
     public previewFrames: PreviewFrameService,
