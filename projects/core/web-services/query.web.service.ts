@@ -1,9 +1,9 @@
 import {Injectable, Inject} from "@angular/core";
-import {Observable, throwError} from "rxjs";
+import {Observable, catchError, tap, throwError} from "rxjs";
 import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
 import {START_CONFIG, StartConfig} from "./start-config.web.service";
-import {Utils, FieldValue} from "@sinequa/core/base";
+import {FieldValue} from "@sinequa/core/base";
 import {IQuery} from "./query/query";
 import {AuditEvents} from "./audit.web.service";
 import {CCColumn, SpellingCorrectionMode} from "./config/ccapp";
@@ -781,21 +781,24 @@ export class QueryWebService<T extends Results = Results> extends HttpService {
         if (!query) {
             return throwError({ error: "no query" });
         }
-        const observable = this.httpClient.post<T>(this.makeUrl(this.endPoint), {
+
+        return this.httpClient.post<T>(this.makeUrl(this.endPoint), {
             app: this.appName,
             query,
             $auditRecord: auditEvents,
             queryIntentData
-        });
-        Utils.subscribe(observable,
-            (response) => {
-                console.log("queryService.getResults success - data: ", response);
-                return response;
-            },
-            (error) => {
+        }).pipe(
+            tap(response => {
+                if (response['errorCode'] !== undefined) {
+                    throw new Error(response['errorMessage'])
+                }
+            }),
+            catchError(error => {
                 console.log("queryService.getResults failure - error: ", error);
-            });
-        return observable;
+                return throwError(() => new Error('Something bad happened; please try again later.'));
+            }),
+            tap(response => console.log("queryService.getResults success - data: ", response)),
+        )
     }
 
     /**
