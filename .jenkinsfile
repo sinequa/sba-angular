@@ -1,47 +1,223 @@
-pipeline {
-    agent { label 'Sun' }
-	options { disableConcurrentBuilds() }
-	stages {
+// ### Environment ###
+properties([
+	parameters([
+		string(name:"SBA_VERSION",  defaultValue: "", description: "Version of sba", trim: true),
+		string(name:"SBA_APP_LIST", defaultValue: "sba/sba-sinequa-analytics-internal,sba/sba-vanilla-ui-builder", description: "App list to rebuild (comma separated)", trim: true),
+		string(name:"SBA_NODE",    defaultValue: "${env.SBA_NODE}", description: "Execution node name", trim: true)
+	]),
+	disableConcurrentBuilds()
+])
+
+// Get mail parameters from jenkins env vars
+url           = "${env.NPM_SERVER_URL}"
+npm_user      = "${env.NPM_USER}"
+npm_pass      = "${env.NPM_PASS}"
+npm_mail      = "${env.NPM_MAIL}"
+mailto        = "${env.NPM_MAILING_LIST}"
+
+// get job variables from job parameters
+sba_version   = "${params.SBA_VERSION}"
+sba_app_list  = "${params.SBA_APP_LIST}"
+pkg_suffix    = "-DEV"
+sba_tag       = ""
+tag_prefix    = "rel_"
+
+// .npmrc variables for verdaccio connection
+scope  = "@sinequa"
+fnpmrc = '.npmrc'
+anpmrc = ["always-auth=true", "registry=${url}/", "scope=${scope}", "scripts-prepend-node-path=true"]
+
+
+// run job on a specific node if needed
+node (params.SBA_NODE) {
+	currentBuild.result = "SUCCESS"
+	try {
+
+		// get the source code
+		checkout scm
+
+		// load jenkins functions
+		def rootDir = pwd()
+		def jf = load "${rootDir}/.jenkins_function.groovy"
+		// get the branch name
+		def myBranch = jf.getBranch()
+
+		// get the npm path (if empty, the file path does not exist)
+		def myNPM = jf.getNPMpath("npm.cmd")
+		if (myNPM == "" ) {
+			// get node executable for the branch
+			jf.getIceNode(myBranch)
+			// get the npm path
+			myNPM = jf.getNPMpath("npm.cmd")
+		}
+		if (myNPM == "" ) {
+			// get node executable from develop
+			jf.getIceNode("develop")
+			// get the npm path
+			myNPM = jf.getNPMpath("npm.cmd")
+		}
+		// A path must be found to do something
+		if (myNPM == "" ) {
+			currentBuild.result = "FAILURE"
+			throw err
+		}
+		println "npm.cmd used (${myBranch}): ${myNPM}"
+		println "Version: "
+		bat "@call ${myNPM} -v"
+		
+		stage('Clean') {
+			// delete dependency modules
+			def nmfolder = "node_modules"
+			echo ".Rmdir /s /q ${nmfolder}"
+			bat "if exist ${nmfolder} ( rmdir /s /q ${nmfolder} )"
+			
+			// clean the npm cache
+			echo ".Cache clean force"
+			bat "@call ${myNPM} cache clean --force"
+		}
+
+		stage('Create user') {
+			// create user for verdaccio
+			bat "npm-cli-login -u ${npm_user} -p ${npm_pass} -e ${npm_mail} -r ${url} -s ${scope} --config-path ${fnpmrc}"
+			// add connection infos in .npmrc file
+			jf.appendFile(fnpmrc, anpmrc)
+			// check the connection
+			bat "@call ${myNPM} whoami"
+		}
+
+		stage('copyNpmrc') {
+			// copy .npmrc file in sub project folder
+			bat "xcopy ${fnpmrc} .\\projects\\core\\ /Y"
+			bat "xcopy ${fnpmrc} .\\projects\\components\\ /Y"
+			bat "xcopy ${fnpmrc} .\\projects\\analytics\\ /Y"
+		}
+
 		stage('NPM Install') {
-			steps {
-				bat "npm ci"	
-			}
+			// get the dependency modules
+			bat "@call ${myNPM} ci"
 		}
-		stage('Build Core') {
-			steps {
-				bat "npm run buildcore --if-present"
+
+		// check if we are in standard case of build or merge/validation (case of PR)
+		def action = jf.buildOrMerge()
+
+		if ("${action}" == "build") {
+			// validate the build in a PR after a commit
+			// build sinequa core modules
+			stage('Build Core') {
+				echo "${myNPM} run buildcore --if-present"
+				bat  "@call ${myNPM} run buildcore --if-present"
 			}
-		}
-		stage('Build Components') {
-			steps {
-				bat "npm run buildcomponents --if-present"
+			stage('Build Components') {
+				echo "${myNPM} run buildcomponents --if-present"
+				bat  "@call ${myNPM} run buildcomponents --if-present"
 			}
-		}
-		stage('Test Components') {
-			steps {
-				bat "npm run test components -- --watch=false"
+			stage('Build Analytics') {
+				echo "${myNPM} run buildanalytics --if-present"
+				bat  "@call ${myNPM} run buildanalytics --if-present"
 			}
-		}
-		stage('Build Analytics') {
-			steps {
-				bat "npm run buildanalytics --if-present"
+			stage('Test Core') {
+				echo "${myNPM} run test core -- --watch=false"
+				bat  "@call ${myNPM} run test core -- --watch=false"
 			}
-		}
-		stage('Build HelloSearch') {
-			steps {
-				bat "npm run buildhellosearch --if-present"
+			stage('Test Components') {
+				echo "${myNPM} run test components -- --watch=false"
+				bat  "@call ${myNPM} run test components -- --watch=false"
 			}
-		}
-		stage('Build Vanilla') {
-			steps {
-				bat "npm run buildvanilla --if-present"	
+			stage('Test Analytics') {
+				echo "NO run test analytics "
+				// echo "${myNPM} run test analytics -- --watch=false"
+				// bat  "@call ${myNPM} run test analytics -- --watch=false"
 			}
-		}
-		stage('Build Pepper') {
-			steps {
-				bat "npm run buildpepper --if-present"	
+			stage('Build HelloSearch') {
+				echo "${myNPM} run buildhellosearch --if-present"
+				bat  "@call ${myNPM} run buildhellosearch --if-present"
 			}
+			stage('Build Vanilla') {
+				echo "${myNPM} run buildvanilla --if-present"
+				bat  "@call ${myNPM} run buildvanilla --if-present"
+			}
+			stage('Build Pepper') {
+				echo "${myNPM} run buildpepper --if-present"
+				bat  "@call ${myNPM} run buildpepper --if-present"
+			}
+
+		} else {
+
+			// sba_version : releaseversion-DEV-build_number
+			sba_version = jf.get_pkg_version()
+			echo "sba_version: ${sba_version}"
+			sba_tag = jf.get_pkg_tag(sba_version)
+			echo "sba_tag: ${sba_tag}"
+
+			// validate the build before merge
+			// build sinequa core modules
+			stage('Build Core') {
+				bat """
+				echo ".tag core:"
+				cd ./projects/core
+				@call ${myNPM} --no-git-tag-version version ${sba_version}
+				cd ../..
+				echo ".buildcore:"
+				@call ${myNPM} run buildcore
+				echo ".unpublish core:"
+				@call ${myNPM} unpublish @sinequa/core@${sba_version}
+				echo ".publish core:"
+				@call ${myNPM} publish ./dist/core --tag ${sba_tag}
+				"""
+			}
+			stage('Build Components') {
+				bat """
+				echo ".tag components and install core:"
+				cd ./projects/components
+				@call ${myNPM} --no-git-tag-version version ${sba_version}
+				@call ${myNPM} install @sinequa/core@${sba_version} --save-exact  --legacy-peer-deps
+				cd ../..
+				echo ".buildcomponents:"
+				@call ${myNPM} run buildcomponents
+				echo ".unpublish components:"
+				@call ${myNPM} unpublish @sinequa/components@${sba_version}
+				echo ".publish components:"
+				@call ${myNPM} publish ./dist/components --tag ${sba_tag}
+				"""
+			}
+			stage('Build Analytics') {
+				bat """
+				echo ".tag analytics and install components:"
+				cd ./projects/analytics
+				@call ${myNPM} --no-git-tag-version version ${sba_version}
+				@call ${myNPM} install @sinequa/components@${sba_version} --save-exact --legacy-peer-deps
+				cd ../..
+				echo ".buildanalytics:"
+				@call ${myNPM} run buildanalytics
+				echo ".unpublish analytics:"
+				@call ${myNPM} unpublish @sinequa/analytics@${sba_version}
+				echo ".publish analytics:"
+				@call ${myNPM} publish ./dist/analytics --tag ${sba_tag}
+				"""
+			}
+
+			// get the current branch version
+			def currentBranch = jf.findBranchNumber()
+
+			// When merging, build a list of apps (param of the job) to be validated
+			// Start a job with the name in the list in parameter
+			// The job must exists before run
+			echo "Build apps ${sba_app_list}"
+			def applist = sba_app_list.split(',')
+			// echo "applist: ${applist}"
+			def nbapp = applist.size()
+			def j = 0
+			for (int i=0; i < nbapp ; i++) {
+				j = i + 1
+				// call the app job with the params: version and branch
+				echo "  app ${j}/${nbapp}: ${applist[i]}"
+				jf.build_app(sba_version, applist[i], currentBranch)
+			}
+
 		}
+
+	} catch (err) {
+		currentBuild.result = "FAILURE"
+		throw err
 	}
 }
-
