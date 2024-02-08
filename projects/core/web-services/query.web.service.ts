@@ -1,10 +1,10 @@
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
-import {HttpService} from "./http.service";
-import {Utils, MapOf} from "@sinequa/core/base";
-import {IQuery} from "./query/query";
-import {AuditEvents} from "./audit.web.service";
-import {CCAggregation, CCColumn, SpellingCorrectionMode} from "./config/ccapp";
+import { Injectable } from "@angular/core";
+import { MapOf } from "@sinequa/core/base";
+import { Observable, catchError, tap, throwError } from "rxjs";
+import { AuditEvents } from "./audit.web.service";
+import { CCAggregation, CCColumn, SpellingCorrectionMode } from "./config/ccapp";
+import { HttpService } from "./http.service";
+import { IQuery } from "./query/query";
 
 /**
  * Describes the results of a call to the query web service
@@ -838,21 +838,27 @@ export class QueryWebService<T extends Results = Results> extends HttpService {
      * @param queryIntentData Any accompanying query intent data
      */
     public getResults(query: IQuery, auditEvents?: AuditEvents, queryIntentData?: QueryIntentData): Observable<T> {
-        const observable = this.httpClient.post<T>(this.makeUrl(this.endPoint), {
+        if (!query) {
+            return throwError({ error: "no query" });
+        }
+
+        return this.httpClient.post<T>(this.makeUrl(this.endPoint), {
             app: this.appName,
             query,
             $auditRecord: auditEvents,
             queryIntentData
-        });
-        Utils.subscribe(observable,
-            (response) => {
-                console.log("queryService.getResults success - data: ", response);
-                return response;
-            },
-            (error) => {
+        }).pipe(
+            tap(response => {
+                if (response['errorCode'] !== undefined) {
+                    throw new Error(response['errorMessage'])
+                }
+            }),
+            catchError(error => {
                 console.log("queryService.getResults failure - error: ", error);
-            });
-        return observable;
+                return throwError(() => new Error('Something bad happened; please try again later.'));
+            }),
+            tap(response => console.log("queryService.getResults success - data: ", response)),
+        )
     }
 
     /**
