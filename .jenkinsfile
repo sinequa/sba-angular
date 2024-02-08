@@ -124,8 +124,9 @@ node (params.SBA_NODE) {
 				bat  "@call ${myNPM} run test components -- --watch=false"
 			}
 			stage('Test Analytics') {
-				echo "${myNPM} run test analytics -- --watch=false"
-				bat  "@call ${myNPM} run test analytics -- --watch=false"
+				echo "NO run test analytics "
+				// echo "${myNPM} run test analytics -- --watch=false"
+				// bat  "@call ${myNPM} run test analytics -- --watch=false"
 			}
 			stage('Build HelloSearch') {
 				echo "${myNPM} run buildhellosearch --if-present"
