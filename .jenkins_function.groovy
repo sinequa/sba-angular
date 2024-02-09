@@ -200,4 +200,24 @@ def getNPMpath(pgm) {
 	return pgmPath
 }
 
+def removeXlastlines(fjson) {
+	def cmd = ""
+	cmd += " if ( Test-Path \$fjson -PathType leaf ) {" + "\n"
+	cmd += "   Write-Output read \$fjson" + "\n"
+	cmd += "   \$content = Get-Content \$fjson"
+	cmd += "   Write-Output rewrite \$fjson without the 5 last lines" + "\n"
+	cmd += '   \$outc = \$content[(0)..(\$content.length-6) + "  } }"' + "\n"
+	cmd += "   \$outc | Out-File \$fjson -Force" + "\n"
+	cmd += " } else {" + "\n"
+	cmd += '   Write-Output "File \$fjson not found"' + "\n"
+	cmd += " }" + "\n"
+	//println cmd
+	try {
+		def ret = powershell(returnStdout: true, script: cmd)
+	} catch (err) {
+		currentBuild.result = "FAILURE"
+		throw err
+	}
+}
+
 return this
