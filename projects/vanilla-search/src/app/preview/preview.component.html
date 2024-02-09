@@ -65,6 +65,16 @@
       [highlights]="previewHighlights">
     </sq-preview-entity-panel>
 
+    <!-- Similar Documents panel -->
+    <sq-similar-documents *ngSwitchCase="'similar-documents'"
+      class="flex-scroll rounded border m-4 px-3"
+      [documentId]="previewData?.record.id"
+      [queryName]="queryName"
+      [options]="options"
+      (documentClick)="documentClick($event)"
+      >
+    </sq-similar-documents>
+
   </div>
 
 </div>

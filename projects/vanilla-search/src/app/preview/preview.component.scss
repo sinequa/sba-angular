@@ -86,3 +86,26 @@
     background-color: var(--bs-dark);
   }
 }
+
+::ng-deep .similar-document span::after {
+    content: "\f35d";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    vertical-align: .25rem;
+    font-size: .55rem;
+    padding-left: .25rem;
+  }
+
+::ng-deep sq-tabs ul {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch;
+
+  li a {
+    height: 100%;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+}
+

@@ -26,4 +26,6 @@ export * from "./user-settings.web.service";
 export * from "./doc-builder.web.service";
 export * from "./queryintent.service";
 export * from "./text-chunks.web.service";
+export * from "./document-similarity.service";
 export * from "./web-services.module";
+
