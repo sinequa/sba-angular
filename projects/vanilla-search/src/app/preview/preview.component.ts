@@ -9,7 +9,7 @@ import { Preview, PreviewHighlightColors, PreviewService } from '@sinequa/compon
 import { SearchService } from '@sinequa/components/search';
 import { AppService, Query } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
-import { AuditEventType, PreviewData, Tab } from '@sinequa/core/web-services';
+import { AuditEventType, CCQuery, PreviewData, SimilarDocumentOptions, Tab, Record as Article } from '@sinequa/core/web-services';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 
 export interface EntitiesState {
@@ -62,6 +62,9 @@ export class PreviewComponent implements OnDestroy {
     })
   ];
 
+  queryName;
+  options: SimilarDocumentOptions = {};
+
   constructor(
     public route: ActivatedRoute,
     public router: Router,
@@ -80,6 +83,19 @@ export class PreviewComponent implements OnDestroy {
     ).subscribe(() => this.getPreviewDataFromUrl());
 
     titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle"));
+
+    this.searchService.events
+    .pipe(filter(event => event.type === "new-results"))
+    .subscribe(() => {
+      const { name } = this.searchService.query;
+      this.queryName = name
+    });
+
+    this.appService.events.pipe(filter(e => e.type === "query-changed") ).subscribe(() => {
+      const queries = Object.values(this.appService.app?.queries as Record<string, CCQuery>);
+      this.queryName = queries[0].name;
+    });
+
 
   }
 
@@ -109,7 +125,13 @@ export class PreviewComponent implements OnDestroy {
       this.preview.selectMostRelevant();
       this.tabs = [
         this.getTab('extracts'),
-        this.getTab('entities')
+        this.getTab('entities'),
+        {
+          name: "similar-documents",
+          display: `msg#machine-learning.similarDocuments`,
+          value: "similar-documents",
+          count: 1
+        }
       ];
       this.extractsType = this.previewData.highlightsPerCategory['matchingpassages']?.values.length?
         'matchingpassages' : 'extractslocations';
@@ -165,4 +187,17 @@ export class PreviewComponent implements OnDestroy {
   public get previewHighlights(): PreviewHighlightColors[] {
     return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
   }
+
+    /**
+   * Handles the click event for similar documents.
+   * @param {Object} id - The ID of the document.
+   */
+    documentClick({id}) {
+      this.searchService.getRecords([id]).subscribe(records => {
+        if (records.length > 0) {
+          const record = records[0] as Article;
+          this.previewService.openRoute(record, this.searchService.query);
+        }
+      });
+    }
 }

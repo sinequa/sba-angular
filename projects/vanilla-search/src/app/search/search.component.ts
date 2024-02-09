@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { Action } from '@sinequa/components/action';
@@ -13,7 +12,9 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
+import { AuditEventType, AuditWebService, Filter, Record, Results } from '@sinequa/core/web-services';
+import { Observable, Subscription, filter, tap } from 'rxjs';
+
 import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 
 @Component({
@@ -62,6 +63,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   public isDark: boolean;
+  public queryName: string;
+  public filters?: Filter;
 
   private subscription = new Subscription();
 
@@ -119,8 +122,23 @@ export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Initialize the page title
    */
+  /**
+   * Initializes the component.
+   * Sets the page title and subscribes to the search service events.
+   * Updates the query name and filters when new results are received.
+   * Mutates the results/records if desired and updates the page title.
+   */
   ngOnInit() {
-    this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: ""}));
+    this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", { search: "" }));
+
+    this.searchService.events
+      .pipe(filter(event => event.type === "new-results"))
+      .subscribe(() => {
+        const { name, filters } = this.searchService.query;
+        this.queryName = name
+        this.filters = filters;
+      });
+
 
     // mutate results/records if desired, convert to switchMap or mergeMap if additional calls need to be chained
     // consult RxJS documentation for additional functionality like combineLatest, etc.
@@ -286,4 +304,16 @@ export class SearchComponent implements OnInit, OnDestroy {
     return this.appService.app?.data?.formatIcons;
   }
 
+  /**
+   * Handles the click event for similar documents.
+   * @param {Object} id - The ID of the document.
+   */
+  similarDocumentsClick({id}) {
+    this.searchService.getRecords([id]).subscribe(records => {
+      if (records.length > 0) {
+        const record = records[0] as Record;
+        this.previewService.openRoute(record, this.searchService.query);
+      }
+    });
+  }
 }
