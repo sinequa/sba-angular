@@ -312,9 +312,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.searchService.getRecords([id]).subscribe(records => {
       if (records.length > 0) {
         const record = records[0] as Record;
-        this.openPreviewIfNoUrl(record, false);
+        this.previewService.openRoute(record, this.searchService.query);
       }
     });
-
   }
 }

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { UtilsModule } from '@sinequa/components/utils';
 import { IntlModule } from '@sinequa/core/intl';
-import { DocumentSimilarityService, Record as Article, SimilarDocument, SimilarityParams } from '@sinequa/core/web-services';
+import { DocumentSimilarityService, SimilarDocument, SimilarityParams } from '@sinequa/core/web-services';
 import { BehaviorSubject, catchError, combineLatest, filter } from 'rxjs';
 
 export type OptionsProps = {
@@ -66,8 +66,8 @@ export class SimilarDocumentsComponent implements OnInit {
    *
    * @param value - The document ID value.
    */
-  @Input() set document(doc: Article) {
-    this._documentId$.next(doc.id);
+  @Input() set documentId(id: string) {
+    this._documentId$.next(id);
   }
 
   /**

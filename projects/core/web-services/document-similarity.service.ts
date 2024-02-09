@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Utils } from "@sinequa/core/base";
 import { Observable, map } from "rxjs";
 import { HttpService } from "./http.service";
-import { Filter, SimilarDocument, SimilarityParams, SimilarityParamsSchema } from "./types";
+import { SimilarDocument, SimilarDocumentOptions, SimilarityParamsSchema } from "./types";
 
 /**
  * Service for retrieving similar documents based on a source document.
@@ -11,7 +11,7 @@ import { Filter, SimilarDocument, SimilarityParams, SimilarityParamsSchema } fro
 @Injectable({ providedIn: "root" })
 export class DocumentSimilarityService extends HttpService {
 
-  get(sourceDocumentId: string, queryName: string, options?: { params?: SimilarityParams, expand?: string[], filters?: Filter[] }): Observable<SimilarDocument[]> {
+  get(sourceDocumentId: string, queryName: string, options?: SimilarDocumentOptions): Observable<SimilarDocument[]> {
 
     const url = Utils.addUrl(
       "/api/v2/app",
