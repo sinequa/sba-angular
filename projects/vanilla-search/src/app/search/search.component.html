@@ -218,6 +218,15 @@
                       </ng-template>
                     </sq-result-duplicates-list>
                 </ng-template>
+
+                <ng-template [sqFacetView]="{text: 'msg#machine-learning.similarDocuments'}">
+                    <sq-similar-documents class="px-3"
+                        [queryName]="queryName"
+                        [document]="openedDoc"
+                        [options]="{ expand: ['id', 'title', 'filename', 'fileext', 'authors'], params: { maxDocs: 3, minDocumentSimilarity: 0.5, maxDocumentSimilarity: 0.99 }, filters }"
+                        (documentClick)="similarDocumentsClick($event)"
+                        ></sq-similar-documents>
+                </ng-template>
             </sq-facet-card>
         </div>
     </div>
