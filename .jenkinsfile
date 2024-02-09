@@ -159,6 +159,7 @@ node (params.SBA_NODE) {
 				cd ../..
 				echo ".buildcore:"
 				@call ${myNPM} run buildcore
+				jf.removeXlastlines("./dist/core/package.json")
 				echo ".unpublish core:"
 				@call ${myNPM} unpublish @sinequa/core@${sba_version}
 				echo ".publish core:"
@@ -174,6 +175,7 @@ node (params.SBA_NODE) {
 				cd ../..
 				echo ".buildcomponents:"
 				@call ${myNPM} run buildcomponents
+				jf.removeXlastlines("./dist/components/package.json")
 				echo ".unpublish components:"
 				@call ${myNPM} unpublish @sinequa/components@${sba_version}
 				echo ".publish components:"
@@ -189,6 +191,7 @@ node (params.SBA_NODE) {
 				cd ../..
 				echo ".buildanalytics:"
 				@call ${myNPM} run buildanalytics
+				jf.removeXlastlines("./dist/analytics/package.json")
 				echo ".unpublish analytics:"
 				@call ${myNPM} unpublish @sinequa/analytics@${sba_version}
 				echo ".publish analytics:"
