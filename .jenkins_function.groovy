@@ -206,7 +206,8 @@ def getNPMpath(pgm) {
 //  add curly bracket
 //  rewrite the file
 def removeXlastlines(pjson) {
-	def cmd = "\$fjson = " + pjson + "\n"
+	println "modify :" + pjson
+	def cmd = '\$fjson = "' + pjson + '"' + "\n"
 	cmd += " if ( Test-Path \$fjson -PathType leaf ) {" + "\n"
 	cmd += "   \$content = Get-Content \$fjson" + "\n"
 	cmd += '   \$outc = \$content[(0)..(\$content.length-6)] + "  } }"' + "\n"
@@ -214,7 +215,7 @@ def removeXlastlines(pjson) {
 	cmd += " } else {" + "\n"
 	cmd += '   Write-Output "File \$fjson not found"' + "\n"
 	cmd += " }" + "\n"
-	//println cmd
+	println "cmd :" + cmd
 	try {
 		def ret = powershell(returnStdout: true, script: cmd)
 	} catch (err) {
