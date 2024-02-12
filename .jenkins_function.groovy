@@ -205,8 +205,8 @@ def getNPMpath(pgm) {
 //  remove 5 last lines
 //  add curly bracket
 //  rewrite the file
-def removeXlastlines(fjson) {
-	def cmd = ""
+def removeXlastlines(pjson) {
+	def cmd = "\$fjson = " + pjson + "\n"
 	cmd += " if ( Test-Path \$fjson -PathType leaf ) {" + "\n"
 	cmd += "   \$content = Get-Content \$fjson" + "\n"
 	cmd += '   \$outc = \$content[(0)..(\$content.length-6)] + "  } }"' + "\n"
