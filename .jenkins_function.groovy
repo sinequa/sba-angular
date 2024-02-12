@@ -200,18 +200,22 @@ def getNPMpath(pgm) {
 	return pgmPath
 }
 
-def removeXlastlines(fjson) {
-	def cmd = ""
+// spefific for old version of node : remove some lines in package.json in each project after build to be unpublished
+//  read package.json
+//  remove 5 last lines
+//  add curly bracket
+//  rewrite the file
+def removeXlastlines(pjson) {
+	println "modify :" + pjson
+	def cmd = '\$fjson = "' + pjson + '"' + "\n"
 	cmd += " if ( Test-Path \$fjson -PathType leaf ) {" + "\n"
-	cmd += "   Write-Output read \$fjson" + "\n"
 	cmd += "   \$content = Get-Content \$fjson" + "\n"
-	cmd += "   Write-Output rewrite \$fjson without the 5 last lines" + "\n"
-	cmd += '   \$outc = \$content[(0)..(\$content.length-6) + "  } }"' + "\n"
-	cmd += '   \$outc | Out-File \$fjson -Force' + "\n"
+	cmd += '   \$outc = \$content[(0)..(\$content.length-6)] + "  } }"' + "\n"
+	cmd += '   \$outc | Out-File \$fjson -Force -Encoding UTF8' + "\n"
 	cmd += " } else {" + "\n"
 	cmd += '   Write-Output "File \$fjson not found"' + "\n"
 	cmd += " }" + "\n"
-	//println cmd
+	println "cmd :" + cmd
 	try {
 		def ret = powershell(returnStdout: true, script: cmd)
 	} catch (err) {
