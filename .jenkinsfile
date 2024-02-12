@@ -100,7 +100,7 @@ node (params.SBA_NODE) {
 		// check if we are in standard case of build or merge/validation (case of PR)
 		def action = jf.buildOrMerge()
 
-		if ("${action}" != "build") {
+		if ("${action}" == "build") {
 			// validate the build in a PR after a commit
 			// build sinequa core modules
 			stage('Build Core') {
@@ -161,67 +161,67 @@ node (params.SBA_NODE) {
 					@call ${myNPM} run buildcore
 				"""
 				jf.removeXlastlines("./dist/core/package.json")
-//				bat """
-//					echo ".unpublish core:"
-//					@call ${myNPM} unpublish @sinequa/core@${sba_version}
-//					echo ".publish core:"
-//					@call ${myNPM} publish ./dist/core --tag ${sba_tag}
-//				"""
+				bat """
+					echo ".unpublish core:"
+					@call ${myNPM} unpublish @sinequa/core@${sba_version}
+					echo ".publish core:"
+					@call ${myNPM} publish ./dist/core --tag ${sba_tag}
+				"""
 			}
-//			stage('Build Components') {
-//				bat """
-//					echo ".tag components and install core:"
-//					cd ./projects/components
-//					@call ${myNPM} --no-git-tag-version version ${sba_version}
-//					@call ${myNPM} install @sinequa/core@${sba_version} --save-exact  --legacy-peer-deps
-//					cd ../..
-//					echo ".buildcomponents:"
-//					@call ${myNPM} run buildcomponents
-//				"""
-//				jf.removeXlastlines("./dist/components/package.json")
-//				bat """
-//					echo ".unpublish components:"
-//					@call ${myNPM} unpublish @sinequa/components@${sba_version}
-//					echo ".publish components:"
-//					@call ${myNPM} publish ./dist/components --tag ${sba_tag}
-//				"""
-//			}
-//			stage('Build Analytics') {
-//				bat """
-//					echo ".tag analytics and install components:"
-//					cd ./projects/analytics
-//					@call ${myNPM} --no-git-tag-version version ${sba_version}
-//					@call ${myNPM} install @sinequa/components@${sba_version} --save-exact --legacy-peer-deps
-//					cd ../..
-//					echo ".buildanalytics:"
-//					@call ${myNPM} run buildanalytics
-//				"""
-//				jf.removeXlastlines("./dist/analytics/package.json")
-//				bat """
-//					echo ".unpublish analytics:"
-//					@call ${myNPM} unpublish @sinequa/analytics@${sba_version}
-//					echo ".publish analytics:"
-//					@call ${myNPM} publish ./dist/analytics --tag ${sba_tag}
-//				"""
-//			}
-//
-//			// get the current branch version
-//			def currentBranch = jf.findBranchNumber()
-//
-//			// When merging, build a list of apps (param of the job) to be validated
-//			// Start a job with the name in the list in parameter
-//			// The job must exists before run
-//			echo "Build apps ${sba_app_list}"
-//			def applist = sba_app_list.split(',')
-//			// echo "applist: ${applist}"
-//			def nbapp = applist.size()
-//			def j = 0
-//			for (int i=0; i < nbapp ; i++) {
-//				j = i + 1
-//				// call the app job with the params: version and branch
-//				echo "  app ${j}/${nbapp}: ${applist[i]}"
-//				jf.build_app(sba_version, applist[i], currentBranch)
-//			}
+			stage('Build Components') {
+				bat """
+					echo ".tag components and install core:"
+					cd ./projects/components
+					@call ${myNPM} --no-git-tag-version version ${sba_version}
+					@call ${myNPM} install @sinequa/core@${sba_version} --save-exact  --legacy-peer-deps
+					cd ../..
+					echo ".buildcomponents:"
+					@call ${myNPM} run buildcomponents
+				"""
+				jf.removeXlastlines("./dist/components/package.json")
+				bat """
+					echo ".unpublish components:"
+					@call ${myNPM} unpublish @sinequa/components@${sba_version}
+					echo ".publish components:"
+					@call ${myNPM} publish ./dist/components --tag ${sba_tag}
+				"""
+			}
+			stage('Build Analytics') {
+				bat """
+					echo ".tag analytics and install components:"
+					cd ./projects/analytics
+					@call ${myNPM} --no-git-tag-version version ${sba_version}
+					@call ${myNPM} install @sinequa/components@${sba_version} --save-exact --legacy-peer-deps
+					cd ../..
+					echo ".buildanalytics:"
+					@call ${myNPM} run buildanalytics
+				"""
+				jf.removeXlastlines("./dist/analytics/package.json")
+				bat """
+					echo ".unpublish analytics:"
+					@call ${myNPM} unpublish @sinequa/analytics@${sba_version}
+					echo ".publish analytics:"
+					@call ${myNPM} publish ./dist/analytics --tag ${sba_tag}
+				"""
+			}
+
+			// get the current branch version
+			def currentBranch = jf.findBranchNumber()
+
+			// When merging, build a list of apps (param of the job) to be validated
+			// Start a job with the name in the list in parameter
+			// The job must exists before run
+			echo "Build apps ${sba_app_list}"
+			def applist = sba_app_list.split(',')
+			// echo "applist: ${applist}"
+			def nbapp = applist.size()
+			def j = 0
+			for (int i=0; i < nbapp ; i++) {
+				j = i + 1
+				// call the app job with the params: version and branch
+				echo "  app ${j}/${nbapp}: ${applist[i]}"
+				jf.build_app(sba_version, applist[i], currentBranch)
+			}
 
 		}
 
