@@ -210,7 +210,7 @@ def removeXlastlines(pjson) {
 	cmd += " if ( Test-Path \$fjson -PathType leaf ) {" + "\n"
 	cmd += '   \$content = Get-Content -Path \$fjson -Raw | ConvertFrom-Json' + "\n"
 	cmd += '   \$outc = \$content | Select-Object * -ExcludeProperty scripts' + "\n"
-	cmd += '   \$outc | ConvertFrom-Json | Out-File \$fjson -Force -Encoding UTF8' + "\n"
+	cmd += '   \$outc | ConvertTo-Json | Out-File \$fjson -Force -Encoding UTF8' + "\n"
 	cmd += " } else {" + "\n"
 	cmd += '   Write-Output "File \$fjson not found"' + "\n"
 	cmd += " }" + "\n"
