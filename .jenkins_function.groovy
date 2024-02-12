@@ -200,6 +200,7 @@ def getNPMpath(pgm) {
 	return pgmPath
 }
 
+// spefific for old version of node : remove some lines in package.json in each project after build to be unpublished
 def removeXlastlines(fjson) {
 	def cmd = ""
 	cmd += " if ( Test-Path \$fjson -PathType leaf ) {" + "\n"
