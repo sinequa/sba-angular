@@ -200,27 +200,4 @@ def getNPMpath(pgm) {
 	return pgmPath
 }
 
-// spefific for old version of node : remove some lines in package.json in each project after build to be unpublished
-//  read package.json
-//  remove scripts member
-//  rewrite the file
-def removeXlastlines(pjson) {
-	println "modify :" + pjson
-	def cmd = '\$fjson = "' + pjson + '"' + "\n"
-	cmd += " if ( Test-Path \$fjson -PathType leaf ) {" + "\n"
-	cmd += '   \$content = Get-Content -Path \$fjson -Raw | ConvertFrom-Json' + "\n"
-	cmd += '   \$outc = \$content | Select-Object * -ExcludeProperty scripts' + "\n"
-	cmd += '   \$outc | ConvertTo-Json | Out-File \$fjson -Force -Encoding UTF8' + "\n"
-	cmd += " } else {" + "\n"
-	cmd += '   Write-Output "File \$fjson not found"' + "\n"
-	cmd += " }" + "\n"
-	println "cmd :" + cmd
-	try {
-		def ret = powershell(returnStdout: true, script: cmd)
-	} catch (err) {
-		currentBuild.result = "FAILURE"
-		throw err
-	}
-}
-
 return this
