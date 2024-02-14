@@ -22,19 +22,27 @@ export class QueryWebService<T extends Results = Results> extends HttpService {
      * @param queryIntentData Any accompanying query intent data
      */
     public getResults(query: IQuery, auditEvents?: AuditEvents, queryIntentData?: QueryIntentData): Observable<T> {
+        if (!query) {
+            return throwError({ error: "no query" });
+        }
+
         return this.httpClient.post<T>(this.makeUrl(this.endPoint), {
             app: this.appName,
             query,
             $auditRecord: auditEvents,
             queryIntentData
         }).pipe(
+            tap(response => {
+                if (response['errorCode'] !== undefined) {
+                    throw new Error(response['errorMessage'])
+                }
+            }),
             catchError(error => {
                 console.log("queryService.getResults failure - error: ", error);
                 return throwError(() => new Error('Something bad happened; please try again later.'));
             }),
-            // map(response => ResultsSchema.parse(response) as T),
             tap(response => console.log("queryService.getResults success - data: ", response)),
-        );
+        )
     }
 
     /**
