@@ -525,7 +525,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/analytics/src/test.ts",
+            "main": "projects/analytics/test.ts",
             "tsConfig": "projects/analytics/tsconfig.spec.json",
             "karmaConfig": "projects/analytics/karma.conf.js"
           }
