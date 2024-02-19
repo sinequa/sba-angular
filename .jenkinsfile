@@ -152,46 +152,46 @@ node (params.SBA_NODE) {
 			// build sinequa core modules
 			stage('Build Core') {
 				bat """
-				echo ".tag core:"
-				cd ./projects/core
-				@call ${myNPM} --no-git-tag-version version ${sba_version}
-				cd ../..
-				echo ".buildcore:"
-				@call ${myNPM} run buildcore
-				echo ".unpublish core:"
-				@call ${myNPM} unpublish @sinequa/core@${sba_version}
-				echo ".publish core:"
-				@call ${myNPM} publish ./dist/core --tag ${sba_tag}
+					echo ".tag core:"
+					cd ./projects/core
+					@call ${myNPM} --no-git-tag-version version ${sba_version}
+					cd ../..
+					echo ".buildcore:"
+					@call ${myNPM} run buildcore
+					echo ".unpublish core:"
+					@call ${myNPM} unpublish @sinequa/core@${sba_version}
+					echo ".publish core:"
+					@call ${myNPM} publish ./dist/core --tag ${sba_tag}
 				"""
 			}
 			stage('Build Components') {
 				bat """
-				echo ".tag components and install core:"
-				cd ./projects/components
-				@call ${myNPM} --no-git-tag-version version ${sba_version}
-				@call ${myNPM} install @sinequa/core@${sba_version} --save-exact  --legacy-peer-deps
-				cd ../..
-				echo ".buildcomponents:"
-				@call ${myNPM} run buildcomponents
-				echo ".unpublish components:"
-				@call ${myNPM} unpublish @sinequa/components@${sba_version}
-				echo ".publish components:"
-				@call ${myNPM} publish ./dist/components --tag ${sba_tag}
+					echo ".tag components and install core:"
+					cd ./projects/components
+					@call ${myNPM} --no-git-tag-version version ${sba_version}
+					@call ${myNPM} install @sinequa/core@${sba_version} --save-exact
+					cd ../..
+					echo ".buildcomponents:"
+					@call ${myNPM} run buildcomponents
+					echo ".unpublish components:"
+					@call ${myNPM} unpublish @sinequa/components@${sba_version}
+					echo ".publish components:"
+					@call ${myNPM} publish ./dist/components --tag ${sba_tag}
 				"""
 			}
 			stage('Build Analytics') {
 				bat """
-				echo ".tag analytics and install components:"
-				cd ./projects/analytics
-				@call ${myNPM} --no-git-tag-version version ${sba_version}
-				@call ${myNPM} install @sinequa/components@${sba_version} --save-exact --legacy-peer-deps
-				cd ../..
-				echo ".buildanalytics:"
-				@call ${myNPM} run buildanalytics
-				echo ".unpublish analytics:"
-				@call ${myNPM} unpublish @sinequa/analytics@${sba_version}
-				echo ".publish analytics:"
-				@call ${myNPM} publish ./dist/analytics --tag ${sba_tag}
+					echo ".tag analytics and install components:"
+					cd ./projects/analytics
+					@call ${myNPM} --no-git-tag-version version ${sba_version}
+					@call ${myNPM} install @sinequa/components@${sba_version} --save-exact
+					cd ../..
+					echo ".buildanalytics:"
+					@call ${myNPM} run buildanalytics
+					echo ".unpublish analytics:"
+					@call ${myNPM} unpublish @sinequa/analytics@${sba_version}
+					echo ".publish analytics:"
+					@call ${myNPM} publish ./dist/analytics --tag ${sba_tag}
 				"""
 			}
 
