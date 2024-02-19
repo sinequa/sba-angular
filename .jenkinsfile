@@ -32,10 +32,10 @@ anpmrc = ["always-auth=true", "registry=${url}/", "scope=${scope}", "scripts-pre
 node (params.SBA_NODE) {
 	currentBuild.result = "SUCCESS"
 	try {
-	
+
 		// get the source code
 		checkout scm
-		
+
 		// load jenkins functions
 		def rootDir = pwd()
 		def jf = load "${rootDir}/.jenkins_function.groovy"
@@ -51,6 +51,12 @@ node (params.SBA_NODE) {
 			// get the npm path
 			myNPM = jf.getNPMpath("npm.cmd")
 		}
+		if (myNPM == "" ) {
+			// get node executable from develop
+			jf.getIceNode("develop")
+			// get the npm path
+			myNPM = jf.getNPMpath("npm.cmd")
+		}
 		// A path must be found to do something
 		if (myNPM == "" ) {
 			currentBuild.result = "FAILURE"
@@ -61,7 +67,7 @@ node (params.SBA_NODE) {
 		bat "@call ${myNPM} -v"
 		
 		stage('Clean') {
-			// delete dependency modules 
+			// delete dependency modules
 			def nmfolder = "node_modules"
 			echo ".Rmdir /s /q ${nmfolder}"
 			bat "if exist ${nmfolder} ( rmdir /s /q ${nmfolder} )"
@@ -70,7 +76,7 @@ node (params.SBA_NODE) {
 			echo ".Cache clean force"
 			bat "@call ${myNPM} cache clean --force"
 		}
-		
+
 		stage('Create user') {
 			// create user for verdaccio
 			bat "npm-cli-login -u ${npm_user} -p ${npm_pass} -e ${npm_mail} -r ${url} -s ${scope} --config-path ${fnpmrc}"
@@ -79,17 +85,17 @@ node (params.SBA_NODE) {
 			// check the connection
 			bat "@call ${myNPM} whoami"
 		}
-		
+
 		stage('copyNpmrc') {
 			// copy .npmrc file in sub project folder
 			bat "xcopy ${fnpmrc} .\\projects\\core\\ /Y"
 			bat "xcopy ${fnpmrc} .\\projects\\components\\ /Y"
 			bat "xcopy ${fnpmrc} .\\projects\\analytics\\ /Y"
 		}
-		
+
 		stage('NPM Install') {
 			// get the dependency modules
-			bat "@call ${myNPM} i"
+			bat "@call ${myNPM} ci"
 		}
 
 		// check if we are in standard case of build or merge/validation (case of PR)
@@ -109,10 +115,19 @@ node (params.SBA_NODE) {
 			stage('Build Analytics') {
 				echo "${myNPM} run buildanalytics --if-present"
 				bat  "@call ${myNPM} run buildanalytics --if-present"
-			}			
+			}
+			stage('Test Core') {
+				echo "${myNPM} run test core -- --watch=false"
+				bat  "@call ${myNPM} run test core -- --watch=false"
+			}
 			stage('Test Components') {
 				echo "${myNPM} run test components -- --watch=false"
 				bat  "@call ${myNPM} run test components -- --watch=false"
+			}
+			stage('Test Analytics') {
+				echo "NO run test analytics "
+				// echo "${myNPM} run test analytics -- --watch=false"
+				// bat  "@call ${myNPM} run test analytics -- --watch=false"
 			}
 			stage('Build HelloSearch') {
 				echo "${myNPM} run buildhellosearch --if-present"
@@ -134,57 +149,57 @@ node (params.SBA_NODE) {
 			echo "sba_version: ${sba_version}"
 			sba_tag = jf.get_pkg_tag(sba_version)
 			echo "sba_tag: ${sba_tag}"
-			
+
 			// validate the build before merge
 			// build sinequa core modules
-			stage('Build Core') {	
+			stage('Build Core') {
 				bat """
-				echo ".tag core:"
-				cd ./projects/core
-				@call ${myNPM} --no-git-tag-version version ${sba_version}
-				cd ../..
-				echo ".buildcore:"
-				@call ${myNPM} run buildcore
-				echo ".unpublish core:"
-				@call ${myNPM} unpublish @sinequa/core@${sba_version}
-				echo ".publish core:"
-				@call ${myNPM} publish ./dist/core --tag ${sba_tag}
+					echo ".tag core:"
+					cd ./projects/core
+					@call ${myNPM} --no-git-tag-version version ${sba_version}
+					cd ../..
+					echo ".buildcore:"
+					@call ${myNPM} run buildcore
+					echo ".unpublish core:"
+					@call ${myNPM} unpublish @sinequa/core@${sba_version}
+					echo ".publish core:"
+					@call ${myNPM} publish ./dist/core --tag ${sba_tag}
 				"""
 			}
 			stage('Build Components') {
 				bat """
-				echo ".tag components and install core:"
-				cd ./projects/components
-				@call ${myNPM} --no-git-tag-version version ${sba_version}
-				@call ${myNPM} install @sinequa/core@${sba_version} --save-exact
-				cd ../..
-				echo ".buildcomponents:"
-				@call ${myNPM} run buildcomponents
-				echo ".unpublish components:"
-				@call ${myNPM} unpublish @sinequa/components@${sba_version}
-				echo ".publish components:"
-				@call ${myNPM} publish ./dist/components --tag ${sba_tag}
+					echo ".tag components and install core:"
+					cd ./projects/components
+					@call ${myNPM} --no-git-tag-version version ${sba_version}
+					@call ${myNPM} install @sinequa/core@${sba_version} --save-exact
+					cd ../..
+					echo ".buildcomponents:"
+					@call ${myNPM} run buildcomponents
+					echo ".unpublish components:"
+					@call ${myNPM} unpublish @sinequa/components@${sba_version}
+					echo ".publish components:"
+					@call ${myNPM} publish ./dist/components --tag ${sba_tag}
 				"""
 			}
 			stage('Build Analytics') {
 				bat """
-				echo ".tag analytics and install components:"
-				cd ./projects/analytics
-				@call ${myNPM} --no-git-tag-version version ${sba_version}
-				@call ${myNPM} install @sinequa/components@${sba_version} --save-exact
-				cd ../..
-				echo ".buildanalytics:"
-				@call ${myNPM} run buildanalytics
-				echo ".unpublish analytics:"
-				@call ${myNPM} unpublish @sinequa/analytics@${sba_version}
-				echo ".publish analytics:"
-				@call ${myNPM} publish ./dist/analytics --tag ${sba_tag}
+					echo ".tag analytics and install components:"
+					cd ./projects/analytics
+					@call ${myNPM} --no-git-tag-version version ${sba_version}
+					@call ${myNPM} install @sinequa/components@${sba_version} --save-exact
+					cd ../..
+					echo ".buildanalytics:"
+					@call ${myNPM} run buildanalytics
+					echo ".unpublish analytics:"
+					@call ${myNPM} unpublish @sinequa/analytics@${sba_version}
+					echo ".publish analytics:"
+					@call ${myNPM} publish ./dist/analytics --tag ${sba_tag}
 				"""
 			}
-			
+
 			// get the current branch version
 			def currentBranch = jf.findBranchNumber()
-			
+
 			// When merging, build a list of apps (param of the job) to be validated
 			// Start a job with the name in the list in parameter
 			// The job must exists before run
@@ -199,7 +214,7 @@ node (params.SBA_NODE) {
 				echo "  app ${j}/${nbapp}: ${applist[i]}"
 				jf.build_app(sba_version, applist[i], currentBranch)
 			}
-		
+
 		}
 
 	} catch (err) {
