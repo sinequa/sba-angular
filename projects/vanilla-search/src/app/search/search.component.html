@@ -198,6 +198,13 @@
                     ></sq-metadata>
                 </ng-template>
 
+                <ng-template #passagesList
+                    *ngIf="openedDoc.$hasPassages"
+                    [sqFacetView]="{text: 'msg#preview.viewPassages'}"
+                    [default]="true">
+                    <sq-passage-list [record]="openedDoc" [passageId]="passageId"></sq-passage-list>
+                </ng-template>
+
                 <ng-template [sqFacetView]="{text: 'msg#preview.viewPreview'}">
                     <sq-preview #facet
                         style="height: calc(100vh - 300px);"
@@ -219,14 +226,6 @@
                     </sq-result-duplicates-list>
                 </ng-template>
 
-                <ng-template [sqFacetView]="{text: 'msg#machine-learning.similarDocuments'}">
-                    <sq-similar-documents class="px-3"
-                        [queryName]="queryName"
-                        [documentId]="openedDoc.id"
-                        [options]="{ expand: ['id', 'title', 'filename', 'fileext', 'authors'], params: { maxDocs: 3, minDocumentSimilarity: 0.5, maxDocumentSimilarity: 0.99 }, filters }"
-                        (documentClick)="similarDocumentsClick($event)"
-                        ></sq-similar-documents>
-                </ng-template>
             </sq-facet-card>
         </div>
     </div>
