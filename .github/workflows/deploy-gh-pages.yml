@@ -1,16 +1,25 @@
-name: Deploy to GitHub Pages
+name: Build and deploy the SBA documentation on Github.com
 
 on:
-  push:
-    branches:
-      - master
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+  #push:
+  # branches:
+  #  - develop
+  # Review gh actions docs if you want to further define triggers, paths, etc
+  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 permissions:
   contents: write
 
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
+  # build-and-deploy:
   deploy:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
