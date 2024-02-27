@@ -6,7 +6,7 @@ import { HubConnectionBuilder, LogLevel, HubConnection, MessageHeaders, HttpTran
 export interface ConnectionOptions {
   withCredentials?: boolean; // if true, the browser automatically includes the authentication cookie in the request headers when establishing the SignalR connection
   headers?: MessageHeaders;
-  transports?: HttpTransportType[] // If transports are provided, use them; otherwise, let SignalR negotiate
+  transportType?: HttpTransportType[] // If transports are provided, use them; otherwise, let SignalR negotiate
   accessTokenFactory?: () => string;
 }
 
