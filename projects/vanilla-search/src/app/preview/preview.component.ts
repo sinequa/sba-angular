@@ -125,13 +125,7 @@ export class PreviewComponent implements OnDestroy {
       this.preview.selectMostRelevant();
       this.tabs = [
         this.getTab('extracts'),
-        this.getTab('entities'),
-        {
-          name: "similar-documents",
-          display: `msg#machine-learning.similarDocuments`,
-          value: "similar-documents",
-          count: 1
-        }
+        this.getTab('entities')
       ];
       this.extractsType = this.previewData.highlightsPerCategory['matchingpassages']?.values.length?
         'matchingpassages' : 'extractslocations';
