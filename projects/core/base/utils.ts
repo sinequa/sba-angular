@@ -233,7 +233,7 @@ export class Utils {
                     // Need to check if hasOwnProperty exists,
                     // as on IE8 the result of querySelectorAll is an object without a hasOwnProperty function
                     if (key !== 'prototype' && key !== 'length' && key !== 'name' && (!obj.hasOwnProperty || obj.hasOwnProperty(key))) {
-                    iterator.call(context, obj[key], key, obj);
+                        iterator.call(context, obj[key], key, obj);
                     }
                 }
             } else if (Array.isArray(obj) || Utils.isArrayLike(obj)) {
@@ -254,16 +254,16 @@ export class Utils {
                 // Slow path for objects inheriting Object.prototype, hasOwnProperty check needed
                 for (key in obj) {
                     if (obj.hasOwnProperty(key)) {
-                    iterator.call(context, obj[key], key, obj);
+                        iterator.call(context, obj[key], key, obj);
                     }
                 }
             } else {
-            // Slow path for objects which do not have a method `hasOwnProperty`
-            for (key in obj) {
-                if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                    iterator.call(context, obj[key], key, obj);
+                // Slow path for objects which do not have a method `hasOwnProperty`
+                for (key in obj) {
+                    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                        iterator.call(context, obj[key], key, obj);
+                    }
                 }
-            }
             }
         }
         return obj;
@@ -416,7 +416,7 @@ export class Utils {
      * @param o1 The first object to be compared
      * @param o2 The second object to be compared
      */
-    static equals(o1: any, o2:any): boolean {
+    static equals(o1: any, o2: any): boolean {
         return isEqual(o1, o2);
     }
 
@@ -469,7 +469,7 @@ export class Utils {
      * @param str The string to convert
      * @return The converted `Date` or `undefined`
      */
-     static fromDate(date: Date): Date | undefined {
+    static fromDate(date: Date): Date | undefined {
         const ms = Date.parse(date.toString());
         if (!ms && ms !== 0) return undefined;
         return new Date(ms - date.getTimezoneOffset() * 60000);
@@ -539,12 +539,35 @@ export class Utils {
      * @param value The value to convert
      * @param options Options for the conversion. The default is `{pretty: false}`
      */
-    static toJson(value: any, options: ToJsonOptions = {pretty: false}): string {
+    static toJson(value: any, options: ToJsonOptions = { pretty: false }): string {
         return JSON.stringify(value,
-            function(key: string, val: any): any  {
+            function (key: string, val: any): any {
                 if (key && Utils.isDate(this[key])) {
                     const str = Utils.toSysDateStr(this[key]);
                     return str;
+                }
+                /**
+                 * Check if value contains fielded search expression
+                *
+                * The current regular expression looks for three types of matches:
+                * A word followed by: "something", which may be surrounded by parentheses.
+                * A word followed by:'something', which may be surrounded by parentheses.
+                * A word followed by :something, which may be surrounded by parentheses.
+                */
+                const regex = /\(?\b\w+:(?:"[^"]*"|'[^']*'|[^ |^\)]+)\)?/gm
+                let m;
+                while ((m = regex.exec(val)) !== null) {
+                    // This is necessary to avoid infinite loops with zero-width matches
+                    if (m.index === regex.lastIndex) {
+                        regex.lastIndex++;
+                    }
+
+                    // The result can be accessed through the `m`-variable.
+                    m.forEach((match, groupIndex) => {
+                        // search and replace the match with parenthesis into the val string
+                        const v = match.replace('(', '').replace(')', '');
+                        val = val.replace(match, `(${v})`);
+                    });
                 }
                 return val;
             }, options.pretty ? 2 : 0);
@@ -558,7 +581,7 @@ export class Utils {
      * @param str The string to convert
      * @param options Options for the conversion. The default is `{reviveDates: false}`
      */
-    static fromJson(str: string, options: FromJsonOptions = {reviveDates: false}): any {
+    static fromJson(str: string, options: FromJsonOptions = { reviveDates: false }): any {
         if (!str || typeof str !== "string") {
             return {};
         }
@@ -568,7 +591,7 @@ export class Utils {
                     if (options.reviveDates && typeof value === "string") {
                         const m = parseISO(value);
                         if (isValid(m)) {
-                          return m;
+                            return m;
                         }
                     }
                     return value;
@@ -587,7 +610,7 @@ export class Utils {
      * @param value The value to convert
      * @param quote If set, the returned string will be enclosed in single quotes for string and `Date` values
      */
-    static toSqlValue(value: FieldValue, quote?: boolean): string{
+    static toSqlValue(value: FieldValue, quote?: boolean): string {
         if (Utils.isNumber(value)) {
             return value + "";
         }
@@ -1515,7 +1538,7 @@ export class Utils {
     static debounce(func: (...params) => any, wait = 0, immediate = false, every?: (...params) => any): (...params) => any {
         let timeout, args, context, timestamp, result;
 
-        const later = function() {
+        const later = function () {
             const last = Date.now() - timestamp;
 
             if (last < wait && last >= 0) {
@@ -1565,14 +1588,14 @@ export class Utils {
         let timeout, context, args, result;
         let previous = 0;
 
-        const later = function() {
+        const later = function () {
             previous = options.leading === false ? 0 : Date.now();
             timeout = null;
             result = func.apply(context, args);
             if (!timeout) context = args = null;
         };
 
-        const throttled = function(this: any) {
+        const throttled = function (this: any) {
             const now = Date.now();
             if (!previous && options.leading === false) previous = now;
             const remaining = wait - (now - previous);
@@ -1595,7 +1618,7 @@ export class Utils {
             return result;
         };
 
-        throttled["cancel"] = function() {
+        throttled["cancel"] = function () {
             clearTimeout(timeout);
             previous = 0;
             timeout = context = args = null;
@@ -1843,7 +1866,7 @@ export class Utils {
      * @param to The index that the element should be moved to
      */
     static arrayMove(array: any[], from: number, to: number): void {
-        if (to === from ) {
+        if (to === from) {
             return;
         }
         array.splice(to, 0, array.splice(from, 1)[0]);
@@ -1972,7 +1995,7 @@ export class Utils {
         return num >= 0 ? Math.round(num) : Math.sign(num) * Math.round(Math.abs(num));
     }
 
-    private static matchSuffix(str: string, factor: number, ...suffixes: string[]): {str: string, factor: number} | undefined {
+    private static matchSuffix(str: string, factor: number, ...suffixes: string[]): { str: string, factor: number } | undefined {
         for (const suffix of suffixes) {
             if (Utils.endsWith(str, suffix)) {
                 return {
@@ -2026,27 +2049,27 @@ export class Utils {
 
     private static calculateDuration(current: number, unit: string): number {
         switch (Utils.toLowerCase(unit)) {
-            case "d":    case "j":
+            case "d": case "j":
             case "days": case "jours":
-            case "day":  case "jour":
+            case "day": case "jour":
                 return current * Utils.oneDay;
             case "h":
             case "hours": case "heures":
-            case "hour":  case "heure":
+            case "hour": case "heure":
                 return current * Utils.oneHour;
             case "m":
             case "minutes": case "minute":
-            case "mins":    case "min":
+            case "mins": case "min":
                 return current * Utils.oneMinute;
             case "s":
-            case "seconds":  case "secondes":
-            case "second":   case "seconde":
+            case "seconds": case "secondes":
+            case "second": case "seconde":
             case "secs": case "sec":
                 return current * Utils.oneSecond;
                 break;
             case "ms":
-            case "milliseconds": case "miliseconds":  case "millisecondes": case "milisecondes":
-            case "millisecond":  case "milliseconde": case "milisecond":    case "miliseconde":
+            case "milliseconds": case "miliseconds": case "millisecondes": case "milisecondes":
+            case "millisecond": case "milliseconde": case "milisecond": case "miliseconde":
                 return current;
             default:
                 return 0;
