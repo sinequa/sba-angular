@@ -24,6 +24,9 @@ jobs:
     name: Deploy to GitHub Pages
     runs-on: self-hosted
     steps:
+      - name: Sudo cleanup (enabled with passwordless sudo)
+        run: sudo rm -rf ${{github.workspace}}/*
+        
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
