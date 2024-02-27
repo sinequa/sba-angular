@@ -27,5 +27,6 @@ export * from "./doc-builder.web.service";
 export * from "./queryintent.service";
 export * from "./text-chunks.web.service";
 export * from "./document-similarity.service";
+export * from "./signalR.web.service";
 export * from "./web-services.module";
 

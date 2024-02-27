@@ -51,6 +51,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   @Input() showCredits = true;
   @Input() display: keyof Principal = 'fullName';
   @Input() showText = false;
+  @Input() customActions: Action[];
 
   menu: Action;
 
@@ -246,6 +247,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
         title,
         headerGroup: true,
         children: [
+          ...this.getCustomActions(),
           ...this.getLoginActions(), ActionSeparator,
           ...this.getUIActions(), ActionSeparator,
           ...this.getHelpActions(),
@@ -323,5 +325,9 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     }
 
     return [];
+  }
+
+  getCustomActions(): Action[] {
+    return !this.customActions ? [] : this.customActions.concat([ActionSeparator]);
   }
 }
