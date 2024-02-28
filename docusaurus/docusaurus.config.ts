@@ -15,10 +15,10 @@ const config: Config = {
   staticDirectories: ['static'],
 
   // Set the production url of your site here
-  url: 'https://github.com/',
+  url: 'https://github.sinequa.com/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/sba-angular/',
+  baseUrl: '/pages/CustomerSolutions/sba-angular/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
