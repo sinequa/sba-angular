@@ -10,10 +10,13 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
-# Allow one concurrent deployment
+  # Allow one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -26,7 +29,7 @@ jobs:
     steps:
       - name: Sudo cleanup (enabled with passwordless sudo)
         run: sudo rm -rf ${{github.workspace}}/*
-        
+
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -39,6 +42,14 @@ jobs:
         run: npm run docs:ci
       - name: Build website
         run: npm run docs:build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "./docusaurus/build"
 
   # deployemnt job
   deploy:
