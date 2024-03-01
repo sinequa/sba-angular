@@ -30,7 +30,7 @@ function HomepageHeader() {
 
 export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
-  const url = `/${siteConfig.baseUrl}/docs/`;
+  const url = `/${siteConfig.projectName}/docs/intro/`;
 
   return <Redirect to={url} />
 
