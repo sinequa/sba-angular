@@ -1,9 +1,11 @@
-name: Build and deploy the SBA documentation on Github.com
+name: Build and deploy the SBA documentation on Github Enterprise
 
 on:
-  # Runs on pushes targeting the default branch
-  # push:
-  #  branches: ["develop"]
+  #push:
+  # branches:
+  #  - develop
+  # Review gh actions docs if you want to further define triggers, paths, etc
+  # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -14,17 +16,20 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
+  # Allow one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
 jobs:
-  # Single deploy job since we're just deploying
+  # build
   build:
-    runs-on: [ self-hosted ]
+    name: Deploy to GitHub Pages
+    runs-on: self-hosted
     steps:
-      - name: Checkout
+      - name: Sudo cleanup (enabled with passwordless sudo)
+        run: sudo rm -rf ${{github.workspace}}/*
+
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -37,15 +42,14 @@ jobs:
         run: npm run docs:ci
       - name: Build website
         run: npm run docs:build
-        
+
       - name: Setup Pages
         uses: actions/configure-pages@v2
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
-          path: './docusaurus/build'
+          path: "./docusaurus/build"
 
   # deployemnt job
   deploy:
