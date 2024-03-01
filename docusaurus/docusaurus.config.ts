@@ -59,7 +59,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.sinequa.com/CustomerSolutions/sba-internal/tree/main/',
+            'https://github.sinequa.com/CustomerSolutions/sba-internal/tree/develop/docusaurus/',
         },
         blog: {
           showReadingTime: true,
