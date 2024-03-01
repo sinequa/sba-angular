@@ -11,7 +11,7 @@ The SBA Framework is a set of modular components that can be used to quickly bui
 
 The SBA Framework is [open-source](https://github.com/sinequa/sba-angular) and based on [Angular](https://angular.io/). Applications are [Single-Page Applications](https://en.wikipedia.org/wiki/Single-page_application) (SPA): They are written in [Typescript](https://www.typescriptlang.org/), are compiled into JavaScript and communicate with Sinequa through its REST API.
 
-![SBA architecture](/assets/index/architecture.png)
+![SBA architecture](assets/index/architecture.png)
 
 The framework includes the following **libraries**:
 
