@@ -24,7 +24,7 @@ concurrency:
 jobs:
   # build
   build:
-    name: Deploy to GitHub Pages
+    name: Build to GitHub Pages
     runs-on: self-hosted
     steps:
       - name: Sudo cleanup (enabled with passwordless sudo)
