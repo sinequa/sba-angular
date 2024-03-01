@@ -1,4 +1,4 @@
-name: Build and deploy the SBA documentation on Github Enterprise
+name: Build and deploy the SBA doc on Github Enterprise
 
 on:
   #push:
