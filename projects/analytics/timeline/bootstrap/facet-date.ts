@@ -189,11 +189,6 @@ export class BsFacetDate
         event.preventDefault();
     }
 
-    toggleCustomRange(event) {
-        this.showCustomRange = !this.showCustomRange;
-        event.stopPropagation();
-    }
-
     private updateItems() {
         this.items = this.displayEmptyDistributionIntervals
             ? this.data?.items || []
