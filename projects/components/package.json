@@ -1,6 +1,6 @@
 {
   "name": "@sinequa/components",
-  "version": "11.11.0",
+  "version": "11.12.0",
   "author": "Sinequa",
   "peerDependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",

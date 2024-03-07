@@ -1,6 +1,6 @@
 {
   "name": "@sinequa/analytics",
-  "version": "11.11.0",
+  "version": "11.12.0",
   "author": "Sinequa",
   "peerDependencies": {
     "@angular/google-maps": "14.0.6",
