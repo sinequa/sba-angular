@@ -1,15 +1,16 @@
-import {TestBed} from "@angular/core/testing";
-import {HttpHandler} from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
+import { TestBed } from "@angular/core/testing";
 
-import {UserSettingsWebService, Aggregation, START_CONFIG, Suggestion, TreeAggregationNode} from '@sinequa/core/web-services';
-import {AppService, FormatService} from '@sinequa/core/app-utils';
-import {IntlService} from '@sinequa/core/intl';
+import { AGGREGATION_BOOLEAN, AGGREGATION_GEO, AGGREGATION_SIZE, FACETS } from '@testing/mocks';
 
-import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE, AGGREGATION_BOOLEAN} from '@testing/mocks';
-import {FacetService, DEFAULT_FACETS, FacetEventType} from '../facet';
-import {FirstPageService, SearchService} from '../search';
-import {SuggestService} from '../autocomplete';
-import {AGGREGATION_INTEGER, AGGREGATION_NULL, AGGREGATION_TREEPATH} from "./mocks/aggregations";
+import { AppService, FormatService } from '@sinequa/core/app-utils';
+import { IntlService } from '@sinequa/core/intl';
+import { Aggregation, START_CONFIG, Suggestion, TreeAggregationNode, UserSettingsWebService } from '@sinequa/core/web-services';
+
+import { SuggestService } from '../autocomplete';
+import { DEFAULT_FACETS, FacetEventType, FacetService, FacetState } from '../facet';
+import { FirstPageService, SearchService } from '../search';
+import { AGGREGATION_INTEGER, AGGREGATION_NULL, AGGREGATION_TREEPATH } from "./mocks/aggregations";
 
 describe("FacetService", () => {
 	const aggregation = {
@@ -27,6 +28,8 @@ describe("FacetService", () => {
 		const UserSettingsWebServiceFactory = () => ({
 			events: {subscribe: f => f({})},
 			patch: (object, auditEvents) => ({subscribe: f => f({})}),
+			get: (key) => [[], false],
+			set: (key, values) => values,
 			timezone: {},
 			userSettings: {}
 		});
@@ -82,6 +85,33 @@ describe("FacetService", () => {
 		expect(existingFacet?.name).toEqual('geo');
 		expect(unknownFacet).toBeUndefined();
 	})
+
+	it('should return a facet with the given name', () => {
+    const mockFacets: FacetState[] = [
+      { name: 'facet1', position: 0 },
+      { name: 'facet2', position: 1 },
+      { name: 'facet3', position: 2 },
+    ];
+		spyOnProperty<any>(service, 'facets', "get").and.returnValue(mockFacets);
+
+    const facet = service.facet('facet2');
+
+    expect(facet).toEqual(mockFacets[1]);
+  });
+
+  it('should return undefined if a facet with the given name does not exist', () => {
+
+		const mockFacets: FacetState[] = [
+      { name: 'facet1', position: 0 },
+      { name: 'facet2', position: 1 },
+      { name: 'facet3', position: 2 },
+    ];
+		spyOnProperty<any>(service, 'facets', "get").and.returnValue(mockFacets);
+
+    const facet = service.facet('facet4');
+
+    expect(facet).toBeUndefined();
+  });
 
 
 	describe("facets filters", () => {

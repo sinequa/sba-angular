@@ -5,6 +5,8 @@ export default {
     "passages": "Neural Search Vorgeschlagene Antworten",
     "answers": "Vorgeschlagene Antworten",
     "answersCollapsed": "Ich habe {answersNb, number} vorgeschlagene Antworten gefunden",
-    "answer": "Vorgeschlagene Antwort"
+    "answer": "Vorgeschlagene Antwort",
+    "similarDocuments": "Ähnliche Dokumente",
+    "similarDocumentsNotFound": "Keine ähnlichen Dokumente gefunden"
   }
 }

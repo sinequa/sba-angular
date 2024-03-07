@@ -1,9 +1,12 @@
-import {Directive, Input, Output, ElementRef, HostListener, OnInit, EventEmitter, OnDestroy, OnChanges, SimpleChanges, HostBinding, inject} from "@angular/core";
-import {Observable, Subscription} from "rxjs";
-import {Utils, Keys} from "@sinequa/core/base";
-import {AppService} from "@sinequa/core/app-utils";
-import {SuggestService} from "./suggest.service";
-import {UIService} from "@sinequa/components/utils";
+import { Observable, Subscription } from "rxjs";
+
+import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject } from "@angular/core";
+
+import { UIService } from "@sinequa/components/utils";
+import { AppService } from "@sinequa/core/app-utils";
+import { Keys, Utils } from "@sinequa/core/base";
+
+import { SuggestService } from "./suggest.service";
 
 /**
  * Minimal interface for autocomplete items (note that the Suggestion
@@ -332,7 +335,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
                         }));
                 }
             },
-            err => {
+            () => {
                 this.dropdown.update(false);
             },
             () => {
@@ -347,7 +350,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 
     /**
      * Use the suggest service to retrieve suggestions given the input text.
-     * The suggest (autocomplete) query is debounded to avoid flooding the server.
+     * The suggest (autocomplete) query is debounced to avoid flooding the server.
      */
     private readonly debounceSuggest: () => void = Utils.debounce(() => {
         this.getSuggests();

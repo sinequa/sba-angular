@@ -1,7 +1,9 @@
-import {Injectable} from "@angular/core";
 import {Observable, of, map} from "rxjs";
+
+import {Injectable} from "@angular/core";
+
 import {HttpService} from "./http.service";
-import {Suggestion} from "./suggest/suggestion";
+import {Suggestion} from "./types";
 
 /**
  * A service for calling the suggestquery web service

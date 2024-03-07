@@ -1,9 +1,11 @@
+import { Observable } from "rxjs";
+
 import { HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { AuditEvents } from "./audit.web.service";
+
 import { DownloadWebService } from "./download.web.service";
 import { HttpService } from "./http.service";
+import { AuditEvents } from "./types";
 
 @Injectable({providedIn: 'root'})
 export class DocBuilderWebService extends HttpService {

@@ -1,6 +1,8 @@
-import { Directive, Input, HostListener, Output, EventEmitter, OnInit } from "@angular/core";
-import { Autocomplete, AutocompleteItem, AutocompleteState } from "@sinequa/components/autocomplete";
 import { Observable } from 'rxjs';
+
+import { Directive, EventEmitter, HostListener, Input, OnInit, Output } from "@angular/core";
+
+import { Autocomplete, AutocompleteItem, AutocompleteState } from "@sinequa/components/autocomplete";
 
 @Directive({
     selector: "[sqAdvancedFormAutocomplete]",
@@ -10,7 +12,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
     @Input() field: string;
 
     /**
-     * The ngOnInit() method from the original directive is overriden
+     * The ngOnInit() method from the original directive is overridden
      * On initialization, we listen to the autocomplete component for
      * selection events
      */
@@ -51,7 +53,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
                         }));
                 }
             },
-            err => {
+            () => {
                 this.dropdown.update(false);
             },
             () => {

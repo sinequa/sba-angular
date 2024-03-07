@@ -54,7 +54,12 @@ export class LoginInterceptor implements HttpInterceptor {
     }
 
     protected shouldIntercept(url: string): boolean {
-        return Utils.startsWith(url, this.startConfig.apiPath!);
+        const apiV1 = this.startConfig.apiPath || "/api/v1";
+        const apiV2 = apiV1.replace('/api/v1', '/api/v2');
+        const endpointsV1 = apiV1.replace('/api/v1', '/endpoints/v1');
+        return [apiV1, apiV2, endpointsV1].some(
+          (api) => Utils.startsWith(url, api)
+        )
     }
 
     protected notifyError(error: any) {

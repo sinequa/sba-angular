@@ -17,13 +17,14 @@
           [showField]="showField && !field"
           [showOperator]="showOperator && !field"
           [allowRemove]="allowRemove"
+          [filtersClass]="filtersClass"
           (filterEdit)="filterEdit.emit(query)">
         </sq-filters>
       </ng-container>
     </span>
   </ng-container>
 
-  <span *ngIf="!exprFilter || filter.display" class="text-nowrap" [title]="!showField && field? (field | sqMessage) : ''">
+  <span *ngIf="!exprFilter || filter.display" [ngClass]="filtersClass" [title]="!showField && field? (field | sqMessage) : ''">
 
     <ng-container *ngIf="exprFilter">
       <!-- Display an equality operator if this expression is attached to a field -->
@@ -33,12 +34,12 @@
 
     <!-- Filter is a direct value -->
     <ng-container *ngIf="valueFilter as value">
-      <span class="sq-filter-operator" *ngIf="showOperator && (showField || operator !== 'eq')">{{'msg#filters.operator.'+operator | sqMessage}}</span>
+      <span *ngIf="showOperator && (showField || operator !== 'eq')">{{'msg#filters.operator.'+operator | sqMessage}}</span>
       <span class="sq-filter-value">{{(value.display || value.value) | sqValue:column}}</span>
     </ng-container>
 
     <ng-container *ngIf="betweenFilter as value">
-      <span class="sq-filter-operator" *ngIf="showOperator">{{'msg#filters.operator.between' | sqMessage}} </span>
+      <span *ngIf="showOperator">{{'msg#filters.operator.between' | sqMessage}} </span>
       <span *ngIf="value.display">{{value.display | sqMessage}}</span>
       <span *ngIf="!value.display">
         <span class="sq-filter-value">{{ value.start | sqValue:column}}</span>

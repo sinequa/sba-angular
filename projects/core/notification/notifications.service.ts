@@ -1,6 +1,8 @@
-import {Injectable, OnDestroy} from "@angular/core";
-import {Subject, Observable} from "rxjs";
-import {Utils, MapOf} from "@sinequa/core/base";
+import { Observable, Subject } from "rxjs";
+
+import { Injectable, OnDestroy } from "@angular/core";
+
+import { Utils } from "@sinequa/core/base";
 
 /**
  * Notification types.
@@ -37,7 +39,7 @@ export interface Notification {
     /**
      * Message parameters for the notification `text`.
      */
-    params?: MapOf<any>;
+    params?: Record<string, any>;
     /**
      * Determines whether the notification should close automatically after a period.
      * The duration is determined by a particular UI implementation.
@@ -48,7 +50,7 @@ export interface Notification {
      */
     type?: NotificationType;
     /**
-     * The nofification state.
+     * The notification state.
      */
     state?: NotificationState;
 }
@@ -89,7 +91,7 @@ export interface DataUpdatedEvent extends NotificationEvent {
     providedIn: "root"
 })
 export class NotificationsService implements OnDestroy {
-    protected data: MapOf<any>;
+    protected data: Record<string, any>;
     /**
      * The current notifications.
      */
@@ -107,7 +109,7 @@ export class NotificationsService implements OnDestroy {
     }
 
     /**
-     * Get the obervable stream of notification events.
+     * Get the observable stream of notification events.
      */
     get events(): Observable<UpdatedEvent | DataUpdatedEvent> {
         return this._events;
@@ -145,7 +147,7 @@ export class NotificationsService implements OnDestroy {
 
     /**
      * Increment a counter in the data store identified by the passed `key`.
-     * The intial value is 0.
+     * The initial value is 0.
      *
      * @param key The key for the counter.
      */
@@ -228,7 +230,7 @@ export class NotificationsService implements OnDestroy {
      * @param title The notification title.
      * @param autoClose A flag determining whether the notification should auto-close.
      */
-    notify(type: NotificationType, text: string, params?: MapOf<any>, title?: string, autoClose?: boolean): Notification {
+    notify(type: NotificationType, text: string, params?: Record<string, any>, title?: string, autoClose?: boolean): Notification {
         const notification: Notification = {
             type,
             text,
@@ -258,7 +260,7 @@ export class NotificationsService implements OnDestroy {
      * @param params Parameters for the message text.
      * @param title The notification title.
      */
-    success(text: string, params?: MapOf<any>, title?: string): Notification {
+    success(text: string, params?: Record<string, any>, title?: string): Notification {
         return this.notify(NotificationType.Success, text, params, title, true);
     }
 
@@ -269,29 +271,29 @@ export class NotificationsService implements OnDestroy {
      * @param params Parameters for the message text.
      * @param title The notification title.
      */
-    info(text: string, params?: MapOf<any>, title?: string): Notification {
+    info(text: string, params?: Record<string, any>, title?: string): Notification {
         return this.notify(NotificationType.Info, text, params, title, true);
     }
 
     /**
-     * Add a `Warning` type notification. The nofification will not auto-close.
+     * Add a `Warning` type notification. The notification will not auto-close.
      *
      * @param text The notification message text.
      * @param params Parameters for the message text.
      * @param title The notification title.
      */
-    warning(text: string, params?: MapOf<any>, title?: string): Notification {
+    warning(text: string, params?: Record<string, any>, title?: string): Notification {
         return this.notify(NotificationType.Warning, text, params, title, false);
     }
 
     /**
-     * Add an `Error` type notification. The nofification will not auto-close.
+     * Add an `Error` type notification. The notification will not auto-close.
      *
      * @param text The notification message text.
      * @param params Parameters for the message text.
      * @param title The notification title.
      */
-    error(text: string, params?: MapOf<any>, title?: string): Notification {
+    error(text: string, params?: Record<string, any>, title?: string): Notification {
         return this.notify(NotificationType.Error, text, params, title, false);
     }
 

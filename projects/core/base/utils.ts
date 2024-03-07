@@ -1,17 +1,19 @@
-import {HttpParams, HttpParameterCodec} from "@angular/common/http";
-import {Observable, Subscription} from "rxjs";
-import {remove as removeDiacritics} from "diacritics";
+import { Observable, Subscription } from "rxjs";
+
+import { HttpParameterCodec, HttpParams } from "@angular/common/http";
+
+import { format, isValid, parseISO } from "date-fns";
+import { remove as removeDiacritics } from "diacritics";
 import jsSHA from "jssha";
-import {MapOf} from "./map-of";
-import {FieldValue} from "./field-value";
-import kebabCase from "lodash/kebabCase";
-import snakeCase from "lodash/snakeCase";
 import camelCase from "lodash/camelCase";
 import escape from "lodash/escape";
-import unescape from "lodash/unescape";
 import isEqual from "lodash/isEqual";
+import kebabCase from "lodash/kebabCase";
+import snakeCase from "lodash/snakeCase";
+import unescape from "lodash/unescape";
 import uniq from "lodash/uniq";
-import { format, isValid, parseISO } from "date-fns";
+
+import { FieldValue } from "./types/field-value";
 
 // Because of: https://github.com/angular/angular/issues/18261
 class SqHttpParameterCodec implements HttpParameterCodec {
@@ -87,7 +89,7 @@ export class Timer {
      */
     readonly start = performance.now();
     /**
-     * Contains the current durartion in milliseconds of the `Timer` object
+     * Contains the current duration in milliseconds of the `Timer` object
      */
     duration = 0;
 
@@ -231,7 +233,7 @@ export class Utils {
                     // Need to check if hasOwnProperty exists,
                     // as on IE8 the result of querySelectorAll is an object without a hasOwnProperty function
                     if (key !== 'prototype' && key !== 'length' && key !== 'name' && (!obj.hasOwnProperty || obj.hasOwnProperty(key))) {
-                    iterator.call(context, obj[key], key, obj);
+                        iterator.call(context, obj[key], key, obj);
                     }
                 }
             } else if (Array.isArray(obj) || Utils.isArrayLike(obj)) {
@@ -252,16 +254,16 @@ export class Utils {
                 // Slow path for objects inheriting Object.prototype, hasOwnProperty check needed
                 for (key in obj) {
                     if (obj.hasOwnProperty(key)) {
-                    iterator.call(context, obj[key], key, obj);
+                        iterator.call(context, obj[key], key, obj);
                     }
                 }
             } else {
-            // Slow path for objects which do not have a method `hasOwnProperty`
-            for (key in obj) {
-                if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                    iterator.call(context, obj[key], key, obj);
+                // Slow path for objects which do not have a method `hasOwnProperty`
+                for (key in obj) {
+                    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                        iterator.call(context, obj[key], key, obj);
+                    }
                 }
-            }
             }
         }
         return obj;
@@ -271,7 +273,7 @@ export class Utils {
      * Makes a deep copy of the passed object or array and returns it.
      * Copies of source objects of the following types: `TypedArray`, `Date`, `RegExp` `Node` are
      * made using the appropriate constructor. Arrays are created using `[]`. Other objects are created
-     * using `Object.create` passing the source object's protptype, if any.
+     * using `Object.create` passing the source object's prototype, if any.
      *
      * @param source The source item to copy (`Object`, `Array`, `TypedArray`, `Date`, `RegExp`, `Node`)
      * @param destination An optional item to use as the destination. If passed, the item is cleared
@@ -414,7 +416,7 @@ export class Utils {
      * @param o1 The first object to be compared
      * @param o2 The second object to be compared
      */
-    static equals(o1: any, o2:any): boolean {
+    static equals(o1: any, o2: any): boolean {
         return isEqual(o1, o2);
     }
 
@@ -467,7 +469,7 @@ export class Utils {
      * @param str The string to convert
      * @return The converted `Date` or `undefined`
      */
-     static fromDate(date: Date): Date | undefined {
+    static fromDate(date: Date): Date | undefined {
         const ms = Date.parse(date.toString());
         if (!ms && ms !== 0) return undefined;
         return new Date(ms - date.getTimezoneOffset() * 60000);
@@ -500,7 +502,7 @@ export class Utils {
      * @param date The `Date` to convert
      */
     static toSysDateStr(date: Date): string {
-        // with Typescript, this confition will never occurs
+        // with Typescript, this condition will never occurs
         if (!date) {
             return "";
         }
@@ -537,12 +539,35 @@ export class Utils {
      * @param value The value to convert
      * @param options Options for the conversion. The default is `{pretty: false}`
      */
-    static toJson(value: any, options: ToJsonOptions = {pretty: false}): string {
+    static toJson(value: any, options: ToJsonOptions = { pretty: false }): string {
         return JSON.stringify(value,
-            function(key: string, val: any): any  {
+            function (key: string, val: any): any {
                 if (key && Utils.isDate(this[key])) {
                     const str = Utils.toSysDateStr(this[key]);
                     return str;
+                }
+                /**
+                 * Check if value contains fielded search expression
+                *
+                * The current regular expression looks for three types of matches:
+                * A word followed by: "something", which may be surrounded by parentheses.
+                * A word followed by:'something', which may be surrounded by parentheses.
+                * A word followed by :something, which may be surrounded by parentheses.
+                */
+                const regex = /\(?\b\w+:(?:"[^"]*"|'[^']*'|[^ |^\)]+)\)?/gm
+                let m;
+                while ((m = regex.exec(val)) !== null) {
+                    // This is necessary to avoid infinite loops with zero-width matches
+                    if (m.index === regex.lastIndex) {
+                        regex.lastIndex++;
+                    }
+
+                    // The result can be accessed through the `m`-variable.
+                    m.forEach((match, groupIndex) => {
+                        // search and replace the match with parenthesis into the val string
+                        const v = match.replace('(', '').replace(')', '');
+                        val = val.replace(match, `(${v})`);
+                    });
                 }
                 return val;
             }, options.pretty ? 2 : 0);
@@ -556,7 +581,7 @@ export class Utils {
      * @param str The string to convert
      * @param options Options for the conversion. The default is `{reviveDates: false}`
      */
-    static fromJson(str: string, options: FromJsonOptions = {reviveDates: false}): any {
+    static fromJson(str: string, options: FromJsonOptions = { reviveDates: false }): any {
         if (!str || typeof str !== "string") {
             return {};
         }
@@ -566,7 +591,7 @@ export class Utils {
                     if (options.reviveDates && typeof value === "string") {
                         const m = parseISO(value);
                         if (isValid(m)) {
-                          return m;
+                            return m;
                         }
                     }
                     return value;
@@ -585,7 +610,7 @@ export class Utils {
      * @param value The value to convert
      * @param quote If set, the returned string will be enclosed in single quotes for string and `Date` values
      */
-    static toSqlValue(value: FieldValue, quote?: boolean): string{
+    static toSqlValue(value: FieldValue, quote?: boolean): string {
         if (Utils.isNumber(value)) {
             return value + "";
         }
@@ -901,7 +926,7 @@ export class Utils {
 
         // arrays, strings and jQuery/jqLite objects are array like
         // * jqLite is either the jQuery or jqLite constructor function
-        // * we have to check the existance of jqLite first as this method is called
+        // * we have to check the existence of jqLite first as this method is called
         //   via the forEach method when constructing the jqLite object in the first place
         if (Array.isArray(obj) || Utils.isString(obj) /*|| (jqLite && obj instanceof jqLite)*/) return true;
 
@@ -936,7 +961,7 @@ export class Utils {
      * @param ms The time to delay in milliseconds
      */
     static delay(ms: number = 0): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve) => {
             window.setTimeout(() => {
                 resolve();
             }, ms);
@@ -1189,7 +1214,7 @@ export class Utils {
     private static regExEscapeRegEx = /[-\/\\^$*+?.()|[\]{}]/g;
 
     /**
-     * Return a string where any regular expresion operators are escaped
+     * Return a string where any regular expression operators are escaped
      */
     static regExEscape(s: string): string {
         if (!s) {
@@ -1296,14 +1321,14 @@ export class Utils {
     }
 
     /**
-     * Return `true` if a string is valid as a simple value for the Sinequa admininistration
+     * Return `true` if a string is valid as a simple value for the Sinequa administration
      */
     static isValidSimpleName(name: string): boolean {
         return /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name);
     }
 
     /**
-     * Return `true` if a string is valid as a scoped (`.` separated) simple value for the Sinequa admininistration
+     * Return `true` if a string is valid as a scoped (`.` separated) simple value for the Sinequa administration
      */
     static isValidScopedSimpleName(name: string): boolean {
         return /^[a-zA-Z_]([\.]?[a-zA-Z0-9_]+)*$/.test(name);
@@ -1401,7 +1426,7 @@ export class Utils {
     /**
      * Get a field with passed name from an object. The field name is matched insensitive of case
      */
-    static getField<T>(obj: MapOf<T>, name: string): T | undefined {
+    static getField<T>(obj: Record<string, T>, name: string): T | undefined {
         if (!Utils.isObject(obj) || Utils.isEmpty(name)) {
             return undefined;
         }
@@ -1503,7 +1528,7 @@ export class Utils {
     }
 
     /**
-     * Create a debounce function that delays invoking `func` until after `wait` millseconds have elapsed since the previous invocation.
+     * Create a debounce function that delays invoking `func` until after `wait` milliseconds have elapsed since the previous invocation.
      *
      * @param func The function to debounce
      * @param wait The delay in milliseconds to wait before calling `func`
@@ -1513,7 +1538,7 @@ export class Utils {
     static debounce(func: (...params) => any, wait = 0, immediate = false, every?: (...params) => any): (...params) => any {
         let timeout, args, context, timestamp, result;
 
-        const later = function() {
+        const later = function () {
             const last = Date.now() - timestamp;
 
             if (last < wait && last >= 0) {
@@ -1531,7 +1556,9 @@ export class Utils {
         };
 
         return function(this: any) {
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
             context = this;
+            // eslint-disable-next-line prefer-rest-params
             args = arguments;
             if (every) {
                 every.apply(context, args);
@@ -1555,24 +1582,26 @@ export class Utils {
      *
      * @param func The function to throttle
      * @param wait The number of milliseconds to throttle invocations to
-     * @param options Options to control the throttling behaviour
+     * @param options Options to control the throttling behavior
      */
-    static throttle(func: (...params) => any, wait: number, options: ThrottleSettings = {}): (...pararms) => any {
+    static throttle(func: (...params) => any, wait: number, options: ThrottleSettings = {}): (...params) => any {
         let timeout, context, args, result;
         let previous = 0;
 
-        const later = function() {
+        const later = function () {
             previous = options.leading === false ? 0 : Date.now();
             timeout = null;
             result = func.apply(context, args);
             if (!timeout) context = args = null;
         };
 
-        const throttled = function(this: any) {
+        const throttled = function (this: any) {
             const now = Date.now();
             if (!previous && options.leading === false) previous = now;
             const remaining = wait - (now - previous);
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
             context = this;
+            // eslint-disable-next-line prefer-rest-params
             args = arguments;
             if (remaining <= 0 || remaining > wait) {
                 if (timeout) {
@@ -1589,7 +1618,7 @@ export class Utils {
             return result;
         };
 
-        throttled["cancel"] = function() {
+        throttled["cancel"] = function () {
             clearTimeout(timeout);
             previous = 0;
             timeout = context = args = null;
@@ -1642,7 +1671,7 @@ export class Utils {
      * @param url The url to which to add the parameters
      * @param params An object whose fields should be added as parameters
      */
-    static addSearchParams(url: string, params: MapOf<any>): string {
+    static addSearchParams(url: string, params: Record<string, any>): string {
         if (!url || !params) {
             return url;
         }
@@ -1709,7 +1738,7 @@ export class Utils {
     /**
      * Return an `HttpParams` object containing the fields in the passed object
      */
-    static makeHttpParams(params: MapOf<string | boolean | number | Date | object | undefined>): HttpParams {
+    static makeHttpParams(params: Record<string, string | boolean | number | Date | object | undefined>): HttpParams {
         let httpParams = new HttpParams({encoder: new SqHttpParameterCodec()});
         if (params) {
             for (const param in params) {
@@ -1837,7 +1866,7 @@ export class Utils {
      * @param to The index that the element should be moved to
      */
     static arrayMove(array: any[], from: number, to: number): void {
-        if (to === from ) {
+        if (to === from) {
             return;
         }
         array.splice(to, 0, array.splice(from, 1)[0]);
@@ -1845,11 +1874,15 @@ export class Utils {
 
     /**
      * Set the contents of a target array to the contents of a source array
+     * remove all elements from target and add all elements from source
      *
      * @param target The target array
      * @param source The source array
+     *
+     * @deprecated prefers non mutable operations, because target is modified by reference here
      */
     static arraySet(target: any[], source: any[]): any[] {
+        // eslint-disable-next-line prefer-spread
         return target.splice.apply(target, [0, target.length].concat(source));
     }
 
@@ -1962,7 +1995,7 @@ export class Utils {
         return num >= 0 ? Math.round(num) : Math.sign(num) * Math.round(Math.abs(num));
     }
 
-    private static matchSuffix(str: string, factor: number, ...suffixes: string[]): {str: string, factor: number} | undefined {
+    private static matchSuffix(str: string, factor: number, ...suffixes: string[]): { str: string, factor: number } | undefined {
         for (const suffix of suffixes) {
             if (Utils.endsWith(str, suffix)) {
                 return {
@@ -2016,27 +2049,27 @@ export class Utils {
 
     private static calculateDuration(current: number, unit: string): number {
         switch (Utils.toLowerCase(unit)) {
-            case "d":    case "j":
+            case "d": case "j":
             case "days": case "jours":
-            case "day":  case "jour":
+            case "day": case "jour":
                 return current * Utils.oneDay;
             case "h":
             case "hours": case "heures":
-            case "hour":  case "heure":
+            case "hour": case "heure":
                 return current * Utils.oneHour;
             case "m":
             case "minutes": case "minute":
-            case "mins":    case "min":
+            case "mins": case "min":
                 return current * Utils.oneMinute;
             case "s":
-            case "seconds":  case "secondes":
-            case "second":   case "seconde":
+            case "seconds": case "secondes":
+            case "second": case "seconde":
             case "secs": case "sec":
                 return current * Utils.oneSecond;
                 break;
             case "ms":
-            case "milliseconds": case "miliseconds":  case "millisecondes": case "milisecondes":
-            case "millisecond":  case "milliseconde": case "milisecond":    case "miliseconde":
+            case "milliseconds": case "miliseconds": case "millisecondes": case "milisecondes":
+            case "millisecond": case "milliseconde": case "milisecond": case "miliseconde":
                 return current;
             default:
                 return 0;

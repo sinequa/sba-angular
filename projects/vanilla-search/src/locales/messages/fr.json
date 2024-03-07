@@ -13,7 +13,8 @@
     "searchForm": {
         "scopeTitle": "Champ d'application : {name}",
         "recentQuery": "Recherche récente",
-        "recentDocument": "Document récent"
+        "recentDocument": "Document récent",
+        "helpButton": "En savoir plus sur la recherche"
     },
 
     "baskets": {
@@ -85,5 +86,13 @@
         "home": "Accueil",
         "downloadPdf": "Télécharger la version PDF",
         "original": "Document original"
+    },
+
+    "noResult": {
+        "title": "Nous n'avons pas pu trouver de documents pertinents correspondant à votre requête de recherche!",
+        "description": "Essayez d'utiliser des mots-clés qui sont susceptibles de se trouver sur les pages pertinentes. Par exemple, essayez \"politique de voyage US\" au lieu de \"Combien puis-je dépenser pour un déjeuner dans le New Jersey ?\"",
+        "help": "Si vous avez besoin d'aide, consultez des",
+        "link": "conseils supplémentaires de recherche"
     }
+
 }

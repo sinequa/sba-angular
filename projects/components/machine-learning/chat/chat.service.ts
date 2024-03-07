@@ -1,17 +1,15 @@
+import { HttpDownloadProgressEvent, HttpEvent, HttpEventType } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Validators } from "@angular/forms";
 import { SearchService } from "@sinequa/components/search";
-import { AuditEvent, AuditWebService, JsonMethodPluginService, Record, RelevantExtract, Results, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
-import { BehaviorSubject, defaultIfEmpty, filter, finalize, forkJoin, map, Observable, of, scan, Subject, switchMap, tap } from "rxjs";
-import { marked } from "marked";
+import { UserPreferences } from "@sinequa/components/user-settings";
+import { LoginService } from "@sinequa/core/login";
 import { ModalResult, ModalService, PromptOptions } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
-import { Validators } from "@angular/forms";
+import { AuditEvent, AuditWebService, JsonMethodPluginService, Record, RelevantExtract, Results, TextChunksWebService, TopPassage, UserSettingsWebService } from "@sinequa/core/web-services";
+import { BehaviorSubject, Observable, Subject, defaultIfEmpty, filter, finalize, forkJoin, map, of, scan, switchMap, tap } from "rxjs";
 import { Chunk, equalChunks, insertChunk } from "./chunk";
 import { ChatAttachment, ChatAttachmentWithTokens, ChatMessage, ChatResponse, DocumentChunk, GllmModel, GllmModelDescription, GllmTokenQuota, GllmTokens, RawMessage, RawResponse, SavedChat } from "./types";
-import { extractReferences } from "./references";
-import { UserPreferences } from "@sinequa/components/user-settings";
-import { HttpDownloadProgressEvent, HttpEvent, HttpEventType } from "@angular/common/http";
-import { LoginService } from "@sinequa/core/login";
 
 export interface SearchAttachmentsOptions {
   /** Max number of top passages to include */
@@ -76,7 +74,7 @@ export class ChatService {
   ];
   defaultAttachmentMetadata = ['title', 'modified'];
 
-  initialized$ = new Subject<boolean>();
+  initialized$ = new BehaviorSubject<boolean>(false);
   models?: GllmModelDescription[];
   quota?: GllmTokenQuota;
   quotaPercentage = 0;
@@ -129,7 +127,7 @@ export class ChatService {
         tap(res => _res = res), // Store the last version of the message so we can audit it in finalize()""
         finalize(() => {
           if(_res) {
-            this.notifyAudit(_res.messagesHistory, _res.tokens);
+            this.notifyAudit(_res.messagesHistory, model.name, _res.tokens);
           }
         })
       );
@@ -138,7 +136,7 @@ export class ChatService {
     // Regular mode
     return this.fetchAll(data).pipe(
       map(res => this.processResponse(messages, res)),
-      tap(({tokens, messagesHistory}) => this.notifyAudit(messagesHistory, tokens))
+      tap(({tokens, messagesHistory}) => this.notifyAudit(messagesHistory, model.name, tokens))
     );
   }
 
@@ -256,9 +254,6 @@ export class ChatService {
             chatMessage.$attachment = {...message.$attachment, $record};
           }
         }
-        if(message.role === 'assistant') {
-          Object.assign(chatMessage, this.processMessage(message.content, chatMessages));
-        }
         chatMessages.push(chatMessage);
         return chatMessages;
       }, [] as ChatMessage[]))
@@ -271,39 +266,9 @@ export class ChatService {
       tokens: response.tokens,
       messagesHistory: [
         ...messages,
-        {
-          ...rawMessage,
-          ...this.processMessage(rawMessage.content, messages, response.streaming)
-        }
+        { ...rawMessage }
       ]
     }
-  }
-
-  /**
-   * Generates the $content and $references fields on a ChatMessage
-   * If the message if from the assistant, we attempt to extract references
-   * from it.
-   */
-  processMessage(content: string, conversation: ChatMessage[], streaming?: boolean): {$content: string, $references: {refId: number, $record: Record}[]} {
-    content = marked(content);
-    const refs = extractReferences(content, conversation, this.searchService.query);
-    if(streaming) { // When streaming, we add a placeholder at the end of the message
-      const placeholder = `
-        <span class="placeholder-glow">
-          <span class="placeholder mx-1 col-1"></span>
-          <span class="placeholder mx-1 col-4"></span>
-          <span class="placeholder mx-1 col-2"></span>
-        </span>
-      `;
-      if(refs.$content.trim().endsWith('</p>')) {
-        const lastP = refs.$content.lastIndexOf('</p>');
-        refs.$content = refs.$content.substring(0, lastP) + placeholder + refs.$content.substring(lastP);
-      }
-      else {
-        refs.$content += placeholder;
-      }
-    }
-    return refs;
   }
 
   /**
@@ -335,7 +300,8 @@ export class ChatService {
         }
       }
     }
-    return `<document id="${id}" ${metas}>${text.join('\n...\n')}</document>`;
+    const parts = text.map((t, i) => `<part id="${id}.${i+1}">${t}</part>`);
+    return `<document id="${id}" ${metas}>${parts.join('\n\n')}</document>`;
   }
 
   /**
@@ -731,7 +697,7 @@ export class ChatService {
     });
   }
 
-  notifyAudit(messagesHistory: ChatMessage[], tokens: number) {
+  notifyAudit(messagesHistory: ChatMessage[], model: string, tokens: number) {
     let numberOfUserMessages = 0;
     let numberOfAttachments = 0;
     let numberOfAssistantMessages = 0;
@@ -743,10 +709,11 @@ export class ChatService {
     this.auditService.notify({
       type: 'Chat_Messages',
       detail: {
-        message: messagesHistory.map(m => m.role + ': '+ (m.$attachment? `attachment ${m.$attachment?.$record.title}` : m.content)).join('\n\n'),
+        message: messagesHistory.map(m => m.role.toUpperCase() + ': '+ (m.$attachment? `attachment ${m.$attachment?.$record.title}` : m.content)).join('\n\n'),
         numberOfUserMessages,
         numberOfAttachments,
         numberOfAssistantMessages,
+        model,
         tokens
       }
     });

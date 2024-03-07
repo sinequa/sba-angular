@@ -1,7 +1,9 @@
-import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
+
+import { Injectable } from "@angular/core";
+
 import { HttpService } from "./http.service";
-import { IQuery } from "./query/query";
+import { IQuery } from "./types";
 
 export interface TextLocation {
     /** Location in document (defaults to 0) */

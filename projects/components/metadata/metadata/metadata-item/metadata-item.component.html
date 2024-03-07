@@ -47,6 +47,7 @@
                 class="sq-metadata-item {{'sq-metadata-item-' + field}} {{fieldClass}}"
                 [class.sq-filtered]="value.filtered"
                 [class.sq-excluded]="value.excluded"
+                (click)="valueClicked.emit({field: field, value: value})"
             >{{value | sqValue:metadataValue.column}}</span>
         </ng-template>
 

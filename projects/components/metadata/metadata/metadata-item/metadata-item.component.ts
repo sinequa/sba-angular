@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { SearchService } from "@sinequa/components/search";
 import { UIService } from "@sinequa/components/utils";
@@ -33,6 +33,8 @@ export class MetadataItemComponent implements OnChanges, OnDestroy {
 
     @Input() actionsButtonsStyle = 'btn btn-secondary';
     @Input() actionsButtonsSize = 'sm';
+
+    @Output() valueClicked = new EventEmitter<{field: string, value: MetadataItem}>();
 
     @ViewChild('values') valuesEl: ElementRef<HTMLElement>;
 

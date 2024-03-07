@@ -1,0 +1,4 @@
+<button type="button" class="btn {{styleClass}} action-btn" *ngIf="loginService.complete" (click)="openHelpPage()" sqTooltip="{{tooltip | sqMessage}}" [placement]="tooltipPlacement" [fallbackPlacements]="fallbackPlacements">
+    <i class="{{icon}} sq-icon"></i>
+    <span *ngIf="!!text" class="mx-2">{{text | sqMessage}}</span>
+</button>

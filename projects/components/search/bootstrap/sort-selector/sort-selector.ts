@@ -1,9 +1,11 @@
-import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {Utils} from "@sinequa/core/base";
-import {AppService} from "@sinequa/core/app-utils";
-import {AuditEvent, AuditEventType, CCSortingChoice, Results} from "@sinequa/core/web-services";
-import {Action} from "@sinequa/components/action";
-import {SearchService} from "../../search.service";
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+
+import { Action } from "@sinequa/components/action";
+import { AppService } from "@sinequa/core/app-utils";
+import { Utils } from "@sinequa/core/base";
+import { AuditEvent, AuditEventType, CCSortingChoice, Results } from "@sinequa/core/web-services";
+
+import { SearchService } from "../../search.service";
 
 @Component({
     selector: "sq-sort-selector",
@@ -74,7 +76,7 @@ export class BsSortSelector implements OnChanges {
                             : this.isDescendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-down' : '',
                     text: sortingChoice.display || sortingChoice.name,
                     data: sortingChoice,
-                    action: (item: Action, event: Event) => {
+                    action: (item: Action) => {
                         this.selectSort(item.data);
                     }
                 }))

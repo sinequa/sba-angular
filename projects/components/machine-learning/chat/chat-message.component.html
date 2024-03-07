@@ -1,0 +1,93 @@
+<!-- Message icon -->
+<span class="me-3" [title]="message.role" [ngSwitch]="message.role">
+  <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
+  <i [ngClass]="assistantIcon" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
+</span>
+
+<!-- Message body -->
+<div class="flex-grow-1" style="min-width: 0;">
+
+  <remark *ngIf="message.role === 'assistant'; else plainTextTpl" class="message-content" [markdown]="message.content" [processor]="processor">
+
+    <ng-template remarkTemplate="chat-reference" let-ref>
+
+      <a *ngIf="referenceMap.get(ref.refId) as attachment; else staticRefTpl"
+        [href]="attachment.$record.url1 || attachment.$record.originalUrl || '#'"
+        target="_blank"
+        (click)="onReferenceClicked(attachment.$record, $event)"
+        class="reference"
+        [sqTooltip]="attachment"
+        [sqTooltipTemplate]="tooltipTpl"
+        [hoverableTooltip]="true"
+        >{{ref.refId}}</a>
+
+      <ng-template #staticRefTpl>
+        <span class="reference">{{ref.refId}}</span>
+      </ng-template>
+
+    </ng-template>
+
+    <ng-template remarkTemplate="streaming-placeholder">
+      <span class="placeholder-glow" *ngIf="streaming">
+        <span class="placeholder ms-1"></span>
+      </span>
+    </ng-template>
+
+    <ng-template remarkTemplate="code" let-node>
+      <div class="card mb-2">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>{{node.lang}}</span>
+          <button class="btn btn-light btn-sm" (click)="copyToClipboard(node.value)"><i class="fas fa-fw fa-clipboard"></i> Copy code</button>
+        </div>
+        <pre class="language-{{node.lang}} my-0 rounded-0 rounded-bottom"><code class="language-{{node.lang}}">{{node.value}}</code></pre>
+      </div>
+    </ng-template>
+
+  </remark>
+
+  <ng-template #plainTextTpl>
+    <div class="message-content">{{message.content}}</div>
+  </ng-template>
+
+  <!-- Edit / Regenerate floating actions -->
+  <div class="sq-chat-message-action">
+    <button class="btn btn-sm btn-light shadow mt-1 me-1" *ngIf="canEdit" sqTooltip="Edit message"
+            (click)="edit.emit(message)">
+      <i class="fas fa-edit"></i>
+    </button>
+    <button class="btn btn-sm btn-light shadow mt-1 me-1" *ngIf="canRegenerate" sqTooltip="Regenerate message"
+            (click)="regenerate.emit(message)">
+      <i class="fas fa-sync-alt"></i>
+    </button>
+  </div>
+  <ng-template #tooltipTpl let-ref>
+    <div class="sq-tooltip">
+      <div class="text-center mb-2">
+        <a role="button" (click)="openPreview.emit(ref)">
+          <i class="fas fa-fw fa-eye"></i> Document preview
+        </a>
+      </div>
+      <span class="sq-passage-text">{{ref.chunks[ref.$chunkIndex].text}}</span>
+    </div>
+  </ng-template>
+
+  <!-- List of reference, if any -->
+  <div *ngIf="references?.length" class="references small">
+    <b>References:</b>
+    <ul class="list-group">
+      <ng-container *ngFor="let reference of references">
+        <li *ngIf="referenceMap.get(reference) as attachment" class="text-truncate" [title]="attachment.$record.title">
+          <span class="reference me-1">{{reference}}</span>
+          <a [href]="attachment.$record.url1 || attachment.$record.originalUrl || '#'"
+            target="_blank"
+            (click)="onReferenceClicked(attachment.$record, $event)">
+            {{attachment.$record.title}}
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>
+
+<!-- Message actions (optional) -->
+<div [sq-action-buttons]="{items: message.$actions, style: 'link', size: 'sm', rightAligned: true}" *ngIf="message.$actions"></div>

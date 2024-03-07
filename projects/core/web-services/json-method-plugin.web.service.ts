@@ -1,8 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Observable, throwError} from "rxjs";
-import {HttpService} from "./http.service";
-import { MapOf, Utils } from "@sinequa/core/base";
-import { HttpHeaders, HttpContext, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from "rxjs";
+
+import { HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+import { Utils } from "@sinequa/core/base";
+
+import { HttpService } from "./http.service";
 
 type Options = {
   headers?: HttpHeaders | {
@@ -63,7 +66,7 @@ export class JsonMethodPluginService extends HttpService{
    * @param options HTTP options for the request
    * @returns An observable of the plugin's return value
    */
-  get<U extends MapOf<string | boolean | number | Date | object | undefined>>(method: string, query: U, options?: Options): Observable<any> {
+  get<U extends Record<string, string | boolean | number | Date | object | undefined>>(method: string, query: U, options?: Options): Observable<any> {
     return this.httpClient.get(this.makeUrl(method), {
       params: this.makeParams(query),
       ...options as any

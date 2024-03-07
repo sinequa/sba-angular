@@ -5,12 +5,16 @@ import { Preview, PreviewHighlightColors } from '../preview.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 
-export class Extract {
-  id: string;
-  text: SafeHtml; // Sanitized HTML text
-  startIndex : number; // this is the start index of the extracts within the Document Text
-  relevanceIndex : number; // 0 the most relevant to N the less relevant
-  textIndex : number; // index of the extract in the text. e.g 0 is the first extract displayed in the document
+export type Extract = {
+  id: string,
+  text: SafeHtml, // Sanitized HTML text
+  startIndex : number, // this is the start index of the extracts within the Document Text
+  relevanceIndex : number, // 0 the most relevant to N the less relevant
+  textIndex : number // index of the extract in the text. e.g 0 is the first extract displayed in the document
+}
+
+type ExtractsLocations = Extract & {
+  text: string // HTML text
 }
 
 @Component({
@@ -67,19 +71,31 @@ export class PreviewExtractsPanelComponent implements OnChanges, OnDestroy {
       // locations contains the list of start positions sorted by score
       const locations = data.highlightsPerCategory[this.type]?.values[0]?.locations || [];
 
-      this.extracts = locations.map((l, relevanceIndex) => ({
+      // first extract all the extracts locations
+      let extractslocations = locations.map((l, relevanceIndex) => ({
         startIndex: l.start,
         relevanceIndex
-      })) as Extract[];
+      })) as ExtractsLocations[];
 
-      this.extracts.sort((a,b) => a.startIndex - b.startIndex);
+      // sort them by start index
+      extractslocations.sort((a,b) => a.startIndex - b.startIndex);
 
-      this.extracts.forEach((ex,textIndex) => {
-        ex.textIndex = textIndex;
-        ex.text = this.sanitizer.bypassSecurityTrustHtml(extracts[textIndex]);
-        ex.id = `${this.type}_${textIndex}`;
-      });
+      // then extract the text of each extract
+      extractslocations  = extractslocations.map((ex,textIndex) =>  ({
+        ...ex,
+        textIndex: textIndex,
+        text: extracts[textIndex] || "",
+        id: `${this.type}_${textIndex}`,
+      }));
 
+      // then sanitize the text and remove empty extracts
+      this.extracts = extractslocations.filter(item => item.text.trim().length > 0).map(item =>  ({
+        ...item,
+        text: this.sanitizer.bypassSecurityTrustHtml(item.text)
+      }));
+
+
+      // finally sort them by relevance index
       this.extracts.sort((a,b) => a.relevanceIndex - b.relevanceIndex);
 
       this.loading = false;

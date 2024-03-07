@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+import { HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
 import { Utils } from "@sinequa/core/base";
 
 /**

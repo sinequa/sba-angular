@@ -1,8 +1,9 @@
-import {Component, Input, OnChanges, SimpleChanges, OnInit, ChangeDetectorRef} from '@angular/core';
-import {Utils} from "@sinequa/core/base";
-import {LinkResult, SponsoredLinksWebService, AuditWebService, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
-import {AppService, Query} from "@sinequa/core/app-utils";
-import {SearchService} from "@sinequa/components/search";
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+
+import { SearchService } from "@sinequa/components/search";
+import { AppService, Query } from "@sinequa/core/app-utils";
+import { Utils } from "@sinequa/core/base";
+import { AuditEvent, AuditEventType, AuditWebService, LinkResult, SponsoredLinksWebService } from "@sinequa/core/web-services";
 
 @Component({
     selector: 'sq-sponsored-results',

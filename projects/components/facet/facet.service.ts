@@ -1,16 +1,20 @@
-import {Injectable, Inject, Optional, InjectionToken} from "@angular/core";
-import {UserSettingsWebService, UserSettings, Suggestion,
-    Results, Aggregation, AggregationItem, TreeAggregation, TreeAggregationNode,
-    AuditEvents, EngineType, CCColumn, Filter, ValueFilter, BetweenFilter, NumericalFilter, isExprFilter, getFieldPredicate, ListAggregation
-} from "@sinequa/core/web-services";
-import {IntlService} from "@sinequa/core/intl";
-import {Query, AppService, FormatService} from "@sinequa/core/app-utils";
-import {diacriticsInsensitiveRegexp, FieldValue, Utils} from "@sinequa/core/base";
-import {Subject, Observable, map, tap} from "rxjs";
-import {FirstPageService, SearchService} from "@sinequa/components/search";
-import {SuggestService} from "@sinequa/components/autocomplete";
-import { FacetConfig } from "./facet-config";
+import { Observable, Subject, map, tap } from "rxjs";
+
+import { Inject, Injectable, InjectionToken, Optional } from "@angular/core";
+
 import { Action, ActionSeparator } from "@sinequa/components/action";
+import { SuggestService } from "@sinequa/components/autocomplete";
+import { FirstPageService, SearchService } from "@sinequa/components/search";
+import { AppService, FormatService, Query } from "@sinequa/core/app-utils";
+import { FieldValue, Utils, diacriticsInsensitiveRegexp } from "@sinequa/core/base";
+import { IntlService } from "@sinequa/core/intl";
+import {
+  Aggregation, AggregationItem, AuditEvents,
+  BetweenFilter, CCColumn, EngineType, Filter, ListAggregation,
+  NumericalFilter, Results, Suggestion, TreeAggregation, TreeAggregationNode, UserSettings, UserSettingsWebService, ValueFilter, getFieldPredicate, isExprFilter
+} from "@sinequa/core/web-services";
+
+import { FacetConfig } from "./facet-config";
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
@@ -26,7 +30,7 @@ export interface NamedFacetConfig extends FacetConfig<{}> {
  * Options for the [[FacetService.AddFilter]] and [[FacetService.AddFilterSearch]] methods
  *
  * and: If multiple items are filtered, determines whether they are filtered as AND or OR
- * not: Whether this is an exlusion of the filtered item
+ * not: Whether this is an exclusion of the filtered item
  * replaceCurrent: if true, the current filter is replaced
  */
 export interface AddFilterOptions {
@@ -114,16 +118,16 @@ export class FacetService {
      * Using this service creates the list of facets if it does not already exist.
      */
     public get facets() : FacetState[] {
-        if(!this.userSettingsService.userSettings)
-            this.userSettingsService.userSettings = {};
-        if(!this.userSettingsService.userSettings["facets"]) {
-            this.userSettingsService.userSettings["facets"] = [];
-            if(!!this.defaultFacets){
-                this.userSettingsService.userSettings["facets"].push(...this.defaultFacets);
-                this.patchFacets();
-            }
-        }
-        return this.userSettingsService.userSettings["facets"];
+      if(!this.userSettingsService.userSettings)
+      this.userSettingsService.userSettings = {};
+      if(!this.userSettingsService.userSettings["facets"]) {
+          this.userSettingsService.userSettings["facets"] = [];
+          if(!!this.defaultFacets){
+              this.userSettingsService.userSettings["facets"].push(...this.defaultFacets);
+              this.patchFacets();
+          }
+      }
+      return this.userSettingsService.userSettings["facets"];
     }
 
     /**
@@ -195,13 +199,13 @@ export class FacetService {
 
     public setDefaultFacets() {
         this.facets.splice(0);
-        if(!!this.defaultFacets) this.facets.push(...this.defaultFacets);
+        if(this.defaultFacets) this.facets.push(...this.defaultFacets);
         this.updateFacets(FacetEventType.SetDefaults);
     }
 
     public addAllFacets() {
         this.facets.splice(0);
-        if(!!this.allFacets) this.allFacets.forEach(f => this.facets.push({name: f.name, position: 0}));
+        if(this.allFacets) this.allFacets.forEach(f => this.facets.push({name: f.name, position: 0}));
         this.updateFacets(FacetEventType.AddAll);
     }
 
@@ -255,7 +259,7 @@ export class FacetService {
                 text: facet.title,
                 icon: facet.icon,
                 selected: !!this.facets?.find(userFacet => userFacet.name === facet.name),
-                title: !!this.facets?.find(userFacet => userFacet.name === facet.name) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
+                title: this.facets?.find(userFacet => userFacet.name === facet.name) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
                 action: () => {
                     const fs = this.facets?.find(userFacet => userFacet.name === facet.name);
                     if (fs) {
@@ -437,11 +441,14 @@ export class FacetService {
           else if(filters.length === 1) {
             return {...filters[0], display};
           }
-          throw new Error("Failed to parse distribution expresion");
+          throw new Error("Failed to parse distribution expression");
         }
       }
 
-      return {field, value: item.value as boolean | number | string, display: item.display};
+      if(typeof item.value === "string" ) {
+        return { field, value: item.value, operator: "contains" };
+      }
+      return {field, value: item.value as boolean | number, display: item.display };
     }
 
     /**
@@ -465,7 +472,7 @@ export class FacetService {
     public clearFiltersSearch(fields: string | string[], all: boolean, query = this.searchService.query, facetName?: string): Promise<boolean> {
       fields = Utils.asArray(fields);
 
-      for(let field of fields) {
+      for(const field of fields) {
         this.clearFilters(field, query);
         this._events.next({type: FacetEventType.ClearFilters, facet: this.facet(facetName), query});
       }
@@ -521,7 +528,7 @@ export class FacetService {
                         item: item.value,
                         itembox: facetName,
                         itemcolumn: aggregation.column,
-                        fromresultid: !!this.searchService.results ? this.searchService.results.id : null
+                        fromresultid: this.searchService.results ? this.searchService.results.id : null
                     }
                 });
             }
@@ -589,7 +596,7 @@ export class FacetService {
      * @param suggestQuery
      */
     public suggest(text: string, field: string, query = this.searchService.query): Observable<Suggestion[]> {
-      return this.suggestService.getFields(text, [field], query);
+      return this.suggestService.get(this.appService.suggestQueries[0], text, [field], query);
     }
 
     /**

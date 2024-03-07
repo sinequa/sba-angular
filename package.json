@@ -1,6 +1,6 @@
 {
   "name": "ng-ws",
-  "version": "11.10.0",
+  "version": "11.11.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -11,6 +11,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "docs:ci": "cd docusaurus && npm ci",
+    "docs:start": "cd docusaurus && npm run start",
+    "docs:build": "cd docusaurus && npm run build",
     "buildcore": "ng build core",
     "buildcomponents": "ng build components",
     "buildanalytics": "ng build analytics",
@@ -40,8 +43,9 @@
     "@egjs/hammerjs": "2.0.17",
     "@formatjs/icu-messageformat-parser": "^2.1.10",
     "@formatjs/intl-relativetimeformat": "^4.5.12",
-    "@fortawesome/fontawesome-free": "^5.13.0",
+    "@fortawesome/fontawesome-free": "^6.4.2",
     "@googlemaps/js-api-loader": "^1.14.3",
+    "@microsoft/signalr": "^7.0.12",
     "@microsoft/teams-js": "^2.3.0",
     "@popperjs/core": "^2.10.2",
     "@swimlane/ngx-charts": "^20.1.0",
@@ -49,7 +53,7 @@
     "ag-grid-community": "^25.2.0",
     "angular-gridster2": "^12.1.0",
     "atomicjs": "^4.4.1",
-    "bootstrap": "^5.2.0",
+    "bootstrap": "^5.3.1",
     "component-emitter": "^1.3.0",
     "custom-event": "^1.0.1",
     "d3": "^7.6.1",
@@ -74,7 +78,9 @@
     "matchmedia-polyfill": "^0.3.2",
     "moment": "^2.29.4",
     "ngx-bootstrap": "^8.0.0",
+    "ngx-remark": "0.0.6-ng14",
     "propagating-hammerjs": "^2.0.1",
+    "remark": "^14.0.3",
     "rxjs": "~7.5.0",
     "timsort": "^0.3.0",
     "tslib": "^2.3.1",
@@ -112,7 +118,7 @@
     "cypress": "^12.10.0",
     "cypress-visual-regression": "^3.0.0",
     "eslint": "^8.18.0",
-    "eslint-plugin-import": "2.25.2",
+    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jsdoc": "^39.3.6",
     "eslint-plugin-prefer-arrow": "1.2.2",
     "jasmine-core": "4.0.0",
@@ -127,6 +133,7 @@
     "postcss": "^8.2.15",
     "sass-color-helpers": "^2.1.1",
     "ts-node": "~8.3.0",
-    "typescript": "4.7"
+    "typescript": "4.7",
+    "zod": "^3.22.4"
   }
 }

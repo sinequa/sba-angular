@@ -1,6 +1,6 @@
 <doc-component-demo title="sq-search-form" [html]="code" [ts]="code2">
     <div class="d-flex position-relative mb-5">
-        <sq-search-form [query]="globalService.query">
+        <sq-search-form [query]="globalService.query" #searchForm>
             <ng-template>
                 <div class="list-group list-group-flush">
                     <a role="button" *ngFor="let suggestion of filteredSuggestions"

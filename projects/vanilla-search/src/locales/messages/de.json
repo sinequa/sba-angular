@@ -13,7 +13,8 @@
     "searchForm": {
         "scopeTitle": "Suchbereich: {name}",
         "recentQuery": "Letzte Suche",
-        "recentDocument": "Letztes Dokument"
+        "recentDocument": "Letztes Dokument",
+        "helpButton": "Mehr über die Suche erfahren"
     },
 
     "facet": {
@@ -53,5 +54,13 @@
         "home": "Startseite",
         "downloadPdf": "PDF-Version herunterladen",
         "original": "Originaldokument"
+    },
+
+    "noResult": {
+        "title": "Wir konnten keine relevanten Dokumente finden, die Ihrer Suchanfrage entsprechen!",
+        "description": "Versuchen Sie Schlüsselwörter zu verwenden, die auf den relevanten Seiten wahrscheinlich vorhanden sind. Zum Beispiel: \"Reiserichtlinien US\" anstelle von \"Wie viel kann ich für ein Mittagessen in New Jersey ausgeben?\"",
+        "help": "Wenn Sie Hilfe benötigen, werfen Sie einen Blick auf zusätzliche",
+        "link": "Suchtipps"
     }
+
 }

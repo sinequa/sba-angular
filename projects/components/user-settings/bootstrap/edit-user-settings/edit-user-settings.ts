@@ -1,11 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+
+import { Utils } from "@sinequa/core/base";
+import { IntlService } from "@sinequa/core/intl";
 import { ModalButton, ModalResult } from "@sinequa/core/modal";
 import { UserSettingsWebService } from "@sinequa/core/web-services";
-import { MapOf, Utils } from "@sinequa/core/base";
-import {IntlService} from "@sinequa/core/intl";
 
-import {JsonInfo} from '../user-settings-editor/jsonInfo.model';
+import { JsonInfo } from '../user-settings-editor/jsonInfo.model';
 
 /**
  * Opens a dialog to modify the user settings.
@@ -20,8 +21,8 @@ export class BsEditUserSettings implements OnInit {
     @Input() visibleThreshold = 0;
     @Input() showUILanguageSelector?: boolean;
 
-    public model: MapOf<any>;
-    public layout: MapOf<JsonInfo.Entry>;
+    public model: Record<string, any>;
+    public layout: Record<string, JsonInfo.Entry>;
     public form: UntypedFormGroup;
     public buttons: ModalButton[];
 
@@ -80,7 +81,7 @@ export class BsEditUserSettings implements OnInit {
         ];
     }
 
-    private setNewValue(obj: MapOf<any>, newObj: MapOf<any>): void {
+    private setNewValue(obj: Record<string, any>, newObj: Record<string, any>): void {
         for (const key of Object.keys(newObj)) {
             const value = newObj[key];
             if (value === null) {
@@ -115,7 +116,7 @@ export class BsEditUserSettings implements OnInit {
      *
      * @returns the update patch.
      */
-    private calculatePatch(): MapOf<any> {
+    private calculatePatch(): Record<string, any> {
         const patch = {};
         Object.keys(this.form.value).forEach(key => {
             const formValue = this.ensureType(this.layout[key], this.readFormValue(key));
@@ -238,7 +239,7 @@ export class BsEditUserSettings implements OnInit {
      * @param paths The path of the value in the JSON.
      * @param value The value to set.
      */
-    private setValue(json: MapOf<any>, paths: string[], value: any): void {
+    private setValue(json: Record<string, any>, paths: string[], value: any): void {
         const nbPaths = paths.length;
         if (nbPaths > 1) {
             for (let i = 0; i < nbPaths - 1; ++i) {

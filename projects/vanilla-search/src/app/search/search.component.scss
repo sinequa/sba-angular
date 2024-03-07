@@ -124,3 +124,12 @@ main,
         transform: none;
     }
 }
+
+::ng-deep .similar-document span::after {
+    content: "\f35d";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    vertical-align: .25rem;
+    font-size: .55rem;
+    padding-left: .25rem;
+  }

@@ -1,8 +1,11 @@
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
-import {HttpService} from "./http.service";
-import {Utils} from "@sinequa/core/base";
-import {IQuery} from "./query/query";
+import { Observable } from "rxjs";
+
+import { Injectable } from "@angular/core";
+
+import { Utils } from "@sinequa/core/base";
+
+import { HttpService } from "./http.service";
+import { IQuery } from "./types";
 
 export class RecentQueriesList {
     constructor(name: string) {
@@ -52,7 +55,7 @@ export class RecentQueriesWebService extends HttpService {
     }
     // No save/patch action for the recent queries: MRU lists are generated server side when the query is executed.
 
-    appRecentQueries(): IQuery[]{
+    appRecentQueries(): IQuery[] {
         if (this.recentQueries && this.recentQueries.app && this.recentQueries.app.queries)
             return this.recentQueries.app.queries;
         else {
@@ -60,14 +63,14 @@ export class RecentQueriesWebService extends HttpService {
         }
     }
 
-    appRecentQueriesLength(): number{
+    appRecentQueriesLength(): number {
         if (this.recentQueries && this.recentQueries.app && this.recentQueries.app.queries)
             return this.recentQueries.app.queries.length;
         else
             return 0;
     }
 
-    userRecentQueries(): IQuery[]{
+    userRecentQueries(): IQuery[] {
         if (this.recentQueries && this.recentQueries.user && this.recentQueries.user.queries)
             return this.recentQueries.user.queries;
         else {
@@ -75,7 +78,7 @@ export class RecentQueriesWebService extends HttpService {
         }
     }
 
-    userRecentQueriesLength(): number{
+    userRecentQueriesLength(): number {
         if (this.recentQueries && this.recentQueries.user && this.recentQueries.user.queries)
             return this.recentQueries.user.queries.length;
         else

@@ -1,4 +1,4 @@
-import { Input, Output, Component, EventEmitter, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
 import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
 import { BasketsService } from "@sinequa/components/baskets";
 import { PreviewService } from "@sinequa/components/preview";
@@ -6,7 +6,7 @@ import { RecentDocumentsService, RecentQueriesService, SavedQueriesService } fro
 import { SearchService } from "@sinequa/components/search";
 import { AppService } from "@sinequa/core/app-utils";
 import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
-import { fromEvent, merge, of, Observable, from, forkJoin, ReplaySubject, Subscription } from "rxjs";
+import { BehaviorSubject, Observable, Subscription, forkJoin, from, fromEvent, merge, of } from "rxjs";
 import { debounceTime, map, switchMap } from "rxjs/operators";
 
 
@@ -40,11 +40,13 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
 
   items: AutocompleteItem[] = [];
 
-  inputChange$ = new ReplaySubject(1);
+  inputChange$ = new BehaviorSubject('');
 
   selectedIndex: number | undefined;
 
   subscription: Subscription;
+
+  skipNextChange = false;
 
   constructor(
     public suggestService: SuggestService,
@@ -61,6 +63,10 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes.queryText) {
+      if(this.skipNextChange) {
+        this.skipNextChange = false;
+        return;
+      }
       this.inputChange$.next(this.queryText);
     }
   }
@@ -85,7 +91,6 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
             case "ArrowDown": this.moveNext(event); break;
             case "ArrowUp": this.movePrevious(event); break;
             case "Enter": this.onEnter(); break;
-            case "Tab": this.onTab(event); break;
           }
         })
     );
@@ -171,13 +176,17 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
    * @param text
    */
   searchRecentQueries(text: string): Promise<AutocompleteItem[]> {
-    return this.suggestService.searchData(
+    const defaultRecentQueries = Promise.resolve(this.recentQueriesService.recentqueries.map(
+      (query) => ({display: query.query.text, category: 'recent-query', label: "msg#searchForm.recentQuery"}) as AutocompleteItem
+    ));
+    const suggestedRecentQueries =  this.suggestService.searchData(
       'recent-query',
       text,
       this.recentQueriesService.recentqueries,
       (query) => query.query.text || "",
       undefined,
       "msg#searchForm.recentQuery");
+    return !!text ? suggestedRecentQueries : defaultRecentQueries;
   }
 
   /**
@@ -226,20 +235,40 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   // Keyboard navigation and actions
 
   moveNext(event: Event) {
-    if(this.items.length) {
-      this.selectedIndex = this.selectedIndex !== undefined && this.selectedIndex < this.items.length-1 ?
-        this.selectedIndex + 1 : 0;
-        event.preventDefault();
-        this.cdRef.detectChanges();
-    }
+    this.move(event, (this.selectedIndex ?? -1) + 1);
   }
 
   movePrevious(event: Event) {
-    if(this.items.length) {
-      this.selectedIndex = this.selectedIndex !== undefined && this.selectedIndex > 0 ?
-        this.selectedIndex - 1 : this.items.length-1;
-      event.preventDefault();
-      this.cdRef.detectChanges();
+    this.move(event, (this.selectedIndex ?? this.items.length) - 1);
+  }
+
+  move(event: Event, index: number) {
+    this.selectedIndex = index;
+    if(this.selectedIndex < 0 || this.selectedIndex >= this.items.length) {
+      this.selectedIndex = undefined;
+      this.resetText();
+    }
+    else {
+      const item = this.items[this.selectedIndex];
+      if(item.category === 'recent-document' || item.category === 'saved-query' || item.category === 'basket') {
+        this.resetText();
+      }
+      else {
+        this.selectText(item.display);
+      }
+    }
+    event.preventDefault();
+    this.cdRef.detectChanges();
+  }
+
+  resetText() {
+    this.selectText(this.inputChange$.value); // The inputChange$ observable contains the last text manually entered by the user
+  }
+
+  selectText(value: string) {
+    if(value !== this.queryText) {
+      this.skipNextChange = true; // This flag prevents triggering new suggestions from this (pre)-selected text
+      this.select.emit(value); // Update the search input with this new value
     }
   }
 
@@ -249,17 +278,6 @@ export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
     }
     else {
       this.search.emit(this.inputElement.value); // This has the effect of submitting the search with the current search form content
-    }
-  }
-
-  onTab(event: Event) {
-    if(this.items.length && this.selectedIndex !== undefined) {
-      const item = this.items[this.selectedIndex];
-      if(item && item.category !== 'recent-document' && item.category !== 'saved-query' && item.category !== 'basket') {
-        this.audit.notify({type: AuditEventType.Search_AutoComplete, detail:{display: item.display, category: item.category }})
-        this.select.emit(item.display);
-      }
-      event.preventDefault(); // prevent removing focus for input element, even if the tab didn't produce any effect
     }
   }
 }

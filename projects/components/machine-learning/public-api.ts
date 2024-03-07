@@ -7,5 +7,5 @@ export * from './chat/chat.component';
 export * from './chat/chat.service';
 export * from './chat/saved-chats.component';
 export * from './chat/types';
+export * from "./similar-documents/similar-documents.component";
 export * from './messages/index';
-

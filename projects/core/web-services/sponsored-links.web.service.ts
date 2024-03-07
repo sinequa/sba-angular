@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 
-import { HttpService } from './http.service';
+import { Injectable } from '@angular/core';
+
 import {Utils} from "@sinequa/core/base";
 import { IntlService } from "@sinequa/core/intl";
 
-import { IQuery } from './query/query';
+import { HttpService } from './http.service';
+import { IQuery } from "./types";
 
 /**
  * Describes a single sponsored link

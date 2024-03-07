@@ -1,35 +1,22 @@
 
-<div *ngIf="messages$ | async as messages; else loadingTpl" class="h-100 d-flex flex-column">
+<div *ngIf="messages$ | async as messages; else loadingTpl || loadingTplDefault" class="h-100 d-flex flex-column">
 
-  <ul class="list-group list-group-flush overflow-auto" #messageList>
-    <ng-container *ngFor="let message of messages; let i = index">
+  <ul class="list-group list-group-flush overflow-auto pb-5" #messageList>
+    <ng-container *ngFor="let message of messages; let index = index; let last = last">
       <!-- Regular messages -->
-      <li class="list-group-item d-flex" *ngIf="message.display && !message.$attachment">
-        <!-- Message icon -->
-        <span class="me-3" [title]="message.role" [ngSwitch]="message.role">
-          <i class="fas fa-2x fa-user-circle text-muted" *ngSwitchCase="'user'"></i>
-          <i [ngClass]="assistantIcon" [style.--sq-size.px]="28" *ngSwitchCase="'assistant'"></i>
-        </span>
-        <!-- Message body -->
-        <div class="flex-grow-1" style="min-width: 0;">
-          <div class="message-content" [innerHTML]="message.$content ?? message.content"></div>
-          <!-- List of reference, if any -->
-          <div *ngIf="message.$references?.length" class="references small">
-            <b>References:</b>
-            <ul class="list-group">
-              <li *ngFor="let reference of message.$references" class="text-truncate" [title]="reference.$record.title">
-                <span class="reference me-1">{{reference.refId}}</span>
-                <a href="{{reference.$record.url1 || reference.$record.originalUrl || '#'}}"
-                  target="_blank"
-                  (click)="onReferenceClicked(reference.$record, $event)">
-                  {{reference.$record.title}}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <!-- Message actions (optional) -->
-        <div [sq-action-buttons]="{items: message.$actions, style: 'link', size: 'sm', rightAligned: true}" *ngIf="message.$actions"></div>
+      <li class="list-group-item" *ngIf="message.display && !message.$attachment"
+          [class.opacity-50]="messageToEdit && messageToEdit < index + 1">
+        <sq-chat-message
+          [message]="message"
+          [conversation]="messages"
+          [assistantIcon]="customAssistantIcon || assistantIcon"
+          [streaming]="last && streaming"
+          [canEdit]="(loading | async) === false && !streaming && messageToEdit === undefined && message.role !== 'assistant'"
+          [canRegenerate]="(loading | async) === false && !streaming && messageToEdit === undefined && message.role === 'assistant'"
+          (edit)="editMessage(index)" (regenerate)="regenerateMessage(index)"
+          (referenceClicked)="referenceClicked.emit($event)"
+          (openPreview)="openPreview.emit($event)">
+        </sq-chat-message>
       </li>
       <!-- Attachment messages -->
       <li *ngIf="message.display && message.$attachment"
@@ -39,8 +26,8 @@
       </li>
     </ng-container>
 
-    <li class="list-group-item" *ngIf="loading">
-      <ng-container *ngTemplateOutlet="loadingTpl"></ng-container>
+    <li class="list-group-item" *ngIf="loading | async">
+      <ng-container *ngTemplateOutlet="loadingTpl || loadingTplDefault"></ng-container>
     </li>
   </ul>
 
@@ -76,14 +63,14 @@
 
 <!-- NG TEMPLATES-->
 
-<ng-template #loadingTpl>
+<ng-template #loadingTplDefault>
   <div class="spinner-grow text-success d-block mx-auto my-5" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
 </ng-template>
 
 <ng-template #inputTpl>
-  <div class="d-flex align-items-center px-3 py-1">
+  <div class="d-flex position-relative align-items-center px-3 py-1">
     <span class="me-3">
       <i class="fas fa-2x fa-user-circle text-muted"></i>
     </span>
@@ -95,10 +82,19 @@
       (keyup.enter)="submitQuestion()"
       (keyup.shift.enter)="submitQuestion()"
       (keydown.tab)="searchAttachments($event)"
-      [disabled]="loading || loadingAttachments || tokensPercentage >= 100 || chatService.quotaPercentage >= 100">
+      [disabled]="(loading | async) || streaming || loadingAttachments || tokensPercentage >= 100 || chatService.quotaPercentage >= 100">
     <a *ngIf="searchMode" role="button" [ngClass]="{disabled: !question}" class="ms-3 mb-0 text-nowrap" (click)="searchAttachments()" sqTooltip="Search Before Chat" placement="top">
       <img src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="120px">
     </a>
+    <button class="btn btn-secondary ms-2" *ngIf="messageToEdit !== undefined" sqTooltip="Cancel edition"
+            (click)="messageToEdit = undefined; question = ''">
+      Cancel
+    </button>
+    <div class="sq-stop-generating" *ngIf="streaming">
+      <button class="btn btn-sm btn-outline-secondary shadow" (click)="terminateFetch()">
+        <i class="fas fa-stop me-1"></i> Stop generating
+      </button>
+    </div>
   </div>
 </ng-template>
 
@@ -124,7 +120,7 @@
 </ng-template>
 
 <ng-template #attachmentListTpl>
-  <ng-container *ngIf="loadingAttachments" [ngTemplateOutlet]="loadingTpl"></ng-container>
+  <ng-container *ngIf="loadingAttachments" [ngTemplateOutlet]="loadingTpl || loadingTplDefault"></ng-container>
 
   <ul class="list-group list-group-flush overflow-auto" *ngIf="chatService.attachments$ | async as attachments">
 
