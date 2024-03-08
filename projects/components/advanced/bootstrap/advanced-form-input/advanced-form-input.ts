@@ -66,6 +66,6 @@ export class BsAdvancedFormInput implements OnChanges, OnDestroy {
             display: item.display
         } : undefined;
         this.control?.markAsDirty();
-        this.control?.setValue(value, {emitEvent: false});
+        this.control?.setValue(value, {emitEvent: true});
     }
 }
