@@ -115,7 +115,7 @@
     "@types/node": "^16.18.11",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
-    "cypress": "^12.10.0",
+    "cypress": "^13.7.0",
     "cypress-visual-regression": "^3.0.0",
     "eslint": "^8.18.0",
     "eslint-plugin-import": "^2.25.2",
