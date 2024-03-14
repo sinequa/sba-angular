@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-guides/server-config" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.1.1">
+<title data-rh="true">Server configuration | Sinequa SBA Framework</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://github.com/sba-angular/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://github.com/sba-angular/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://github.com/sba-angular/docs/guides/server-config"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Server configuration | Sinequa SBA Framework"><meta data-rh="true" name="description" content="Minimum configuration"><meta data-rh="true" property="og:description" content="Minimum configuration"><link data-rh="true" rel="icon" href="/sba-angular/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://github.com/sba-angular/docs/guides/server-config"><link data-rh="true" rel="alternate" href="https://github.com/sba-angular/docs/guides/server-config" hreflang="en"><link data-rh="true" rel="alternate" href="https://github.com/sba-angular/docs/guides/server-config" hreflang="x-default"><link rel="stylesheet" href="/sba-angular/assets/css/styles.3d4ad778.css">
+<script src="/sba-angular/assets/js/runtime~main.7afd9482.js" defer="defer"></script>
+<script src="/sba-angular/assets/js/main.7c34123d.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/sba-angular/"><div class="navbar__logo"><img src="/sba-angular/assets/index/sinequa-logo-light-sm.png" alt="Sinequa Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/sba-angular/assets/index/sinequa-logo-light-sm.png" alt="Sinequa Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">SBA Framework</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/sba-angular/docs">Docs</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/sinequa/sba-angular" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/sba-angular/docs">Introduction</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/sba-angular/docs/getting-started">Getting Started</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" aria-expanded="true" href="/sba-angular/docs/guides">Guides</a><button aria-label="Collapse sidebar category &#x27;Guides&#x27;" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/sba-angular/docs/guides/architecture">Architecture</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/sba-angular/docs/guides/server-config">Server configuration</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/sba-angular/docs/guides/development">Development</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/sba-angular/docs/guides/deployment">Deployment</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/sba-angular/docs/guides/version-control">Version control</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/sba-angular/docs/guides/updates">Updates</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/sba-angular/docs/guides/contribute">Contribute</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" aria-expanded="false" href="/sba-angular/docs/tutorial">Tutorial</a><button aria-label="Expand sidebar category &#x27;Tutorial&#x27;" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" aria-expanded="false" href="/sba-angular/docs/libraries">Libraries</a><button aria-label="Expand sidebar category &#x27;Libraries&#x27;" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" aria-expanded="false" href="/sba-angular/docs/apps">Applications</a><button aria-label="Expand sidebar category &#x27;Applications&#x27;" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" aria-expanded="false" href="/sba-angular/docs/tipstricks">Tips and Tricks</a><button aria-label="Expand sidebar category &#x27;Tips and Tricks&#x27;" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" aria-expanded="false" href="/sba-angular/docs/releases">Releases</a><button aria-label="Expand sidebar category &#x27;Releases&#x27;" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/sba-angular/docs/contact">Contact</a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/sba-angular/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/sba-angular/docs/guides"><span itemprop="name">Guides</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">Server configuration</span><meta itemprop="position" content="2"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><h1>Server configuration</h1>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="minimum-configuration">Minimum configuration<a href="#minimum-configuration" class="hash-link" aria-label="Direct link to Minimum configuration" title="Direct link to Minimum configuration">​</a></h2>
+<p>The minimum configuration required to get started is an <strong>App</strong> and a <strong>Query</strong> web service.</p>
+<p>To create an <strong>App</strong> configuration, in the administration:</p>
+<ul>
+<li>Go to <em>Search-based applications &gt; Apps</em>,</li>
+<li>In <em>Apps</em>, click <em>New Angular app</em>, give it a name then click <em>Ok</em>. You will be redirected to the configuration page of the new <strong>App</strong>.
+It is also pre-filled with the default web services.</li>
+<li>If you want to use a different <strong>Query</strong> web service other than the default one, click <em>Edit</em>, and in the list of Queries,
+choose your web service and save.</li>
+</ul>
+<div class="margin-horiz--xl"><img src="/sba-angular/assets/images/admin-new-angular-app-action-e97ad383553f3ef18602dc12d273e926.png" alt="New Angular app action"></div>
+<div class="text--center"><em>&#x27;New Angular app&#x27; action in Apps</em></div>
+<p>At this point, your Sinequa server can be used to develop an SBA, and you can start the <a href="/sba-angular/docs/guides/development">development guide</a> or spend more time reading the documentation below to learn more about fully configuring the server.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="apps">Apps<a href="#apps" class="hash-link" aria-label="Direct link to Apps" title="Direct link to Apps">​</a></h2>
+<p>In order to work, an SBA needs a named <strong>App</strong> configuration to exist on the Sinequa server.
+This configuration is the entry point which references all the <a href="#web-services"><strong>Web Services</strong></a> that the SBA will use.
+The App can also contain <strong>configuration</strong> (in JSON format) which may be passed to the Angular application.
+Finally, the App can be restricted to specific <strong>Users and Groups</strong>, rather than being open to all.</p>
+<p>The list of Apps can be found in the administration interface under <em>Search-Based Applications &gt; Apps</em>:</p>
+<p><img decoding="async" loading="lazy" alt="List of Apps" src="/sba-angular/assets/images/admin-apps-749252877d063d8091b29eb769064c96.png" width="1425" height="305" class="img_ev3q"></p>
+<div class="text--center"><em>List of applications in the Sinequa server administration</em></div>
+<p>In this form, a new App may be created by clicking on the <em>New Angular App</em> button.</p>
+<p>The <strong>name of the App</strong> is important, as it will be used by the Angular application to request data via the Web Services.
+The configuration of an App specifies the <strong>list of Web Services</strong> available for this App.
+If the App is deployed on the Sinequa server, it needs to point to an <strong>Angular workspace</strong>, which is shown via the property <em>Workspace application</em>.</p>
+<p><img decoding="async" loading="lazy" alt="App Configuration" src="/sba-angular/assets/images/admin-app-d382226e18ca10459e9626e808bed62f.png" width="1520" height="619" class="img_ev3q"></p>
+<div class="text--center"><em>App configuration - General tab</em></div>
+<p>In the <strong>Customization (JSON)</strong> tab of the App configuration, it is possible to write data (in JSON syntax),
+which will be passed to the Angular app on initialization.
+The benefit of using this field (rather than just writing the data in the app source code) is that this data may change
+without having to recompile the Angular app.
+For example, if you specify a list of widgets to be displayed, you will only need to modify this field
+and refresh the page to visualize the difference.</p>
+<p>The underlying Monaco editor can verify that your JSON is valid and in any case, Sinequa ES verifies the JSON validity
+when saving the App configuration and notifies you should the JSON be not valid.</p>
+<p><img decoding="async" loading="lazy" alt="Customization tab" src="/sba-angular/assets/images/admin-app-conf-d1aafbd33463ec611b2fe74409b3fc86.png" width="1507" height="421" class="img_ev3q"></p>
+<div class="text--center"><em>App configuration - Customization (JSON) tab</em></div>
+<p><img decoding="async" loading="lazy" alt="Customization tab with error" src="/sba-angular/assets/images/admin-app-conf-with-error-7b9ff1b5a9eec7a4cfdc4ded2f978f86.png" width="1527" height="360" class="img_ev3q">
+App configuration - Customization (JSON) tab - when the JSON is not valid</p>
+<p>Please refer to <a href="/sba-angular/docs/tipstricks/configuration#server-side-configuration">Tips &amp; tricks - Server-side-configuration</a> for an example of how to use the JSON data to customize vanilla-search.</p>
+<p>In the <strong>Advanced</strong> tab of the App configuration, it is possible to restrict the availability of the app to certain users and groups.
+You can also assign the current App configuration as the default Angular app for a user or a group.
+This default Angular app is used when the assigned user navigates on the Sinequa server without specifying the app that they want to use.</p>
+<p><img decoding="async" loading="lazy" alt="Advanced tab" src="/sba-angular/assets/images/admin-app-sec-35e1834dd4980287dd95c744a5685248.png" width="1519" height="548" class="img_ev3q">
+App configuration - Advanced tab</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="web-services">Web Services<a href="#web-services" class="hash-link" aria-label="Direct link to Web Services" title="Direct link to Web Services">​</a></h2>
+<p>The <strong>Web Services</strong> configurations allow you to configure the behaviour of certain endpoints of the REST API, which allows:</p>
+<ul>
+<li>To minimize the size and complexity of the requests sent to the server</li>
+<li>To prevent exposing sensitive or internal parameters and settings to the client side, which could be used maliciously or impact negatively the overall performance of Sinequa ES.</li>
+</ul>
+<p>The list of Web Services can be found in the administration interface under <em>Search-Base Applications &gt; Web Services</em></p>
+<p><img decoding="async" loading="lazy" alt="Advanced tab" src="/sba-angular/assets/images/admin-ws-3ad2be95001ac0f7a4528174f3495f1b.png" width="846" height="357" class="img_ev3q">
+List of <strong>configurable</strong> Web Services in the Sinequa server administration</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="query-web-service-default-_query">Query web service (default: <em>_query</em>)<a href="#query-web-service-default-_query" class="hash-link" aria-label="Direct link to query-web-service-default-_query" title="Direct link to query-web-service-default-_query">​</a></h3>
+<p>The <strong>Query</strong> web service is one of the most integrated and sophisticated web service of Sinequa.
+It is at the heart of our application samples, <a href="/sba-angular/docs/apps/vanilla-search">Vanilla Search</a> and <a href="/sba-angular/docs/apps/pepper">Pepper</a>.
+This service allows to build complex search queries (incl. tabs, facet selection, advanced search, etc.) to retrieve data from the Sinequa indexes.</p>
+<p>The <strong>General</strong> tab of the Query web service configuration allows the configuration of these key parameters:</p>
+<ul>
+<li><strong>Index list</strong>: The list of indexes which this web service may query.</li>
+<li><strong>QueryPlugin</strong>: A <a href="/sba-angular/docs/tipstricks/plugins">server-side plugin</a> (written in C#), which lets you customize the search queries, or post-process the responses.</li>
+<li><strong>Aggregations</strong>: A list of <em>Aggregations</em>. An aggregation is a short-list of metadata computed for the given query.
+For example, if you search for &quot;automobile manufacturer&quot;, the <em>Company</em> aggregation could contain entries like &quot;Volkswagen&quot;, &quot;BMW&quot;, &quot;Tesla&quot;, etc.</li>
+</ul>
+<p><img decoding="async" loading="lazy" alt="Query Web Service configuration - General tab" src="/sba-angular/assets/images/admin-query-5ef1fb2fec84d26a818c5650a797c9dd.png" width="945" height="805" class="img_ev3q">
+Query Web Service configuration - General tab</p>
+<p>The <strong>Results Page</strong> tab of the Query web service configuration allows to configure these key parameters:</p>
+<ul>
+<li><strong>Tab Search</strong>: Specifies a list of tabs to search in a specific subset of the corpus.
+Tabs filter on a single column of the index (e.g. the format of document, name of the data source, etc.).
+The Angular application may select a tab by setting <code>query.tab = &#x27;&lt;tab name&gt;&#x27;</code>.</li>
+<li><strong>Search scopes</strong>: A &quot;scope&quot; can restrict the search to a specific subset of the corpus, with SQL rules.
+The Angular application may select a scope by setting <code>query.scope = &#x27;&lt;scope name&gt;&#x27;</code>.
+Unlike tabs, it is not possible to compute the number of documents for each scope with one query (since each scope has a specific ruleset).</li>
+<li><strong>Relevant Extracts</strong>: The relevant extracts are key passages and sentences found in the searched documents, which are then used to compute a short summary typically displayed in the search results.</li>
+</ul>
+<p><img decoding="async" loading="lazy" alt="Relevant extracts" src="/sba-angular/assets/images/relevant-extracts-5be4aa019e1c57be306ed8b7b3cbf1a1.png" width="763" height="136" class="img_ev3q">
+Example of relevant extracts</p>
+<p>The <strong>Search settings</strong> tab of the Query web service configuration allows to configure in fine detail the query sent to the Sinequa engine.
+In particular:</p>
+<ul>
+<li>Analysis of the user query:<!-- -->
+<ul>
+<li>Language detection &amp; dictionaries</li>
+<li>Intent detection</li>
+<li>Entity detection</li>
+</ul>
+</li>
+<li>Custom SQL:<!-- -->
+<ul>
+<li>Custom columns (SELECT)</li>
+<li>Custom filters (WHERE)</li>
+<li>Duplicate removal (GROUP BY)</li>
+<li>Sorting options (ORDER BY)</li>
+</ul>
+</li>
+<li>Other options:<!-- -->
+<ul>
+<li>Calculation of most relevant &quot;Concepts&quot;</li>
+<li>Similar document search settings</li>
+</ul>
+</li>
+</ul>
+<p>The <strong>Relevance</strong> tab of the Query web service configuration allows to configure in fine detail the relevance calculations performed by the Sinequa engine.
+In particular:</p>
+<ul>
+<li>The statistical part of the relevance (global score formula, words &amp; forms weighting)</li>
+<li>The freshness score (favoring most recent content)</li>
+<li>The part name weights (favoring specific parts of the content)</li>
+<li>The class weights (favoring specific classes of content)</li>
+<li>The relevance transforms (allowing for custom forms of relevance, such as popularity, ratings or importance)</li>
+<li>The relevance feedback model (allowing to account for user feedback)</li>
+</ul>
+<p>The <strong>Advanced</strong> tab of the Query web service configuration allows to configure meaningful aliases and labels for specific columns.
+This is useful to avoid exposing the bare structure of the index to front-end developers.
+Instead, developers will see and use explicit variable names, which are used consistently across the different web services.</p>
+<p><img decoding="async" loading="lazy" alt="Aliases" src="/sba-angular/assets/images/admin-query-aliases-b98c7c52b79b518e007d8a9c472cee2b.png" width="758" height="217" class="img_ev3q">
+Example of query aliases</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="preview-web-service-default-_preview">Preview web service (default: <em>_preview</em>)<a href="#preview-web-service-default-_preview" class="hash-link" aria-label="Direct link to preview-web-service-default-_preview" title="Direct link to preview-web-service-default-_preview">​</a></h3>
+<p>The Preview web service form configures the access to document HTML previews (stored in Sinequa document cache).
+It has two settings:</p>
+<ul>
+<li><strong>.css file</strong>: Contains one (or more) CSS file names that are injected in the HTML previews as <code>&lt;link&gt;</code> elements, either with a relative path (relative to the URL of the application), or an absolute URL.
+The default SBA includes a <code>preview/preview.scss</code> file which is built as <code>/preview.css</code>.
+The default setting is therefore <code>preview.css</code>.</li>
+<li><strong>.js file</strong>: Contains one (or more) JS file names that are injected in the HTML previews as <code>&lt;script&gt;</code> elements, either with a relative path (relative to the URL of the application), or an absolute URL.
+The default setting is <code>preview/preview.js</code>. This is packaged by default in the SBA workspace. It is necessary to let the SBA interact with the content of the preview.</li>
+<li><strong>Highlights to display</strong>: Categories to be &quot;highlighted&quot; in the preview.
+For example, relevant extracts are highlighted by wrapping <code>&lt;span&gt;</code> tags around the relevant text.
+The visual highlight itself is effectively done by the aforementioned <code>preview.css</code> file (for example with a CSS rule of the type <code>background-color: yellow;</code>).</li>
+</ul>
+<p><img decoding="async" loading="lazy" alt="Preview configuration" src="/sba-angular/assets/images/admin-preview-eedf63f88ee2bfc6cf33128c2365e08f.png" width="1419" height="437" class="img_ev3q">
+Example of preview configuration</p>
+<p><img decoding="async" loading="lazy" alt="highlights" src="/sba-angular/assets/images/highlights-368346b3df12be0743b5d61e6a2d12e2.png" width="762" height="71" class="img_ev3q">
+Example of a highlighted HTML (each colored passage corresponds to a &lt;span&gt; element with a specific highlighted entity class)</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="labels-web-service-default-_labels">Labels web service (default: <em>_labels</em>)<a href="#labels-web-service-default-_labels" class="hash-link" aria-label="Direct link to labels-web-service-default-_labels" title="Direct link to labels-web-service-default-_labels">​</a></h3>
+<p>The Labels web service form allows to configure the columns of the index where tags are stored.
+<strong>Labels</strong> may be <strong>private</strong> (specific to each user) or <strong>public</strong> (visible to everyone).
+Both options may be enabled simultaneously.</p>
+<p>It is possible to restrict specific actions (Label creation, label modification) to specific populations of users.</p>
+<p>This service also exposes an auto-complete feature to easily search and select a specific label.</p>
+<p><img decoding="async" loading="lazy" alt="Labels configuration" src="/sba-angular/assets/images/admin-labels-90bc7cd965e2a7caa7ca80e4bc575b9c.png" width="1460" height="725" class="img_ev3q">
+Example of labels configuration</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="auto-complete-web-service-default-_autocomplete">Auto-complete web service (default: <em>_autocomplete</em>)<a href="#auto-complete-web-service-default-_autocomplete" class="hash-link" aria-label="Direct link to auto-complete-web-service-default-_autocomplete" title="Direct link to auto-complete-web-service-default-_autocomplete">​</a></h3>
+<p>The auto-complete web service essentially lists <strong>suggest queries</strong> that provide suggestions when the user types some text in a form.
+Refer to the <a href="https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html" target="_blank" rel="noopener noreferrer">documentation</a> on suggest queries for more information.</p>
+<p>The last option &quot;Match the search terms anywhere in field values&quot; is useful for the facet component&#x27;s search bar: A search for &quot;York&quot; will match both &quot;New York&quot; and &quot;Yorkshire&quot; values. However this option comes incurs a performance penalty, so it should be used only when necessary.</p>
+<p><img decoding="async" loading="lazy" alt="Autocomplete configuration" src="/sba-angular/assets/images/admin-autocomplete-ab901ae65958d39c7f7339c2b9e01500.png" width="953" height="303" class="img_ev3q">
+Example of auto-complete configuration</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="export-web-service-default-_queryexport">Export web service (default: <em>_queryexport</em>)<a href="#export-web-service-default-_queryexport" class="hash-link" aria-label="Direct link to export-web-service-default-_queryexport" title="Direct link to export-web-service-default-_queryexport">​</a></h3>
+<p>The export web service specifies the list of columns and maximum number of lines (records) to be exported when a user requests an export of the results list.
+For obvious security and performance reasons, these parameters are not exposed directly to the user themselves.</p>
+<p>Note that this web service is always used with the query web service.
+The latter provides the query configuration to retrieve the documents that user sees in the SBA.
+Therefore, the number of exported records is also limited by the configuration of the associated query web service.
+In particular, the query configuration can limit the maximum number of records per index that can be returned by the query.</p>
+<p>You need to verify such options in the query web service when you change the maximum number of lines in the export web service.</p>
+<p><img decoding="async" loading="lazy" alt="Export configuration" src="/sba-angular/assets/images/admin-export-abfb707f49daa1da449885f40f7f6943.png" width="1457" height="506" class="img_ev3q">
+Example of export configuration</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="sponsored-links-service-default-_sponsoredlinks">Sponsored links service (default: <em>_sponsoredlinks</em>)<a href="#sponsored-links-service-default-_sponsoredlinks" class="hash-link" aria-label="Direct link to sponsored-links-service-default-_sponsoredlinks" title="Direct link to sponsored-links-service-default-_sponsoredlinks">​</a></h3>
+<p>The configuration of the sponsored links specifies the number of links returned by the API.
+Refer to the <a href="https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-ui-sponsored-links.html" target="_blank" rel="noopener noreferrer">documentation</a> on sponsored links for more information.</p>
+<p><img decoding="async" loading="lazy" alt="Sponsored links configuration" src="/sba-angular/assets/images/admin-sponsored-links-ecbeb44cabc11cd096a3bb45e68b6bb7.png" width="1460" height="402" class="img_ev3q">
+Example of Sponsored links configuration</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="workspaces">Workspaces<a href="#workspaces" class="hash-link" aria-label="Direct link to Workspaces" title="Direct link to Workspaces">​</a></h2>
+<p>The third part of the server-side configuration that powers the SBA framework is the <strong>Workspaces</strong> section.
+&quot;Workspaces&quot; literally refer to Angular workspaces, (which is what <a href="https://github.com/sinequa/sba-angular" target="_blank" rel="noopener noreferrer">this Github repository</a> contains).</p>
+<p>The SBA Framework includes an Angular workspace available on <a href="https://github.com/sinequa/sba-angular" target="_blank" rel="noopener noreferrer">Github</a>, which is also shipped with Sinequa releases as a <strong>zip file</strong>.
+This archive can be unzipped, downloaded and uploaded on the Sinequa server via the Sinequa administration.</p>
+<p>The workspaces are located in <code>&lt;Sinequa data folder&gt;\sba</code>, which is where Sinequa looks for them, to display their content in the administration and to serve the built applications that they contain. This is also where you would deploy your application for Sinequa to serve it (via an upload, or a <code>git pull</code> -- See <a href="/sba-angular/docs/guides/development#workspace">Workspace</a>).</p>
+<p>The <strong>Workspaces</strong> section displays the workspaces under <code>&lt;Sinequa data folder&gt;\sba</code>. It is located in the administration under <em>Search-Based Applications &gt; Workspaces</em>:</p>
+<p><img decoding="async" loading="lazy" alt="Workspaces" src="/sba-angular/assets/images/admin-workspaces-26ff40eac739bfb5bc3384dad22a44b5.png" width="1413" height="663" class="img_ev3q">
+Angular workspaces in the administration</p>
+<p>At the start, there will be no workspace pre-loaded in Sinequa ES.
+You can:</p>
+<ul>
+<li>either load the default Sinequa Angular workspace from a default zip provided with your Sinequa release,</li>
+<li>or clone the <a href="https://github.com/sinequa/sba-angular" target="_blank" rel="noopener noreferrer">Github repository</a> in <code>&lt;Sinequa data folder&gt;/sba</code> (See <a href="/sba-angular/docs/guides/development#workspace">Workspace</a>),</li>
+<li>or import your own Angular workspace, noting that only multi-project Angular workspaces are supported (cf. <a href="https://angular.io/guide/file-structure#multiple-projects" target="_blank" rel="noopener noreferrer">multi-project Angular workspace</a> for more information about Angular workspace type).</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="unzip-the-sinequa-angular-workspace">Unzip the Sinequa Angular workspace<a href="#unzip-the-sinequa-angular-workspace" class="hash-link" aria-label="Direct link to Unzip the Sinequa Angular workspace" title="Direct link to Unzip the Sinequa Angular workspace">​</a></h3>
+<p>To unzip the default Sinequa workspace, click <strong>New &gt; Unzip default Angular workspace</strong></p>
+<p><img decoding="async" loading="lazy" alt="Unzip default Angular workspace" src="/sba-angular/assets/images/admin-unzip-default-angular-workspace-17081109c44e49a563b9ea85fe1f4564.png" width="1462" height="216" class="img_ev3q">
+&#x27;Unzip default Angular workspace&#x27; action</p>
+<p>You will be prompted to choose a name for your workspace.
+This process can take a few minutes.
+You can follow its progress either by looking at the banner on the top of Workspaces administration page or by going to <strong>Tasks status</strong> page, the progress status is named <strong>UnzipAngularWorkspace</strong>.</p>
+<p><img decoding="async" loading="lazy" alt="Unzip Angular workspace process status" src="/sba-angular/assets/images/admin-unzip-angular-workspace-status-28be6667a43d1cd45a0a344ded5ff259.png" width="1155" height="563" class="img_ev3q">
+Status of &#x27;Unzip default Angular workspace&#x27; action in Tasks status</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="upload-your-angular-workspace-to-sinequa-es">Upload your Angular workspace to Sinequa ES<a href="#upload-your-angular-workspace-to-sinequa-es" class="hash-link" aria-label="Direct link to Upload your Angular workspace to Sinequa ES" title="Direct link to Upload your Angular workspace to Sinequa ES">​</a></h3>
+<p>:::warning <strong>IMPORTANT:</strong></p>
+<p>Please verify with the administrator of your Sinequa server that the size of your zip does not exceed the upload size limit of the server.
+If it is the case, the server will refuse the upload request with HTTP 413 (Request Entity Too Large).
+:::</p>
+<p>This size limit is controlled in IIS by the option <code>maxAllowedContentLength</code>:</p>
+<div class="language-XML language-xml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-xml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">requestFiltering</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">requestLimits</span><span class="token tag" style="color:#00009f"> </span><span class="token tag attr-name" style="color:#00a4db">maxAllowedContentLength</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag attr-value" style="color:#e3116c">&lt;limit-in-bytes&gt;</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag" style="color:#00009f"> </span><span class="token tag punctuation" style="color:#393A34">/&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">requestFiltering</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>To import your workspace, click <strong>New &gt; Import Angular workspace</strong></p>
+<p><img decoding="async" loading="lazy" alt="Import Angular workspace" src="/sba-angular/assets/images/admin-import-angular-workspace-8157d877bf20ef17d7a5f655af1db3fa.png" width="1462" height="216" class="img_ev3q">
+<em>&#x27;Import Angular workspace&#x27; action</em></p>
+<p>A wizard will be shown to guide you through the import procedure.</p>
+<p>First you need to provide the zip of your workspace. You can only import one workspace at a time.
+Then choose the name of the exported workspace.
+If you want to overwrite an existing workspace, remember to tick the checkbox <strong>Overwite existing workspace</strong>.
+Otherwise, the wizard will not let you continue with the import procedure.</p>
+<p><img decoding="async" loading="lazy" alt="Import Angular workspace wizard - page 1" src="/sba-angular/assets/images/admin-import-wiz-1-545cdf8c9a0a7b7b3b3570b60d19b71e.PNG" width="1115" height="814" class="img_ev3q">
+&#x27;Import Angular workspace&#x27; wizard - page 1</p>
+<p>Once you have finished, click on <strong>Next</strong>.
+The next page provides you a summary of the steps that will be executed to import your workspace.</p>
+<p><img decoding="async" loading="lazy" alt="Import Angular workspace wizard - page 2" src="/sba-angular/assets/images/admin-import-wiz-2-e3d28d794761e31904d403dbe7bb7589.PNG" width="1114" height="816" class="img_ev3q">
+&#x27;Import Angular workspace&#x27; wizard - page 2</p>
+<p>Click on <strong>Next</strong> when you are ready to begin the import procedure.
+The import can take some time, once it is complete you can click on the <strong>Finish</strong> button to view the newly-imported workspace.</p>
+<p><img decoding="async" loading="lazy" alt="Import Angular workspace wizard - page 3 - Finish" src="/sba-angular/assets/images/admin-import-wiz-3-cc053c27679fa805556c571649ef4d45.PNG" width="1112" height="815" class="img_ev3q">
+&#x27;Import Angular workspace&#x27; wizard - page 3 - Finish</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="workspace">Workspace<a href="#workspace" class="hash-link" aria-label="Direct link to Workspace" title="Direct link to Workspace">​</a></h3>
+<p>When opening a workspace in the administration, you will see a variety of information related to your workspace.</p>
+<p>Firstly, there is information about the download link of your workspace.
+If there are no download links, you can generate them via <strong>More actions &gt; Generate workspace zip</strong> or
+<strong>More actions &gt; Generate minimal workspace zip (without &#x27;node_modules&#x27; folder)</strong>.
+Note that distributable folders <code>dist</code> and <code>dist-folder</code> are not included in download zip.</p>
+<p>Generating a zip file can take a few minutes.
+You can follow the generation progress either by looking at the banner on the top of Workspaces administration page or by going to <strong>Tasks status</strong> page, the progress status is named <strong>GenerateAngularWorkspaceZip</strong>.</p>
+<p>Note that if your workspace does not contain a <code>node_modules</code> folder, only the generation action and entry of the minimal zip are shown.</p>
+<p><img decoding="async" loading="lazy" alt="Workspace generate zip actions" src="/sba-angular/assets/images/admin-workspace-generate-download-zip-ee4edd646395bdf7b1a546895bb2e0fc.png" width="1466" height="334" class="img_ev3q">
+Workspace - Generate zip actions and download link</p>
+<p>Secondly, there is a list of all build scripts declared in the <code>package.json</code> file at the root of the workspace.
+You can execute the build script directly in the grid or from the <code>Build</code> menu at the top-right of the administration page.</p>
+<p>You can follow the script progress either by looking at the banner on the top of Workspaces administration page or by going to <strong>Tasks status</strong> page, the progress status is named <strong>BuildAngularWorkspace</strong>.</p>
+<p><img decoding="async" loading="lazy" alt="Workspace build scripts" src="/sba-angular/assets/images/admin-workspace-build-scripts-0c6b679cd3d6ef248d03522e0f672b95.png" width="1462" height="546" class="img_ev3q">
+Workspace - Build scripts</p>
+<p>The build commands write their result to either <code>/dist</code> or <code>/dist-debug</code> depending on the configuration of the Angular workspace.
+This is where Sinequa looks for when serving a particular application.
+Obviously, the Angular app needs to be built in order to be served...</p>
+<p><img decoding="async" loading="lazy" alt="Serving an app" src="/sba-angular/assets/images/admin-serving-7183d053be5daa71d8df00883d4349e1.png" width="1920" height="792" class="img_ev3q">
+When the app is hosted on Sinequa, the URL contains the name of the App, which itself points to a specific workspace and app</p>
+<p>Finally, you can browse the content of workspace folder and that of its files or sub-folders.
+Note that the contents of the <code>node_modules</code> folder are not shown in the administration due to their size</p>
+<p><img decoding="async" loading="lazy" alt="Workspace content" src="/sba-angular/assets/images/admin-workspace-content-c47cf1e7b50fdd70894d8d5be83224e8.png" width="1465" height="648" class="img_ev3q">
+Workspace - Content</p>
+<p>If there is a <code>README</code> markdown file in the workspace root, this file is also rendered at the end of the workspace page.</p>
+<p><img decoding="async" loading="lazy" alt="Workspace readme" src="/sba-angular/assets/images/admin-workspace-readme-0a63e1c1cbccf3cc0d16dcbbc6a2c068.png" width="1465" height="817" class="img_ev3q">
+Workspace - README</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="other-actions-with-workspace">Other actions with workspace<a href="#other-actions-with-workspace" class="hash-link" aria-label="Direct link to Other actions with workspace" title="Direct link to Other actions with workspace">​</a></h3>
+<p>You can execute <code>npm install</code> directly on the workspace administration page, if the WebApp server has access to the Internet.
+By default, this action is disabled on the administration. You need to activate it via <strong>Global options &gt; Advanced &gt; Enable &#x27;npm install&#x27; (default: false)</strong>.</p>
+<p>You can follow the execution of the <code>npm install</code> action either by looking at the banner on the top of Workspaces administration page or by going to <strong>Tasks status</strong> page, the progress status is named <strong>ExecuteNpmInstallAngularWorkspace</strong>.</p>
+<p><img decoding="async" loading="lazy" alt="Workspace execute npm install" src="/sba-angular/assets/images/admin-workspace-execute-npm-install-578c95dc0d74279cb3a1fd898003eeaa.png" width="1467" height="210" class="img_ev3q">
+Workspace - Execute &#x27;npm install&#x27; action</p>
+<p>From the workspace administration, you can create an App configuration based on one of the application project of the workspace.
+To create a new App, go to <strong>More actions &gt; New app from</strong>, where you can choose the base project for the App.</p>
+<p><img decoding="async" loading="lazy" alt="Workspace new ap" src="/sba-angular/assets/images/admin-workspace-new-app-a4ce5736814685aa69ae98fee2833a65.png" width="1466" height="220" class="img_ev3q">
+Workspace - New app actions</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="cors-and-webapp-configuration">CORS and WebApp configuration<a href="#cors-and-webapp-configuration" class="hash-link" aria-label="Direct link to CORS and WebApp configuration" title="Direct link to CORS and WebApp configuration">​</a></h2>
+<p>The <strong>REST API</strong> of Sinequa can be used by a remote application (which is the case when you serve your app with <code>ng serve</code>, without a proxy -- See <a href="/sba-angular/docs/guides/development#connecting-to-the-sinequa-server">Connecting to the Sinequa server</a>). Note that this mode causes <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank" rel="noopener noreferrer">Cross-Origin Resource Sharing</a> (CORS) issues.</p>
+<ul>
+<li><em>Distributed Architecture &gt; Webapp &gt; Stateless Mode &gt; Permitted origins for Cross-Origin Resource Sharing (CORS) requests</em> set to the URL you will use to test your app locally. For example, <code>http://localhost:4200</code> (or just <code>*</code>).</li>
+<li><em>Distributed Architecture &gt; Webapp &gt; Stateless Mode &gt; Return HTTP error codes</em> enabled (default).</li>
+</ul>
+<p>As some <a href="/sba-angular/docs/tipstricks/login-methods">authentication methods</a> need to store a JSON Web Token (JWT) on the client-side, a cookie must be stored with the <code>SameSite=None</code> and <code>Secure</code> options. This means that <strong>the Sinequa API must necessarily be served over HTTPS</strong> for these authentication methods to work.</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="theme-doc-footer-edit-meta-row row"><div class="col"><a href="https://github.com/sinequa/sba-angular/tree/main/docs/guides/2-server-config.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_vwxv"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/sba-angular/docs/guides/architecture"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Architecture</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/sba-angular/docs/guides/development"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Development</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#minimum-configuration" class="table-of-contents__link toc-highlight">Minimum configuration</a></li><li><a href="#apps" class="table-of-contents__link toc-highlight">Apps</a></li><li><a href="#web-services" class="table-of-contents__link toc-highlight">Web Services</a><ul><li><a href="#query-web-service-default-_query" class="table-of-contents__link toc-highlight">Query web service (default: <em>_query</em>)</a></li><li><a href="#preview-web-service-default-_preview" class="table-of-contents__link toc-highlight">Preview web service (default: <em>_preview</em>)</a></li><li><a href="#labels-web-service-default-_labels" class="table-of-contents__link toc-highlight">Labels web service (default: <em>_labels</em>)</a></li><li><a href="#auto-complete-web-service-default-_autocomplete" class="table-of-contents__link toc-highlight">Auto-complete web service (default: <em>_autocomplete</em>)</a></li><li><a href="#export-web-service-default-_queryexport" class="table-of-contents__link toc-highlight">Export web service (default: <em>_queryexport</em>)</a></li><li><a href="#sponsored-links-service-default-_sponsoredlinks" class="table-of-contents__link toc-highlight">Sponsored links service (default: <em>_sponsoredlinks</em>)</a></li></ul></li><li><a href="#workspaces" class="table-of-contents__link toc-highlight">Workspaces</a><ul><li><a href="#unzip-the-sinequa-angular-workspace" class="table-of-contents__link toc-highlight">Unzip the Sinequa Angular workspace</a></li><li><a href="#upload-your-angular-workspace-to-sinequa-es" class="table-of-contents__link toc-highlight">Upload your Angular workspace to Sinequa ES</a></li><li><a href="#workspace" class="table-of-contents__link toc-highlight">Workspace</a></li><li><a href="#other-actions-with-workspace" class="table-of-contents__link toc-highlight">Other actions with workspace</a></li></ul></li><li><a href="#cors-and-webapp-configuration" class="table-of-contents__link toc-highlight">CORS and WebApp configuration</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/sba-angular/docs/tutorial/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://twitter.com/sinequa" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://sinequa.com" target="_blank" rel="noopener noreferrer" class="footer__link-item">Website<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://github.com/sinequa/sba-angular" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 <a href="https://www.sinequa.com" aria-alt="Sinequa website">Sinequa</a>. Distributed under the terms of the <a href="https://github.com/sinequa/sba-angular/blob/master/license.txt" aria-alt="MIT license">MIT license</a></div></div></div></footer></div>
+</body>
+</html>
