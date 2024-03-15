@@ -3,7 +3,6 @@
   "version": "11.12.0",
   "author": "Sinequa",
   "peerDependencies": {
-    "@fortawesome/fontawesome-free": "^5.13.0",
     "bootstrap": "^5.2.0",
     "element-resize-detector": "^1.2.1",
     "@angular-slider/ngx-slider": "^2.0.4",

@@ -1,11 +1,16 @@
 import { Component, Input, ViewChild } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
-import { Query } from "@sinequa/core/app-utils";
 import { SearchFormComponent } from "@sinequa/components/search-form";
-import { HelpFolderOptions } from "@sinequa/components/user-settings";
+import { BsUserSettingsModule, HelpFolderOptions } from "@sinequa/components/user-settings";
+import { Query } from "@sinequa/core/app-utils";
+import { AutocompleteComponent } from "./autocomplete.component";
 
 @Component({
   selector: 'app-search-form',
+  standalone: true,
+  imports: [
+    SearchFormComponent, BsUserSettingsModule, AutocompleteComponent
+  ],
   templateUrl: './search-form.component.html',
   styles: [`
   :host {
