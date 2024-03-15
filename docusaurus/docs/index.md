@@ -3,6 +3,7 @@ layout: default
 title: Introduction
 sidebar_position: 1
 description: "Sinequa's SBA Framework Documentation"
+slug: /
 ---
 
 # SBA Framework Documentation

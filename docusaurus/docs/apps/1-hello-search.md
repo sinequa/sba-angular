@@ -196,7 +196,7 @@ The component's stylesheet ([`src/app/app.component.scss`](https://github.com/si
     }
     ```
 
-In addition to the component's stylesheet, a global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/styles/app.scss)) contains styles that apply to the whole app. This is where you would import (globally) third party styling libraries such as Bootstrap (see the [tutorial](/docs/tutorial/search-module#importing-bootstrap)).
+In addition to the component's stylesheet, a global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/styles/app.scss)) contains styles that apply to the whole app. This is where you would import (globally) third party styling libraries such as Bootstrap (see the [tutorial](/tutorial/search-module#importing-bootstrap)).
 
 ```scss
 @import "~@angular/cdk/overlay-prebuilt";
