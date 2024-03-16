@@ -38,7 +38,7 @@ Read more about [aggregations](https://doc.sinequa.com/en.sinequa-es.v11/Content
 
 ## Displaying the value
 
-Your application probably displays results in a for-loop. In [Hello Search](/apps/1-hello-search.md), it looks like this:
+Your application probably displays results in a for-loop. In [Hello Search](../apps/1-hello-search), it looks like this:
 
 ```html title="app.component.html"
 <div *ngFor="let record of results.records" class="record">

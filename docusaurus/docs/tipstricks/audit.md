@@ -96,7 +96,7 @@ It is often required to add some custom data to a standard event (or even to *al
 
 A better alternative is to *intercept* audit events globally (just before they are sent to the server) and modify them all in this centralized location. This can be achieved by extending the standard `AuditInterceptor` and overriding the `updateAuditRecord()` method.
 
-[HTTP interceptors](https://angular.io/api/common/http/HttpInterceptor) are a standard way to manipulate HTTP requests and responses globally in Angular. Sinequa includes an interceptor dedicated to audit events. It is provided by default in application samples, such as [Vanilla Search](/apps/2-vanilla-search.md), in the `app.module.ts` file:
+[HTTP interceptors](https://angular.io/api/common/http/HttpInterceptor) are a standard way to manipulate HTTP requests and responses globally in Angular. Sinequa includes an interceptor dedicated to audit events. It is provided by default in application samples, such as [Vanilla Search](../apps/2-vanilla-search), in the `app.module.ts` file:
 
 ```ts
 @NgModule({

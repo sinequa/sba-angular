@@ -133,11 +133,11 @@ Your components will generally have dependencies other than the JavaScript libra
 
 ### Login
 
-In order to use the Sinequa API, you need to be logged in. This means that at least one of your components will need to call `loginService.login()`. Your component can typically extend the `ComponentWithLogin` class from [`@sinequa/core/login`](/libraries/core/login.md) to make this automatic.
+In order to use the Sinequa API, you need to be logged in. This means that at least one of your components will need to call `loginService.login()`. Your component can typically extend the `ComponentWithLogin` class from [`@sinequa/core/login`](../libraries/core/login) to make this automatic.
 
 ### CORS
 
-If you embed components in a third-party application, this application will probably have a URL different from the Sinequa server's URL. This means you will need to enable CORS in your WebApp configuration (See [CORS and WebApp Configuration](/guides/2-server-config.md#cors-and-webapp-configuration) and [Deploying an App on another server](/guides/4-deployment.md#deploying-an-sba-on-another-server)).
+If you embed components in a third-party application, this application will probably have a URL different from the Sinequa server's URL. This means you will need to enable CORS in your WebApp configuration (See [CORS and WebApp Configuration](../guides/2-server-config#cors-and-webapp-configuration) and [Deploying an App on another server](../guides/4-deployment#deploying-an-sba-on-another-server)).
 
 Note that CORS limits certain functionalities due to security restrictions in the browser. In order to get around CORS issues, consider using a proxy or reverse-proxy (so that the app is served from the same URL as the Sinequa REST API).
 

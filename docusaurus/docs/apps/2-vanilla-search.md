@@ -1,5 +1,6 @@
 ---
 layout: default
+id: 2-vanilla-search
 title: Vanilla Search
 parent: Applications
 nav_order: 2

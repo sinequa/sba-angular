@@ -7,7 +7,7 @@ sidebar_position: 2
 
 # Connection to the Sinequa server
 
-In this chapter we need to connect the [**Hello Search**](/apps/1-hello-search.md) app to the Sinequa test server. The URL of this server is:  
+In this chapter we need to connect the [**Hello Search**](../apps/1-hello-search) app to the Sinequa test server. The URL of this server is:  
 `https://su-sba.demo.sinequa.com` and the name of the SBA configured on the server is just `'training'`. Additionally, the app is secured with the SAML protocol. The name of the identity provider is `'identity-dev'`.
 
 In your `hello-search/` project, open the `src/app/app.module.ts` file, and replace the placeholders parameters in the `StartConfig` object:

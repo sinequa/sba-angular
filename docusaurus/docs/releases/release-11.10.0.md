@@ -35,7 +35,7 @@ This release introduces end-to-end (e2e) tests for the SBA components. These tes
 
 ### Web services
 
-- Removed support of fielded search expressions (`Expr`, `ExprParser`, `ExprBuilder` classes). Expressions are replaced with a new "filter" syntax documented in the [Core library](../libraries/core/app-utils.md#filtering-the-metadata). Note that the fielded search syntax used in the search form is still interpreted by the platform as before (but the SBA is unaware of it).
+- Removed support of fielded search expressions (`Expr`, `ExprParser`, `ExprBuilder` classes). Expressions are replaced with a new "filter" syntax documented in the [Core library](../libraries/core/app-utils#filtering-the-metadata). Note that the fielded search syntax used in the search form is still interpreted by the platform as before (but the SBA is unaware of it).
 
 :::warning
   Any usage of `Expr` in a custom application must be migrated to the new filter syntax. The new syntax essentially provides the same level of functionality:
@@ -147,7 +147,7 @@ This release introduces end-to-end (e2e) tests for the SBA components. These tes
 
 - Refactoring of the `sq-facet-multi` component. The component now displays a custom header template. The `icon` and `title` of the facet should be passed as input to this component rather than to the parent `sq-facet-card`.
 
-- New `sq-facet-container` component to display a list of facets as a toolbar, where one facet can be expanded at a time. This component is documented in the [Facet library](../libraries/components/facet.md#facet-container). This component is used in the new integrated search form (packaged in [Pepper](../apps/3-pepper.md#integrated-search-form)).
+- New `sq-facet-container` component to display a list of facets as a toolbar, where one facet can be expanded at a time. This component is documented in the [Facet library](../libraries/components/facet#facet-container). This component is used in the new integrated search form (packaged in [Pepper](../apps/3-pepper#integrated-search-form)).
 
 - Refactoring of the `sq-facet-filters` component to properly display the actions and custom templates of the facet components in the dropdown panels.
 
@@ -163,7 +163,7 @@ This new module is documented in the [Components library](../libraries/component
 
 ### Machine Learning module
 
-- New `sq-chat` component and `ChatService` service to display a chatbot interface. This component allows to chat with a Large Language Model such as GPT-4 (the model powering ChatGPT). This component is documented in the [Machine Learning library](../libraries/components/machine-learning.md#chat).
+- New `sq-chat` component and `ChatService` service to display a chatbot interface. This component allows to chat with a Large Language Model such as GPT-4 (the model powering ChatGPT). This component is documented in the [Machine Learning library](../libraries/components/machine-learning#chat).
 
 - Refactored the `sq-top-passages` component: No more pagination, passage truncation or custom facet card header. The text of the answer (predicted by the answer finder model is highlighted within the text of the passage). The component also auto-hides if no passages are found.
 
@@ -205,7 +205,7 @@ This new module is documented in the [Components library](../libraries/component
   
   *: "Approximate duplicates" are determined by a developer-supplied function (see `SearchOptions`) that compares two documents and returns a boolean.
 
-  See the [Result module documentation](../libraries/components/result.md#duplicate-documents) for more information.
+  See the [Result module documentation](../libraries/components/result#duplicate-documents) for more information.
 
 - Refactoring of the `sq-result-icon` component: Rather than relying on a global stylesheet to map file extensions to icons, the component now accepts a custom mapping as input (a default mapping is provided with the same icons as those previously defined in CSS).
 
@@ -319,9 +319,9 @@ The heatmap component properly handles filtering and formatting of the data (ent
 
 - The `sq-facet-filters` was removed from the application (replaced by the integrated search form)
 
-- The previous search form was replaced by a new "Integrated Search Form". This search form is based on the new `sq-search-form` component (see above) and allows to display facets and filters in addition to the autocomplete. The search form is documented in the [Pepper documentation](../apps/3-pepper.md#integrated-search-form).
+- The previous search form was replaced by a new "Integrated Search Form". This search form is based on the new `sq-search-form` component (see above) and allows to display facets and filters in addition to the autocomplete. The search form is documented in the [Pepper documentation](../apps/3-pepper#integrated-search-form).
 
-- The Pepper dashboard is now based on the new `sq-dashboard` component (see above). The dashboard customization process is documented in the [Pepper documentation](../apps/3-pepper.md#dashboard).
+- The Pepper dashboard is now based on the new `sq-dashboard` component (see above). The dashboard customization process is documented in the [Pepper documentation](../apps/3-pepper#dashboard).
 
 - The dashboard toolbar was simplified to only include the most useful actions:
   - Collapse the search results

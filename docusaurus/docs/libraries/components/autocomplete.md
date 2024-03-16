@@ -139,7 +139,7 @@ The `sq-autocomplete-list` component is a fairly simple component that displays 
 </sq-autocomplete-list>
 ```
 
-In the [Vanilla Search](/docs/apps/2-vanilla-search.md) application, the template (in [search-form.component.html](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/search-form.component.html)) looks like this:
+In the [Vanilla Search](../../apps/2-vanilla-search) application, the template (in [search-form.component.html](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/search-form.component.html)) looks like this:
 
 ```html
 <ng-template #itemTpl let-item>

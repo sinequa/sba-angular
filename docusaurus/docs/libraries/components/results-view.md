@@ -42,7 +42,7 @@ A "view" is defined by a `ResultsView` object which contains different settings.
 
 For example, let's imagine we have two views:
 
-- one standard list view (e.g. the one from [Vanilla Search](/apps/2-vanilla-search.md)).
+- one standard list view (e.g. the one from [Vanilla Search](../../apps/2-vanilla-search)).
 - one "grid" view (which is more compact, so it can display more results).
 
 First, we define the `ResultsView` objects and inject them in our `app.module.ts`:

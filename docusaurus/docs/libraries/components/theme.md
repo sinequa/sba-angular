@@ -76,7 +76,7 @@ OR
 
 ## Dark mode
 
-If you test [Vanilla Search](/apps/2-vanilla-search.md), you may notice that a **dark theme** is available, and that you can dynamically switch between light and dark colors.
+If you test [Vanilla Search](../../apps/2-vanilla-search), you may notice that a **dark theme** is available, and that you can dynamically switch between light and dark colors.
 
 The CSS file (`_dark.scss`) is already included in the `minimal` and `sinequa` themes, so you won't need to import it if you use them.
 
@@ -122,7 +122,7 @@ You may just want to use the whole Sinequa theme but update some properties like
 * add a border to the facets and remove the border radius
 * change the links color
 
-You can have your `app.scss` like this in [Vanilla Search](/docs/apps/2-vanilla-search.md):
+You can have your `app.scss` like this in [Vanilla Search](../../apps/2-vanilla-search):
 
 ```scss
 // theme overrides

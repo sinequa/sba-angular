@@ -36,7 +36,7 @@ The service provides facilities for working with various Sinequa configuration e
 
 ## Query
 
-The `Query` object is the main input of the query web service (see [web services](web-services.md#query-web-service) and [server configuration](../../guides/2-server-config.md#web-services)). It specifies the search query and its parameters.
+The `Query` object is the main input of the query web service (see [web services](web-services#query-web-service) and [server configuration](../../guides/2-server-config#web-services)). It specifies the search query and its parameters.
 
 ### Creation
 

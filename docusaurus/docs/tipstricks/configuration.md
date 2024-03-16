@@ -52,7 +52,7 @@ The drawback of this method is that you have to rebuild your application to take
 
 ## Server-side configuration
 
-This approach stores the configuration in JSON format in the Sinequa administration. Your App configuration has a "Customization (JSON)" tab as described in [Server configuration](/guides/2-server-config.md#apps).
+This approach stores the configuration in JSON format in the Sinequa administration. Your App configuration has a "Customization (JSON)" tab as described in [Server configuration](../guides/2-server-config#apps).
 
 Unlike the first method, this configuration is **dynamic**, meaning you won't have to rebuild your application to see the difference. However, it is only available **post-login**, so you cannot store information like the URL of your web-service (See [environment](environment.md) for that).
 

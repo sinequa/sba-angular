@@ -15,7 +15,7 @@ In the case of the Sinequa SBA Framework, the parameters which often need to be 
 - `auditEnabled`: Whether or not to enable audit logging
 - `autoSAMLProvider`, `autoOAuthProvider`: Name of the login providers configured on the server
 - `production`: Whether the app is built for production or not
-- `url`: URL of the Sinequa server (if you are using [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) -- See [Connecting to the Sinequa server](/guides/3-development.md#connecting-to-the-sinequa-server)).
+- `url`: URL of the Sinequa server (if you are using [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) -- See [Connecting to the Sinequa server](../guides/3-development#connecting-to-the-sinequa-server)).
 
 To take an example, let's say you have to develop your SBA with a Sinequa server at `https://sinequa-dev.customer.com` and you will deploy your production application on `https://sinequa.customer.com`. You may have something like the following:
 

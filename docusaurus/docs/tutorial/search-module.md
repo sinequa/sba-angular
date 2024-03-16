@@ -7,9 +7,9 @@ sidebar_position: 3
 
 # Search Module
 
-The [Hello Search](/apps/1-hello-search.md) app is solely based on the low-level library [`@sinequa/core`](/libraries/core/core.md). In the next steps of this tutorial, we will incorporate high-level features from [`@sinequa/components`](/libraries/components/components.md).
+The [Hello Search](../apps/1-hello-search) app is solely based on the low-level library [`@sinequa/core`](../libraries/core). In the next steps of this tutorial, we will incorporate high-level features from [`@sinequa/components`](../libraries/components).
 
-The first module that we want to integrate is the [Search module](/libraries/components/search.md), since it powers many other modules and is very central in the architecture of the SBA framework.
+The first module that we want to integrate is the [Search module](../libraries/components/search), since it powers many other modules and is very central in the architecture of the SBA framework.
 
 ## Importing the Search Module
 
@@ -158,4 +158,4 @@ If everything goes well, you should see something like this in your app:
 
 ![Search components](/assets/tutorial/search-components.png)
 
-Don't worry too much about the Look & Feel of the app, we'll come to that later. In particular the name of the tabs read like strange codes (`msg#results.resultsAllTab`): these are keys needed to internationalize your application, with a dictionary for each language (we will deal with that in the [Internationalization chapter](intl.md))
+Don't worry too much about the Look & Feel of the app, we'll come to that later. In particular the name of the tabs read like strange codes (`msg#results.resultsAllTab`): these are keys needed to internationalize your application, with a dictionary for each language (we will deal with that in the [Internationalization chapter](intl))

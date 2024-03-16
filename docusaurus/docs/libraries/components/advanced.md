@@ -257,7 +257,7 @@ The `AdvancedModule` embeds its own directives to handle custom features of the 
 
 ## Sample use case
 
-A working example could be the integration of an *advanced search form* in the search form used in [Pepper application](../../apps/3-pepper.md#integrated-search-form).
+A working example could be the integration of an *advanced search form* in the search form used in [Pepper application](../../apps/3-pepper#integrated-search-form).
 
 In this section, we will go through the main keys of how to easily instantiate an advanced search form :
 

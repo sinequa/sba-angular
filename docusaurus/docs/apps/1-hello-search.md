@@ -1,4 +1,5 @@
 ---
+id: 1-hello-search
 layout: default
 title: Hello Search
 parent: Applications

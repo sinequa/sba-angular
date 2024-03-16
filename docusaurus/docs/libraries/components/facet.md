@@ -10,9 +10,9 @@ sidebar_position: 3
 
 *Facets* refer to the filters used to narrow down the list of results in a search interface (See [*Faceted Search*](https://en.wikipedia.org/wiki/Faceted_search)). In the SBA framework, the definition can extend more generally to other types of components that augment the search experience.
 
-The standard facets (list, tree...) need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**](/docs/guides/2-server-config.md#query-web-service-default-_query).
+The standard facets (list, tree...) need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**](../../guides/2-server-config#query-web-service-default-_query).
 
-The Facet module is also documented in the [tutorial](/docs/tutorial/facet-module.md).
+The Facet module is also documented in the [tutorial](../../tutorial/facet-module).
 
 ## Features
 
@@ -289,7 +289,7 @@ This component requires at least a `Results` input, the list of the `facets` con
 
 The `sq-facet-container` component displays a list of buttons that users can click to open a facet.
 
-This component is used in the integrated search form of the [Pepper application](../../apps/3-pepper.md#integrated-search-form).
+This component is used in the integrated search form of the [Pepper application](../../apps/3-pepper#integrated-search-form).
 
 <doc-facet-container></doc-facet-container>
 
@@ -387,7 +387,7 @@ The `sq-refine` component displays a secondary search form, including an autocom
 
 <doc-refine></doc-refine>
 
-This component requires at least a `Results` input. If the autocomplete is enabled, all the parameters of the [autocomplete directive](autocomplete.md) should be provided to this component.
+This component requires at least a `Results` input. If the autocomplete is enabled, all the parameters of the [autocomplete directive](autocomplete) should be provided to this component.
 
 The full list of inputs is:
 

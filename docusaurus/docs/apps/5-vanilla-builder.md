@@ -1,4 +1,5 @@
 ---
+id: 5-vanilla-builder
 layout: default
 title: Vanilla Builder
 parent: Applications

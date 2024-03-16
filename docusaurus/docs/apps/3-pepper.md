@@ -1,4 +1,5 @@
 ---
+id: 3-pepper
 layout: default
 title: Pepper
 parent: Applications
