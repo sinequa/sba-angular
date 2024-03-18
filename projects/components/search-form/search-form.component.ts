@@ -122,6 +122,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
     this.query.scope = this.editedQuery.scope;
 
     if(!this.query.text?.trim()) {
+      delete this.query.queryId;
       delete this.query.text;
       delete this.query.sort; // Prevent 500 error if no text but orderby text
     }
@@ -180,6 +181,9 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
       this.editedQuery.filters = this.query.filters;
     }
     delete this.editedQuery.text;
+    // when strict refine is checked (admin panel), remove the queryId on clear
+    delete this.query.queryId;
+
     this.searchInput.nativeElement.focus();
     this.cdRef.detectChanges();
   }
