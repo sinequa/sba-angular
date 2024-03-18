@@ -1,5 +1,5 @@
 ---
-id: 6-llm-integration
+id: llm-integration
 layout: default
 title: LLM Integration
 parent: Applications

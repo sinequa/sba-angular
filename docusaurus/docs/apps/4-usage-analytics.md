@@ -1,5 +1,5 @@
 ---
-id: 4-usage-analytics
+id: usage-analytics
 layout: default
 title: Usage Analytics
 parent: Applications

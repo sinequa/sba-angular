@@ -63,13 +63,13 @@ The component also emits two events:
 * `search`: When a search has been performed. It contains a boolean on whether the text has changed compared to the input query.
 * `expanded`: When the dropdown is being expanded or collapsed. It returns in a boolean value whether it is expanded or not.
 
-Additionally, the component also requires you to provide a template for the dropdown as displayed on the example just below, or in the [Autocomplete tutorial](/tutorial/autocomplete.md).
+Additionally, the component also requires you to provide a template for the dropdown as displayed on the example just below, or in the [Autocomplete tutorial](../../tutorial/autocomplete.md).
 
 ## Examples
 
 <doc-search-form></doc-search-form>
 
-A more complex example could be what Pepper does which includes an `sq-filters-view` to allow adding filters to the query, then an `sq-facet-container` to display the filters when we select a category, and finally the `app-autocomplete` (taken from [Vanilla Search](../../apps/2-vanilla-search)) to display the suggestions.
+A more complex example could be what Pepper does which includes an `sq-filters-view` to allow adding filters to the query, then an `sq-facet-container` to display the filters when we select a category, and finally the `app-autocomplete` (taken from [Vanilla Search](../../apps/vanilla-search)) to display the suggestions.
 
 ```html
 <sq-search-form #searchForm

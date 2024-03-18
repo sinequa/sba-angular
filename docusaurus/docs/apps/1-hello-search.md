@@ -1,5 +1,5 @@
 ---
-id: 1-hello-search
+id: hello-search
 layout: default
 title: Hello Search
 parent: Applications

@@ -10,7 +10,7 @@ sidebar_position: 7
 
 The preview module is also documented in the [tutorial](../../tutorial/preview).
 
-[Vanilla Search](../../apps/2-vanilla-search#preview-route) also has a documented [preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
+[Vanilla Search](../../apps/vanilla-search#preview-route) also has a documented [preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
 
 ## Features
 
@@ -46,7 +46,7 @@ const messages = Utils.merge({}, ..., enPreview, appMessages);
 
 ## Preview CSS and JS files
 
-In order for some features to work such as passages highlightings, entities coloring, the tooltip and the minimap, you need to load a `preview.js` file in your project. It is already set in [Vanilla Search](../../apps/2-vanilla-search) which contains a `preview` folder in its `src` folder, then in `angular.json` at the project's root:
+In order for some features to work such as passages highlightings, entities coloring, the tooltip and the minimap, you need to load a `preview.js` file in your project. It is already set in [Vanilla Search](../../apps/vanilla-search) which contains a `preview` folder in its `src` folder, then in `angular.json` at the project's root:
 
 ```json
 "vanilla-search": {
@@ -60,7 +60,7 @@ In order for some features to work such as passages highlightings, entities colo
             ],
 ```
 
-And then to avoid duplicates and still use it in the other projects like [Hello Search](../../apps/1-hello-search):
+And then to avoid duplicates and still use it in the other projects like [Hello Search](../../apps/hello-search):
 
 ```json
 "hello-search": {
@@ -74,7 +74,7 @@ And then to avoid duplicates and still use it in the other projects like [Hello 
             ],
 ```
 
-To customize further the CSS, you also need to add `preview.scss` in the `angular.json` file, which is also present in [Vanilla Search](../../apps/2-vanilla-search):
+To customize further the CSS, you also need to add `preview.scss` in the `angular.json` file, which is also present in [Vanilla Search](../../apps/vanilla-search):
 
 ```json
 "vanilla-search": {
@@ -94,7 +94,7 @@ To customize further the CSS, you also need to add `preview.scss` in the `angula
 
 Because the preview is loaded in an iframe, those JS and CSS files have to be loaded separately from the rest of the application.
 
-If despite importing the JS file you cannot see any highlights, you may want to make sure the [Preview web service](../../guides/2-server-config#preview-web-service-default-_preview) is properly setup on the server.
+If despite importing the JS file you cannot see any highlights, you may want to make sure the [Preview web service](../../guides/server-config#preview-web-service-default-_preview) is properly setup on the server.
 
 ## Preview Service
 
@@ -106,7 +106,7 @@ The `PreviewService` provides the following API:
 
 - `openRoute(record: Record, query: Query, path = "preview")`
 
-    This method navigates to a URL of the form `#preview?id=...&query=...`, which means your app must have a `/preview` route which takes care of extracting these parameters for the URL, querying `getPreviewData()` and displaying the preview. This is the case in [Vanilla Search](../../apps/2-vanilla-search#preview-route).
+    This method navigates to a URL of the form `#preview?id=...&query=...`, which means your app must have a `/preview` route which takes care of extracting these parameters for the URL, querying `getPreviewData()` and displaying the preview. This is the case in [Vanilla Search](../../apps/vanilla-search#preview-route).
 
 - `openNewWindow(record: Record, query: Query)`
 
@@ -227,7 +227,7 @@ The component requires the inputs `previewData` and `preview`. You may want to a
 </sq-preview-extracts-panel>
 ```
 
-This component is used in [Vanilla Search](../../apps/2-vanilla-search)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
+This component is used in [Vanilla Search](../../apps/vanilla-search)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
 
 ### Entity Panel
 
@@ -245,7 +245,7 @@ The component requires the inputs `previewData` and `preview`. You may want to a
 </sq-preview-entity-panel>
 ```
 
-This component is used in [Vanilla Search](../../apps/2-vanilla-search)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
+This component is used in [Vanilla Search](../../apps/vanilla-search)'s [Preview component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview).
 
 ### Search Form
 

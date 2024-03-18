@@ -10,7 +10,7 @@ sidebar_position: 3
 
 *Facets* refer to the filters used to narrow down the list of results in a search interface (See [*Faceted Search*](https://en.wikipedia.org/wiki/Faceted_search)). In the SBA framework, the definition can extend more generally to other types of components that augment the search experience.
 
-The standard facets (list, tree...) need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**](../../guides/2-server-config#query-web-service-default-_query).
+The standard facets (list, tree...) need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**](../../guides/server-config#query-web-service-default-_query).
 
 The Facet module is also documented in the [tutorial](../../tutorial/facet-module).
 
@@ -289,7 +289,7 @@ This component requires at least a `Results` input, the list of the `facets` con
 
 The `sq-facet-container` component displays a list of buttons that users can click to open a facet.
 
-This component is used in the integrated search form of the [Pepper application](../../apps/3-pepper#integrated-search-form).
+This component is used in the integrated search form of the [Pepper application](../../apps/pepper#integrated-search-form).
 
 <doc-facet-container></doc-facet-container>
 

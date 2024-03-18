@@ -8,4 +8,4 @@ description: "SBA framework tutorial"
 
 # SBA Framework tutorial
 
-This section contains a tutorial to build your first SBA, starting from the [**Hello Search**](/apps/1-hello-search) application.
+This section contains a tutorial to build your first SBA, starting from the [**Hello Search**](apps/hello-search) application.

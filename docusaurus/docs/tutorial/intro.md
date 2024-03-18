@@ -17,9 +17,9 @@ At the end of the tutorial, your application will look something like this:
 
 ## Starting point
 
-The tutorial starts at the end of the ["Building the libraries"](../guides/3-development#building-the-libraries) step of the [Development](../guides/3-development) section. You must have installed the required tools (NodeJs, VS Core, Git), downloaded or cloned the Angular workspace, installed the dependencies and built the `@sinequa/core` and `@sinequa/components` libraries.
+The tutorial starts at the end of the ["Building the libraries"](../guides/development#building-the-libraries) step of the [Development](../guides/development) section. You must have installed the required tools (NodeJs, VS Core, Git), downloaded or cloned the Angular workspace, installed the dependencies and built the `@sinequa/core` and `@sinequa/components` libraries.
 
-Unless otherwise specified, the tutorial is based on the [**Hello Search**](../apps/1-hello-search) app included in the workspace inside `projects/hello-search/`.
+Unless otherwise specified, the tutorial is based on the [**Hello Search**](../apps/hello-search) app included in the workspace inside `projects/hello-search/`.
 
 ## Methodology
 

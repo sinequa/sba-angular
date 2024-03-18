@@ -97,11 +97,11 @@ The following methods of the service are of interest:
 Additionally, the service includes the following properties:
 
 - `events`: a `Subject` emitting events of three types: `SELECT`, `UNSELECT` and `MOVE`, when the selection changes. These events (`SelectionEvent`) include the list of records concerned by the event, as well as the (optional) source of the event.
-- `selectionActions`: a list of `Action` (See [Action module](action.md)) that can be registered by other services. These actions are automatically updated when the selection changes. The actions are displayed by the `sq-results-selector` component
+- `selectionActions`: a list of `Action` (See [Action module](action)) that can be registered by other services. These actions are automatically updated when the selection changes. The actions are displayed by the `sq-results-selector` component
 
     For example, the Baskets service can register an action to add the selected documents to a basket. If the action includes an update method, it can, for example, hide itself if there is no selected document.
 
-    These actions can be registered within a service or a component, typically at the start of the application. For example, in [Vanilla Search](../../apps/2-vanilla-search), the actions are registered in the `AppComponent`'s constructor:
+    These actions can be registered within a service or a component, typically at the start of the application. For example, in [Vanilla Search](../../apps/vanilla-search), the actions are registered in the `AppComponent`'s constructor:
 
     ```ts
     this.selectionService.selectionActions.push(this.savedQueriesService.selectedRecordsAction);

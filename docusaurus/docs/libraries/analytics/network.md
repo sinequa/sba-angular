@@ -334,7 +334,7 @@ Note that in all cases, **aggregations are computed in the context of the curren
 
 #### **Statistical relations**
 
-First we need to configure the cross-aggregation calculation on the server in the **Query web service** (see [Server configuration](../../guides/2-server-config#apps)).
+First we need to configure the cross-aggregation calculation on the server in the **Query web service** (see [Server configuration](../../guides/server-config#apps)).
 
 ![Cross distribution configuration](/assets/modules/network/cross-dist.png)
 *Configuration for a cross-aggregation between the **company** and **person** columns*
@@ -358,7 +358,7 @@ Note that the size of each node is proportional to the width of adjacent edges, 
 
 #### **Proximity relations**
 
-First we need to configure the aggregation calculation on the server in the **Query web service** (see [Server configuration](../../guides/2-server-config#apps)).
+First we need to configure the aggregation calculation on the server in the **Query web service** (see [Server configuration](../../guides/server-config#apps)).
 
 The aggregation must be computed for a column where co-occurrences are stored in the format `(VALUE 1)#(VALUE 2)`.
 
@@ -380,7 +380,7 @@ const provider = providerFactory.createAggregationProvider([edge]);
 
 #### **Semantic relations**
 
-First we need to configure the aggregation calculation on the server in the **Query web service** (see [Server configuration](../../guides/2-server-config#apps)).
+First we need to configure the aggregation calculation on the server in the **Query web service** (see [Server configuration](../../guides/server-config#apps)).
 
 The aggregation must be computed for a column where co-occurrences are stored in the format `(VALUE 1)#(TYPE)#(VALUE 2)`.
 

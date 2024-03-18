@@ -1,5 +1,5 @@
 ---
-id: 7-contribute
+id: contribute
 layout: default
 title: Contribute
 sidebar_position: 7

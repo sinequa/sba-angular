@@ -7,7 +7,7 @@ sidebar_position: 3
 
 # Search Module
 
-The [Hello Search](../apps/1-hello-search) app is solely based on the low-level library [`@sinequa/core`](../libraries/core). In the next steps of this tutorial, we will incorporate high-level features from [`@sinequa/components`](../libraries/components).
+The [Hello Search](../apps/hello-search) app is solely based on the low-level library [`@sinequa/core`](../libraries/core). In the next steps of this tutorial, we will incorporate high-level features from [`@sinequa/components`](../libraries/components).
 
 The first module that we want to integrate is the [Search module](../libraries/components/search), since it powers many other modules and is very central in the architecture of the SBA framework.
 

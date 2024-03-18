@@ -1,5 +1,5 @@
 ---
-id: 3-pepper
+id: pepper
 layout: default
 title: Pepper
 parent: Applications
@@ -19,22 +19,22 @@ Pepper has a single "search" route (which can easily replace the "search" route 
 
 ## Integrated search form
 
-The search form of Pepper is more advanced than the one of [Vanilla Search](2-vanilla-search.md). Because of the reduced "UI real estate" of the dashboard, the search form integrates the filters and facets in addition to the traditional autocomplete.
+The search form of Pepper is more advanced than the one of [Vanilla Search](vanilla-search). Because of the reduced "UI real estate" of the dashboard, the search form integrates the filters and facets in addition to the traditional autocomplete.
 
 ![Pepper search form](/assets/apps/pepper-search-bar.png)
 
 This search form is composed of the following components:
 
-- The `sq-search-form` component (from [`@sinequa/components/search-form`](/docs/libraries/components/search-form.md)), which displays the search input and the search button, and manages the expanded/collapsed state of the panel below.
-- The `sq-filters-view` component (from [`@sinequa/components/filters`](/docs/libraries/components/filters.md)), which displays the filters (if any) in normal mode or advanced mode (letting users customize their query more deeply).
-- The `sq-facet-container` component (from [`@sinequa/components/facet`](/docs/libraries/components/facet.md#facet-container)), which displays the list of available facets (aka "filters") and lets users click and open them.
-- The `app-autocomplete` component (from the [Vanilla Search](2-vanilla-search.md) application).
+- The `sq-search-form` component (from [`@sinequa/components/search-form`](../libraries/components/search-form)), which displays the search input and the search button, and manages the expanded/collapsed state of the panel below.
+- The `sq-filters-view` component (from [`@sinequa/components/filters`](../libraries/components/filters)), which displays the filters (if any) in normal mode or advanced mode (letting users customize their query more deeply).
+- The `sq-facet-container` component (from [`@sinequa/components/facet`](../libraries/components/facet#facet-container)), which displays the list of available facets (aka "filters") and lets users click and open them.
+- The `app-autocomplete` component (from the [Vanilla Search](vanilla-search) application).
 
 This search form can be customized by editing the `app-search-form` component of Pepper.
 
 ## Dashboard
 
-The dashboard of Pepper is based on the [`@sinequa/analytics/dashboard`](/docs/libraries/analytics/dashboard.md) module, which itself is based on the [**angular-gridster2**](https://tiberiuzuld.github.io/angular-gridster2/) library.
+The dashboard of Pepper is based on the [`@sinequa/analytics/dashboard`](../libraries/analytics/dashboard) module, which itself is based on the [**angular-gridster2**](https://tiberiuzuld.github.io/angular-gridster2/) library.
 
 Dashboards can be customized by the user by dragging and resizing widgets and by adding new ones from a list of predefined widget types. A developer can easily add new widget types or configure the existing ones.
 
@@ -42,13 +42,13 @@ Dashboards can be customized by the user by dragging and resizing widgets and by
 
 Pepper includes the following widgets by default:
 
-- **Network** (from [`@sinequa/analytics/network`](/docs/libraries/analytics/network.md))
-- **Google Maps** (from [`@sinequa/analytics/googlemaps`](/docs/libraries/analytics/googlemaps.md))
-- **Timeline** (from [`@sinequa/analytics/timeline`](/docs/libraries/analytics/timeline.md))
-- **Chart** (from [`@sinequa/analytics/fusioncharts`](/docs/libraries/analytics/fusioncharts.md))
-- **Heatmap** (from [`@sinequa/analytics/heatmap`](/docs/libraries/analytics/heatmap.md))
-- **Tag cloud** (from [`@sinequa/components/facet`](/docs/libraries/components/facet.md#tag-cloud-facet))
-- **Money cloud** and **Money timeline** (from [`@sinequa/analytics/finance`](/docs/libraries/analytics/finance.md))
+- **Network** (from [`@sinequa/analytics/network`](../libraries/analytics/network))
+- **Google Maps** (from [`@sinequa/analytics/googlemaps`](../libraries/analytics/googlemaps))
+- **Timeline** (from [`@sinequa/analytics/timeline`](../libraries/analytics/timeline))
+- **Chart** (from [`@sinequa/analytics/fusioncharts`](../libraries/analytics/fusioncharts))
+- **Heatmap** (from [`@sinequa/analytics/heatmap`](../libraries/analytics/heatmap))
+- **Tag cloud** (from [`@sinequa/components/facet`](../libraries/components/facet#tag-cloud-facet))
+- **Money cloud** and **Money timeline** (from [`@sinequa/analytics/finance`](../libraries/analytics/finance))
 
 The dashboard also allows you to open multiple **document previews** by clicking on documents from the result list. When the dashboard is reopened, these previews are fetched again from the Sinequa indexes.
 
@@ -89,18 +89,18 @@ The definition of the list of widgets and their configuration is done in the `ap
 
 This snippet contains the following elements:
 
-- The `sq-dashboard` component (from [`@sinequa/analytics/dashboard`](/docs/libraries/analytics/dashboard.md)). This component handles the dashboard layout and configuration management.
+- The `sq-dashboard` component (from [`@sinequa/analytics/dashboard`](../libraries/analytics/dashboard)). This component handles the dashboard layout and configuration management.
 - The `ng-template` encapsulates one widget. The `sq-dashboard` component will create one instance of this template for each widget in the dashboard.
-- All widgets are displayed within an `sq-facet-card` component (from [`@sinequa/components/facet`](/docs/libraries/components/facet.md)). This component is used to display the widget title, icon and actions.
+- All widgets are displayed within an `sq-facet-card` component (from [`@sinequa/components/facet`](../libraries/components/facet)). This component is used to display the widget title, icon and actions.
 - Within this card, an `ngSwitch` directive is used to display the appropriate widget component, depending on the type of the widget.
 
-Internally, the `app-dashboard` component uses the `DashboardService` (from [`@sinequa/analytics/dashboard`](/docs/libraries/analytics/dashboard.md)). This service handles the following tasks:
+Internally, the `app-dashboard` component uses the `DashboardService` (from [`@sinequa/analytics/dashboard`](../libraries/analytics/dashboard)). This service handles the following tasks:
 
 - Exporting and importing the dashboard state in JSON format.
 - Displaying the "Add Widget" popup shown above.
 - Creating new widgets based on a `WidgetOption` object.
 
-The `app-dashboard` component persists the state of the dashboard in the [User Preferences](/docs/tipstricks/user-preferences.md).
+The `app-dashboard` component persists the state of the dashboard in the [User Preferences](../tipstricks/user-preferences).
 
 ## Developing new widgets
 
@@ -176,7 +176,7 @@ However, it is clear when using Pepper that *some form of synchronization happen
 
 The way it works is that the widgets **respond only to an update of the global results**. Widgets cannot talk to each other, but some user interactions (like selecting an area on the map) can trigger a refresh of the global results (which itself triggers a refresh of the widgets).
 
-Similarly, widgets can listen to other types of global events. For example, the `SelectionService` keeps track of documents selected via their `sq-result-selector` checkbox (See [Selection](/docs/libraries/components/selection.md)). If a widget displays a document in one form or another (like a pin on the map), it can update the pin display when the document becomes selected, and conversely select the document when the user clicks on the pin.
+Similarly, widgets can listen to other types of global events. For example, the `SelectionService` keeps track of documents selected via their `sq-result-selector` checkbox (See [Selection](../libraries/components/selection)). If a widget displays a document in one form or another (like a pin on the map), it can update the pin display when the document becomes selected, and conversely select the document when the user clicks on the pin.
 
 ### Widget persistence
 

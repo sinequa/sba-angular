@@ -1,5 +1,5 @@
 ---
-id: 1-architecture
+id: architecture
 layout: default
 title: Architecture
 parent: Guides
@@ -25,7 +25,7 @@ SBAs are [Single-Page Applications](https://en.wikipedia.org/wiki/Single-page_ap
 
 This architecture allows for a clear separation of concerns between the generic web services and the specific business logic of the application. Notice that the application does not strictly need to be deployed on the Sinequa server. It could be deployed on a different server (or even on a CDN) as long as the application can communicate with the Sinequa REST API.
 
-The configuration of the SBA-related components on the server (i.e., app, workspace and web services) is documented in the following guide ([Server Configuration](2-server-config)).
+The configuration of the SBA-related components on the server (i.e., app, workspace and web services) is documented in the following guide ([Server Configuration](server-config)).
 
 ## SBA architecture
 
@@ -35,7 +35,7 @@ The SBA Framework provides a set of components and services that encapsulate Sin
 
 An application can be seen as the stacking of the following layers that are bound together by the Angular framework:
 
-1. Root components and custom application logic. This layer is specific to the application and can be largely customized by developers. For example, the [Vanilla Search](../apps/2-vanilla-search) sample application has 1 top-level component and 3 sub-components (one for each route): the home page, the search page and the document preview page.
+1. Root components and custom application logic. This layer is specific to the application and can be largely customized by developers. For example, the [Vanilla Search](../apps/vanilla-search) sample application has 1 top-level component and 3 sub-components (one for each route): the home page, the search page and the document preview page.
 2. High-level components and services from the SBA Framework ([Components](../libraries/components) and [Analytics](../libraries/analytics) libraries). These components and services provide specific Sinequa functionalities. They are designed to be used as-is, but they can also be customized by developers.
 3. Low-level interfaces, components and services from the SBA Framework ([Core](../libraries/core) library). This layer provides the minimum utilities required to communicate with the Sinequa REST API. It is generally not customized by developers.
 
@@ -70,7 +70,7 @@ In an SBA, the state can exist in various places:
 
 - The `SearchService` stores both the search query and search results. Many components can modify `SearchService.query` to change the search criteria, and many components display properties or sub-properties of `SearchService.results` (in particular, `records`: the list of documents and `aggregations`: the list of metadata displayed in facets).
 - The [User Settings](../libraries/components/user-settings) are a storage system for user preferences and data. User settings are persisted on the Sinequa server and accessible only post-login.
-- Other state can exist locally within a component class. This state is lost when the component is destroyed (e.g., when the user navigates to another page). For example, in [Vanilla Search](../apps/2-vanilla-search), the `SearchComponent` stores the document that is currently displayed in the preview panel.
+- Other state can exist locally within a component class. This state is lost when the component is destroyed (e.g., when the user navigates to another page). For example, in [Vanilla Search](../apps/vanilla-search), the `SearchComponent` stores the document that is currently displayed in the preview panel.
 
 ### What happens when the state changes?
 

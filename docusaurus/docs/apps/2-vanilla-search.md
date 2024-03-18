@@ -1,6 +1,6 @@
 ---
 layout: default
-id: 2-vanilla-search
+id: vanilla-search
 title: Vanilla Search
 parent: Applications
 nav_order: 2
@@ -10,9 +10,9 @@ nav_order: 2
 
 *Vanilla Search* is a standard Enterprise Search app designed to be simple, efficient and easy to customize into a much more complex application.
 
-If you complete the [Tutorial](/docs/tutorial/tutorial.md), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search](/docs/apps/1-hello-search.md) and the tutorial, to a full-fledged Enterprise Search app.
+If you complete the [Tutorial](../tutorial/tutorial.md), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search](hello-search) and the tutorial, to a full-fledged Enterprise Search app.
 
-The application has **three routes** made of **five components** (of course, these components include many subcomponents from the [`@sinequa/components`](/docs/libraries/components/components.md) library):
+The application has **three routes** made of **five components** (of course, these components include many subcomponents from the [`@sinequa/components`](../libraries/components) library):
 
 - The **App** component, which is essentially a wrapper for the [`<router-outlet>`](https://angular.io/api/router/RouterOutlet).
 - A **Home** route, greeting users with a search bar and some quick-access facets.
@@ -81,7 +81,7 @@ The [template](https://github.com/sinequa/sba-angular/blob/master/projects/vanil
   - Alerts: `sq-alerts-menu`
   - Labels: `sq-labels-menu`
   - General User Menu: `sq-user-menu`
-- The navbar also includes responsive buttons to toggle the visibility of the menu and the facets. The implementation is similar to the one in the [tutorial](/docs/tutorial/responsive-design.md).
+- The navbar also includes responsive buttons to toggle the visibility of the menu and the facets. The implementation is similar to the one in the [tutorial](../tutorial/responsive-design).
 
 The main view under the navbar includes:
 
@@ -146,7 +146,7 @@ The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/van
 
 ## Search form
 
-The [Search Form component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search-form) uses `sq-search-form` as the one developed in the [tutorial](/docs/tutorial/completed-app.md#search-form-component), but with a more advanced [Autocomplete component](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete.component.ts) allowing to search into User Settings objects, such as the recent queries, documents, baskets, etc.
+The [Search Form component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search-form) uses `sq-search-form` as the one developed in the [tutorial](../tutorial/completed-app.md#search-form-component), but with a more advanced [Autocomplete component](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete.component.ts) allowing to search into User Settings objects, such as the recent queries, documents, baskets, etc.
 
 ![Search form](/assets/modules/search-form.png)
 
@@ -186,7 +186,7 @@ The [autocomplete component](https://github.com/sinequa/sba-angular/blob/master/
 
 ## Configuration
 
-Vanilla Search can be configured via two methods (as described in [Configuration](/docs/tipstricks/configuration.md)):
+Vanilla Search can be configured via two methods (as described in [Configuration](../tipstricks/configuration)):
 
 - A central Typescript source file: [`src/config.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/config.ts), which is built with your application.
 - A JSON object downloaded from the Sinequa server on start-up (configured in your App's "Customization (JSON)" tab) and available via the `AppService` (post-login).
@@ -220,9 +220,9 @@ The components of Vanilla Search described above use three configuration objects
     Of course, these facets require a corresponding [**Aggregation**](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-ws-queries.html) to exist on the Sinequa server, and consequently within the `Results` object.
 
 - `METADATA_CONFIG`: a list of `MetadataConfig` to be displayed in the "mini-preview", within a `sq-metadata` component (More information in the [Custom Metadata](/docs/tipstricks/metadata.md) section).
-- `PREVIEW_HIGHLIGHTS`: a list of `PreviewHighlightColors` used in the preview related components to define the highlights colors for the different entities (More information in the [Custom Entities](/docs/tipstricks/entities.md) section).
+- `PREVIEW_HIGHLIGHTS`: a list of `PreviewHighlightColors` used in the preview related components to define the highlights colors for the different entities (More information in the [Custom Entities](../tipstricks/entities) section).
 
-The four objects above can be customized statically in the `src/config.ts` file. It is also possible to override their value dynamically, via the "Customization (JSON)" tab of your App (See [Configuration](/docs/tipstricks/configuration.md)). For example, you could configure the following object to override the features:
+The four objects above can be customized statically in the `src/config.ts` file. It is also possible to override their value dynamically, via the "Customization (JSON)" tab of your App (See [Configuration](../tipstricks/configuration)). For example, you could configure the following object to override the features:
 
 ```json
 {
@@ -256,7 +256,7 @@ public get features(): string[] {
 
 The styles of Vanilla Search come from various sources:
 
-1. **Third-Party stylesheets**, in particular [**Bootstrap**](https://getbootstrap.com/). Third-Party stylesheets are imported in the `minimal` and `sinequa` theme from [`Sinequa Theme`](/docs/libraries/components/theme.md) that you can import in your global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)):
+1. **Third-Party stylesheets**, in particular [**Bootstrap**](https://getbootstrap.com/). Third-Party stylesheets are imported in the `minimal` and `sinequa` theme from [`Sinequa Theme`](../libraries/components/theme) that you can import in your global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)):
 
     ```scss
     // Sinequa global theme (contains Bootstrap imports)
@@ -264,7 +264,7 @@ The styles of Vanilla Search come from various sources:
     @import "../../../components/theme/sinequa";
     ```
 
-    Note that Bootstrap is used throughout the app (and the [`@sinequa/components`](/docs/libraries/components/components.md) library) via [well documented](https://getbootstrap.com/docs/4.4/getting-started/introduction/) class names. See [Responsive Design](/docs/tipstricks/responsive-design.md#bootstrap).
+    Note that Bootstrap is used throughout the app (and the [`@sinequa/components`](../libraries/components) library) via [well documented](https://getbootstrap.com/docs/4.4/getting-started/introduction/) class names. See [Responsive Design](../tipstricks/responsive-design#bootstrap).
 
 2. **Sinequa Modules stylesheets**, which are global-level styles that could not be encapsulated in the Angular components (for good reasons). They are imported in the app's global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/styles/app.scss)):
 

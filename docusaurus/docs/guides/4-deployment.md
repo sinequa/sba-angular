@@ -1,5 +1,5 @@
 ---
-id: 4-deployment
+id: deployment
 layout: default
 title: Deployment
 parent: Guides

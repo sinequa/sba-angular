@@ -147,7 +147,7 @@ This release introduces end-to-end (e2e) tests for the SBA components. These tes
 
 - Refactoring of the `sq-facet-multi` component. The component now displays a custom header template. The `icon` and `title` of the facet should be passed as input to this component rather than to the parent `sq-facet-card`.
 
-- New `sq-facet-container` component to display a list of facets as a toolbar, where one facet can be expanded at a time. This component is documented in the [Facet library](../libraries/components/facet#facet-container). This component is used in the new integrated search form (packaged in [Pepper](../apps/3-pepper#integrated-search-form)).
+- New `sq-facet-container` component to display a list of facets as a toolbar, where one facet can be expanded at a time. This component is documented in the [Facet library](../libraries/components/facet#facet-container). This component is used in the new integrated search form (packaged in [Pepper](../apps/pepper#integrated-search-form)).
 
 - Refactoring of the `sq-facet-filters` component to properly display the actions and custom templates of the facet components in the dropdown panels.
 
@@ -218,11 +218,11 @@ This new module is documented in the [Components library](../libraries/component
 
 New module exporting a customizable `sq-search-form` component.
 
-This component is used in a simple way in [Vanilla Search](../apps/2-vanilla-search.md) (where it only shows an autocomplete component in the expanded state).
+This component is used in a simple way in [Vanilla Search](../apps/vanilla-search) (where it only shows an autocomplete component in the expanded state).
 
 It is also used in Pepper to display an integrated search form (featuring filters, facets and autocomplete).
 
-This module is documented in the [Components library](../libraries/components/search-form.md).
+This module is documented in the [Components library](../libraries/components/search-form).
 
 
 ### Search module
@@ -319,9 +319,9 @@ The heatmap component properly handles filtering and formatting of the data (ent
 
 - The `sq-facet-filters` was removed from the application (replaced by the integrated search form)
 
-- The previous search form was replaced by a new "Integrated Search Form". This search form is based on the new `sq-search-form` component (see above) and allows to display facets and filters in addition to the autocomplete. The search form is documented in the [Pepper documentation](../apps/3-pepper#integrated-search-form).
+- The previous search form was replaced by a new "Integrated Search Form". This search form is based on the new `sq-search-form` component (see above) and allows to display facets and filters in addition to the autocomplete. The search form is documented in the [Pepper documentation](../apps/pepper#integrated-search-form).
 
-- The Pepper dashboard is now based on the new `sq-dashboard` component (see above). The dashboard customization process is documented in the [Pepper documentation](../apps/3-pepper#dashboard).
+- The Pepper dashboard is now based on the new `sq-dashboard` component (see above). The dashboard customization process is documented in the [Pepper documentation](../apps/pepper#dashboard).
 
 - The dashboard toolbar was simplified to only include the most useful actions:
   - Collapse the search results
@@ -334,7 +334,7 @@ The heatmap component properly handles filtering and formatting of the data (ent
 
 ## LLM Integration
 
-The new `sq-chat` component (see above) allows to interact with a Large Language Model (LLM). This component was integrated in a custom version of Vanilla Search currently available on a separate branch of the repository (`chatgpt-integration`). On top of the chat itself, an "assistant" component acts as an interface between the Search interface and the chat (to perform Retrieval Augmented Generation). This application is documented in the [LLM integration documentation](../apps/6-llm-integration.md).
+The new `sq-chat` component (see above) allows to interact with a Large Language Model (LLM). This component was integrated in a custom version of Vanilla Search currently available on a separate branch of the repository (`chatgpt-integration`). On top of the chat itself, an "assistant" component acts as an interface between the Search interface and the chat (to perform Retrieval Augmented Generation). This application is documented in the [LLM integration documentation](../apps/llm-integration).
 
 ## Component-docs
 
