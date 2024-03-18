@@ -109,7 +109,7 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
             ))
             : undefined
         this.control?.markAsDirty();
-        this.control?.setValue(value, {emitEvent: false});
+        this.control?.setValue(value, {emitEvent: true});
     }
 
     private _getDropdownItem(): HTMLElement | null {
