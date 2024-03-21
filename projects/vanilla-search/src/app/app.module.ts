@@ -52,9 +52,9 @@ import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
-    app: "training",
+    app: "iris",
     production: environment.production,
-    autoSAMLProvider: environment.autoSAMLProvider,
+    // autoSAMLProvider: environment.autoSAMLProvider,
     auditEnabled: true
 };
 

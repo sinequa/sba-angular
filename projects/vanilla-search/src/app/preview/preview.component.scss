@@ -5,18 +5,18 @@
 @import "../../../../components/theme/breakpoints";
 
 #logo {
-  content: url("^assets/sinequa-logo-light-lg.png");
+  content: url("^assets/incyte-logo-lg.png");
 }
 #logo-sm {
-  content: url("^assets/sinequa-logo-light-sm.png");
+  content: url("^assets/incyte-logo-sm.png");
 }
 
 :host-context(body.dark) {
   #logo {
-    content: url("^assets/sinequa-logo-dark-lg.png");
+    content: url("^assets/incyte-logo-lg.png");
   }
   #logo-sm {
-    content: url("^assets/sinequa-logo-dark-sm.png");
+    content: url("^assets/incyte-logo-sm.png");
   }
 }
 
