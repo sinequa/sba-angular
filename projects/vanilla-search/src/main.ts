@@ -44,7 +44,7 @@ import { HELP_DEFAULT_FOLDER_OPTIONS } from "./config";
 export const startConfig: StartConfig = {
     app: "training",
     production: environment.production,
-    autoSAMLProvider: "identity-dev",
+    autoSAMLProvider: environment.autoSAMLProvider,
     auditEnabled: true
 };
 
