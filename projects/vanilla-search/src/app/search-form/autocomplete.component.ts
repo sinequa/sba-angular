@@ -1,4 +1,4 @@
-import { NgClass } from "@angular/common";
+import { CommonModule, NgClass } from "@angular/common";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
 import { AutocompleteItem, SuggestService } from "@sinequa/components/autocomplete";
 import { BasketsService } from "@sinequa/components/baskets";
@@ -15,7 +15,7 @@ import { debounceTime, map, switchMap } from "rxjs/operators";
 @Component({
   selector: "app-autocomplete",
   standalone: true,
-  imports: [NgClass, IntlModule],
+  imports: [CommonModule, NgClass, IntlModule],
   templateUrl: './autocomplete.component.html',
   styles: [`
   .list-group-item {
