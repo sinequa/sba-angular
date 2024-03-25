@@ -29,8 +29,9 @@ export class BsActionButtons {
     }
 
     get itemsVisible(): Action[] {
-        // hidden items are not displayed
-        return Utils.asArray(this._options.items).filter(item => !item.hidden);
+        // hidden items are not displayed²
+        return Utils.asArray(this._options.items)
+            .filter(item => item?.hidden === false || false);
     }
 
     getActionItemOptions(item: Action): ActionItemOptions {
