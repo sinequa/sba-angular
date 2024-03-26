@@ -63,6 +63,15 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
             const aggregation = firstPage.aggregations.find(condition);
 
             if (aggregation?.items) {
+                if(aggregation.isTree) {
+                    return aggregation.items
+                        .filter(item => item.value)
+                        .map(item => ({
+                            value: `/${item.value}/*`,
+                            display: item.display ? item.display : String(item.value)
+                        }));
+                }
+
                 return aggregation.items
                     .filter(item => item.value)
                     .map(item => ({
