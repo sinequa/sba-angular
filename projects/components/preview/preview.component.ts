@@ -392,9 +392,12 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   }
 
   get highlightsPref(): string[] {
-    return this.prefs.get(`${this.preferenceName}-highlights`)  // Get preferences from user settings
-      ?? this.defaultHighlights                                 // Or from input settings
-      ?? this.allHighlights;               // Or from the highlight colors
+    // Get preferences from user settings
+    const values = this.prefs.get(`${this.preferenceName}-highlights`);
+    // check if the "values" is an array
+    return (values !== undefined && Array.isArray(values))
+    ? values
+    : this.defaultHighlights ?? this.allHighlights; // Or from the highlight colors
   }
 
   set highlightsPref(pref: string[]) {
