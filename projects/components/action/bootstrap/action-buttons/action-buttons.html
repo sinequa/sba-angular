@@ -1,6 +1,6 @@
 <ng-container *ngFor="let item of itemsVisible">
     <!-- action with href -->
-    <a *ngIf="item.href"
+    <a *ngIf="item && item.href"
         class="btn {{styleClass}} {{sizeClass}}"
         [attr.href]="!item.disabled ? item.href : null"
         (click)="itemClick(item, $event)"
@@ -9,7 +9,7 @@
         [fallbackPlacements]= "item.fallbackPlacements"
         [sq-action-item]="getActionItemOptions(item)">
     </a>
-    <ng-container *ngIf="!item.href">
+    <ng-container *ngIf="item && !item.href">
         <!-- action without href -->
         <div *ngIf="item.hasChildren" class="btn-group" [sq-action-item]="getActionItemOptions(item)"></div>
         <button *ngIf="!item.hasChildren"
