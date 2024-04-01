@@ -53,18 +53,75 @@
         <!-- sqSticky to update if you change the header sizing -->
         <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 sq-facet-bar" *ngIf="showFilters" [sqSticky]="{top: 105, bottom: 10}">
             <!-- Source facet -->
-            <sq-facet-card [title]="'msg#facet.treepath.title'" icon="fas fa-sitemap" [collapsible]="false"
+            <sq-facet-card 
+                [title]="'msg#facet.treepath.title'" 
+                icon="fas fa-sitemap" 
+                [collapsible]="false"
                 class="mb-3">
-                <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
+                <sq-facet-list #facet 
+                    [results]="results" 
+                    [aggregation]="'Treepath'" 
+                    [expandedLevel] = 1>
+                </sq-facet-list>
             </sq-facet-card>
 
-            <!-- Other metadata -->
-            <sq-facet-card [collapsible]="false" class="mb-3">
+            <!-- Other filters -->
+            <sq-facet-card  
+                [collapsible]="true"
+                class="mb-3" >
                 <sq-facet-multi #facet
+                    title="Incyte Filters" 
+                    [icon]="'fas fa-microscope'"
                     [results]="results"
-                    [facets]="facets"
-                    [facetComponents]="facetComponents">
+                    [facets]="incyteFacetsAll"
+                    [facetComponents]="facetComponents"
+                    *ngIf="['all'].includes(currentSelectedTab)">
                 </sq-facet-multi>
+                <sq-facet-multi #facet
+                    title="Incyte Filters" 
+                    [icon]="'fas fa-microscope'"
+                    [results]="results"
+                    [facets]="incyteFacetsFileshares"
+                    [facetComponents]="facetComponents"
+                    *ngIf="['fileshares'].includes(currentSelectedTab)">
+                </sq-facet-multi>
+                <sq-facet-multi #facet
+                    title="Incyte Filters" 
+                    [icon]="'fas fa-microscope'"
+                    [results]="results"
+                    [facets]="incyteFacetsChemcart"
+                    [facetComponents]="facetComponents"
+                    *ngIf="['chemcart'].includes(currentSelectedTab)">
+                </sq-facet-multi>
+                <sq-facet-multi #facet
+                    title="Incyte Filters" 
+                    [icon]="'fas fa-microscope'"
+                    [results]="results"
+                    [facets]="incyteFacetsBenchling"
+                    [facetComponents]="facetComponents"
+                    *ngIf="['benchling'].includes(currentSelectedTab)">
+                </sq-facet-multi>
+                <sq-facet-multi #facet
+                    title="Incyte Filters" 
+                    [icon]="'fas fa-microscope'"
+                    [results]="results"
+                    [facets]="incyteFacetsPSILO"
+                    [facetComponents]="facetComponents"
+                    *ngIf="['psilo'].includes(currentSelectedTab)">
+                </sq-facet-multi>
+            </sq-facet-card>
+
+            <sq-facet-card  
+                title="MeSH Filters"
+                icon="fas fa-globe"  
+                [collapsible]="true"
+                class="mb-3" 
+                *ngIf="['all', 'fileshares', 'benchling'].includes(currentSelectedTab)">
+                <sq-facet-list #facet
+                    [aggregation]="'MeshTree'" 
+                    [results]="results"
+                    [expandedLevel] = 1>
+                </sq-facet-list>
             </sq-facet-card>
         </div>
 

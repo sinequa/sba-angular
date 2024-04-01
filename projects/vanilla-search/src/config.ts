@@ -147,6 +147,407 @@ export const FACETS: FacetConfig<FacetParams>[] = [
     }
 ];
 
+
+export const INCYTE_FACETS_ALL: FacetConfig<FacetParams>[] = [
+    {
+        name: "projectcompound",
+        aggregation: "ProjectCompoundTree",
+        title: "Compounds by project",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "study",
+        aggregation: "StudyEntity",
+        title: "Study Ids",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "assay",
+        aggregation: "AssayCsv",
+        title: "Assays",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "authors",
+        aggregation: "Authors",
+        title: "msg#facet.authors.title",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "modified",
+        aggregation: "Modified",
+        title: "Last edition date",
+        type: "date",
+        icon: "fas fa-fw fa-calendar-day",
+        parameters: {
+            timelineAggregation: "Timeline",
+            showCount: true,
+            allowPredefinedRange: true,
+            allowCustomRange: true,
+            showCustomRange: true,
+            replaceCurrent: true,
+            displayEmptyDistributionIntervals: true
+        }
+    },
+    {
+        name: "docformat",
+        aggregation: "DocFormat",
+        title: "Format",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    }
+];
+
+export const INCYTE_FACETS_FILESHARES: FacetConfig<FacetParams>[] = [
+    {
+        name: "projectcompound",
+        aggregation: "ProjectCompoundTree",
+        title: "Compounds by project",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "study",
+        aggregation: "StudyEntity",
+        title: "Study Ids",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "assay",
+        aggregation: "AssayCsv",
+        title: "Assays",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "authors",
+        aggregation: "Authors",
+        title: "msg#facet.authors.title",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "modified",
+        aggregation: "Modified",
+        title: "Last edition date",
+        type: "date",
+        icon: "fas fa-fw fa-calendar-day",
+        parameters: {
+            timelineAggregation: "Timeline",
+            showCount: true,
+            allowPredefinedRange: true,
+            allowCustomRange: true,
+            showCustomRange: true,
+            replaceCurrent: true,
+            displayEmptyDistributionIntervals: true
+        }
+    },
+    {
+        name: "docformat",
+        aggregation: "DocFormat",
+        title: "Format",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    }
+];
+
+export const INCYTE_FACETS_CHEMCART: FacetConfig<FacetParams>[] = [
+    {
+        name: "projectcompound",
+        aggregation: "ProjectCompoundTree",
+        title: "Compounds by project",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "experimentType",
+        aggregation: "ExperimentType",
+        title: "Experiment Type",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "experimentStatus",
+        aggregation: "ExperimentStatus",
+        title: "Experiment Status",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "assay",
+        aggregation: "AssayCsv",
+        title: "Assays",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "authors",
+        aggregation: "Authors",
+        title: "msg#facet.authors.title",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "experimentEndDate",
+        aggregation: "ExperimentEndDate",
+        title: "Experiment End Date",
+        type: "date",
+        icon: "fas fa-fw fa-calendar-day",
+        parameters: {
+            timelineAggregation: "ExperimentEndDate",
+            showCount: true,
+            allowPredefinedRange: true,
+            allowCustomRange: true,
+            showCustomRange: true,
+            replaceCurrent: true,
+            displayEmptyDistributionIntervals: true
+        },
+    },
+    {
+        name: "experimentSignDate",
+        aggregation: "ExperimentSignDate",
+        title: "Experiment Sign Date",
+        type: "date",
+        icon: "fas fa-fw fa-calendar-day",
+        parameters: {
+            timelineAggregation: "ExperimentSignDate",
+            showCount: true,
+            allowPredefinedRange: true,
+            allowCustomRange: true,
+            showCustomRange: true,
+            replaceCurrent: true,
+            displayEmptyDistributionIntervals: true
+        }
+    },
+    {
+        name: "docformat",
+        aggregation: "DocFormat",
+        title: "Format",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    }
+];
+
+export const INCYTE_FACETS_BENCHLING: FacetConfig<FacetParams>[] = [
+    {
+        name: "projectcompound",
+        aggregation: "ProjectCompoundTree",
+        title: "Compounds by project",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "authors",
+        aggregation: "Authors",
+        title: "msg#facet.authors.title",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        name: "modified",
+        aggregation: "Modified",
+        title: "Last edition date",
+        type: "date",
+        icon: "fas fa-fw fa-calendar-day",
+        parameters: {
+            timelineAggregation: "Timeline",
+            showCount: true,
+            allowPredefinedRange: true,
+            allowCustomRange: true,
+            showCustomRange: true,
+            replaceCurrent: true,
+            displayEmptyDistributionIntervals: true
+        }
+    }
+];
+
+export const INCYTE_FACETS_PSILO: FacetConfig<FacetParams>[] = [
+    {
+        name: "projectcompound",
+        aggregation: "ProjectCompoundTree",
+        title: "Compounds by project",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    }
+];
+
+
 export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
     folder: 'vanilla-search',
     path: '/r/_sinequa/webpackages/help',
@@ -180,6 +581,26 @@ export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
         name: 'matchlocations',
         color: 'black',
         bgColor: '#ff0'
+    },
+    {
+        name: 'MeshEntity',
+        color: '#F5FFFA',
+        bgColor: '#006400'
+    },
+    {
+        name: 'StudyEntity',
+        color: '#E6E6FA',
+        bgColor: '#673AB7'
+    },
+    {
+        name: 'AssayEntity',
+        color: '#FFFFFF',
+        bgColor: '#E65100'
+    },
+    {
+        name: 'ProjectCompoundEntity',
+        color: '#333333',
+        bgColor: '#FA8072'
     }
 ];
 

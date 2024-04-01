@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { Action } from '@sinequa/components/action';
-import { DEFAULT_FACET_COMPONENTS, FacetConfig } from '@sinequa/components/facet';
+import { DEFAULT_FACET_COMPONENTS, FacetConfig,  } from '@sinequa/components/facet';
 import { MetadataConfig } from '@sinequa/components/metadata';
 import { Preview, PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
@@ -15,7 +15,7 @@ import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, AuditWebService, Filter, Record, Results } from '@sinequa/core/web-services';
 import { Observable, Subscription, filter, tap } from 'rxjs';
 
-import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
+import { FACETS, INCYTE_FACETS_ALL, INCYTE_FACETS_FILESHARES, INCYTE_FACETS_CHEMCART, INCYTE_FACETS_PSILO, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS, INCYTE_FACETS_BENCHLING } from '../../config';
 
 @Component({
   selector: 'app-search',
@@ -164,6 +164,26 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public get facets(): FacetConfig<FacetParams>[] {
     return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || FACETS;
+  }
+
+  public get incyteFacetsAll(): FacetConfig<FacetParams>[] {
+    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_ALL;
+  }
+  public get incyteFacetsFileshares(): FacetConfig<FacetParams>[] {
+    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_FILESHARES;
+  }
+  public get incyteFacetsChemcart(): FacetConfig<FacetParams>[] {
+    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_CHEMCART;
+  }
+  public get incyteFacetsBenchling(): FacetConfig<FacetParams>[] {
+    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_BENCHLING;
+  }
+  public get incyteFacetsPSILO(): FacetConfig<FacetParams>[] {
+    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_PSILO;
+  }
+
+  protected get currentSelectedTab(): string {
+    return this.searchService.getCurrentTab()?.name.toLowerCase() ?? "unknown";
   }
 
   /**
