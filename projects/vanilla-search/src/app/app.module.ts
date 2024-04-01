@@ -54,7 +54,7 @@ import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 export const startConfig: StartConfig = {
     app: "iris",
     production: environment.production,
-    // autoSAMLProvider: environment.autoSAMLProvider,
+    autoOAuthProvider: "azure",
     auditEnabled: true
 };
 
