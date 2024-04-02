@@ -1,7 +1,5 @@
-import { InjectionToken } from "@angular/core";
-import { Inject, Optional } from "@angular/core";
-import { Injectable } from "@angular/core";
-import { Loader } from "@googlemaps/js-api-loader"
+import { Inject, Injectable, InjectionToken, Optional } from "@angular/core";
+import { Loader } from "@googlemaps/js-api-loader";
 import { Filter } from "@sinequa/core/web-services";
 import { BehaviorSubject, from } from "rxjs";
 
@@ -24,7 +22,7 @@ export class GoogleMapsService {
 
     from(
       loader.load().then(() => true)
-    ).subscribe(this.ready);
+    ).subscribe(result =>  this.ready.next(result));
   }
 
   makeFilter(bounds: google.maps.LatLngBounds, latitude: string, longitude: string): Filter {
