@@ -1,6 +1,6 @@
 {
     "app": {
-        "name": "Vanilla Search"
+        "name": "iRIS Search"
     },
 
     "locale": {
@@ -96,10 +96,19 @@
     },
 
     "metadata": {
-        "ProjectCompoundEntityPluralLabel": "Projects and Compounds",
-        "AssayEntityPluralLabel": "Assays",
-        "MeshEntityPluralLabel" : "MeSH entities",
-        "StudyEntityPluralLabel": "Studies"
+        "projectEntityPluralLabel": "Projects",
+        "compoundEntityPluralLabel": "Compounds",
+        "assayEntityPluralLabel": "Assays",
+        "meshEntityPluralLabel" : "MeSH entities",
+        "studyEntityPluralLabel": "Studies",
+        "experimentTitleLabel": "Experiment Title",
+        "notebookLabel": "Notebook",
+        "projectLabel": "Project",
+        "scientistLabel": "Scientist",
+        "experimentTypeLabel": "Experiment Type",
+        "experimentEndDateLabel": "Experiment End Date",
+        "experimentIDLabel": "Experiment ID",
+        "experimentStatusLabel": "Status"
     }
 
 }

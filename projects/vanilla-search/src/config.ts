@@ -147,7 +147,6 @@ export const FACETS: FacetConfig<FacetParams>[] = [
     }
 ];
 
-
 export const INCYTE_FACETS_ALL: FacetConfig<FacetParams>[] = [
     {
         name: "projectcompound",
@@ -183,7 +182,7 @@ export const INCYTE_FACETS_ALL: FacetConfig<FacetParams>[] = [
     },
     {
         name: "assay",
-        aggregation: "AssayCsv",
+        aggregation: "AssayEntity",
         title: "Assays",
         type: "list",
         icon: "fas fa-fw fa-user",
@@ -282,7 +281,7 @@ export const INCYTE_FACETS_FILESHARES: FacetConfig<FacetParams>[] = [
     },
     {
         name: "assay",
-        aggregation: "AssayCsv",
+        aggregation: "AssayEntity",
         title: "Assays",
         type: "list",
         icon: "fas fa-fw fa-user",
@@ -397,7 +396,7 @@ export const INCYTE_FACETS_CHEMCART: FacetConfig<FacetParams>[] = [
     },
     {
         name: "assay",
-        aggregation: "AssayCsv",
+        aggregation: "AssayEntity",
         title: "Assays",
         type: "list",
         icon: "fas fa-fw fa-user",
@@ -583,24 +582,29 @@ export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [
         bgColor: '#ff0'
     },
     {
-        name: 'MeshEntity',
+        name: 'meshEntity',
         color: '#F5FFFA',
         bgColor: '#006400'
     },
     {
-        name: 'StudyEntity',
+        name: 'studyEntity',
         color: '#E6E6FA',
         bgColor: '#673AB7'
     },
     {
-        name: 'AssayEntity',
+        name: 'assayEntity',
         color: '#FFFFFF',
         bgColor: '#E65100'
     },
     {
-        name: 'ProjectCompoundEntity',
+        name: 'projectEntity',
         color: '#333333',
         bgColor: '#FA8072'
+    },
+    {
+        name: 'compoundEntity',
+        color: '#FFFFFF',
+        bgColor: '#007BA7'
     }
 ];
 
@@ -634,5 +638,35 @@ export const METADATA_CONFIG: MetadataConfig[] = [
         field: "modified",
         label: "msg#metadata.modifiedLabel",
         icon: "far fa-fw fa-calendar-alt"
+    }
+];
+export const INCYTE_METADATA_01_CONFIG: MetadataConfig[] = [
+    {
+        field: "compounds",
+        label: "Compounds",
+        icon: "fas fa-pills",
+        filterable: true,
+        collapseRows: true
+    },
+    {
+        field: "assays",
+        label: "Assays",
+        icon: "fas fa-atom",
+        filterable: true,
+        collapseRows: true
+    },
+    {
+        field: "authors",
+        label: "Scientists",
+        icon: "fas fa-user-edit",
+        filterable: true,
+        collapseRows: true
+    },
+    {
+        field: "studyID",
+        label: "Studys",
+        icon: "fas fa-vial",
+        filterable: true,
+        collapseRows: true
     }
 ];

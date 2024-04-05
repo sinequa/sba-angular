@@ -116,11 +116,11 @@
                 icon="fas fa-globe"  
                 [collapsible]="true"
                 class="mb-3" 
-                *ngIf="['all', 'fileshares', 'benchling'].includes(currentSelectedTab)">
+                *ngIf="['all', 'fileshares', 'chemcart', 'benchling'].includes(currentSelectedTab)">
                 <sq-facet-list #facet
                     [aggregation]="'MeshTree'" 
                     [results]="results"
-                    [expandedLevel] = 1>
+                    [expandedLevel] = 0>
                 </sq-facet-list>
             </sq-facet-card>
         </div>
@@ -183,8 +183,96 @@
                             <sq-result-selector class="d-none d-md-block" [record]="record"></sq-result-selector>
                             <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                         </div>
-                        <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
+                        <sq-result-source [record]="record" [displayTreepath]="true" [displayUrl]="false"></sq-result-source>
+
+                        <!------------------------------------------------------------->
+                        <!-- Display ChemCart Metadata if the Record is for ChemCart -->
+                        <!------------------------------------------------------------->
+                        <div class="small" *ngIf="record.treepath[0]?.startsWith('/ChemCart/')">
+                            <div>
+                                <sq-metadata-item
+                                    [record]="record"
+                                    [field]="'ExperimentTitle'"
+                                    [label]="'msg#metadata.experimentTitleLabel'"
+                                    [filterable]="true">
+                                </sq-metadata-item>                            
+                            </div>
+                            <div>
+                                <sq-metadata-item 
+                                    [record]="record"
+                                    [field]="'Notebook'"
+                                    [label]="'msg#metadata.notebookLabel'"
+                                    [filterable]="true">
+                                </sq-metadata-item>
+                                <sq-metadata-item class="px-2"
+                                    [record]="record"
+                                    [field]="'project'"
+                                    [label]="'msg#metadata.projectLabel'"
+                                    [filterable]="true">
+                                </sq-metadata-item>
+                                <sq-metadata-item class="px-2" 
+                                    [record]="record"
+                                    [field]="'authors'"
+                                    [fieldClass]="'chemCartScientist'"
+                                    [label]="'msg#metadata.scientistLabel'"
+                                    [filterable]="true">
+                                </sq-metadata-item>
+                            </div>
+                            <div>
+                                <sq-metadata-item
+                                    [record]="record"
+                                    [field]="'experimentType'"
+                                    [label]="'msg#metadata.experimentTypeLabel'"
+                                    [filterable]="true">
+                                </sq-metadata-item>
+                                <sq-metadata-item class="px-2"
+                                    [record]="record"
+                                    [field]="'experimentEndDate'"
+                                    [label]="'msg#metadata.experimentEndDateLabel'"
+                                    [filterable]="true">
+                                </sq-metadata-item>
+                            </div>
+                        </div>
+
+                        <!--------------------------------------------------------------------------->
+                        <!-- Display Benchling Entry Metadata if the Record is for Benchling Entry -->
+                        <!--------------------------------------------------------------------------->
+                        <div class="small" *ngIf="record.treepath[0]?.startsWith('/Benchling/')">
+                            <div>
+                                <sq-metadata-item
+                                    [record]="record"
+                                    [field]="'experimentID'"
+                                    [label]="'msg#metadata.experimentIDLabel'"
+                                    [filterable]="true">
+                                </sq-metadata-item>
+                                <sq-metadata-item
+                                    [record]="record"
+                                    [field]="'experimentStatus'"
+                                    [label]="'msg#metadata.experimentStatusLabel'"
+                                    [filterable]="true">
+                                </sq-metadata-item>
+                            </div>
+                            <div>
+                                <sq-metadata-item class="px-2" 
+                                    [record]="record"
+                                    [field]="'authors'"
+                                    [fieldClass]="'chemCartScientist'"
+                                    [label]="'msg#metadata.scientistLabel'"
+                                    [filterable]="true">
+                                </sq-metadata-item>                                             
+                            </div>
+                        </div>
+
                         <sq-result-extracts [record]="record" class="d-block overflow-hidden"></sq-result-extracts>
+
+                        <sq-metadata
+                            [record]="record"
+                            [config]="incyteMetadata01"
+                            [layout]="'table'"
+                            class="small"
+                        ></sq-metadata>
+
+
                         <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
 
                         <sq-labels [record]="record" [public]="true"></sq-labels>

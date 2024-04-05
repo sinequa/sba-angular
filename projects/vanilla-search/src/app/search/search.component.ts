@@ -15,7 +15,7 @@ import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, AuditWebService, Filter, Record, Results } from '@sinequa/core/web-services';
 import { Observable, Subscription, filter, tap } from 'rxjs';
 
-import { FACETS, INCYTE_FACETS_ALL, INCYTE_FACETS_FILESHARES, INCYTE_FACETS_CHEMCART, INCYTE_FACETS_PSILO, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS, INCYTE_FACETS_BENCHLING } from '../../config';
+import { FACETS, INCYTE_FACETS_ALL, INCYTE_FACETS_FILESHARES, INCYTE_FACETS_CHEMCART, INCYTE_FACETS_PSILO, FEATURES, FacetParams, METADATA_CONFIG, INCYTE_METADATA_01_CONFIG, PREVIEW_HIGHLIGHTS, INCYTE_FACETS_BENCHLING } from '../../config';
 
 @Component({
   selector: 'app-search',
@@ -180,6 +180,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
   public get incyteFacetsPSILO(): FacetConfig<FacetParams>[] {
     return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_PSILO;
+  }
+
+  /**
+   * Returns the configuration of the Incyte Primary metadata displayed in the facet-preview component.
+   * The configuration from the config.ts file can be overriden by configuration from
+   * the app configuration on the server
+   */
+  public get incyteMetadata01(): MetadataConfig[] {
+    return INCYTE_METADATA_01_CONFIG as any as MetadataConfig[];
   }
 
   protected get currentSelectedTab(): string {
