@@ -37,7 +37,7 @@
     npm run ng serve vanilla-search -- --ssl=true --proxy-config=./projects/vanilla-search/src/proxy.conf.json
     ```
 
-Read our [Getting Started](https://sinequa.github.io/sba-angular/getting-started) chapter and complete our [Tutorial](https://sinequa.github.io/sba-angular/tutorial) to go further.
+Read our [Getting Started](https://sinequa.github.io/sba-angular/getting-started) chapter and complete our [Tutorial](https://sinequa.github.io/sba-angular/tutorial/intro.html) to go further.
 
 ## Contact Us
 
