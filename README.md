@@ -19,13 +19,13 @@
     npm install
     ```
 
-3. Build the [`@sinequa/core`](https://sinequa.github.io/sba-angular/libraries/core/core.html) library:
+3. Build the [`@sinequa/core`](https://sinequa.github.io/sba-angular/libraries/core) library:
 
     ```bash
     npm run buildcore
     ```
 
-4. Build the [`@sinequa/components`](https://sinequa.github.io/sba-angular/libraries/components/components.html) library:
+4. Build the [`@sinequa/components`](https://sinequa.github.io/sba-angular/libraries/components) library:
 
     ```bash
     npm run buildcomponents
