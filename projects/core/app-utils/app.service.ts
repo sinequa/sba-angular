@@ -671,7 +671,8 @@ export class AppService implements OnDestroy {
     getColumnDefaultAlias(column?: CCColumn): string {
         if (column) {
             if (column.aliases && column.aliases.length > 0) {
-                return column.aliases[0];
+                // Use the first alias and make sure the first letter is lowercase.
+                return `${column.aliases[0].charAt(0).toLowerCase()}${column.aliases[0].slice(1)}`;
             }
         }
         return "";
