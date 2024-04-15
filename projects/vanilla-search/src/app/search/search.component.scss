@@ -4,24 +4,24 @@
 }
 
 #logo {
-    content: url("^assets/incyte-logo-sm.png");
+    content: url("^assets/iRIS-transparent-small.png");
     width: 40px;
     max-height: 40px;
 
     @media ( min-width: 1200px ) {
-        content: url("^assets/incyte-logo-lg.png");
+        content: url("^assets/iRIS-transparent-lrg.png");
         width: 160px;
     }
 }
 
 :host-context(body.dark) {
     #logo {
-        content: url("^assets/incyte-logo-sm.png");
+        content: url("^assets/iRIS-transparent-small.png");
         width: 40px;
         max-height: 40px;
 
         @media ( min-width: 1200px ) {
-            content: url("^assets/incyte-logo-lg.png");
+            content: url("^assets/iRIS-transparent-lrg.png");
             width: 160px;
         }
     }

@@ -5,18 +5,18 @@
 @import "../../../../components/theme/breakpoints";
 
 #logo {
-  content: url("^assets/incyte-logo-lg.png");
+  content: url("^assets/iRIS-transparent-lrg.png");
 }
 #logo-sm {
-  content: url("^assets/incyte-logo-sm.png");
+  content: url("^assets/iRIS-transparent-small.png");
 }
 
 :host-context(body.dark) {
   #logo {
-    content: url("^assets/incyte-logo-lg.png");
+    content: url("^assets/iRIS-transparent-lrg.png");
   }
   #logo-sm {
-    content: url("^assets/incyte-logo-sm.png");
+    content: url("^assets/iRIS-transparent-small.png");
   }
 }
 
