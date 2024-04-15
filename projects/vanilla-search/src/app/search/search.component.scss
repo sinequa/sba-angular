@@ -4,24 +4,24 @@
 }
 
 #logo {
-    content: url("^assets/iRIS-transparent-small.png");
+    content: url("^assets/iris-white-sm.png");
     width: 40px;
     max-height: 40px;
 
     @media ( min-width: 1200px ) {
-        content: url("^assets/iRIS-transparent-lrg.png");
+        content: url("^assets/iris-white-sm.png");
         width: 160px;
     }
 }
 
 :host-context(body.dark) {
     #logo {
-        content: url("^assets/iRIS-transparent-small.png");
+        content: url("^assets/iris-dark-sm.png");
         width: 40px;
         max-height: 40px;
 
         @media ( min-width: 1200px ) {
-            content: url("^assets/iRIS-transparent-lrg.png");
+            content: url("^assets/iris-dark-sm.png");
             width: 160px;
         }
     }

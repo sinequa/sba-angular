@@ -5,18 +5,18 @@
 @import "../../../../components/theme/breakpoints";
 
 #logo {
-  content: url("^assets/iRIS-transparent-lrg.png");
+  content: url("^assets/iRIS-lrg-1.png");
 }
 #logo-sm {
-  content: url("^assets/iRIS-transparent-small.png");
+  content: url("^assets/iRIS-sm-1.png");
 }
 
 :host-context(body.dark) {
   #logo {
-    content: url("^assets/iRIS-transparent-lrg.png");
+    content: url("^assets/iRIS-lrg-1.png");
   }
   #logo-sm {
-    content: url("^assets/iRIS-transparent-small.png");
+    content: url("^assets/iRIS-sm-1.png");
   }
 }
 
