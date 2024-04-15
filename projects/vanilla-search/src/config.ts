@@ -182,7 +182,7 @@ export const INCYTE_FACETS_ALL: FacetConfig<FacetParams>[] = [
     },
     {
         name: "assay",
-        aggregation: "AssayEntity",
+        aggregation: "AssayCsv",
         title: "Assays",
         type: "list",
         icon: "fas fa-fw fa-user",
@@ -281,7 +281,7 @@ export const INCYTE_FACETS_FILESHARES: FacetConfig<FacetParams>[] = [
     },
     {
         name: "assay",
-        aggregation: "AssayEntity",
+        aggregation: "AssayCsv",
         title: "Assays",
         type: "list",
         icon: "fas fa-fw fa-user",
@@ -396,7 +396,7 @@ export const INCYTE_FACETS_CHEMCART: FacetConfig<FacetParams>[] = [
     },
     {
         name: "assay",
-        aggregation: "AssayEntity",
+        aggregation: "AssayCsv",
         title: "Assays",
         type: "list",
         icon: "fas fa-fw fa-user",
@@ -640,18 +640,18 @@ export const METADATA_CONFIG: MetadataConfig[] = [
         icon: "far fa-fw fa-calendar-alt"
     }
 ];
-export const INCYTE_METADATA_01_CONFIG: MetadataConfig[] = [
+export const INCYTE_CHEMCART_METADATA_CONFIG: MetadataConfig[] = [
     {
-        field: "compounds",
-        label: "Compounds",
-        icon: "fas fa-pills",
+        field: "docformat",
+        label: "Format",
+        icon: "fas fa-file",
         filterable: true,
         collapseRows: true
     },
     {
-        field: "assays",
-        label: "Assays",
-        icon: "fas fa-atom",
+        field: "projectMetadata",
+        label: "Project",
+        icon: "fas fa-lightbulb",
         filterable: true,
         collapseRows: true
     },
@@ -663,9 +663,9 @@ export const INCYTE_METADATA_01_CONFIG: MetadataConfig[] = [
         collapseRows: true
     },
     {
-        field: "studyID",
-        label: "Studys",
-        icon: "fas fa-vial",
+        field: "experimentTitle",
+        label: "Experiment",
+        icon: "fas fa-flask",
         filterable: true,
         collapseRows: true
     }
