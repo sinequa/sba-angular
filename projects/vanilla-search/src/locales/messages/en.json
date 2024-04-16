@@ -96,10 +96,15 @@
     },
 
     "metadata": {
+        "projectEntityLabel": "Project",
         "projectEntityPluralLabel": "Projects",
+        "compoundEntityLabel": "Compound",
         "compoundEntityPluralLabel": "Compounds",
+        "assayEntityLabel": "Assay",
         "assayEntityPluralLabel": "Assays",
+        "meshEntityLabel" : "MeSH entity",
         "meshEntityPluralLabel" : "MeSH entities",
+        "studyEntityLabel": "Study",
         "studyEntityPluralLabel": "Studies",
         "experimentTitleLabel": "Experiment Title",
         "notebookLabel": "Notebook",
