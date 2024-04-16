@@ -363,6 +363,22 @@ export const INCYTE_FACETS_CHEMCART: FacetConfig<FacetParams>[] = [
         }
     },
     {
+        name: "study",
+        aggregation: "StudyEntity",
+        title: "Study Ids",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
         name: "experimentType",
         aggregation: "ExperimentType",
         title: "Experiment Type",
