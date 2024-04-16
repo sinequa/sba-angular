@@ -131,7 +131,7 @@
             <div class="result-toolbar d-flex flex-wrap">
 
                 <!-- Tabs -->
-                <sq-tabs class="w-100" [results]="results"></sq-tabs>
+                <sq-tabs class="w-100" [results]="results" [showCounts]="false"></sq-tabs>
 
                 <!-- Did you mean -->
                 <sq-did-you-mean class="w-100" [results]="results"></sq-did-you-mean>
@@ -182,15 +182,22 @@
                         <div class="d-flex align-items-center">
                             <sq-result-selector class="d-none d-md-block" [record]="record"></sq-result-selector>
                             <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
-                            <i *ngIf="record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Witnessed'" 
+                            <i *ngIf="(record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Witnessed') 
+                            || (record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'ACCEPTED')" 
                             class="fas fa-circle-check" 
                             style="color: green;margin-left: 5px"
-                            title="Experiment status is Witnessed"
+                            title="Experiment status is Witnessed/Accepted"
                             ></i>
-                            <i *ngIf="record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Signing'" 
+                            <i *ngIf="(record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Signing')
+                            || (record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'NEEDS_REVIEW')" 
                             class="fas fa-hourglass-half" 
                             style="color: orange;margin-left: 5px"
-                            title="Experiment status is Signing"
+                            title="Experiment status is Signing/Needs Review"
+                            ></i>
+                            <i *ngIf="(record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'RETRACTED')" 
+                            class="fas fa-circle-xmark" 
+                            style="color: red;margin-left: 5px"
+                            title="Experiment status is Rejected"
                             ></i>
                         </div>
                         <sq-result-source [record]="record" [displayTreepath]="true" [displayUrl]="false"></sq-result-source>
@@ -200,6 +207,27 @@
                         <sq-metadata *ngIf="record.treepath[0]?.startsWith('/ChemCart/')"
                             [record]="record"
                             [config]="incyteChemCartMetadata"
+                            [layout]="'table'"
+                            class="small"
+                        ></sq-metadata>
+
+                        <sq-metadata *ngIf="record.treepath[0]?.startsWith('/Benchling/')"
+                            [record]="record"
+                            [config]="incyteBenchlingMetadata"
+                            [layout]="'table'"
+                            class="small"
+                        ></sq-metadata>
+
+                        <sq-metadata *ngIf="record.treepath[0]?.startsWith('/PSILO/')"
+                            [record]="record"
+                            [config]="incytePSILOMetadata"
+                            [layout]="'table'"
+                            class="small"
+                        ></sq-metadata>
+
+                        <sq-metadata *ngIf="record.treepath[0]?.startsWith('/Projects/') || record.treepath[0]?.startsWith('/Translational Science/')"
+                            [record]="record"
+                            [config]="incyteFileSharesMetadata"
                             [layout]="'table'"
                             class="small"
                         ></sq-metadata>

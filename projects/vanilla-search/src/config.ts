@@ -649,9 +649,60 @@ export const INCYTE_CHEMCART_METADATA_CONFIG: MetadataConfig[] = [
         collapseRows: true
     },
     {
+        field: "authors",
+        label: "Scientists",
+        icon: "fas fa-user-edit",
+        filterable: true,
+        collapseRows: true
+    },
+    {
         field: "projectMetadata",
         label: "Project",
         icon: "fas fa-lightbulb",
+        filterable: true,
+        collapseRows: true
+    },
+    {
+        field: "experimentTitle",
+        label: "Experiment",
+        icon: "fas fa-flask",
+        filterable: true,
+        collapseRows: true
+    }
+];
+
+export const INCYTE_BENCHLING_METADATA_CONFIG: MetadataConfig[] = [
+    {
+        field: "experimentID",
+        label: "Experiment",
+        icon: "fas fa-flask",
+        filterable: true,
+        collapseRows: true
+    },
+    {
+        field: "authors",
+        label: "Scientists",
+        icon: "fas fa-user-edit",
+        filterable: true,
+        collapseRows: true
+    }
+];
+
+export const INCYTE_PSILO_METADATA_CONFIG: MetadataConfig[] = [
+    {
+        field: "compoundCSV",
+        label: "Compound",
+        icon: "fas fa-dna",
+        filterable: true,
+        collapseRows: true
+    }
+];
+
+export const INCYTE_FILESHARES_METADATA_CONFIG: MetadataConfig[] = [
+    {
+        field: "docformat",
+        label: "Format",
+        icon: "fas fa-file",
         filterable: true,
         collapseRows: true
     },
@@ -663,10 +714,10 @@ export const INCYTE_CHEMCART_METADATA_CONFIG: MetadataConfig[] = [
         collapseRows: true
     },
     {
-        field: "experimentTitle",
-        label: "Experiment",
-        icon: "fas fa-flask",
+        field: "projectMetadata",
+        label: "Project",
+        icon: "fas fa-lightbulb",
         filterable: true,
         collapseRows: true
-    }
+    },
 ];

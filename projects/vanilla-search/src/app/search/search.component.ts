@@ -15,8 +15,9 @@ import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, AuditWebService, Filter, Record, Results } from '@sinequa/core/web-services';
 import { Observable, Subscription, filter, tap } from 'rxjs';
 
-import { FACETS, INCYTE_FACETS_ALL, INCYTE_FACETS_FILESHARES, INCYTE_FACETS_CHEMCART, INCYTE_FACETS_PSILO, INCYTE_FACETS_BENCHLING, FEATURES, FacetParams, METADATA_CONFIG, INCYTE_CHEMCART_METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
-
+import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
+import { INCYTE_FACETS_ALL, INCYTE_FACETS_FILESHARES, INCYTE_FACETS_CHEMCART, INCYTE_FACETS_PSILO, INCYTE_FACETS_BENCHLING} from '../../config';
+import { INCYTE_CHEMCART_METADATA_CONFIG, INCYTE_BENCHLING_METADATA_CONFIG, INCYTE_PSILO_METADATA_CONFIG, INCYTE_FILESHARES_METADATA_CONFIG } from '../../config';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -189,6 +190,18 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public get incyteChemCartMetadata(): MetadataConfig[] {
     return INCYTE_CHEMCART_METADATA_CONFIG as any as MetadataConfig[];
+  }
+
+  public get incyteBenchlingMetadata(): MetadataConfig[] {
+    return INCYTE_BENCHLING_METADATA_CONFIG as any as MetadataConfig[];
+  }
+
+  public get incytePSILOMetadata(): MetadataConfig[] {
+    return INCYTE_PSILO_METADATA_CONFIG as any as MetadataConfig[];
+  }
+
+  public get incyteFileSharesMetadata(): MetadataConfig[] {
+    return INCYTE_FILESHARES_METADATA_CONFIG as any as MetadataConfig[];
   }
 
   protected get currentSelectedTab(): string {
