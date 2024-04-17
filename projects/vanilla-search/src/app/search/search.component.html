@@ -155,7 +155,8 @@
                 <sq-facet-card class="w-100 mb-2"
                     [title]="'msg#machine-learning.passages'"
                     [preference]="'top-passages'"
-                    icon="fas fa-brain primary-icon">
+                    icon="fas fa-brain primary-icon"
+                    startCollapsed="true">
                     <sq-top-passages #facet
                         [results]="results"
                         (passageClicked)="openMiniPreview($event.$record, $event.id)"
