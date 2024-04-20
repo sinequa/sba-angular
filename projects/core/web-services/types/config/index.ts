@@ -3,7 +3,7 @@
  */
 export const MINIMUM_COMPATIBLE_SERVER_API_VERSION = '1.0';
 
-export { CCApp } from "./CCApp";
+export { CCApp } from "./ccapp";
 export { CCAppRefresh } from "./CCAppRefresh";
 
 export { CCAggregation } from "./CCAggregation";
