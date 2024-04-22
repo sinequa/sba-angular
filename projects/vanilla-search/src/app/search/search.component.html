@@ -112,6 +112,19 @@
             </sq-facet-card>
 
             <sq-facet-card  
+                [collapsible]="true"
+                class="mb-3" 
+                *ngIf="['all', 'fileshares', 'chemcart', 'benchling'].includes(currentSelectedTab)">
+                <sq-facet-multi #facet
+                    title="Filters" 
+                    [icon]="'fas fa-microscope'"
+                    [results]="results"
+                    [facets]="incyteFacetsOther"
+                    [facetComponents]="facetComponents">
+                </sq-facet-multi>
+            </sq-facet-card>
+
+            <sq-facet-card  
                 title="MeSH Filters"
                 icon="fas fa-globe"  
                 [collapsible]="true"
@@ -123,23 +136,6 @@
                     [expandedLevel] = 0>
                 </sq-facet-list>
             </sq-facet-card>
-
-             <sq-facet-card  
-                [collapsible]="true"
-                class="mb-3" 
-                *ngIf="['all', 'fileshares', 'chemcart', 'benchling'].includes(currentSelectedTab)">
-                <sq-facet-multi #facet
-                    title="Filters" 
-                    [icon]="'fas fa-microscope'"
-                    [results]="results"
-                    [facets]="incyteFacetsOther"
-                    [facetComponents]="facetComponents"
-                   >
-                </sq-facet-multi>
-                
-            </sq-facet-card>
-
-
         </div>
 
         <!-- Results -->

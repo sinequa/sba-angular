@@ -564,11 +564,9 @@ export const INCYTE_FACETS_PSILO: FacetConfig<FacetParams>[] = [
 
 export const INCYTE_FACETS_OTHER: FacetConfig<FacetParams>[] = [
     {
-        name: "Person",
-        aggregation: "Person",
-        title: "Persons",
+        aggregation: "Geo",
+        title: "Places",
         type: "list",
-        icon: "fas fa-fw fa-user",
         parameters: {
             showCount: true,
             searchable: true,
@@ -579,6 +577,76 @@ export const INCYTE_FACETS_OTHER: FacetConfig<FacetParams>[] = [
             displayEmptyDistributionIntervals: false,
         }
     },
+    {
+        aggregation: "Company",
+        title: "Companies",
+        type: "list",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        aggregation: "Person",
+        title: "Persons",
+        type: "list",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        aggregation: "Size",
+        title: "Sizes",
+        type: "list",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        aggregation: "DocumentLanguages",
+        title: "Languages",
+        type: "list",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+    {
+        aggregation: "Concepts",
+        title: "Concepts",
+        type: "list",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    }
 ]
 
 export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
