@@ -562,6 +562,24 @@ export const INCYTE_FACETS_PSILO: FacetConfig<FacetParams>[] = [
     }
 ];
 
+export const INCYTE_FACETS_OTHER: FacetConfig<FacetParams>[] = [
+    {
+        name: "Person",
+        aggregation: "Person",
+        title: "Persons",
+        type: "list",
+        icon: "fas fa-fw fa-user",
+        parameters: {
+            showCount: true,
+            searchable: true,
+            focusSearch: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false,
+        }
+    },
+]
 
 export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
     folder: 'vanilla-search',

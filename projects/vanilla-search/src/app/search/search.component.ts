@@ -16,7 +16,7 @@ import { AuditEventType, AuditWebService, Filter, Record, Results } from '@sineq
 import { Observable, Subscription, filter, tap } from 'rxjs';
 
 import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
-import { INCYTE_FACETS_ALL, INCYTE_FACETS_FILESHARES, INCYTE_FACETS_CHEMCART, INCYTE_FACETS_PSILO, INCYTE_FACETS_BENCHLING} from '../../config';
+import { INCYTE_FACETS_ALL, INCYTE_FACETS_FILESHARES, INCYTE_FACETS_CHEMCART, INCYTE_FACETS_PSILO, INCYTE_FACETS_BENCHLING, INCYTE_FACETS_OTHER} from '../../config';
 import { INCYTE_CHEMCART_METADATA_CONFIG, INCYTE_BENCHLING_METADATA_CONFIG, INCYTE_PSILO_METADATA_CONFIG, INCYTE_FILESHARES_METADATA_CONFIG } from '../../config';
 @Component({
   selector: 'app-search',
@@ -181,6 +181,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
   public get incyteFacetsPSILO(): FacetConfig<FacetParams>[] {
     return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_PSILO;
+  }
+  public get incyteFacetsOther(): FacetConfig<FacetParams>[] {
+    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_OTHER;
   }
 
   /**
