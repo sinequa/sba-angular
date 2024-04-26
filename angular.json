@@ -183,18 +183,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "hello-search:build:development"
+            "buildTarget": "hello-search:build:development"
           },
           "configurations": {
             "production": {
-              "browserTarget": "hello-search:build:production"
+              "buildTarget": "hello-search:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hello-search:build"
+            "buildTarget": "hello-search:build"
           }
         },
         "test": {
@@ -333,18 +333,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "vanilla-search:build:development"
+            "buildTarget": "vanilla-search:build:development"
           },
           "configurations": {
             "production": {
-              "browserTarget": "vanilla-search:build:production"
+              "buildTarget": "vanilla-search:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "vanilla-search:build"
+            "buildTarget": "vanilla-search:build"
           }
         },
         "test": {
@@ -495,18 +495,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pepper:build:development"
+            "buildTarget": "pepper:build:development"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pepper:build:production"
+              "buildTarget": "pepper:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pepper:build"
+            "buildTarget": "pepper:build"
           }
         },
         "test": {
@@ -692,24 +692,24 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "components-docs:build:development"
+            "buildTarget": "components-docs:build:development"
           },
           "configurations": {
             "production": {
-              "browserTarget": "components-docs:build:production"
+              "buildTarget": "components-docs:build:production"
             },
             "mock": {
-              "browserTarget": "components-docs:build:mock"
+              "buildTarget": "components-docs:build:mock"
             },
             "ci": {
-              "browserTarget": "components-docs:build:ci"
+              "buildTarget": "components-docs:build:ci"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "components-docs:build"
+            "buildTarget": "components-docs:build"
           }
         },
         "test": {
