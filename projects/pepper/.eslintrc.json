@@ -21,7 +21,10 @@
           "error",
           {
             "type": "element",
-            "prefix": ["app", "sq"],
+            "prefix": [
+              "app",
+              "sq"
+            ],
             "style": "kebab-case"
           }
         ],
