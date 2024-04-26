@@ -99,9 +99,15 @@
             "preserveSymlinks": true,
             "assets": [
               "projects/hello-search/src/assets",
-              { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
+              {
+                "glob": "**/*.js",
+                "input": "projects/vanilla-search/src/preview/",
+                "output": "./preview"
+              }
             ],
-            "styles": ["projects/hello-search/src/styles/app.scss"],
+            "styles": [
+              "projects/hello-search/src/styles/app.scss"
+            ],
             "scripts": [],
             "allowedCommonJsDependencies": [
               "hammerjs",
@@ -202,7 +208,9 @@
             "assets": [
               "projects/hello-search/src/assets"
             ],
-            "styles": ["projects/hello-search/src/styles/app.scss"],
+            "styles": [
+              "projects/hello-search/src/styles/app.scss"
+            ],
             "scripts": []
           }
         },
@@ -239,7 +247,9 @@
             "preserveSymlinks": true,
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules"]
+              "includePaths": [
+                "node_modules"
+              ]
             },
             "assets": [
               "projects/vanilla-search/src/assets",
@@ -345,7 +355,9 @@
             "assets": [
               "projects/vanilla-search/src/assets"
             ],
-            "styles": ["projects/vanilla-search/src/styles/app.scss"],
+            "styles": [
+              "projects/vanilla-search/src/styles/app.scss"
+            ],
             "scripts": []
           }
         },
@@ -381,12 +393,18 @@
             "tsConfig": "projects/pepper/tsconfig.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules"]
+              "includePaths": [
+                "node_modules"
+              ]
             },
             "preserveSymlinks": true,
             "assets": [
               "projects/pepper/src/assets",
-              { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
+              {
+                "glob": "**/*.js",
+                "input": "projects/vanilla-search/src/preview/",
+                "output": "./preview"
+              }
             ],
             "styles": [
               {
@@ -499,7 +517,9 @@
             "assets": [
               "projects/pepper/src/assets"
             ],
-            "styles": ["projects/pepper/src/styles/app.scss"],
+            "styles": [
+              "projects/pepper/src/styles/app.scss"
+            ],
             "scripts": []
           }
         },
@@ -547,7 +567,9 @@
               "projects/analytics/tsconfig.json",
               "projects/analytics/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -576,7 +598,9 @@
               "projects/components-docs/src/favicon.ico",
               "projects/components-docs/src/assets"
             ],
-            "styles": ["projects/components-docs/src/styles/app.scss"],
+            "styles": [
+              "projects/components-docs/src/styles/app.scss"
+            ],
             "scripts": [],
             "allowedCommonJsDependencies": [
               "hammerjs",
@@ -697,7 +721,9 @@
               "projects/components-docs/src/favicon.ico",
               "projects/components-docs/src/assets"
             ],
-            "styles": ["projects/components-docs/src/styles/app.scss"],
+            "styles": [
+              "projects/components-docs/src/styles/app.scss"
+            ],
             "scripts": []
           }
         },
@@ -715,5 +741,13 @@
   },
   "cli": {
     "analytics": false
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+    }
   }
 }
