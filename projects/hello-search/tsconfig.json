@@ -1,9 +1,6 @@
 {
     "extends": "../../tsconfig.json",
-    "files": [
-        "src/main.ts",
-        "src/polyfills.ts"
-    ],
+    "files": ["src/main.ts"],
     "include": [
         "**/*.ts",
         "src/environments/environment.ts"

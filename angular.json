@@ -89,12 +89,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/hello-search",
             "index": "projects/hello-search/src/index.html",
-            "main": "projects/hello-search/src/main.ts",
-            "polyfills": "projects/hello-search/src/polyfills.ts",
+            "browser": "projects/hello-search/src/main.ts",
+            "polyfills": ["projects/hello-search/src/polyfills.ts"],
             "tsConfig": "projects/hello-search/tsconfig.json",
             "preserveSymlinks": true,
             "assets": [
@@ -125,9 +125,7 @@
               "date-fns/locale/_lib/buildFormatLongFn",
               "@microsoft/teams-js"
             ],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true
@@ -141,12 +139,10 @@
                 }
               ],
               "outputPath": "dist/hello-search",
-              "buildOptimizer": true,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -170,9 +166,7 @@
             },
             "development": {
               "outputPath": "dist-debug/hello-search",
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
