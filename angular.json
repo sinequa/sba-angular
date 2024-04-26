@@ -24,7 +24,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/core/test.ts",
+            "polyfills": ["zone.js","zone.js/testing"],
+            "inlineStyleLanguage": "scss",
+            "include": [
+              "projects/core/*.spec.ts"
+            ],
             "tsConfig": "projects/core/tsconfig.spec.json",
             "karmaConfig": "projects/core/karma.conf.js"
           }
@@ -61,7 +65,13 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/components/test.ts",
+            "polyfills": ["zone.js","zone.js/testing"],
+            "inlineStyleLanguage": "scss",
+            "include": [
+              "projects/components/**/*.spec.ts",
+              "projects/components/__tests__/*.spec.ts"
+
+            ],
             "tsConfig": "projects/components/tsconfig.spec.json",
             "karmaConfig": "projects/components/karma.conf.js"
           }
@@ -552,8 +562,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/analytics/test.ts",
-            "tsConfig": "projects/analytics/tsconfig.spec.json",
+            "polyfills": ["zone.js","zone.js/testing"],
+            "inlineStyleLanguage": "scss",
+            "include": [
+              "projects/analytics/**/*.spec.ts"
+            ],            "tsConfig": "projects/analytics/tsconfig.spec.json",
             "karmaConfig": "projects/analytics/karma.conf.js"
           }
         },

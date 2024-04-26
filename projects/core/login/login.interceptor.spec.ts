@@ -45,7 +45,7 @@ describe("login interceptor", () => {
     });
 
     // get interceptor instance
-    interceptorInstance = getInterceptorInstance<LoginInterceptor>(TestBed.inject(HTTP_INTERCEPTORS), LoginInterceptor);
+    interceptorInstance = getInterceptorInstance<LoginInterceptor>([...TestBed.inject(HTTP_INTERCEPTORS)], LoginInterceptor);
 
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);

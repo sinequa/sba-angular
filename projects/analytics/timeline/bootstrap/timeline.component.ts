@@ -125,12 +125,13 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         protected el: ElementRef,
         protected intlService: IntlService,
         protected cdRef: ChangeDetectorRef
-    ){
+    ){ }
+
+    ngOnInit() {
         // When the locale changes, we rebuild the X scale and axis
         this.intlSubscription = this.intlService.events.subscribe(e => this.updateXAxis());
 
         this.instance = BsTimelineComponent.counter++;
-
     }
 
     get isNoData(): boolean {
