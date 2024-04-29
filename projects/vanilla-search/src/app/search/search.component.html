@@ -198,19 +198,19 @@
                             <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                             <i *ngIf="(record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Witnessed') 
                             || (record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'ACCEPTED')" 
-                            class="fas fa-circle-check" 
-                            style="color: green;margin-left: 5px"
+                            class="fas fa-circle-check icon-right" 
+                            style="color: green"
                             title="Experiment status is Witnessed/Accepted"
                             ></i>
                             <i *ngIf="(record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Signing')
                             || (record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'NEEDS_REVIEW')" 
-                            class="fas fa-hourglass-half" 
-                            style="color: orange;margin-left: 5px"
+                            class="fas fa-hourglass-half icon-right" 
+                            style="color: orange"
                             title="Experiment status is Signing/Needs Review"
                             ></i>
                             <i *ngIf="(record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'RETRACTED')" 
-                            class="fas fa-circle-xmark" 
-                            style="color: red;margin-left: 5px"
+                            class="fas fa-circle-xmark icon-right" 
+                            style="color: red"
                             title="Experiment status is Rejected"
                             ></i>
                         </div>
