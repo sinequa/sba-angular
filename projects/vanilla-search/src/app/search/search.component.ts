@@ -361,4 +361,22 @@ export class SearchComponent implements OnInit, OnDestroy {
       }
     });
   }
+  /* Function that checks if a record comes from one of the File System collections. 
+  Done by looking at the collection name and comparing to a reference list that is hard coded in the function code. */
+  isFileSystem(record: Record): boolean {
+    const fileSystemCollections = ["/FileShares/Projects/" , "/FileShares/Translational/"];
+    if(fileSystemCollections.includes(record.collection[0]) && "filePath" in record)
+    {
+      return true;
+    }
+    return false;
+  }
+
+  copyToClipboard(record: Record, event: Event) {
+    event.stopPropagation();
+    if("filePath" in record)
+    {
+      this.ui.copyToClipboard((record as any).filePath as string);
+    }
+  }
 }

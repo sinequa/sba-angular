@@ -193,9 +193,16 @@
                   }">
                     <sq-result-duplicates-spacer [record]="record"></sq-result-duplicates-spacer>
                     <div class="flex-grow-1">
-                        <div class="d-flex align-items-center">
+                        <div class="record-header d-flex align-items-center">
                             <sq-result-selector class="d-none d-md-block" [record]="record"></sq-result-selector>
                             <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
+                            <button
+                                *ngIf="isFileSystem(record)"
+                                title="Paste this in your Windows file explorer to access the original document"
+                                class="btn btn-sm btn-link ms-auto py-0 text-nowrap"
+                                (click)="copyToClipboard(record, $event)">
+                                <i class ="fas fa-fw fa-clipboard"></i>Copy path to clipboard
+                            </button>
                             <i *ngIf="(record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Witnessed') 
                             || (record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'ACCEPTED')" 
                             class="fas fa-circle-check icon-right" 

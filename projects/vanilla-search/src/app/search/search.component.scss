@@ -44,8 +44,16 @@
     padding: var(--sq-record-padding-y) var(--sq-record-padding-x);
     margin: 0 calc(var(--sq-record-padding-x) * -1);
 
+    .record-header button {
+        display: none;
+    }
+
     &:hover {
         background-color: rgb(0, 0, 0, 0.03);
+
+        .record-header button {
+            display: inline-block;
+        }
     }
 
     &.selected {
