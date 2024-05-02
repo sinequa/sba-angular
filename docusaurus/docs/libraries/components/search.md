@@ -161,7 +161,7 @@ This components requires at least a `Results` input to work properly.
 
 ### Sort selector
 
-The `sq-sort-selector` component displays a button that allows the user to select the sorting criteria (by relevance, by date, etc.). It controls the `query.orderBy` parameter (the different values can be configured server-side in the [**Query web service**](/guides/2-server-config.md#query-web-service-default-_query)). The component is based on the [Action module](/libraries/components/action.md).
+The `sq-sort-selector` component displays a button that allows the user to select the sorting criteria (by relevance, by date, etc.). It controls the `query.orderBy` parameter (the different values can be configured server-side in the [**Query web service**](../../guides/server-config#query-web-service-default-_query)). The component is based on the [Action module](../../libraries/components/action).
 
 ![Sort selector](/assets/modules/search/sort-selector.png)
 

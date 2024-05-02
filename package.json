@@ -17,6 +17,7 @@
     "docs:ci": "cd docusaurus && npm ci",
     "docs:start": "cd docusaurus && npm run start",
     "docs:build": "cd docusaurus && npm run build",
+    "docs:build-internal": "cd docusaurus && npm run build-internal",
     "buildcore": "ng build core",
     "buildcomponents": "ng build components",
     "buildanalytics": "ng build analytics",

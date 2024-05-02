@@ -1,4 +1,5 @@
 ---
+id: updates
 layout: default
 title: Updates
 parent: Guides

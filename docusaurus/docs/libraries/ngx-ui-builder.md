@@ -11,7 +11,7 @@ UI Builder (`ngx-ui-builder`) is an Angular library for creating no-code tools &
 
 The library is developped by Sinequa as a standalone project hosted on [GitHub](https://github.com/sinequa/ngx-ui-builder) and published on [npm](https://www.npmjs.com/package/@sinequa/ngx-ui-builder). It has a release cycle independent from the SBA framework, and it has its own [documentation page](https://sinequa.github.io/ngx-ui-builder/) and [demo application](https://sinequa.github.io/ngx-ui-builder/demo/).
 
-The library is used in the [Vanilla Builder](../apps/5-vanilla-builder.md) application to let users customize the standard [Vanilla Search](../apps/2-vanilla-search.md) User Interface.
+The library is used in the [Vanilla Builder](../apps/vanilla-builder) application to let users customize the standard [Vanilla Search](../apps/vanilla-search) User Interface.
 
 The goal of this library is to provide three functionalities:
 
