@@ -176,7 +176,7 @@ The process is very much simplified:
 
 ![Login process SSO](/assets/tipstricks/login-sso.png)
 
-The configuration of Windows SSO is documented in the [official documentation](https://doc.sinequa.com/en.sinequa-es.v11/content/en.sinequa-es.how-to.implement-sso.md).
+The configuration of Windows SSO is documented in the [official documentation](https://doc.sinequa.com/en.sinequa-es.v11/content/en.sinequa-es.how-to.implement-sso.html).
 
 If the SSO works for accessing the Sinequa administration, it should work for authenticating HTTP requests for a SBA deployed on the same WebApp.
 
@@ -318,7 +318,7 @@ In the front-end part of the SBA, the login process is as follows:
 
 In the Sinequa administration, the configuration of the SAML 2.0 protocol involves various steps:
 
-- Configure an identity provider in your **Sinequa WebApp Auto-Login tab** (See the [official documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-grid-webapps.md))
+- Configure an identity provider in your **Sinequa WebApp Auto-Login tab** (See the [official documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-grid-webapps.html))
 
     ![SAML identity provider configuration](/assets/tipstricks/saml.png)
 
@@ -428,7 +428,7 @@ In the front-end part of the SBA, the login process is the same as SAML:
 
 In the Sinequa administration, the configuration of the OAuth2 protocol involves various steps:
 
-- Configure an identity provider in your Sinequa WebApp (See the [official documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-grid-webapps.md))
+- Configure an identity provider in your Sinequa WebApp (See the [official documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.how-to.implement-sso-oauth2.html#ConfiguringtheWebAppwithaPredefinedAzureADName))
 
     ![OAuth identity provider](/assets/tipstricks/oauth.png)
 
