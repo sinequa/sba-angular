@@ -91,7 +91,7 @@ Finally, keep in mind that nothing prevents you from programming your own provid
 ## Network Component
 
 
-The `sq-network` component is a facet component (See [Facet module](/docs/libraries/components/facet.md)), which is best used within a facet card:
+The `sq-network` component is a facet component (See [Facet module](../../libraries/components/facet)), which is best used within a facet card:
 
 ```html
 <sq-facet-card [title]="'Network'" [icon]="'fas fa-project-diagram'">
@@ -272,7 +272,7 @@ const provider = providerFactory.createRecordsProvider(doc, [struct], records, t
 
 The `SelectedRecordsProvider` class is a direct extension of `RecordsProvider`. The difference is that the provider listens to the `SelectionService` and provides record nodes from the list of selected records.
 
-⚠️ The `SelectionService` must be set-up to store *records* instead of just *record ids* (See [Selection module](/docs/libraries/components/selection.md#selection-service)).
+⚠️ The `SelectionService` must be set-up to store *records* instead of just *record ids* (See [Selection module](../../libraries/components/selection#selection-service)).
 
 This provider lets you easily see the common properties of two or more selected records.
 
@@ -320,7 +320,7 @@ Notice here that we did not use the factory's built-in method for generating a n
 
 ### Aggregation Provider
 
-The `AggregationProvider` class provides nodes and edges generated from an *aggregation*. Aggregations are computed by the Sinequa engine based on the content of one column (or more) of an index. Aggregation are typically used to compute the content of facets (See [Facet Module](/docs/libraries/components/facet.md)).
+The `AggregationProvider` class provides nodes and edges generated from an *aggregation*. Aggregations are computed by the Sinequa engine based on the content of one column (or more) of an index. Aggregation are typically used to compute the content of facets (See [Facet Module](../../libraries/components/facet)).
 
 The aggregation provider can be used to generate different types of relations between metadata:
 
@@ -334,7 +334,7 @@ Note that in all cases, **aggregations are computed in the context of the curren
 
 #### **Statistical relations**
 
-First we need to configure the cross-aggregation calculation on the server in the **Query web service** (see [Server configuration](/docs/guides/2-server-config.md#apps)).
+First we need to configure the cross-aggregation calculation on the server in the **Query web service** (see [Server configuration](../../guides/server-config#apps)).
 
 ![Cross distribution configuration](/assets/modules/network/cross-dist.png)
 *Configuration for a cross-aggregation between the **company** and **person** columns*
@@ -358,7 +358,7 @@ Note that the size of each node is proportional to the width of adjacent edges, 
 
 #### **Proximity relations**
 
-First we need to configure the aggregation calculation on the server in the **Query web service** (see [Server configuration](/docs/guides/2-server-config.md#apps)).
+First we need to configure the aggregation calculation on the server in the **Query web service** (see [Server configuration](../../guides/server-config#apps)).
 
 The aggregation must be computed for a column where co-occurrences are stored in the format `(VALUE 1)#(VALUE 2)`.
 
@@ -380,7 +380,7 @@ const provider = providerFactory.createAggregationProvider([edge]);
 
 #### **Semantic relations**
 
-First we need to configure the aggregation calculation on the server in the **Query web service** (see [Server configuration](/docs/guides/2-server-config.md#apps)).
+First we need to configure the aggregation calculation on the server in the **Query web service** (see [Server configuration](../../guides/server-config#apps)).
 
 The aggregation must be computed for a column where co-occurrences are stored in the format `(VALUE 1)#(TYPE)#(VALUE 2)`.
 
@@ -594,7 +594,7 @@ Actions associated to a node, edge or provider are displayed as buttons or menus
 
 ![Actions](/assets/modules/network/actions.png)
 
-These "actions" (see [Action module](/docs/libraries/components/action.md)) come from the providers (`NetworkProvider`) and can be customized by overriding an existing provider or implementing your own provider from scratch (in fact a provider can be created for the sole purpose of displaying actions for some categories of nodes or edges).
+These "actions" (see [Action module](../../libraries/components/action)) come from the providers (`NetworkProvider`) and can be customized by overriding an existing provider or implementing your own provider from scratch (in fact a provider can be created for the sole purpose of displaying actions for some categories of nodes or edges).
 
 The providers have three methods that can be implemented to provide actions:
 

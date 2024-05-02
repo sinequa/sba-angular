@@ -210,7 +210,7 @@ Additional methods allow to display modal dialogs:
 
 **Baskets** (a.k.a *Bookmarks* or *Collections*) are a functionality that lets users store specific documents to retrieve them later. A basket is essentially a named list of document ids (the document is only referenced, not copied).
 
-Note: in [Vanilla Search](/apps/2-vanilla-search.md), Baskets are actually renamed "Collections" (via internationalization).
+Note: in [Vanilla Search](../../apps/vanilla-search), Baskets are actually renamed "Collections" (via internationalization).
 
 ### User Menu
 
