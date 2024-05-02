@@ -1,4 +1,5 @@
 ---
+id: server-config
 layout: default
 title: Server configuration
 parent: Guides
@@ -29,7 +30,7 @@ choose your web service and save.
   <em>'New Angular app' action in Apps</em>
 </div>
 
-At this point, your Sinequa server can be used to develop an SBA, and you can start the [development guide](3-development.md) or spend more time reading the documentation below to learn more about fully configuring the server.
+At this point, your Sinequa server can be used to develop an SBA, and you can start the [development guide](development) or spend more time reading the documentation below to learn more about fully configuring the server.
 
 ## Apps
 
@@ -75,7 +76,7 @@ when saving the App configuration and notifies you should the JSON be not valid.
 ![Customization tab with error](/assets/gettingstarted/admin-app-conf-with-error.png)
 App configuration - Customization (JSON) tab - when the JSON is not valid
 
-Please refer to [Tips & tricks - Server-side-configuration](/docs/tipstricks/configuration.md#server-side-configuration) for an example of how to use the JSON data to customize vanilla-search.
+Please refer to [Tips & tricks - Server-side-configuration](../tipstricks/configuration#server-side-configuration) for an example of how to use the JSON data to customize vanilla-search.
 
 In the **Advanced** tab of the App configuration, it is possible to restrict the availability of the app to certain users and groups.
 You can also assign the current App configuration as the default Angular app for a user or a group.
@@ -100,13 +101,13 @@ List of <strong>configurable</strong> Web Services in the Sinequa server adminis
 ### Query web service (default: *_query*)
 
 The **Query** web service is one of the most integrated and sophisticated web service of Sinequa.
-It is at the heart of our application samples, [Vanilla Search](/docs/apps/2-vanilla-search.md) and [Pepper](/docs/apps/3-pepper.md).
+It is at the heart of our application samples, [Vanilla Search](../apps/vanilla-search) and [Pepper](../apps/pepper).
 This service allows to build complex search queries (incl. tabs, facet selection, advanced search, etc.) to retrieve data from the Sinequa indexes.
 
 The **General** tab of the Query web service configuration allows the configuration of these key parameters:
 
 - **Index list**: The list of indexes which this web service may query.
-- **QueryPlugin**: A [server-side plugin](/docs/tipstricks/plugins.md) (written in C#), which lets you customize the search queries, or post-process the responses.
+- **QueryPlugin**: A [server-side plugin](../tipstricks/plugins) (written in C#), which lets you customize the search queries, or post-process the responses.
 - **Aggregations**: A list of *Aggregations*. An aggregation is a short-list of metadata computed for the given query.
 For example, if you search for "automobile manufacturer", the *Company* aggregation could contain entries like "Volkswagen", "BMW", "Tesla", etc.
 
@@ -234,7 +235,7 @@ The third part of the server-side configuration that powers the SBA framework is
 The SBA Framework includes an Angular workspace available on [Github](https://github.com/sinequa/sba-angular), which is also shipped with Sinequa releases as a **zip file**.
 This archive can be unzipped, downloaded and uploaded on the Sinequa server via the Sinequa administration.
 
-The workspaces are located in `<Sinequa data folder>\sba`, which is where Sinequa looks for them, to display their content in the administration and to serve the built applications that they contain. This is also where you would deploy your application for Sinequa to serve it (via an upload, or a `git pull` -- See [Workspace](/docs/guides/3-development.md#workspace)).
+The workspaces are located in `<Sinequa data folder>\sba`, which is where Sinequa looks for them, to display their content in the administration and to serve the built applications that they contain. This is also where you would deploy your application for Sinequa to serve it (via an upload, or a `git pull` -- See [Workspace](../guides/development#workspace)).
 
 The **Workspaces** section displays the workspaces under `<Sinequa data folder>\sba`. It is located in the administration under *Search-Based Applications > Workspaces*:
 
@@ -245,7 +246,7 @@ At the start, there will be no workspace pre-loaded in Sinequa ES.
 You can:
 
 - either load the default Sinequa Angular workspace from a default zip provided with your Sinequa release,
-- or clone the [Github repository](https://github.com/sinequa/sba-angular) in `<Sinequa data folder>/sba` (See [Workspace](/docs/guides/3-development.md#workspace)),
+- or clone the [Github repository](https://github.com/sinequa/sba-angular) in `<Sinequa data folder>/sba` (See [Workspace](../guides/development#workspace)),
 - or import your own Angular workspace, noting that only multi-project Angular workspaces are supported (cf. [multi-project Angular workspace](https://angular.io/guide/file-structure#multiple-projects) for more information about Angular workspace type).
 
 ### Unzip the Sinequa Angular workspace
@@ -367,9 +368,9 @@ Workspace - New app actions
 
 ## CORS and WebApp configuration
 
-The **REST API** of Sinequa can be used by a remote application (which is the case when you serve your app with `ng serve`, without a proxy -- See [Connecting to the Sinequa server](/docs/guides/3-development.md#connecting-to-the-sinequa-server)). Note that this mode causes [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) issues.
+The **REST API** of Sinequa can be used by a remote application (which is the case when you serve your app with `ng serve`, without a proxy -- See [Connecting to the Sinequa server](../guides/development#connecting-to-the-sinequa-server)). Note that this mode causes [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) issues.
 
 - *Distributed Architecture > Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will use to test your app locally. For example, `http://localhost:4200` (or just `*`).
 - *Distributed Architecture > Webapp > Stateless Mode > Return HTTP error codes* enabled (default).
 
-As some [authentication methods](/docs/tipstricks/login-methods.md) need to store a JSON Web Token (JWT) on the client-side, a cookie must be stored with the `SameSite=None` and `Secure` options. This means that **the Sinequa API must necessarily be served over HTTPS** for these authentication methods to work.
+As some [authentication methods](../tipstricks/login-methods) need to store a JSON Web Token (JWT) on the client-side, a cookie must be stored with the `SameSite=None` and `Secure` options. This means that **the Sinequa API must necessarily be served over HTTPS** for these authentication methods to work.
