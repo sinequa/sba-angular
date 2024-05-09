@@ -31,3 +31,49 @@ $navbar-padding-y: 1.25rem;
 
 // SBA components custom CSS overrides
 @import "vanilla";
+
+/**
+* Incyte Entity Metadata Items
+*/
+.sq-metadata-item-docformat {
+    color: #ffffff;
+    background-color: #264653;
+    border-radius: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.sq-metadata-item-authors {
+    color: black;
+    background-color: #F4A261;
+    border-radius: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.sq-metadata-item-projectMetadata {
+    color: #ffffff;
+    background-color: #606C38;
+    border-radius: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.sq-metadata-item-experimentTitle {
+    color: #ffffff;
+    background-color: #0126a1;
+    border-radius: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.sq-metadata-item-experimentID{
+    color: #ffffff;
+    background-color: #0126a1;
+    border-radius: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.sq-metadata-item-compoundCSV{
+    color: #ffffff;
+    background-color: #000000;
+    border-radius: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
