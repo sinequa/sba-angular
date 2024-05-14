@@ -651,7 +651,7 @@ export const INCYTE_FACETS_OTHER: FacetConfig<FacetParams>[] = [
 
 export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
     folder: 'vanilla-search',
-    path: '/r/_sinequa/webpackages/help',
+    path: '/r/Incyte_help',
     indexFile: 'olh-index.html',
     useLocale: true,
     useLocaleAsPrefix: true

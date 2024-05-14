@@ -37,8 +37,8 @@ export class AppSearchFormComponent {
   @ViewChild("searchForm") searchForm: SearchFormComponent;
 
   public helpFolderOptions: HelpFolderOptions = {
-    path: '/r/_sinequa/webpackages/help',
-    indexFile: 'olh-search.html#sdard-search',
+    path: '/r/Incyte_help',
+    indexFile: 'olh-search.html#search',
   }
 
   constructor(
