@@ -26,7 +26,7 @@
                 <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
                     <sq-baskets-menu *ngSwitchCase="'baskets'" icon="fas fa-inbox"></sq-baskets-menu>
                     <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
-                    <sq-alerts-menu *ngSwitchCase="'alerts'" ></sq-alerts-menu>
+                    <!-- <sq-alerts-menu *ngSwitchCase="'alerts'" ></sq-alerts-menu> -->
                     <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
                 </ng-container>
                 <sq-user-menu [display]="'fullName'"></sq-user-menu>
