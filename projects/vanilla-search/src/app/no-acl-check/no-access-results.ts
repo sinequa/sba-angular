@@ -46,4 +46,20 @@ export class NoAccessResults{
   toggleExpand() {
     this.isExpanded = !this.isExpanded;
   }
+
+  truncateFilename(filename: string, maxLength: number): string {
+    const dotIndex = filename.lastIndexOf('.');
+    if (dotIndex === -1 || dotIndex === 0) {
+      return filename.length > maxLength ? filename.slice(0, maxLength) + '(..)' : filename;
+    }
+
+    const name = filename.slice(0, dotIndex);
+    const extension = filename.slice(dotIndex);
+
+    if (name.length > maxLength) {
+      return name.slice(0, maxLength) + '(..)' + extension;
+    }
+
+    return filename;
+  }
 }

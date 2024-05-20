@@ -17,9 +17,9 @@
             <hr>
             <ul>
                 <li *ngFor="let record of nonAclRecords">
-                <strong>{{ record.filename | slice:0:75 }}{{ record.filename.length > 100 ? '...' : '' }}</strong>
-                <span *ngIf="record.author"> by <i>{{ record.author }}</i></span>
-                <div class="treepath">located in <i>{{ record.treePath.slice(1, -1) }}</i></div>
+                <strong [title]="record.filename">{{ truncateFilename(record.filename, 50) }}</strong>
+                <span *ngIf="record.authors"><i> by </i>{{ record.authors }}</span>
+                <div class="treepath"><i>located in</i> {{ record.treePath.slice(1, -1) }}</div>
                 </li>
             </ul>
             <hr>
