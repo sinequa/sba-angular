@@ -50,6 +50,9 @@ import { environment } from "../environments/environment";
 // Help folder options
 import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
+//Incyte
+import { NoAccessResults } from "./no-acl-check/no-access-results";
+
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
     app: "iris",
@@ -150,7 +153,8 @@ export const breakpoints = {
         SearchComponent,
         PreviewComponent,
         AppSearchFormComponent,
-        AutocompleteComponent
+        AutocompleteComponent,
+        NoAccessResults
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa

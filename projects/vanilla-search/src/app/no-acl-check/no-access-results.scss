@@ -1,0 +1,42 @@
+.no-access-results-box {
+    background-color: #f5e1c6; /* Light orange color */
+    border-radius: 10px; /* Rounded edges */
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 24px;
+    padding-bottom: 15px;
+    margin: 10px 0;
+}
+
+.no-access-results-box p {
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+  
+.fa-circle-info {
+    font-size: 2em; /* Large icon */
+    margin-right: 10px;
+}
+
+
+.records-list {
+    margin-top: 10px;
+}
+
+.records-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.records-list li {
+    margin-bottom: 10px;   
+}
+
+.records-list .treepath {
+    font-size: 0.9em;
+    font-style: italic;
+}  

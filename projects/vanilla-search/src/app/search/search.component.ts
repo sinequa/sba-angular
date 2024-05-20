@@ -12,8 +12,9 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { AuditEventType, AuditWebService, Filter, Record, Results } from '@sinequa/core/web-services';
+import { AuditEventType, AuditWebService, Filter, Record } from '@sinequa/core/web-services';
 import { Observable, Subscription, filter, tap } from 'rxjs';
+import { IncyteResult } from '@sinequa/vanilla/app/no-acl-check/incyte.types';
 
 import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 import { INCYTE_FACETS_ALL, INCYTE_FACETS_FILESHARES, INCYTE_FACETS_CHEMCART, INCYTE_FACETS_PSILO, INCYTE_FACETS_BENCHLING, INCYTE_FACETS_OTHER} from '../../config';
@@ -51,7 +52,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public showFilterToggle = false;
 
-  public results$: Observable<Results | undefined>;
+  public results$: Observable<IncyteResult | undefined>;
 
   public readonly facetComponents = {
       ...DEFAULT_FACET_COMPONENTS,
@@ -59,8 +60,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   public helpFolderOptions: HelpFolderOptions = {
-    path: '/r/_sinequa/webpackages/help',
-    indexFile: 'olh-search.html#sdard-search',
+    path: '/r/Incyte_Help',
+    indexFile: 'olh-search.html#search',
   }
 
   public isDark: boolean;
@@ -75,7 +76,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private intlService: IntlService,
     private appService: AppService,
     public readonly ui: UIService,
-    public searchService: SearchService,
+    public searchService: SearchService<IncyteResult>,
     public selectionService: SelectionService,
     public loginService: LoginService,
     public auditService: AuditWebService,

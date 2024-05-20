@@ -1,0 +1,29 @@
+<div *ngIf="nonAclRecords.length > 0" class="no-access-results-box">
+    <div class="header">
+        <i class="fas fa-circle-info"></i>
+        <h5>See more results
+            <i *ngIf="!isExpanded" class="fas fa-chevron-down" (click)="toggleExpand()"></i>
+            <i *ngIf="isExpanded" class="fas fa-chevron-right" (click)="toggleExpand()"></i>
+        </h5>
+    </div>
+    <div [@expandCollapse]="isExpanded ? 'expanded' : 'collapsed'" class="records-list">
+        <div [@fadeIn]="isExpanded ? 'visible' : 'hidden'">
+            <h6>
+                Other relevant documents exist for your query but your permissions prohibit access.
+            </h6>
+            <p>
+                To investigate further and/or gain access, reach out to the Author of the document or to your Iris Administrator.            
+            </p>
+            <hr>
+            <ul>
+                <li *ngFor="let record of nonAclRecords">
+                <strong>{{ record.filename | slice:0:75 }}{{ record.filename.length > 100 ? '...' : '' }}</strong>
+                <span *ngIf="record.author"> by <i>{{ record.author }}</i></span>
+                <div class="treepath">located in <i>{{ record.treePath.slice(1, -1) }}</i></div>
+                </li>
+            </ul>
+            <hr>
+            <p>Why am I seeing this?</p>
+        </div>
+    </div>
+</div>
