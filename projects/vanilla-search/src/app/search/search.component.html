@@ -183,6 +183,9 @@
 
             </div>
 
+            <no-access-results [nonAclRecords]="results.nonAclRecords"></no-access-results>
+
+
             <!-- List of documents (for loop) -->
             <ul class="result-list p-0" *ngIf="results.records?.length > 0; else noResult">
                 <li *ngFor="let record of results.records" class="record"
@@ -280,8 +283,6 @@
                 </p>
               </div>
             </ng-template>
-
-            <no-access-results [nonAclRecords]="results.nonAclRecords"></no-access-results>
 
             <!-- Infinite scroll -->
             <sq-scroller></sq-scroller>
