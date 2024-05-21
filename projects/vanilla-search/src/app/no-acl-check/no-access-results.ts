@@ -71,15 +71,23 @@ export class NoAccessResults{
 
   truncateTreepath(input: string, maxLength: number): string {
     // Remove the first and last characters if they are '/'
+    let trimmed = input;
+    if (input.startsWith('/')) {
+        trimmed = trimmed.substring(1);
+    }
+    if (input.endsWith('/')) {
+        trimmed = trimmed.substring(0, trimmed.length - 1);
+    }
+
     const truncationIndicator = "(..)";
     const truncationIndicatorLength = truncationIndicator.length;
 
     // Truncate the string if necessary and add the truncation indicator
-    if (input.length > maxLength) {
-      input = input.substring(0, maxLength - truncationIndicatorLength) + truncationIndicator;
+    if (trimmed.length > maxLength) {
+        trimmed = trimmed.substring(0, maxLength - truncationIndicatorLength) + truncationIndicator;
     }
 
-    return input;
+    return trimmed;
 }
 
   copyToClipboard(record: NonAclRecord, event: Event) {
