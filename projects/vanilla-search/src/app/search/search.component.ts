@@ -80,7 +80,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     public selectionService: SelectionService,
     public loginService: LoginService,
     public auditService: AuditWebService,
-  ) {
+  ) 
+  {
 
     const expandAction = new Action({
       icon: "fas fa-fw fa-expand-alt",
@@ -365,8 +366,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   /* Function that checks if a record comes from one of the File System collections. 
   Done by looking at the collection name and comparing to a reference list that is hard coded in the function code. */
   isFileSystem(record: Record): boolean {
-    const fileSystemCollections = ["/FileShares/Projects/" , "/FileShares/Translational/"];
-    if(fileSystemCollections.includes(record.collection[0]) && "filePath" in record)
+    let collection = record.collection[0];
+    if( collection.startsWith("/FileShares/") && "filePath" in record)
     {
       return true;
     }
