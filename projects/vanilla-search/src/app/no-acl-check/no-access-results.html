@@ -1,29 +1,22 @@
-<div *ngIf="nonAclRecords.length > 0" class="no-access-results-box">
-    <div class="header">
-        <i class="fas fa-circle-info"></i>
-        <h5>See more results
-            <i *ngIf="!isExpanded" class="fas fa-chevron-down" (click)="toggleExpand()"></i>
-            <i *ngIf="isExpanded" class="fas fa-chevron-right" (click)="toggleExpand()"></i>
+<div class="no-access-results">
+    <div class="no-access-results-header">
+        <h5>
+            Other relevant documents exist for your query and your filters but your permissions prohibit access.
         </h5>
-    </div>
-    <div [@expandCollapse]="isExpanded ? 'expanded' : 'collapsed'" class="records-list">
-        <div [@fadeIn]="isExpanded ? 'visible' : 'hidden'">
-            <h6>
-                Other relevant documents exist for your query but your permissions prohibit access.
-            </h6>
-            <p>
-                To investigate further and/or gain access, reach out to the Author of the document or to your Iris Administrator.            
-            </p>
-            <hr>
-            <ul>
-                <li *ngFor="let record of nonAclRecords">
-                <strong [title]="record.filename">{{ truncateFilename(record.filename, 50) }}</strong>
-                <span *ngIf="record.authors"><i> by </i>{{ record.authors }}</span>
-                <div class="treepath"><i>located in</i> {{ record.treePath.slice(1, -1) }}</div>
-                </li>
-            </ul>
-            <hr>
-            <p>Why am I seeing this?</p>
+        <div class="no-access-results-investigate">
+            <sq-feedback-menu class="feedback-icon" [style]="'primary'"></sq-feedback-menu> 
+            <span>To investigate further and/or gain access, reach out to the Author of the document or to your Iris Administrator.</span>        
         </div>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li *ngFor="let record of nonAclRecords" class="list-group-item list-group-item-action sq-passage" [title]="record.filename">
+            <span class="no-access-results-title">{{ truncateFilename(record.filename, 50) }}</span>
+            <span *ngIf="record.authors"><i> by </i>{{ record.authors }}</span>
+            <div class="treepath"><i>located in</i> {{ record.treePath.slice(1, -1) }}</div>
+        </li>
+    </ul>
+    <hr>
+    <div class="no-access-results-help">
+        <p>Why am I seeing this?</p>
     </div>
 </div>

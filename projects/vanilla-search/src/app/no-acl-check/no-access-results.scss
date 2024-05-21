@@ -1,41 +1,26 @@
-.no-access-results-box {
-    background-color: #ddecff; /* Light orange color */
-    border-radius: 10px; /* Rounded edges */
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    margin: 10px 0;
+.no-access-results {
+    padding: 15px
 }
 
-.no-access-results-box p {
-    margin: 0;
+.no-access-results-title {
+    font-weight: 750;
 }
 
-.header {
+.no-access-results-header {
+    margin-bottom: 1em;
+}
+
+.no-access-results-investigate {
+    padding-top: 10px;
     display: flex;
     align-items: center;
 }
-  
-.fa-circle-info {
-    font-size: 2em; /* Large icon */
-    margin-right: 15px;
+
+.no-access-results-investigate span {
+    margin-left: 10px;
 }
 
-
-.records-list {
-    margin-top: 10px;
+.feedback-icon {
+    margin-right: 10px;
+    margin-left: 10px;
 }
-
-.records-list ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.records-list li {
-    margin-bottom: 10px;   
-}
-
-.records-list .treepath {
-    font-size: 0.9em;
-}  

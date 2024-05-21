@@ -177,14 +177,23 @@
                     </sq-top-passages>
                 </sq-facet-card>
 
+                <sq-facet-card 
+                    *ngIf="results.nonAclRecords"
+                    class="w-100 mb-2"
+                    title="See more results"
+                    icon="fas fa-lock-open primary-icon"
+                    startCollapsed="true">
+                    <no-access-results #facet 
+                        [nonAclRecords]="results.nonAclRecords">
+                    </no-access-results>
+                </sq-facet-card>
+                
+
                 <!-- Result counter and sort -->
                 <sq-results-counter [rowCount]="searchService.rowCount" class="small my-2 ms-auto px-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true" class="small my-2"></sq-sort-selector>
 
             </div>
-
-            <no-access-results [nonAclRecords]="results.nonAclRecords"></no-access-results>
-
 
             <!-- List of documents (for loop) -->
             <ul class="result-list p-0" *ngIf="results.records?.length > 0; else noResult">
