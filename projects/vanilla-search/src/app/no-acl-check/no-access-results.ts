@@ -53,7 +53,7 @@ export class NoAccessResults{
     this.isExpanded = !this.isExpanded;
   }
 
-  truncate(input: string, maxLength: number): string {
+  truncateFilename(input: string, maxLength: number): string {
     const dotIndex = input.lastIndexOf('.');
     if (dotIndex === -1 || dotIndex === 0) {
       return input.length > maxLength ? input.slice(0, maxLength) + '(..)' : input;
@@ -68,6 +68,27 @@ export class NoAccessResults{
 
     return input;
   }
+
+  truncateTreepath(input: string, maxLength: number): string {
+    // Remove the first and last characters if they are '/'
+    let trimmed = input;
+    if (input.startsWith('/')) {
+        trimmed = trimmed.substring(1);
+    }
+    if (input.endsWith('/')) {
+        trimmed = trimmed.substring(0, trimmed.length - 1);
+    }
+
+    const truncationIndicator = "(..)";
+    const truncationIndicatorLength = truncationIndicator.length;
+
+    // Truncate the string if necessary and add the truncation indicator
+    if (trimmed.length > maxLength) {
+        trimmed = trimmed.substring(0, maxLength - truncationIndicatorLength) + truncationIndicator;
+    }
+
+    return trimmed;
+}
 
   copyToClipboard(record: NonAclRecord, event: Event) {
     event.stopPropagation();
