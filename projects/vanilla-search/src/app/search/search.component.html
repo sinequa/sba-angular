@@ -258,7 +258,7 @@
                             class="small"
                         ></sq-metadata>
 
-                        <sq-metadata *ngIf="record.treepath[0]?.startsWith('/Projects/') || record.treepath[0]?.startsWith('/Translational Science/')"
+                        <sq-metadata *ngIf="record.treepath[0]?.startsWith('/Projects/') || record.treepath[0]?.startsWith('/Translational Science/') || record.treepath[0]?.startsWith('/DeptShares/')"
                             [record]="record"
                             [config]="incyteFileSharesMetadata"
                             [layout]="'table'"
