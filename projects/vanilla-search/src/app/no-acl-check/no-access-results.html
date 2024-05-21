@@ -9,10 +9,14 @@
         </div>
     </div>
     <ul class="list-group list-group-flush">
-        <li *ngFor="let record of nonAclRecords" class="list-group-item list-group-item-action sq-passage" [title]="record.filename">
-            <span class="no-access-results-title">{{ truncateFilename(record.filename, 50) }}</span>
-            <span *ngIf="record.authors"><i> by </i>{{ record.authors }}</span>
-            <div class="treepath"><i>located in</i> {{ record.treePath.slice(1, -1) }}</div>
+        <li 
+            *ngFor="let record of nonAclRecords" 
+            class="list-group-item list-group-item-action sq-passage" 
+            [title]="record.filename"
+            (click)="copyToClipboard(record, $event)">
+            <div class="no-access-results-title">{{ truncate(record.filename, 50) }}</div>
+            <div *ngIf="record.authors"><i> by </i>{{ record.authors }}</div>
+            <div class="treepath"><i>located in</i> {{ truncate(record.treePath.slice(1, -1), 50) }}</div>
         </li>
     </ul>
     <hr>

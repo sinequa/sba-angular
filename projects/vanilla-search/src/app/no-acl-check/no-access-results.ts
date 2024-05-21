@@ -4,6 +4,8 @@ import { trigger, state, style, transition, animate } from "@angular/animations"
 
 import { NonAclRecord } from "./incyte.types";
 
+import { UIService } from '@sinequa/components/utils';
+
 
 @Component({
     selector: "no-access-results",
@@ -39,27 +41,37 @@ import { NonAclRecord } from "./incyte.types";
       ]
 })
 export class NoAccessResults{
-    @Input() nonAclRecords: NonAclRecord[] = [];
+  @Input() nonAclRecords: NonAclRecord[] = [];
 
-    isExpanded = false;
+  isExpanded = false;
+
+  constructor(
+    public readonly ui: UIService
+  ){}
 
   toggleExpand() {
     this.isExpanded = !this.isExpanded;
   }
 
-  truncateFilename(filename: string, maxLength: number): string {
-    const dotIndex = filename.lastIndexOf('.');
+  truncate(input: string, maxLength: number): string {
+    const dotIndex = input.lastIndexOf('.');
     if (dotIndex === -1 || dotIndex === 0) {
-      return filename.length > maxLength ? filename.slice(0, maxLength) + '(..)' : filename;
+      return input.length > maxLength ? input.slice(0, maxLength) + '(..)' : input;
     }
 
-    const name = filename.slice(0, dotIndex);
-    const extension = filename.slice(dotIndex);
+    const name = input.slice(0, dotIndex);
+    const extension = input.slice(dotIndex);
 
     if (name.length > maxLength) {
       return name.slice(0, maxLength) + '(..)' + extension;
     }
 
-    return filename;
+    return input;
+  }
+
+  copyToClipboard(record: NonAclRecord, event: Event) {
+    event.stopPropagation();
+    let contentToCopy = `File name: ${record.filename}\n${record.authors ? `Author: ${record.authors}\n` : ''}File location: ${record.treePath}`
+    this.ui.copyToClipboard(contentToCopy);
   }
 }

@@ -5,7 +5,7 @@ export interface IncyteResult extends Results {
 } 
 
 export type NonAclRecord = {
-    author: string,
+    authors: string,
     filename: string,
     treePath: string
 }
