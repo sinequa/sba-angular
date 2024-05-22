@@ -30,6 +30,7 @@
                     <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
                 </ng-container>
                 <sq-user-menu [display]="'fullName'"></sq-user-menu>
+                <sq-help-button [style]="'primary'"  class="ms-1 d-none d-md-block"></sq-help-button>
                 <!-- Non mobile feedback button -->
                 <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1 d-none d-md-block" *ngIf="loginService.complete"></sq-feedback-menu>
             </ul>
