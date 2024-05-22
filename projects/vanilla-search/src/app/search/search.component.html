@@ -179,7 +179,7 @@
                 </sq-facet-card>
 
                 <sq-facet-card 
-                    *ngIf="results.nonAclRecords.length > 0"
+                    *ngIf="results.nonAclRecords && results.nonAclRecords.length > 0"
                     class="w-100 mb-2"
                     title="See more results"
                     icon="fas fa-lock-open primary-icon"
