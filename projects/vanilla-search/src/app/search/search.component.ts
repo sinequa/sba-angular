@@ -170,43 +170,47 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   public get incyteFacetsAll(): FacetConfig<FacetParams>[] {
-    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_ALL;
+    return this.appService.app?.data?.facetsAll as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_ALL;
   }
   public get incyteFacetsFileshares(): FacetConfig<FacetParams>[] {
-    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_FILESHARES;
+    return this.appService.app?.data?.facetsFileShares as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_FILESHARES;
   }
   public get incyteFacetsChemcart(): FacetConfig<FacetParams>[] {
-    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_CHEMCART;
+    return this.appService.app?.data?.facetsChemcart as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_CHEMCART;
   }
   public get incyteFacetsBenchling(): FacetConfig<FacetParams>[] {
-    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_BENCHLING;
+    return this.appService.app?.data?.facetsBenchling as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_BENCHLING;
   }
   public get incyteFacetsPSILO(): FacetConfig<FacetParams>[] {
-    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_PSILO;
+    return this.appService.app?.data?.facetsPSILO as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_PSILO;
   }
   public get incyteFacetsOther(): FacetConfig<FacetParams>[] {
-    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_OTHER;
+    return this.appService.app?.data?.facetsOthers as any as FacetConfig<FacetParams>[] || INCYTE_FACETS_OTHER;
   }
 
-  /**
-   * Returns the configuration of the Incyte Primary metadata displayed in the facet-preview component.
+   /**
+   * Returns the configuration of the metadata displayed in the facet-preview component.
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
+  public get metadata(): MetadataConfig[] {
+    return this.appService.app?.data?.metadata as any as MetadataConfig[] || METADATA_CONFIG;
+  }
+
   public get incyteChemCartMetadata(): MetadataConfig[] {
-    return INCYTE_CHEMCART_METADATA_CONFIG as any as MetadataConfig[];
+    return this.appService.app?.data?.metadataChemcart as any as MetadataConfig[] || INCYTE_CHEMCART_METADATA_CONFIG;
   }
 
   public get incyteBenchlingMetadata(): MetadataConfig[] {
-    return INCYTE_BENCHLING_METADATA_CONFIG as any as MetadataConfig[];
+    return this.appService.app?.data?.metadataBenchling as any as MetadataConfig[] || INCYTE_BENCHLING_METADATA_CONFIG;
   }
 
   public get incytePSILOMetadata(): MetadataConfig[] {
-    return INCYTE_PSILO_METADATA_CONFIG as any as MetadataConfig[];
+    return this.appService.app?.data?.metadataPSILO as any as MetadataConfig[] || INCYTE_PSILO_METADATA_CONFIG;
   }
 
   public get incyteFileSharesMetadata(): MetadataConfig[] {
-    return INCYTE_FILESHARES_METADATA_CONFIG as any as MetadataConfig[];
+    return this.appService.app?.data?.metadataFileShares as any as MetadataConfig[] || INCYTE_FILESHARES_METADATA_CONFIG;
   }
 
   protected get currentSelectedTab(): string {
@@ -220,15 +224,6 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public get features(): string[] {
     return this.appService.app?.data?.features as string[] || FEATURES;
-  }
-
-  /**
-   * Returns the configuration of the metadata displayed in the facet-preview component.
-   * The configuration from the config.ts file can be overriden by configuration from
-   * the app configuration on the server
-   */
-  public get metadata(): MetadataConfig[] {
-    return this.appService.app?.data?.metadata as any as MetadataConfig[] || METADATA_CONFIG;
   }
 
   public get previewHighlights(): PreviewHighlightColors[] {
