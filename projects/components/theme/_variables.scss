@@ -63,8 +63,8 @@ $nav-tabs-border-width: 0 !default;
 $nav-tabs-border-radius: .3rem !default;
 $nav-tabs-padding: .2rem !default;
 
-$nav-tabs-link-active-color: var(--sq-text, #{$black}) !default;
-$nav-tabs-link-active-bg: var(--brand, #{$blue-focus}) !default;
+$nav-tabs-link-active-color: var(--sq-text, #{$white}) !default;
+$nav-tabs-link-active-bg: var(--brand, #{$secondary-500}) !default;
 $nav-tabs-link-active-box-shadow: 0 0 .4rem rgba(0, 0, 0, .1) !default;
 
 /** nav link **/
@@ -75,8 +75,8 @@ $nav-link-font-weight: 600 !default;
 $nav-link-color: rgb(0,0,0,0.55) !default;
 $nav-link-hover-color: rgb(0,0,0,0.7) !default;
 
-$nav-link-hover-bg: var(--brand-100, #{$blue-focus}) !default;
-$nav-link-active-hover-bg: var(--brand-200, #{$blue-focus}) !default;
+$nav-link-hover-bg: var(--brand-100, #{$secondary-500}) !default;
+$nav-link-active-hover-bg: var(--brand-200, #{$accent-500}) !default;
 
 /** form check input **/
 $form-check-input-checked-bg-color: $grey-500 !default;
@@ -99,10 +99,10 @@ $form-check-input-invalid-checked-bg: $error-1 !default;
 $form-check-input-invalid-checked-hover-bg: $darker-red !default;
 
 /** checkbox **/
-$form-check-input-checkbox-checked-bg: var(--primary, #{$blue-500}) !default;
-$form-check-input-checkbox-checked-border-color: var(--primary, #{$blue-500}) !default;
-$form-check-input-checkbox-checked-hover-bg: var(--primary-400, #{$darker-blue}) !default;
-$form-check-input-checkbox-checked-hover-border-color: var(--primary-400, #{$darker-blue}) !default;
+$form-check-input-checkbox-checked-bg: var(--primary, #{$accent-500}) !default;
+$form-check-input-checkbox-checked-border-color: var(--primary, #{$accent-500}) !default;
+$form-check-input-checkbox-checked-hover-bg: var(--primary-400, #{$accent-900}) !default;
+$form-check-input-checkbox-checked-hover-border-color: var(--primary-400, #{$accent-900}) !default;
 
 $form-check-input-checkbox-disabled-bg: $grey-300 !default;
 $form-check-input-checkbox-disabled-border-color: $grey-300 !default;
@@ -149,8 +149,8 @@ $facet-item-opener-hover-color: $body-text-grey-lighter !default;
 /** card **/
 $card-border-width: 0 !default;
 $card-box-shadow: $sq-box-shadow !default;
-$card-cap-bg: var(--brand-300, #{$blue-focus}) !default;
-$card-cap-color: var(--sq-text, #{$body-text-grey}) !default;
+$card-cap-bg: var(--brand-300, #{$secondary-500}) !default;
+$card-cap-color: var(--sq-text, #{$white}) !default;
 
 $card-cap-font-weight: 600 !default;
 $card-cap-primary-icon-color: var(--primary, $blue-100) !default;

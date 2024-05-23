@@ -4,12 +4,27 @@
 // tint-color() and shade-color() needs this import
 @import "bootstrap/scss/functions";
 
+$accent-100: #ffe2d4 !default;
+$accent-300: #ffa273 !default;
+$accent-500: #ff854a !default;
+$accent-700: #f2580c !default;
+$accent-900: #e6540b !default;
+
+$brand-rgb: 0,64,191;
+$brand-100: #c7daff;
+$brand-300: #0055ff;
+$brand-500: #0040bf; /* brand rgb */
+
+$secondary-100: #e8edff;
+$secondary-300: #cfdaff;
+$secondary-500: #87a3ff;
+
 $bg-color: #E5E5E5;
-$blue-rgb: 12, 117, 255;
-$blue: rgb(12, 117, 255);
-$blue-hover: #0f65d7;
-$blue-selection: #eef7ff;
-$blue-focus: #ddecff;
+$blue-hover: $accent-500;
+$blue-rgb: $brand-rgb;
+$blue: $brand-500;
+$blue-selection: $secondary-100;
+$blue-focus: $secondary-500;
 
 $white: #fff;
 $white-2: #F1F1F1;
