@@ -41,4 +41,4 @@ Read our [Getting Started](https://sinequa.github.io/sba-angular/getting-started
 
 ## Contact Us
 
-Interested in Sinequa? Contact us by [email](mailto:info@sinequa.com) or give us a call! (See our [contact page](https://go.sinequa.com/contact.html) and [website](https://www.sinequa.com))
+Interested in Sinequa? Contact us by [email](mailto:info@sinequa.com) or give us a call! (See our [contact page](https://www.sinequa.com/contact) and [website](https://www.sinequa.com))
