@@ -7,12 +7,6 @@ span.matchlocations {
     font-weight: 600;
 }
 
-.card-header {
-    .sq-result-title {
-        color: $white;
-    }
-}
-
 sq-result-source :where(a, span) {
     font-size: .875rem;
     color: $brand-500;

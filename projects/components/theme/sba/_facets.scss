@@ -28,10 +28,7 @@ sq-facet-card {
       background-color: $facet-btn-light-bg;
       border-color: $facet-btn-light-border-color;
 
-      &:hover {
-        color: $white;
-        background-color: $accent-500;
-      }
+      &:hover,
       &.active,
       &[aria-expanded="true"] {
         color: $facet-btn-light-active-color;

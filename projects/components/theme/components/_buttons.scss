@@ -31,15 +31,15 @@ $theme-accent: (
 
 $theme-outline: (
   "background": transparent,
-  "border": $brand-500,
-  "color": $brand-500,
+  "border": $blue-500,
+  "color": $blue-500,
 
   "hover-background": $blue-hover,
   "hover-border": $brand-500,
   "hover-color": $white,
 
-  "active-background": $accent-500,
-  "active-border": $brand-500,
+  "active-background": $darker-blue,
+  "active-border": $darker-blue,
   "active-color": $white,
 
   "disabled-background": $blue-focus,
@@ -70,12 +70,12 @@ $theme-outline-light: (
   "border": transparent,
   "color": $black,
 
-  "hover-background": $accent-500,
-  "hover-border": transparent,
-  "hover-color": $white,
+  "hover-background": $blue-focus,
+  "hover-border": $blue-focus,
+  "hover-color": $black,
 
-  "active-background": $accent-500,
-  "active-border": transparent,
+  "active-background": $blue,
+  "active-border": $blue,
   "active-color": $white,
 
   "disabled-background": transparent,
@@ -86,7 +86,6 @@ $theme-outline-light: (
 $theme: (
   "primary": $theme-primary,
   "accent": $theme-accent,
-  "light": $theme-primary,
   "outline-primary": $theme-outline,
   "outline-accent": $theme-outline-accent,
   "outline-light": $theme-outline-light

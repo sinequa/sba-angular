@@ -16,6 +16,7 @@ $brand-300: #0055ff;
 $brand-500: #0040bf; /* brand rgb */
 
 $secondary-100: #e8edff;
+$secondary-200: #ddecff;   /* used by facet's caps */
 $secondary-300: #cfdaff;
 $secondary-500: #87a3ff;
 
@@ -24,7 +25,7 @@ $blue-hover: $accent-500;
 $blue-rgb: $brand-rgb;
 $blue: $brand-500;
 $blue-selection: $secondary-100;
-$blue-focus: $secondary-500;
+$blue-focus: $secondary-200;
 
 $white: #fff;
 $white-2: #F1F1F1;
