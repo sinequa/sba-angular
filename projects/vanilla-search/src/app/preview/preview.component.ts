@@ -1,17 +1,14 @@
-import { CommonModule, Location, NgClass } from "@angular/common";
+import { Location } from "@angular/common";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription, filter } from 'rxjs';
 
 import { Action } from '@sinequa/components/action';
-import { BsFacetModule } from "@sinequa/components/facet";
-import { Preview, PreviewHighlightColors, PreviewModule, PreviewService } from '@sinequa/components/preview';
-import { ResultModule } from "@sinequa/components/result";
-import { BsSearchModule, SearchService } from '@sinequa/components/search';
-import { UtilsModule } from "@sinequa/components/utils";
+import { Preview, PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
+import { SearchService } from '@sinequa/components/search';
 import { AppService, Query } from '@sinequa/core/app-utils';
-import { IntlModule, IntlService } from '@sinequa/core/intl';
+import { IntlService } from '@sinequa/core/intl';
 import { AuditEventType, CCQuery, PreviewData, SimilarDocumentOptions, Tab, Record as Article } from '@sinequa/core/web-services';
 import { PREVIEW_HIGHLIGHTS } from '@sinequa/vanilla/config';
 
@@ -25,10 +22,6 @@ export interface EntitiesState {
 
 @Component({
   selector: 'app-preview',
-  standalone: true,
-  imports: [NgClass, CommonModule, UtilsModule, RouterModule, IntlModule, PreviewModule,
-    BsSearchModule, BsFacetModule, ResultModule
-  ],
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
