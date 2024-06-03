@@ -6,6 +6,8 @@ import { NonAclRecord } from "./incyte.types";
 
 import { UIService } from '@sinequa/components/utils';
 
+import { HelpFolderOptions } from "@sinequa/components/user-settings";
+
 
 @Component({
     selector: "no-access-results",
@@ -94,5 +96,10 @@ export class NoAccessResults{
     event.stopPropagation();
     let contentToCopy = `File name: ${record.filename}\n${record.authors ? `Author: ${record.authors}\n` : ''}File location: ${record.treePath}`
     this.ui.copyToClipboard(contentToCopy);
+  }
+
+  public helpFolderOptions: HelpFolderOptions = {
+    path: '/r/Incyte_Help',
+    indexFile: 'olh-search.html#iris-security',
   }
 }
