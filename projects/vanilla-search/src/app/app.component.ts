@@ -10,13 +10,9 @@ import { AppService } from '@sinequa/core/app-utils';
 import { FEATURES, SELECTORS_HIGHLIGHTS } from '../config';
 import { HighlightService } from "@sinequa/components/metadata";
 import { PreviewHighlightColors } from "@sinequa/components/preview";
-import { RouterOutlet } from "@angular/router";
-import { BsNotificationModule } from "@sinequa/components/notification";
 
 @Component({
     selector: "app",
-    standalone: true,
-    imports: [RouterOutlet, BsNotificationModule],
     templateUrl: "./app.component.html"
 })
 export class AppComponent extends ComponentWithLogin {
