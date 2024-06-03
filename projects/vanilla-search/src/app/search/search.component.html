@@ -69,7 +69,8 @@
             <!-- Other filters -->
             <sq-facet-card  
                 [collapsible]="true"
-                class="mb-3" >
+                class="mb-3" 
+                *ngIf="['all', 'fileshares', 'chemcart', 'benchling', 'PSILO'].includes(currentSelectedTab)">
                 <sq-facet-multi #facet
                     title="Incyte Filters" 
                     [icon]="'fas fa-microscope'"
@@ -196,89 +197,97 @@
 
             </div>
 
-            <!-- List of documents (for loop) -->
-            <ul class="result-list p-0" *ngIf="results.records?.length > 0; else noResult">
-                <li *ngFor="let record of results.records" class="record"
-                  (click)="onDocumentClicked(record, $event)"
-                  [ngClass]="{
-                    'selected': record.$selected || record === openedDoc,
-                    'duplicate': record.$isDuplicate
-                  }">
-                    <sq-result-duplicates-spacer [record]="record"></sq-result-duplicates-spacer>
-                    <div class="flex-grow-1">
-                        <div class="record-header d-flex align-items-center">
-                            <sq-result-selector class="d-none d-md-block" [record]="record"></sq-result-selector>
-                            <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
-                            <button
-                                *ngIf="isFileSystem(record)"
-                                title="Paste this in your Windows file explorer to access the original document"
-                                class="btn btn-sm btn-link ms-auto py-0 text-nowrap"
-                                (click)="copyToClipboard(record, $event)">
-                                <i class ="fas fa-fw fa-clipboard"></i>Copy path to clipboard
-                            </button>
-                            <i *ngIf="(record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Witnessed') 
-                            || (record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'ACCEPTED')" 
-                            class="fas fa-circle-check icon-right" 
-                            style="color: green"
-                            title="Experiment status is Witnessed/Accepted"
-                            ></i>
-                            <i *ngIf="(record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Signing')
-                            || (record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'NEEDS_REVIEW')" 
-                            class="fas fa-hourglass-half icon-right" 
-                            style="color: orange"
-                            title="Experiment status is Signing/Needs Review"
-                            ></i>
-                            <i *ngIf="(record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'RETRACTED')" 
-                            class="fas fa-circle-xmark icon-right" 
-                            style="color: red"
-                            title="Experiment status is Rejected"
-                            ></i>
+            <div *ngIf="results.records?.length > 0; else noResult">
+                <sq-image-list 
+                    [results]="results" 
+                    *ngIf="['image'].includes(currentSelectedTab)"
+                    (recordClicked)="openMiniPreview($event)"
+                >
+                </sq-image-list>
+                            <!-- List of documents (for loop) -->
+                <ul class="result-list p-0" *ngIf="!['image'].includes(currentSelectedTab)">
+                    <li *ngFor="let record of results.records" class="record"
+                    (click)="onDocumentClicked(record, $event)"
+                    [ngClass]="{
+                        'selected': record.$selected || record === openedDoc,
+                        'duplicate': record.$isDuplicate
+                    }">
+                        <sq-result-duplicates-spacer [record]="record"></sq-result-duplicates-spacer>
+                        <div class="flex-grow-1">
+                            <div class="record-header d-flex align-items-center">
+                                <sq-result-selector class="d-none d-md-block" [record]="record"></sq-result-selector>
+                                <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
+                                <button
+                                    *ngIf="isFileSystem(record)"
+                                    title="Paste this in your Windows file explorer to access the original document"
+                                    class="btn btn-sm btn-link ms-auto py-0 text-nowrap"
+                                    (click)="copyToClipboard(record, $event)">
+                                    <i class ="fas fa-fw fa-clipboard"></i>Copy path to clipboard
+                                </button>
+                                <i *ngIf="(record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Witnessed') 
+                                || (record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'ACCEPTED')" 
+                                class="fas fa-circle-check icon-right" 
+                                style="color: green"
+                                title="Experiment status is Witnessed/Accepted"
+                                ></i>
+                                <i *ngIf="(record.treepath[0]?.startsWith('/ChemCart/') && record.experimentStatus === 'Signing')
+                                || (record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'NEEDS_REVIEW')" 
+                                class="fas fa-hourglass-half icon-right" 
+                                style="color: orange"
+                                title="Experiment status is Signing/Needs Review"
+                                ></i>
+                                <i *ngIf="(record.treepath[0]?.startsWith('/Benchling/') && record.experimentStatus === 'RETRACTED')" 
+                                class="fas fa-circle-xmark icon-right" 
+                                style="color: red"
+                                title="Experiment status is Rejected"
+                                ></i>
+                            </div>
+                            <sq-result-source [record]="record" [displayTreepath]="true" [displayUrl]="false"></sq-result-source>
+
+                            <sq-result-extracts [record]="record" class="d-block overflow-hidden"></sq-result-extracts>
+
+                            <sq-metadata *ngIf="record.treepath[0]?.startsWith('/ChemCart/')"
+                                [record]="record"
+                                [config]="incyteChemCartMetadata"
+                                [layout]="'table'"
+                                class="small"
+                            ></sq-metadata>
+
+                            <sq-metadata *ngIf="record.treepath[0]?.startsWith('/Benchling/')"
+                                [record]="record"
+                                [config]="incyteBenchlingMetadata"
+                                [layout]="'table'"
+                                class="small"
+                            ></sq-metadata>
+
+                            <sq-metadata *ngIf="record.treepath[0]?.startsWith('/PSILO/')"
+                                [record]="record"
+                                [config]="incytePSILOMetadata"
+                                [layout]="'table'"
+                                class="small"
+                            ></sq-metadata>
+
+                            <sq-metadata *ngIf="record.treepath[0]?.startsWith('/Projects/') || record.treepath[0]?.startsWith('/Translational Science/') || record.treepath[0]?.startsWith('/DeptShares/')"
+                                [record]="record"
+                                [config]="incyteFileSharesMetadata"
+                                [layout]="'table'"
+                                class="small"
+                            ></sq-metadata>
+
+
+                            <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
+
+                            <sq-labels [record]="record" [public]="true"></sq-labels>
+                            <sq-labels [record]="record" [public]="false"></sq-labels>
+
+                            <sq-result-duplicates [record]="record"></sq-result-duplicates>
                         </div>
-                        <sq-result-source [record]="record" [displayTreepath]="true" [displayUrl]="false"></sq-result-source>
-
-                        <sq-result-extracts [record]="record" class="d-block overflow-hidden"></sq-result-extracts>
-
-                        <sq-metadata *ngIf="record.treepath[0]?.startsWith('/ChemCart/')"
-                            [record]="record"
-                            [config]="incyteChemCartMetadata"
-                            [layout]="'table'"
-                            class="small"
-                        ></sq-metadata>
-
-                        <sq-metadata *ngIf="record.treepath[0]?.startsWith('/Benchling/')"
-                            [record]="record"
-                            [config]="incyteBenchlingMetadata"
-                            [layout]="'table'"
-                            class="small"
-                        ></sq-metadata>
-
-                        <sq-metadata *ngIf="record.treepath[0]?.startsWith('/PSILO/')"
-                            [record]="record"
-                            [config]="incytePSILOMetadata"
-                            [layout]="'table'"
-                            class="small"
-                        ></sq-metadata>
-
-                        <sq-metadata *ngIf="record.treepath[0]?.startsWith('/Projects/') || record.treepath[0]?.startsWith('/Translational Science/') || record.treepath[0]?.startsWith('/DeptShares/')"
-                            [record]="record"
-                            [config]="incyteFileSharesMetadata"
-                            [layout]="'table'"
-                            class="small"
-                        ></sq-metadata>
-
-
-                        <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
-
-                        <sq-labels [record]="record" [public]="true"></sq-labels>
-                        <sq-labels [record]="record" [public]="false"></sq-labels>
-
-                        <sq-result-duplicates [record]="record"></sq-result-duplicates>
-                    </div>
-                    <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="false"
-                        class="d-none d-sm-block align-self-center ms-3">
-                    </sq-result-thumbnail>
-                </li>
-            </ul>
+                        <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="false"
+                            class="d-none d-sm-block align-self-center ms-3">
+                        </sq-result-thumbnail>
+                    </li>
+                </ul>
+            </div>
 
             <ng-template #noResult>
               <div class="alert alert-warning" role="alert" >

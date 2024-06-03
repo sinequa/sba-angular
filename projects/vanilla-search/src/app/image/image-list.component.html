@@ -1,0 +1,10 @@
+
+<div class="sq-image-list row justify-content-around"
+    >
+    <sq-image-tile *ngFor="let record of results.records"
+        class="record py-2 {{colClass}}"
+        [ngClass]="{'selected': record.$selected || record === selectedRecord}"
+        [record]="record"
+        (imageClicked)="onImageClick(record)">
+    </sq-image-tile>
+</div>
