@@ -1,4 +1,4 @@
-import {NgModule/*, APP_INITIALIZER*/} from "@angular/core";
+import {NgModule, APP_INITIALIZER, isDevMode} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from '@angular/router';
@@ -20,10 +20,15 @@ export function StartConfigInitializer(startConfigWebService: StartConfigWebServ
     return () => startConfigWebService.fetchPreLoginAppConfig();
 }
 
-export const startConfig: StartConfig = {
-    app: "your-app-name",
-    production: environment.production
-};
+let startConfig: StartConfig = { production: environment.production}
+
+if( isDevMode() ) {
+    startConfig = {
+        app: "your-app-name",
+        ...startConfig
+    };
+}
+
 
 @NgModule({
     imports: [
@@ -46,7 +51,7 @@ export const startConfig: StartConfig = {
         // server automatically at startup using the application name specified in the URL (app[-debug]/<app-name>).
         // This allows an application to avoid hard-coding parameters in the StartConfig but requires that the application
         // be served from the an app[-debug]/<app name> URL.
-        // {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true},
+        {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true},
 
         // Provides the Angular LocationStrategy to be used for reading route state from the browser's URL. Currently
         // only the HashLocationStrategy is supported by Sinequa.

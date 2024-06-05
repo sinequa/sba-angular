@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from "@angular/core";
+import { NgModule, APP_INITIALIZER, isDevMode } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from '@angular/router';
@@ -54,12 +54,18 @@ import { environment } from "../environments/environment";
 
 
 // Initialization of @sinequa/core
-export const startConfig: StartConfig = {
-    app: "training",
+let startConfig: StartConfig = {
     production: environment.production,
-    autoSAMLProvider: environment.autoSAMLProvider,
     auditEnabled: true
-};
+}
+
+if( isDevMode() ) {
+    startConfig = {
+        app: "training",
+        autoSAMLProvider: environment.autoSAMLProvider,
+        ...startConfig
+    };
+}
 
 // @sinequa/core config initializer
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
