@@ -1,7 +1,7 @@
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { APP_INITIALIZER, NgModule, isDevMode } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -52,12 +52,19 @@ import { environment } from "../environments/environment";
 import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
 // Initialization of @sinequa/core
-export const startConfig: StartConfig = {
-    app: "training",
+let startConfig: StartConfig = {
     production: environment.production,
-    autoSAMLProvider: environment.autoSAMLProvider,
     auditEnabled: true
-};
+}
+
+if( isDevMode() ) {
+    startConfig = {
+        app: "training",
+        autoSAMLProvider: environment.autoSAMLProvider,
+        ...startConfig
+    };
+}
+
 
 // @sinequa/core config initializer
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
