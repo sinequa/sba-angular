@@ -48,7 +48,7 @@
     "@microsoft/signalr": "^7.0.12",
     "@microsoft/teams-js": "^2.3.0",
     "@popperjs/core": "^2.10.2",
-    "@swimlane/ngx-charts": "^20.1.0",
+    "@swimlane/ngx-charts": "^20.5.0",
     "ag-grid-angular": "^25.2.0",
     "ag-grid-community": "^25.2.0",
     "angular-gridster2": "^12.1.0",
