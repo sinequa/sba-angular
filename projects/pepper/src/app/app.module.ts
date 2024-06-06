@@ -1,38 +1,38 @@
-import { NgModule, APP_INITIALIZER, isDevMode } from "@angular/core";
+import { HashLocationStrategy, LocationStrategy } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from '@angular/router';
-import { LocationStrategy, HashLocationStrategy } from "@angular/common";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 // @sinequa/core library
-import { WebServicesModule, StartConfigWebService, StartConfig } from "@sinequa/core/web-services";
-import { LoginModule, LoginInterceptor, TeamsInitializer, AuthenticationService } from "@sinequa/core/login";
+import { AuditInterceptor } from "@sinequa/core/app-utils";
 import { IntlModule } from "@sinequa/core/intl";
+import { AuthenticationService, LoginInterceptor, LoginModule, TeamsInitializer } from "@sinequa/core/login";
 import { ModalModule } from "@sinequa/core/modal";
 import { NotificationsInterceptor } from "@sinequa/core/notification";
-import { AuditInterceptor } from "@sinequa/core/app-utils";
+import { StartConfigWebService, WebServicesModule } from "@sinequa/core/web-services";
 
 // @sinequa/components library
-import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
-import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
-import { BsNotificationModule } from "@sinequa/components/notification";
-import { BsFacetModule } from "@sinequa/components/facet";
 import { BsActionModule } from "@sinequa/components/action";
-import { BsModalModule } from "@sinequa/components/modal";
-import { BsBasketsModule } from '@sinequa/components/baskets';
 import { BsAlertsModule } from '@sinequa/components/alerts';
-import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
-import { UtilsModule, SCREEN_SIZE_RULES } from '@sinequa/components/utils';
-import { BsLabelsModule } from '@sinequa/components/labels';
-import { BsUserSettingsModule } from '@sinequa/components/user-settings';
-import { ResultModule } from '@sinequa/components/result';
+import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
+import { BsBasketsModule } from '@sinequa/components/baskets';
+import { BsFacetModule } from "@sinequa/components/facet";
 import { BsFeedbackModule } from '@sinequa/components/feedback';
-import { MetadataModule } from '@sinequa/components/metadata';
-import { BsSelectionModule, SelectionOptions, SELECTION_OPTIONS } from '@sinequa/components/selection';
 import { FiltersModule } from "@sinequa/components/filters";
+import { BsLabelsModule } from '@sinequa/components/labels';
+import { MetadataModule } from '@sinequa/components/metadata';
+import { BsModalModule } from "@sinequa/components/modal";
+import { BsNotificationModule } from "@sinequa/components/notification";
+import { ResultModule } from '@sinequa/components/result';
+import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
+import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
 import { SearchFormComponent } from "@sinequa/components/search-form";
+import { BsSelectionModule, SELECTION_OPTIONS, SelectionOptions } from '@sinequa/components/selection';
+import { BsUserSettingsModule } from '@sinequa/components/user-settings';
+import { SCREEN_SIZE_RULES, UtilsModule } from '@sinequa/components/utils';
 
 // @sinequa/analytics library
 import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
@@ -40,9 +40,9 @@ import { GOOGLE_MAPS_API_KEY } from "@sinequa/analytics/googlemaps";
 
 // Components
 import { AppComponent } from "./app.component";
-import { SearchComponent } from './search/search.component';
-import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { AppDashboardComponent } from "./dashboard/dashboard.component";
+import { AppSearchFormComponent } from "./search-form/search-form.component";
+import { SearchComponent } from './search/search.component';
 
 // Components imported from Vanilla Search
 // ⚠️ Starting from v11.7, these components are referenced from the Vanilla Search project to avoid duplicating the code
@@ -50,22 +50,7 @@ import { AppDashboardComponent } from "./dashboard/dashboard.component";
 import { AutocompleteComponent } from '@sinequa/vanilla/app/search-form/autocomplete.component';
 
 // Environment
-import { environment } from "../environments/environment";
-
-
-// Initialization of @sinequa/core
-let startConfig: StartConfig = {
-    production: environment.production,
-    auditEnabled: true
-}
-
-if( isDevMode() ) {
-    startConfig = {
-        app: "training",
-        autoSAMLProvider: environment.autoSAMLProvider,
-        ...startConfig
-    };
-}
+import { environment as startConfig } from "../environments/environment";
 
 // @sinequa/core config initializer
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
@@ -88,10 +73,10 @@ export const searchOptions: SearchOptions = {
 
 
 // Application languages (intl service)
-import {LocalesConfig, Locale} from "@sinequa/core/intl";
+import { Locale, LocalesConfig } from "@sinequa/core/intl";
+import deLocale from "../locales/de";
 import enLocale from "../locales/en";
 import frLocale from "../locales/fr";
-import deLocale from "../locales/de";
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -127,8 +112,8 @@ export const selectionOptions: SelectionOptions = {
 import * as FusionCharts from "fusioncharts";
 import * as charts from "fusioncharts/fusioncharts.charts";
 // Fusion is a light theme, Candy is a dark theme
-import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 FusionCharts.options.creditLabel = false;
 
 @NgModule({
