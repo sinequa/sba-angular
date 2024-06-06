@@ -1,7 +1,7 @@
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { APP_INITIALIZER, NgModule, isDevMode } from "@angular/core";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -13,7 +13,7 @@ import { IntlModule } from "@sinequa/core/intl";
 import { AuthenticationService, LoginInterceptor, LoginModule, TeamsInitializer } from "@sinequa/core/login";
 import { ModalModule } from "@sinequa/core/modal";
 import { NotificationsInterceptor } from "@sinequa/core/notification";
-import { StartConfig, StartConfigWebService, WebServicesModule } from "@sinequa/core/web-services";
+import { StartConfigWebService, WebServicesModule } from "@sinequa/core/web-services";
 
 // @sinequa/components library
 import { BsActionModule } from "@sinequa/components/action";
@@ -46,25 +46,10 @@ import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { SearchComponent } from './search/search.component';
 
 // Environment
-import { environment } from "../environments/environment";
+import { environment as startConfig } from "../environments/environment";
 
 // Help folder options
 import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
-
-// Initialization of @sinequa/core
-let startConfig: StartConfig = {
-    production: environment.production,
-    auditEnabled: true
-}
-
-if( isDevMode() ) {
-    startConfig = {
-        app: "training",
-        autoSAMLProvider: environment.autoSAMLProvider,
-        ...startConfig
-    };
-}
-
 
 // @sinequa/core config initializer
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
