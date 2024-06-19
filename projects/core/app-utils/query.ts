@@ -405,7 +405,10 @@ export class Query implements IQuery {
       return value;
     }
 
-    deserializeFilter(data: any[]): Filter {
+    deserializeFilter(data: any): Filter {
+      if(!Array.isArray(data)) {
+        return data
+      }
       const filter: Partial<Filter> = {};
       if(data[0]) filter.operator = data[0];
       if(data[1]) filter.display = data[1];
