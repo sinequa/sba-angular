@@ -28,6 +28,8 @@ import {enTimeline} from "@sinequa/analytics/timeline";
 import {enFilters} from "@sinequa/components/filters";
 import {enSearchForm} from "@sinequa/components/search-form";
 import {enDashboard} from "@sinequa/analytics/dashboard";
+import * as format from "node_modules/d3-format/locale/en-US.json";
+import * as time from "node_modules/d3-time-format/locale/en-US.json";
 
 const messages = Utils.merge({}, enCore, enUtils, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, enHeatmap, enLabels, enMetadata,
     enNotification, enPreview, enResult, enResultsView, enSavedQueries, enSelection, enSearch, enStatusBar, enUserSettings, enNetwork,
@@ -39,8 +41,8 @@ export default <LocaleData>{
     },
     d3: {
         locale: "en-US",
-        format: require('d3-format/locale/en-US'),
-        time: require('d3-time-format/locale/en-US')
+        format,
+        time
     },
     messages: messages
 };
