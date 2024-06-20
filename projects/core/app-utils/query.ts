@@ -1,5 +1,6 @@
 ﻿import {Utils, MapOf} from "@sinequa/core/base";
 import {IQuery, Select, Open, SpellingCorrectionMode, AggregationOptions, Filter, ExprFilter, isExprFilter, ValueFilter, FieldFilter, compareFilters, getFieldPredicate, getValuePredicate, AggregationItem, isValueFilter, isFieldFilter} from "@sinequa/core/web-services";
+import { FullTextPattern } from "./types";
 
 /**
  * This regular expression performs a high-level parsing of the full text query
@@ -19,12 +20,6 @@ const REGEX_OP = 11;
 const REGEX_GROUP = 12;
 const TOKEN_OP = 14;
 const TOKEN_GROUP = 15;
-
-export interface FullTextPattern {
-  type: 'group'|'adjacent'|'exact'|'regex'|'token';
-  value: string;
-  op?: '+'|'-';
-}
 
 /**
  * Represents a query for retrieving search results from a Sinequa search engine.
