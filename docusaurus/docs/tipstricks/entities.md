@@ -27,7 +27,7 @@ Additionally, you need to configure your *Preview web service* to highlight this
 
 If you open a document's HTML preview, your entity may not appear as highlighted (yet). You need to add some configuration, so that the entities marked with HTML tags are highlighted (eg. `<span class="person">Barack Obama</span>`).
 
-In [Vanilla Search](/apps/2-vanilla-search.md), you can find the default configuration in the `config.ts` file with the `PREVIEW_HIGHLIGHTS` constant:
+In [Vanilla Search](../apps/vanilla-search), you can find the default configuration in the `config.ts` file with the `PREVIEW_HIGHLIGHTS` constant:
 
 ```ts title="config.ts"
 export const PREVIEW_HIGHLIGHTS: PreviewHighlightColors[] = [

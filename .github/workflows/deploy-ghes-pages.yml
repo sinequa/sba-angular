@@ -41,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: npm run docs:ci
       - name: Build website
-        run: npm run docs:build
+        run: npm run docs:build-internal
 
       - name: Setup Pages
         uses: actions/configure-pages@v2

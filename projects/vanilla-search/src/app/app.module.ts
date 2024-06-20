@@ -1,3 +1,4 @@
+import { ScrollingModule } from "@angular/cdk/scrolling";
 import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { APP_INITIALIZER, NgModule } from "@angular/core";
@@ -17,40 +18,38 @@ import { StartConfigWebService, WebServicesModule } from "@sinequa/core/web-serv
 // @sinequa/components library
 import { BsActionModule } from "@sinequa/components/action";
 import { BsAlertsModule } from '@sinequa/components/alerts';
-import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
 import { BsBasketsModule } from '@sinequa/components/baskets';
 import { BsFacetModule } from "@sinequa/components/facet";
 import { BsFeedbackModule } from '@sinequa/components/feedback';
-import { FiltersModule } from "@sinequa/components/filters";
 import { BsLabelsModule } from '@sinequa/components/labels';
+import { MLModule, SimilarDocumentsComponent } from '@sinequa/components/machine-learning';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsModalModule } from "@sinequa/components/modal";
 import { BsNotificationModule } from "@sinequa/components/notification";
+import { PreviewModule } from '@sinequa/components/preview';
 import { ResultModule } from '@sinequa/components/result';
 import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
 import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
-import { SearchFormComponent } from "@sinequa/components/search-form";
-import { BsSelectionModule, SELECTION_OPTIONS, SelectionOptions } from '@sinequa/components/selection';
-import { BsUserSettingsModule } from '@sinequa/components/user-settings';
+import { BsSelectionModule } from '@sinequa/components/selection';
+import { APP_HELP_FOLDER_OPTIONS, BsUserSettingsModule } from '@sinequa/components/user-settings';
 import { SCREEN_SIZE_RULES, UtilsModule } from '@sinequa/components/utils';
 
-// @sinequa/analytics library
-import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
-import { GOOGLE_MAPS_API_KEY } from "@sinequa/analytics/googlemaps";
+import { FiltersModule } from "@sinequa/components/filters";
+import { SearchFormComponent } from "@sinequa/components/search-form";
 
 // Components
 import { AppComponent } from "./app.component";
-import { AppDashboardComponent } from "./dashboard/dashboard.component";
+import { HomeComponent } from './home/home.component';
+import { PreviewComponent } from './preview/preview.component';
+import { AutocompleteComponent } from "./search-form/autocomplete.component";
 import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { SearchComponent } from './search/search.component';
 
-// Components imported from Vanilla Search
-// ⚠️ Starting from v11.7, these components are referenced from the Vanilla Search project to avoid duplicating the code
-// Feel free to copy the source code into the Pepper app to avoid modifying the source code of Vanilla.
-import { AutocompleteComponent } from '@sinequa/vanilla/app/search-form/autocomplete.component';
-
 // Environment
 import { environment as startConfig } from "../environments/environment";
+
+// Help folder options
+import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
 // @sinequa/core config initializer
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
@@ -60,8 +59,10 @@ export function StartConfigInitializer(startConfigWebService: StartConfigWebServ
 
 // Application routes (see https://angular.io/guide/router)
 export const routes: Routes = [
+    {path: "home", component: HomeComponent},
     {path: "search", component: SearchComponent},
-    {path: "**", redirectTo: "search"}
+    {path: "preview", component: PreviewComponent},
+    {path: "**", redirectTo: "home"}
 ];
 
 
@@ -101,20 +102,6 @@ export const breakpoints = {
     xs: "(max-width: 575.98px)",
 };
 
-export const selectionOptions: SelectionOptions = {
-    resetOnNewQuery: false,
-    resetOnNewResults: false,
-    storage: "record"
-}
-
-
-// Import FusionCharts library and chart modules
-import * as FusionCharts from "fusioncharts";
-import * as charts from "fusioncharts/fusioncharts.charts";
-// Fusion is a light theme, Candy is a dark theme
-import * as CandyTheme from "fusioncharts/themes/fusioncharts.theme.candy";
-import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
-FusionCharts.options.creditLabel = false;
 
 @NgModule({
     imports: [
@@ -123,6 +110,7 @@ FusionCharts.options.creditLabel = false;
         RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
+        ScrollingModule,
 
         WebServicesModule.forRoot(startConfig),
         IntlModule.forRoot(AppLocalesConfig),
@@ -130,7 +118,6 @@ FusionCharts.options.creditLabel = false;
         ModalModule,
 
         BsSearchModule.forRoot(searchOptions),
-        BsAutocompleteModule,
         BsNotificationModule,
         BsFacetModule,
         BsActionModule,
@@ -143,17 +130,19 @@ FusionCharts.options.creditLabel = false;
         BsUserSettingsModule,
         ResultModule,
         BsFeedbackModule,
+        PreviewModule,
         MetadataModule,
         BsSelectionModule,
+        MLModule,
         FiltersModule,
         SearchFormComponent,
-
-        FusionChartsModule.forRoot(FusionCharts, charts, FusionTheme, CandyTheme),
-        AppDashboardComponent
+        SimilarDocumentsComponent
     ],
     declarations: [
         AppComponent,
+        HomeComponent,
         SearchComponent,
+        PreviewComponent,
         AppSearchFormComponent,
         AutocompleteComponent
     ],
@@ -184,10 +173,11 @@ FusionCharts.options.creditLabel = false;
         // member of the response body to any Sinequa web service requests.
         {provide: HTTP_INTERCEPTORS, useClass: NotificationsInterceptor, multi: true},
 
-        {provide: SCREEN_SIZE_RULES, useValue: breakpoints},
-        {provide: SELECTION_OPTIONS, useValue: selectionOptions},
+        { provide: SCREEN_SIZE_RULES, useValue: breakpoints },
 
-        {provide: GOOGLE_MAPS_API_KEY, useValue: ""}
+        // Provides default help's folder options
+        // this options can be overriden by the custom json configuration from the administration panel
+        { provide: APP_HELP_FOLDER_OPTIONS, useValue: HELP_DEFAULT_FOLDER_OPTIONS }
     ],
     bootstrap: [
         AppComponent

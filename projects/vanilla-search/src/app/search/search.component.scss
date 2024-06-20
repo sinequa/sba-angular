@@ -104,27 +104,6 @@
     min-height: 41px;
 }
 
-/** ANIMATIONS **/
-nav {
-    opacity: .1;
-    animation: apparition 0.8s ease-out forwards;
-}
-
-main,
-.record {
-    will-change: transform;
-    opacity: 0;
-    transform: translateY(50px);
-    animation: apparition 0.8s ease-out forwards;
-}
-
-@keyframes apparition {
-    100% {
-        opacity: 1;
-        transform: none;
-    }
-}
-
 ::ng-deep .similar-document span::after {
     content: "\f35d";
     font-family: "Font Awesome 6 Free";
@@ -132,4 +111,10 @@ main,
     vertical-align: .25rem;
     font-size: .55rem;
     padding-left: .25rem;
-  }
+}
+
+
+/** VIRTUAL SCROLL overrides **/
+::ng-deep .cdk-virtual-scroll-content-wrapper {
+    width: 100%;
+}

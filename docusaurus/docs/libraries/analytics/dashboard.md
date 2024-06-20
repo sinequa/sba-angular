@@ -14,7 +14,7 @@ This module is an integration of the [**angular-gridster2**](https://tiberiuzuld
 
 The module exports a component that takes in a list of widget configurations and displays these widgets within the `gridster` component. The component handles common operations such as resizing, adding & removing, renaming, and reordering widgets.
 
-The usage of this component is illustrated in the [Pepper](apps/3-pepper.md) application.
+The usage of this component is illustrated in the [Pepper](../../apps/pepper) application.
 
 ![Pepper dashboard](/assets/apps/pepper.png)
 
@@ -66,7 +66,7 @@ For example:
 ```
 
 
-It is also recommended to use the `sq-facet-card` component from the [Facet Module](../components/facet.md) to encapsulate the widgets. This allows to display built-in "actions" to remove, rename and maximize the widgets:
+It is also recommended to use the `sq-facet-card` component from the [Facet Module](../components/facet) to encapsulate the widgets. This allows to display built-in "actions" to remove, rename and maximize the widgets:
 
 
 ```html

@@ -112,14 +112,21 @@
 
             </div>
 
-            <!-- List of documents (for loop) -->
-            <ul class="result-list p-0" *ngIf="results.records?.length > 0; else noResult">
-                <li *ngFor="let record of results.records" class="record"
-                  (click)="onDocumentClicked(record, $event)"
-                  [ngClass]="{
+            <!-- List of documents (for loop) with virtual scroll list -->
+            <ul class="result-list p-0" *ngIf="results.records.length > 0; else noResult">
+                <cdk-virtual-scroll-viewport
+                    role="presentation"
+                    itemSize="100"
+                    scrollWindow
+                    (scrolledIndexChange)="fetchMore()"
+                >
+
+                <li *cdkVirtualFor="let record of results.records; let index = index" class="record"
+                (click)="onDocumentClicked(record, $event)"
+                [ngClass]="{
                     'selected': record.$selected || record === openedDoc,
                     'duplicate': record.$isDuplicate
-                  }">
+                }">
                     <sq-result-duplicates-spacer [record]="record"></sq-result-duplicates-spacer>
                     <div class="flex-grow-1">
                         <div class="d-flex align-items-center">
@@ -139,6 +146,7 @@
                         class="d-none d-sm-block align-self-center ms-3">
                     </sq-result-thumbnail>
                 </li>
+                </cdk-virtual-scroll-viewport>
             </ul>
 
             <ng-template #noResult>
@@ -156,7 +164,7 @@
             </ng-template>
 
             <!-- Infinite scroll -->
-            <sq-scroller></sq-scroller>
+            <!-- <sq-scroller></sq-scroller> -->
 
             <!-- Pagination -->
             <!-- <sq-pager [results]="results" class="d-flex flex-column align-items-center mt-3"></sq-pager> -->
@@ -180,7 +188,10 @@
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" [facetActionsAreSecondary]="true"
                 [viewActionsAreSecondary]="true"
                 secondaryActionsClass="position-absolute end-0 btn-group-vertical mt-4 me-3 bg-light rounded shadow on-hover"
-                viewActionsClass="d-block btn-group mt-2" viewButtonsStyle="outline-primary" [actions]="previewCustomActions"
+                secondaryButtonsStyle="outline-light"
+                viewActionsClass="d-block btn-group mt-2"
+                viewButtonsStyle="outline-primary"
+                [actions]="previewCustomActions"
                 actionsSize="" class="mb-3 facet-preview">
 
                 <ng-template #headerTpl>
@@ -208,7 +219,7 @@
                 <ng-template [sqFacetView]="{text: 'msg#preview.viewPreview'}">
                     <sq-preview #facet
                         style="height: calc(100vh - 300px);"
-                        [id]="openedDoc?.id"
+                        [id]="openedDoc.id"
                         [highlightColors]="previewHighlights"
                         [highlightEntities]="false"
                         [preferenceName]="'mini-preview'"

@@ -23,7 +23,7 @@ The very first HTTP request is the one that downloads your application's `index.
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-        <link rel="icon" type="image/x-icon" href="assets/vanilla-favicon.png">
+        <link rel="icon" type="image/x-icon" href="assets/favicon.svg">
         <link rel="stylesheet" href="app.e7f07e699a63ac84627f.css">
     </head>
     <body>

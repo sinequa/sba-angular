@@ -1,4 +1,5 @@
 ---
+id: version-control
 layout: default
 title: Version control
 parent: Guides
