@@ -25,6 +25,9 @@ import {frTimeline} from "@sinequa/analytics/timeline";
 import {frML} from "@sinequa/components/machine-learning";
 import {frFilters} from "@sinequa/components/filters";
 import {frSearchForm} from "@sinequa/components/search-form";
+import * as format from "node_modules/d3-format/locale/fr-FR.json";
+import * as time from "node_modules/d3-time-format/locale/fr-FR.json";
+
 
 const d3Format = require('d3-format/locale/fr-FR');
 d3Format.thousands = " "; // consistency with intl-number-format
@@ -42,8 +45,8 @@ export default <LocaleData>{
     },
     d3: {
         locale: "fr-FR",
-        format: d3Format,
-        time: require('d3-time-format/locale/fr-FR')
+        format,
+        time
     },
     messages: messages
 };
