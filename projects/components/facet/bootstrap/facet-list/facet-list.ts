@@ -180,7 +180,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             node.$selected = this.findAndSplice(selected, node);
             node.$filtered = this.findAndSplice(filtered, node);
             if(node.$selected || node.$filtered) {
-                lineage.filter(n => n.items?.length).forEach(n => n.$opened = true);
+                lineage.filter(n => n.items?.length && n !== node).forEach(n => n.$opened = true);
             }
             return false;
         });

@@ -94,7 +94,7 @@ node (params.SBA_NODE) {
 
 		stage('NPM Install') {
 			// get the dependency modules
-			bat "@call ${myNPM} ci"
+			bat "@call ${myNPM} ci --legacy-peer-deps"
 		}
 
 		// check if we are in standard case of build or merge/validation (case of PR)
