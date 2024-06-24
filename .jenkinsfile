@@ -78,7 +78,7 @@ node (params.SBA_NODE) {
 		"""
 		
 		cmd = "@call ${mynodeDir}\\node --version"
-		jk.batEnv (mynodeDir, cmd)
+		jf.batEnv (mynodeDir, cmd)
 		cmd = """
 		@echo Node Path Version:
 		@echo .in Path
@@ -90,7 +90,7 @@ node (params.SBA_NODE) {
 		@echo Version:
 		@call ${myNPM} -v
 		"""
-		jk.batEnv (mynodeDir, cmd)
+		jf.batEnv (mynodeDir, cmd)
 		
 		stage('Clean') {
 			// delete dependency modules
