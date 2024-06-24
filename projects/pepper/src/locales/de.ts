@@ -47,6 +47,8 @@ export default <LocaleData>{
         locale: "de-DE",
         format,
         time
+        format,
+        time
     },
     messages: messages
 };
