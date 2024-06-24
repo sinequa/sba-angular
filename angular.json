@@ -6,7 +6,7 @@
     "core": {
       "projectType": "library",
       "root": "projects/core",
-      "sourceRoot": "projects/core/src",
+      "sourceRoot": "projects/core",
       "prefix": "sq",
       "architect": {
         "build": {
@@ -27,7 +27,7 @@
             "polyfills": ["zone.js","zone.js/testing"],
             "inlineStyleLanguage": "scss",
             "include": [
-              "projects/core/*.spec.ts"
+              "projects/core/**/*.spec.ts"
             ],
             "tsConfig": "projects/core/tsconfig.spec.json",
             "karmaConfig": "projects/core/karma.conf.js"
@@ -47,7 +47,7 @@
     "components": {
       "projectType": "library",
       "root": "projects/components",
-      "sourceRoot": "projects/components/src",
+      "sourceRoot": "projects/components",
       "prefix": "sq",
       "architect": {
         "build": {
@@ -566,7 +566,8 @@
             "inlineStyleLanguage": "scss",
             "include": [
               "projects/analytics/**/*.spec.ts"
-            ],            "tsConfig": "projects/analytics/tsconfig.spec.json",
+            ],
+            "tsConfig": "projects/analytics/tsconfig.spec.json",
             "karmaConfig": "projects/analytics/karma.conf.js"
           }
         },
