@@ -85,7 +85,7 @@ node (params.SBA_NODE) {
 			
 			// clean the npm cache
 			echo ".Cache clean force"
-			batEnv( mynodeDir, "@call ${myNPM} cache clean --force")
+			jf.batEnv( mynodeDir, "@call ${myNPM} cache clean --force")
 		}
 
 		stage('Create user') {
@@ -94,7 +94,7 @@ node (params.SBA_NODE) {
 			// add connection infos in .npmrc file
 			jf.appendFile(fnpmrc, anpmrc)
 			// check the connection
-			batEnv( mynodeDir, "@call ${myNPM} whoami")
+			jf.batEnv( mynodeDir, "@call ${myNPM} whoami")
 		}
 
 		stage('copyNpmrc') {
@@ -106,7 +106,7 @@ node (params.SBA_NODE) {
 
 		stage('NPM Install') {
 			// get the dependency modules
-			batEnv( mynodeDir, "@call ${myNPM} ci --legacy-peer-deps")
+			jf.batEnv( mynodeDir, "@call ${myNPM} ci --legacy-peer-deps")
 		}
 
 		// check if we are in standard case of build or merge/validation (case of PR)
@@ -117,39 +117,39 @@ node (params.SBA_NODE) {
 			// build sinequa core modules
 			stage('Build Core') {
 				echo "${myNPM} run buildcore --if-present"
-				batEnv( mynodeDir, "@call ${myNPM} run buildcore --if-present")
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildcore --if-present")
 			}
 			stage('Build Components') {
 				echo "${myNPM} run buildcomponents --if-present"
-				batEnv( mynodeDir, "@call ${myNPM} run buildcomponents --if-present")
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildcomponents --if-present")
 			}
 			stage('Build Analytics') {
 				echo "${myNPM} run buildanalytics --if-present"
-				batEnv( mynodeDir, "@call ${myNPM} run buildanalytics --if-present")
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildanalytics --if-present")
 			}
 			stage('Test Core') {
 				echo "${myNPM} run test core -- --watch=false"
-				batEnv( mynodeDir, "@call ${myNPM} run test core -- --watch=false")
+				jf.batEnv( mynodeDir, "@call ${myNPM} run test core -- --watch=false")
 			}
 			stage('Test Components') {
 				echo "${myNPM} run test components -- --watch=false"
-				batEnv( mynodeDir, "@call ${myNPM} run test components -- --watch=false")
+				jf.batEnv( mynodeDir, "@call ${myNPM} run test components -- --watch=false")
 			}
 			stage('Test Analytics') {
 				echo "${myNPM} run test analytics -- --watch=false"
-				batEnv( mynodeDir, "@call ${myNPM} run test analytics -- --watch=false")
+				jf.batEnv( mynodeDir, "@call ${myNPM} run test analytics -- --watch=false")
 			}
 			stage('Build HelloSearch') {
 				echo "${myNPM} run buildhellosearch --if-present"
-				batEnv( mynodeDir, "@call ${myNPM} run buildhellosearch --if-present")
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildhellosearch --if-present")
 			}
 			stage('Build Vanilla') {
 				echo "${myNPM} run buildvanilla --if-present"
-				batEnv( mynodeDir, "@call ${myNPM} run buildvanilla --if-present")
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildvanilla --if-present")
 			}
 			stage('Build Pepper') {
 				echo "${myNPM} run buildpepper --if-present"
-				batEnv( mynodeDir, "@call ${myNPM} run buildpepper --if-present")
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildpepper --if-present")
 			}
 
 		} else {
@@ -175,7 +175,7 @@ node (params.SBA_NODE) {
 					echo ".publish core:"
 					@call ${myNPM} publish ./dist/core --tag ${sba_tag}
 				"""
-				batEnv( mynodeDir, cmd)
+				jf.batEnv( mynodeDir, cmd)
 			}
 			stage('Build Components') {
 				cmd = """
@@ -191,7 +191,7 @@ node (params.SBA_NODE) {
 					echo ".publish components:"
 					@call ${myNPM} publish ./dist/components --tag ${sba_tag}
 				"""
-				batEnv( mynodeDir, cmd)
+				jf.batEnv( mynodeDir, cmd)
 			}
 			stage('Build Analytics') {
 				cmd = """
@@ -207,7 +207,7 @@ node (params.SBA_NODE) {
 					echo ".publish analytics:"
 					@call ${myNPM} publish ./dist/analytics --tag ${sba_tag}
 				"""
-				batEnv( mynodeDir, cmd)
+				jf.batEnv( mynodeDir, cmd)
 			}
 
 			// get the current branch version
