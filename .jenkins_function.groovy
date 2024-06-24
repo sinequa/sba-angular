@@ -203,12 +203,12 @@ def getNPMpath(pgm) {
 // get the path of npm in the version of the branch
 def GetDirectoryName(pgm) {
 	println "Get $pgm path"
-	def pgmPath = ""
+	def dirPath = ""
 	
-	// def cmd = '\$npmPath="ice\\distrib\\programs\\win\\node\\14.16.0\\' + pgm + '"' + "\n"
-	def cmd = '\$dirPath = Split-Path ' + pgm + ' -Resolve'+ "\n"
-	cmd += "if ( \$null -ne \$dirPath ) {" + "\n"
-	cmd += " Write-Output \$dirPath" + "\n"
+	// def cmd = '\$dPath="ice\\distrib\\programs\\win\\node\\14.16.0\\' + pgm + '"' + "\n"
+	def cmd = '\$dPath = Split-Path ' + pgm + ' -Resolve'+ "\n"
+	cmd += "if ( \$null -ne \$dPath ) {" + "\n"
+	cmd += " Write-Output \$dPath" + "\n"
 	cmd += "} else {" + "\n"
 	cmd += 'Write-Output ""' + "\n"
 	cmd += "}" + "\n"
