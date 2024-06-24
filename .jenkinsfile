@@ -71,11 +71,11 @@ node (params.SBA_NODE) {
 		@echo Node Path Version:
 		@call node --version
 		@call ${mynodeDir}\\node --version
-		"""
 
-		println "npm.cmd used (${myBranch}): ${myNPM}"
-		println "Version: "
-		bat "@call ${myNPM} -v"
+		@echo npm.cmd used (${myBranch}): ${myNPM}
+		@echo Version:
+		@call ${myNPM} -v
+		"""
 		
 		stage('Clean') {
 			// delete dependency modules
