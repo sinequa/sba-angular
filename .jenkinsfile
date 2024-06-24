@@ -64,15 +64,14 @@ node (params.SBA_NODE) {
 		// Add node path found to path (for angular)
 		def mynodeDir = jf.GetDirectoryName(myNPM)
 		println "Node path: " + mynodeDir
-		withEnv(['PATH+=mynodeDir']) {
-			bat """
-			@set PATH=${mynodeDir}:%PATH%
-			@echo PATH:
-			@echo %PATH%
-			@echo Node Path Version:
-			@call node --version
-			"""
-		}
+		bat """
+		@set PATH=${mynodeDir};%PATH%
+		@echo PATH:
+		@echo %PATH%
+		@echo Node Path Version:
+		@call node --version
+		@call ${mynodeDir}\\node --version
+		"""
 
 		println "npm.cmd used (${myBranch}): ${myNPM}"
 		println "Version: "
