@@ -200,4 +200,25 @@ def getNPMpath(pgm) {
 	return pgmPath
 }
 
+// get the path of npm in the version of the branch
+def GetDirectoryName(pgm) {
+	println "Get $pgm path"
+	def pgmPath = ""
+	
+	// def cmd = '\$npmPath="ice\\distrib\\programs\\win\\node\\14.16.0\\' + pgm + '"' + "\n"
+	def cmd = '\$dirPath = Split-Path ' + pgm + ' -Resolve'+ "\n"
+	cmd += "if ( \$null -ne \$dirPath ) {" + "\n"
+	cmd += " Write-Output \$dirPath" + "\n"
+	cmd += "} else {" + "\n"
+	cmd += 'Write-Output ""' + "\n"
+	cmd += "}" + "\n"
+	// println cmd
+	
+	dirPath = powershell(returnStdout: true, script: cmd)
+	// remove CR/LF
+	dirPath = dirPath.trim()
+	
+	println "Path found: "+ dirPath
+	return dirPath
+}
 return this

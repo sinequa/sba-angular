@@ -61,6 +61,13 @@ node (params.SBA_NODE) {
 			currentBuild.result = "FAILURE"
 			throw err
 		}
+		// Add node path found to path (for angular)
+		nodeDir = jf.GetDirectoryName(myNPM)
+		println"Path node version:"
+		withEnv(["'PATH+="+nodeDir+"'"]) {
+			bat "@call node --version"
+		}
+
 		println "npm.cmd used (${myBranch}): ${myNPM}"
 		println "Version: "
 		bat "@call ${myNPM} -v"
