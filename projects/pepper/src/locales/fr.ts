@@ -49,7 +49,6 @@ export default <LocaleData>{
         locale: "fr-FR",
         format: d3Format,
         time
-        time
     },
     messages: messages
 };
