@@ -64,8 +64,6 @@ node (params.SBA_NODE) {
 		// Add node path found to path (for angular)
 		def mynodeDir = jf.GetDirectoryName(myNPM)
 		println "Node path: " + mynodeDir
-		def tempPath = mynodeDir + ";${env.PATH}"
-		println "Temp Path: " + tempPath
 		bat """
 		@set PATH=${mynodeDir};%PATH%
 		@echo Node Path Version:
@@ -79,16 +77,20 @@ node (params.SBA_NODE) {
 		@call ${myNPM} -v
 		"""
 		
-		stage('Set Environment') {
-			environment {
-				PATH = "${tempPath}"
-			}
-			bat """
-			@echo PATH: %PATH%
-			@echo Node version:
-			@call node --version
-			"""
-		}
+		cmd = "@call ${mynodeDir}\\node --version"
+		jk.batEnv (mynodeDir, cmd)
+		cmd = """
+		@echo Node Path Version:
+		@echo .in Path
+		@call node --version
+		@echo .in ${mynodeDir}
+		@call ${mynodeDir}\\node --version
+
+		@echo npm.cmd used (${myBranch}): ${myNPM}
+		@echo Version:
+		@call ${myNPM} -v
+		"""
+		jk.batEnv (mynodeDir, cmd)
 		
 		stage('Clean') {
 			// delete dependency modules

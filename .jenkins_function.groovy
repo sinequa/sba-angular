@@ -200,7 +200,7 @@ def getNPMpath(pgm) {
 	return pgmPath
 }
 
-// get the path of npm in the version of the branch
+// get the full directory name of a file
 def GetDirectoryName(pgm) {
 	println "Get $pgm path"
 	def dirPath = ""
@@ -221,4 +221,13 @@ def GetDirectoryName(pgm) {
 	println "Path found: "+ dirPath
 	return dirPath
 }
+
+// run bat with a special PATH
+def batEnv(path, cmd) {
+	bat """
+	@set PATH=${path};%PATH%
+	${cmd}
+	"""
+}
+
 return this
