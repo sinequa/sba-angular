@@ -32,7 +32,6 @@ import {deDashboard} from "@sinequa/analytics/dashboard";
 import * as format from "node_modules/d3-format/locale/de-DE.json";
 import * as time from "node_modules/d3-time-format/locale/de-DE.json";
 
-
 const messages = Utils.merge({}, deCore, deUtils, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
     deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deNetwork,
     deGooglemaps, deFinance, deTimeline, deFilters, deSearchForm, deDashboard, appMessages);

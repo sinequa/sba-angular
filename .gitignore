@@ -48,6 +48,7 @@ testem.log
 /cypress/videos
 /cypress/screenshots
 /docusaurus/.docusaurus
+.nx/*
 
 # System Files
 .DS_Store

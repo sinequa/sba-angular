@@ -104,7 +104,7 @@ export class BsRenameLabel implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.formChanges.unsubscribe();
+        this.formChanges?.unsubscribe();
     }
 
     updateLabelsNature(nature: boolean) {
