@@ -77,6 +77,9 @@ describe("LabelsService", () => {
     modalService = TestBed.inject(ModalService);
     notificationsService = TestBed.inject(NotificationsService);
     labelsWebService = TestBed.inject(LabelsWebService);
+
+    // do not call ngOnDestroy
+    spyOn<any>(service, 'ngOnDestroy');
   });
 
   it("can load instance", () => {

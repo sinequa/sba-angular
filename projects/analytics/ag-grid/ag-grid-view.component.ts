@@ -11,7 +11,7 @@ import { IntlService } from "@sinequa/core/intl";
 import { ModalService } from "@sinequa/core/modal";
 import { Results, Record, CCColumn, EngineType, getFieldPredicate } from "@sinequa/core/web-services";
 import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent, ModelUpdatedEvent } from 'ag-grid-community';
-import { ApplyColumnStateParams } from "ag-grid-community/dist/lib/columnController/columnApi";
+import { ApplyColumnStateParams } from "ag-grid-community/dist/lib/columns/columnModel";
 import { Subscription } from "rxjs";
 import { DataModalComponent } from "./data-modal.component";
 import { SqDatasource } from "./datasource";
@@ -274,7 +274,11 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
         if(query.orderBy) {
             let [colId, sort] = query.orderBy.split(" ");
             colId = this.appService.getColumnAlias(this.appService.getColumn(colId));
-            model.state = [{colId, sort}];
+            if (sort === "asc" || sort === "desc") {
+                model.state = [{colId, sort}];
+            } else {
+                model.state = [{colId, sort: null}];
+            }
         }
         else {
             model.defaultState = {sort: null};
