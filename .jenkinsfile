@@ -116,16 +116,16 @@ node (params.SBA_NODE) {
 			// validate the build in a PR after a commit
 			// build sinequa core modules
 			stage('Build Core') {
-				echo "${myNPM} run buildcore --if-present"
-				jf.batEnv( mynodeDir, "@call ${myNPM} run buildcore --if-present")
+				echo "${myNPM} run buildcore --legacy-peer-deps --if-present"
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildcore --legacy-peer-deps --if-present")
 			}
 			stage('Build Components') {
-				echo "${myNPM} run buildcomponents --if-present"
-				jf.batEnv( mynodeDir, "@call ${myNPM} run buildcomponents --if-present")
+				echo "${myNPM} run buildcomponents --legacy-peer-deps --if-present"
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildcomponents --legacy-peer-deps --if-present")
 			}
 			stage('Build Analytics') {
-				echo "${myNPM} run buildanalytics --if-present"
-				jf.batEnv( mynodeDir, "@call ${myNPM} run buildanalytics --if-present")
+				echo "${myNPM} run buildanalytics --legacy-peer-deps --if-present"
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildanalytics --legacy-peer-deps --if-present")
 			}
 			stage('Test Core') {
 				echo "${myNPM} run test core -- --watch=false"
@@ -140,16 +140,16 @@ node (params.SBA_NODE) {
 				jf.batEnv( mynodeDir, "@call ${myNPM} run test analytics -- --watch=false")
 			}
 			stage('Build HelloSearch') {
-				echo "${myNPM} run buildhellosearch --if-present"
-				jf.batEnv( mynodeDir, "@call ${myNPM} run buildhellosearch --if-present")
+				echo "${myNPM} run buildhellosearch --legacy-peer-deps --if-present"
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildhellosearch --legacy-peer-deps --if-present")
 			}
 			stage('Build Vanilla') {
-				echo "${myNPM} run buildvanilla --if-present"
-				jf.batEnv( mynodeDir, "@call ${myNPM} run buildvanilla --if-present")
+				echo "${myNPM} run buildvanilla --legacy-peer-deps --if-present"
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildvanilla --legacy-peer-deps --if-present")
 			}
 			stage('Build Pepper') {
-				echo "${myNPM} run buildpepper --if-present"
-				jf.batEnv( mynodeDir, "@call ${myNPM} run buildpepper --if-present")
+				echo "${myNPM} run buildpepper --legacy-peer-deps --if-present"
+				jf.batEnv( mynodeDir, "@call ${myNPM} run buildpepper --legacy-peer-deps --if-present")
 			}
 
 		} else {
