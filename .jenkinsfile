@@ -42,20 +42,13 @@ node (params.SBA_NODE) {
 		// get the branch name
 		def myBranch = jf.getBranch()
 
-		// get the npm path (if empty, the file path does not exist)
+		// get the npm path 
+		// remove npm path comming from ice
+		bat "if exist .\\ice ( rmdir /s /q .\\ice )"
+		// get node executable for the branch
+		jf.getIceNode(myBranch)
+		// get the npm path
 		def myNPM = jf.getNPMpath("npm.cmd")
-		if (myNPM == "" ) {
-			// get node executable for the branch
-			jf.getIceNode(myBranch)
-			// get the npm path
-			myNPM = jf.getNPMpath("npm.cmd")
-		}
-		if (myNPM == "" ) {
-			// get node executable from develop
-			jf.getIceNode("develop")
-			// get the npm path
-			myNPM = jf.getNPMpath("npm.cmd")
-		}
 		// A path must be found to do something
 		if (myNPM == "" ) {
 			currentBuild.result = "FAILURE"
