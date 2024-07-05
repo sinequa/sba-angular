@@ -744,6 +744,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     search(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise<boolean> {
         delete this.query.page;
         delete this.query.spellingCorrectionMode;
+        if(this.query.filters === undefined) {
+            delete this.query.queryId;
+        }
         return this.navigate(navigationOptions, audit);
     }
 
