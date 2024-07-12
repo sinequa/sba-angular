@@ -50,7 +50,7 @@
     "@popperjs/core": "^2.10.2",
     "@swimlane/ngx-charts": "^20.5.0",
     "ag-grid-angular": "^25.2.0",
-    "ag-grid-community": "^25.2.0",
+    "ag-grid-community": "^32.0.1",
     "angular-gridster2": "^12.1.0",
     "atomicjs": "^4.4.1",
     "bootstrap": "^5.3.1",
