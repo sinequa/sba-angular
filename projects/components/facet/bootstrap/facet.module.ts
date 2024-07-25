@@ -24,6 +24,7 @@ import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 import { LoadComponentModule } from "@sinequa/core/load-component";
 import { FacetViewDirective } from "./facet-view.directive";
 import { FacetContainerComponent } from "./facet-container/facet-container.component";
+import { BsMySearch } from "./facet-mysearch/facet-mysearch";
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import { FacetContainerComponent } from "./facet-container/facet-container.compo
         BsAutocompleteModule,
 
         NgxSliderModule,
-        LoadComponentModule
+        LoadComponentModule,
+        BsMySearch
     ],
     declarations: [
         BsFacetCard, FacetViewDirective, BsFacetList,
@@ -58,7 +60,8 @@ import { FacetContainerComponent } from "./facet-container/facet-container.compo
         BsFacetRange, BsFacetBar,
         BsFacetMultiComponent,
         BsFacetTagCloud,
-        FacetContainerComponent
+        FacetContainerComponent,
+        BsMySearch
     ],
 })
 export class BsFacetModule {
