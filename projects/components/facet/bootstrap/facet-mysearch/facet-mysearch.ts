@@ -3,11 +3,11 @@ import { Component, inject, Input, OnChanges, SimpleChanges } from "@angular/cor
 
 import { Action } from "@sinequa/components/action";
 import { SearchService } from "@sinequa/components/search";
-import { ExprPipe } from "@sinequa/components/utils/parser";
-import { Expr, ExprParser } from "@sinequa/components/utils/parser/expr-parser";
 import { AppService, FormatService } from "@sinequa/core/app-utils";
 import { IntlModule, IntlService } from "@sinequa/core/intl";
 import { EngineType, Results, Select } from "@sinequa/core/web-services";
+
+import { Expr, ExprParser, ExprPipe } from "@sinequa/components/utils";
 
 import { AbstractFacet } from "../../abstract-facet";
 import { FacetConfig } from "../../facet-config";

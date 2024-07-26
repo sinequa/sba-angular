@@ -1,29 +1,29 @@
-import {NgModule, ModuleWithProviders} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { ModuleWithProviders, NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import {NgxSliderModule} from "@angular-slider/ngx-slider";
+import { NgxSliderModule } from "@angular-slider/ngx-slider";
 
-import {IntlModule} from "@sinequa/core/intl";
+import { IntlModule } from "@sinequa/core/intl";
 
-import {UtilsModule} from "@sinequa/components/utils";
-import {CollapseModule} from "@sinequa/components/collapse";
-import {BsActionModule} from "@sinequa/components/action";   // needed for sq-action-button
-import {BsSearchModule} from "@sinequa/components/search";   // needed for refine facet / didyoumean
-import {BsAutocompleteModule} from "@sinequa/components/autocomplete";  // needed for refine facet
+import { BsActionModule } from "@sinequa/components/action"; // needed for sq-action-button
+import { BsAutocompleteModule } from "@sinequa/components/autocomplete"; // needed for refine facet
+import { CollapseModule } from "@sinequa/components/collapse";
+import { BsSearchModule } from "@sinequa/components/search"; // needed for refine facet / didyoumean
+import { UtilsModule } from "@sinequa/components/utils";
 
-import {FacetState, ALL_FACETS, DEFAULT_FACETS, NamedFacetConfig} from "../facet.service";
-import {BsRefine} from "./facet-refine/facet-refine";
-import {BsFacetBar} from "./facet-bar/facet-bar";
-import {BsFacetRange} from "./facet-range/facet-range";
-import {BsFacetCard} from "./facet-card/facet-card";
-import {BsFacetList} from "./facet-list/facet-list";
-import {BsFacetFilters} from "./facet-filters/facet-filters";
-import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
-import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 import { LoadComponentModule } from "@sinequa/core/load-component";
-import { FacetViewDirective } from "./facet-view.directive";
+import { ALL_FACETS, DEFAULT_FACETS, FacetState, NamedFacetConfig } from "../facet.service";
+import { BsFacetBar } from "./facet-bar/facet-bar";
+import { BsFacetCard } from "./facet-card/facet-card";
 import { FacetContainerComponent } from "./facet-container/facet-container.component";
+import { BsFacetFilters } from "./facet-filters/facet-filters";
+import { BsFacetList } from "./facet-list/facet-list";
+import { BsFacetMultiComponent } from "./facet-multi/facet-multi.component";
+import { BsFacetRange } from "./facet-range/facet-range";
+import { BsRefine } from "./facet-refine/facet-refine";
+import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
+import { FacetViewDirective } from "./facet-view.directive";
 import { BsMySearch } from "./facet-mysearch/facet-mysearch";
 
 @NgModule({

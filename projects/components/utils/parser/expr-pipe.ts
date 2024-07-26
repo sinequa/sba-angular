@@ -1,8 +1,7 @@
 import {Pipe} from "@angular/core";
 import {AbstractIntlPipe} from "@sinequa/core/intl";
 import {Utils} from "@sinequa/core/base";
-import { Expr } from ".";
-import { ExprMessageOptions } from "./expr-parser";
+import { Expr, ExprMessageOptions } from "./expr-parser";
 /**
  * @deprecated 11.9.0 - Kept only for backward compatibility
  */
