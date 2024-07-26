@@ -4,10 +4,10 @@ import { Component, inject, Input, OnChanges, SimpleChanges } from "@angular/cor
 import { Action } from "@sinequa/components/action";
 import { SearchService } from "@sinequa/components/search";
 import { ExprPipe } from "@sinequa/components/utils/parser";
-import { IntlModule, IntlService } from "@sinequa/core/intl";
-import { Results, Select } from "@sinequa/core/web-services";
-import { AppService, FormatService } from "@sinequa/core/app-utils";
 import { Expr, ExprParser } from "@sinequa/components/utils/parser/expr-parser";
+import { AppService, FormatService } from "@sinequa/core/app-utils";
+import { IntlModule, IntlService } from "@sinequa/core/intl";
+import { EngineType, Results, Select } from "@sinequa/core/web-services";
 
 import { AbstractFacet } from "../../abstract-facet";
 import { FacetConfig } from "../../facet-config";
@@ -163,7 +163,7 @@ export class BsMySearch extends AbstractFacet implements FacetMySearchParams, On
     private processFilter(filter: LegacyFilter) {
         if (filter.field) {
             const agg = this.facetService.getAggregation(filter.field);
-            if (agg && agg.isDistribution) {
+            if (agg && (agg.isDistribution || agg.$cccolumn?.eType === EngineType.csv)) {
                 if (filter.display) {
                     this.makeBreadcrumbsItemFromDistributionFilter(filter, filter.display);
                     return;
