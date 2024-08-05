@@ -20,3 +20,9 @@ export * from "./ui.service";
 export * from "./voice-recognition/voice-recongnition.service";
 export * from "./messages";
 export * from "./virtual-scroller/virtual-scroller";
+
+export * from "./parser/app-service-helpers";
+export * from "./parser/expr-builder";
+export * from "./parser/expr-parser";
+export * from "./parser/expr-pipe";
+export * from "./parser/query-utils";
