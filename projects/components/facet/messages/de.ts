@@ -134,5 +134,7 @@ export default {
         "reduce": "Reduzieren",
         "openSettings": "Einstellungen öffnen",
         "saveSettings": "Einstellungen speichern"
-    }
+    },
+
+    "emptySearch": "Leere Suche"
 };
