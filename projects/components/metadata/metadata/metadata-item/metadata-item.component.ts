@@ -1,20 +1,19 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { SafeHtml } from "@angular/platform-browser";
 import { Action } from "@sinequa/components/action";
 import { SearchService } from "@sinequa/components/search";
-import { UIService } from "@sinequa/components/utils";
 import { Query } from "@sinequa/core/app-utils";
 import { EntityItem, Filter, isValueFilter, Record } from "@sinequa/core/web-services";
-import { MetadataService } from "../../metadata.service";
+import { map, Observable, of } from "rxjs";
 import { MetadataItem, MetadataValue } from "../../metadata.interface";
-import { Observable, map, of } from "rxjs";
-import { SafeHtml } from "@angular/platform-browser";
+import { MetadataService } from "../../metadata.service";
 
 @Component({
     selector: "sq-metadata-item",
     templateUrl: "./metadata-item.component.html",
     styleUrls: ['./metadata-item.component.scss']
 })
-export class MetadataItemComponent implements OnChanges, OnDestroy {
+export class MetadataItemComponent implements OnChanges {
     @Input() record: Record;
     @Input("query") _query?: Query;
     @Input() layout: 'inline' | 'table' = 'inline';
@@ -46,16 +45,14 @@ export class MetadataItemComponent implements OnChanges, OnDestroy {
         return this._query || this.searchService.query;
     }
 
+    @HostListener('window:resize', ['$event']) onResize(event) {
+        this.handleResize();
+    }
+
     constructor(
         private metadataService: MetadataService,
         private searchService: SearchService,
-        private el: ElementRef,
-        private ui: UIService
-    ) {
-        this.ui.addElementResizeListener(this.el.nativeElement, this.onResize);
-    }
-
-    onResize = () => this.updateCollapsed()
+    ) { }
 
     ngOnChanges(changes: SimpleChanges) {
         // Generate the metadata data
@@ -63,13 +60,16 @@ export class MetadataItemComponent implements OnChanges, OnDestroy {
             this.metadataValue = this.metadataService.getMetadataValue(this.record, this.query, this.field, this.showEntityExtract);
         }
 
-        this.needsCollapse = false;
-        this.collapsed = !!this.collapseRows;
+      this.handleResize();
     }
 
-    ngOnDestroy(): void {
-        this.ui.removeElementResizeListener(this.el.nativeElement, this.onResize);
+    handleResize() {
+        this.collapsed = true;
+        setTimeout(() => {
+            this.updateCollapsed();
+        }, 1);
     }
+
 
     filterItem(item: MetadataItem, remove?: boolean, not?: boolean): void {
         if (remove) {
@@ -153,7 +153,8 @@ export class MetadataItemComponent implements OnChanges, OnDestroy {
 
     private updateCollapsed(): void {
         if (this.valuesEl) { // Display or not the collapse icon
-            this.needsCollapse = this.collapseRows && (!this.collapsed || this.valuesEl.nativeElement.scrollHeight > this.valuesEl.nativeElement.clientHeight);
+            const { scrollHeight, clientHeight } = this.valuesEl.nativeElement;
+            this.needsCollapse = scrollHeight > clientHeight;
         }
     }
 
