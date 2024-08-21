@@ -381,11 +381,46 @@ This component can be used in two ways :
   - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetRangeConfig` interface.
 
+### My Search Facet
+
+The "My Search" facet displays the current list of search criteria.
+
+![My search facet](/assets/modules/facet/facet-mysearch.PNG)
+
+The inputs of the component are:
+
+  - `results`: The results of the current search.
+  - `allowDeletion`: (**true** by default) Display icon to delete items.
+  - `displayFieldNames`: (**false** by default) Display each item's field.
+  - `collapsible`: (**false** by default) Make the div collapsible. It makes sens if used as breadcrumb.
+  - `useBadges`: (**false** by default) Add a badge likely style to items.
+  - `ignoreText`: (**true** by default) Ignore the search text and fielded search from being displayed.
+  - `excludedFacets`: (**["search-form"]** by default) Search filters originated from those facets will be excluded.
+
+This component can be used in different ways :
+
+  - Basic angular component and input bindings
+
+  ```html
+  <sq-facet-card title="My Search" icon="fas fa-info">
+      <sq-facet-mysearch #facet [results]="results"></sq-facet-mysearch>
+  </sq-facet-card>
+  ```
+
+  Or use the following :
+
+  ```html
+  <div class="d-flex flex-row align-items-center flex-wrap">
+      <sq-facet-mysearch [results]="results" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
+  </div>
+  ```
+
+  - By transclusion within a parent component. This approach requires a config object implementing the `FacetMySearchConfig` interface.
+
 ### Refine Facet
 
 The `sq-refine` component displays a secondary search form, including an autocomplete, to add a fulltext search criteria to a query, without removing the active filters.
 
-<doc-refine></doc-refine>
 
 This component requires at least a `Results` input. If the autocomplete is enabled, all the parameters of the [autocomplete directive](autocomplete) should be provided to this component.
 
