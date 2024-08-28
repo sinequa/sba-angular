@@ -1,0 +1,162 @@
+.my-search {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: .25rem;
+  align-items: center;
+
+  margin: .5rem;
+
+  font-size: 0.85rem;
+
+  .my-search-content {
+    padding: 0 0.5rem;
+  }
+
+}
+
+.sq-metadata-item {
+  background-color: white;
+  cursor: pointer;
+  border-radius: 20px;
+
+  &:hover {
+    background-color: lightgrey;
+    opacity: 0.8;
+  }
+
+  & .fa-times-circle {
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}
+
+.sq-metadata-border {
+  border: 1px solid;
+}
+
+.text-decoration-line-through {
+  text-decoration: line-through;
+}
+
+.collapsed-view {
+  height: 0px;
+  overflow-y: hidden;
+}
+
+.expanded-view {
+  height: unset;
+}
+
+.fa-chevron-circle-down,
+.fa-chevron-circle-up {
+  color: darkgray;
+  position: relative;
+  top: -5px;
+  left: 49%;
+
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+}
+
+
+sq-metadata-item .sq-metadata-item {
+
+  a.badge {
+      background-color: lightgrey;
+      color: lighten(black, 10%);
+
+      &:hover, &:focus {
+          background-color: darken(lightgrey, 10%);
+          color: black;
+      }
+  }
+
+}
+
+/*
+* previous styles from 11.9.0 to diplay metadata colors with filters
+*/
+$geo-color: #74B9FF;
+$company-color: #FF7675;
+$person-color: #00ABB5;
+$job-color : #00ABB5;
+$date-color : #8898D4;
+$event-color : #8898D4;
+$money-color : #51C160;
+$amount-color : #51C160;
+
+$metadata : (
+  geo: (
+      main-color: $geo-color,
+      background-color: $geo-color,
+      color: white
+  ),
+  company: (
+      main-color: $company-color,
+      background-color: $company-color,
+      color: white
+  ),
+  person: (
+      main-color: $person-color,
+      background-color: $person-color,
+      color: white
+  ),
+  job: (
+      main-color: $job-color,
+      background-color: $job-color,
+      color: white
+  ),
+  modified: (
+      main-color: $date-color,
+      background-color: $date-color,
+      color: white
+  ),
+  event: (
+      main-color: $event-color,
+      background-color: $event-color,
+      color: white
+  ),
+  money: (
+      main-color: $money-color,
+      background-color: $money-color,
+      color: white
+  ),
+  amount: (
+      main-color: $amount-color,
+      background-color: $amount-color,
+      color: white
+  )
+);
+
+// Returns the "main color" of an entity
+@function get-metadata-color($name) {
+  $item: map-get($metadata, $name);
+  $color: map-get($item, "main-color");
+  @return $color;
+}
+
+// Inserts the color and background of an entity
+@mixin generate-metadata-color($name, $link: false) {
+  $item: map-get($metadata, $name);
+  $color: map-get($item, "background-color");
+  $bg-color: map-get($item, "color");
+  color: $color;
+  background-color: $bg-color;
+  &:hover, &:focus, &:active {
+      color: $bg-color;
+      background-color: $color;
+  }
+}
+
+@each $name in map-keys($metadata) {
+  .sq-metadata-color-#{$name} {
+      @include generate-metadata-color($name);
+  }
+}
+
+

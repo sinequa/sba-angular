@@ -446,7 +446,7 @@ export class FacetService {
       }
 
       if(typeof item.value === "string" ) {
-        return { field, value: item.value, operator: "contains" };
+        return { field, display: item.display, value: item.value, operator: "contains" };
       }
       return {field, value: item.value as boolean | number, display: item.display };
     }

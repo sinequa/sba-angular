@@ -103,9 +103,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.loginSubscription.unsubscribe();
-        this.routerSubscription.unsubscribe();
-        this.appSubscription.unsubscribe();
+        this.loginSubscription?.unsubscribe();
+        this.routerSubscription?.unsubscribe();
+        this.appSubscription?.unsubscribe();
         this._events.complete();
         this._queryStream.complete();
         this._resultsStream.complete();
@@ -752,6 +752,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     search(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise<boolean> {
         delete this.query.page;
         delete this.query.spellingCorrectionMode;
+        if(this.query.filters === undefined) {
+            delete this.query.queryId;
+        }
         return this.navigate(navigationOptions, audit);
     }
 

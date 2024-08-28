@@ -99,10 +99,10 @@ $form-check-input-invalid-checked-bg: $error-1 !default;
 $form-check-input-invalid-checked-hover-bg: $darker-red !default;
 
 /** checkbox **/
-$form-check-input-checkbox-checked-bg: var(--primary, #{$blue-500}) !default;
-$form-check-input-checkbox-checked-border-color: var(--primary, #{$blue-500}) !default;
-$form-check-input-checkbox-checked-hover-bg: var(--primary-400, #{$darker-blue}) !default;
-$form-check-input-checkbox-checked-hover-border-color: var(--primary-400, #{$darker-blue}) !default;
+$form-check-input-checkbox-checked-bg: var(--primary, #{$accent-500}) !default;
+$form-check-input-checkbox-checked-border-color: var(--primary, #{$accent-500}) !default;
+$form-check-input-checkbox-checked-hover-bg: var(--primary-400, #{$accent-900}) !default;
+$form-check-input-checkbox-checked-hover-border-color: var(--primary-400, #{$accent-900}) !default;
 
 $form-check-input-checkbox-disabled-bg: $grey-300 !default;
 $form-check-input-checkbox-disabled-border-color: $grey-300 !default;

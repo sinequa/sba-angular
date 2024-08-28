@@ -1,13 +1,6 @@
 {
   "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/components",
-  "assets": [
-    "notification/bootstrap/notification.scss"
-  ],
   "lib": {
     "entryFile": "public-api.ts"
-  },
-  "allowedNonPeerDependencies": [
-    "."
-  ]
+  }
 }

@@ -19,16 +19,16 @@ import { FacetWrapperComponent } from "./facet-wrapper.component";
 
     imports: [
         CommonModule,
-        FormsModule, ReactiveFormsModule, 
-        
+        FormsModule, ReactiveFormsModule,
+
         IntlModule,
         UtilsModule,
         BsActionModule,
         BsModalModule,
         ResultModule,
         BsFacetModule,
-        
-        AGModule.withComponents([FacetWrapperComponent]),
+
+        AGModule,
     ],
     declarations: [
         AgGridViewComponent,
