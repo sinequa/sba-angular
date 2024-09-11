@@ -16,22 +16,10 @@
 2. Install dependencies
 
     ```bash
-    npm install
+    npm install --legacy-peer-deps
     ```
 
-3. Build the [`@sinequa/core`](https://sinequa.github.io/sba-angular/libraries/core) library:
-
-    ```bash
-    npm run buildcore
-    ```
-
-4. Build the [`@sinequa/components`](https://sinequa.github.io/sba-angular/libraries/components) library:
-
-    ```bash
-    npm run buildcomponents
-    ```
-
-5. Build Vanilla-Search and test it on our demo server (Sinequa account required):
+3. Build Vanilla-Search and test it on our demo server (Sinequa account required):
 
     ```bash
     npm run ng serve vanilla-search -- --ssl=true --proxy-config=./projects/vanilla-search/src/proxy.conf.json
