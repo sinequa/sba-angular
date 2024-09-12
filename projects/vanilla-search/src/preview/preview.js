@@ -173,8 +173,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     function resizeSvgBackground(rect, tspan) {
-        var text = tspan;
-        var textBoxPixel = text.getBoundingClientRect();
+        let elt = tspan;
+        while (elt.tagName !== "text") {
+            elt = elt.parentNode;
+            if (elt == null) break;
+        }
+        const text = elt;
+        const textBoxPixel = text.getBoundingClientRect();
         var textBoxSVG = text.getBBox();
         if (textBoxPixel.height === 0 || textBoxPixel.width === 0)
             return;
