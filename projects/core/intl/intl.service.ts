@@ -621,7 +621,8 @@ export class IntlService implements OnDestroy {
             }
         }
         // return default language text
-        return text.substring(defaultLang.start, defaultLang.end);
+        const result = text.substring(defaultLang.start, defaultLang.end);
+        return Boolean(result) ? result : text;
     }
 
     private processFormatMessage(message: string, values = {}): string {
