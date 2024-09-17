@@ -10,8 +10,8 @@ import { Utils } from "@sinequa/core/base";
 import { IntlService } from "@sinequa/core/intl";
 import { ModalService } from "@sinequa/core/modal";
 import { Results, Record, CCColumn, EngineType, getFieldPredicate } from "@sinequa/core/web-services";
-import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent, ModelUpdatedEvent } from 'ag-grid-community';
-import { ApplyColumnStateParams } from "ag-grid-community/dist/lib/columns/columnModel";
+import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, GridReadyEvent, RowDataUpdatedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent, ModelUpdatedEvent } from 'ag-grid-community';
+import { ApplyColumnStateParams } from "ag-grid-community/dist/types/core/columns/columnApplyStateService";
 import { Subscription } from "rxjs";
 import { DataModalComponent } from "./data-modal.component";
 import { SqDatasource } from "./datasource";
@@ -72,7 +72,6 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
 
     /** ag-grid API for the grid and the column model */
     gridApi: GridApi | null | undefined;
-    gridColumnApi: ColumnApi | null | undefined;
 
     /** Datasource implementation for infinite scrolling row model */
     datasource?: IDatasource;
@@ -121,7 +120,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             if(event.source !== "ag-grid" && (event.type === SelectionEventType.SELECT || event.type === SelectionEventType.UNSELECT)) {
                 this.gridApi?.forEachNode(node => {
                     if(event.records.find(r => r.id === node.data.id)) {
-                        node.setSelected(event.type === SelectionEventType.SELECT, undefined, true);
+                        node.setSelected(event.type === SelectionEventType.SELECT, undefined);
                     }
                 });
             }
@@ -166,7 +165,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             col.tooltipValueGetter = col.tooltipValueGetter || this.tooltipValueGetter;
             col.headerName = col.headerName || (col.$column?.label? this.intlService.formatMessage(col.$column?.label) : col.field);
             col.headerTooltip = col.headerTooltip || col.headerName;
-            col.cellRenderer = col.cellRendererFramework ? undefined : col.cellRenderer || this.renderCell;
+            col.cellRenderer = col.cellRenderer ? undefined : col.cellRenderer || this.renderCell;
             col.sortable = col.sortable || this.appService.isSortable(col.field);
             const hidePref = this.prefs.get("ag-grid-hide-"+col.field);
             col.hide = hidePref === undefined? col.hide : hidePref;
@@ -205,7 +204,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             selected: !col.hide,
             action: (action, event) => {
                 action.selected = !action.selected;
-                this.gridColumnApi?.setColumnVisible(col.field!, action.selected);
+                this.gridApi?.setColumnsVisible([col.field!], action.selected);
                 if(action.selected) {
                     this.prefs.delete("ag-grid-hide-"+col.field);
                 }
@@ -221,11 +220,11 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * Create the rows' datasource
      */
     createRows() {
-        if(this.gridApi && this.gridColumnApi && this.rowModelType === 'infinite') {
+        if(this.gridApi && this.rowModelType === 'infinite') {
             // Create a new datasource
             this.datasource = this.makeDatasource();
             // Apply to the grid
-            this.gridApi.setDatasource(this.datasource);
+            this.gridApi.setGridOption('datasource', this.datasource);
             // The query that yielded this data may have active filters & sort: we want the grid to reflect this
             this.updateFilterState(this.query || this.searchService.query);
             this.updateSortState(this.query || this.searchService.query);
@@ -283,7 +282,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
         else {
             model.defaultState = {sort: null};
         }
-        this.gridColumnApi?.applyColumnState(model);
+        this.gridApi?.applyColumnState(model);
     }
 
     /**
@@ -404,14 +403,14 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             // clear filters
             this.gridApi?.setFilterModel({});
             // clear sort
-            this.gridColumnApi?.applyColumnState({
+            this.gridApi?.applyColumnState({
                 defaultState:{
                     sort: null
                 }
             });
         }
         // clear width, visiblity, order
-        this.gridColumnApi?.applyColumnState({
+        this.gridApi?.applyColumnState({
             defaultState:{
                 width: this.defaultColumnWidth
             },
@@ -467,7 +466,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * Auto-resize the columns
      */
     autoResize() {
-        this.gridColumnApi?.autoSizeAllColumns();
+        this.gridApi?.autoSizeAllColumns();
     }
 
     /**
@@ -487,7 +486,6 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      */
     onGridReady(event: GridReadyEvent) {
         this.gridApi = event.api;
-        this.gridColumnApi = event.columnApi;
         // Create the rows in case there are already results available
         this.createRows();
     }
@@ -495,7 +493,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     /**
      * Callback function called when data in the grid changes
      */
-    onRowDataChanged(event: RowDataChangedEvent) {
+    onRowDataChanged(event: RowDataUpdatedEvent) {
 
     }
 
@@ -576,7 +574,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     onModelUpdated(event: ModelUpdatedEvent) {
         this.gridApi?.forEachNode(node => {
             if(node.data?.$selected && !node.isSelected()) {
-                node.setSelected(true, undefined, true);
+                node.setSelected(true, undefined);
             }
         });
     }
