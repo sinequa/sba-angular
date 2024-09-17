@@ -1,6 +1,6 @@
 <div class="d-flex flex-wrap align-items-center mb-1" *ngIf="gridActions.length > 0 || showCounter">
     <div class="btn-group" [sq-action-buttons]="{items: gridActions, style: 'primary', rightAligned: false}"></div>
-    
+
     <sq-results-counter [rowCount]="datasource?.rowCount || rowData.length" class="ms-3" *ngIf="showCounter"></sq-results-counter>
 </div>
 
@@ -22,7 +22,7 @@
 
     [rowData]="rowData"
 
-    [frameworkComponents]="frameworkComponents"
+    [components]="frameworkComponents"
 
     (gridReady)="onGridReady($event)"
     (rowDataChanged)="onRowDataChanged($event)"
