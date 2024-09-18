@@ -152,20 +152,23 @@ export class BsMySearch extends AbstractFacet implements FacetMySearchParams, On
         }
     }
 
-    private makeBreadcrumbsItemFromDistributionFilter(filter: LegacyFilter, text: string) {
+    private makeBreadcrumbsItemFromDistributionFilter(filter: LegacyFilter, text: string, not: boolean = false) {
         const e = this.makeBreadcrumbsItemFromExpr(text);
-        if (e.expr) e.expr.field = filter.field;
+        if (e.expr)  {
+            e.expr.field = filter.field;
+            e.expr.not = not;
+        }
         if (e.display instanceof Expr) e.display.field = filter.field;
         e.filter = filter;
         this.items.push(e);
     }
 
-    private processFilter(filter: LegacyFilter) {
+    private processFilter(filter: LegacyFilter, not: boolean = false) {
         if (filter.field) {
             const agg = this.facetService.getAggregation(filter.field);
             if (agg && (agg.isDistribution || agg.$cccolumn?.eType === EngineType.csv)) {
                 if (filter.display) {
-                    this.makeBreadcrumbsItemFromDistributionFilter(filter, filter.display);
+                    this.makeBreadcrumbsItemFromDistributionFilter(filter, filter.display, not);
                     return;
                 }
                 else {
@@ -187,7 +190,7 @@ export class BsMySearch extends AbstractFacet implements FacetMySearchParams, On
                     const a = this.facetService.getAggregation(subFilter.field);
                     if (a && a.isDistribution) {
                         if(subFilter.operator !== 'between') {
-                            const e = this.makeBreadcrumbsItemFromExpr(filter.display || subFilter.display);
+                            const e = this.makeBreadcrumbsItemFromExpr(filter.display || subFilter.display, filter.operator === 'not');
                             if (e.expr) e.expr.field = subFilter.field;
                             if (e.display instanceof Expr) e.display.field = subFilter.field;
                             if(filter.display) {
@@ -204,7 +207,7 @@ export class BsMySearch extends AbstractFacet implements FacetMySearchParams, On
                         continue;
                     }
                 }
-                this.processFilter(subFilter);
+                this.processFilter(subFilter, filter.operator === 'not');
             }
         } else {
             const expr = this.makeBreadcrumbsItemFromExpr(filter.value || filter.display);
@@ -219,7 +222,7 @@ export class BsMySearch extends AbstractFacet implements FacetMySearchParams, On
         }
     }
 
-    private makeBreadcrumbsItemFromExpr(text: string): MySearchExpr {
+    private makeBreadcrumbsItemFromExpr(text: string, not: boolean = false): MySearchExpr {
         const context = { appService: this.appService, formatService: this.formatService, intlService: this.intlService }
 
         let expr = ExprParser.parse(text, context);
@@ -227,6 +230,7 @@ export class BsMySearch extends AbstractFacet implements FacetMySearchParams, On
             expr = ExprParser.parse(ExprParser.escape(text), context);
         }
         if (expr instanceof Expr) {
+            expr.not = not;
             return { expr, display: expr };
         }
         else {
