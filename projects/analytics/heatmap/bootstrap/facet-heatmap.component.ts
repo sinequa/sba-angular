@@ -291,7 +291,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
             throw new Error(`Aggregation Item '${item.value}' has no display value`);
         }
         // Default parsing, assuming cross-distribution format ("Apple/Steve Jobs")
-        const displays = item.display.split("/");
+        const keySeparator = this.aggregationData?.$ccaggregation?.keySeparator || "/";
+        const displays = item.display.split(keySeparator);
         // Expr has following syntax `display`:(column1:`value1` AND column2:`value2`)
         const expr = String(item.value);
         const subExpr = expr.substring((Utils.escapeExpr(item.display)+":(").length, expr.length-1).split(" AND ");
