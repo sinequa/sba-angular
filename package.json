@@ -94,7 +94,7 @@
     "vis-timeline": "7.7.0",
     "vis-util": "5.0.3",
     "xss": "^1.0.0",
-    "zone.js": "~0.14.4"
+    "zone.js": "~0.14.10"
   },
   "overrides": {
     "autoprefixer": "10.4.5"
