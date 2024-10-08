@@ -1,6 +1,6 @@
-<div class="form-control" [ngClass]="{expanded: expanded}" (sqClickOutside)="onClickOutside()" (mouseenter)="hovered=true" (mouseleave)="hovered=false">
+<form novalidate [formGroup]="form" class="form-control" [ngClass]="{expanded: expanded}" (sqClickOutside)="onClickOutside()" (mouseenter)="hovered=true" (mouseleave)="hovered=false">
 
-  <div class="search-input-container d-flex align-items-center">
+  <fieldset class="search-input-container d-flex align-items-center" [disabled]="!loginService.complete" [attr.aria-disabled]="!loginService.complete">
 
     <div class="me-2 text-muted">
       <i class="fas fa-fw fa-search"></i>
@@ -11,11 +11,12 @@
 
     <!-- Search input -->
     <input #searchInput
+      id="searchInput" name="searchInput"
       type="text" spellcheck="false" autocomplete="off"
+      formControlName="search"
       class="search-input pe-2"
       [placeholder]="(voiceState? 'msg#searchForm.listening' : 'msg#searchForm.searchFor') | sqMessage"
-      [disabled]="!loginService.complete"
-      [(ngModel)]="editedQuery.text"
+      (ngModelChange)="onInputChange()"
       (focus)="onInputFocus()"
       (click)="onInputClick()"
       (input)="onInputText()"
@@ -76,7 +77,7 @@
       </span>
     </button>
 
-  </div>
+  </fieldset>
 
   <div *ngIf="expanded">
     <ng-container
@@ -85,4 +86,4 @@
     </ng-container>
   </div>
 
-</div>
+</form>

@@ -22,6 +22,14 @@
     &:focus {
       outline: none;
     }
+
+
+    &:disabled {
+      background-color: white;
+      &::placeholder {
+        color: #ced4da;
+      }
+    }
   }
 
   &:focus-within {
@@ -32,7 +40,18 @@
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 
+  /* when input is invalid */
+  &.ng-invalid {
+    border-color: red;
+    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+  }
+
   .light-green {
     color: #b1dfbb !important
+  }
+
+  /* remove border from disabled buttons inside fieldset */
+  fieldset .btn:disabled {
+    border: none;
   }
 }
