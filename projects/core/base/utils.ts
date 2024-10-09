@@ -554,21 +554,21 @@ export class Utils {
                 * A word followed by:'something', which may be surrounded by parentheses.
                 * A word followed by :something, which may be surrounded by parentheses.
                 */
-                const regex = /\(?\b\w+:(?:"[^"]*"|'[^']*'|[^ |^\)]+)\)?/gm
-                let m;
-                while ((m = regex.exec(val)) !== null) {
-                    // This is necessary to avoid infinite loops with zero-width matches
-                    if (m.index === regex.lastIndex) {
-                        regex.lastIndex++;
-                    }
+                // const regex = /\(?\b\w+:(?:"[^"]*"|'[^']*'|[^ |^\)]+)\)?/gm
+                // let m;
+                // while ((m = regex.exec(val)) !== null) {
+                //     /* This is necessary to avoid infinite loops with zero-width matches */
+                //     if (m.index === regex.lastIndex) {
+                //         regex.lastIndex++;
+                //     }
 
-                    // The result can be accessed through the `m`-variable.
-                    m.forEach((match, groupIndex) => {
-                        // search and replace the match with parenthesis into the val string
-                        const v = match.replace('(', '').replace(')', '');
-                        val = val.replace(match, `(${v})`);
-                    });
-                }
+                //     /* The result can be accessed through the `m`-variable. */
+                //     m.forEach((match, groupIndex) => {
+                //         /* search and replace the match with parenthesis into the val string */
+                //         const v = match.replace('(', '').replace(')', '');
+                //         val = val.replace(match, `(${v})`);
+                //     });
+                // }
                 return val;
             }, options.pretty ? 2 : 0);
     }
