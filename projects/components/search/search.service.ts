@@ -817,6 +817,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                             const records = [...(this.results?.records ?? []), ...results.records];
                             results.records = records;
                             this.results = results;
+
                             this._resultsStream.next(results);
                         }
                         this.fetchingLoadMore = false;
