@@ -1,6 +1,6 @@
 import { OverlayModule } from "@angular/cdk/overlay";
-import { HttpHandler } from "@angular/common/http";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { HttpHandler, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ChangeDetectorRef } from "@angular/core";
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -58,13 +58,10 @@ describe("LabelPipe", () => {
   beforeEach(waitForAsync(() => {
 
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        OverlayModule,
-        HttpClientTestingModule
-      ],
-      providers: [
-        { provide: ChangeDetectorRef, useValue: { markForCheck: () => {} } },
+    imports: [RouterTestingModule,
+        OverlayModule],
+    providers: [
+        { provide: ChangeDetectorRef, useValue: { markForCheck: () => { } } },
         HttpHandler,
         IntlService,
         FormatService,
@@ -78,8 +75,10 @@ describe("LabelPipe", () => {
         { provide: MODAL_CONFIRM, useValue: "MODAL_CONFIRM" },
         { provide: MODAL_PROMPT, useValue: "MODAL_PROMPT" },
         LabelPipe,
-      ]
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
 
     service = TestBed.inject(IntlService);
     service.init();
