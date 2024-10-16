@@ -814,10 +814,8 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 this.getResults(this.query, auditEvents)
                     .subscribe(results => {
                         if(this.results && results) {
-                            const records = [...(this.results?.records ?? []), ...results.records];
-                            results.records = records;
-                            this.results = results;
-                            this._resultsStream.next(results);
+                            this.results.records = [...(this.results?.records ?? []), ...results.records];
+                            this._resultsStream.next(this.results);
                         }
                         this.fetchingLoadMore = false;
                     });
