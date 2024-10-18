@@ -13,7 +13,8 @@ export default {
       "and": " and ",
       "or": " or ",
       "not": " not ",
-      "null": " is "
+      "null": " is ",
+      "like": " like "
     },
     "menu": {
       "nest": "Nest",
