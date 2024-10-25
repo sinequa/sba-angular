@@ -35,31 +35,31 @@ export class SuggestService {
                 if(!suggests || suggests.length === 0) {
                     if (fields) {
                         // If we are looking for specific fields, use the suggest field web service
-                        return this.getFields(text, fields, query);
+                        return this.getFields(text, fields, query).pipe(map(items => ({items, searchText: text})));
                     }
                     else {
                         // Fall back to a strategy of autocompleting only the last token
                         const i = text.lastIndexOf(" ")+1;
                         if(i > 0) {
-                            const prefix = text.substring(0, i);
-                            return this.suggestQueryWebService.get(sugQuery, text.substring(i), ccquery).pipe(
-                                tap(suggests => suggests?.forEach(s => s.display = prefix + s.display))
+                            const suffix = text.substring(i);
+                            return this.suggestQueryWebService.get(sugQuery, suffix, ccquery).pipe(
+                                tap(items => items?.forEach(s => s.display = s.display)),
+                                map(items => ({items: items || [], searchText: suffix }))
                             );
                         }
                     }
                 }
-                return of(suggests || []);
+                return of({items: suggests || [], searchText: text});
             }),
-
             // Post process suggestions
-            map(items => items
+            map(({items, searchText}) => items
                 // Deduplicate items
                 .filter((item,i) => items.findIndex(_item => Utils.eqNC(_item.display, item.display)) === i)
                 // Limit the total number of items
                 .slice(0, maxCount)
                 // Add a score and highlight the text with HTML markup
                 .map(item => {
-                    const match = this.findMatch(item.display, text, undefined, undefined);
+                    const match = this.findMatch(item.display, searchText, undefined, undefined);
                     const score = (match?.score || 0) * 0.9; // Reduce the score of suggestions wrt other objects
                     return {...item, score, displayHtml: match?.displayHtml, data: undefined};
                 })
