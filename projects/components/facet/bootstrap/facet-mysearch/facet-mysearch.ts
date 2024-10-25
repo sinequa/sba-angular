@@ -187,7 +187,7 @@ export class BsMySearch extends AbstractFacet implements FacetMySearchParams, On
                     const a = this.facetService.getAggregation(subFilter.field);
                     if (a && a.isDistribution) {
                         if(subFilter.operator !== 'between') {
-                            const e = this.makeBreadcrumbsItemFromExpr(filter.display || subFilter.display);
+                            const e = this.makeBreadcrumbsItemFromExpr(filter.display || subFilter.display || (`${subFilter.operator} ${subFilter.value}`) || "");
                             if (e.expr) e.expr.field = subFilter.field;
                             if (e.display instanceof Expr) e.display.field = subFilter.field;
                             if(filter.display) {

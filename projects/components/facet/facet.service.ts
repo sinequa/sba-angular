@@ -1,16 +1,30 @@
-import {Injectable, Inject, Optional, InjectionToken} from "@angular/core";
-import {UserSettingsWebService, UserSettings, Suggestion,
-    Results, Aggregation, AggregationItem, TreeAggregation, TreeAggregationNode,
-    AuditEvents, EngineType, CCColumn, Filter, ValueFilter, BetweenFilter, NumericalFilter, isExprFilter, getFieldPredicate, ListAggregation
-} from "@sinequa/core/web-services";
-import {IntlService} from "@sinequa/core/intl";
-import {Query, AppService, FormatService} from "@sinequa/core/app-utils";
-import {diacriticsInsensitiveRegexp, FieldValue, Utils} from "@sinequa/core/base";
-import {Subject, Observable, map, tap} from "rxjs";
-import {FirstPageService, SearchService} from "@sinequa/components/search";
-import {SuggestService} from "@sinequa/components/autocomplete";
-import { FacetConfig } from "./facet-config";
+import { Inject, Injectable, InjectionToken, Optional } from "@angular/core";
 import { Action, ActionSeparator } from "@sinequa/components/action";
+import { SuggestService } from "@sinequa/components/autocomplete";
+import { FirstPageService, SearchService } from "@sinequa/components/search";
+import { AppService, FormatService, Query } from "@sinequa/core/app-utils";
+import { diacriticsInsensitiveRegexp, FieldValue, Utils } from "@sinequa/core/base";
+import { IntlService } from "@sinequa/core/intl";
+import {
+  Aggregation, AggregationItem,
+  AuditEvents,
+  CCColumn,
+  EngineType,
+  ExprFilter,
+  Filter,
+  getFieldPredicate,
+  isExprFilter,
+  ListAggregation,
+  NumericalFilter,
+  Results,
+  Suggestion,
+  TreeAggregation, TreeAggregationNode,
+  UserSettings,
+  UserSettingsWebService,
+  ValueFilter
+} from "@sinequa/core/web-services";
+import { map, Observable, Subject, tap } from "rxjs";
+import { FacetConfig } from "./facet-config";
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
@@ -468,7 +482,7 @@ export class FacetService {
     public clearFiltersSearch(fields: string | string[], all: boolean, query = this.searchService.query, facetName?: string): Promise<boolean> {
       fields = Utils.asArray(fields);
 
-      for(let field of fields) {
+      for(const field of fields) {
         this.clearFilters(field, query);
         this._events.next({type: FacetEventType.ClearFilters, facet: this.facet(facetName), query});
       }
@@ -532,7 +546,7 @@ export class FacetService {
         return Promise.resolve(false);
     }
 
-    public makeRangeFilter(field: string, start: Date|number|string|undefined, end: Date|number|string|undefined): BetweenFilter|NumericalFilter|undefined {
+    public makeRangeFilter(field: string, start: Date|number|string|undefined, end: Date|number|string|undefined): ExprFilter|NumericalFilter|undefined {
       if(end instanceof Date) {
         end = Utils.toSysDateStr(end);
       }
@@ -549,7 +563,10 @@ export class FacetService {
         return {field, operator: 'gte', value: start!};
       }
       else {
-        return {field, operator: 'between', start, end};
+        return { operator: 'and', filters: [
+          {field, operator: 'gte', value: start},
+          {field, operator: 'lte', value: end}
+        ]}
       }
     }
 
