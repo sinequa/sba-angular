@@ -10,6 +10,7 @@ import { SearchService } from "./search.service";
 
 export interface FirstPageOptions {
     displayOnHomePage?: boolean;
+    aggregations?: string[];
 }
 
 export const FIRST_PAGE_OPTIONS = new InjectionToken<FirstPageOptions>("FIRST_PAGE_OPTIONS");
@@ -35,7 +36,7 @@ export class FirstPageService implements OnDestroy {
                 .pipe(
                     filter(event => event.type === "clear"),
                     filter(event => this.displayOnHomePage((event as SearchService.ClearEvent).path)),
-                    switchMap(_ => this.getFirstPage())
+                    switchMap(_ => this.getFirstPage(options.aggregations))
                 ).subscribe()
         );
 
@@ -47,7 +48,7 @@ export class FirstPageService implements OnDestroy {
                     switchMap(_ => {
                         if(this.firstPage) {
                             this.firstPage = undefined;
-                            return this.getFirstPage();
+                            return this.getFirstPage(options.aggregations);
                         }
                         else return of();
                     })
@@ -96,12 +97,12 @@ export class FirstPageService implements OnDestroy {
      *
      * @returns Observable<Results>
      */
-    getFirstPage(): Observable<Results> {
+    getFirstPage(aggregations?: string[]): Observable<Results> {
         if (this.firstPage) {
             return of(this.firstPage);
         }
 
-        const query = this.searchService.makeQuery({ isFirstPage: true });
+        const query = this.searchService.makeQuery({ isFirstPage: true, aggregations });
 
         // side effect, set cache results, then return "results" as observable
         return this.searchService.getResults(query, { type: AuditEventType.Search_FirstPage }, { searchInactive: true })
