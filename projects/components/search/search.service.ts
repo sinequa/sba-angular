@@ -1,22 +1,17 @@
-/* eslint-disable import/export */
-import { BehaviorSubject, Observable, Subject, Subscription, catchError, map, of, switchMap, tap, throwError } from "rxjs";
+import {Injectable, InjectionToken, Inject, Optional, OnDestroy, inject} from "@angular/core";
+import {Router, NavigationEnd, Params, NavigationExtras} from "@angular/router";
+import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, catchError} from "rxjs";
+import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
+    QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation, IQuery, Aggregation,
+    AuditEventTypeValues} from "@sinequa/core/web-services";
+import {AppService, FormatService, ValueItem, Query} from "@sinequa/core/app-utils";
+import {NotificationsService} from "@sinequa/core/notification";
+import {LoginService} from "@sinequa/core/login";
+import {IntlService} from "@sinequa/core/intl";
+import {Utils} from "@sinequa/core/base";
 
-import { Inject, Injectable, InjectionToken, OnDestroy, Optional } from "@angular/core";
-import { NavigationEnd, NavigationExtras, Params, Router } from "@angular/router";
-
-import { AppService, FormatService, Query, ValueItem } from "@sinequa/core/app-utils";
-import { Utils } from "@sinequa/core/base";
-import { IntlService } from "@sinequa/core/intl";
-import { LoginService } from "@sinequa/core/login";
-import { NotificationsService } from "@sinequa/core/notification";
-import {
-    Aggregation, AuditEvent,
-    AuditEventType,
-    AuditEvents, AuditWebService, CCQuery, CCTab, DidYouMeanKind,
-    Filter, IMulti, IQuery, ListAggregation, QueryAnalysis,
-    QueryIntent, QueryIntentAction, QueryIntentData, QueryIntentMatch, QueryIntentWebService, QueryWebService, Record, Results, Tab, TreeAggregation, TreeAggregationNode
-} from "@sinequa/core/web-services";
-import { AuditEventTypeValues } from "@sinequa/core/web-services/types/audit/AuditEventType";
+import {UserPreferences} from "@sinequa/components/user-settings";
 
 export interface SearchOptions {
     /** Name of routes for which we want the search service to work (incl. storing the query in the URL) */
@@ -59,6 +54,8 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     protected _events = new Subject<SearchService.Events<T>>();
     protected _queryStream = new BehaviorSubject<Query | undefined>(undefined);
     protected _resultsStream = new BehaviorSubject<T | undefined>(undefined);
+
+    protected userPreferences = inject(UserPreferences);
 
     constructor(
         @Optional() @Inject(SEARCH_OPTIONS) protected options: SearchOptions,
@@ -356,6 +353,12 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             this.searchActive = true;
         }
         const tab = this.getCurrentTab();
+
+        // check if neural-search is disabled in the user preferences
+        if (this.userPreferences.get("neural-search") === false) {
+            query.neuralSearch = false;
+        }
+
         return this.queryService.getResults(query, auditEvents,
             this.makeQueryIntentData({
                 tab: tab ? tab.name : undefined,

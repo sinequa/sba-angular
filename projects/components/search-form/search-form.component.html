@@ -16,6 +16,7 @@
       formControlName="search"
       class="search-input pe-2"
       [placeholder]="(voiceState? 'msg#searchForm.listening' : 'msg#searchForm.searchFor') | sqMessage"
+      [(ngModel)]="editedQuery.text"
       (ngModelChange)="onInputChange()"
       (focus)="onInputFocus()"
       (click)="onInputClick()"

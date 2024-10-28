@@ -81,6 +81,9 @@ export class BsFacetDate
     protected subscriptions: Subscription[] = [];
     protected data: Aggregation | undefined;
 
+    // Unique ID for the date facet
+    id = Utils.sha512(new Date().getTime().toString()).substring(0, 8);
+
     get field(): string {return this._field || this.data?.column || ''}
 
     constructor(
@@ -239,7 +242,7 @@ export class BsFacetDate
         let from: Date|undefined;
         let to: Date|undefined;
         const filters = query.findFieldFilters(this.field);
-        for(let filter of filters) {
+        for(const filter of filters) {
           switch(filter.operator) {
             case 'between':
               from = Utils.isDate(filter.start)? filter.start : Utils.isString(filter.start)? parseISO(filter.start) : undefined;
