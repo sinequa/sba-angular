@@ -63,7 +63,7 @@ export class UserPreferences {
      * Synchronizes the user preferences with the server
      */
     public sync(){
-        this.userSettingsService.patch({prefs: this.prefs});
+        this.userSettingsService.patch({prefs: {...this.prefs}});
     }
 
 }

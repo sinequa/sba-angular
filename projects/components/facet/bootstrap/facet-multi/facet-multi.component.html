@@ -3,7 +3,7 @@
         <div *ngIf="!facet.$hidden"
             class="list-group-item list-group-item-action d-flex flex-row align-items-center"
             [ngClass]="facet.className"
-            [ngClass]="{'sq-filtered':facet.$hasFiltered, 'disabled':facet.$count === 0 }"
+            [ngClass]="{'sq-filtered':facet.$hasFiltered, 'disabled':facet.$disabled }"
             role="button"
             (click)="openFacet(facet)">
             <span class="flex-grow-1">{{ facet.title | sqMessage }}</span>
