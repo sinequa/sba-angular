@@ -1,19 +1,29 @@
-import { Observable, Subject, map, tap } from "rxjs";
-
 import { Inject, Injectable, InjectionToken, Optional } from "@angular/core";
-
 import { Action, ActionSeparator } from "@sinequa/components/action";
 import { SuggestService } from "@sinequa/components/autocomplete";
 import { FirstPageService, SearchService } from "@sinequa/components/search";
 import { AppService, FormatService, Query } from "@sinequa/core/app-utils";
-import { FieldValue, Utils, diacriticsInsensitiveRegexp } from "@sinequa/core/base";
+import { diacriticsInsensitiveRegexp, FieldValue, Utils } from "@sinequa/core/base";
 import { IntlService } from "@sinequa/core/intl";
 import {
-  Aggregation, AggregationItem, AuditEvents,
-  BetweenFilter, CCColumn, EngineType, Filter, ListAggregation,
-  NumericalFilter, Results, Suggestion, TreeAggregation, TreeAggregationNode, UserSettings, UserSettingsWebService, ValueFilter, getFieldPredicate, isExprFilter
+  Aggregation, AggregationItem,
+  AuditEvents,
+  CCColumn,
+  EngineType,
+  ExprFilter,
+  Filter,
+  getFieldPredicate,
+  isExprFilter,
+  ListAggregation,
+  NumericalFilter,
+  Results,
+  Suggestion,
+  TreeAggregation, TreeAggregationNode,
+  UserSettings,
+  UserSettingsWebService,
+  ValueFilter
 } from "@sinequa/core/web-services";
-
+import { map, Observable, Subject, tap } from "rxjs";
 import { FacetConfig } from "./facet-config";
 
 // Facet interface (from models/UserSettings)
@@ -536,7 +546,7 @@ export class FacetService {
         return Promise.resolve(false);
     }
 
-    public makeRangeFilter(field: string, start: Date|number|string|undefined, end: Date|number|string|undefined): BetweenFilter|NumericalFilter|undefined {
+    public makeRangeFilter(field: string, start: Date|number|string|undefined, end: Date|number|string|undefined): ExprFilter|NumericalFilter|undefined {
       if(end instanceof Date) {
         end = Utils.toSysDateStr(end);
       }
@@ -553,7 +563,10 @@ export class FacetService {
         return {field, operator: 'gte', value: start!};
       }
       else {
-        return {field, operator: 'between', start, end};
+        return { operator: 'and', filters: [
+          {field, operator: 'gte', value: start},
+          {field, operator: 'lte', value: end}
+        ]}
       }
     }
 

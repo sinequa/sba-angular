@@ -15,6 +15,7 @@ declare interface FacetMultiConfig extends FacetConfig<{displayEmptyDistribution
   $hasFiltered: boolean;
   $hidden: boolean;
   $fields: string[];
+  $disabled?: boolean;
 }
 
 @Component({
@@ -136,7 +137,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges, O
     facet.$hasMore = false;
     facet.$hasFiltered = false;
 
-    for(let aggregation of Utils.asArray(facet.aggregation)) {
+    for(const aggregation of Utils.asArray(facet.aggregation)) {
       const agg = this.facetService.getAggregation(aggregation, this.results);
       if(agg) {
         facet.$fields.push(agg.column);
@@ -156,6 +157,14 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges, O
         if(agg.$filtered.length > 0) {
           facet.$hasFiltered = true;
         }
+
+        if(facet.$count === 0) {
+          facet.$disabled = true;
+        }
+        // if facet is of type = "datetime" the facet should be enabled
+        if(agg.$cccolumn?.type === "datetime" || facet.$count > 0) {
+          facet.$disabled = false;
+        }
       }
     }
 
@@ -169,7 +178,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges, O
    * Also, update list of inputs passed to child facets
    */
   ngOnChanges(changes: SimpleChanges) {
-    for(let facet of this.facets) {
+    for(const facet of this.facets) {
       this.initFacet(facet);
     }
     // Update list of inputs used by child facet
