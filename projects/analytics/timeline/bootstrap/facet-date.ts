@@ -27,6 +27,11 @@ import { Subscription, debounceTime, filter } from "rxjs";
 import { BsFacetTimelineComponent } from "./facet-timeline.component";
 import { TimelineSeries } from "./timeline.model";
 
+export type MaskProps = {
+    value?: string,
+    units?: { text: string, value?: string }[]
+}
+
 export interface FacetDateParams {
     showCount?: boolean;
     timelineAggregation?: string;
@@ -38,6 +43,7 @@ export interface FacetDateParams {
     timelineWidth?: number;
     timelineHeight?: number;
     timelineMargin?: {top: number, bottom: number, left: number, right: number};
+    mask?: MaskProps;
 }
 
 export interface FacetDateConfig extends FacetConfig<FacetDateParams> {
@@ -68,6 +74,14 @@ export class BsFacetDate
     @Input() timelineWidth = 250;
     @Input() timelineHeight = 150;
     @Input() timelineMargin = {top: 15, bottom: 20, left: 30, right: 15};
+    @Input() mask: MaskProps = {
+        value: undefined,
+        units: [
+            { text: 'msg#facet.date.mask.none' },
+            { text: 'msg#facet.date.mask.yearMonth', value: 'YYYY-MM' },
+            { text: 'msg#facet.date.mask.year', value: 'YYYY' }
+        ]
+    }
 
     clearFiltersAction: Action;
     items: AggregationItem[] = [];
@@ -230,9 +244,22 @@ export class BsFacetDate
             to?.setMilliseconds(0);
 
             // update search query with current selection
-            const filter = this.facetService.makeRangeFilter(this.field, from, to);
-            if(filter) {
-                this.facetService.applyFilterSearch(filter, this.query, true, this.name);
+            const newFilter = this.facetService.makeRangeFilter(this.field, from, to);
+            if (newFilter) {
+                // get the aggregation overrides
+                const query = this.query || this.searchService.query;
+                if (!this.mask.value) {
+                    query.aggregation_overrides = undefined;
+                }
+                else {
+                    query.aggregation_overrides = {
+                        [this.name]: {
+                            mask: this.mask.value
+                        }
+                    }
+                }
+                this.query = query;
+                this.facetService.applyFilterSearch(newFilter, this.query, true, this.name);
             }
         }
 
@@ -244,17 +271,17 @@ export class BsFacetDate
         const filters = query.findFieldFilters(this.field);
         for(const filter of filters) {
           switch(filter.operator) {
-            case 'between':
+                case 'between':
               from = Utils.isDate(filter.start)? filter.start : Utils.isString(filter.start)? parseISO(filter.start) : undefined;
               to = Utils.isDate(filter.end)? filter.end : Utils.isString(filter.end)? parseISO(filter.end) : undefined;
-              break;
-            case 'gte': case 'gt':
+                    break;
+                case 'gte': case 'gt':
               from = Utils.isDate(filter.value)? filter.value : Utils.isString(filter.value)? parseISO(filter.value) : undefined;
-              break;
-            case 'lte': case 'lt':
+                    break;
+                case 'lte': case 'lt':
               to = Utils.isDate(filter.value)? filter.value : Utils.isString(filter.value)? parseISO(filter.value) : undefined;
-              break;
-          }
+                    break;
+            }
         }
         return [from, to];
     }
@@ -265,4 +292,9 @@ export class BsFacetDate
         }
     }
 
+    public setMask(value: string | undefined) {
+        // option return 'undefined' as string, so we need to convert it to undefined
+        if(value === 'undefined') value = undefined;
+        this.mask.value = value;
+    }
 }
