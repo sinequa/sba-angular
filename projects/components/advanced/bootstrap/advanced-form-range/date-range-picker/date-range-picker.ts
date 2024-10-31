@@ -26,14 +26,18 @@ export interface DateRangePickerOptions extends DatePickerOptions {
             </div>
         </div>
         <div *ngIf="!options.closedRange" class="d-flex align-items-stretch justify-content-between gap-2 sq-date-range-picker" [ngClass]="{'flex-column': display === 'column'}">
-            <div class="flex-grow-1 d-flex align-items-center justify-content-between">
+            <div class="flex-grow-1 d-flex align-items-center justify-content-between position-relative">
                 <div *ngIf="displayLabel" class="text-muted {{display === 'column' ? 'col-md-3 col-lg-3' : 'me-2'}}">{{'msg#advanced.dateRangePicker.from' | sqMessage}}</div>
-                <input type="text" autocomplete="off" [id]="fromName" class="form-control form-control-{{size}} sq-range-from" bsDatepicker triggers="click" #from="bsDatepicker" [bsConfig]="bsFromConfig()" [ngModel]="value[0]" (ngModelChange)="updateFrom($event)" [placeholder]="dateFormat"/>
+                <input type="text" autocomplete="off" [id]="fromName" class="form-control form-control-{{size}} sq-range-from pe-4" bsDatepicker triggers="click" #from="bsDatepicker" [bsConfig]="bsFromConfig()" [ngModel]="value[0]" (ngModelChange)="updateFrom($event)" [placeholder]="dateFormat"/>
+                <button class="btn btn-outline btn-sm text-black-50 position-absolute" style="right: 0.25rem;" (click)="toggleFromOperator()" aria-label="toggle From operator between greater than or equal and equal">
+                    <i *ngIf="fromOperator === 'eq'" class="fas fa-equals"></i>
+                    <i *ngIf="fromOperator === 'gte'" class="fas fa-greater-than-equal"></i>
+                </button>
             </div>
             <div *ngIf="displaySeparator" class="sq-separator">{{'msg#advanced.dateRangePicker.separator' | sqMessage}}</div>
-            <div class="flex-grow-1 d-flex align-items-center justify-content-between">
+            <div class="flex-grow-1 d-flex align-items-center justify-content-between position-relative">
                 <div *ngIf="displayLabel" class="text-muted {{display === 'column' ? 'col-md-3 col-lg-3' : 'me-2'}}">{{'msg#advanced.dateRangePicker.to' | sqMessage}}</div>
-                <input type="text" autocomplete="off" [id]="toName" class="form-control form-control-{{size}} sq-range-to" bsDatepicker triggers="click" #to="bsDatepicker" [bsConfig]="bsToConfig()" [ngModel]="value[1]" (ngModelChange)="updateTo($event)" [placeholder]="dateFormat"/>
+                <input type="text" autocomplete="off" [id]="toName" class="form-control form-control-{{size}} sq-range-to pe-4" bsDatepicker triggers="click" #to="bsDatepicker" [bsConfig]="bsToConfig()" [ngModel]="value[1]" (ngModelChange)="updateTo($event)" [placeholder]="dateFormat"/>
             </div>
         </div>
     `,
@@ -56,6 +60,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     @ViewChild("to", {static: false}) toPicker?: BsDatepickerDirective;
     fromName: string;
     toName: string;
+    fromOperator: 'gte' | 'eq' = 'gte';
 
     constructor(
         public intlService: IntlService) {
@@ -166,7 +171,13 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     }
 
     updateTo(to: Date) {
-        this.setValue([this.value[0], to]);
+        this.setValue([this./* The `value` property in the `BsDateRangePicker`
+        component is used to store the selected date range.
+        It is an array of two elements, each representing a
+        date in the range. The first element corresponds to
+        the start date, and the second element corresponds
+        to the end date of the range. */
+        value[0], to]);
         this.onChangeCallback(this.value);
     }
     //#endregion !closedRange
@@ -222,4 +233,12 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     registerOnTouched(fn: any): void {
     }
     //#endregion
+
+    toggleFromOperator() {
+        if (this.fromOperator === 'gte') {
+            this.fromOperator = 'eq';
+        } else {
+            this.fromOperator = 'gte';
+        }
+    }
 }

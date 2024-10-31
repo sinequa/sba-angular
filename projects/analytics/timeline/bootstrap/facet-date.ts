@@ -1,15 +1,19 @@
 import {
+    ChangeDetectorRef,
     Component,
-    OnDestroy,
     Input,
     OnChanges,
+    OnDestroy,
+    OnInit,
     SimpleChanges,
-    ChangeDetectorRef,
-    OnInit
+    ViewChild
 } from "@angular/core";
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
+import { parseISO } from "date-fns";
+import { Subscription } from "rxjs";
+
 import { Action } from "@sinequa/components/action";
-import { AdvancedService } from "@sinequa/components/advanced";
+import { AdvancedService, BsDateRangePicker } from "@sinequa/components/advanced";
 import { AbstractFacet, FacetConfig, FacetService } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import {
@@ -22,8 +26,6 @@ import {
     AggregationItem,
     Results,
 } from "@sinequa/core/web-services";
-import { parseISO } from "date-fns";
-import { Subscription, debounceTime, filter } from "rxjs";
 import { BsFacetTimelineComponent } from "./facet-timeline.component";
 import { TimelineSeries } from "./timeline.model";
 
@@ -55,10 +57,9 @@ export interface FacetDateConfig extends FacetConfig<FacetDateParams> {
     templateUrl: "./facet-date.html",
     styleUrls: ["./facet-date.scss"],
 })
-export class BsFacetDate
-    extends AbstractFacet
-    implements FacetDateParams, OnInit, OnChanges, OnDestroy
-{
+export class BsFacetDate extends AbstractFacet implements FacetDateParams, OnInit, OnChanges, OnDestroy {
+    @ViewChild(BsDateRangePicker) dateRangePicker?: BsDateRangePicker;
+
     @Input() name: string = "Date";
     @Input() results: Results;
     @Input() query?: Query;
@@ -134,18 +135,6 @@ export class BsFacetDate
         this.form = this.formBuilder.group({
             dateRange: this.dateRangeControl,
         });
-
-        // Listen to form changes
-        this.subscriptions.push(
-            this.dateRangeControl.valueChanges
-                .pipe(
-                    debounceTime(500),
-                    filter(() => this.form.valid)
-                )
-                .subscribe((value: (undefined | Date)[]) => {
-                    this.setCustomDateSelect(value);
-                })
-        );
     }
 
     ngOnInit() {
@@ -243,8 +232,11 @@ export class BsFacetDate
             to?.setSeconds(0);
             to?.setMilliseconds(0);
 
+            // retrieve the fromOperator from the date range picker component
+            const fromOperator = this.dateRangePicker?.fromOperator;
+
             // update search query with current selection
-            const newFilter = this.facetService.makeRangeFilter(this.field, from, to);
+            const newFilter = this.facetService.makeRangeFilter(this.field, from, to, fromOperator);
             if (newFilter) {
                 // get the aggregation overrides
                 const query = this.query || this.searchService.query;
@@ -262,7 +254,12 @@ export class BsFacetDate
                 this.facetService.applyFilterSearch(newFilter, this.query, true, this.name);
             }
         }
+    }
 
+    public applyCustomRange() {
+        if (this.dateRangeControl?.valid) {
+            this.setCustomDateSelect(this.dateRangeControl.value);
+        }
     }
 
     private getRangeValue(query: Query): [Date|undefined, Date|undefined] {
