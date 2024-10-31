@@ -12,10 +12,11 @@ nav_order: 3
 
 This module includes a Timeline visualization for temporal data based on the [D3 library](https://d3js.org/). The timeline can display continuous time series (as a line/area plot) or punctual events (as interactive symbols).
 
-The module includes two components:
+The module includes three components:
 
 - A timeline component taking data as an input and displaying it, unaware of Sinequa's API and data structures.
 - A "facet" component taking care of fetching, updating and pre-processing the data, and passing it to the timeline component.
+- A "facet" Date component that can be used to filter the search results by date.
 
 ![Timeline](/assets/modules/timeline/timeline.png)
 
@@ -529,4 +530,174 @@ export class MyTimeline extends BsTimelineComponent {
         this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
 }
+```
+
+## Facet Date Component
+The `sq-facet-date` component allows users to filter search results by date using a date picker and timeline. This component integrates seamlessly with Sinequa's search and facet services.
+
+### Import
+
+First, import the `BsFacetDate` component in your `app.module.ts`:
+
+```typescript
+import { BsFacetDate } from '@sinequa/analytics/timeline';
+
+@NgModule({
+    imports: [
+        ...
+        BsTimelineModule
+    ],
+    ...
+})
+export class AppModule { }
+```
+
+### Template
+
+Add the `sq-facet-date` component to your template:
+
+```html
+<sq-facet-date
+        [results]="results"
+        [query]="query"
+        [aggregation]="'Modified'"
+        [timelineAggregation]="'Timeline'"
+        [showCount]="true"
+        [displayEmptyDistributionIntervals]="true"
+        [allowPredefinedRange]="true"
+        [allowCustomRange]="true"
+        [showCustomRange]="false"
+        [replaceCurrent]="true"
+        [timelineWidth]="250"
+        [timelineHeight]="150"
+        [timelineMargin]="{top: 15, bottom: 20, left: 30, right: 15}"
+        [mask]="{
+            value: undefined, 
+            units: [
+                { text: 'msg#facet.date.mask.none' }, 
+                { text: 'msg#facet.date.mask.yearMonth', value: 'YYYY-MM' }, 
+                { text: 'msg#facet.date.mask.year', value: 'YYYY' }
+            ]}"
+></sq-facet-date>
+```
+
+### Inputs
+
+- `results`: The search results to be filtered.
+- `query`: The search query object.
+- `aggregation`: The name of the aggregation to use for filtering.
+- `timelineAggregation`: The name of the aggregation to use for the timeline.
+- `showCount`: Whether to show the number of occurrences.
+- `displayEmptyDistributionIntervals`: Whether to display items with count === 0.
+- `allowPredefinedRange`: Whether to allow the use of predefined date ranges.
+- `allowCustomRange`: Whether to allow the use of custom date ranges.
+- `showCustomRange`: Whether to show the custom range date pickers and timeline.
+- `replaceCurrent`: Whether to replace the current selection.
+- `timelineWidth`: The width of the timeline.
+- `timelineHeight`: The height of the timeline.
+- `timelineMargin`: The margin around the timeline.
+- `mask`: The mask configuration for date formatting.
+
+### Example
+
+Here is an example of how to use the `sq-facet-date` component in a facet card:
+
+```html
+<sq-facet-card #facet [icon]="'fas fa-calendar-alt'" [title]="'Date Filter'">
+        <sq-facet-date
+                [results]="results"
+                [query]="query"
+                [aggregation]="'Modified'"
+                [timelineAggregation]="'Timeline'"
+                [showCount]="true"
+                [displayEmptyDistributionIntervals]="true"
+                [allowPredefinedRange]="true"
+                [allowCustomRange]="true"
+                [showCustomRange]="false"
+                [replaceCurrent]="true"
+                [timelineWidth]="250"
+                [timelineHeight]="150"
+                [timelineMargin]="{top: 15, bottom: 20, left: 30, right: 15}"
+                [mask]="{
+                    units: [
+                        { text: 'msg#facet.date.mask.none' }, 
+                        { text: 'msg#facet.date.mask.yearMonth', value: 'YYYY-MM' }, 
+                        { text: 'msg#facet.date.mask.year', value: 'YYYY' }
+                    ]}"
+        ></sq-facet-date>
+</sq-facet-card>
+```
+
+This will display a date filter facet with a timeline and date pickers, allowing users to filter search results by date.
+
+### Customization
+
+To customize the `sq-facet-date` component using the configuration file, you can follow these steps:
+
+#### Configuration File
+
+First, ensure that your configuration file (`config.ts`) includes the necessary facet configuration. For example:
+
+```typescript
+import { FacetConfig } from '@sinequa/components/facet';
+import { FacetDateParams } from '@sinequa/analytics/timeline';
+
+export const FACETS: FacetConfig<FacetDateParams>[] = [
+    {
+        name: "modified",
+        aggregation: "Modified",
+        title: "msg#facet.modified.title",
+        type: "date",
+        icon: "fas fa-fw fa-calendar-day",
+        parameters: {
+            timelineAggregation: "Timeline",
+            showCount: true,
+            allowPredefinedRange: true,
+            allowCustomRange: true,
+            showCustomRange: true,
+            replaceCurrent: true,
+            displayEmptyDistributionIntervals: true,
+            mask: {
+                units: [
+                    { text: 'msg#facet.date.mask.none' }, 
+                    { text: 'msg#facet.date.mask.yearMonth', value: 'YYYY-MM' }, 
+                    { text: 'msg#facet.date.mask.year', value: 'YYYY' }
+                ]
+            }
+        }
+    }
+];
+```
+
+#### Usage
+
+Next, use the configuration in your template by binding the `facet` input to the `FACETS` array from your configuration file:
+
+```typescript
+import { FACETS } from './config';
+
+@Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+    FACETS = FACETS;
+    props = this.FACETS.find(facet => facet.name === 'modified')?.parameters;
+}
+```
+
+```html
+<sq-facet-date
+    [results]="results"
+    [query]="query"
+    [showCount]="props?.showCount"
+    [timelineAggregation]="props?.timelineAggregation"
+    [displayEmptyDistributionIntervals]="props?.displayEmptyDistributionIntervals"
+    [allowPredefinedRange]="props?.allowPredefinedRange"
+    [allowCustomRange]="props?.allowCustomRange"
+    [showCustomRange]="props?.showCustomRange"
+    [replaceCurrent]="props?.replaceCurrent"
+    [mask]="props?.mask"
+></sq-facet-date>
 ```
