@@ -1,5 +1,6 @@
 export default {
   facet: {
+    apply: "Apply",
     date: {
       custom: "Custom Date Range",
       mask: {

@@ -21,7 +21,7 @@
 
     <div class="tab" *ngIf="allowCustomRange && allowPredefinedRange">
         <input type="checkbox" [name]="'accordion-custom-range-'+id" [id]="'check-custom-range-'+id">
-        <label [for]="'check-custom-range-'+id" class="tab-label ms-1 text-muted">{{'msg#facet.date.custom' | sqMessage}} :</label>
+        <label [for]="'check-custom-range-'+id" class="tab-label ms-1 text-muted user-select-none">{{'msg#facet.date.custom' | sqMessage}} :</label>
 
         <div class="tab-content">
             <form [formGroup]="form">
@@ -46,6 +46,7 @@
                                 [value]="unit.value">{{ unit.text | sqMessage }}</option>
                         </select>
                     </div>
+                    <button class="btn btn-primary btn-sm align-self-end px-4" (click)="applyCustomRange()">{{ 'msg#facet.apply' | sqMessage }}</button>
                 </div>
             </form>
 
