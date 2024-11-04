@@ -1,5 +1,6 @@
 export default {
   facet: {
+    apply: "Anwenden",
     date: {
       custom: "Benutzerdefinierte Daten",
       mask: {
