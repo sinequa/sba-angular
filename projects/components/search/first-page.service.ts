@@ -36,7 +36,7 @@ export class FirstPageService implements OnDestroy {
                 .pipe(
                     filter(event => event.type === "clear"),
                     filter(event => this.displayOnHomePage((event as SearchService.ClearEvent).path)),
-                    switchMap(_ => this.getFirstPage(options.aggregations))
+                    switchMap(_ => this.getFirstPage(this.options.aggregations))
                 ).subscribe()
         );
 
@@ -48,7 +48,7 @@ export class FirstPageService implements OnDestroy {
                     switchMap(_ => {
                         if(this.firstPage) {
                             this.firstPage = undefined;
-                            return this.getFirstPage(options.aggregations);
+                            return this.getFirstPage(this.options.aggregations);
                         }
                         else return of();
                     })
@@ -98,6 +98,10 @@ export class FirstPageService implements OnDestroy {
      * @returns Observable<Results>
      */
     getFirstPage(aggregations?: string[]): Observable<Results> {
+        if(!aggregations && this.options.aggregations) {
+            aggregations = this.options.aggregations;
+        }
+
         if (this.firstPage) {
             return of(this.firstPage);
         }
