@@ -10,8 +10,8 @@ import { Utils } from "@sinequa/core/base";
 import { IntlService } from "@sinequa/core/intl";
 import { ModalService } from "@sinequa/core/modal";
 import { Results, Record, CCColumn, EngineType, getFieldPredicate } from "@sinequa/core/web-services";
-import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent, ModelUpdatedEvent } from 'ag-grid-community';
-import { ApplyColumnStateParams } from "ag-grid-community/dist/lib/columnController/columnApi";
+import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataUpdatedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent, ModelUpdatedEvent } from 'ag-grid-community';
+import { ApplyColumnStateParams } from "ag-grid-community/dist/types/core/columns/columnModel";
 import { Subscription } from "rxjs";
 import { DataModalComponent } from "./data-modal.component";
 import { SqDatasource } from "./datasource";
@@ -121,7 +121,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             if(event.source !== "ag-grid" && (event.type === SelectionEventType.SELECT || event.type === SelectionEventType.UNSELECT)) {
                 this.gridApi?.forEachNode(node => {
                     if(event.records.find(r => r.id === node.data.id)) {
-                        node.setSelected(event.type === SelectionEventType.SELECT, undefined, true);
+                        node.setSelected(event.type === SelectionEventType.SELECT, undefined);
                     }
                 });
             }
@@ -166,7 +166,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             col.tooltipValueGetter = col.tooltipValueGetter || this.tooltipValueGetter;
             col.headerName = col.headerName || (col.$column?.label? this.intlService.formatMessage(col.$column?.label) : col.field);
             col.headerTooltip = col.headerTooltip || col.headerName;
-            col.cellRenderer = col.cellRendererFramework ? undefined : col.cellRenderer || this.renderCell;
+            col.cellRenderer = col.cellRenderer ? undefined : col.cellRenderer || this.renderCell;
             col.sortable = col.sortable || this.appService.isSortable(col.field);
             const hidePref = this.prefs.get("ag-grid-hide-"+col.field);
             col.hide = hidePref === undefined? col.hide : hidePref;
@@ -241,8 +241,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * @param query
      */
     updateFilterState(query: Query) {
-        let model = {};
-        for(let col of this.colDefs) {
+        const model = {};
+        for(const col of this.colDefs) {
             if(col.field) {
                 const isField = getFieldPredicate(col.field);
                 const filter = query.findFilter(f =>
@@ -274,8 +274,11 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
         if(query.orderBy) {
             let [colId, sort] = query.orderBy.split(" ");
             colId = this.appService.getColumnAlias(this.appService.getColumn(colId));
-            model.state = [{colId, sort}];
-        }
+            if (sort === "asc" || sort === "desc") {
+                model.state = [{colId, sort}];
+            } else {
+                model.state = [{colId, sort: null}];
+            }        }
         else {
             model.defaultState = {sort: null};
         }
@@ -288,7 +291,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     createActions() {
         // Initialization of button actions
         this.gridActions = [];
-        for(let action of this.toolbarActions) {
+        for(const action of this.toolbarActions) {
             if(!Utils.isString(action)) {
                 this.gridActions.push(action);
             }
@@ -332,7 +335,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
                     icon: this.formatContent? "far fa-fw fa-check-square" : "far fa-fw fa-square",
                     text: "msg#grid.formatData",
                     title: "msg#grid.formatDataTitle",
-                    action: action => this.toggleFormatContent(action)
+                    action: act => this.toggleFormatContent(act)
                 }));
             }
         }
@@ -359,17 +362,13 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * A function that returns a tooltip string for each cell's value
      */
     @Input()
-    tooltipValueGetter = (params: ITooltipParams) => {
-        return this.formatService.formatRaw(params.value);
-    }
+    tooltipValueGetter = (params: ITooltipParams) => this.formatService.formatRaw(params.value)
 
     /**
      * A function that returns a string formatted for export for each cell's value
      */
     @Input()
-    exportValueGetter = (params: ProcessCellForExportParams) => {
-        return this.formatService.formatRaw(params.value);
-    }
+    exportValueGetter = (params: ProcessCellForExportParams) => this.formatService.formatRaw(params.value)
 
 
     /**
@@ -491,7 +490,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     /**
      * Callback function called when data in the grid changes
      */
-    onRowDataChanged(event: RowDataChangedEvent) {
+    onRowDataChanged(event: RowDataUpdatedEvent) {
 
     }
 
@@ -572,7 +571,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     onModelUpdated(event: ModelUpdatedEvent) {
         this.gridApi?.forEachNode(node => {
             if(node.data?.$selected && !node.isSelected()) {
-                node.setSelected(true, undefined, true);
+                node.setSelected(true, undefined);
             }
         });
     }
