@@ -240,8 +240,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * @param query
      */
     updateFilterState(query: Query) {
-        let model = {};
-        for(let col of this.colDefs) {
+        const model = {};
+        for(const col of this.colDefs) {
             if(col.field) {
                 const isField = getFieldPredicate(col.field);
                 const filter = query.findFilter(f =>
@@ -291,7 +291,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     createActions() {
         // Initialization of button actions
         this.gridActions = [];
-        for(let action of this.toolbarActions) {
+        for(const action of this.toolbarActions) {
             if(!Utils.isString(action)) {
                 this.gridActions.push(action);
             }
@@ -335,7 +335,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
                     icon: this.formatContent? "far fa-fw fa-check-square" : "far fa-fw fa-square",
                     text: "msg#grid.formatData",
                     title: "msg#grid.formatDataTitle",
-                    action: action => this.toggleFormatContent(action)
+                    action: act => this.toggleFormatContent(act)
                 }));
             }
         }
@@ -362,17 +362,13 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * A function that returns a tooltip string for each cell's value
      */
     @Input()
-    tooltipValueGetter = (params: ITooltipParams) => {
-        return this.formatService.formatRaw(params.value);
-    }
+    tooltipValueGetter = (params: ITooltipParams) => this.formatService.formatRaw(params.value)
 
     /**
      * A function that returns a string formatted for export for each cell's value
      */
     @Input()
-    exportValueGetter = (params: ProcessCellForExportParams) => {
-        return this.formatService.formatRaw(params.value);
-    }
+    exportValueGetter = (params: ProcessCellForExportParams) => this.formatService.formatRaw(params.value)
 
 
     /**
