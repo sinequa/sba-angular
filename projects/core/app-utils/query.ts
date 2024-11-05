@@ -54,6 +54,7 @@ export class Query implements IQuery {
     orderBy?: string;
     groupBy?: string;
     neuralSearch?: boolean;
+    aggregation_overrides?: { [key: string]: { mask: string } };
 
 
     /**
