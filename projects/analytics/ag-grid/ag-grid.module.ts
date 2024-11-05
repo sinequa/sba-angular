@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { AgGridModule as AGModule } from 'ag-grid-angular';
+import { AgGridModule as AGModule } from "ag-grid-angular";
 
 import { IntlModule } from '@sinequa/core/intl';
 import { UtilsModule } from "@sinequa/components/utils";
@@ -19,16 +19,16 @@ import { FacetWrapperComponent } from "./facet-wrapper.component";
 
     imports: [
         CommonModule,
-        FormsModule, ReactiveFormsModule, 
-        
+        FormsModule, ReactiveFormsModule,
+
         IntlModule,
         UtilsModule,
         BsActionModule,
         BsModalModule,
         ResultModule,
         BsFacetModule,
-        
-        AGModule.withComponents([FacetWrapperComponent]),
+
+        AGModule
     ],
     declarations: [
         AgGridViewComponent,
