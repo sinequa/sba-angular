@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
-import { AppService, Query } from "@sinequa/core/app-utils";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
+import { AppService, FormatService, Query } from "@sinequa/core/app-utils";
 import { LoginService } from "@sinequa/core/login";
 import { FacetEventType, FacetService } from "@sinequa/components/facet";
 import { BsSearchModule, SearchService } from "@sinequa/components/search";
 import { filter, Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { IntlModule } from "@sinequa/core/intl";
-import { UtilsModule, VoiceRecognitionService } from "@sinequa/components/utils";
+import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { IntlModule, IntlService } from "@sinequa/core/intl";
+import { Expr, ExprParser, UtilsModule, VoiceRecognitionService } from "@sinequa/components/utils";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { compareFilters } from "@sinequa/core/web-services";
 
@@ -16,7 +16,7 @@ import { compareFilters } from "@sinequa/core/web-services";
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IntlModule, UtilsModule, BsSearchModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, IntlModule, UtilsModule, BsSearchModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
@@ -46,6 +46,13 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
   voiceState = false;
 
+  fb = inject(NonNullableFormBuilder);
+  form: FormGroup;
+  searchControl = new FormControl();
+
+  formatService = inject(FormatService);
+  intlService = inject(IntlService);
+
   constructor(
     public searchService: SearchService,
     public facetService: FacetService,
@@ -61,10 +68,14 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
       this.editedQuery = this.query.copy();
       this.filterCount = this.query.getFilterCount(undefined);
       this.canApply = false;
+      this.searchControl.setValue(this.editedQuery.text);
     }
   }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      search: this.searchControl
+    });
 
     this.sub = this.facetService.events
       .pipe(filter(e => e.query === this.editedQuery && (e.type === FacetEventType.AddFilter || e.type === FacetEventType.RemoveFilter || e.type === FacetEventType.ClearFilters)))
@@ -74,6 +85,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
     this.sub.add(this.voiceService.text.subscribe(value => {
       this.editedQuery.text = value;
+      this.searchControl.setValue(value);
     }));
     this.sub.add(this.voiceService.started.subscribe(state => {
       this.voiceState = state;
@@ -184,6 +196,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
     // when strict refine is checked (admin panel), remove the queryId on clear
     delete this.query.queryId;
 
+    this.searchControl.setValue(undefined);
     this.searchInput.nativeElement.focus();
     this.cdRef.detectChanges();
   }
@@ -219,6 +232,26 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
   onInputClick() {
     this.expand(); // Expand on click (while already focused)
+  }
+
+  /**
+   * Handles the input change event for the search control.
+   *
+   * This method is triggered whenever the value of the search control changes.
+   * It parses the input value using the `ExprParser` and sets the appropriate
+   * errors on the search control based on the parsing result.
+   *
+   * - If the parsing result is an instance of `Expr`, it sets the result in the event.
+   * - If the parsing result is an error, it sets the error in the event and marks the search control as incorrect.
+   *
+   * @returns {void}
+   */
+  onInputChange() {
+    if (this.searchControl.value) {
+      const result = ExprParser.parse(this.searchControl.value, { appService: this.appService, formatService: this.formatService, intlService: this.intlService });
+      const event = result instanceof Expr ? { result: result } : { error: result };
+      this.searchControl.setErrors(event.error ? { incorrect: true } : null);
+    }
   }
 
   onClickOutside() {

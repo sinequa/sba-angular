@@ -1,5 +1,5 @@
-import {HttpClient, HttpErrorResponse, HttpInterceptor, HttpParams, HTTP_INTERCEPTORS} from "@angular/common/http";
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import { HttpClient, HttpErrorResponse, HttpInterceptor, HttpParams, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { inject, TestBed } from "@angular/core/testing";
 
 import { NotificationsService } from "@sinequa/core/notification";
@@ -29,20 +29,19 @@ describe("login interceptor", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        // ...
-      ],
-      providers: [
+    imports: [],
+    providers: [
         { provide: START_CONFIG, useValue: { app: "testing_app" } },
         { provide: HTTP_REQUEST_INITIALIZERS, useValue: {} },
-        { provide: LOCALES_CONFIG, useValue: {}},
+        { provide: LOCALES_CONFIG, useValue: {} },
         { provide: LoginService, deps: [START_CONFIG], useClass: LoginService },
         { provide: AuthenticationService, deps: [START_CONFIG], useClass: AuthenticationService },
         { provide: IntlService, deps: [START_CONFIG, LOCALES_CONFIG], useClass: IntlService },
-        { provide: HTTP_INTERCEPTORS, deps: [START_CONFIG, HTTP_REQUEST_INITIALIZERS, NotificationsService, LoginService, AuthenticationService, IntlService], useClass: LoginInterceptor, multi: true }
-      ]
-    });
+        { provide: HTTP_INTERCEPTORS, deps: [START_CONFIG, HTTP_REQUEST_INITIALIZERS, NotificationsService, LoginService, AuthenticationService, IntlService], useClass: LoginInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+});
 
     // get interceptor instance
     interceptorInstance = getInterceptorInstance<LoginInterceptor>([...TestBed.inject(HTTP_INTERCEPTORS)], LoginInterceptor);

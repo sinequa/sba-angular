@@ -9,7 +9,9 @@ import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
 import {IntlService} from "@sinequa/core/intl";
 
-import {AuditWebServiceFactory, LoginServiceFactory, NotificationsServiceFactory, QueryIntentWebServiceFactory, QueryWebServiceFactory} from '@testing/factories';
+import { UserPreferences } from "@sinequa/components/user-settings/user-preferences";
+
+import {AuditWebServiceFactory, LoginServiceFactory, NotificationsServiceFactory, QueryIntentWebServiceFactory, QueryWebServiceFactory, UserPreferencesFactory} from '@testing/factories';
 import {RouterStub} from '@testing/stubs';
 
 import {SearchService} from "./search.service";
@@ -42,7 +44,8 @@ describe("SearchService", () => {
         {provide: LoginService, useFactory: LoginServiceFactory},
         {provide: IntlService, useValue: {}},
         {provide: QueryIntentWebService, useFactory: QueryIntentWebServiceFactory},
-        {provide: LocationStrategy, useClass: MockLocationStrategy}
+        {provide: LocationStrategy, useClass: MockLocationStrategy},
+        {provide: UserPreferences, useFactory: UserPreferencesFactory}
       ]
     });
 

@@ -17,6 +17,11 @@ export class ExprPipe extends AbstractIntlPipe<(Expr | string), ExprMessageOptio
         if (key instanceof Expr) {
             const message = key.toMessage(params);
             this.value = this.intlService.formatMessage(message.message, message.values);
+            this.value = this.value
+                .replace('lte ', '&le; ')
+                .replace('gte ', '&ge; ')
+                .replace('lt ', '&lt; ')
+                .replace('gt ', '&gt; ');
         }
         else {
             this.value = this.intlService.formatMessage(key);
