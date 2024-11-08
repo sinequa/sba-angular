@@ -719,33 +719,6 @@
           "options": {
             "buildTarget": "components-docs:build"
           }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/components-docs/src/test.ts",
-            "polyfills": "projects/components-docs/src/polyfills.ts",
-            "tsConfig": "projects/components-docs/tsconfig.spec.json",
-            "karmaConfig": "projects/components-docs/karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "projects/components-docs/src/favicon.ico",
-              "projects/components-docs/src/assets"
-            ],
-            "styles": [
-              "projects/components-docs/src/styles/app.scss"
-            ],
-            "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/components-docs/**/*.ts",
-              "projects/components-docs/**/*.html"
-            ]
-          }
         }
       }
     }

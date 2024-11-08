@@ -1,19 +1,31 @@
-import { Observable, Subject, map, tap } from "rxjs";
-
 import { Inject, Injectable, InjectionToken, Optional } from "@angular/core";
+import { addDays } from "date-fns";
 
 import { Action, ActionSeparator } from "@sinequa/components/action";
 import { SuggestService } from "@sinequa/components/autocomplete";
 import { FirstPageService, SearchService } from "@sinequa/components/search";
 import { AppService, FormatService, Query } from "@sinequa/core/app-utils";
-import { FieldValue, Utils, diacriticsInsensitiveRegexp } from "@sinequa/core/base";
+import { diacriticsInsensitiveRegexp, FieldValue, Utils } from "@sinequa/core/base";
 import { IntlService } from "@sinequa/core/intl";
 import {
-  Aggregation, AggregationItem, AuditEvents,
-  BetweenFilter, CCColumn, EngineType, Filter, ListAggregation,
-  NumericalFilter, Results, Suggestion, TreeAggregation, TreeAggregationNode, UserSettings, UserSettingsWebService, ValueFilter, getFieldPredicate, isExprFilter
+  Aggregation, AggregationItem,
+  AuditEvents,
+  CCColumn,
+  EngineType,
+  ExprFilter,
+  Filter,
+  getFieldPredicate,
+  isExprFilter,
+  ListAggregation,
+  NumericalFilter,
+  Results,
+  Suggestion,
+  TreeAggregation, TreeAggregationNode,
+  UserSettings,
+  UserSettingsWebService,
+  ValueFilter
 } from "@sinequa/core/web-services";
-
+import { map, Observable, Subject, tap } from "rxjs";
 import { FacetConfig } from "./facet-config";
 
 // Facet interface (from models/UserSettings)
@@ -536,24 +548,43 @@ export class FacetService {
         return Promise.resolve(false);
     }
 
-    public makeRangeFilter(field: string, start: Date|number|string|undefined, end: Date|number|string|undefined): BetweenFilter|NumericalFilter|undefined {
+    public makeRangeFilter(field: string, start: Date|number|string|undefined, end: Date|number|string|undefined, fromOperator: 'gte' | 'eq' = 'gte'): ExprFilter|NumericalFilter|undefined {
+      let from,to;
       if(end instanceof Date) {
-        end = Utils.toSysDateStr(end);
+        to = Utils.toSysDateStr(end);
+      } else {
+        to = end;
       }
       if(start instanceof Date) {
-        start = Utils.toSysDateStr(start);
+        from = Utils.toSysDateStr(start);
+      } else {
+        from = start;
       }
+
       if(typeof start === 'undefined' && typeof end === 'undefined') {
         return undefined;
       }
       if(typeof start === 'undefined') {
-        return {field, operator: 'lte', value: end!};
+          return {field, operator: 'lte', value: to!};
       }
       else if(typeof end === 'undefined') {
-        return {field, operator: 'gte', value: start!};
+        if(fromOperator === 'eq') {
+          const date = start as Date;
+          to = Utils.toSysDateStr(addDays(date, 1));
+
+          return { operator: 'and', filters: [
+            {field, operator: 'gte', value: from},
+            {field, operator: 'lt', value: to }
+          ]};
+        }
+
+        return {field, operator: 'gte', value: from!};
       }
       else {
-        return {field, operator: 'between', start, end};
+        return { operator: 'and', filters: [
+          {field, operator: 'gte', value: from},
+          {field, operator: 'lte', value: to}
+        ]}
       }
     }
 

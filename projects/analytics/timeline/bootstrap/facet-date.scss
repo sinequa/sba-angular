@@ -20,7 +20,7 @@
 }
 
 
-.tab input {
+.tab input:not([type="range"]) {
     position: absolute;
     opacity: 0;
     z-index: -1;

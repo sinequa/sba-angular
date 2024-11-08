@@ -135,4 +135,10 @@ export interface IQuery {
    * Whether to activate neural search or not (default is true, if neural search is available)
    */
   neuralSearch?: boolean;
+
+  aggregation_overrides?: {
+    [key:string]: {
+      "mask": string
+    }
+  };
 }

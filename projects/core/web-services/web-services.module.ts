@@ -1,5 +1,5 @@
 import {CommonModule} from "@angular/common";
-import {HttpClientModule} from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 
 import {NgModule, ModuleWithProviders, APP_INITIALIZER} from "@angular/core";
 
@@ -23,23 +23,15 @@ export function StartConfigInitializer(startConfigWebService: StartConfigWebServ
  * This module implements client services for the Sinequa web service APIs
  */
 // @dynamic
-@NgModule({
-    imports: [
-        CommonModule,
-        HttpClientModule,
+@NgModule({ declarations: [],
+    exports: [], imports: [CommonModule,
         BaseModule,
-        IntlModule
-    ],
-    declarations: [
-    ],
-    exports: [
-    ],
-    providers: [
+        IntlModule], providers: [
         // Ensure that the StartConfigWebService is instantiated so StartConfig is initialized
-        {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true},
-        ...WEB_SERVICES_MODULE_PROVIDERS
-    ]
-})
+        { provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true },
+        ...WEB_SERVICES_MODULE_PROVIDERS,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class WebServicesModule {
     /**
      * Configures the module with a start configuration
