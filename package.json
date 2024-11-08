@@ -116,7 +116,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/marked": "^4.0.3",
     "@types/node": "^18.19.55",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.13.0",
     "@typescript-eslint/parser": "^7.2.0",
     "cypress": "^13.6.3",
     "cypress-visual-regression": "^3.0.0",
