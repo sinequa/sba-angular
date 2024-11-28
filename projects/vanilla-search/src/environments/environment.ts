@@ -4,7 +4,7 @@
 
 export const environment = {
   app: "training",
-  autoSAMLProvider: "identity-dev",
+  autoOAuthProvider: "identity-dev",
   production: false,
   auditEnabled: true
 };
