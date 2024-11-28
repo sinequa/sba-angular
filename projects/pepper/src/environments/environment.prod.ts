@@ -1,4 +1,4 @@
 export const environment = {
-  autoSAMLProvider: "identity",
+  autoOAuthProvider: "identity",
   production: true
 };
