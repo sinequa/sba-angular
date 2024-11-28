@@ -4,7 +4,7 @@
 
 export const environment = {
   app: "pepper",
-  autoSAMLProvider: "identity-dev",
+  autoOAuthProvider: "identity-dev",
   production: false
 };
 
