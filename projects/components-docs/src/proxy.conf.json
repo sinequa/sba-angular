@@ -2,6 +2,7 @@
     "context": [
         "/api",
         "/xdownload",
+        "/auth/redirect",
         "/saml/redirect",
         "/r"
     ],
