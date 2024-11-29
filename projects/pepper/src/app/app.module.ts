@@ -57,7 +57,7 @@ import { environment } from "../environments/environment";
 export const startConfig: StartConfig = {
     app: "training",
     production: environment.production,
-    autoSAMLProvider: environment.autoSAMLProvider,
+    autoOAuthProvider: environment.autoOAuthProvider,
     auditEnabled: true
 };
 
