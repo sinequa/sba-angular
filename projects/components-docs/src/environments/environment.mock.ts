@@ -17,7 +17,7 @@ import { MockLabelsWebService } from "../mocks/services/labels.web.service";
 
 export const environment = {
   url: "https://localhost:4200",
-  autoSAMLProvider: "identity-dev",
+  autoOAuthProvider: "identity-dev",
   production: false,
   mock: true,
   providers: [
