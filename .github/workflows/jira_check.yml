@@ -1,0 +1,35 @@
+name: 'Jira Done Ticket Check'
+on:
+  pull_request:
+    types:
+      # Check title when opened.
+      - opened
+      - edited
+      # Check title when new commits are pushed.
+      # Required to use as a status check.
+      - synchronize
+
+jobs:
+  publish:
+    runs-on: Linux
+    steps:
+      - name : Check PR Title
+        run: |
+          shopt -s nocasematch
+          echo "Check the content of the Pull Request title"
+          title="${{ github.event.pull_request.title }}"
+          echo "Content is: $title"
+          if [[ $title =~ ([A-Za-z]{2,6}-[0-9]+[[:space:]]+#[Dd][oO][nN][eE]) ]]; then
+            echo -e "\033[0;32mThe Pull Request Title contains a Jira ticket with a '#done'"
+            exit 0
+          else
+            if [[ $title =~ (#noDoneTicketCheck) ]]; then
+              echo -e "\033[0;32mCheck is disabled by #noDoneTicketCheck"
+              exit 0
+            else
+              echo -e "\033[1;91mThe Pull Request Title does NOT contains a Jira ticket with a '#done'"
+              echo -e "\033[1;91mYou can disable this check by adding #noDoneTicketCheck in the Pull Request Title"
+              exit 1
+            fi
+          fi
+# Documentation https://docs.github.com/en/webhooks/webhook-events-and-payloads#pull_request
