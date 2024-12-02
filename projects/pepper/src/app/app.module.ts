@@ -7,7 +7,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 // @sinequa/core library
-import { WebServicesModule, StartConfigWebService, StartConfig } from "@sinequa/core/web-services";
+import { WebServicesModule, StartConfigWebService } from "@sinequa/core/web-services";
 import { LoginModule, LoginInterceptor, TeamsInitializer, AuthenticationService } from "@sinequa/core/login";
 import { IntlModule } from "@sinequa/core/intl";
 import { ModalModule } from "@sinequa/core/modal";
@@ -50,16 +50,7 @@ import { AppDashboardComponent } from "./dashboard/dashboard.component";
 import { AutocompleteComponent } from '@sinequa/vanilla/app/search-form/autocomplete.component';
 
 // Environment
-import { environment } from "../environments/environment";
-
-
-// Initialization of @sinequa/core
-export const startConfig: StartConfig = {
-    app: "training",
-    production: environment.production,
-    autoOAuthProvider: environment.autoOAuthProvider,
-    auditEnabled: true
-};
+import { environment as startConfig } from "../environments/environment";
 
 // @sinequa/core config initializer
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
