@@ -9,11 +9,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 // @sinequa/core library
 import { AuditInterceptor } from "@sinequa/core/app-utils";
+import { WebServicesModule, StartConfigWebService } from "@sinequa/core/web-services";
+import { LoginModule, LoginInterceptor, TeamsInitializer, AuthenticationService } from "@sinequa/core/login";
 import { IntlModule } from "@sinequa/core/intl";
-import { AuthenticationService, LoginInterceptor, LoginModule, TeamsInitializer } from "@sinequa/core/login";
 import { ModalModule } from "@sinequa/core/modal";
 import { NotificationsInterceptor } from "@sinequa/core/notification";
-import { StartConfigWebService, WebServicesModule } from "@sinequa/core/web-services";
 
 // @sinequa/components library
 import { BsActionModule } from "@sinequa/components/action";
