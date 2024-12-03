@@ -6,6 +6,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from '@angular/router';
 
+
 // @sinequa/core library
 import { AuditInterceptor } from "@sinequa/core/app-utils";
 import { IntlModule } from "@sinequa/core/intl";
