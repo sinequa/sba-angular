@@ -1,4 +1,4 @@
 export const environment = {
-  autoOAuthProvider: "identity",
-  production: true
+  production: true,
+  auditEnabled: true
 };
