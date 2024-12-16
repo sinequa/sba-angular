@@ -362,6 +362,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return this.queryService.getResults(query, auditEvents,
             this.makeQueryIntentData({
                 tab: tab ? tab.name : undefined,
+                queryIntentsV2: options.queryIntentsV2,
                 queryIntents: (query.spellingCorrectionMode !== "dymonly") ? options.queryIntents : undefined,
                 queryAnalysis: (query.spellingCorrectionMode !== "dymonly") ? options.queryAnalysis : undefined
             })
@@ -681,26 +682,27 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             return
         }
 
-        let obs = of(false);
+        let obs = of({cancelSearch: false}) as Observable<SearchService.NewQueryIntentsEvent>;
 
         // Insert a call to the query intent web service (if any)
         if(this.appService.ccquery?.queryIntentSet) {
             // In synchronous mode, the query intents are executed before search
             if(this.options.queryIntentsSync) {
-                obs = this.pipeQueryIntent(obs);
+                obs = this.pipeQueryIntent(of(false));
             }
             // In asynchronous mode, the query intents are executed in parallel
             else {
-                this.pipeQueryIntent(obs).subscribe();
+                this.pipeQueryIntent(of(false)).subscribe();
             }
         }
 
         // Get results (except if the search query is cancelled)
         let observable = obs.pipe(
-            switchMap(cancel => {
-                if(cancel) return of(undefined);
+            switchMap((event: SearchService.NewQueryIntentsEvent) => {
+                if(event.cancelSearch) return of(undefined);
                 return this.getResults(this.query, audit, {
                     queryIntents: navigationOptions?.queryIntents,
+                    queryIntentsV2: event.intents,
                     queryAnalysis: navigationOptions?.queryAnalysis
                 });
             })
@@ -725,7 +727,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         });
     }
 
-    pipeQueryIntent(obs: Observable<boolean>): Observable<boolean> {
+    pipeQueryIntent(obs: Observable<boolean>): Observable<SearchService.NewQueryIntentsEvent> {
         return obs.pipe(
             switchMap(() => this.queryIntentWebService.getQueryIntent(this.query)),
             map(intents => {
@@ -747,7 +749,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     }));
                     this.auditService.notify(events);
                 }
-                return event.cancelSearch;
+                return event;
             })
         );
     }
@@ -990,6 +992,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 export module SearchService {
     export interface GetResultsOptions {
         queryIntents?: QueryIntent[];
+        queryIntentsV2?: QueryIntentMatch[];
         queryAnalysis?: QueryAnalysis;
         searchInactive?: boolean;   // default "false"
     }
