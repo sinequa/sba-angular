@@ -6,6 +6,7 @@ import { QueryIntentWord, QueryIntentWordSchema } from "./QueryIntentWord";
 
 /**
  * Describes a single query intent item
+ * @deprecated Query Intent v1
  */
 export const QueryIntentSchema: z.ZodSchema<QueryIntent> = z.lazy(() => z.object({
     name: z.string(),
@@ -16,6 +17,10 @@ export const QueryIntentSchema: z.ZodSchema<QueryIntent> = z.lazy(() => z.object
     datasets: QueryIntentSchema
 }))
 
+/**
+ * Describes a single query intent item
+ * @deprecated Query Intent v1
+ */
 export type QueryIntent = {
     name: string,
     component: string,
