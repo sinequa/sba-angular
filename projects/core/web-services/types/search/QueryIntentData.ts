@@ -1,28 +1,30 @@
-import { z } from "zod";
 
-import { QueryAnalysisSchema } from "./QueryAnalysis";
-import { QueryIntentSchema } from "./QueryIntent";
+import { QueryIntentMatch } from "../../queryintent.service";
+import { QueryAnalysis } from "./QueryAnalysis";
+import { QueryIntent } from "./QueryIntent";
 
 /**
  * Describes information to be sent to the server when executing a query for server-side query intent processing
  */
-export const QueryIntentDataSchema = z.object({
+export type QueryIntentData = {
     /**
      * The current results view
      */
-    resultsView: z.string().optional(),
+    resultsView?: string,
     /**
      * The current tab
      */
-    tab: z.string().optional(),
+    tab?:  string,
     /**
-     * Query intents
+     * @deprecated Query intents v1
      */
-    queryIntents: z.array(QueryIntentSchema).optional(),
+    queryIntents?: QueryIntent[],
+    /**
+     * Query intents v2
+     */
+    queryIntentsV2?: QueryIntentMatch[],
     /**
      * Analysis of the current query
      */
-    queryAnalysis: QueryAnalysisSchema.optional()
-})
-
-export type QueryIntentData = z.infer<typeof QueryIntentDataSchema>;
+    queryAnalysis?: QueryAnalysis
+}
