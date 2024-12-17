@@ -275,24 +275,52 @@ export class AdvancedService {
         field: string,
         value: ValueItem | ValueItem[] | undefined,
         query?: Query,
-        combineWithAnd?: boolean
-    ) {
+        combineWithAnd?: boolean,
+        fieldOperator?: 'contains'
+    ): void;
+    public setSelect(
+        field: string,
+        value: ValueItem | ValueItem[] | undefined,
+        options?: { query?: Query, combineWithAnd?: boolean, fieldOperator?: 'contains' }
+    ): void;
+    public setSelect(
+        field: string,
+        value: ValueItem | ValueItem[] | undefined,
+        queryOptions?: any | { query?: Query, combineWithAnd?: boolean, fieldOperator?: 'contains' },
+        combineWithAnd?: boolean,
+        fieldOperator?: 'contains',
+    ): void {
+        let query: Query;
+        if (typeof queryOptions === 'object' && queryOptions !== null) {
+            query = queryOptions.query;;
+            combineWithAnd = queryOptions.combineWithAnd ?? combineWithAnd;
+            fieldOperator = queryOptions.fieldOperator ?? fieldOperator;
+        } else {
+            query = queryOptions;
+            combineWithAnd = combineWithAnd ?? false;
+        }
+
         let filter: Filter | undefined;
         if (value !== undefined) {
             const _value = this.asValueItems(value, field);
-            const operator = combineWithAnd? 'and':'or';
             filter = {
-                operator,
+                operator: combineWithAnd ? 'and' : 'or',
                 filters: _value.map(v => {
-                    if(Array.isArray(v.value)) { // Not sure this case can actually ever happen, but just in case...
-                        return {operator: 'and', display: v.display, filters: v.value.map(fieldValue => ({
-                            field, value: Utils.isString(fieldValue)? fieldValue : fieldValue.value, display: Utils.isString(fieldValue)? undefined : fieldValue.display
-                        }))};
+                    if (Array.isArray(v.value)) { // Not sure this case can actually ever happen, but just in case...
+                        return {
+                            operator: 'and',
+                            display: v.display,
+                            filters: v.value.map(fieldValue => ({
+                                field,
+                                value: Utils.isString(fieldValue) ? fieldValue : fieldValue.value.toString(),
+                                display: Utils.isString(fieldValue) ? undefined : fieldValue.display
+                            }))
+                        };
                     }
-                    const value = v.value instanceof Date? Utils.toSysDateStr(v.value) : v.value;
-                    return {field, value, display: v.display};
+                    const newValue = v.value instanceof Date ? Utils.toSysDateStr(v.value) : v.value.toString();
+                    return { field, value: newValue, display: v.display, operator: fieldOperator };
                 })
-            }
+            };
         }
         // When filter is not defined, this simply removes the selection
         this.setAdvancedSelect(field, filter, query);
