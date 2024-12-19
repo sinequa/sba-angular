@@ -114,7 +114,8 @@ Actually, each created FormControl is not useful unless it is able to perform so
 
     This method extracts the value from the expression.
 
-- `setSelect(field: string, value: ValueItem | ValueItem[] | undefined, query?: Query | undefined, combineWithAnd?: boolean): void`
+- `setSelect(field: string, value: ValueItem | ValueItem[] | undefined, query?: Query | undefined, combineWithAnd?: boolean, fieldOperator?: 'contains'): void`
+- `setSelect(field: string, value: ValueItem | ValueItem[] | undefined, options: { query?: Query | undefined, combineWithAnd?: boolean, fieldOperator?: 'contains' }): void`
 
     This method updates the query with a value of a specific FormControl (select, input, multi-input ...).
 
