@@ -23,12 +23,12 @@ jobs:
             echo -e "\033[0;32mThe Pull Request Title contains a Jira ticket with a '#done'"
             exit 0
           else
-            if [[ $title =~ (#noDoneTicketCheck) ]]; then
-              echo -e "\033[0;32mCheck is disabled by #noDoneTicketCheck"
+            if [[ $title =~ (#noJiraCheck) ]]; then
+              echo -e "\033[0;32mCheck is disabled by #noJiraCheck"
               exit 0
             else
               echo -e "\033[1;91mThe Pull Request Title does NOT contains a Jira ticket with a '#done'"
-              echo -e "\033[1;91mYou can disable this check by adding #noDoneTicketCheck in the Pull Request Title"
+              echo -e "\033[1;91mYou can disable this check by adding #noJiraCheck in the Pull Request Title"
               exit 1
             fi
           fi
