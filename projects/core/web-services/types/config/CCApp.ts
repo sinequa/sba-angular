@@ -9,6 +9,12 @@ import { CCQuerySchema } from "./CCQuery";
 import { CCRFMSchema } from "./CCRFM";
 import { CCWebServiceSchema } from "./CCWebService";
 
+const CustomJSONSchema = z.object({
+    name: z.string(),
+    preLogin: z.boolean().optional(),
+    // Allow additional properties
+}).catchall(z.any());
+
 /**
  * Describes the fields in the application configuration object
  */
@@ -71,6 +77,12 @@ export const CCAppSchema = CCConfigSchema.extend({
      * Custom JSON configuration (see App Customization tab in Sinequa admin)
      */
     data: JsonObjectSchema,
+    /**
+     * Custom JSON configurations (in separate files)
+     */
+    customJSONs: z.array(z.object({
+        data: CustomJSONSchema
+    })),
     /**
      * The version of the server API.
      * This field is used to compare with [MINIMUM_COMPATIBLE_SERVER_API_VERSION]{@link MINIMUM_COMPATIBLE_SERVER_API_VERSION}
