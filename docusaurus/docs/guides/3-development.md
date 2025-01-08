@@ -148,7 +148,7 @@ The [standard workspace](#use-the-standard-workspace) contains a `StartConfig` o
 export const startConfig: StartConfig = {
     app: "training",
     production: environment.production,
-    autoSAMLProvider: environment.autoSAMLProvider,
+    autoOauthProvider: environment.autoOauthProvider,
     auditEnabled: true
 };
 ```
@@ -182,7 +182,8 @@ The proxy configuration is a simple JSON file passed as an argument to the `ng s
     "context": [
         "/api",
         "/xdownload",
-        "/saml/redirect",
+        "/oauth",
+        "/auth/redirect",
         "/r"
     ],
     "target": "https://su-sba.demo.sinequa.com",

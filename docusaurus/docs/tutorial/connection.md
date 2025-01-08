@@ -15,7 +15,7 @@ In your `hello-search/` project, open the `src/app/app.module.ts` file, and repl
 ```ts
 export const startConfig: StartConfig = {
     app: "training",
-    autoSAMLProvider: "identity-dev",
+    autoOauthProvider: "identity-dev",
     production: environment.production,
     auditEnabled: true
 };

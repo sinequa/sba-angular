@@ -46,7 +46,7 @@ import { SCREEN_SIZE_RULES } from '@sinequa/components/utils';
 
 export const startConfig: StartConfig = {
     app: "training",
-    autoSAMLProvider: "identity-dev",
+    autoOauthProvider: "identity-dev",
     production: environment.production,
     auditEnabled: true
 };
