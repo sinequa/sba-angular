@@ -182,6 +182,11 @@ export class BsFacetDate extends AbstractFacet implements FacetDateParams, OnIni
         const range = this.getRangeValue(query);
         this.dateRangeControl?.setValue(range, { emitEvent: false });
         this.selection = !range[0] && !range[1] ? undefined : range;
+
+        // Update the mask value
+        if(query.aggregation_overrides) {
+            this.mask.value = query.aggregation_overrides[this.name]?.mask;
+        }
     }
 
     filterItem(item: AggregationItem, event: Event) {

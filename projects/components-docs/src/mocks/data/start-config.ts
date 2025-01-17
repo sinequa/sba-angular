@@ -3,8 +3,8 @@ export const START_CONFIG_DATA = {
     "applicationPath": "\/",
     "apiPath": "\/api\/v1",
     "authenticationStorage": null,
-    "autoOAuthProvider": null,
-    "autoSAMLProvider": "identity",
+    "autoSAMLProvider": null,
+    "autoOAuthProvider": "identity",
     "usePopupForLogin": false,
     "providers": {
 

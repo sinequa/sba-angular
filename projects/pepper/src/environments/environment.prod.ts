@@ -1,4 +1,4 @@
 export const environment = {
-  autoSAMLProvider: "identity",
-  production: true
+  production: true,
+  auditEnabled: true
 };
