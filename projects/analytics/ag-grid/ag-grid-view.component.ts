@@ -36,7 +36,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     /** List of column definitions for each column displayed in the grid */
     @Input() columns: Column[];
     /** Optional query to fetch more data from the server (defaults to searchService.query) */
-    @Input() query?: Query;
+    @Input() query?: Query = this.searchService.query;
 
     /** Width of the grid */
     @Input() width = "100%";

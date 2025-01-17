@@ -31,6 +31,12 @@ export class PassageListComponent implements OnChanges {
   }
 
   expand(passage: MatchingPassage) {
+    // Do not expand if there is a selection
+    const selection = window.getSelection();
+    if(selection && selection.toString().length > 0) {
+      return;
+    }
+
     const state = !passage.$expanded;
     this.record.matchingpassages?.passages.forEach(p => p.$expanded = false);
     passage.$expanded = state;
