@@ -46,7 +46,7 @@
     "@angular/router": "^18.2.8",
     "@egjs/hammerjs": "2.0.17",
     "@formatjs/icu-messageformat-parser": "^2.1.10",
-    "@formatjs/intl-relativetimeformat": "^4.5.12",
+    "@formatjs/intl-relativetimeformat": "^11.4.9",
     "@fortawesome/fontawesome-free": "^6.4.2",
     "@googlemaps/js-api-loader": "^1.14.3",
     "@microsoft/signalr": "^7.0.12",
