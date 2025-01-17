@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 
 @Component({
@@ -13,7 +13,8 @@ export class DocMenuComponent {
   routes: Routes;
 
   constructor(
-    public router: Router
+    public router: Router,
+    private renderer: Renderer2
   ) {
     const fontSize = localStorage.getItem('fontSize');
     this.fontSize = fontSize ? Number(fontSize) : 14;
@@ -23,8 +24,9 @@ export class DocMenuComponent {
   }
 
   changedFontSize(): void {
-    document.getElementsByTagName('html')[0].style.fontSize = `${this.fontSize}px`;
-    document.documentElement.style.setProperty('--bs-body-font-size', `${this.fontSize}px`);
+    const html = this.renderer.selectRootElement('html', true);
+    this.renderer.setStyle(html, 'font-size', `${this.fontSize}px`);
+    this.renderer.setStyle(html, '--bs-body-font-size', `${this.fontSize}px`);
     localStorage.setItem('fontSize', String(this.fontSize));
   }
 
