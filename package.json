@@ -95,9 +95,6 @@
     "xss": "^1.0.0",
     "zone.js": "~0.14.10"
   },
-  "overrides": {
-    "autoprefixer": "10.4.5"
-  },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.8",
     "@angular-eslint/builder": "^18.4.3",
