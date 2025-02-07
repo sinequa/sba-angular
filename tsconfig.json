@@ -30,7 +30,8 @@
     ],
     "lib": [
       "es2020",
-      "dom"
+      "dom",
+      "ES2021.Intl"
     ],
     "paths": {
       "@sinequa/core": ["projects/core"],
