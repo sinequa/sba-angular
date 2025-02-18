@@ -1,6 +1,6 @@
 {
   "name": "@sinequa/components",
-  "version": "11.13.0",
+  "version": "11.12.0",
   "author": "Sinequa",
   "peerDependencies": {
     "@popperjs/core": "^2.10.2",
