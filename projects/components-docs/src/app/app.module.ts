@@ -138,7 +138,6 @@ export class AppLocalesConfig implements LocalesConfig {
         DocVisTimelineModule,
         DocSearchFormModule
     ],
-    entryComponents: [],
     providers: [
         { provide: APP_INITIALIZER, useFactory: startConfigInitializer, deps: [StartConfigWebService], multi: true },
         { provide: LocationStrategy, useClass: HashLocationStrategy },

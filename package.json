@@ -27,8 +27,7 @@
     "builddocs": "ng build components-docs --configuration=mock",
     "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildanalytics && npm run buildvanilla && npm run buildpepper",
     "buildpreview": "npx -p typescript tsc projects/components/preview/preview.ts -outFile projects/vanilla-search/src/preview/preview.js -removeComments true",
-    "doc-preprocess": "npx run ./scripts/doc-preprocess.js",
-    "cypress:base": "npx cypress run --env type=base --config screenshotsFolder=cypress/snapshots/base"
+    "doc-preprocess": "npx run ./scripts/doc-preprocess.js"
   },
   "private": true,
   "dependencies": {
@@ -96,7 +95,7 @@
     "zone.js": "~0.14.10"
   },
   "overrides": {
-    "esbuild" : "0.25.0",
+    "esbuild": "0.25.0",
     "dompurify": "3.2.4"
   },
   "devDependencies": {
@@ -119,8 +118,6 @@
     "@types/node": "^18.19.55",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
-    "cypress": "^13.6.3",
-    "cypress-visual-regression": "^3.0.0",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-prefer-arrow": "1.2.2",
