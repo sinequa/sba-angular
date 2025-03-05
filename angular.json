@@ -32,15 +32,6 @@
             "tsConfig": "projects/core/tsconfig.spec.json",
             "karmaConfig": "projects/core/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/core/**/*.ts",
-              "projects/core/**/*.html"
-            ]
-          }
         }
       }
     },
@@ -74,15 +65,6 @@
             ],
             "tsConfig": "projects/components/tsconfig.spec.json",
             "karmaConfig": "projects/components/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/components/**/*.ts",
-              "projects/components/**/*.html"
-            ]
           }
         }
       }
@@ -216,15 +198,6 @@
               "projects/hello-search/src/styles/app.scss"
             ],
             "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/hello-search/**/*.ts",
-              "projects/hello-search/**/*.html"
-            ]
           }
         }
       }
@@ -366,15 +339,6 @@
               "projects/vanilla-search/src/styles/app.scss"
             ],
             "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/vanilla-search/**/*.ts",
-              "projects/vanilla-search/**/*.html"
-            ]
           }
         }
       }
@@ -528,15 +492,6 @@
               "projects/pepper/src/styles/app.scss"
             ],
             "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/pepper/**/*.ts",
-              "projects/pepper/**/*.html"
-            ]
           }
         }
       }
@@ -725,13 +680,5 @@
   },
   "cli": {
     "analytics": false
-  },
-  "schematics": {
-    "@angular-eslint/schematics:application": {
-      "setParserOptionsProject": true
-    },
-    "@angular-eslint/schematics:library": {
-      "setParserOptionsProject": true
-    }
   }
 }
