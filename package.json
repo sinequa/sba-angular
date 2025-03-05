@@ -111,6 +111,8 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/marked": "^4.0.3",
     "@types/node": "^18.19.55",
+    "ajv": "^8.17.1",
+    "ajv-keywords": "^5.1.0",
     "eslint": "^9.0.0",
     "jasmine-core": "4.0.0",
     "jasmine-spec-reporter": "~5.0.0",
