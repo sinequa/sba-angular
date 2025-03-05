@@ -44,9 +44,6 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-/cypress/snapshots/diff
-/cypress/videos
-/cypress/screenshots
 /docusaurus/.docusaurus
 .nx/*
 

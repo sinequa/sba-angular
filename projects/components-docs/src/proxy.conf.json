@@ -1,4 +1,4 @@
-{
+[{
     "context": [
         "/api",
         "/xdownload",
@@ -9,4 +9,4 @@
     "target": "https://testing.sinequa.com:443",
     "secure": true,
     "changeOrigin": true
-}
+}]
