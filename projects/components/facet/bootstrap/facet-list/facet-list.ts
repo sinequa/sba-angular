@@ -356,7 +356,10 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         if(this.data?.isTree) {
             return (a as TreeAggregationNode).$path === (b as TreeAggregationNode).$path;
         }
-        return a.value === b.value;
+        if(a.value === b.value) {
+            return true;
+        }
+        return a.display === b.display;
     }
 
     protected findAndSplice(items: AggregationItem[], item: AggregationItem) {
