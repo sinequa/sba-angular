@@ -16,7 +16,7 @@ There are essentially two ways of doing this in the SBA framework:
 
 ## Source-code configuration
 
-The first one is not specific to Sinequa: You can simply store your settings in a global TypeScript file that you can import anywhere in your app. An example of this is available in [Vanilla Search](/apps/2-vanilla-search.md) with the `src/config.ts` file. You can use this file to store any data you need, and then import this data from a component or service.
+The first one is not specific to Sinequa: You can simply store your settings in a global TypeScript file that you can import anywhere in your app. An example of this is available in [Vanilla Search](/apps/vanilla-search) with the `src/config.ts` file. You can use this file to store any data you need, and then import this data from a component or service.
 
 
 ```ts title="config.ts"
@@ -52,9 +52,9 @@ The drawback of this method is that you have to rebuild your application to take
 
 ## Server-side configuration
 
-This approach stores the configuration in JSON format in the Sinequa administration. Your App configuration has a "Customization (JSON)" tab as described in [Server configuration](/guides/2-server-config.md#apps).
+This approach stores the configuration in JSON format in the Sinequa administration. Your App configuration has a "Customization (JSON)" tab as described in [Server configuration](../guides/server-config#apps).
 
-Unlike the first method, this configuration is **dynamic**, meaning you won't have to rebuild your application to see the difference. However, it is only available **post-login**, so you cannot store information like the URL of your web-service (See [environment](environment.md) for that).
+Unlike the first method, this configuration is **dynamic**, meaning you won't have to rebuild your application to see the difference. However, it is only available **post-login**, so you cannot store information like the URL of your web-service (See [environment](environment) for that).
 
 We can adapt our first example:
 
@@ -77,7 +77,7 @@ import { AppService } from '@sinequa/core/app-utils';
 
 ## Combining both approaches
 
-In [Vanilla Search](/apps/2-vanilla-search.md) both approaches are used. By default, the `src/config.ts` file is used, but if configuration is passed through the `AppService` as above, then it takes precedence.
+In [Vanilla Search](/apps/vanilla-search) both approaches are used. By default, the `src/config.ts` file is used, but if configuration is passed through the `AppService` as above, then it takes precedence.
 
 For example, the Home component has the following logic for listing the active *features* (resulting in specific facets on the home page):
 

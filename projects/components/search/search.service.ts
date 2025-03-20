@@ -100,9 +100,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.loginSubscription.unsubscribe();
-        this.routerSubscription.unsubscribe();
-        this.appSubscription.unsubscribe();
+        this.loginSubscription?.unsubscribe();
+        this.routerSubscription?.unsubscribe();
+        this.appSubscription?.unsubscribe();
         this._events.complete();
         this._queryStream.complete();
         this._resultsStream.complete();

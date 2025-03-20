@@ -114,7 +114,8 @@ Actually, each created FormControl is not useful unless it is able to perform so
 
     This method extracts the value from the expression.
 
-- `setSelect(field: string, value: ValueItem | ValueItem[] | undefined, query?: Query | undefined, combineWithAnd?: boolean): void`
+- `setSelect(field: string, value: ValueItem | ValueItem[] | undefined, query?: Query | undefined, combineWithAnd?: boolean, fieldOperator?: 'contains'): void`
+- `setSelect(field: string, value: ValueItem | ValueItem[] | undefined, options: { query?: Query | undefined, combineWithAnd?: boolean, fieldOperator?: 'contains' }): void`
 
     This method updates the query with a value of a specific FormControl (select, input, multi-input ...).
 
@@ -257,7 +258,7 @@ The `AdvancedModule` embeds its own directives to handle custom features of the 
 
 ## Sample use case
 
-A working example could be the integration of an *advanced search form* in the search form used in [Pepper application](../../apps/3-pepper.md#integrated-search-form).
+A working example could be the integration of an *advanced search form* in the search form used in [Pepper application](../../apps/pepper#integrated-search-form).
 
 In this section, we will go through the main keys of how to easily instantiate an advanced search form :
 

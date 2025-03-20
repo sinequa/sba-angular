@@ -9,7 +9,7 @@ sidebar_position: 1
 
 The goal of this tutorial is to build a functional Search application, starting (almost) from scratch.
 
-A Sinequa server is available for you to develop and test your application, so you don't have to worry about the back-end configuration. This tutorial is manageable by any Angular developer without specific knowledge about Sinequa (other than general concepts that are explained on this website). Developers need an account to connect to this server, so [contact us](/docs/contact) if you do not have one yet. You will use `ng serve` to build and serve your application on your own computer (`localhost`), while the data comes from the remote Sinequa server.
+A Sinequa server is available for you to develop and test your application, so you don't have to worry about the back-end configuration. This tutorial is manageable by any Angular developer without specific knowledge about Sinequa (other than general concepts that are explained on this website). Developers need an account to connect to this server, so [contact us](/contact) if you do not have one yet. You will use `ng serve` to build and serve your application on your own computer (`localhost`), while the data comes from the remote Sinequa server.
 
 At the end of the tutorial, your application will look something like this:
 
@@ -17,9 +17,9 @@ At the end of the tutorial, your application will look something like this:
 
 ## Starting point
 
-The tutorial starts at the end of the ["Building the libraries"](../guides/3-development.md#building-the-libraries) step of the [Development](/guides/3-development.md) section. You must have installed the required tools (NodeJs, VS Core, Git), downloaded or cloned the Angular workspace, installed the dependencies and built the `@sinequa/core` and `@sinequa/components` libraries.
+The tutorial starts at the end of the ["Building the libraries"](../guides/development#building-the-libraries) step of the [Development](../guides/development) section. You must have installed the required tools (NodeJs, VS Core, Git), downloaded or cloned the Angular workspace, installed the dependencies and built the `@sinequa/core` and `@sinequa/components` libraries.
 
-Unless otherwise specified, the tutorial is based on the [**Hello Search**](/apps/1-hello-search.md) app included in the workspace inside `projects/hello-search/`.
+Unless otherwise specified, the tutorial is based on the [**Hello Search**](../apps/hello-search) app included in the workspace inside `projects/hello-search/`.
 
 ## Methodology
 
@@ -62,7 +62,7 @@ In this tutorial, we generally refer to the second type of modules (Angular modu
 
 Some of these modules are based on the [**Bootstrap**](https://getbootstrap.com/) library. When a module or component depends on Bootstrap, its class name is prefixed with **`Bs`** (eg. `BsSearchModule`, `BsFacetList`).
 
-The tutorial is divided in chapters which each deals with a new Sinequa feature. These features come packaged as modules of the [`@sinequa/components`](/libraries/components/components.md) library. The illustration below depicts in more details the content of a typical module/library which you will use in this tutorial.
+The tutorial is divided in chapters which each deals with a new Sinequa feature. These features come packaged as modules of the [`@sinequa/components`](../libraries/components) library. The illustration below depicts in more details the content of a typical module/library which you will use in this tutorial.
 
 ![Sample module](/assets/tutorial/modules2.png)
 *Content of one of the libraries (green), including modules (blue), components (purple), services (red), styles (orange) and locales (grey)*
@@ -70,7 +70,7 @@ The tutorial is divided in chapters which each deals with a new Sinequa feature.
 
 **This gives you a natural checklist for dealing with these modules:**
 
-1. Take a look at the code of that module in the [`@sinequa/components`](/libraries/components/components.md) library. In this example, inside: `projects/components/facet/`. This gives you a general idea of what components, directives and services are bundled with that module.
+1. Take a look at the code of that module in the [`@sinequa/components`](../libraries/components) library. In this example, inside: `projects/components/facet/`. This gives you a general idea of what components, directives and services are bundled with that module.
 
 2. Import the module you're interested in in your `app.module.ts`:
 
@@ -114,7 +114,7 @@ The tutorial is divided in chapters which each deals with a new Sinequa feature.
     @import "../../../components/facet/bootstrap/facet.scss";
     ```
 
-6. Some components contain strings that need to be translated in various languages, to internationalize your SBA. We provide translations in three languages (English, French and German) via "message files" which your app needs to import. Alternatively, you can ignore these files and fully rewrite the messages in your app (which is needed anyway if you are going to add additional languages). See the [Internationalization chapter](intl.md) of the tutorial for more details.
+6. Some components contain strings that need to be translated in various languages, to internationalize your SBA. We provide translations in three languages (English, French and German) via "message files" which your app needs to import. Alternatively, you can ignore these files and fully rewrite the messages in your app (which is needed anyway if you are going to add additional languages). See the [Internationalization chapter](intl) of the tutorial for more details.
 
     ```ts
     import {enFacet} from "@sinequa/components/facet";

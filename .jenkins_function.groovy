@@ -200,4 +200,34 @@ def getNPMpath(pgm) {
 	return pgmPath
 }
 
+// get the full directory name of a file
+def GetDirectoryName(pgm) {
+	println "Get $pgm path"
+	def dirPath = ""
+	
+	// def cmd = '\$dPath="ice\\distrib\\programs\\win\\node\\14.16.0\\' + pgm + '"' + "\n"
+	def cmd = '\$dPath = Split-Path ' + pgm + ' -Resolve'+ "\n"
+	cmd += "if ( \$null -ne \$dPath ) {" + "\n"
+	cmd += " Write-Output \$dPath" + "\n"
+	cmd += "} else {" + "\n"
+	cmd += 'Write-Output ""' + "\n"
+	cmd += "}" + "\n"
+	// println cmd
+	
+	dirPath = powershell(returnStdout: true, script: cmd)
+	// remove CR/LF
+	dirPath = dirPath.trim()
+	
+	println "Path found: "+ dirPath
+	return dirPath
+}
+
+// run bat with a special PATH
+def batEnv(path, cmd) {
+	bat """
+	@set PATH=${path};%PATH%
+	${cmd}
+	"""
+}
+
 return this

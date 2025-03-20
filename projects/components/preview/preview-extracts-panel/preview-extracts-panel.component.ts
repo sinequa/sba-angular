@@ -53,6 +53,8 @@ export class PreviewExtractsPanelComponent implements OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if(changes.previewData && this.previewData) {
       this.fetchExtracts(this.previewData);
+      this.buildSortAction();
+      this.updateCurrentIndex();
     }
     if(this.preview && !this.sub) {
       this.sub = this.preview.selectedId$.subscribe(() => this.updateCurrentIndex());
@@ -99,8 +101,7 @@ export class PreviewExtractsPanelComponent implements OnChanges, OnDestroy {
       this.extracts.sort((a,b) => a.relevanceIndex - b.relevanceIndex);
 
       this.loading = false;
-      this.buildSortAction();
-      this.updateCurrentIndex();
+      this.cdr.detectChanges();
     });
   }
 

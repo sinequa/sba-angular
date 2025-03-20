@@ -6,7 +6,7 @@
     "core": {
       "projectType": "library",
       "root": "projects/core",
-      "sourceRoot": "projects/core/src",
+      "sourceRoot": "projects/core",
       "prefix": "sq",
       "architect": {
         "build": {
@@ -24,7 +24,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/core/test.ts",
+            "polyfills": ["zone.js","zone.js/testing"],
+            "inlineStyleLanguage": "scss",
+            "include": [
+              "projects/core/**/*.spec.ts"
+            ],
             "tsConfig": "projects/core/tsconfig.spec.json",
             "karmaConfig": "projects/core/karma.conf.js"
           }
@@ -43,7 +47,7 @@
     "components": {
       "projectType": "library",
       "root": "projects/components",
-      "sourceRoot": "projects/components/src",
+      "sourceRoot": "projects/components",
       "prefix": "sq",
       "architect": {
         "build": {
@@ -61,7 +65,13 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/components/test.ts",
+            "polyfills": ["zone.js","zone.js/testing"],
+            "inlineStyleLanguage": "scss",
+            "include": [
+              "projects/components/**/*.spec.ts",
+              "projects/components/__tests__/*.spec.ts"
+
+            ],
             "tsConfig": "projects/components/tsconfig.spec.json",
             "karmaConfig": "projects/components/karma.conf.js"
           }
@@ -89,19 +99,25 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/hello-search",
             "index": "projects/hello-search/src/index.html",
-            "main": "projects/hello-search/src/main.ts",
-            "polyfills": "projects/hello-search/src/polyfills.ts",
+            "browser": "projects/hello-search/src/main.ts",
+            "polyfills": ["projects/hello-search/src/polyfills.ts"],
             "tsConfig": "projects/hello-search/tsconfig.json",
             "preserveSymlinks": true,
             "assets": [
               "projects/hello-search/src/assets",
-              { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
+              {
+                "glob": "**/*.js",
+                "input": "projects/vanilla-search/src/preview/",
+                "output": "./preview"
+              }
             ],
-            "styles": ["projects/hello-search/src/styles/app.scss"],
+            "styles": [
+              "projects/hello-search/src/styles/app.scss"
+            ],
             "scripts": [],
             "allowedCommonJsDependencies": [
               "hammerjs",
@@ -119,9 +135,7 @@
               "date-fns/locale/_lib/buildFormatLongFn",
               "@microsoft/teams-js"
             ],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true
@@ -135,12 +149,10 @@
                 }
               ],
               "outputPath": "dist/hello-search",
-              "buildOptimizer": true,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -164,9 +176,7 @@
             },
             "development": {
               "outputPath": "dist-debug/hello-search",
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -177,18 +187,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "hello-search:build:development"
+            "buildTarget": "hello-search:build:development"
           },
           "configurations": {
             "production": {
-              "browserTarget": "hello-search:build:production"
+              "buildTarget": "hello-search:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hello-search:build"
+            "buildTarget": "hello-search:build"
           }
         },
         "test": {
@@ -202,7 +212,9 @@
             "assets": [
               "projects/hello-search/src/assets"
             ],
-            "styles": ["projects/hello-search/src/styles/app.scss"],
+            "styles": [
+              "projects/hello-search/src/styles/app.scss"
+            ],
             "scripts": []
           }
         },
@@ -239,7 +251,9 @@
             "preserveSymlinks": true,
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules"]
+              "includePaths": [
+                "node_modules"
+              ]
             },
             "assets": [
               "projects/vanilla-search/src/assets",
@@ -272,7 +286,10 @@
               "diacritics",
               "date-fns-tz",
               "date-fns/locale/_lib/buildFormatLongFn",
-              "@microsoft/teams-js"
+              "@microsoft/teams-js",
+              "debug",
+              "extend",
+              "is-buffer"
             ]
           },
           "configurations": {
@@ -320,18 +337,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "vanilla-search:build:development"
+            "buildTarget": "vanilla-search:build:development"
           },
           "configurations": {
             "production": {
-              "browserTarget": "vanilla-search:build:production"
+              "buildTarget": "vanilla-search:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "vanilla-search:build"
+            "buildTarget": "vanilla-search:build"
           }
         },
         "test": {
@@ -345,7 +362,9 @@
             "assets": [
               "projects/vanilla-search/src/assets"
             ],
-            "styles": ["projects/vanilla-search/src/styles/app.scss"],
+            "styles": [
+              "projects/vanilla-search/src/styles/app.scss"
+            ],
             "scripts": []
           }
         },
@@ -381,12 +400,18 @@
             "tsConfig": "projects/pepper/tsconfig.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules"]
+              "includePaths": [
+                "node_modules"
+              ]
             },
             "preserveSymlinks": true,
             "assets": [
               "projects/pepper/src/assets",
-              { "glob": "**/*.js", "input": "projects/vanilla-search/src/preview/", "output": "./preview" }
+              {
+                "glob": "**/*.js",
+                "input": "projects/vanilla-search/src/preview/",
+                "output": "./preview"
+              }
             ],
             "styles": [
               {
@@ -474,18 +499,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pepper:build:development"
+            "buildTarget": "pepper:build:development"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pepper:build:production"
+              "buildTarget": "pepper:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pepper:build"
+            "buildTarget": "pepper:build"
           }
         },
         "test": {
@@ -499,7 +524,9 @@
             "assets": [
               "projects/pepper/src/assets"
             ],
-            "styles": ["projects/pepper/src/styles/app.scss"],
+            "styles": [
+              "projects/pepper/src/styles/app.scss"
+            ],
             "scripts": []
           }
         },
@@ -535,7 +562,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/analytics/test.ts",
+            "polyfills": ["zone.js","zone.js/testing"],
+            "inlineStyleLanguage": "scss",
+            "include": [
+              "projects/analytics/**/*.spec.ts"
+            ],
             "tsConfig": "projects/analytics/tsconfig.spec.json",
             "karmaConfig": "projects/analytics/karma.conf.js"
           }
@@ -547,7 +578,9 @@
               "projects/analytics/tsconfig.json",
               "projects/analytics/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -576,7 +609,9 @@
               "projects/components-docs/src/favicon.ico",
               "projects/components-docs/src/assets"
             ],
-            "styles": ["projects/components-docs/src/styles/app.scss"],
+            "styles": [
+              "projects/components-docs/src/styles/app.scss"
+            ],
             "scripts": [],
             "allowedCommonJsDependencies": [
               "hammerjs",
@@ -665,24 +700,24 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "components-docs:build:development"
+            "buildTarget": "components-docs:build:development"
           },
           "configurations": {
             "production": {
-              "browserTarget": "components-docs:build:production"
+              "buildTarget": "components-docs:build:production"
             },
             "mock": {
-              "browserTarget": "components-docs:build:mock"
+              "buildTarget": "components-docs:build:mock"
             },
             "ci": {
-              "browserTarget": "components-docs:build:ci"
+              "buildTarget": "components-docs:build:ci"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "components-docs:build"
+            "buildTarget": "components-docs:build"
           }
         }
       }
@@ -690,5 +725,13 @@
   },
   "cli": {
     "analytics": false
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
+    }
   }
 }

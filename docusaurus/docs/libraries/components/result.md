@@ -84,7 +84,7 @@ const formatIcons: Record<string, IconFormat> = {
 }
 ```
 
-[Vanilla Search](/apps/2-vanilla-search.md) allows overriding the mappings using the app configuration on the server (as for the facets, metadata, etc.) or it could be also defined in `config.ts`.
+[Vanilla Search](../../apps/vanilla-search) allows overriding the mappings using the app configuration on the server (as for the facets, metadata, etc.) or it could be also defined in `config.ts`.
 
 <doc-result-icon></doc-result-icon>
 

@@ -6,6 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
+    "build-internal": "docusaurus build --config docusaurus.internal.config.ts",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -30,6 +31,11 @@
     "@docusaurus/types": "3.1.1",
     "@types/react": "^18.2.29",
     "typescript": "^5.2.2"
+  },
+  "overrides": {
+      "path-to-regexp@>= 0.2.0 < 1.9.0": "1.9.0",
+      "path-to-regexp@< 0.1.10": "0.1.10",
+      "path-to-regexp@>= 2.0.0 < 3.3.0": "3.3.0"
   },
   "browserslist": {
     "production": [

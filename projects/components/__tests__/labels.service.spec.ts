@@ -2,9 +2,8 @@ import { EMPTY, throwError } from 'rxjs';
 
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LocationStrategy } from "@angular/common";
-import {
-  HttpClientTestingModule
-} from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MockLocationStrategy } from "@angular/common/testing";
 import { TestBed } from "@angular/core/testing";
 import { UntypedFormBuilder } from '@angular/forms';
@@ -42,7 +41,9 @@ describe("LabelsService", () => {
     const UIServiceFactory = () => ({});
 
     TestBed.configureTestingModule({
-      providers: [
+    imports: [RouterTestingModule,
+        OverlayModule],
+    providers: [
         LabelsService,
         AppService,
         SearchService,
@@ -63,13 +64,10 @@ describe("LabelsService", () => {
         UntypedFormBuilder,
         { provide: VALIDATION_MESSAGE_COMPONENT, useValue: {} },
         { provide: UIService, useFactory: UIServiceFactory },
-      ],
-      imports: [
-        RouterTestingModule,
-        OverlayModule,
-        HttpClientTestingModule
-      ]
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
 
     service = TestBed.inject(LabelsService);
     searchService = TestBed.inject(SearchService);
@@ -77,6 +75,9 @@ describe("LabelsService", () => {
     modalService = TestBed.inject(ModalService);
     notificationsService = TestBed.inject(NotificationsService);
     labelsWebService = TestBed.inject(LabelsWebService);
+
+    // do not call ngOnDestroy
+    spyOn<any>(service, 'ngOnDestroy');
   });
 
   it("can load instance", () => {

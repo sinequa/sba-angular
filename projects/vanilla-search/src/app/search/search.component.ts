@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { Action } from '@sinequa/components/action';
@@ -23,12 +24,15 @@ import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } fr
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
-
+  @ViewChild(CdkVirtualScrollViewport)
+  public viewPort?: CdkVirtualScrollViewport
 
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
   public preview?: Preview;
   public passageId?: number;
+
+  ui = inject(UIService);
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
@@ -73,7 +77,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
-    public readonly ui: UIService,
     public searchService: SearchService,
     public selectionService: SelectionService,
     public loginService: LoginService,
@@ -145,7 +148,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.results$ = this.searchService.resultsStream
       .pipe(
         tap(results => {
-          this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
+          this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", { search: this.searchService.query.text || "" }));
           if (!this.showResults) {
             this.openedDoc = undefined;
             this.showFilters = false;
@@ -315,5 +318,17 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.previewService.openRoute(record, this.searchService.query);
       }
     });
+  }
+
+  fetchMore() {
+    if (this.viewPort) {
+      const end = this.viewPort.getRenderedRange().end
+      const total = this.viewPort.getDataLength()
+
+      // If we're close to the bottom, fetch the next page.
+      if (end >= total - 3) {
+        this.searchService.loadMore();
+      }
+    }
   }
 }

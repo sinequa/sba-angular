@@ -9,7 +9,7 @@ sidebar_position: 5
 
 As mentioned earlier, our application looks strange because a lot of strings look like this: `msg#facet.loadMore`, or `msg#results.resultsAllTab`.
 
-These codes refer to dictionaries or "message files" translated in various languages. At the heart of this system is the Internationalization service [`IntlService`](/libraries/core/intl.md) from [`@sinequa/core`](/libraries/core/core.md).
+These codes refer to dictionaries or "message files" translated in various languages. At the heart of this system is the Internationalization service [`IntlService`](../libraries/core/intl) from [`@sinequa/core`](../libraries/core).
 
 This service is initialized with the dictionaries on the application startup. It then takes care of translating strings in the Angular templates, via the `sqMessage` pipe. Of course if the string is not found in the dictionary, it is just displayed as is (which explains what you see in your app).
 

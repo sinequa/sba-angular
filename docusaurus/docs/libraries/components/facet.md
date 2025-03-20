@@ -10,9 +10,9 @@ sidebar_position: 3
 
 *Facets* refer to the filters used to narrow down the list of results in a search interface (See [*Faceted Search*](https://en.wikipedia.org/wiki/Faceted_search)). In the SBA framework, the definition can extend more generally to other types of components that augment the search experience.
 
-The standard facets (list, tree...) need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**](/docs/guides/2-server-config.md#query-web-service-default-_query).
+The standard facets (list, tree...) need data from the server. This data comes in the form of **aggregations** in the results (`Results`) returned by the `QueryWebService`. These aggregations are configured on the server in the [**Query web service**](../../guides/server-config#query-web-service-default-_query).
 
-The Facet module is also documented in the [tutorial](/docs/tutorial/facet-module.md).
+The Facet module is also documented in the [tutorial](../../tutorial/facet-module).
 
 ## Features
 
@@ -289,7 +289,7 @@ This component requires at least a `Results` input, the list of the `facets` con
 
 The `sq-facet-container` component displays a list of buttons that users can click to open a facet.
 
-This component is used in the integrated search form of the [Pepper application](../../apps/3-pepper.md#integrated-search-form).
+This component is used in the integrated search form of the [Pepper application](../../apps/pepper#integrated-search-form).
 
 <doc-facet-container></doc-facet-container>
 
@@ -381,13 +381,48 @@ This component can be used in two ways :
   - Basic angular component and input bindings (as the example above)
   - By transclusion within a parent component. This approach requires a config object implementing the `FacetRangeConfig` interface.
 
+### My Search Facet
+
+The "My Search" facet displays the current list of search criteria.
+
+![My search facet](/assets/modules/facet/facet-mysearch.PNG)
+
+The inputs of the component are:
+
+  - `results`: The results of the current search.
+  - `allowDeletion`: (**true** by default) Display icon to delete items.
+  - `displayFieldNames`: (**false** by default) Display each item's field.
+  - `collapsible`: (**false** by default) Make the div collapsible. It makes sens if used as breadcrumb.
+  - `useBadges`: (**false** by default) Add a badge likely style to items.
+  - `ignoreText`: (**true** by default) Ignore the search text and fielded search from being displayed.
+  - `excludedFacets`: (**["search-form"]** by default) Search filters originated from those facets will be excluded.
+
+This component can be used in different ways :
+
+  - Basic angular component and input bindings
+
+  ```html
+  <sq-facet-card title="My Search" icon="fas fa-info">
+      <sq-facet-mysearch #facet [results]="results"></sq-facet-mysearch>
+  </sq-facet-card>
+  ```
+
+  Or use the following :
+
+  ```html
+  <div class="d-flex flex-row align-items-center flex-wrap">
+      <sq-facet-mysearch [results]="results" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
+  </div>
+  ```
+
+  - By transclusion within a parent component. This approach requires a config object implementing the `FacetMySearchConfig` interface.
+
 ### Refine Facet
 
 The `sq-refine` component displays a secondary search form, including an autocomplete, to add a fulltext search criteria to a query, without removing the active filters.
 
-<doc-refine></doc-refine>
 
-This component requires at least a `Results` input. If the autocomplete is enabled, all the parameters of the [autocomplete directive](autocomplete.md) should be provided to this component.
+This component requires at least a `Results` input. If the autocomplete is enabled, all the parameters of the [autocomplete directive](autocomplete) should be provided to this component.
 
 The full list of inputs is:
 

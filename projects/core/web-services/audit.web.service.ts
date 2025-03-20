@@ -95,7 +95,6 @@ export class AuditWebService extends HttpService {
             resultId = results ? results.id : null;
         }
         const detail = {
-            app: this.appName,
             docid: doc.id,
             rank: doc.rank,
             title: doc.title,
@@ -154,7 +153,6 @@ export class AuditWebService extends HttpService {
         rfmParameters?: MapOf<string | number | boolean | undefined>): Observable<void> {
         const collection = id.substr(0, id.indexOf("|"));
         const detail = {
-            app: this.appName,
             docid: id,
             rank: -1,
             source: Utils.treeFirstNode(collection),
@@ -179,13 +177,8 @@ export class AuditWebService extends HttpService {
      * Notify logout
      */
     notifyLogout(): Observable<void> {
-        const detail = {
-            app: this.appName,
-        };
-
         const data: AuditEvent = {
-            type: AuditEventType.Search_Exit_Logout,
-            detail
+            type: AuditEventType.Search_Exit_Logout
         };
 
         return this.notify(data);
@@ -196,13 +189,8 @@ export class AuditWebService extends HttpService {
      * @returns An Observable<void>
      */
     notifyLogin(): Observable<void> {
-        const detail = {
-            app: this.appName,
-        };
-
         const data: AuditEvent = {
-            type: AuditEventType.Search_Login_Success,
-            detail
+            type: AuditEventType.Search_Login_Success
         };
 
         return this.notify(data)

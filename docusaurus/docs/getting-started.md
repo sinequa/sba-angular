@@ -13,9 +13,9 @@ In this documentation, we make the assumption that you are a Sinequa customer or
 
 ## Browse sample applications and components
 
-If you are new to Sinequa and just want to see what is on the menu, you can start by browsing our list of [sample applications](apps/apps.md).
+If you are new to Sinequa and just want to see what is on the menu, you can start by browsing our list of [sample applications](apps).
 
-If you want to discover new functionalities that may be useful for an existing application, have a look at the [Components](libraries/components/components.md) and [Analytics](libraries/analytics/analytics.md) libraries. You can also test most of the SBA Framework's components in the [Vanilla Builder](#vanilla-builder) application.
+If you want to discover new functionalities that may be useful for an existing application, have a look at the [Components](libraries/components) and [Analytics](libraries/analytics) libraries. You can also test most of the SBA Framework's components in the [Vanilla Builder](#vanilla-builder) application.
 
 Sinequa also comes with pre-packaged apps (that are deployed out-of-the-box), and you can test these apps directly with your own data (See [prepackaged applications](#pre-packaged-applications) below).
 
@@ -23,26 +23,26 @@ Sinequa also comes with pre-packaged apps (that are deployed out-of-the-box), an
 
 ### Vanilla Builder
 
-A good way to get started that does not require any developer skills is to use the [Vanilla Builder](apps/5-vanilla-builder.md) application. Vanilla Builder is a no-code tool that lets administrators customize an application by drag-and-dropping components and editing their settings, appearance and behavior.
+A good way to get started that does not require any developer skills is to use the [Vanilla Builder](apps/vanilla-builder) application. Vanilla Builder is a no-code tool that lets administrators customize an application by drag-and-dropping components and editing their settings, appearance and behavior.
 
-When the customization is complete, it can be exported as a standalone application that can be [deployed](guides/4-deployment.md) independently on Sinequa.
+When the customization is complete, it can be exported as a standalone application that can be [deployed](guides/deployment) independently on Sinequa.
 
 Vanilla Builder is also a good way to discover and try out a wide range of components available in the SBA Framework without having to study the documentation and API.
 
 ### Pre-packaged applications
 
-Another common way to get started is to copy one of the pre-packaged apps available in the [Sinequa administration](guides/2-server-config.md):
+Another common way to get started is to copy one of the pre-packaged apps available in the [Sinequa administration](guides/server-config):
 
 ![Prepackaged applications](/assets/gettingstarted/prepackaged-apps.png)
 
 However, please note the following warnings:
 
 :::warning
-Copying the "app" object exposes a new application at the URL `<sinequa>/app/<app-name>`, but **it does not copy the application's workspace**, which contains the source code and build artifacts for the app. The new app will still be referencing the original workspace (See [server configuration](guides/2-server-config.md)).
+Copying the "app" object exposes a new application at the URL `<sinequa>/app/<app-name>`, but **it does not copy the application's workspace**, which contains the source code and build artifacts for the app. The new app will still be referencing the original workspace (See [server configuration](guides/server-config)).
 :::
 
 :::warning
-While it is possible to copy the workspace as well, you should carefully consider Version Control and Continuous Integration for the long-term maintainability of your project (See our [Version Control](guides/5-version-control.md) and [Updates](guides/6-updates.md) guides).
+While it is possible to copy the workspace as well, you should carefully consider Version Control and Continuous Integration for the long-term maintainability of your project (See our [Version Control](guides/version-control) and [Updates](guides/updates) guides).
 :::
 
 :::note
@@ -58,9 +58,9 @@ SBA developers should be familiar with the following topics:
 
 After ensuring an understanding of these topics, new developers should use this website to become familiar with Sinequa-specific concepts. In particular:
 
-- The [tutorial](tutorial/tutorial.md) is a good way to learn about the main Sinequa services and components. It can be completed in a few hours.
-- The [architecture](guides/1-architecture.md), [development](guides/3-development.md) and [version control](guides/5-version-control.md) guides are important first reads as well.
-- The [tips & tricks](tipstricks/tipstricks.md) can also answer many common beginner questions.
+- The [tutorial](tutorial) is a good way to learn about the main Sinequa services and components. It can be completed in a few hours.
+- The [architecture](guides/architecture), [development](guides/development) and [version control](guides/version-control) guides are important first reads as well.
+- The [tips & tricks](tipstricks) can also answer many common beginner questions.
 
 BUT, if you are a learn-by-doing person who doesn't read documentation if they can avoid it and you really just want to get started ***now***, then let's go:
 
@@ -89,7 +89,7 @@ BUT, if you are a learn-by-doing person who doesn't read documentation if they c
 
 If you manage an existing application, you typically have to perform different tasks:
 
-- **Monitor the usage of the application** (e.g., evaluate the adoption, the relevance of search results, the performance of the engine, read user feedback, etc.). Fortunately, *there's an app for that!* The [Usage Analytics application](apps/4-usage-analytics.md) displays all this information within a set of dashboards.
+- **Monitor the usage of the application** (e.g., evaluate the adoption, the relevance of search results, the performance of the engine, read user feedback, etc.). Fortunately, *there's an app for that!* The [Usage Analytics application](apps/usage-analytics) displays all this information within a set of dashboards.
 
   :::info
   The SBA standard components and applications have a built-in audit system that records all relevant user actions into logs. These logs can be periodically indexed in an audit index. The Usage Analytics application computes metrics directly based on this data.
@@ -97,17 +97,17 @@ If you manage an existing application, you typically have to perform different t
 
 - **Modify the application's configuration**. Applications can be customized without changing their source code (to some extent). There are three possible ways to achieve this:
 
-  - Customizing the configuration of the application's web services, in particular the **query web service**. This approach is documented in the [server configuration](guides/2-server-config.md) guide.
-  - Customizing the application's JSON [configuration](tipstricks/configuration.md). Each [application](apps/apps.md) has a set of internal settings that can be overridden by adding properties in the "Customization (JSON)" tab of the application. This typically includes the list of facets, metadata, and preview highlights, and it allows certain functionalities to be turned on or off (e.g., baskets, saved queries, etc.).
-  - Customizing the application's UI with [Vanilla Builder](apps/5-vanilla-builder.md). Note that modifying the application in Vanilla Builder does not directly modify its source code. It modifies a JSON configuration describing the layout and configuration of each component. This configuration is persisted in the administrator's [User Settings](tipstricks/user-settings.md), but it can also be downloaded and reopened later for further customization.
+  - Customizing the configuration of the application's web services, in particular the **query web service**. This approach is documented in the [server configuration](guides/server-config) guide.
+  - Customizing the application's JSON [configuration](tipstricks/configuration). Each [application](apps) has a set of internal settings that can be overridden by adding properties in the "Customization (JSON)" tab of the application. This typically includes the list of facets, metadata, and preview highlights, and it allows certain functionalities to be turned on or off (e.g., baskets, saved queries, etc.).
+  - Customizing the application's UI with [Vanilla Builder](apps/vanilla-builder). Note that modifying the application in Vanilla Builder does not directly modify its source code. It modifies a JSON configuration describing the layout and configuration of each component. This configuration is persisted in the administrator's [User Settings](tipstricks/user-settings), but it can also be downloaded and reopened later for further customization.
 
 - **Implement changes in the application code**. Making changes in the application's source code is more consequential than changes in the configuration because there are multiple factors to consider:
 
-  - The versioning of the code (see [version control](guides/5-version-control.md) guide)
-  - The process of deployment (see [deployment](guides/4-deployment.md) guide)
+  - The versioning of the code (see [version control](guides/version-control) guide)
+  - The process of deployment (see [deployment](guides/deployment) guide)
   - And most importantly: any change that you apply may eventually conflict with a future update and/or might necessitate future maintenance (see the next point).
 
-- **Update the SBA Framework**. Sinequa regularly [releases](releases/releases.md) new versions of the libraries and applications. These updates often introduce breaking changes:
+- **Update the SBA Framework**. Sinequa regularly [releases](releases) new versions of the libraries and applications. These updates often introduce breaking changes:
 
   - Library upgrades (Angular, Bootstrap, RxJS, D3, etc.) often introduce breaking changes. So when Sinequa upgrades these libraries, the entire codebase is migrated accordingly.
   - As the SBA Framework evolves, bugs are fixed, features are added, and components & applications are refactored. These changes can be in direct conflict with how you use these components or how you customized these components.
@@ -116,7 +116,7 @@ If you manage an existing application, you typically have to perform different t
   If your application is heavily customized, these updates will probably be difficult. If your customization makes use of, say, Bootstrap, you will have to follow the relevant guide from Bootstrap to migrate your code.
   :::
 
-  Carefully read the [updates](guides/6-updates.md) guide to learn how to manage this situation and how to be prepared by adopting [development](guides/3-development.md) and [version control](guides/5-version-control.md) best practices.
+  Carefully read the [updates](guides/updates) guide to learn how to manage this situation and how to be prepared by adopting [development](guides/development) and [version control](guides/version-control) best practices.
 
   :::note
   To recap: You must take ownership of anything you customize. This includes taking responsibility for fixing conflicts with future updates and potentially migrating your code when libraries are upgraded.

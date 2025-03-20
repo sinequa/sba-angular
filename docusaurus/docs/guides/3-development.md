@@ -1,4 +1,5 @@
 ---
+id: development
 layout: default
 title: Development
 parent: Guides
@@ -11,7 +12,7 @@ sidebar_position: 3
 
 SBA developers should be familiar with [Angular](https://angular.io/) and [Bootstrap](https://getbootstrap.com/). Specific knowledge about Sinequa is not strictly required, although it is useful to understand where the data comes from, how it can be customized and what additional features can be enabled through custom APIs and plug-ins.
 
-We recommend reading the [architecture](1-architecture.md) guide and completing the [tutorial](../tutorial/tutorial.md) before starting development. 
+We recommend reading the [architecture](architecture) guide and completing the [tutorial](../tutorial) before starting development. 
 
 ## Development environment
 
@@ -42,9 +43,9 @@ git clone https://github.com/sinequa/sba-angular.git my-project
 cd my-project
 ```
 
-Updating the workspace is as simple as pulling the latest version from Github, although you may have to resolve some conflicts between your own code and the new version of the workspace (See [Updates](6-updates.md)).
+Updating the workspace is as simple as pulling the latest version from Github, although you may have to resolve some conflicts between your own code and the new version of the workspace (See [Updates](updates)).
 
-The standard workspace contains the main Sinequa [libraries](../libraries/libraries.md) (Core, Components and Analytics) and sample [applications](../apps/apps.md) (Vanilla Search and Pepper).
+The standard workspace contains the main Sinequa [libraries](../libraries) (Core, Components and Analytics) and sample [applications](../apps) (Vanilla Search and Pepper).
 
 You can either **modify an existing application directly** or **create a new one** (and modify the `angular.json` accordingly):
 
@@ -102,7 +103,7 @@ Building an application is similar to [building a library](#building-the-librari
 npm run buildvanilla
 ```
 
-This script runs the `ng build` command (see the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json)), which generates a build artifact in the `dist` folder. This build is needed to deploy the application on a server (See the [deployment guide](4-deployment.md)).
+This script runs the `ng build` command (see the [`package.json`](https://github.com/sinequa/sba-angular/blob/master/package.json)), which generates a build artifact in the `dist` folder. This build is needed to deploy the application on a server (See the [deployment guide](deployment)).
 
 ## Testing an app
 
@@ -138,7 +139,7 @@ Connect your app to the Sinequa server by:
 
 ### Basic configuration
 
-An app communicates with Sinequa via its REST API (See [architecture](1-architecture.md)). But how does the app know where to find the Sinequa server?
+An app communicates with Sinequa via its REST API (See [architecture](architecture)). But how does the app know where to find the Sinequa server?
 
 The [standard workspace](#use-the-standard-workspace) contains a `StartConfig` object in the `app.module.ts` file of each application:
 
@@ -147,7 +148,7 @@ The [standard workspace](#use-the-standard-workspace) contains a `StartConfig` o
 export const startConfig: StartConfig = {
     app: "training",
     production: environment.production,
-    autoSAMLProvider: environment.autoSAMLProvider,
+    autoOauthProvider: environment.autoOauthProvider,
     auditEnabled: true
 };
 ```
@@ -155,7 +156,7 @@ export const startConfig: StartConfig = {
 This object contains the following optional properties:
 - `url`: The URL of the Sinequa server. If not specified, the app will use the URL of the host server.
 - `app`: The name of the app on the Sinequa server. If not specified, the app will be inferred from the URL (`/app/<appname>`)
-- `autoSAMLProvider` or `autoOAuthProvider`: The name of the login provider on the Sinequa server (if any). If not specified, the app attempts to retrieve it from the server. See [Login methods](/docs/tipstricks/login-methods.md) for more details.
+- `autoSAMLProvider` or `autoOAuthProvider`: The name of the login provider on the Sinequa server (if any). If not specified, the app attempts to retrieve it from the server. See [Login methods](../tipstricks/login-methods) for more details.
 
 When building your app for deployment on a Sinequa server, it should be fine to omit the above properties.
 
@@ -167,7 +168,7 @@ During development, the `ng serve` command serves your app on `http://localhost:
 
 This is why we recommend defining the `app` and login providers (if any). For the `url`, there are two possibilities:
 
-- If the `url` property is specified in the `StartConfig`, your browser URL (`http://localhost:4200`) and Sinequa URL will NOT match, and you will run into [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues. You can fix these issues by configuring `https://localhost:4200` as a permitted origin in Sinequa (See [CORS and WebApp configuration](2-server-config.md#cors-and-webapp-configuration)).
+- If the `url` property is specified in the `StartConfig`, your browser URL (`http://localhost:4200`) and Sinequa URL will NOT match, and you will run into [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues. You can fix these issues by configuring `https://localhost:4200` as a permitted origin in Sinequa (See [CORS and WebApp configuration](server-config#cors-and-webapp-configuration)).
 - Alternatively, you can define a proxy configuration (See [below](#proxy)) so that your browser URL and Sinequa URL (seemingly) share the same origin.
 
 ### Proxy
@@ -181,7 +182,8 @@ The proxy configuration is a simple JSON file passed as an argument to the `ng s
     "context": [
         "/api",
         "/xdownload",
-        "/saml/redirect",
+        "/oauth",
+        "/auth/redirect",
         "/r"
     ],
     "target": "https://su-sba.demo.sinequa.com",
