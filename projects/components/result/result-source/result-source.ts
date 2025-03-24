@@ -43,7 +43,13 @@ export class ResultSource {
     }
 
     get urlDecoded(): string {
-        return decodeURI(this.url);
+        const url = this.url;
+        try {
+            return decodeURI(url);
+        }
+        catch(e) {
+            return url;
+        }
     }
 
     select(item: ValueItem){
