@@ -25,15 +25,15 @@ describe("ExprPipe", () => {
   it('should transforms a string expression to it\' string representation', () => {
     // missing some context informations to properly works as expected
     const exp = new ExprBuilder().makeExpr("person", "obama", "Barack Obama");
-    expect(pipe.transform(exp, {})).toEqual("person`Barack Obama`: `obama`");
-    expect(pipe.transform(exp, { useDisplay: true })).toEqual("person`Barack Obama`: `obama`");
-    expect(pipe.transform(exp, { useDisplay: false })).toEqual("person`Barack Obama`: `obama`");
+    expect(pipe.transform(exp, {})).toEqual("person`Barack Obama`:`obama`");
+    expect(pipe.transform(exp, { useDisplay: true })).toEqual("person`Barack Obama`:`obama`");
+    expect(pipe.transform(exp, { useDisplay: false })).toEqual("person`Barack Obama`:`obama`");
 
-    expect(pipe.transform(exp, { withFields: true })).toEqual("person`Barack Obama`: `obama`");
+    expect(pipe.transform(exp, { withFields: true })).toEqual("person`Barack Obama`:`obama`");
 
     const exp1 = new ExprBuilder().makeExpr("person", "obama");
-    expect(pipe.transform(exp1, { useDisplay: true })).toEqual("person: `obama`");
-    expect(pipe.transform(exp1, { useDisplay: false })).toEqual("person: `obama`");
+    expect(pipe.transform(exp1, { useDisplay: true })).toEqual("person:`obama`");
+    expect(pipe.transform(exp1, { useDisplay: false })).toEqual("person:`obama`");
   })
 
   it('should transforms a string expression to HTML', () => {

@@ -546,13 +546,41 @@ export class Utils {
                 }
                 /**
                  * Check if value contains fielded search expression
-                *
-                * The current regular expression looks for three types of matches:
-                * A word followed by: "something", which may be surrounded by parentheses.
-                * A word followed by:'something', which may be surrounded by parentheses.
-                * A word followed by :something, which may be surrounded by parentheses.
-                */
-                const regex = /\(?\b\w+:(?:"[^"]*"|'[^']*'|[^ |^\)]+)\)?/gm
+                 *
+                 * The current regular expression looks for three types of matches:
+                 *
+                 * Example                      Matches    Description
+                 * ---------------------------------------------------------------
+                 * author:Smith                 ✅         Basic field:value pair with unquoted value
+                 * (author:Smith)               ✅         Field:value pair with parentheses
+                 * title:"War and Peace"        ✅         Field with double-quoted value containing spaces
+                 * (title:"War and Peace")      ✅         Field with double-quoted value in parentheses
+                 * author:'J.K. Rowling'        ✅         Field with single-quoted value containing spaces and punctuation
+                 * year:2023                    ✅         Field with numeric value
+                 * is_active:true               ✅         Field with boolean value
+                 * name:John Doe                ❌ Partial Only matches name:John, spaces terminate unquoted values
+                 * price:$50                    ❌ Partial Only matches price:, $ is treated as a terminator
+                 * path:C:\Program Files        ❌ Partial Only matches path:C, spaces terminate the value
+                 * tag:one,two,three            ✅         Commas are allowed in unquoted values
+                 * field:(nested)               ❌ Partial Parentheses in values aren't handled properly
+                 * title:"Book \"Title\""       ❌         Escaped quotes aren't handled properly
+                 * field:""                     ✅         Empty quoted value
+                 * field:                       ❌         Missing value doesn't match
+                 * :value                       ❌         Missing field name doesn't match
+                 * complex:"value with spaces"  ✅         Quoted values can contain spaces
+                 * (status:active) (date:2023)  ✅         Matches both expressions separately
+                 * query:"(nested search)"      ✅         Parentheses inside quotes are allowed
+                 * field_01:value_01            ✅         Underscores are allowed in field names and values
+                 * color:blue hash:#00FF00      ✅         Matches as two separate expressions
+                 *
+                 * Usage:
+                 * // Input
+                 * 'tomato author:Smith tomato date:2023 (author:Smith) tomato'
+                 *
+                 * // After processing
+                 * 'tomato (author:Smith) tomato (date:2023) (author:Smith) tomato'
+                 */
+                const regex = /\(?\b\w+:(?:"[^"]*"|'[^']*'|[^ \(|$\)]+)\)?/gm
                 let m;
                 while ((m = regex.exec(val)) !== null) {
                     // This is necessary to avoid infinite loops with zero-width matches

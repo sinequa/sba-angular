@@ -253,7 +253,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items);
 
 				// Then
-				const expectedExpr = 'geo: (`Iraq`:`IRAQ`)';
+				const expectedExpr = 'geo:(`Iraq`:`IRAQ`)';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			})
 
@@ -281,7 +281,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items);
 
 				// Then
-				const expectedExpr = 'geo: (`Iraq`:`IRAQ`)';
+				const expectedExpr = 'geo:(`Iraq`:`IRAQ`)';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
@@ -294,7 +294,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items);
 
 				// Then
-				const expectedExpr = 'geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO`)';
+				const expectedExpr = 'geo:(`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO`)';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
@@ -322,7 +322,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
-				const expectedExpr = 'geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO` OR `Iowa`:`IOWA`)';
+				const expectedExpr = 'geo:(`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO` OR `Iowa`:`IOWA`)';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
@@ -352,7 +352,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
-				const expectedExpr = 'geo: (`Iraq`:`IRAQ` AND `Guantanamo`:`GUANTANAMO` AND `Iowa`:`IOWA`)';
+				const expectedExpr = 'geo:(`Iraq`:`IRAQ` AND `Guantanamo`:`GUANTANAMO` AND `Iowa`:`IOWA`)';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
@@ -388,7 +388,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2], {not: true}); // IOWA
 
 				// Then
-				const expectedExpr = 'NOT (geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO` OR `Iowa`:`IOWA`))';
+				const expectedExpr = 'NOT (geo:(`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO` OR `Iowa`:`IOWA`))';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
@@ -418,7 +418,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4), {and: false}); // [IOWA, NEW HAMSPHIRE]
 
 				// Then
-				const expectedExpr = 'geo: (`Iowa`:`IOWA` OR `New Hampshire`:`NEW HAMPSHIRE`)';
+				const expectedExpr = 'geo:(`Iowa`:`IOWA` OR `New Hampshire`:`NEW HAMPSHIRE`)';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			});
@@ -443,7 +443,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
-				const expectedExpr = 'geo: (`Iraq`:`IRAQ` OR `Iowa`:`IOWA`)';
+				const expectedExpr = 'geo:(`Iraq`:`IRAQ` OR `Iowa`:`IOWA`)';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
@@ -476,7 +476,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4), {and: true}); // [IOWA, NEW HAMPSHIRE]
 
 				// Then
-				const expectedExpr = 'geo: (`Iowa`:`IOWA` AND `New Hampshire`:`NEW HAMPSHIRE`)';
+				const expectedExpr = 'geo:(`Iowa`:`IOWA` AND `New Hampshire`:`NEW HAMPSHIRE`)';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			});
@@ -508,7 +508,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4)); // [IOWA, NEW HAMPSHIRE]
 
 				// Then
-				const expectedExpr = 'geo: (`Iowa`:`IOWA` OR `New Hampshire`:`NEW HAMPSHIRE`)';
+				const expectedExpr = 'geo:(`Iowa`:`IOWA` OR `New Hampshire`:`NEW HAMPSHIRE`)';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			});
@@ -550,7 +550,7 @@ describe("FacetService", () => {
 				service.addFilter(facetName, aggregation["geo"], items, {replaceCurrent: true});
 
 				// Then
-				const expectedExpr = 'geo: (`Iraq`:`IRAQ`)';
+				const expectedExpr = 'geo:(`Iraq`:`IRAQ`)';
 				expect(searchService.query.removeSelect).toHaveBeenCalledWith(facetName);
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, facetName);
 			});
@@ -566,7 +566,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items, {not: true});
 
 				// Then
-				const expectedExpr = 'NOT (geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO`))';
+				const expectedExpr = 'NOT (geo:(`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO`))';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
@@ -579,7 +579,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items, {and: true});
 
 				// Then
-				const expectedExpr = 'geo: (`Iraq`:`IRAQ` AND `Guantanamo`:`GUANTANAMO`)';
+				const expectedExpr = 'geo:(`Iraq`:`IRAQ` AND `Guantanamo`:`GUANTANAMO`)';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
@@ -656,7 +656,7 @@ describe("FacetService", () => {
 				service.removeFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
-				const expectedExpr = 'NOT (geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO`))';
+				const expectedExpr = 'NOT (geo:(`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO`))';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"});
 				expect(searchService.query.removeSelect).not.toHaveBeenCalledWith(0);
 			});
@@ -685,7 +685,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2], {forceAdd: true}); // IOWA
 
 				// Then
-				const expectedExpr = 'geo: (`Iowa`:`IOWA`)';
+				const expectedExpr = 'geo:(`Iowa`:`IOWA`)';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled()
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			})
@@ -715,7 +715,7 @@ describe("FacetService", () => {
 				service.addFilter('Treepath', aggregation['treepath'], aggregation["treepath"].items![0]); // Web
 
 				// Then
-				const exptectedExpr = 'treepath: (`Web`:`/Web/*`)';
+				const exptectedExpr = 'treepath:(`Web`:`/Web/*`)';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(exptectedExpr, "Treepath");
 			})
@@ -732,7 +732,7 @@ describe("FacetService", () => {
 				const expr = exprBuilder.makeAggregationExpr(aggregation["geo"], item);
 
 				// Then
-				expect(expr).toEqual("geo: (`Iraq`:`IRAQ`)");
+				expect(expr).toEqual("geo:(`Iraq`:`IRAQ`)");
 			});
 
 			it("should returns an Expr when flag valuesAreExpressions is true", () => {
@@ -756,7 +756,7 @@ describe("FacetService", () => {
 				const expr = exprBuilder.makeAggregationExpr(aggregation["null"], item);
 
 				// Then
-				expect(expr).toEqual("modified: (`Still Open`:`null`)");
+				expect(expr).toEqual("modified:(`Still Open`:`null`)");
 			})
 
 		})

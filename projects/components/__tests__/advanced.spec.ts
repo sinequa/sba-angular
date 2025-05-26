@@ -388,7 +388,7 @@ describe("AdvancedService", () => {
       service.setRangeSelect('modified', ["2020-12-01", "2020-12-16"]);
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_modified");
-      expect(spyQueryAddAction).toHaveBeenCalledWith("modified: [2020-12-01..2020-12-16]","advanced_modified");
+      expect(spyQueryAddAction).toHaveBeenCalledWith("modified:[2020-12-01..2020-12-16]","advanced_modified");
     });
 
     it("from a (select/input/checkbox...) component", () => {
@@ -399,7 +399,7 @@ describe("AdvancedService", () => {
       ]);
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_treepath");
-      expect(spyQueryAddAction).toHaveBeenCalledWith("treepath: (`Product`:`Product` OR `web`:`web`)","advanced_treepath");
+      expect(spyQueryAddAction).toHaveBeenCalledWith("treepath:(`Product`:`Product` OR `web`:`web`)","advanced_treepath");
     });
 
     it("with undefined value", () => {

@@ -18,7 +18,7 @@ export class ExprBuilder {
      */
     makeExpr(field: string, value: string, display?: string): string {
         field = this.formatField(field, display);
-        return `${field}: ${ExprParser.escape(value)}`; // company`Boeing`: BOEING
+        return `${field}:${ExprParser.escape(value)}`; // company`Boeing`: BOEING
     }
 
     /**
@@ -29,7 +29,7 @@ export class ExprBuilder {
      */
     makeBooleanExpr(field: string, value: boolean, display?: string): string {
         field = this.formatField(field, display);
-        return `${field}: ${ExprParser.escape(Utils.toSqlValue(value))}`; // toto`True`: true
+        return `${field}:${ExprParser.escape(Utils.toSqlValue(value))}`; // toto`True`: true
     }
 
 
@@ -67,7 +67,7 @@ export class ExprBuilder {
      */
     makeListExpr(field: string, values: string[], display?: string): string {
         field = this.formatField(field, display);
-        return `${field}: [${values.map(v => ExprParser.escape(v)).join(',')}]`; // docformat`htm, pdf`:[`htm`,`pdf`]
+        return `${field}:[${values.map(v => ExprParser.escape(v)).join(',')}]`; // docformat`htm, pdf`:[`htm`,`pdf`]
     }
 
 
@@ -85,7 +85,7 @@ export class ExprBuilder {
         display?: string): string {
 
         field = this.formatField(field, display);
-        return `${field}: [${Utils.toSqlValue(from)}..${Utils.toSqlValue(to)}]`; // modified`[Dec 15 2020, Dec 20 2020]`: [2020-12-15..2020-12-20]
+        return `${field}:[${Utils.toSqlValue(from)}..${Utils.toSqlValue(to)}]`; // modified`[Dec 15 2020, Dec 20 2020]`: [2020-12-15..2020-12-20]
     }
 
 
@@ -119,7 +119,7 @@ export class ExprBuilder {
      */
     makeAndExpr(field: string, values: (string | ValueItem)[], display?: string): string {
         field = this.formatField(field, display);
-        return `${field}: (${this.concatWithOperator(values, 'AND')})`; // company: (IBM AND APPLE AND GOOGLE)
+        return `${field}:(${this.concatWithOperator(values, 'AND')})`; // company: (IBM AND APPLE AND GOOGLE)
     }
 
 
@@ -133,7 +133,7 @@ export class ExprBuilder {
      */
     makeOrExpr(field: string, values: (string | ValueItem)[], display?: string): string {
         field = this.formatField(field, display);
-        return `${field}: (${this.concatWithOperator(values, 'OR')})`; // company: (IBM OR APPLE OR GOOGLE)
+        return `${field}:(${this.concatWithOperator(values, 'OR')})`; // company: (IBM OR APPLE OR GOOGLE)
     }
 
     /**
@@ -220,7 +220,7 @@ export class ExprBuilder {
                     if (i.value === null) return this.makeFieldExpr(aggregation.column, i, combineWithAnd);
                     // .toString() is to avoid typing issues. With valuesAreExpressions = true, item.value is expected to be a string
                     return i.value.toString()
-                }); 
+                });
             return combineWithAnd? this.concatAndExpr(exprs) : this.concatOrExpr(exprs);
         }
         else {
@@ -250,12 +250,10 @@ export class ExprBuilder {
      */
     private asValueItems(items: AggregationItem[], isTree?: boolean): ValueItem[] {
         if(isTree) {
-            return items.map(i => {
-                return {
-                    value: (i as TreeAggregationNode).$path + "*",
-                    display: i.display || i.value as string
-                };
-            });
+            return items.map(i => ({
+                value: (i as TreeAggregationNode).$path + "*",
+                display: i.display || i.value as string
+            }));
         }
         return items; // This works because ValueItem and AggregationItem share the value and display properties
     }
