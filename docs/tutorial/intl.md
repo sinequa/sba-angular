@@ -9,7 +9,7 @@ nav_order: 5
 
 As mentioned earlier, our application looks strange because a lot of strings look like this: `msg#facet.loadMore`, or `msg#results.resultsAllTab`.
 
-These codes refer to dictionaries or "message files" translated in various languages. At the heart of this system is the Internationalization service [`IntlService`]({{site.baseurl}}modules/core/intl.html) from [`@sinequa/core`]({{site.baseurl}}modules/core/core.html).
+These codes refer to dictionaries or "message files" translated in various languages. At the heart of this system is the Internationalization service [`IntlService`]({{site.baseurl}}libraries/core/intl.html) from [`@sinequa/core`]({{site.baseurl}}libraries/core/core.html).
 
 This service is initialized with the dictionaries on the application startup. It then takes care of translating strings in the Angular templates, via the `sqMessage` pipe. Of course if the string is not found in the dictionary, it is just displayed as is (which explains what you see in your app).
 
@@ -17,15 +17,15 @@ For example, if you dictionary looks like:
 
 ```json
 {
-    "hello": "bonjour",
-    "fruits": {
-        "strawberry": "fraise",
-        "apple": "pomme"
+    hello: "bonjour",
+    fruits: {
+        strawberry: "fraise",
+        apple: "pomme"
     }
 }
 ```
 
-Then this the following template is rendered as:
+Then the following template is rendered as:
 
 <div class="code-example">
 
@@ -52,7 +52,7 @@ In your `app.module.ts` file, notice that the `IntlModule` is imported from `@si
 
 ```ts
 import {IntlModule} from "@sinequa/core/intl";
-import {DefaultLocalesConfig} from "@sinequa/core";
+import {DefaultLocalesConfig} from "@sinequa/core/default-locales-config";
 
 ...
 
@@ -72,9 +72,7 @@ To do so, we need to create our own language files. We can start with English.
 
     ```ts
     import {LocaleData} from "@sinequa/core/intl";
-    import d3Format from "d3-format/locale/en-US.json";
-    import d3Time from "d3-time-format/locale/en-US.json";
-    import {enCore} from "@sinequa/core";
+    import {enCore} from "@sinequa/core/messages";
     import "intl/locale-data/jsonp/en-US"; // Safari
     import {Utils} from "@sinequa/core/base";
 
@@ -82,7 +80,10 @@ To do so, we need to create our own language files. We can start with English.
     import {enResult} from "@sinequa/components/result";
     import {enSearch} from "@sinequa/components/search";
 
-    let appMessages = {
+    const d3Format = require('d3-format/locale/en-US');
+    const d3Time = require('d3-time-format/locale/en-US');
+
+    const appMessages = {
 
         locale: {
             en: "English",
@@ -109,7 +110,7 @@ To do so, we need to create our own language files. We can start with English.
     };
     ```
 
-    Notice the `appMessages`, which contains the messages specific to your app, is **merged** with the messages coming from the [`@sinequa/core`]({{site.baseurl}}modules/core/core.html) and [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) libraries (`enCore`, `enFacet`, etc.).
+    Notice the `appMessages`, which contains the messages specific to your app, is **merged** with the messages coming from the [`@sinequa/core`]({{site.baseurl}}libraries/core/core.html) and [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) libraries (`enCore`, `enFacet`, etc.).
 
 3. Back in your `app.module.ts` file, create a new `AppLocalesConfig` class to replace `DefaultLocalesConfig`:
 
@@ -153,8 +154,8 @@ And in your `en.ts` file:
 
 ```json
 {
-    "search": {
-        "button": "Search"
+    search: {
+        button: "Search"
     }
 }
 ```
@@ -214,13 +215,17 @@ Inside this file, you need to **replace imports that point to English resources 
 For example:
 
 ```ts
-import d3Format from "d3-format/locale/fr-FR.json";
-import d3Time from "d3-time-format/locale/fr-FR.json";
-import {frCore} from "@sinequa/core";
+import {LocaleData} from "@sinequa/core/intl";
+import {frCore} from "@sinequa/core/messages";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
+import {Utils} from "@sinequa/core/base";
+
 import {frFacet} from "@sinequa/components/facet";
 import {frResult} from "@sinequa/components/result";
 import {frSearch} from "@sinequa/components/search";
+
+const d3Format = require('d3-format/locale/fr-FR');
+const d3Time = require('d3-time-format/locale/fr-FR');
 ```
 
 Then you can translate all the text in `appMessages` to French. This should look like:
@@ -247,7 +252,9 @@ results: {
 },
 ```
 
-Notice in this dictionary that the language names themselves ("English", "Français", etc.) need to have an entry (`locale.en`, `locale.fr`) in order to display them in the future language menu.
+You will also need to replace the `export` section to change the `en-US` occurences into `fr-FR`, and update all the `en` messages files with their french ones (for example `enCore` into `frCore`).
+
+Notice in this dictionary that the language names themselves ("English", "Français", etc.) need to have an entry (`locale.en`, `locale.fr`) in order to display them in the future language menu. You might want to add the `locale.fr` entry to `en.ts` as well.
 
 Finally, import this locale and add it to your `AppLocalesConfig`:
 
@@ -262,7 +269,7 @@ locales: Locale[] = [
 
 Now your application supports multiple language, but you have no way to easily switch between them!
 
-Let's add a button for each language, next to the Login and Logout buttons. We will use another module to this end: the [**Action module**]({{site.baseurl}}modules/components/action.html). This module, which is used extensively across the framework, allows to easily create dynamic lists of buttons and menus and support many useful options.
+Let's add a button for each language, next to the Login and Logout buttons (that you can also internationalize). We will use another module to this end: the [**Action module**]({{site.baseurl}}libraries/components/action.html). This module, which is used extensively across the framework, allows to easily create dynamic lists of buttons and menus and support many useful options.
 
 1. Import the Action module in your `app.module.ts`.
 
@@ -276,7 +283,7 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
             BsActionModule,
     ```
 
-2. Create a list of [`Action`]({{site.baseurl}}components/classes/Action.html) objects (one for each language) in the constructor of your `app.component.ts`:
+2. Create a list of `Action` objects (one for each language) in the constructor of your `app.component.ts`:
 
     ```ts
     import { Action } from '@sinequa/components/action';
@@ -310,11 +317,11 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
 
 3. Insert this list of buttons in your `app.component.html` with the `sq-action-buttons` directive, next to the existing Login/Logout buttons:
 
-    ```html
-    <button class="btn btn-light" ...>Logout</button>
-    <button class="btn btn-light" ...>Login</button>
+    ```html{% raw %}
+    <button ...>{{ msg#app.logout | sqMessage }}</button>
+    <button ...>{{ msg#app.login | sqMessage }}</button>
     <span [sq-action-buttons]="{items: languageActions}"></span>
-    ```
+    {% endraw %}```
 
     ![Language buttons]({{site.baseurl}}assets/tutorial/intl-buttons.png)
 
@@ -331,7 +338,7 @@ loadLocale(locale: string): Observable<LocaleData> {
 }
 ```
 
-- Ensure that lazily loaded locales are included in the compilation by including them explicitly in `tsconfig.app.json`:
+- Ensure that lazily loaded locales are included in the compilation by including them explicitly in `tsconfig.json`:
 
 ```json
 "include": [

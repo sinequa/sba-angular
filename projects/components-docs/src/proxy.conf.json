@@ -1,0 +1,12 @@
+{
+    "context": [
+        "/api",
+        "/xdownload",
+        "/auth/redirect",
+        "/saml/redirect",
+        "/r"
+    ],
+    "target": "https://testing.sinequa.com:443",
+    "secure": true,
+    "changeOrigin": true
+}

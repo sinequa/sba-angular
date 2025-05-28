@@ -1,0 +1,18 @@
+<div class="list-group list-group-flush" *ngIf="items.length">
+  <a role="button" *ngFor="let item of items; let i=index"
+    class="list-group-item list-group-item-action"
+    [ngClass]="{'list-group-item-primary': i === selectedIndex}"
+    (click)="selectItem(item)">
+
+    <!-- Autocomplete icon -->
+    <i class="icon flex-shrink-0" [ngClass]="autocompleteIcon(item.category)"></i>
+
+    <!-- Autocomplete display -->
+    <span class="text-truncate ms-2 me-auto" [innerHTML]="item.displayHtml || item.display"></span>
+
+    <!-- Autocomplete category -->
+    <span *ngIf="item.category" class="category small text-muted text-nowrap ms-3">
+      {{(item.label || item.category) | sqMessage}}
+    </span>
+  </a>
+</div>

@@ -1,0 +1,16 @@
+div.header {
+  padding: 0 0.75rem;
+  border-radius: 1rem;
+  background-color: rgb(0,0,0,0.08);
+  transition: background-color 0.2s ease-in-out;
+  &:hover {
+    background-color: rgb(0,0,0,0.15);
+  }
+  &.highlighted {
+    color: var(--sq-entity-color);
+    background-color: var(--sq-entity-bg-color);
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+}

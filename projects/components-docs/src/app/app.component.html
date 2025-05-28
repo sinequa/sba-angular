@@ -1,0 +1,13 @@
+<header>
+    <doc-navbar></doc-navbar>
+</header>
+<main class="container">
+    <article class="row">
+        <aside class="col-3 screen-size">
+            <doc-menu></doc-menu>
+        </aside>
+        <section class="col-9 pt-2 screen-size pb-4" *ngIf="!(globalService.loading | async) && globalService.results">
+            <router-outlet></router-outlet>
+        </section>
+    </article>
+</main>

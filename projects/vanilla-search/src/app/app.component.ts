@@ -1,6 +1,5 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
-import { ComponentWithLogin, LoginService } from "@sinequa/core/login";
+import { Component } from "@angular/core";
+import { ComponentWithLogin } from "@sinequa/core/login";
 import { BasketsService } from '@sinequa/components/baskets';
 import { SavedQueriesService, RecentQueriesService, RecentDocumentsService } from '@sinequa/components/saved-queries';
 import { AlertsService } from '@sinequa/components/alerts';
@@ -8,8 +7,9 @@ import { LabelsService } from '@sinequa/components/labels';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
-import { FEATURES } from '../config';
-import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
+import { FEATURES, SELECTORS_HIGHLIGHTS } from '../config';
+import { HighlightService } from "@sinequa/components/metadata";
+import { PreviewHighlightColors } from "@sinequa/components/preview";
 
 @Component({
     selector: "app",
@@ -19,29 +19,22 @@ export class AppComponent extends ComponentWithLogin {
 
 
     constructor(
-        // These 2 services are required by the constructor of ComponentWithLogin
-        loginService: LoginService,
-        cdRef: ChangeDetectorRef,
-
         // Services are instantiated by the app component,
         // to guarantee they are instantiated in a consistent order,
         // regardless of the entry route.
         // The order below impacts the order of the actions in the selection menu.
         prefs: UserPreferences,
+        public highlightService: HighlightService,
         public savedQueriesService: SavedQueriesService,
         public basketsService: BasketsService,
         public alertsService: AlertsService,
         public labelsService: LabelsService,
-        recentQueriesService: RecentQueriesService,
-        RecentDocumentsService: RecentDocumentsService,
+        _recentQueriesService: RecentQueriesService,
+        _RecentDocumentsService: RecentDocumentsService,
         public selectionService: SelectionService,
-        public appService: AppService,
-
-        public router: Router,
-        public auditWebService: AuditWebService
-        ){
-        super(loginService, cdRef);
-
+        public appService: AppService
+    ){
+        super();
     }
 
     initDone: boolean = false;
@@ -58,7 +51,7 @@ export class AppComponent extends ComponentWithLogin {
 
             let features = FEATURES;
             // The local config (config.ts) can be overriden by server-side config
-            if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
+            if(this.appService.app.data?.features){
                 features = <string[]> this.appService.app.data.features;
             }
 
@@ -83,40 +76,11 @@ export class AppComponent extends ComponentWithLogin {
                 }
             });
 
-            this.auditRouteChange();
-
-            this.router.events.subscribe(event => {
-                if(event instanceof NavigationEnd && this.loginService.complete) { // Check login complete in case of logout
-                    this.auditRouteChange();
-                }
-            });
-
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden') {
-                    this.auditWebService.notify({
-                        type: AuditEventType.Navigation_Exit
-                    });
-                }
-                if (document.visibilityState === 'visible') {
-                    this.auditWebService.notify({
-                        type: AuditEventType.Navigation_Return
-                    });
-                }
-            });
+            const highlights: {selectors: string[], highlights: PreviewHighlightColors[]}[] = this.appService.app.data?.highlights as any || SELECTORS_HIGHLIGHTS;
+            this.highlightService.setHighlights(highlights);
 
         }
     }
 
-    previousRoute: string | undefined;
-
-    auditRouteChange() {
-        const route = this.router.url.substr(1).split('?')[0]; // Extract route name
-        if(route && route !== this.previousRoute) {
-            this.auditWebService.notify({
-                type: `Navigation.${route}`
-            });
-        }
-        this.previousRoute = route;
-    }
 
 }

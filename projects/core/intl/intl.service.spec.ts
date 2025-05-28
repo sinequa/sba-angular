@@ -4,6 +4,9 @@ import { AppLocalesConfig } from "@testing/mocks/app.locales.config";
 
 import { IntlService, LOCALES_CONFIG } from "./intl.service";
 
+const hour = 60*60*1000;
+const day = 24*hour;
+
 describe('IntlService', () => {
   let service: IntlService;
 
@@ -140,6 +143,34 @@ describe('IntlService', () => {
       });
     }));
 
+    it("should format an ISO 8601 date with week number in the current locale (en-US)", () => {
+      const spy = spyOn(console, 'warn').and.callThrough();
+
+      // First day of 2022 week 52 with weekday set as Monday (default)
+      expect(service.formatDate("2022-W52", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("Dec 26, 2022");
+      // same a above, but specifying the weekday start (1-7): 1 is Monday and ending with Sunday
+      expect(service.formatDate("2022-W52-1", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("Dec 26, 2022");
+      // set Sunday as weekday start
+      expect(service.formatDate("2022-W52-7", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("Jan 01, 2023");
+
+      expect(spy).not.toHaveBeenCalled();
+    })
+
+    it("should format an ISO 8601 date with week number in the current locale (french)", () => {
+      const spy = spyOn(console, 'warn').and.callThrough();
+      service.use("fr", false).subscribe(() => {
+
+        // weekday number (1-7) can be used, week begin with Monday and ends with Sunday
+        expect(service.formatDate("2022-W52", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("26 déc. 2022");
+        // fist day of the week 52 is monday 26 Dec 2022
+        expect(service.formatDate("2022-W52-1", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("26 déc. 2022");
+        // last day of the week 52 is sunday 1 Jan 2023
+        expect(service.formatDate("2022-W52-7", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("01 janv. 2023");
+
+        expect(spy).not.toHaveBeenCalled();
+      });
+    })
+
   })
 
   describe('formatTime()', () => {
@@ -212,16 +243,10 @@ describe('IntlService', () => {
       expect(service.formatRelativeTime("12/31/2022 18:12:36")).toEqual("in 3 months");
       expect(service.formatRelativeTime("18:12:36")).toEqual('NaN');
 
-      // "unit" arg is not taken in account ??
-      expect(service.formatRelativeTime("12/31/2022", "day")).toEqual("in 3 months");
-
-      expect(service.formatRelativeTime(3, "months")).toEqual('in 3 months');
-      expect(service.formatRelativeTime(2, "hour")).toEqual('in 2 hours');
-      expect(service.formatRelativeTime(1, "week")).toEqual('next week');
-
-      // no differences between "weeks" and "week" ??
-      expect(service.formatRelativeTime(2, "weeks")).toEqual('in 2 weeks');
-      expect(service.formatRelativeTime(2, "week")).toEqual('in 2 weeks');
+      expect(service.formatRelativeTime(3*31*day)).toEqual('in 3 months');
+      expect(service.formatRelativeTime(2*hour)).toEqual('in 2 hours');
+      expect(service.formatRelativeTime(7*day)).toEqual('in 7 days');
+      expect(service.formatRelativeTime(14*day)).toEqual('in 2 weeks');
     })
 
     it('should format a relative time in the current locale (french)', waitForAsync(() => {
@@ -233,16 +258,10 @@ describe('IntlService', () => {
         expect(service.formatRelativeTime("12/31/2022 18:12:36")).toEqual("dans 3 mois");
         expect(service.formatRelativeTime("18:12:36")).toEqual('NaN');
 
-        // "unit" arg is not taken in account ??
-        expect(service.formatRelativeTime("12/31/2022", "day")).toEqual("dans 3 mois");
-
-        expect(service.formatRelativeTime(3, "months")).toEqual('dans 3 mois');
-        expect(service.formatRelativeTime(2, "hour")).toEqual('dans 2 heures');
-        expect(service.formatRelativeTime(1, "week")).toEqual('la semaine prochaine');
-
-        // no differences between "weeks" and "week" ??
-        expect(service.formatRelativeTime(2, "weeks")).toEqual('dans 2 semaines');
-        expect(service.formatRelativeTime(2, "week")).toEqual('dans 2 semaines');
+        expect(service.formatRelativeTime(3*31*day)).toEqual('dans 3 mois');
+        expect(service.formatRelativeTime(2*hour)).toEqual('dans 2 heures');
+        expect(service.formatRelativeTime(7*day)).toEqual('dans 7 jours');
+        expect(service.formatRelativeTime(14*day)).toEqual('dans 2 semaines');
       });
     }))
 
@@ -289,4 +308,10 @@ describe('IntlService', () => {
     });
   })
 
+  describe('formatMessage()', () => {
+    it('should parse', () => {
+      const message = '<span class="sq-field">{value0}</span><span class="sq-separator">{value1}</span><span class="sq-value">{value2}</span>';
+      expect(service.formatText(message, { value0: 'Meddra', value1: ': ', value2: 'Death' })).toEqual('<span class="sq-field">Meddra</span><span class="sq-separator">: </span><span class="sq-value">Death</span>');
+    })
+  })
 })

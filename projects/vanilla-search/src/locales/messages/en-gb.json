@@ -11,25 +11,9 @@
     },
 
     "searchForm": {
-        "search": "Search",
-        "searchFor": "Search for...",
-        "advanced": "Advanced",
-        "advancedSearch": "Advanced search",
         "scopeTitle": "Scope: {name}",
         "recentQuery": "Recent query",
-        "recentDocument": "Recent document",
-        "fieldedSearch": "Fielded Search",
-        "off": "Off",
-        "simple": "Simple",
-        "simpleTitle": "Graphical mode allowing to display selected filters as badges",
-        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\"",
-        "keepFilters": "Filters are kept within new queries",
-        "notKeepFilters": "Filters are reset within new queries",
-        "clearAll": "Clear all",
-        "clear": "Clear",
-        "voiceRecognition": "Vocal search",
-        "scrollLeft": "Scroll left",
-        "scrollRight": "Scroll right"
+        "recentDocument": "Recent document"
     },
 
     "baskets": {
@@ -62,9 +46,6 @@
     },
 
     "facet": {
-        "filters": {
-            "title" : "Filters"
-        },
         "preview": {
             "title": "Preview"
         },
@@ -95,9 +76,11 @@
     "preview": {
         "extracts": "Extracts",
         "entities": "Entities",
+        "passages": "Passages",
         "searchText": "Search \"{text}\" in the document",
         "pageTitle": "Document Navigator - {title}",
         "expand": "Expand",
+        "collapse": "Collapse",
         "back": "Back",
         "home": "Home",
         "downloadPdf": "Download PDF version",

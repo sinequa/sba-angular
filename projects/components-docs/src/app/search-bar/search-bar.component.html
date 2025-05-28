@@ -1,0 +1,14 @@
+<div class="input-group">
+    <div class="form-control d-flex pe-1">
+        <!-- Search bar -->
+        <div class="d-flex w-100">
+            <input type="text" placeholder="Search for..." [(ngModel)]="globalService.query.text"
+                (keyup.enter)="globalService.search()" id="search-bar-input">
+        </div>
+    </div>
+
+    <!-- Search buttons -->
+    <button class="btn btn-primary" type="button" (click)="globalService.search()" id="search-bar-button">
+        <i class="fas fa-search"></i>
+    </button>
+</div>

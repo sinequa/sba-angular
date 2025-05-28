@@ -45,13 +45,12 @@ Of course, there are many ways you could design your component. We propose the f
 ```html
 {% raw %}<div class="search container">
     <div class="row">
-
         <!-- Navbar -->
-        <nav class="navbar navbar-expand col-12 d-flex">
-            <a [routerLink]="['/home']" class="text-decoration-none">
+        <nav class="navbar col-12 d-flex">
+            <a [routerLink]="['/home']">
                 <h1>🔍 Hello Search</h1>
             </a>
-            <app-search-form class="flex-grow-1 mx-3"></app-search-form>
+            <app-search-form class="flex-grow-1 position-relative mx-3" style="min-height: 41px;"></app-search-form>
             <ul class="navbar-nav navbar-right">
                 <sq-saved-queries-menu></sq-saved-queries-menu>
             </ul>
@@ -78,11 +77,12 @@ Of course, there are many ways you could design your component. We propose the f
             <!-- Facets -->
             <div class="col-lg-4">
                 <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'">
-                    <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
+                    <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
                 </sq-facet-card>
 
                 <sq-facet-card [title]="'msg#facet.company.title'" [icon]="'fas fa-building'">
-                    <sq-facet-list #facet [results]="results" [aggregation]="'Company'" [allowExclude]="false" [allowAnd]="false"></sq-facet-list>
+                    <sq-facet-list #facet [results]="results" [aggregation]="'Company'" [allowExclude]="false"
+                        [allowAnd]="false"></sq-facet-list>
                 </sq-facet-card>
 
                 <sq-facet-card [title]="'msg#savedQueries.savedQueries'" [icon]="'fas fa-save'">
@@ -98,9 +98,7 @@ Of course, there are many ways you could design your component. We propose the f
                     <i class="fas fa-save"></i>
                 </button>
             </div>
-
         </ng-container>
-
     </div>
 </div>{% endraw %}
 ```
@@ -115,7 +113,7 @@ Notice a few things in the code:
 
 - We put the search form inside the `<nav>` (of course, you can make a different choice)
 - We display the results, facets and footer only if there are results (with the `<ng-container *ngIf="searchService.resultsStream | async as results">` element)
-- We wrapped our components inside `.container`, `.row` and `.col` elements. These are standard Boostrap classes (see [Grid system](https://getbootstrap.com/docs/4.0/layout/grid/)).
+- We wrapped our components inside `.container`, `.row` and `.col` elements. These are standard Bootstrap classes (see [Grid system](https://getbootstrap.com/docs/4.0/layout/grid/)).
 - We used size modifiers, like the `-lg-` in `col-lg-8`. This means that this rule will apply only on large screens. On small screen, the rule reverts to a regular `.col` element.
 
 However, our initial specifications are not met for medium and small screens! If you reduce the size of the screen, you notice that the filters are not hidden, they have just been wrapped under the results. Also, we need some buttons in the navbar to toggle the visibility of the facets and the search form...
@@ -228,11 +226,11 @@ Let's piggy-back on the facet button feature: We will show the form on medium or
 
 ```html
 <!-- Navbar -->
-<nav ...>
+<nav class="navbar col-12 d-flex px-2 px-sm-0">
     <a ... *ngIf="ui.screenSizeIsGreater('xs') || !showFacet">
         ...
     </a>
-    <app-search-form class="flex-grow-1 mx-sm-3" *ngIf="ui.screenSizeIsGreater('xs') || showFacet"></app-search-form>
+    <app-search-form class="flex-grow-1 position-relative mx-sm-3" style="min-height: 41px;" *ngIf="ui.screenSizeIsGreater('xs') || showFacet"></app-search-form>
     <button class="btn btn-light ml-auto" ...>
         ...
     </button>

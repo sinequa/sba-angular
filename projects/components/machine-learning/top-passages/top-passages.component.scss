@@ -1,41 +1,23 @@
-.card-body {
-    padding-left: 0;
-    padding-right: 0;
-    cursor: pointer;
-}
-
-.sq-text-ellipsis {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: var(--line-clamp, 3);
-    -webkit-box-orient: vertical;
-    white-space: normal;
+:host {
     font-size: 0.875em;
-
-    &.expanded {
-        --line-clamp: 0;
-    }
+    line-height: 1.2rem;
 }
 
-.btn-toggle {
-    position: relative;
-    top: .2rem;
-    opacity: 1;
-    width: 4%;
-    color: rgba(0, 0, 0, .5);
+.sq-passage-text ::ng-deep .answer {
+    background-color: palegreen !important;
+    font-weight: bold;
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
 
-    &--hidden {
-        opacity: 0;
+    &:has(+.answer) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
-}
 
-.passage {
-    padding-left: var(--bs-card-spacer-x);
-    padding-right: var(--bs-card-spacer-x);
-    padding-bottom: 0.1rem;
-
-    &:hover {
-        background-color: rgb(0, 0, 0, 0.03);
+    &+.answer {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
 }

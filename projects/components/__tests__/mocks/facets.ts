@@ -1,16 +1,20 @@
-export const FACETS = [
+import { FacetConfig } from "@sinequa/components/facet";
+
+export const FACETS: FacetConfig<{}>[] = [
   {
     name: "geo",
     title: "msg#facet.geo.title",
     type: "list",
     aggregation: "Geo",
     icon: "fas fa-globe-americas",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
+    parameters: {
+      showCount: true,
+      searchable: true,
+      allowExclude: true,
+      allowOr: true,
+      allowAnd: false,
+      displayEmptyDistributionIntervals: false,
+    }
   },
   {
     name: "company",
@@ -18,12 +22,14 @@ export const FACETS = [
     type: "list",
     aggregation: "Company",
     icon: "fas fa-building",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
+    parameters: {
+      showCount: true,
+      searchable: true,
+      allowExclude: true,
+      allowOr: true,
+      allowAnd: false,
+      displayEmptyDistributionIntervals: false,
+    }
   },
   {
     name: "person",
@@ -31,12 +37,14 @@ export const FACETS = [
     type: "list",
     aggregation: "Person",
     icon: "fas fa-user",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
+    parameters: {
+      showCount: true,
+      searchable: true,
+      allowExclude: true,
+      allowOr: true,
+      allowAnd: false,
+      displayEmptyDistributionIntervals: false,
+    }
   },
   {
     name: "docformat",
@@ -44,12 +52,14 @@ export const FACETS = [
     type: "list",
     aggregation: "DocFormat",
     icon: "far fa-file-word",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
+    parameters: {
+      showCount: true,
+      searchable: true,
+      allowExclude: true,
+      allowOr: true,
+      allowAnd: false,
+      displayEmptyDistributionIntervals: false,
+    }
   },
   {
     name: "modified",
@@ -57,12 +67,14 @@ export const FACETS = [
     type: "list",
     aggregation: "Modified",
     icon: "fas fa-calendar-day",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
+    parameters: {
+      showCount: true,
+      searchable: true,
+      allowExclude: true,
+      allowOr: true,
+      allowAnd: false,
+      displayEmptyDistributionIntervals: false,
+    }
   },
   {
     name: "size",
@@ -70,12 +82,14 @@ export const FACETS = [
     type: "list",
     aggregation: "Size",
     icon: "fas fa-sort-amount-up-alt",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
+    parameters: {
+      showCount: true,
+      searchable: true,
+      allowExclude: true,
+      allowOr: true,
+      allowAnd: false,
+      displayEmptyDistributionIntervals: false,
+    }
   },
   {
     name: "documentlanguages",
@@ -83,12 +97,14 @@ export const FACETS = [
     type: "list",
     aggregation: "DocumentLanguages",
     icon: "far fa-comment",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
+    parameters: {
+      showCount: true,
+      searchable: true,
+      allowExclude: true,
+      allowOr: true,
+      allowAnd: false,
+      displayEmptyDistributionIntervals: false,
+    }
   },
   {
     name: "concepts",
@@ -96,11 +112,13 @@ export const FACETS = [
     type: "list",
     aggregation: "Concepts",
     icon: "fas fa-comment-dots",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
+    parameters: {
+      showCount: true,
+      searchable: true,
+      allowExclude: true,
+      allowOr: true,
+      allowAnd: false,
+      displayEmptyDistributionIntervals: false,
+    }
   },
 ];

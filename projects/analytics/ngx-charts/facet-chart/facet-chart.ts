@@ -2,7 +2,7 @@ import {Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges} from "@an
 import {Results, Aggregation, AggregationItem} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
-import {AppService} from "@sinequa/core/app-utils";
+import {AppService, FormatService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {SelectionService} from '@sinequa/components/selection';
 import {Subscription} from "rxjs";
 import {ChartOptions, ChartDataPoint} from "../chart/chart";
@@ -27,13 +27,15 @@ export interface FacetChartDataPoint extends ChartDataPoint {
 })
 export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, OnDestroy {
     @Input() results: Results;
+    @Input() query?: Query;
     @Input() aggregation: string;
-    @Input() aggregations: string[];
+    @Input() aggregations?: string[];
     @Input() chartType: string;
     @Input() colorScheme: string;
     @Input() colors: string[] = ["#7aa3e5"];    // Single color (default is bar chart)
     @Input() filteredColor: string = "#C3E6CB";
     @Input() selectedColor: string = "#7acce5";
+    @Input() name = "chart";
 
     // Aggregation from the Results object
     data: Aggregation | undefined;
@@ -57,31 +59,35 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
         private facetService: FacetService,
         private intlService: IntlService,
         private selectionService: SelectionService,
-        private appService: AppService
+        private appService: AppService,
+        private formatService: FormatService
     ){
         super();
 
         // Clear the current filters
         this.clearFilters = new Action({
-            icon: "far fa-minus-square",
+            icon: "sq-filter-clear",
             title: "msg#facet.clearSelects",
             action: () => {
-                this.facetService.clearFiltersSearch(this.getName(), true);
+                if(this.data) {
+                    this.facetService.clearFiltersSearch(this.data.column, true, this.query, this.name);
+                }
             }
         });
 
         this.selectField = new Action({
             title: "Select field",
             updater: (action) => {
-                if(this.aggregations) {
-                    action.text = this.facetService.getAggregationLabel(this.aggregation);
+                if(this.aggregations && this.data) {
+                    action.text = this.appService.getPluralLabel(this.data.column);
                     action.children = this.aggregations
-                        .filter(v => v!==this.aggregation)
+                        .map(a => this.facetService.getAggregation(a, this.results)!)
+                        .filter(a => a && a?.name !== this.aggregation)
                         .map(agg => {
                             return new Action({
-                                text: this.facetService.getAggregationLabel(agg),
+                                text: this.appService.getPluralLabel(agg?.column),
                                 action : () => {
-                                    this.aggregation = agg;
+                                    this.aggregation = agg.name;
                                     this.ngOnChanges(<SimpleChanges> <any> {results: true});
                                 }
                             });
@@ -93,19 +99,11 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
     }
 
     /**
-     * Name of the facet, used to create and retrieve selections
-     * through the facet service.
-     */
-    getName() : string {
-        return this.aggregation;
-    }
-
-    /**
      * Returns all the actions that are relevant in the current context
      */
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.hasFiltered()) {
+        if(this.data?.$filtered.length) {
             actions.push(this.clearFilters);
         }
         if(!!this.selectField.text) {
@@ -115,21 +113,14 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
     }
 
     /**
-     * Returns true if there is an active selection (or exclusion) from this facet
-     */
-    hasFiltered(): boolean {
-        return this.facetService.hasFiltered(this.getName());
-    }
-
-    /**
      * Generates the sq-chart input data, including formatting
      */
     private makeData() {
         this.dataPoints = [];
-        if(this.data && this.data.items){
+        if(this.data?.items){
             for (const item of this.data.items) {
                 this.dataPoints.push({
-                    name: this.facetService.formatValue(item),
+                    name: item.value? this.formatService.formatFieldValue(item as ValueItem, item.$column) : 'null',
                     value: item.count,
                     $item: item
                 });
@@ -146,12 +137,12 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
             .filter(record => record.$selected)
             .forEach(record => {
                 if(this.data){
-                    const val = record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
+                    const val = record[this.data.column];
                     if(val){
                         if(Utils.isString(val)){    // Sourcestr
                             this.selectedValues.add(val.toLowerCase());
                         }
-                        if(Utils.isArray(val)){
+                        if(Array.isArray(val)){
                             val.forEach(v => {
                                 if(Utils.isString(v))
                                     this.selectedValues.add(v.toLowerCase()); // Sourcecsv
@@ -182,10 +173,10 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
                 }
                 const item = this.getItem(this.dataPoints[index]);
                 if (item) {
-                    if (this.isFiltered(item)) {
+                    if (item.$filtered) {
                         return this.filteredColor;
                     }
-                    if(this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase())){
+                    if(item.value !== null && this.selectedValues.has(Utils.toSqlValue(item.value).toLowerCase())){
                         return this.selectedColor;
                     }
                 }
@@ -221,11 +212,9 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
 
 
     ngOnChanges(changes: SimpleChanges) {
-        this.selectField.update();
-
         if (changes.results) {
             // may be null if no data
-            this.data = this.facetService.getAggregation(this.aggregation, this.results, {facetName: this.getName()});
+            this.data = this.facetService.getAggregation(this.aggregation, this.results);
 
             this.updateSelectedValues();
 
@@ -233,6 +222,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
 
             this.makeData();
         }
+        this.selectField.update();
     }
 
     ngOnDestroy() {
@@ -244,20 +234,12 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
         if (this.data) {
             const item = this.getItem(dataPoint);
             if (!!item) {
-                if(!this.isFiltered(item))
-                    this.facetService.addFilterSearch(this.getName(), this.data, item);
+                if(!item.$filtered)
+                    this.facetService.addFilterSearch(this.data, item, undefined, this.query, this.name);
                 else
-                    this.facetService.removeFilterSearch(this.getName(), this.data, item);
+                    this.facetService.removeFilterSearch(this.data, item, this.query, this.name);
             }
         }
-    }
-
-    /**
-     * Returns true if the given AggregationItem is filtered
-     * @param item
-     */
-    isFiltered(item: AggregationItem) : boolean {
-        return !!this.data && this.facetService.itemFiltered(this.getName(), this.data, item);
     }
 
     getItem(dataPoint: ChartDataPoint): AggregationItem | undefined {

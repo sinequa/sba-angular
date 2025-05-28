@@ -4,6 +4,7 @@ import { AppService } from '@sinequa/core/app-utils';
 import { LoginService } from '@sinequa/core/login';
 import { IntlService } from '@sinequa/core/intl';
 import { SearchService } from '@sinequa/components/search';
+import { UIService } from '@sinequa/components/utils';
 import { FEATURES } from '../../config';
 
 @Component({
@@ -13,9 +14,12 @@ import { FEATURES } from '../../config';
 })
 export class HomeComponent implements OnInit {
 
+  isDark$= this.ui.isDarkTheme$;
+
   constructor(
     public loginService: LoginService,
     public searchService: SearchService,
+    private readonly ui: UIService,
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService) { }
@@ -25,6 +29,11 @@ export class HomeComponent implements OnInit {
    */
   ngOnInit() {
     this.titleService.setTitle(this.intlService.formatMessage("msg#app.name"));
+  }
+
+  toggleDark() {
+    this.ui.toggleDark();
+    return false;
   }
 
   /**
@@ -41,31 +50,12 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
-  }
-
-  /**
-   * Toggle dark mode
-   */
-  toggleDark() {
-    document.body.classList.toggle("dark");
-    localStorage.setItem('sinequa-theme', this.isDark()? 'dark' : 'normal');
-    return false;
-  }
-
-  /**
    * Returns the list of features activated in the top right menus.
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
   public get features(): string[] {
-    if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
-      return <string[]> <any> this.appService.app.data.features;
-    }
-    return FEATURES;
+    return this.appService.app?.data?.features as string[] || FEATURES;
   }
 
   /**

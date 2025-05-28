@@ -1,0 +1,73 @@
+<!-- List of buttons that activate a facet -->
+<sq-collapse #buttonList [collapsed]="!!openedFacet">
+  <ng-template>
+    <div class="small fw-bold mb-2">{{ 'msg#facet.container.help' | sqMessage }}</div>
+    <button *ngFor="let facet of facetList"
+      class="me-2 mb-1 btn btn-sm position-relative"
+      [ngClass]="facet.classes"
+      type="button"
+      (click)="open(facet.config)"
+      [title]="(facet.config.title || '') | sqMessage"
+      [disabled]="facet.disabled">
+      <span *ngIf="facet.config.icon" [ngClass]="facet.config.icon"></span>
+      <span class="ms-1">{{facet.config.title | sqMessage}}</span>
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" *ngIf="facet.filters">
+        {{facet.filters}}
+      </span>
+    </button>
+  </ng-template>
+</sq-collapse>
+
+<!-- Facet component -->
+<sq-collapse [collapsed]="!openedFacet">
+  <ng-template>
+    <!-- Selector of results: either "first page" (empty search) or current results -->
+    <div class="d-flex align-items-center">
+      <div *ngIf="results" class="me-auto">
+        <span class="small fw-bold me-2">{{ 'msg#facet.container.filterFor' | sqMessage:openedFacet }}</span>
+        <div class="form-check form-check-inline py-2 my-0" [sqTooltip]="'msg#facet.container.currentTitle' | sqMessage">
+          <input class="form-check-input" type="radio" id="currentResultsMode" value="current" [(ngModel)]="resultsMode">
+          <label class="form-check-label small fw-bold" for="currentResultsMode">{{ 'msg#facet.container.current' | sqMessage }}</label>
+        </div>
+        <div class="form-check form-check-inline py-2 my-0" [sqTooltip]="'msg#facet.container.allTitle' | sqMessage">
+          <input class="form-check-input" type="radio" id="allDataMode" value="all" [(ngModel)]="resultsMode">
+          <label class="form-check-label small fw-bold" for="allDataMode">{{ 'msg#facet.container.all' | sqMessage }}</label>
+        </div>
+      </div>
+
+      <!-- Header of the currently open facet -->
+      <ng-container *ngTemplateOutlet="facetInstance?.headerTpl"></ng-container>
+
+      <!-- Actions of the currently open facet -->
+      <div class="ms-1 btn-group btn-group-sm" [sq-action-buttons]="{items: facetInstance?.actions, rightAligned: true, size: 'sm'}"></div>
+
+      <!-- Button to close the open facet-->
+      <button class="ms-1 btn btn-sm btn-primary" [sqTooltip]="'msg#facet.container.close' | sqMessage" (click)="close()">
+        <i class="fas fa-fw fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Actual display of the facet -->
+    <div class="facet-container">
+      <ng-container *ngIf="openedFacet && facetInputs"
+        [sqLoadComponent]="{component: facetComponents[openedFacet.type], inputs: facetInputs}"
+        (sqLoadComponent)="onLoadComponent($event)">
+      </ng-container>
+    </div>
+
+    <!-- Spinner displayed when "first page" is loading -->
+    <div *ngIf="!facetInputs" class="d-flex flex-column align-items-center">
+      <div class="spinner-border my-5" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Displayed when the when auto-hides (no data to display) -->
+    <div *ngIf="isFacetEmpty" class="d-flex flex-column align-items-center">
+      <div class="my-5 text-muted small">
+        <i>{{ 'msg#facet.container.noData' | sqMessage }}</i>
+      </div>
+    </div>
+  </ng-template>
+</sq-collapse>
+

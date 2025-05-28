@@ -5,8 +5,9 @@ import { Utils } from '@sinequa/core/base';
 import { SearchService } from '@sinequa/components/search';
 import { VisNetworkService } from './vis-network.service';
 import { DataSet } from 'vis-data/esnext';
-import { AppService, ExprBuilder } from '@sinequa/core/app-utils';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
+import { FacetService } from '@sinequa/components/facet';
 
 // TYPES (configuration)
 
@@ -122,8 +123,9 @@ export interface NetworkContext {
     searchService: SearchService;
     networkService: VisNetworkService;
     appService: AppService;
+    facetService: FacetService;
     intlService: IntlService;
-    exprBuilder: ExprBuilder;
+    query?: Query;
     /** Interactions */
     select(node?: Node, edge?: Edge): void;
 }
@@ -196,22 +198,22 @@ export class NetworkDataset {
 
     /** Add one or multiple nodes */
     public addNodes(nodes: Node | Node[]) {
-        Array.isArray(nodes)? nodes.forEach(node => this.addNode(node)) : this.addNode(nodes);
+        Utils.asArray(nodes).forEach(node => this.addNode(node));
     }
 
     /** Add one or multiple edges. */
     public addEdges(edges: Edge | Edge[]) {
-        Array.isArray(edges)? edges.forEach(edge => this.addEdge(edge)) : this.addEdge(edges);
+        Utils.asArray(edges).forEach(edge => this.addEdge(edge));
     }
 
     /** Remove one or multiple nodes. /!\ Connected edges MUST be removed as well (use cleanRemoveNode() to do so) */
     private removeNodes(ids: string | string[]) {
-        Array.isArray(ids)? ids.forEach(id => this.removeNode(id)) : this.removeNode(ids);
+        Utils.asArray(ids).forEach(id => this.removeNode(id));
     }
 
     /** Remove one or multiple edges. */
     public removeEdges(ids: string | string[]) {
-        Array.isArray(ids)? ids.forEach(id => this.removeEdge(id)) : this.removeEdge(ids);
+        Utils.asArray(ids).forEach(id => this.removeEdge(id));
     }
 
     /** Remove a node and its adjacent edges. keepDanglingNodes = false (default) removes the remaining nodes with no neighbor */

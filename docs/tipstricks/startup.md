@@ -2,7 +2,7 @@
 layout: default
 title: Application Startup
 parent: Tips and Tricks
-nav_order: 17
+nav_order: 16
 ---
 
 # Application Startup
@@ -52,20 +52,20 @@ Here, we tell Angular to load the `AppModule` (defined in the `app/app.module.ts
 
 In Sinequa application samples (like Vanilla Search), the `AppModule` is where you define and configure:
 
-- The startup configuration ([`StartConfig`]({{site.baseurl}}core/interfaces/StartConfig.html) object).
+- The startup configuration (`StartConfig` object).
 - The application's routes (`Routes` object from Angular).
-- The "search options" of the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html) ([`SearchOptions`]({{site.baseurl}}components/interfaces/SearchOptions.html) object).
+- The "search options" of the `SearchService` (`SearchOptions` object).
 - The supported languages of the applications (`LocaleConfig` object).
 - The screen size breakpoints of the application.
-- Optionally, the "selection options" of the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) ([`SelectionOptions`]({{site.baseurl}}components/interfaces/SelectionOptions.html) object).
-- Optionally, the list of "results views" of the application ([`ResultsView`]({{site.baseurl}}components/interfaces/ResultsView.html) objects).
+- Optionally, the "selection options" of the `SelectionService` (`SelectionOptions` object).
+- Optionally, the list of "results views" of the application (`ResultsView` objects).
 - The list of Sinequa or third-party Angular **modules** used by the application.
 - The list of **components** of the application (including the root component, generally called `AppComponent` and defined in the `bootstrap` list. The selector of this component must correspond to the one defined in the `index.html` mentioned above)
 - The list of **providers** of the application, in particular the `HTTP_INTERCEPTORS` (which allow to perform custom actions when HTTP requests are sent by the app) and `APP_INITIALIZER` (custom actions executed during the application startup).
 
 ### Startup Configuration
 
-The [`StartConfig`]({{site.baseurl}}core/interfaces/StartConfig.html) object contains basic information needed by components and services in the application, like the name of App (which must be defined on the Sinequa server).
+The `StartConfig` object contains basic information needed by components and services in the application, like the name of App (which must be defined on the Sinequa server).
 
 The `StartConfig` data can be populated in 2 different ways:
 
@@ -78,9 +78,9 @@ The `StartConfig` data can be populated in 2 different ways:
 The key properties of the `StartConfig` are the following:
 
 - `app` (required): The name of the App defined on the Sinequa server.
-- `url` (optional): Can be used to specify the URL of the Sinequa server when the app is hosted at a different address (by default, the app's URL is used to query the web services).
+- `url` (optional): Can be used to specify the URL of the Sinequa server when the app is hosted at a different address. (By default, the app's URL is used to query the web services.)
 - `auditEnabled` (optional): Whether the audit is enabled in the app.
-- `autoOAuthProvider` and `autoSAMLProvider`, which are necessary for some [Login Methods](login-methods.md).
+- `autoOAuthProvider` and `autoSAMLProvider`, which are necessary for some [Login Methods](login-methods.html).
 - `production` (optional): A flag indicating whether the app is running in production mode or not.
 
 ### Application Routes
@@ -109,7 +109,7 @@ These routes must be injected in the `RouterModule` (a standard Angular module p
 
 ### Search Options
 
-The [`SearchOptions`]({{site.baseurl}}components/interfaces/SearchOptions.html) object contains configuration required by Sinequa's [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html). In Vanilla Search, it is configured as follows:
+The `SearchOptions` object contains configuration required by Sinequa's `SearchService`. In Vanilla Search, it is configured as follows:
 
 ```ts
 export const searchOptions: SearchOptions = {
@@ -138,7 +138,7 @@ These search options must be injected in the `BsSearchModule`:
 
 The language configuration is covered at length in the [tutorial]({{site.baseurl}}tutorial/intl.html).
 
-The language configuration must be injected in the [`IntlModule`]({{site.baseurl}}core/modules/IntlModule.html):
+The language configuration must be injected in the `IntlModule`:
 
 ```ts
 @NgModule({
@@ -163,7 +163,7 @@ export const breakpoints = {
 
 (The .98 decimal values are needed to avoid overlaps of the intervals)
 
-These breakpoints must be injected in the list of **providers** (they are used essentially by the [`UIService`]({{site.baseurl}}components/injectables/UIService.html)):
+These breakpoints must be injected in the list of **providers** (they are used essentially by the `UIService`):
 
 ```ts
 @NgModule({
@@ -174,9 +174,9 @@ These breakpoints must be injected in the list of **providers** (they are used e
 
 ### Selection Options
 
-The selection options ([`SelectionOptions`]({{site.baseurl}}components/interfaces/SelectionOptions.html)) allow to customize the behavior of the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html), which keeps track of the documents selected by the user via checkboxes (aka selectors).
+The selection options (`SelectionOptions`) allow to customize the behavior of the `SelectionService`, which keeps track of the documents selected by the user via checkboxes (aka selectors).
 
-The options are detailed in the [documentation]({{site.baseurl}}modules/components/selection.html) of the [`SelectionModule`]({{site.baseurl}}components/modules/BsSelectionModule.html).
+The options are detailed in the [documentation]({{site.baseurl}}libraries/components/selection.html) of the `SelectionModule`.
 
 These options must be injected in the list of **providers**:
 
@@ -235,9 +235,9 @@ Where
 
 ### Results Views
 
-Results views can be configured to display search results in different ways. The configuration is described in the [documentation]({{site.baseurl}}modules/components/results-view.html) of the Results Views module.
+Results views can be configured to display search results in different ways. The configuration is described in the [documentation]({{site.baseurl}}libraries/components/results-view.html) of the Results Views module.
 
-The list of views ([`ResultsView`]({{site.baseurl}}components/interfaces/ResultsView.html) objects) and the default one must be injected in the [`BsResultsViewModule`]({{site.baseurl}}components/modules/BsResultsViewModule.html):
+The list of views (`ResultsView` objects) and the default one must be injected in the `BsResultsViewModule`:
 
 ```ts
 @NgModule({
@@ -290,12 +290,12 @@ A [provider](https://angular.io/guide/providers) is an instruction to the Depend
 
 In the `AppModule`, we see typically three types of providers:
 
-1. `APP_INITIALIZER`: An app initializer is a piece of code that can be inserted in the Angular initialization process (before Angular starts rendering components). It can be especially useful to fetch some required configuration from the server. The [`@sinequa/core`]({{site.baseurl}}modules/core/core.html) library already injects a few initializers implicitly, but it is possible to add new ones. In particular, we provide a `StartConfigInitializer` to automatically fetch configuration from the Sinequa server (see [Startup configuration](#startup-configuration)).
+1. `APP_INITIALIZER`: An app initializer is a piece of code that can be inserted in the Angular initialization process (before Angular starts rendering components). It can be especially useful to fetch some required configuration from the server. The [`@sinequa/core`]({{site.baseurl}}libraries/core/core.html) library already injects a few initializers implicitly, but it is possible to add new ones. In particular, we provide a `StartConfigInitializer` to automatically fetch configuration from the Sinequa server (see [Startup configuration](#startup-configuration)).
 2. `HTTP_INTERCEPTORS`: An HTTP interceptor is a piece of code that hooks into the Angular HTTP client. It can "intercept" any request sent to the server, to perform some global actions. By default, three interceptors are injected:
 
-    - The [`LoginInterceptor`]({{site.baseurl}}core/interceptors/LoginInterceptor.html) takes care of triggering the authentication process when the server sends back a 401 error (Unauthorized). When the authentication is complete, the interceptor plays back the failed query. See [Login methods](login-methods.html).
-    - The [`AuditInterceptor`]({{site.baseurl}}core/interceptors/AuditInterceptor.html) takes care of normalizing the Audit event messages sent to the server via any web service call. It can be overriden to customize all the audit events accross the app. See [Auditing applications](audit.html).
-    - The [`NotificationsInterceptor`]({{site.baseurl}}core/interceptors/NotificationsInterceptor.html) takes care of displaying notifications coming from the server (Notifications can be included via a `$notifications` array appended to the JSON response).
+    - The `LoginInterceptor` takes care of triggering the authentication process when the server sends back a 401 error (Unauthorized). When the authentication is complete, the interceptor plays back the failed query. See [Login methods](login-methods.html).
+    - The `AuditInterceptor` takes care of normalizing the Audit event messages sent to the server via any web service call. It can be overriden to customize all the audit events accross the app. See [Auditing applications](audit.html).
+    - The `NotificationsInterceptor` takes care of displaying notifications coming from the server (Notifications can be included via a `$notifications` array appended to the JSON response).
 
 3. Global configuration: As seen above, some configuration must sometimes be injected via the list of providers (`SCREEN_SIZE_RULES`, `SELECTION_OPTIONS`, `LocationStrategy, APP_HELP_FOLDER_OPTIONS`)
 
@@ -305,7 +305,7 @@ Once the `AppModule` is loaded, Angular renders the root component of the applic
 
 In Vanilla Search, the `AppComponent` does three important things:
 
-1. In the controller (`app.component.ts`), notice that the component extends [`ComponentWithLogin`]({{site.baseurl}}core/components/ComponentWithLogin.html). This parent component takes care of initiating the login process (calling `LoginService.login()` method). This means the login process is always initiated regardless of the active route.
+1. In the controller (`app.component.ts`), notice that the component extends `ComponentWithLogin`. This parent component takes care of initiating the login process (calling `LoginService.login()` method). This means the login process is always initiated regardless of the active route.
 2. In the `onLoginComplete()` method, some initialization tasks are implemented (these tasks could only be performed post-login). In particular, the action bar's `selectionActions` are populated (in function of the features activated in the [configuration](configuration.html)).
 3. In the template (`app.component.html`) we include the `<router-outlet>` component. The role of the outlet is to display the currently active route. In vanilla the default route is the `/home` route, displaying the `HomeComponent`. Note that the route component is displayed even if the user is not logged in.
 
@@ -317,7 +317,7 @@ The Login process is described extensively in [Login Methods](login-methods.html
 </h1>{% endraw %}
 ```
 
-It is also frequently required to perform tasks upon login or logout events. The correct way to do so is to subscribe to the [`LoginService`]({{site.baseurl}}core/injectables/LoginService.html) events:
+It is also frequently required to perform tasks upon login or logout events. The correct way to do so is to subscribe to the `LoginService` events:
 
 ```ts
 this.loginSubscription = this.loginService.events.subscribe(event => {

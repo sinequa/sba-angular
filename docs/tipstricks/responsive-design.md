@@ -35,8 +35,8 @@ The [**Grid System**](https://getbootstrap.com/docs/4.4/layout/grid/) of Bootstr
 
 Using Bootstrap is a good way to make your application responsive, all while minimizing the size of your stylesheet. In the SBA Framework, Bootstrap is used extensively:
 
-- In the [@sinequa/components]({{site.baseurl}}modules/components/components.html) library, in all the components whose class name are prefixed by `Bs`.
-- In the [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) application.
+- In the [@sinequa/components]({{site.baseurl}}libraries/components/components.html) library, in all the components whose class name are prefixed by `Bs`.
+- In the [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html) application.
 
 The features of Bootstrap that are commonly used in the framework are:
 

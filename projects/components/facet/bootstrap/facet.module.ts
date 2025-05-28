@@ -1,31 +1,30 @@
-import {NgModule, ModuleWithProviders} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { ModuleWithProviders, NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import {NgxSliderModule} from "@angular-slider/ngx-slider";
+import { NgxSliderModule } from "@angular-slider/ngx-slider";
 
-import {IntlModule} from "@sinequa/core/intl";
+import { IntlModule } from "@sinequa/core/intl";
 
-import {UtilsModule} from "@sinequa/components/utils";
-import {CollapseModule} from "@sinequa/components/collapse";
-import {BsActionModule} from "@sinequa/components/action";   // needed for sq-action-button
-import {BsSearchModule} from "@sinequa/components/search";   // needed for refine facet / didyoumean
-import {BsAutocompleteModule} from "@sinequa/components/autocomplete";  // needed for refine facet
+import { BsActionModule } from "@sinequa/components/action"; // needed for sq-action-button
+import { BsAutocompleteModule } from "@sinequa/components/autocomplete"; // needed for refine facet
+import { CollapseModule } from "@sinequa/components/collapse";
+import { BsSearchModule } from "@sinequa/components/search"; // needed for refine facet / didyoumean
+import { UtilsModule } from "@sinequa/components/utils";
 
-import {FacetState, ALL_FACETS, DEFAULT_FACETS} from "../facet.service";
-import {BsRefine} from "./facet-refine/facet-refine";
-import {BsFacetBar} from "./facet-bar/facet-bar";
-import {BsMySearch} from "./facet-mysearch/facet-mysearch";
-import {BsFacetRange} from "./facet-range/facet-range";
-import {BsFacetCard} from "./facet-card/facet-card";
-import {BsFacetList} from "./facet-list/facet-list";
-import {BsFacetTree} from "./facet-tree/facet-tree";
-import {BsFacetFilters} from "./facet-filters/facet-filters";
-import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
-import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 import { LoadComponentModule } from "@sinequa/core/load-component";
-import { FacetConfig } from "../facet-config";
+import { ALL_FACETS, DEFAULT_FACETS, FacetState, NamedFacetConfig } from "../facet.service";
+import { BsFacetBar } from "./facet-bar/facet-bar";
+import { BsFacetCard } from "./facet-card/facet-card";
+import { FacetContainerComponent } from "./facet-container/facet-container.component";
+import { BsFacetFilters } from "./facet-filters/facet-filters";
+import { BsFacetList } from "./facet-list/facet-list";
+import { BsFacetMultiComponent } from "./facet-multi/facet-multi.component";
+import { BsFacetRange } from "./facet-range/facet-range";
+import { BsRefine } from "./facet-refine/facet-refine";
+import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 import { FacetViewDirective } from "./facet-view.directive";
+import { BsMySearch } from "./facet-mysearch/facet-mysearch";
 
 @NgModule({
     imports: [
@@ -42,27 +41,31 @@ import { FacetViewDirective } from "./facet-view.directive";
         BsAutocompleteModule,
 
         NgxSliderModule,
-        LoadComponentModule
+        LoadComponentModule,
+        BsMySearch
     ],
     declarations: [
-        BsFacetCard, FacetViewDirective, BsFacetList, BsFacetTree,
+        BsFacetCard, FacetViewDirective, BsFacetList,
         BsFacetFilters,
         BsRefine,
-        BsFacetRange, BsMySearch, BsFacetBar,
+        BsFacetRange, BsFacetBar,
         BsFacetMultiComponent,
-        BsFacetTagCloud
+        BsFacetTagCloud,
+        FacetContainerComponent
     ],
     exports: [
-        BsFacetCard, FacetViewDirective, BsFacetList, BsFacetTree,
+        BsFacetCard, FacetViewDirective, BsFacetList,
         BsFacetFilters,
         BsRefine,
-        BsFacetRange, BsMySearch, BsFacetBar,
+        BsFacetRange, BsFacetBar,
         BsFacetMultiComponent,
-        BsFacetTagCloud
+        BsFacetTagCloud,
+        FacetContainerComponent,
+        BsMySearch
     ],
 })
 export class BsFacetModule {
-    public static forRoot<T>(allFacets?: FacetConfig<T>[], defaultFacets?: FacetState[]): ModuleWithProviders<BsFacetModule> {
+    public static forRoot(allFacets?: NamedFacetConfig[], defaultFacets?: FacetState[]): ModuleWithProviders<BsFacetModule> {
         return {
             ngModule: BsFacetModule,
             providers: [

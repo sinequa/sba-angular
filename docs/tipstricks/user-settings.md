@@ -2,12 +2,12 @@
 layout: default
 title: User settings
 parent: Tips and Tricks
-nav_order: 7
+nav_order: 6
 ---
 
 # User Settings
 
-User Settings were already introduced in the [Tutorial]({{site.baseurl}}tutorial/user-settings.html) and documented in the list of [Modules]({{site.baseurl}}modules/components/user-settings.html).
+User Settings were already introduced in the [Tutorial]({{site.baseurl}}tutorial/user-settings.html) and documented in the list of [Modules]({{site.baseurl}}libraries/components/user-settings.html).
 
 ## Developing your own User-Settings service
 

@@ -1,11 +1,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
-import { AbstractFacet } from "@sinequa/components/facet";
-import { SearchService } from "@sinequa/components/search";
-import { ExprBuilder } from "@sinequa/core/app-utils";
+import { AbstractFacet, FacetService } from "@sinequa/components/facet";
 import { Utils } from "@sinequa/core/base";
-import { Results, Record } from "@sinequa/core/web-services";
-import { FormatService } from "@sinequa/core/app-utils";
+import { Results, Record, Filter } from "@sinequa/core/web-services";
+import { FormatService, Query } from "@sinequa/core/app-utils";
 import { scaleUtc, scaleLog, scaleOrdinal } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
 import { select } from 'd3-selection';
@@ -32,6 +30,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     @Input() name = "money-timeline"
 
     @Input() results: Results;
+    @Input() query?: Query;
     /** The "money" column stores an entity in the form "<CURRENCY> <NUMERAL>", for example "USD 69420" */
     @Input() moneyColumn = "money";
     /** The "Money" aggregation must be computed over the money column */
@@ -75,26 +74,24 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     constructor(
         private el: ElementRef,
         protected cdRef: ChangeDetectorRef,
-        public searchService: SearchService,
-        public exprBuilder: ExprBuilder,
+        public facetService: FacetService,
         public formatService: FormatService
     ){
         super();
 
         // Clear the current filters
         this.clearFilters = new Action({
-            icon: "far fa-minus-square",
+            icon: "sq-filter-clear",
             title: "msg#facet.clearSelects",
             action: () => {
-                this.searchService.query.removeSelect(this.name, true);
-                this.searchService.search();
+                this.facetService.clearFiltersSearch(this.moneyColumn, true, this.query, this.name);
             }
         });
     }
 
     override get actions(): Action[] {
         const actions: Action[] = [];
-        if(this.searchService.query.findSelect(this.name)){
+        if(this.facetService.hasFiltered(this.moneyColumn, this.query)){
             actions.push(this.clearFilters);
         }
         return actions;
@@ -199,7 +196,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         this.results.aggregations
             ?.find(a => Utils.eqNC(a.name, this.moneyAggregation))
             ?.items
-            ?.forEach(item => counts.set(item.value.toString(), item.count));
+            ?.forEach(item => counts.set(String(item.value), item.count));
 
         this.data = [];
         this.results.records?.forEach(record =>
@@ -320,9 +317,13 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * @param datum
      */
     filterDatum(datum: MoneyDatum) {
-        const expr = this.exprBuilder.makeExpr(this.moneyColumn, datum.rawvalue, `${datum.currency} ${this.formatService.moneyFormatter(datum.value)}`)
-        this.searchService.query.addSelect(expr, this.name);
-        this.searchService.search();
+        const display = `${datum.currency} ${this.formatService.moneyFormatter(datum.value)}`;
+        const filter: Filter = {
+          field: this.moneyColumn,
+          value: datum.rawvalue,
+          display
+        }
+        this.facetService.applyFilterSearch(filter, this.query, undefined, this.name);
     }
 
     /**

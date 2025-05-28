@@ -1,10 +1,8 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { SqHttpClient } from "./http-client";
 import { HttpService } from './http.service';
 import {Utils} from "@sinequa/core/base";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import { ExportOutputFormat, ExportSourceType } from './config/ccapp';
 import { IQuery } from './query/query';
 import { Results } from "./query.web.service";
@@ -17,12 +15,6 @@ import { AuditEventType } from './audit.web.service';
     providedIn: "root"
 })
 export class QueryExportWebService extends HttpService {
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     private logErrorToConsole(methodName: string, errorMessage: string): void {
         console.log(`queryExportService.${methodName} ${errorMessage}.`);

@@ -2,7 +2,7 @@
 layout: default
 title: Exporting Standalone Components
 parent: Tips and Tricks
-nav_order: 14
+nav_order: 13
 ---
 
 # Exporting Standalone Components
@@ -17,9 +17,9 @@ To install Angular Elements, run `npm install @angular/elements --save` at the r
 
 An Angular Elements project is very similar to a regular Angular application project, with a few small differences.
 
-For example, if you want to base our project on the [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) application, simply copy and rename the Vanilla Search project. You will also need to copy (and rename) the project declared in the `angular.json` file, and add a build command to the `package.json` file.
+For example, if you want to base your project on the [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html) application, simply copy and rename the Vanilla Search project. You will also need to copy (and rename) the project declared in the `angular.json` file, and add a build command to the `package.json` file.
 
-At this point the project is equivalent to Vanilla Search.
+At this point the project is a clone of Vanilla Search.
 
 Now the key difference between an "Application project" and an "Elements project" is what happens on startup. If you have a look at the `main.ts` file, you can see that it does essentially one thing: Bootstrap your `AppModule` (defined in `app.module.ts`). And if you look at the `AppModule`, you can see that it declares one `bootstrap` component, the **`AppComponent`**.
 
@@ -98,9 +98,9 @@ However, you probably want to make your components truly standalone (with no Inp
 
 ### Wrapping
 
-You may want to export an existing component from the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) libraries, but these components generally expect Inputs to work properly. For example, the [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component expects at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object (and the name of an aggregation, which can be static).
+You may want to export an existing component from the [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) libraries, but these components generally expect Inputs to work properly. For example, the `sq-facet-list` component expects at least a `Results` object (and the name of an aggregation, which can be static).
 
-In order to export such a component, wrap it inside a new component which manages the data flow to/from other components of the project. In the case of the [`sq-facet-list`]({{site.baseurl}}components/components/BsFacetList.html) component, it is simple: just inject the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html) in the wrapper component and map the results to the child component.
+In order to export such a component, wrap it inside a new component which manages the data flow to/from other components of the project. In the case of the `sq-facet-list` component, it is simple: just inject the `SearchService` in the wrapper component and map the results to the child component.
 
 ```ts
 @Component({
@@ -133,14 +133,14 @@ Your components will generally have dependencies other than the JavaScript libra
 
 ### Login
 
-In order to use the Sinequa API, you need to be logged in. This means that at least one of your components will need to call `loginService.login()`. Your component can typically extend the [`ComponentWithLogin`]({{site.baseurl}}core/components/ComponentWithLogin.html) class from [`@sinequa/core/login`]({{site.baseurl}}modules/core/login.html) to make this automatic.
+In order to use the Sinequa API, you need to be logged in. This means that at least one of your components will need to call `loginService.login()`. Your component can typically extend the `ComponentWithLogin` class from [`@sinequa/core/login`]({{site.baseurl}}libraries/core/login.html) to make this automatic.
 
 ### CORS
 
-If you embed components in a third-party application, this application will probably have a URL different from the Sinequa server's URL. This means you will need to enable CORS in your Webapp configuration (See [CORS and WebApp Configuration](https://sinequa.github.io/sba-angular/gettingstarted/server-setup.html#cors-and-webapp-configuration) and [Deploying an App on another server](https://sinequa.github.io/sba-angular/gettingstarted/dev-setup.html#deploying-an-app-on-another-server)).
+If you embed components in a third-party application, this application will probably have a URL different from the Sinequa server's URL. This means you will need to enable CORS in your WebApp configuration (See [CORS and WebApp Configuration]({{site.baseurl}}guides/2-server-config.html#cors-and-webapp-configuration) and [Deploying an App on another server]({{site.baseurl}}guides/4-deployment.html#deploying-an-sba-on-another-server)).
 
-Note that CORS limits certain functionalities due to security restrictions in the browser. In order to get around CORS issues, consider using a proxy or reverse-proxy (so that the app is served from the same URL as the Sinequa REST APIs).
+Note that CORS limits certain functionalities due to security restrictions in the browser. In order to get around CORS issues, consider using a proxy or reverse-proxy (so that the app is served from the same URL as the Sinequa REST API).
 
 ### Optimization
 
-In the example above, we start by copying the [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) application. In order to minimize the size of the resulting JavaScript files, you should try to keep only the modules that your component(s) need in your `AppModule`'s imports (which should quite fewer than for an entire application).
+In the example above, we start by copying the [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html) application. In order to minimize the size of the resulting JavaScript files, you should try to keep only the modules that your component(s) need in your `AppModule`'s imports (which should quite fewer than for an entire application).

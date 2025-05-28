@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable, throwError, catchError, distinctUntilChanged, shareReplay} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {IQuery} from "./query/query";
 import {Record} from "./query.web.service";
 import {AuditEvents} from "./audit.web.service";
@@ -76,12 +74,6 @@ export interface PreviewData {
     providedIn: "root"
 })
 export class PreviewWebService extends HttpService {
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Gets {@link PreviewData} for a document in the context of a {@link IQuery}

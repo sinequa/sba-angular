@@ -6,8 +6,6 @@ import {FormatService} from "./format.service";
 import {AppWebService, AuditEvents, START_CONFIG, StartConfig,
     CCApp, CCQuery, CCLabels, CCAutocomplete, CCColumn, CCIndex, CCWebService, CCConfig, CCList, CCAggregation,
     EngineType, EngineTypeModifier, MINIMUM_COMPATIBLE_SERVER_API_VERSION} from "@sinequa/core/web-services";
-import {ExprParser, ExprParserOptions, Expr} from "./query/expr-parser";
-import {AppServiceHelpers} from "./app-service-helpers";
 
 /**
  * A base event from which all events that can be issued by the {@link AppService} are derived
@@ -72,7 +70,7 @@ export class AppService implements OnDestroy {
     suggestQueries: string[];
     private columnsByQuery: MapOf<MapOf<CCColumn>>;
     private columnsByIndex: MapOf<MapOf<CCColumn>>;
-    private fieldsByQuery: MapOf<string[]>;
+    private aggregationsByQuery: MapOf<MapOf<CCAggregation>>;
     private _defaultCCQuery?: CCQuery;
     private _ccquery?: CCQuery;
 
@@ -142,81 +140,100 @@ export class AppService implements OnDestroy {
         };
     }
 
-    /**
-     * Return `true` if a `column` is a string
-     */
     static isString(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isString(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.string) {
+            return true;
+        }
+        if (column.eType === EngineType.csv && (column.eTypeModifier & EngineTypeModifier.x) === EngineTypeModifier.x) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a csv
-     */
     static isCsv(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isCsv(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.csv && (column.eTypeModifier & EngineTypeModifier.x) !== EngineTypeModifier.x) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a tree
-     */
     static isTree(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isTree(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.csv && (column.eTypeModifier & EngineTypeModifier.t) === EngineTypeModifier.t) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is an entity
-     */
     static isEntity(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isEntity(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.csv && (column.eTypeModifier & (EngineTypeModifier.e | EngineTypeModifier.l)) === (EngineTypeModifier.e | EngineTypeModifier.l)) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a boolean
-     */
     static isBoolean(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isBoolean(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.bool) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a date
-     */
     static isDate(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isDate(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.date || column.eType === EngineType.dateTime || column.eType === EngineType.time) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a double
-     */
     static isDouble(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isDouble(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.double || column.eType === EngineType.float) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is an integer
-     */
     static isInteger(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isInteger(column);
+        if (!column) {
+            return false;
+        }
+        if (column.eType === EngineType.integer || column.eType === EngineType.unsigned) {
+            return true;
+        }
+        return false;
     }
 
-    /**
-     * Return `true` if a `column` is a number (integer or double)
-     */
     static isNumber(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isNumber(column);
+        return AppService.isInteger(column) || AppService.isDouble(column);
     }
 
-    /**
-     * Return `true` if a `column` is a scalar
-     */
     static isScalar(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isScalar(column);
+        return AppService.isNumber(column) || AppService.isDate(column) || AppService.isBoolean(column);
     }
 
-    /**
-     * Return `true` if a `column` is sortable
-     */
     static isSortable(column: CCColumn | undefined): boolean {
-        return AppServiceHelpers.isSortable(column);
+        return AppService.isString(column) || AppService.isScalar(column) ||
+            (AppService.isCsv(column) && !!column && ((column.eTypeModifier & EngineTypeModifier.l) === EngineTypeModifier.l));
     }
 
     constructor(
@@ -305,17 +322,6 @@ export class AppService implements OnDestroy {
                 return app;
             }
         ));
-    }
-
-    /**
-     * Initialize this service from an application configuration object. This is typically
-     * used for supporting mutiple concurrent queries within the same application by providing
-     * component level instances of this service.
-     */
-    initFromApp(app: CCApp) {
-        if (app) {
-            this.setApp(app);
-        }
     }
 
     /**
@@ -435,7 +441,7 @@ export class AppService implements OnDestroy {
     protected makeMaps() {
         this.columnsByQuery = {};
         this.columnsByIndex = {};
-        this.fieldsByQuery = {};
+        this.aggregationsByQuery = {};
         if (!this.app) {
             return;
         }
@@ -443,8 +449,7 @@ export class AppService implements OnDestroy {
 
         // Queries
         if (this.app.queries) {
-            for (const queryName of Object.keys(this.app.queries)) {
-                const ccquery = this.app.queries[queryName];
+            for (const ccquery of Object.values(this.app.queries)) {
                 if (ccquery) {
                     ccquery.$columnFieldsPattern = new PatternMatcher("included column fields", "excluded column fields");
                     ccquery.$columnFieldsPattern.includedPattern.setText(ccquery.columnFieldsIncluded);
@@ -488,42 +493,26 @@ export class AppService implements OnDestroy {
             }
         }
 
-        // Fields per query (contains aliases for default query and globally defined aliases)
-        const globalFields = new Map<string, string>();
-        const columns = this.columnsByIndex._;
-        if (columns) {
-            for (const key of Object.keys(columns)) {
-                const column = columns[key];
-                if (column.aliases && column.aliases.length > 0) {
-                    const alias = column.aliases[0];
-                    if (alias) {
-                        globalFields.set(alias, alias);
+        // Aggregation map
+        if (this.app.queries) {
+            for (const ccquery of Object.values(this.app.queries)) {
+                if (ccquery) {
+                    const aggregationMap = {} as MapOf<CCAggregation>;
+                    for(let ccagg of ccquery.aggregations) {
+                        ccagg.column = this.resolveColumnAlias(ccagg.column); // Always use the alias when it exists
+                        aggregationMap[ccagg.name.toLowerCase()] = ccagg;
                     }
+                    this.aggregationsByQuery[ccquery.name.toLowerCase()] = aggregationMap;
                 }
             }
         }
-        for (const queryName of Object.keys(this.columnsByQuery)) {
-            const queryFields = new Map<string, string>(globalFields);
-            const columns1 = this.columnsByQuery[Utils.toLowerCase(this.defaultCCQuery ? this.defaultCCQuery.name : "")];
-            if (columns1) {
-                for (const key of Object.keys(columns1)) {
-                    const column = columns1[key];
-                    if (column.aliases && column.aliases.length > 0) {
-                        const alias = column.aliases[0];
-                        if (alias) {
-                            queryFields.set(alias, alias);
-                        }
-                    }
-                }
-                this.fieldsByQuery[queryName] = Array.from(queryFields.keys());
-            }
-        }
+
     }
 
     protected clearMaps() {
         this.columnsByQuery = {};
         this.columnsByIndex = {};
-        this.fieldsByQuery = {};
+        this.aggregationsByQuery = {};
     }
 
     /**
@@ -578,7 +567,7 @@ export class AppService implements OnDestroy {
      * Get the {@link CCQuery} with the passed name
      */
     getCCQuery(name: string): CCQuery | undefined {
-        return this.app ? this.app.queries[Utils.toLowerCase(name)] : undefined;
+        return this.app ? this.app.queries[name.toLowerCase()] : undefined;
     }
 
     /**
@@ -604,23 +593,13 @@ export class AppService implements OnDestroy {
     }
 
     /**
-     * Return the fields defined on the current {@link CCQuery}
-     */
-    get fields(): string[] {
-        if (!this.ccquery) {
-            return [];
-        }
-        return this.fieldsByQuery[Utils.toLowerCase(this.ccquery.name)] || [];
-    }
-
-    /**
      * Get the {@link CCAggregation} with the passed name
      */
-    getCCAggregation(name: string): CCAggregation | undefined {
-        if (!this.ccquery || !this.ccquery.aggregations) {
+    getCCAggregation(name: string, ccquery = this.ccquery): CCAggregation | undefined {
+        if (!ccquery) {
             return undefined;
         }
-        return this.ccquery.aggregations.find((value) => Utils.eqNC(name, value.name));
+        return this.aggregationsByQuery[ccquery.name.toLowerCase()]?.[name.toLowerCase()];
     }
 
     /**
@@ -692,7 +671,8 @@ export class AppService implements OnDestroy {
     getColumnDefaultAlias(column?: CCColumn): string {
         if (column) {
             if (column.aliases && column.aliases.length > 0) {
-                return column.aliases[0];
+                // Use the first alias and make sure the first letter is lowercase.
+                return `${column.aliases[0].charAt(0).toLowerCase()}${column.aliases[0].slice(1)}`;
             }
         }
         return "";
@@ -744,36 +724,6 @@ export class AppService implements OnDestroy {
     }
 
     /**
-     * Parse a fielded search expression
-     *
-     * @param text The expression
-     * @param options Options for the parsing
-     * @return The parsed {@link Expr} or an error message
-     */
-    parseExpr(text: string, options?: ExprParserOptions): Expr | string {
-        return ExprParser.parse(text, {appService: this, formatService: this.formatService, intlService: this.intlService}, options);
-    }
-
-    /**
-     * Escape a value for fielded search if necessary. `Date` objects are converted to
-     * Sinequa system date strings and non-scalars fields are escaped
-     * @param field The value's field
-     * @param value The value
-     */
-    escapeFieldValue(field: string, value: string | number | Date | boolean | undefined): string {
-        if (Utils.isDate(value)) {
-            return Utils.toSysDateStr(value);
-        }
-        value = value + "";
-        const column = this.getColumn(field);
-        if (column && !AppService.isScalar(column)) {
-            // escaoe columns that might contain search operators in them (treating negative numbers as an ignorable edge case)
-            return ExprParser.escape(value);
-        }
-        return value;
-    }
-
-    /**
      * Get the label of a column. The plural label is returned for csv-type columns.
      *
      * @param name The name of the column which can be an alias
@@ -782,15 +732,14 @@ export class AppService implements OnDestroy {
     getLabel(name: string, _default?: string): string {
         const column = this.getColumn(name);
         if (column) {
-            const label = AppService.isCsv(column) ? column.labelPlural : column.label;
+            // Note: In case user has only configured one label, try to use it rather than reverting to the field name
+            const label = AppService.isCsv(column) ?
+                (column.labelPlural || column.label) : (column.label || column.labelPlural);
             if (label) {
                 return label;
             }
         }
-        if (!Utils.isUndefined(_default)) {
-            return _default;
-        }
-        return name;
+        return _default || name;
     }
 
     /**
@@ -801,13 +750,7 @@ export class AppService implements OnDestroy {
      */
     getSingularLabel(name: string, _default?: string): string {
         const column = this.getColumn(name);
-        if (column && column.label) {
-            return column.label;
-        }
-        if (!Utils.isUndefined(_default)) {
-            return _default;
-        }
-        return name;
+        return column?.label || column?.labelPlural || _default || name;
     }
 
     /**
@@ -818,13 +761,7 @@ export class AppService implements OnDestroy {
      */
     getPluralLabel(name: string, _default?: string): string {
         const column = this.getColumn(name);
-        if (column && column.labelPlural) {
-            return column.labelPlural;
-        }
-        if (!Utils.isUndefined(_default)) {
-            return _default;
-        }
-        return name;
+        return column?.labelPlural || column?.label || _default || name;
     }
 
     /**

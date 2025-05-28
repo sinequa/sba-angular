@@ -30,11 +30,9 @@
         <form [formGroup]="form">
             <div class="mb-3">
                 <label class="form-label" for="maxX">{{'msg#heatmap.maxX' | sqMessage}} ({{maxXPref}})</label>
-                <input type="range" class="form-control-range" id="maxX" min="10" max="40" formControlName="maxX">
-
+                <input type="range" class="form-range" id="maxX" min="10" max="40" formControlName="maxX">
                 <label class="form-label" for="maxY">{{'msg#heatmap.maxY' | sqMessage}} ({{maxYPref}})</label>
-                <input type="range" class="form-control-range" id="maxY" min="10" max="100" formControlName="maxY">
-                
+                <input type="range" class="form-range" id="maxY" min="10" max="100" formControlName="maxY">
                 <div class="form-check my-1" *ngIf="allowResizeOption">
                     <input class="form-check-input" type="checkbox" id="scaleAxes" formControlName="scaleAxes">
                     <label class="form-check-label" for="scaleAxes" role="button">{{'msg#heatmap.rescale' | sqMessage}}</label>

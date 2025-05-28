@@ -1,9 +1,22 @@
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, throwError} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
-import {Utils} from "@sinequa/core/base";
+import { MapOf, Utils } from "@sinequa/core/base";
+import { HttpHeaders, HttpContext, HttpParams } from '@angular/common/http';
+
+type Options = {
+  headers?: HttpHeaders | {
+      [header: string]: string | string[]
+  },
+  context?: HttpContext,
+  observe?: 'body' | 'events' | 'response',
+  params?: HttpParams | {
+      [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>
+  },
+  reportProgress?: boolean,
+  responseType: 'arraybuffer' | 'blob' | 'text' | 'json',
+  withCredentials?: boolean
+}
 
 /**
  * A generic service for invoking JsonMethod plugins
@@ -12,12 +25,6 @@ import {Utils} from "@sinequa/core/base";
   providedIn: "root"
 })
 export class JsonMethodPluginService extends HttpService{
-  constructor(
-    public httpClient: SqHttpClient,
-    @Inject(START_CONFIG) startConfig: StartConfig
-    ) {
-      super(startConfig);
-  }
 
   /**
    * Call a JsonMethod plugin using an HTTP POST
@@ -27,24 +34,11 @@ export class JsonMethodPluginService extends HttpService{
    * @param options HTTP options for the request
    * @returns An observable of the plugin's return value
    */
-  post(method: string, query: any, options?: {[key: string]: any}) : Observable<any> {
+  post<U>(method: string, query: U, options?: Options) : Observable<any> {
     if (!Utils.isObject(query)) {
-      return throwError({error: "invalid query object"});
+      return throwError(() => ({error: "invalid query object"}));
     }
-    const observable = this.httpClient.post(this.makeUrl(method), query, options);
-
-    Utils.subscribe(observable,
-      (response) => {
-        console.log("JsonMethodPluginService.post success - data: ", response);
-      },
-      (error) => {
-        console.log("JsonMethodPluginService.post failure - error: ", error);
-      },
-      () => {
-        console.log("JsonMethodPluginService.post complete");
-      });
-
-    return observable;
+    return this.httpClient.post(this.makeUrl(method), query, options as any);
   }
 
   /**
@@ -54,8 +48,10 @@ export class JsonMethodPluginService extends HttpService{
    * @param query Parameters to pass to the plugin
    * @param options HTTP options for the request
    * @returns An observable of the plugin's return value
+   *
+   * @deprecated use the `post()` method instead
    */
-  call(method: string, query: any, options?: {[key: string]: any}): Observable<any> {
+  call<U>(method: string, query: U, options?: Options): Observable<any> {
     return this.post(method, query, options);
   }
 
@@ -67,24 +63,11 @@ export class JsonMethodPluginService extends HttpService{
    * @param options HTTP options for the request
    * @returns An observable of the plugin's return value
    */
-  get(method: string, query: any, options?: {[key: string]: any}): Observable<any> {
-    const observable = this.httpClient.get(this.makeUrl(method), {
+  get<U extends MapOf<string | boolean | number | Date | object | undefined>>(method: string, query: U, options?: Options): Observable<any> {
+    return this.httpClient.get(this.makeUrl(method), {
       params: this.makeParams(query),
-      ...options
+      ...options as any
     });
-
-    Utils.subscribe(observable,
-      (response) => {
-        console.log("JsonMethodPluginService.get success - data: ", response);
-      },
-      (error) => {
-        console.log("JsonMethodPluginService.get failure - error: ", error);
-      },
-      () => {
-        console.log("JsonMethodPluginService.get complete");
-      });
-
-    return observable;
   }
 
   override makeUrl(api: string): string {

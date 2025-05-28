@@ -1,0 +1,22 @@
+<div class="metadata-{{layout}}">
+    <ng-container *ngFor="let c of config">
+        <sq-metadata-item *ngIf="!isString(c)"
+            [record]="record"
+            [query]="query"
+            [field]="c.field"
+            [icon]="c.icon"
+            [fieldClass]="c.fieldClass"
+            [filterable]="c.filterable"
+            [excludable]="c.excludable"
+            [showEntityExtract]="c.showEntityExtract"
+            [actions]="c.actions"
+            [layout]="layout"
+            [label]="c.label"
+            [entityExtractMaxLines]="c.entityExtractMaxLines"
+            [actionsButtonsStyle]="actionsButtonsStyle"
+            [actionsButtonsSize]="actionsButtonsSize"
+            [collapseRows]="c.collapseRows">
+        </sq-metadata-item>
+        <span *ngIf="isString(c)">{{c | sqMessage}}</span>
+    </ng-container>
+</div>

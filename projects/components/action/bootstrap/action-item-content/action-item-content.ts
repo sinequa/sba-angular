@@ -1,8 +1,8 @@
-import {Component, Input} from "@angular/core";
+import {Component, HostBinding, Input} from "@angular/core";
 import {Action} from "../../action";
 
 @Component({
-    selector: "sq-action-item-content",
+    selector: "[sq-action-item-content], sq-action-item-content",
     templateUrl: "./action-item-content.html",
     styles: [`
 .sq-action-item-content-container > div:not(:last-child) {
@@ -11,6 +11,8 @@ import {Action} from "../../action";
     `]
 })
 export class BsActionItemContent {
+    @HostBinding('class') klass = 'sq-action-item-content';
+
     @Input() item: Action;
     @Input() text: string;
     @Input("in-dropdown-menu") inDropdownMenu: boolean;

@@ -19,3 +19,60 @@
     font-size: .7rem;
 }
 
+
+.tab input {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+
+.tab-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.35s;
+}
+
+.tab input:checked ~ .tab-content {
+    max-height: 20rem;
+}
+
+
+.tab-label {
+    display: flex;
+    color: white;
+    cursor: pointer;
+}
+
+.tab-label {
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.tab-label::after {
+    content: "\276F";
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    transform: rotate(90deg);
+    transition: all 0.35s;
+}
+
+.tab input:checked+.tab-label::after {
+    transform: rotate(270deg);
+}
+
+
+/* Arrow animation */
+.tab input:not(:checked) + .tab-label:hover::after {
+    animation: bouncing .5s infinite;
+}
+
+@keyframes bouncing {
+    25% {
+        transform: rotate(90deg) translate(.25rem);
+    }
+
+    75% {
+        transform: rotate(90deg) translate(-.25rem);
+    }
+}

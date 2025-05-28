@@ -1,24 +1,8 @@
 .pagination {
-  --bs-pagination-bg: transparent;
-  --bs-pagination-color: #{$black};
-  --bs-pagination-hover-color: #{$black};
-  --bs-pagination-active-bg: #{$blue-1};
-  --bs-pagination-active-border-color: #{$blue-1};
-  --bs-pagination-disabled-bg: transparent;
-  --bs-pagination-disabled-color: #{$grey-5};
-  --bs-pagination-border-width: transparent;
-  --bs-pagination-padding-y: .1rem;
-  --bs-pagination-padding-x: .5rem;
-  font-weight: 600;
+  font-weight: $pagination-font-weight;
 
   .page-link {
-    border-radius: .35rem;
+    border-radius: $pagination-border-radius;
     margin: 0 .2rem;
-    cursor: pointer;
-  }
-
-  .active > .page-link:hover {
-    background-color: $darker-blue;
-    border-color: $darker-blue;
   }
 }

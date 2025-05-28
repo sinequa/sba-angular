@@ -1,0 +1,5 @@
+<doc-component-demo title="sq-facet-bar" [html]="code1" [ts]="code2">
+    <label class="form-label" for="id">Facet number</label>
+    <input type="number" class="form-control mb-3" id="index" [(ngModel)]="index" min="0" max="2">
+    <sq-facet-bar [results]="globalService.results" [containerIndex]="index"></sq-facet-bar>
+</doc-component-demo>

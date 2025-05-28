@@ -11,7 +11,7 @@ import { TooltipManager } from './tooltip-manager';
   [ngStyle]="tooltip.style"
   [ngClass]="tooltip.orientation"
   class="sq-tooltip position-absolute card">
-  <div class="card-body bg-{{theme}} rounded-1 p-2">
+  <div class="card-body bg-{{theme}} rounded-1 p-1">
     <ng-container *ngTemplateOutlet="template; context: {$implicit: tooltip.data}"></ng-container>
   </div>
 </div>

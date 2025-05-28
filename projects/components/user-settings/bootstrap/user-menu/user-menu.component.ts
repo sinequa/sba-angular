@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef, Input, OnDestroy, InjectionToken, Inject, Optional, OnChanges, SimpleChanges } from '@angular/core';
 import { merge, Subscription, filter } from 'rxjs';
-import { Action } from '@sinequa/components/action';
+import { Action, ActionSeparator } from '@sinequa/components/action';
 import { Principal, PrincipalWebService, UserSettingsWebService } from '@sinequa/core/web-services';
 import { AuthenticationService, LoginService, UserOverride } from '@sinequa/core/login';
 import { IntlService, Locale } from '@sinequa/core/intl';
@@ -9,6 +9,7 @@ import { BsOverrideUser } from '@sinequa/components/modal';
 import { ModalService, ModalResult, ConfirmType, ModalButton } from '@sinequa/core/modal';
 import { AppService } from '@sinequa/core/app-utils';
 import { NotificationsService, NotificationType } from '@sinequa/core/notification';
+import { UIService } from '@sinequa/components/utils';
 
 /** A token that is used to inject the help folder options.
  *
@@ -46,13 +47,12 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   @Input() collapseBreakpoint: string = 'sm';
   @Input() size: string;
   @Input() enableDarkMode = true;
+  @Input() enableHelp = true;
   @Input() showCredits = true;
   @Input() display: keyof Principal = 'fullName';
   @Input() showText = false;
 
   menu: Action;
-
-  sep = new Action({separator: true});
 
   // User actions
   loginAction: Action;
@@ -68,7 +68,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
 
 
   /** helper function to retrieve the help html file accordingly with the current locale */
-  private getHelpIndexUrl = (locale: string, options: HelpFolderOptions): string => {
+  static getHelpIndexUrl = (locale: string, options: HelpFolderOptions): string => {
     const { useLocale, useLocaleAsPrefix, indexFile, path, folder } = options;
 
     const localeFolder = useLocale ? `${locale}/` : null;
@@ -80,6 +80,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   };
 
   constructor(
+    private readonly ui: UIService,
     public principalService: PrincipalWebService,
     public authenticationService: AuthenticationService,
     public intlService: IntlService,
@@ -107,7 +108,6 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     // Logout
     this.logoutAction = new Action({
       text: "msg#userMenu.logout",
-      title: "msg#userMenu.logout",
       action: () => {
         this.loginService.logout();
         this.changeDetectorRef.markForCheck();
@@ -117,7 +117,6 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     // Override a user's identity
     this.overrideAction = new Action({
       text: "msg#userMenu.overrideUser",
-      title: "msg#userMenu.overrideUser",
       action: () => {
         let userOverride = this.authenticationService.userOverride ?
           Utils.copy<UserOverride>(this.authenticationService.userOverride) : undefined;
@@ -140,7 +139,6 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     // Cancel user override
     this.revertOverrideAction = new Action({
       text: "msg#userMenu.revertUserOverride",
-      title: "msg#userMenu.revertUserOverride",
       action: () => {
         this.loginService.overrideUser(undefined);
         this.changeDetectorRef.markForCheck();
@@ -150,18 +148,15 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     // Link to the admin
     this.adminAction = new Action({
       text: "msg#userMenu.administration",
-      title: "msg#userMenu.administration",
       href: this.appService.adminUrl
     });
 
     // Language menu
     this.languageAction = new Action({
       text: "msg#userMenu.language",
-      title: "msg#userMenu.language",
       children: this.intlService.locales.map(locale =>
         new Action({
           text: locale.display,   // "French"
-          title: locale.display,   // "French"
           data: locale,   // French locale
           selected: locale === this.intlService.currentLocale, // Whether French is the current locale
           iconAfter: "sq-image sq-flag-" + locale.name,
@@ -178,7 +173,6 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
 
     this.resetUserSettings = new Action({
       text: "msg#userMenu.resetUserSettings.menu",
-      title: "msg#userMenu.resetUserSettings.menu",
       action: () => {
         this.modalService.confirm({
           title: "msg#userMenu.resetUserSettings.modalTitle",
@@ -202,13 +196,12 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
     this.darkModeAction = new Action({
       text: "msg#userMenu.darkMode",
       action: action => {
-        document.body.classList.toggle("dark");
-        localStorage.setItem('sinequa-theme', this.isDark()? 'dark' : 'normal');
+        this.ui.toggleDark();
         action.update();
       },
       updater: action => {
-        action.icon = this.isDark()? "fas fa-toggle-on" : "fas fa-toggle-off";
-        action.title = this.isDark()? "msg#userMenu.darkModeOn" : "msg#userMenu.darkModeOff";
+        action.icon = this.ui.isDark()? "fas fa-toggle-on" : "fas fa-toggle-off";
+        action.title = this.ui.isDark()? "msg#userMenu.darkModeOn" : "msg#userMenu.darkModeOff";
       }
     });
 
@@ -253,9 +246,9 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
         title,
         headerGroup: true,
         children: [
-          ...this.getLoginActions(), this.sep,
-          ...this.getUIActions(), this.sep,
-          ...this.getHelpActions(), this.sep,
+          ...this.getLoginActions(), ActionSeparator,
+          ...this.getUIActions(), ActionSeparator,
+          ...this.getHelpActions(),
           ...this.getCreditActions()
         ]
     });
@@ -309,7 +302,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   }
 
   getHelpActions(): Action[] {
-    if (!this.loginService.complete) return [];
+    if (!this.enableHelp || !this.loginService.complete) return [];
 
     // "options" could be undefined
     // "helpDefaultFolderOptions" could be null, in this case map it to undefined
@@ -325,18 +318,10 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
         ...defaults,
         ...options,
       };
-      this.helpAction.href = this.appService.helpUrl(this.getHelpIndexUrl(name, helpFolderOptions));
-      return [this.helpAction];
+      this.helpAction.href = this.appService.helpUrl(BsUserMenuComponent.getHelpIndexUrl(name, helpFolderOptions));
+      return [this.helpAction, ActionSeparator];
     }
 
     return [];
   }
-
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
-  }
-
 }

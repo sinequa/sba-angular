@@ -1,12 +1,10 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 
-import { SqHttpClient } from "./http-client";
 import { HttpService } from './http.service';
-import { IntlService } from "@sinequa/core/intl";
 import {Utils} from "@sinequa/core/base";
+import { IntlService } from "@sinequa/core/intl";
 
-import { START_CONFIG, StartConfig } from "./start-config.web.service";
 import { IQuery } from './query/query';
 
 /**
@@ -40,11 +38,8 @@ export interface LinksResults {
 })
 export class SponsoredLinksWebService extends HttpService {
 
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient,
-        private intlService: IntlService) {
-        super(startConfig);
+    constructor(private intlService: IntlService) {
+        super();
     }
 
     /**

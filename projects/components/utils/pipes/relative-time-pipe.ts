@@ -8,6 +8,6 @@ export class RelativeTimePipe extends AbstractIntlPipe<(string | number | Date |
 
     override updateValue(key: string | number | Date | undefined, params: RelativeTimeParams): void {
         super.updateValue(key, params);
-        this.value = this.intlService.formatRelativeTime(key, params ? params.unit : undefined, params);
+        this.value = this.intlService.formatRelativeTime(key, params);
     }
 }

@@ -1,0 +1,117 @@
+
+<div class="card-body small">
+
+  <h5>Model</h5>
+  <div class="mb-2">
+    <label for="gllmModel" class="form-label">Model</label>
+    <select class="form-select" id="gllmModel" [(ngModel)]="config.model">
+      <option *ngFor="let model of chatService.models" [ngValue]="model.name">{{model.displayName}}</option>
+    </select>
+  </div>
+  <div class="mb-2">
+    <label for="temperature" class="form-label">Temperature: {{config.temperature}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="2" step="0.1" id="temperature" [(ngModel)]="config.temperature">
+  </div>
+  <div class="mb-2">
+    <label for="top-p" class="form-label">Top P: {{config.topP}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="1" step="0.05" id="top-p" [(ngModel)]="config.topP">
+  </div>
+  <div class="mb-2">
+    <label for="max-tokens" class="form-label">Max generated tokens per answer: {{config.maxTokens}}</label>
+    <input type="range" class="form-range form-range-sm" min="1" max="2048" step="1" id="max-tokens" [(ngModel)]="config.maxTokens">
+  </div>
+  <div class="mb-2" *ngIf="config.model === 'Chat-Bison-001'">
+    <label for="googleContextPrompt" class="form-label">Google context prompt</label>
+    <textarea class="form-control" id="googleContextPrompt" [(ngModel)]="config.googleContextPrompt"></textarea>
+  </div>
+  <div class="form-check form-switch mb-2">
+    <input class="form-check-input" type="checkbox" role="switch" id="stream" [(ngModel)]="config.stream">
+    <label class="form-check-label" for="stream">Stream messages</label>
+  </div>
+
+  <h5>UI</h5>
+  <div class="form-check form-switch mb-2">
+    <input class="form-check-input" type="checkbox" role="switch" id="textBeforeAttachments" [(ngModel)]="config.textBeforeAttachments">
+    <label class="form-check-label" for="textBeforeAttachments">Send text before attachments</label>
+  </div>
+  <div class="form-check form-switch mb-2">
+    <input class="form-check-input" type="checkbox" role="switch" id="displayAttachments" [(ngModel)]="config.displayAttachments">
+    <label class="form-check-label" for="displayAttachments">Display attachments in the chat conversation</label>
+  </div>
+
+  <h5>Prompts</h5>
+  <div class="mb-2">
+    <label for="initialSystemPrompt" class="form-label">Initial system prompt (hidden)</label>
+    <textarea class="form-control" id="initialSystemPrompt" [(ngModel)]="config.initialSystemPrompt"></textarea>
+  </div>
+  <div class="mb-2">
+    <label for="initialUserPrompt" class="form-label">Initial user prompt</label>
+    <textarea class="form-control" id="initialUserPrompt" [(ngModel)]="config.initialUserPrompt"></textarea>
+  </div>
+  <div class="mb-2">
+    <label for="addAttachmentPrompt" class="form-label">Default prompt when adding an attachment</label>
+    <textarea class="form-control" id="addAttachmentPrompt" [(ngModel)]="config.addAttachmentPrompt"></textarea>
+  </div>
+  <div class="mb-2">
+    <label for="addAttachmentsPrompt" class="form-label">Default prompt when adding multiple attachments</label>
+    <textarea class="form-control" id="addAttachmentsPrompt" [(ngModel)]="config.addAttachmentsPrompt"></textarea>
+  </div>
+  <div class="mb-2">
+    <label for="attachmentsHiddenPrompt" class="form-label">Hidden prompt inserted after a list of attachments to given special instructions/guidance</label>
+    <textarea class="form-control" id="attachmentsHiddenPrompt" [(ngModel)]="config.attachmentsHiddenPrompt"></textarea>
+  </div>
+
+  <h5>Auto-search</h5>
+
+  <h6>Top passages <i class="fas fa-info-circle" sqTooltip="Top passages (aka 'Neural search suggested answer') are selected by Neural Search for their semantic correlation with the user query."></i></h6>
+  <div class="mb-2">
+    <label for="maxTopPassages" class="form-label">Maximum number of top passages: {{config.maxTopPassages}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="maxTopPassages" [(ngModel)]="config.maxTopPassages">
+  </div>
+  <div class="mb-2">
+    <label for="minScoreTopPassage" class="form-label">Minimum top passage score: {{config.minScoreTopPassage}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="1" step="0.05" id="minScoreTopPassage" [(ngModel)]="config.minScoreTopPassage">
+  </div>
+
+  <h6>Top documents  <i class="fas fa-info-circle" sqTooltip="Top documents contain the most relevant passages retrieved by Neural Search."></i></h6>
+  <div class="mb-2">
+    <label for="maxDocuments" class="form-label">Maximum number of top documents: {{config.maxDocuments}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="maxDocuments" [(ngModel)]="config.maxDocuments">
+  </div>
+  <div class="mb-2">
+    <label for="minDocumentRelevance" class="form-label">Minimum relevance of top documents: {{config.minDocumentRelevance}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="1" step="0.05" id="minDocumentRelevance" [(ngModel)]="config.minDocumentRelevance">
+  </div>
+
+  <h6>Attachment composition</h6>
+  <div class="mb-2">
+    <label for="startLengthPerDocument" class="form-label">First n characters of the document: n = {{config.startLengthPerDocument}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="4000" step="100" id="startLengthPerDocument" [(ngModel)]="config.startLengthPerDocument">
+  </div>
+  <div class="mb-2">
+    <label for="maxExtractsPerDocument" class="form-label">Top relevant extracts <i class="fas fa-info-circle" sqTooltip="An extract is a sentence containing keywords from the user query"></i>: {{config.maxExtractsPerDocument}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="maxExtractsPerDocument" [(ngModel)]="config.maxExtractsPerDocument">
+  </div>
+  <div class="mb-2">
+    <label for="maxPassagesPerDocument" class="form-label">Top relevant passages <i class="fas fa-info-circle" sqTooltip="A passage is a piece of text (a few sentences long) indexed by Neural Search"></i>: {{config.maxPassagesPerDocument}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="maxPassagesPerDocument" [(ngModel)]="config.maxPassagesPerDocument">
+  </div>
+  <div class="mb-2">
+    <label for="extendBefore" class="form-label">Expand <b>before</b> each snippet with n sentences: {{config.extendBefore}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="extendBefore" [(ngModel)]="config.extendBefore">
+  </div>
+  <div class="mb-2">
+    <label for="extendAfter" class="form-label">Expand <b>after</b> each snippet with n sentences: {{config.extendAfter}}</label>
+    <input type="range" class="form-range form-range-sm" min="0" max="10" step="1" id="extendAfter" [(ngModel)]="config.extendAfter">
+  </div>
+  <div class="mb-2">
+    <label for="attachment-metadata" class="form-label">Metadata</label>
+    <select class="form-select" id="attachment-metadata" [(ngModel)]="chatService.attachmentMetadata" multiple>
+      <option *ngFor="let option of chatService.availableAttachmentMetadata" [ngValue]="option.field">
+        {{option.name ?? option.field}}
+      </option>
+    </select>
+  </div>
+
+  <button class="btn btn-primary" (click)="reset()">Reset configuration</button>
+</div>

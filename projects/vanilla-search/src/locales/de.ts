@@ -1,6 +1,4 @@
 import {LocaleData} from "@sinequa/core/intl";
-import d3Format from "../../../../node_modules/d3-format/locale/de-DE.json";
-import d3Time from "../../../../node_modules/d3-time-format/locale/de-DE.json";
 import {deCore} from "@sinequa/core/messages";
 import appMessages from "./messages/de.json";
 import "intl/locale-data/jsonp/de-DE"; // Safari
@@ -12,7 +10,6 @@ import {deAlerts} from "@sinequa/components/alerts";
 import {deBaskets} from "@sinequa/components/baskets";
 import {deFacet} from "@sinequa/components/facet";
 import {deFeedback} from "@sinequa/components/feedback";
-import {deHeatmap} from "@sinequa/analytics/heatmap";
 import {deLabels} from "@sinequa/components/labels";
 import {deMetadata} from "@sinequa/components/metadata";
 import {deNotification} from "@sinequa/components/notification";
@@ -24,11 +21,14 @@ import {deSelection} from "@sinequa/components/selection";
 import {deSearch} from "@sinequa/components/search";
 import {deStatusBar} from "@sinequa/components/status-bar";
 import {deUserSettings} from "@sinequa/components/user-settings";
-import { deTimeline } from "@sinequa/analytics/timeline";
-import { deML } from "@sinequa/components/machine-learning";
+import {deTimeline} from "@sinequa/analytics/timeline";
+import {deML} from "@sinequa/components/machine-learning";
+import {deFilters} from "@sinequa/components/filters";
+import {deSearchForm} from "@sinequa/components/search-form";
 
-const messages = Utils.merge({}, deCore, deUtils, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
-    deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deTimeline, deML, appMessages);
+const messages = Utils.merge({}, deCore, deUtils, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deLabels, deMetadata,
+    deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deTimeline,
+    deML, deFilters, deSearchForm, appMessages);
 
 export default <LocaleData>{
     intl: {
@@ -39,8 +39,8 @@ export default <LocaleData>{
     },
     d3: {
         locale: "de-DE",
-        format: d3Format,
-        time: d3Time
+        format: require('d3-format/locale/de-DE'),
+        time: require('d3-time-format/locale/de-DE')
     },
     messages: messages
 };

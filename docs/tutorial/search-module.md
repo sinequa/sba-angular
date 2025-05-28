@@ -7,9 +7,9 @@ nav_order: 3
 
 # Search Module
 
-The [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) app is solely based on the low-level library [`@sinequa/core`]({{site.baseurl}}modules/core/core.html). In the next steps of this tutorial, we will incorporate high-level features from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html).
+The [Hello Search]({{site.baseurl}}apps/1-hello-search.html) app is solely based on the low-level library [`@sinequa/core`]({{site.baseurl}}libraries/core/core.html). In the next steps of this tutorial, we will incorporate high-level features from [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html).
 
-The first module that we want to integrate is the [Search module]({{site.baseurl}}modules/components/search.html), since it powers many other modules and is very central in the architecture of the SBA framework.
+The first module that we want to integrate is the [Search module]({{site.baseurl}}libraries/components/search.html), since it powers many other modules and is very central in the architecture of the SBA framework.
 
 ## Importing the Search Module
 
@@ -81,6 +81,8 @@ Also, remove the now unused imports:
 Now in your `app.component.html`, replace the occurrences of `results$` by `searchService.resultsStream`.
 
 ```html
+    <button *ngIf="searchService.resultsStream | async" type="button" (click)="clear()">Clear</button>
+</form>
 <div *ngIf="searchService.resultsStream | async; let results">
     <hr>
     <div *ngFor="let record of results.records" class="record">

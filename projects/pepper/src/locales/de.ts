@@ -1,6 +1,4 @@
 import {LocaleData} from "@sinequa/core/intl";
-import d3Format from "../../../../node_modules/d3-format/locale/de-DE.json";
-import d3Time from "../../../../node_modules/d3-time-format/locale/de-DE.json";
 import {deCore} from "@sinequa/core/messages";
 import appMessages from "./messages/de.json";
 import "intl/locale-data/jsonp/de-DE"; // Safari
@@ -26,13 +24,15 @@ import {deStatusBar} from "@sinequa/components/status-bar";
 import {deUserSettings} from "@sinequa/components/user-settings";
 import {deNetwork} from "@sinequa/analytics/network";
 import {deGooglemaps} from "@sinequa/analytics/googlemaps";
-import {deTheme} from "@sinequa/components/theme-toggle";
 import {deFinance} from "@sinequa/analytics/finance";
 import {deTimeline} from "@sinequa/analytics/timeline";
+import {deFilters} from "@sinequa/components/filters";
+import {deSearchForm} from "@sinequa/components/search-form";
+import {deDashboard} from "@sinequa/analytics/dashboard";
 
 const messages = Utils.merge({}, deCore, deUtils, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
-    deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deNetwork, deGooglemaps, deFinance, deTimeline, appMessages,
-    deTheme);
+    deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deNetwork,
+    deGooglemaps, deFinance, deTimeline, deFilters, deSearchForm, deDashboard, appMessages);
 
 export default <LocaleData>{
     intl: {
@@ -43,8 +43,8 @@ export default <LocaleData>{
     },
     d3: {
         locale: "de-DE",
-        format: d3Format,
-        time: d3Time
+        format: require('d3-format/locale/de-DE'),
+        time: require('d3-time-format/locale/de-DE')
     },
     messages: messages
 };

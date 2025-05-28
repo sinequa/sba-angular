@@ -1,0 +1,13 @@
+<doc-component-demo title="sq-collapse" [html]="code" [ts]="code2">
+    <button type="button" class="btn btn-primary" (click)="collapsed = !collapsed">{{ collapsed ? 'Expand' : 'Collapse' }}</button>
+
+    <sq-collapse [collapsed]="collapsed">
+        <ng-template>
+            <ul>
+                <li *ngFor="let element of list">
+                    <span>{{ element }}</span>
+                </li>
+            </ul>
+        </ng-template>
+    </sq-collapse>
+</doc-component-demo>

@@ -1,9 +1,11 @@
 import {
   Directive,
   ElementRef,
+  HostBinding,
   HostListener,
   Input,
-  OnDestroy
+  OnDestroy,
+  TemplateRef
 } from "@angular/core";
 import {
   ConnectedPosition,
@@ -17,84 +19,163 @@ import { Utils } from "@sinequa/core/base";
 import { Observable, of, Subscription, delay } from "rxjs";
 
 export type Placement = "top" | "bottom" | "right" | "left";
+/**
+ * Directive that attaches a tooltip to the host element
+ *
+ * @example
+ * <div sqTooltip="This is a tooltip's text"></div>
+ *
+ * @example
+ * // A template can be passed to the directive instead of a string. Here 'tooltip' is a template reference
+ * <div sqTooltip="tooltip"></div>
+ *
+ * <ng-template #tooltip>
+ *  <h2>Title</h2>
+ *  <p>{{ "this is a comment" | uppercase }}</p>
+ *  <h3>Other text</h3>
+ * </ng-template>
+ *
+ * @example
+ * //HTML can be used directly (not recommanded)
+ * <div sqTooltip="<h1>Title</h1><br><p>This is a comment</p>"></div>
+ */
+@Directive({ selector: "[sqTooltip]" })
+export class TooltipDirective<TooltipData=undefined, TooltipDisplay=string> implements OnDestroy {
+  /**
+   * Defining a property called textOrTemplate that can be a string, a function that
+   * returns an Observable of a string or undefined, or a TemplateRef.
+   */
+  @Input("sqTooltip") value?: TooltipDisplay | ((data?: TooltipData) => Observable<TooltipDisplay | undefined> | undefined);
+  @Input("sqTooltipData") data?: TooltipData;
+  @Input("sqTooltipTemplate") template?: TemplateRef<any>;
 
-@Directive({selector: "[sqTooltip]"})
-export class TooltipDirective<T> implements OnDestroy {
-  @Input("sqTooltip") text?: string | ((data?: T) => Observable<string|undefined>) = "";
-  @Input("sqTooltipData") data?: T;
+  /**
+   * Setting the default value of the placement property to `bottom`
+   */
   @Input() placement: Placement = "bottom";
+  /**
+   * List of fallback placement if *Placement* defined can't be applyied
+   */
   @Input() fallbackPlacements: Placement | Placement[] = [];
+
+  /**
+   * Delay in millisecond before showing/hiding the tooltip.
+   *
+   * Default value is 300ms
+   */
   @Input() delay = 300;
+  /**
+   * If the tooltip should stay opened on hover
+   */
+  @Input() hoverableTooltip = false;
+  /**
+   * Custom class for the tooltip
+   */
+  @Input() tooltipClass?: string;
+
+  /**
+   * Applies the "has-tooltip" class to its host when displayed
+   */
+  @HostBinding('class.has-tooltip') hasTooltip = false;
 
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
   private clearTimeout?: any;
+  static activeTooltip?: TooltipDirective<any, any>;
 
   constructor(
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
     private elementRef: ElementRef
-  ) {}
+  ) { }
 
   ngOnDestroy() {
     // do not forget to clear timeout function
-    this.clearSubscription();
+    this.clear();
   }
 
-  @HostListener("mouseenter", ['$event'])
-  show(event: MouseEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-
+  @HostListener("mouseenter")
+  show() {
     // The tooltip is already showing: just cancel the hiding
-    if(this.clearTimeout) {
-      clearTimeout(this.clearTimeout);
+    if (this.clearTimeout) {
+      this.cancelHide();
       return;
     }
 
-    this.clearSubscription();
+    this.clear();
 
-    if(!this.text) return;
+    if (!this.value) return;
 
-    let obs: Observable<string|undefined>;
+    let obs = Utils.isFunction(this.value)?
+      this.value(this.data) :
+      of(this.value).pipe(delay(this.delay));
 
-    if(Utils.isFunction(this.text)) {
-      obs = this.text(this.data);
-    }
-    else {
-      obs = of(this.text)
-        .pipe(delay(this.delay))
-    }
+    this.subscription = obs?.subscribe(data => {
 
-    this.subscription = obs.subscribe(text => {
-      this.overlayRef?.detach();
+      // return when value is empty
+      if (!data || (typeof data === 'string' && !data.trim())) return;
 
-      if(!text?.trim().length) return;
+      this.clear();
 
+      TooltipDirective.activeTooltip?.clear();
+      TooltipDirective.activeTooltip = this;
+
+      // set the tooltip's position strategy
       const positionStrategy = this.overlayPositionBuilder
-      .flexibleConnectedTo(this.elementRef)
-      .withPositions([this.position(), ...this.fallbackPositions()]);
+        .flexibleConnectedTo(this.elementRef)
+        .withPositions([this.position(), ...this.fallbackPositions()]);
 
       const scrollStrategy = this.overlay.scrollStrategies.close();
-      this.overlayRef = this.overlay.create({positionStrategy, scrollStrategy});
+      this.overlayRef = this.overlay.create({ positionStrategy, scrollStrategy });
 
-      const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
-      tooltipRef.instance.text = text;
+      // instance of the tooltip's component
+      const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent<TooltipDisplay>));
+
+      tooltipRef.instance.data = data;
+
+      if (this.template) {
+        tooltipRef.instance.template = this.template;
+      }
+      if (this.tooltipClass) {
+        tooltipRef.instance.tooltipClass = this.tooltipClass;
+      }
+
+      if (this.hoverableTooltip) {
+        this.overlayRef.overlayElement.addEventListener("mouseenter", () => this.cancelHide());
+        this.overlayRef.overlayElement.addEventListener('mouseleave', () => this.hide());
+      }
+
+      this.hasTooltip = true;
     });
   }
 
-  @HostListener("mousedown", ['$event'])
-  mouseClick(event: MouseEvent) {
-    event.preventDefault()
-    event.stopPropagation();
-    this.clearSubscription();
+  @HostListener("mousedown")
+  mouseClick() {
+    this.clear();
   }
 
-  @HostListener("mouseleave", ['$event'])
-  hide(event: MouseEvent) {
-    if(!this.clearTimeout) {
-      this.clearTimeout = setTimeout(() => this.clearSubscription(), 10);
+  @HostListener("mouseleave")
+  hide() {
+    if (!this.clearTimeout) {
+      this.clearTimeout = setTimeout(() => this.clear(), this.hoverableTooltip ? this.delay : 10);
     }
+  }
+
+  cancelHide() {
+    if (this.clearTimeout) {
+      clearTimeout(this.clearTimeout);
+      this.clearTimeout = undefined;
+    }
+  }
+
+  /**
+   * Clear timeout function and detach overlayRef
+   */
+  clear() {
+    this.subscription?.unsubscribe();
+    this.cancelHide();
+    this.overlayRef?.detach();
+    this.hasTooltip = false;
   }
 
   position(placement = this.placement): ConnectedPosition {
@@ -105,7 +186,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "bottom",
           overlayX: "center",
           overlayY: "top",
-          offsetY: 8
+          offsetY: 2
         };
       case "right":
         return {
@@ -113,7 +194,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "center",
           overlayX: "start",
           overlayY: "center",
-          offsetX: 8
+          offsetX: 2
         };
       case "left":
         return {
@@ -121,7 +202,7 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "center",
           overlayX: "end",
           overlayY: "center",
-          offsetX: -8
+          offsetX: -2
         };
       default:
         return {
@@ -129,26 +210,13 @@ export class TooltipDirective<T> implements OnDestroy {
           originY: "top",
           overlayX: "center",
           overlayY: "bottom",
-          offsetY: -8
+          offsetY: -2
         };
     }
   }
 
   fallbackPositions(): ConnectedPosition[] {
-    return (Utils.isArray(this.fallbackPlacements) ? this.fallbackPlacements : [this.fallbackPlacements]).map(
-      (placement: Placement) => this.position(placement)
-    )
+    return Utils.asArray(this.fallbackPlacements).map(p => this.position(p));
   }
 
-  /**
-   * Clear timeout function and detach overlayRef
-   */
-  private clearSubscription() {
-    this.subscription?.unsubscribe();
-    if(this.clearTimeout) {
-      clearTimeout(this.clearTimeout);
-      this.clearTimeout = undefined;
-    }
-    this.overlayRef?.detach();
-  }
 }

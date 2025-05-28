@@ -1,35 +1,21 @@
-.dropdown-menu {
-  --bs-dropdown-link-color: #{$black};
-  --bs-dropdown-link-hover-color: #{$black};
-  --bs-dropdown-link-hover-bg: #{$blue-selection};
-  --bs-dropdown-link-active-bg: #{$blue-1};
-  --bs-dropdown-border-width: .1rem;
-  --bs-dropdown-border-color: #{$grey-1};
-  box-shadow: 0 0 .9rem rgba(0, 0, 0, .1);
-  min-width: 100%;
+/**********************************************
+  Dropdown button
+***********************************************/
+.dropdown-toggle {
 
-  &.sq-scroll-menu {
-    top: .3rem !important;
+  &.is-valid,
+  &.is-invalid {
+    padding-right: 1.5rem;
+    background-image: none;
   }
 
-  .dropdown-item {
-    .link {
-      --bs-dropdown-link-color: #{$blue-1};
-      --bs-body-font-weight: 600;
-    }
-
-    .delete {
-      --bs-dropdown-link-color: #{$error-1};
-      --bs-body-font-weight: 600;
-    }
+  &.is-valid,
+  &.is-valid:hover {
+    border: $dropdown-border-width solid #{$success-1};
   }
 
-  .dropdown-item span,
-  sq-action-item-content i {
-    margin-right: 0.4rem !important;
-  }
-
-  .dropdown-menu {
-    box-shadow: none;
+  &.is-invalid,
+  &.is-invalid:hover {
+    border: $dropdown-border-width solid #{$error-1};
   }
 }

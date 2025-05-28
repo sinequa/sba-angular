@@ -1,11 +1,11 @@
 <div class="d-flex flex-column">
 
-    <div class="d-flex flex-wrap mt-1 px-1" *ngIf="allowPredefinedRange">
+    <div class="d-flex flex-wrap mt-1 px-1" *ngIf="allowPredefinedRange && data">
         <button
             *ngFor="let item of items"
             type="button"
             class="btn btn-outline-secondary btn-sm rounded-pill date-item ms-1 mb-1"
-            [ngClass]="{active: isFiltered(item)}"
+            [ngClass]="{active: item.$filtered}"
             [disabled]="!item.count"
             (click)="filterItem(item, $event)">
 
@@ -19,48 +19,38 @@
         </button>
     </div>
 
-    <div class="d-flex py-1" *ngIf="allowCustomRange && allowPredefinedRange">
-        <button type="button"
-            class="btn no-shadow px-2 py-0"
-            [sqTooltip]="showCustomRange ? ('msg#facetCard.collapse' | sqMessage) : ('msg#facetCard.expand' | sqMessage)"
-            (click)="toggleCustomRange($event);">
-            <i class="text-muted fas fa-chevron-circle-{{showCustomRange ? 'up' : 'down'}}"></i>
-            <span class="ms-1 text-muted">{{'msg#facet.date.custom' | sqMessage}} :</span>
-        </button>
+    <div class="tab" *ngIf="allowCustomRange && allowPredefinedRange">
+        <input type="checkbox" [name]="'accordion-custom-range-'+id" [id]="'check-custom-range-'+id">
+        <label [for]="'check-custom-range-'+id" class="tab-label ms-1 text-muted">{{'msg#facet.date.custom' | sqMessage}} :</label>
+
+        <div class="tab-content">
+            <form [formGroup]="form">
+                <div class="px-2 py-1 small">
+                    <sq-date-range-picker
+                        [formControlName]="'dateRange'"
+                        sqAdvancedFormValidation
+                        [size]="'sm'"
+                        [field]="'dateRange'"
+                        [validationForm]="form"
+                        [display]="'column'"
+                        [displaySeparator]="false"
+                        [displayLabel]="true">
+                    </sq-date-range-picker>
+                </div>
+            </form>
+
+            <sq-timeline
+                *ngIf="allowCustomRange"
+                [data]="timeSeries"
+                [selection]="selection"
+                width="{{timelineWidth}}"
+                height="{{timelineHeight}}"
+                [margin]="timelineMargin"
+                [showTooltip]="true"
+                [curveType]="'curveLinear'"
+                (selectionChange)="updateRange($event)"
+                (rangeChange)="cdRef.markForCheck()">
+            </sq-timeline>
+        </div>
     </div>
-
-
-    <sq-collapse [collapsed]="!showCustomRange">
-      <ng-template>
-        <form [formGroup]="form" *ngIf="allowCustomRange">
-            <div class="px-2 py-1 small">
-                <sq-date-range-picker
-                    [formControlName]="'dateRange'"
-                    sqAdvancedFormValidation
-                    [size]="'sm'"
-                    [field]="'dateRange'"
-                    [validationForm]="form"
-                    [display]="'column'"
-                    [displaySeparator]="false"
-                    [displayLabel]="true">
-                </sq-date-range-picker>
-            </div>
-        </form>
-
-        <sq-timeline
-            *ngIf="allowCustomRange"
-            [data]="timeSeries"
-            [selection]="selection"
-            width="{{timelineWidth}}"
-            height="{{timelineHeight}}"
-            [margin]="timelineMargin"
-            [showTooltip]="false"
-            [curveType]="'curveLinear'"
-            (selectionChange)="updateRange($event)"
-            (rangeChange)="cdRef.markForCheck()">
-        </sq-timeline>
-
-      </ng-template>
-    </sq-collapse>
-
 </div>

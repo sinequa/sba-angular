@@ -9,7 +9,7 @@ nav_order: 4
 
 We can now search our Sinequa indexes, but it would be nice to be able to filter the content based on its metadata. This is what facets are for.
 
-The [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library has a module for this: [`BsFacetModule`]({{site.baseurl}}modules/components/facet.html) (like the [Search module]({{site.baseurl}}modules/components/search.html), it is based on the Bootstrap library).
+The [`@sinequa/components`]({{site.baseurl}}libraries/components/components.html) library has a module for this: [`BsFacetModule`]({{site.baseurl}}libraries/components/facet.html) (like the [Search module]({{site.baseurl}}libraries/components/search.html), it is based on the Bootstrap library).
 
 ## Importing the Facet Module
 
@@ -57,26 +57,32 @@ This should display something like:
 
 Notice the `#facet` tag. It is important, as it allows the `sq-facet-card` to display the "action buttons" of its content in the top-right of the facet.
 
-We can also add a tree facet `sq-facet-tree`:
+`sq-facet-list` also adapts itself automatically according to the data type. Here with a tree type:
 
 ```html
 <sq-facet-card [title]="'Sources'" [icon]="'fas fa-sitemap'">
-    <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
+    <sq-facet-list #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-list>
 </sq-facet-card>
 ```
 
-![Facet tree]({{site.baseurl}}assets/tutorial/facet-tree.png)
+![Facet tree]({{site.baseurl}}assets/tutorial/facet-list-tree.png)
 
 The facet components have many options that can be passed via *bindings*. For example, here is the full list of options for `sq-facet-list`:
 
 - `name`: Internal name of the facet (Optional, by default the aggregation name is used)
 - `results`: Results object (Required)
 - `aggregation`: Name of the aggregation configured on the back-end (Required)
+- `query`: A custom query to interfere when doing filtering actions (it uses by default the one from the `SearchService`)
 - `showCount`: Show the number of occurrences (default: `true`)
 - `searchable`: Allow to search for items in the facet (default: `true`)
 - `allowExclude`: Allow to exclude selected items (default: `true`)
 - `allowOr`: Allow to search various items in OR mode (default: `true`)
 - `allowAnd`: Allow to search various items in AND mode (default: `true`)
+- `focusSearch`: Whether after the page is loaded the HTML should focus on the search input (default: `false`)
+- `displayEmptyDistributionIntervals`: Whether empty distribution intervals will be displayed if the aggregration is a distribution (default: `false`)
+- `acceptNonAggregationItemFilter`: Whether filtered items which don't match an existing aggregation item should be added to filtered list (default: `true`)
+- `replaceCurrent`: Whether the previous "select" is removed first (default: `false`)
+- `expandedLevel`: The level to expand up to when this is a tree type of data (default: `2`)
 
 In real projects, you probably would not want to enable all these options at once. We can deactivate exclusion and the "AND" mode with:
 
@@ -88,7 +94,7 @@ Now the facet should look something like this when you select multiple items:
 
 ![Facet selection]({{site.baseurl}}assets/tutorial/facet-selection.png)
 
-Please refer to the [library documentation]({{site.baseurl}}modules/components/facet.html) for more information.
+Please refer to the [library documentation]({{site.baseurl}}libraries/components/facet.html) for more information.
 
 ---
 

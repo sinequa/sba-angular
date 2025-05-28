@@ -1,5 +1,6 @@
 import {NgModule/*, APP_INITIALIZER*/} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from '@angular/router';
 import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
@@ -11,7 +12,7 @@ import {ModalModule} from "@sinequa/core/modal";
 import {NotificationsInterceptor} from "@sinequa/core/notification";
 import {AuditInterceptor} from "@sinequa/core/app-utils";
 
-import {DefaultLocalesConfig} from "@sinequa/core";
+import {DefaultLocalesConfig} from "@sinequa/core/default-locales-config";
 import {AppComponent} from "./app.component";
 import {environment} from "../environments/environment";
 
@@ -27,6 +28,7 @@ export const startConfig: StartConfig = {
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         RouterModule.forRoot([]),
         FormsModule,
         ReactiveFormsModule,

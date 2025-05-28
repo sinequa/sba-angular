@@ -2,7 +2,7 @@
 layout: default
 title: Auditing applications
 parent: Tips and Tricks
-nav_order: 15
+nav_order: 14
 ---
 
 # Auditing applications
@@ -21,18 +21,18 @@ On the server, several prerequisites are necessary:
 
 ## Standard Events
 
-By default, Sinequa components take care of emitting audit events when needed. For example, the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html) emits events when the user searches for some text and the [`FacetService`]({{site.baseurl}}components/injectables/FacetService.html) emits events when they select a metadata in a facet.
+By default, Sinequa components take care of emitting audit events when needed. For example, the `SearchService` emits events when the user searches for some text and the `FacetService` emits events when they select a metadata in a facet.
 
 This can happen in two ways:
 
 - Normally, these audit events are emitted by "piggy-backing" on the web service HTTP call corresponding to the audited user action.
-- Alternatively, stand-alone audit events can be emitted via the [`AuditWebService`]({{site.baseurl}}core/injectables/AuditWebService.html).
+- Alternatively, stand-alone audit events can be emitted via the `AuditWebService`.
 
 ### Audit events via standard web service calls
 
 Sinequa Web Services accept an optional `$auditRecord` parameter that is used to write events to the audit logs.
 
-For example, in the [`QueryWebService`]({{site.baseurl}}core/injectables/QueryWebService.html), the web service call looks as follows:
+For example, in the `QueryWebService`, the web service call looks as follows:
 
 ```ts
 const observable = this.httpClient.post<Results>(this.makeUrl(this.endPoint), {
@@ -47,9 +47,9 @@ Note that the `$auditRecord` field is supported across **all** web services, inc
 
 ### Audit events via the audit web service
 
-The [`AuditWebService`]({{site.baseurl}}core/injectables/AuditWebService.html) is a standard Sinequa service that can be injected anywhere in your application to emit "standalone" audit events.
+The `AuditWebService` is a standard Sinequa service that can be injected anywhere in your application to emit "standalone" audit events.
 
-For example, it is used to emit events when users open a document (by following its original URL) in the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html):
+For example, it is used to emit events when users open a document (by following its original URL) in the `SearchService`:
 
 ```ts
 this.auditService.notifyDocument(
@@ -72,9 +72,9 @@ this.auditService.notifyDocument(
 
 Audit events are not limited to a predefined list of event types or a predefined content. It is possible to create new types of events and customize their structure.
 
-The [`AuditEvent`]({{site.baseurl}}core/interfaces/AuditEvent.html) interface is very flexible as it requires:
+The `AuditEvent` interface is very flexible as it requires:
 
-- A `type`, which can be a standard type (among those listed in the [`AuditEventType`]({{site.baseurl}}core/miscellaneous/enumerations.html#AuditEventType)) or a custom `string`.
+- A `type`, which can be a standard type (among those listed in the `AuditEventType`) or a custom `string`.
 - A `detail` field, which is a simple key-value map, where the keys correspond to columns of the audit index (of course, these columns must exist in the audit index schema, which can be customized).
 
     ![Audit schema]({{site.baseurl}}assets/tipstricks/audit-schema.png){: .d-block .mx-auto }
@@ -92,11 +92,11 @@ this.auditWebService.notify({
 
 ## Customizing standard events
 
-It is often required to add some custom data to a standard event (or even to *all* standard events). One solution to that problem would be to modify (or override) the existing services ([`SearchService`]({{site.baseurl}}components/injectables/SearchService.html), [`FacetService`]({{site.baseurl}}components/injectables/FacetService.html), etc.), to add the missing data. But this approach is cumbersome and requires more maintenance.
+It is often required to add some custom data to a standard event (or even to *all* standard events). One solution to that problem would be to modify (or override) the existing services (`SearchService`, `FacetService`, etc.), to add the missing data. But this approach is cumbersome and requires more maintenance.
 
-A better alternative is to *intercept* audit events globally (just before they are sent to the server) and modify them all in this centralized location. This can be achieved by extending the standard [`AuditInterceptor`]({{site.baseurl}}core/interceptors/AuditInterceptor.html) and overriding the `updateAuditRecord()` method.
+A better alternative is to *intercept* audit events globally (just before they are sent to the server) and modify them all in this centralized location. This can be achieved by extending the standard `AuditInterceptor` and overriding the `updateAuditRecord()` method.
 
-[HTTP interceptors](https://angular.io/api/common/http/HttpInterceptor) are a standard way to manipulate HTTP requests and responses globally in Angular. Sinequa includes an interceptor dedicated to audit events. It is provided by default in application samples, such as [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), in the `app.module.ts` file:
+[HTTP interceptors](https://angular.io/api/common/http/HttpInterceptor) are a standard way to manipulate HTTP requests and responses globally in Angular. Sinequa includes an interceptor dedicated to audit events. It is provided by default in application samples, such as [Vanilla Search]({{site.baseurl}}apps/2-vanilla-search.html), in the `app.module.ts` file:
 
 ```ts
 @NgModule({

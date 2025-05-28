@@ -1,41 +1,38 @@
 <!-- Navbar with app icon, search form, and menus -->
-<nav class="navbar navbar-expand flex-column pb-0" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
+<nav class="navbar navbar-expand bg-light dark:bg-dark">
     <div class="container-fluid pb-2">
 
         <!-- Application logo -->
-        <a [routerLink]="['/search']" title="Home">
-            <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
-            <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
-            <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
-            <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
-        </a>
+        <div class="">
+            <a [routerLink]="['/search']" title="Home">
+                <img id="logo" alt="sinequa logo">
+            </a>
+        </div>
 
         <!-- Search form -->
-        <app-search-form class="flex-grow-1 flex-basis-0 mx-3"></app-search-form>
+        <div class="ps-1 pe-2 flex-grow-1 search-form-container">
+            <app-search-form #searchForm
+                [facets]="facets"
+                [autocompleteSources]="features">
+            </app-search-form>
+        </div>
 
         <!-- User menu which visibility can be toggled with a button on small screens -->
-        <ul class="navbar-nav navbar-right" [ngClass]="{'full-width': ui.screenSizeIsLess('sm')}">
-            <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
-                <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
-                <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
-                <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
-                <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
-            </ng-container>
-            <sq-user-menu></sq-user-menu>
-        </ul>
+        <div class="d-none d-sm-block">
+            <ul class="navbar-nav">
+                <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
+                    <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
+                    <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
+                    <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
+                    <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
+                </ng-container>
+                <sq-user-menu [display]="'fullName'"></sq-user-menu>
+                <!-- Non mobile feedback button -->
+                <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1 d-none d-md-block" *ngIf="loginService.complete"></sq-feedback-menu>
+            </ul>
 
-        <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete"></sq-feedback-menu>
-
-    </div>
-
-    <ng-container *ngIf="loginService.complete">
-        <div class="container-fluid text-nowrap" *ngIf="results$ | async as results">
-            <span class="text-muted align-self-start m-2 ms-0"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
-            <sq-facet-filters [results]="results" [facets]="facets" [facetComponents]="facetComponents" class="me-auto"></sq-facet-filters>
-
-            <div class="btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
         </div>
-    </ng-container>
+    </div>
 </nav>
 
 <!-- Loading bar (Manages its own state and visibility via the search service) -->
@@ -43,37 +40,32 @@
 
 <!-- Main interface -->
 <ng-container *ngIf="loginService.complete">
-    <div class="flex-grow-1 container-fluid position-relative main-content" *ngIf="results$ | async as results">
-
-        <!-- Result sidebar toggle -->
-        <span class="toggle-results btn-link"
-            [ngClass]="{collapsed: !showResults}"
-            [sqTooltip]="toggleResultsTitle | sqMessage"
-            (click)="toggleResults()">
-            <i [ngClass]="showResults ? 'fas fa-chevron-circle-left' : 'fas fa-chevron-circle-right'"></i>
-        </span>
+    <div class="container-fluid position-relative overflow-hidden h-100" *ngIf="results$ | async as results">
 
         <div class="row flex-nowrap h-100">
 
             <!-- Results -->
-            <div class="results-list py-2 px-3"
+            <div class="col-4 results-list py-2"
                 [ngClass]="{'results-list--hidden': !showResults}">
-
-                <!-- Result selection toolbar -->
-                <div *ngIf="showResults" class="card text-white bg-primary position-fixed action-bar">
-                    <div class="card-header">
-                        <sq-results-selector [style]="isDark()? 'dark' : 'primary'"></sq-results-selector>
-                    </div>
-                </div>
 
                 <!-- Tabs -->
                 <sq-tabs [results]="results"></sq-tabs>
 
                 <!-- Toolbar -->
-                <div class="d-flex flex-row" [ngClass]="{'me-2': !results.tabs}"> <!-- margin right when no tab, due to results toggle button -->
-                    <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
+                <div class="d-flex ps-2 small my-2">
+                    <a class="flex-grow-1" href="#" (click)="editFilters()" sqTooltip="Click to edit Filters">
+                        <sq-filters *ngIf="searchService.query.filters"
+                            [query]="searchService.query"
+                            [filter]="searchService.query.filters"
+                            [showField]="false"
+                            [allowRemove]="false">
+                        </sq-filters>
+                        <span *ngIf="!searchService.query.filters">
+                            Narrow your search down with filters...
+                        </span>
+                    </a>
                     <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
-                    <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
+                    <sq-sort-selector [results]="results" [rightAligned]="true"></sq-sort-selector>
                 </div>
 
                 <!-- Did you mean -->
@@ -84,23 +76,23 @@
 
                 <!-- List of documents (for loop) -->
                 <div *ngFor="let record of results.records; index as i" class="record d-flex"
+                    [ngClass]="{'selected': record.$selected || record.$opened}"
                     (click)="onDocumentClicked(record, $event)"
-                    [ngClass]="{'selected': record.$selected || isOpened(record)}"
                     [sqScrollIntoView]="{active: record.id === lastSelectedId, first: i === 0}">
-                    <div class="flex-grow-1 overflow-hidden">
+                    <div class="flex-grow-1 overflow-hidden ps-1 pt-2">
                         <div class="d-flex align-items-center">
                             <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ms-1"></sq-result-selector>
                             <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                         </div>
                         <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
-                        <sq-result-extracts [record]="record"></sq-result-extracts>
+                        <sq-result-extracts [record]="record" class="d-block overflow-hidden"></sq-result-extracts>
                         <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
 
                         <sq-labels [record]="record" [public]="true"></sq-labels>
                         <sq-labels [record]="record" [public]="false"></sq-labels>
                     </div>
-                    <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"
-                        *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center ms-3">
+                    <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="false"
+                        class="d-none d-lg-block align-self-center ms-3">
                     </sq-result-thumbnail>
                 </div>
 
@@ -110,31 +102,22 @@
             </div>
 
             <!-- Dashboard -->
-            <div class="h-100 px-0 dashboard-container" [ngClass]="{'dashboard-container--expanded': !showResults}">
-
-                <!-- Gridster dashboard component -->
-                <gridster #gridster [options]="dashboardService.options">
-                    <!-- Gridster item component (one for each widget): Manages drag & drop, resize, etc. -->
-                    <gridster-item [item]="item" *ngFor="let item of dashboardService.dashboard.items; index as i" [attr.focus]="i === focusElementIndex">
-                        <!-- Sinequa dashboard item component which wraps each widget type-->
-                        <sq-dashboard-item
-                            [config]="item"
-                            [results]="results"
-                            [width]="item.width"
-                            [height]="item.height"
-                            [buttonsStyle]="isDark()? 'dark' : 'light'"
-                            (recordClicked)="onDocumentClickedFromView($event)"
-                            (click)="setFocus(i, $event)"
-                            [sqScrollIntoView]="{active: item.recordId && item.recordId === lastClickedId, first: i === 0}">
-                        </sq-dashboard-item>
-                    </gridster-item>
-                </gridster>
-
-            </div>
+            <app-dashboard class="px-0 col-8"
+                [ngClass]="{expanded: !showResults}"
+                [results]="results"
+                [showResults]="showResults"
+                (recordClicked)="onDocumentClickedFromView($event)"
+                (toggleResults)="toggleResults()">
+            </app-dashboard>
 
         </div>
 
     </div>
+    <!-- Result selection toolbar -->
+    <div *ngIf="showResults" class="card-action-bar rounded bg-primary position-fixed w-auto p-2">
+        <sq-results-selector [style]="'primary'"></sq-results-selector>
+    </div>
+
 </ng-container>
 
 <div *ngIf="(results$ | async) === undefined" class="align-self-center my-auto text-center">

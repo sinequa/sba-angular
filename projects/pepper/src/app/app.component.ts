@@ -1,5 +1,5 @@
-import { Component, ChangeDetectorRef } from "@angular/core";
-import { ComponentWithLogin, LoginService } from "@sinequa/core/login";
+import { Component } from "@angular/core";
+import { ComponentWithLogin } from "@sinequa/core/login";
 import { BasketsService } from '@sinequa/components/baskets';
 import { SavedQueriesService, RecentQueriesService, RecentDocumentsService } from '@sinequa/components/saved-queries';
 import { AlertsService } from '@sinequa/components/alerts';
@@ -8,7 +8,6 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
 import { FEATURES } from '../config';
-import { AuditEventType, AuditWebService } from "@sinequa/core/web-services";
 
 @Component({
     selector: "app-root",
@@ -18,10 +17,6 @@ export class AppComponent extends ComponentWithLogin {
 
 
     constructor(
-        // These 2 services are required by the constructor of ComponentWithLogin
-        loginService: LoginService,
-        cdRef: ChangeDetectorRef,
-
         // Services are instantiated by the app component,
         // to guarantee they are instantiated in a consistent order,
         // regardless of the entry route.
@@ -31,13 +26,13 @@ export class AppComponent extends ComponentWithLogin {
         public basketsService: BasketsService,
         public alertsService: AlertsService,
         public labelsService: LabelsService,
-        recentQueriesService: RecentQueriesService,
-        RecentDocumentsService: RecentDocumentsService,
+        _recentQueriesService: RecentQueriesService,
+        _RecentDocumentsService: RecentDocumentsService,
         public selectionService: SelectionService,
-        public appService: AppService,
-        public auditWebService: AuditWebService
+        public appService: AppService
         ){
-        super(loginService, cdRef);
+        super();
+
     }
 
     initDone: boolean = false;
@@ -54,7 +49,7 @@ export class AppComponent extends ComponentWithLogin {
 
             let features = FEATURES;
             // The local config (config.ts) can be overriden by server-side config
-            if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
+            if(this.appService.app.data?.features){
                 features = <string[]> this.appService.app.data.features;
             }
 
@@ -76,19 +71,6 @@ export class AppComponent extends ComponentWithLogin {
                         }
                         break;
                     }
-                }
-            });
-
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden') {
-                    this.auditWebService.notify({
-                        type: AuditEventType.Navigation_Exit
-                    });
-                }
-                if (document.visibilityState === 'visible') {
-                    this.auditWebService.notify({
-                        type: AuditEventType.Navigation_Return
-                    });
                 }
             });
 

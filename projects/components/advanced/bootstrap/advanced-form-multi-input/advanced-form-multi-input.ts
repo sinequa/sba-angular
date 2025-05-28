@@ -36,29 +36,22 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
         }
         this.control = this.form.get(this.field);
         if (this.control) {
-            this.items = this.control.value
-                ? (Utils.isArray(this.control.value)
-                        ? this.control.value
-                        : [this.control.value]
-                    ).map((item: ValueItem) => ({
+            this.items = this.control.value ?
+                Utils.asArray(this.control.value).map((item: ValueItem) => ({
+                    display: item.display ? item.display : item.value.toString(),
+                    normalized: item.value.toString(),
+                    category: this.field,
+                }))
+                : [];
+
+            this._valueChangesSubscription = this.control.valueChanges.subscribe(
+                (value) => {
+                    this.items = value ?
+                        Utils.asArray(value).map((item: ValueItem) => ({
                             display: item.display ? item.display : item.value.toString(),
                             normalized: item.value.toString(),
                             category: this.field,
                         }))
-                : [];
-
-            this._valueChangesSubscription = Utils.subscribe(
-                this.control.valueChanges,
-                (value) => {
-                    if(value && !Utils.isArray(value)) {
-                        value = [value];
-                    }
-                    this.items = value
-                        ? value.map((item: ValueItem) => ({
-                                    display: item.display ? item.display : item.value.toString(),
-                                    normalized: item.value.toString(),
-                                    category: this.field,
-                                }))
                         : [];
                 }
             );
@@ -116,7 +109,7 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
             ))
             : undefined
         this.control?.markAsDirty();
-        this.control?.setValue(value, {emitEvent: false});
+        this.control?.setValue(value, {emitEvent: true});
     }
 
     private _getDropdownItem(): HTMLElement | null {

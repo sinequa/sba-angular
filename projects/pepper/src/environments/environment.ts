@@ -3,9 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  url: "https://localhost:4200",
-  autoSAMLProvider: "identity-dev",
-  production: false
+  app: "training",
+  autoOAuthProvider: "identity-dev",
+  production: false,
+  auditEnabled: true
 };
 
   /*

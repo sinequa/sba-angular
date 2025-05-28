@@ -1,15 +1,16 @@
-import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
-import {Router, NavigationStart, NavigationEnd, Params, NavigationExtras} from "@angular/router";
-import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, catchError, map, switchMap} from "rxjs";
+import {Injectable, InjectionToken, Inject, Optional, OnDestroy, inject} from "@angular/core";
+import {Router, NavigationEnd, Params, NavigationExtras} from "@angular/router";
+import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, catchError} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch} from "@sinequa/core/web-services";
-import {AppService, FormatService, ValueItem, Query, ExprParser, Expr, ExprBuilder} from "@sinequa/core/app-utils";
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation, IQuery, Aggregation} from "@sinequa/core/web-services";
+import {AppService, FormatService, ValueItem, Query} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
 import {IntlService} from "@sinequa/core/intl";
 import {Utils} from "@sinequa/core/base";
-import {Breadcrumbs, BreadcrumbsItem} from './breadcrumbs';
+
+import {UserPreferences} from "@sinequa/components/user-settings";
 
 export interface SearchOptions {
     /** Name of routes for which we want the search service to work (incl. storing the query in the URL) */
@@ -24,6 +25,14 @@ export interface SearchOptions {
     preventQueryNameChanges?: boolean;
     /** Whether to detect query intents synchronously (blocking the execution of the query until we know the intent). By default, query intents are detected asynchronously. */
     queryIntentsSync?: boolean;
+    /** A function that test whether 2 records should be considered duplicates */
+    testDuplicates?: (a: Record, b: Record) => boolean;
+    /** A function called when results are received from the server; can be used to post-process results before they are displayed */
+    initializeResults?: (query: Query, results: Results) => void;
+    /** A function called when a record is received from the server; can be used to post-process a record before it is displayed */
+    initializeRecord?: (query: Query, record: Record) => void;
+    /** A function called when an aggregation is received from the server; can be used to post-process an aggregation before it is displayed */
+    initializeAggregation?: (query: Query, aggregation: Aggregation) => void;
 }
 
 export const SEARCH_OPTIONS = new InjectionToken<SearchOptions>("SEARCH_OPTIONS");
@@ -35,7 +44,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     protected _query: Query | undefined;
     queryStringParams: Params = {};
     results: T | undefined;
-    breadcrumbs: Breadcrumbs<T> | undefined;
     searchActive: boolean;
 
     protected loginSubscription: Subscription;
@@ -45,6 +53,8 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     protected _events = new Subject<SearchService.Events<T>>();
     protected _queryStream = new BehaviorSubject<Query | undefined>(undefined);
     protected _resultsStream = new BehaviorSubject<T | undefined>(undefined);
+
+    protected userPreferences = inject(UserPreferences);
 
     constructor(
         @Optional() @Inject(SEARCH_OPTIONS) protected options: SearchOptions,
@@ -56,7 +66,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         protected formatService: FormatService,
         protected auditService: AuditWebService,
         protected notificationsService: NotificationsService,
-        protected exprBuilder: ExprBuilder,
         protected queryIntentWebService: QueryIntentWebService) {
 
         if (!this.options) {
@@ -66,7 +75,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         }
 
         this.results = undefined;
-        this.breadcrumbs = undefined;
 
         this.loginSubscription = this.loginService.events.subscribe(
             (value) => {
@@ -76,15 +84,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             });
         this.routerSubscription = this.router.events.subscribe(
             (event) => {
-                if (event instanceof NavigationStart) {
-                    // Restore state on back/forward until this issue is fixed: https://github.com/angular/angular/issues/28108
-                    const currentNavigation = this.router.getCurrentNavigation();
-                    if (currentNavigation && event.navigationTrigger === "popstate" &&
-                        !currentNavigation.extras.state && event.restoredState) {
-                        currentNavigation.extras.state = event.restoredState;
-                    }
-                }
-                else if (event instanceof NavigationEnd) {
+                if (event instanceof NavigationEnd) {
                     this.handleNavigation();
                 }
             });
@@ -167,27 +167,13 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         this.setQuery(undefined);
     }
 
-    public updateBreadcrumbs(results: T | undefined, options: SearchService.SetResultsOptions) {
-        if (!results) {
-            this.breadcrumbs = undefined;
-            return;
-        }
-        if (!this.breadcrumbs || (!options.resuseBreadcrumbs && !options.advanced)) {
-            this.breadcrumbs = Breadcrumbs.create<T>(this.appService, this, this.query);
-        }
-        else if (options.advanced) {
-            this.breadcrumbs.update(this.query);
-        }
-    }
-
-    private _setResults(results: T | undefined, options: SearchService.SetResultsOptions = {}) {
+    private _setResults(results: T | undefined) {
         if (results === this.results) {
             return;
         }
         this._events.next({type: "before-new-results", results});
         this.results = results;
         this.treatQueryIntents(results);
-        this.updateBreadcrumbs(results, options);
         if (this.results) {
             if (this.results.tab) {
                 this.query.tab = this.results.tab;
@@ -268,7 +254,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return Math.ceil(this.results.rowCount / this.results.pageSize);
     }
 
-    makeQuery(recentQuery?: Query): Query {
+    makeQuery(recentQuery?: Partial<IQuery> | Query) {
         const ccquery = this.appService.ccquery;
         const query = new Query(ccquery ? ccquery.name : "_unknown");
         if(recentQuery){
@@ -281,43 +267,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     protected makeAuditEvent(event: AuditEvent): AuditEvent {
         this._events.next({type: "make-audit-event", event: event});
         return event;
-    }
-
-    selectBreadcrumbsItem(item: BreadcrumbsItem) {
-        if (this.breadcrumbs) {
-            const query = this.breadcrumbs.selectItem(item);
-            if (query) {
-                this.setQuery(query, false);
-                this.search({reuseBreadcrumbs: true}); // audit?
-            }
-        }
-    }
-
-    removeBreadcrumbsItem(item: BreadcrumbsItem) {
-        if (this.breadcrumbs) {
-            const next = this.breadcrumbs.removeItem(item);
-            if (this.isEmptySearch(this.breadcrumbs.query)) {
-                this.clear();
-                return;
-            }
-            if (next) {
-                this.selectBreadcrumbsItem(next);
-            }
-        }
-    }
-
-    removeSelect(index: number) {
-        if (this.breadcrumbs) {
-            const item = this.breadcrumbs.items[index + 1];
-            this.removeBreadcrumbsItem(item);
-        }
-    }
-
-    removeText() {
-        if (this.breadcrumbs) {
-            const item = this.breadcrumbs.items[0];
-            this.removeBreadcrumbsItem(item);
-        }
     }
 
     clear(navigate = true, path?: string) {
@@ -373,6 +322,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             if (query.select && query.select.length > 0) {
                 return false;
             }
+            if (query.filters) {
+                return false;
+            }
             return true;
         }
         return false;
@@ -380,10 +332,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
     checkEmptySearch(queries: Query | Query[]): boolean {
         if (this.appService.ccquery && !this.appService.ccquery.allowEmptySearch) {
-            if (!Utils.isArray(queries)) {
-                queries = [queries];
-            }
-            for (const query of queries) {
+            for (const query of Utils.asArray(queries)) {
                 if (this.isEmptySearch(query)) {
                     this.notificationsService.info("msg#search.emptySearchNotification");
                     return false;
@@ -397,12 +346,18 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         query: Query, auditEvents?: AuditEvents,
         options: SearchService.GetResultsOptions = {}): Observable<T> {
         if (!this.checkEmptySearch(query)) {
-            return throwError("empty search");
+            return throwError(() => new Error("empty search"));
         }
         if (!options.searchInactive) {
             this.searchActive = true;
         }
         const tab = this.getCurrentTab();
+
+        // check if neural-search is disabled in the user preferences
+        if (this.userPreferences.get("neural-search") === false) {
+            query.neuralSearch = false;
+        }
+
         return this.queryService.getResults(query, auditEvents,
             this.makeQueryIntentData({
                 tab: !!tab ? tab.name : undefined,
@@ -410,9 +365,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 queryAnalysis: (query.spellingCorrectionMode !== "dymonly") ? options.queryAnalysis : undefined
             })
         ).pipe(
-            map((results) => {
+            tap((results) => {
+                this.initializeResults(query, results);
                 this.searchActive = false;
-                return results;
             }),
             catchError((error) => {
                 // when an exception occurs, set the search active flag to false
@@ -428,7 +383,139 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         if (!this.checkEmptySearch(queries)) {
             return of({results: []});
         }
-        return this.queryService.getMultipleResults(queries, auditEvents);
+        return this.queryService.getMultipleResults(queries, auditEvents)
+          .pipe(
+            tap(results => results.results.forEach(
+              (r,i) => this.initializeResults(queries[i], r))
+            )
+          );
+    }
+
+    /**
+     * Initializes the client-side fields of the Results object
+     * @param results
+     */
+    initializeResults(query: Query, results: Results) {
+      // Initialize records
+      this.initializeRecords(query, results);
+
+      // Initialize aggregations
+      this.initializeAggregations(query, results);
+
+      // Custom initialization
+      this.options.initializeResults?.(query, results);
+    }
+
+    initializeRecords(query: Query, results: Results) {
+      if(results.records) {
+        let duplicate: Record|undefined;
+        for(let i=0; i<results.records.length; i++) {
+          const record = results.records[i];
+          record.$hasPassages = !!record.matchingpassages?.passages?.length;
+          if(this.options.testDuplicates) {
+            duplicate ||= results.records[i-1];
+            record.$isDuplicate = i>0 && this.options.testDuplicates(record, duplicate);
+            record.$duplicateCount = 0;
+            if(record.$isDuplicate) {
+              duplicate.$duplicateCount!++;
+            }
+            else {
+              duplicate = undefined;
+            }
+          }
+          this.options.initializeRecord?.(query, record);
+        }
+      }
+    }
+
+    initializeAggregations(query: Query, results: Results) {
+      // Get the query web service configuration
+      const ccquery = this.appService.getCCQuery(query.name);
+
+      // Initialize aggregation map
+      results.$aggregationMap = {};
+
+      const filtered = query.getFiltersAsAggregationItems();
+
+      for(const aggregation of results.aggregations) {
+        // Populate aggregation map
+        results.$aggregationMap[aggregation.name.toLowerCase()] = aggregation;
+
+        // Columns and aggregation configuration
+        aggregation.$cccolumn = this.appService.getColumn(aggregation.column, ccquery);
+        aggregation.column = this.appService.getColumnAlias(aggregation.$cccolumn, aggregation.column);
+        aggregation.$ccaggregation = this.appService.getCCAggregation(aggregation.name, ccquery)!;
+        aggregation.$cccount = aggregation.$ccaggregation?.count || 10;
+
+        aggregation.$filtered = filtered[aggregation.column.toLowerCase()] || [];
+        aggregation.$remainingFiltered = aggregation.$filtered;
+
+        // List aggregations
+        if(!aggregation.isTree) {
+          this.initializeAggregation(aggregation);
+        }
+        // Tree aggregations
+        else {
+          this.initializeTreeAggregation(aggregation);
+        }
+
+        // Custom initialization
+        this.options.initializeAggregation?.(query, aggregation);
+      }
+    }
+
+    initializeAggregation(aggregation: ListAggregation) {
+      // Aggregation items enrichment
+      if(aggregation.items && aggregation.$cccount > 0) { // exclude unlimited aggregation (eg. timelines)
+
+        for(const item of aggregation.items) {
+          // Include the column configuration (for formatting & labels)
+          item.$column = aggregation.$cccolumn;
+          // convert null value without display property to string
+          if (item.value === null && !aggregation.valuesAreExpressions && !item.display) {
+            item.value = String(item.value);
+          }
+          // Check whether the item is currently filtered
+          item.$filtered = aggregation.$remainingFiltered.some(i => i.value === item.value); // TODO: this properly needs refinement for Dates or other special types
+          if(item.$filtered) {
+            aggregation.$remainingFiltered = aggregation.$remainingFiltered.filter(i => i.value !== item.value); // Rather than a splice, we filter the array, in case there are duplicate filters
+          }
+        }
+
+        // Adjust aggregation's items length only if an aggregation configuration is available in the query web service
+        // Otherwise, do not truncate the list of items (example in case of dataset web service)
+        if(aggregation.$ccaggregation && aggregation.items.length > aggregation.$cccount && !aggregation.isDistribution) {
+          aggregation.items = aggregation.items?.slice(0, aggregation.$cccount);
+          aggregation.$hasMore = true;
+        }
+      }
+    }
+
+    initializeTreeAggregation(aggregation: TreeAggregation) {
+      // Process the filtered items
+      for(const item of aggregation.$filtered) {
+        item.$path = item.value.slice(0, -1); // Remove the '*' at the end of the value
+      }
+
+      if(aggregation.items) {
+        // Traverse the aggregation items to add metadata
+        Utils.traverse(aggregation.items, (lineage, node, depth) => {
+          node.$path = '/' + lineage.map(n => n.value).join('/') + '/';
+          node.$column = aggregation.$cccolumn;
+          node.$level = depth;
+          node.$opened = false;
+          // Check whether the item is currently filtered
+          const idx = aggregation.$remainingFiltered.findIndex(
+            i => (i as TreeAggregationNode).$path === node.$path // TODO: this properly needs refinement for Dates or other special types
+          );
+          if(idx !== -1) {
+            node.$filtered = true;
+            aggregation.$remainingFiltered = aggregation.$remainingFiltered.filter(i => i.value !== node.value); // Rather than a splice, we filter the array, in case there are duplicate filters
+            lineage.filter(n => n.items?.length).forEach(n => n.$opened = true);
+          }
+          return false; // don't stop the traversal
+        });
+      }
     }
 
     navigate(options?: SearchService.NavigationOptions, audit?: AuditEvents): Promise<boolean> {
@@ -551,15 +638,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         }
     }
 
-    protected handleLogin(): Promise<boolean> {
-        if (!this.loginService.complete) {
-            return Promise.resolve(false);
-        }
-        if (!!this.ensureQueryFromUrl()) {
-            return this.navigate();
-        }
-        else {
-            return Promise.resolve(true);
+    protected handleLogin() {
+        if (this.loginService.complete && this.ensureQueryFromUrl()) {
+            this.handleNavigation();
         }
     }
 
@@ -569,58 +650,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
     set routingActive(value: boolean) {
         this.options.deactivateRouting = !value;
-    }
-
-    protected makeAuditEventFromCurrentQuery(): AuditEvent | undefined {
-        const lastSelect = this.query.lastSelect();
-        if (lastSelect) {
-            const lastExpr = this.appService.parseExpr(lastSelect.expression);
-            if (lastExpr instanceof Expr) {
-                if (lastExpr.field === "refine") {
-                    return this.makeAuditEvent({
-                        type: AuditEventType.Search_Refine,
-                        detail: {
-                            querytext: lastExpr.value,
-                            itembox: lastSelect.facet,
-                            fromresultid: !!this.results ? this.results.id : null
-                        }
-                    });
-                }
-                else {
-                    return this.makeAuditEvent({
-                        type: AuditEventType.Search_Select_Item,
-                        detail: {
-                            item: lastSelect as any,
-                            itembox: lastSelect.facet,
-                            itemcolumn: lastExpr.field,
-                            isitemexclude: lastExpr.not,
-                            fromresultid: !!this.results ? this.results.id : null
-                        }
-                    });
-                }
-            }
-        }
-        else {
-            if (this.query.basket) {
-                return this.makeAuditEvent({
-                    type: AuditEventType.Basket_Open,
-                    detail: {
-                        basket: this.query.basket
-                    }
-                });
-            }
-            else {
-                return this.makeAuditEvent({
-                    type: AuditEventType.Search_Text,
-                    detail: {
-                        querytext: this.query.text,
-                        scope: this.query.scope,
-                        neuralsearch: this.appService.isNeural() && this.query.neuralSearch !== false
-                    }
-                });
-            }
-        }
-        return undefined;
     }
 
     protected handleNavigation(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents) {
@@ -649,15 +678,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         const pathName = navigationOptions.path ? navigationOptions.path : Utils.makeURL(this.router.url).pathname;
         if(navigationOptions.skipSearch || this.isSkipSearchRoute(pathName)) {
             return
-        }
-
-        if (!audit) {
-            // Note: typically called on application startup when there's no history state (ie. we don't know where the search comes from)
-            audit = this.makeAuditEventFromCurrentQuery();
-            if (audit?.type === AuditEventType.Search_Text) {
-                delete navigationOptions.queryIntents;
-                delete navigationOptions.queryAnalysis;
-            }
         }
 
         let obs = of(false);
@@ -699,9 +719,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         observable.subscribe(results => {
             if(results) {
                 navigationOptions = navigationOptions || {};
-                this._setResults(results, {
-                    resuseBreadcrumbs: navigationOptions.reuseBreadcrumbs,
-                });
+                this._setResults(results);
             }
         });
     }
@@ -736,6 +754,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     search(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise<boolean> {
         delete this.query.page;
         delete this.query.spellingCorrectionMode;
+        if(this.query.filters === undefined) {
+            delete this.query.queryId;
+        }
         return this.navigate(navigationOptions, audit);
     }
 
@@ -758,20 +779,6 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     scope: this.query.scope,
                     language: this.intlService.currentLocale.name,
                     neuralsearch: this.appService.isNeural() && this.query.neuralSearch !== false
-                }
-            }));
-    }
-
-    searchRefine(text: string): Promise<boolean> {
-        // add "refine" name to facet value is mandatory as it's used in preview's query
-        this.query.addSelect(this.exprBuilder.makeRefineExpr(text), "refine");
-        return this.search(undefined,
-            this.makeAuditEvent({
-                type: AuditEventType.Search_Refine,
-                detail: {
-                    querytext: text,
-                    itembox: "refine",
-                    fromresultid: !!this.results ? this.results.id : null
                 }
             }));
     }
@@ -809,7 +816,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 this.getResults(this.query, auditEvents)
                     .subscribe(results => {
                         if(this.results && results) {
-                            this.results.records = [...this.results?.records || [], ...results.records] || [];
+                            this.results.records = [...(this.results?.records ?? []), ...results.records];
                             this._resultsStream.next(this.results);
                         }
                         this.fetchingLoadMore = false;
@@ -826,16 +833,8 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return (page < this.pageCount);
     }
 
-    didYouMean(text: string, context: "search" | "refine", kind: DidYouMeanKind): Promise<boolean> {
-        if (context === "search") {
-            this.query.text = text;
-        }
-        else {
-            const refineSelect = this.query.findSelect("refine");
-            if (refineSelect) {
-                refineSelect.expression = "refine:" + ExprParser.escape(text);
-            }
-        }
+    didYouMean(text: string, kind: DidYouMeanKind): Promise<boolean> {
+        this.query.text = text;
         this.query.spellingCorrectionMode = "dymonly";
         return this.navigate(undefined, this.makeAuditEvent({
             type: kind === DidYouMeanKind.Original ? AuditEventType.Search_DidYouMean_Original : AuditEventType.Search_DidYouMean_Correction,
@@ -860,37 +859,23 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     }
 
     addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddSelectOptions): boolean {
-        if (items && (!Utils.isArray(items) || items.length > 0)) {
-            let expr = this.exprBuilder.makeFieldExpr(field, items, options?.and);
-            if (options?.not) {
-                expr = this.exprBuilder.makeNotExpr(expr);
+        if(Array.isArray(items) && items.length === 1) {
+            items = items[0];
+        }
+        if (items && (!Array.isArray(items) || items.length > 0)) {
+            let filter: Filter;
+            if(!Array.isArray(items)) {
+              filter = {field, value: items.value as string|number|boolean, display: items.display};
+              if(options?.not) filter.operator = 'neq';
             }
-            this.query.addSelect(expr, options?.facetName);
+            else {
+              const operator = options?.not? 'not' : options?.and? 'and' : 'or';
+              filter = {operator, filters: items.map(item => ({field, value: item.value as string|number|boolean, display: item.display}))}
+            }
+            this.query.addFilter(filter);
             return true;
         }
         return false;
-    }
-
-
-    get lastRefineText(): string {
-        if (this.breadcrumbs) {
-            const refineExpr = this.breadcrumbs.findSelect("refine");
-            if (refineExpr) {
-                return ExprParser.unescape(refineExpr.toString(false));
-            }
-        }
-        return "";
-    }
-
-    get hasRelevance(): boolean {
-        if (!this.breadcrumbs) {
-            return false;
-        }
-        if (this.breadcrumbs.textExpr?.hasRelevance) {
-            return true;
-        }
-        const refineExpr = this.breadcrumbs.findSelect("refine");
-        return refineExpr?.hasRelevance || false;
     }
 
     selectTab(arg: string | Tab, options: SearchService.NavigationOptions = {}): Promise<boolean> {
@@ -973,26 +958,31 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
      *
      * They are first searched on the result records, and we make a query for those we cannot find
      */
-    getRecords(ids: string[]): Observable<Record[]> {
-        const records = ids.map(id => {
-            return {
+    getRecords(ids: string[]): Observable<(Record | undefined)[]> {
+        const records = ids.map(id => ({
                 id,
                 record: this.results?.records.find(r => Utils.eq(r.id, id))
-            }
-        });
+            }));
 
         // if all records found, return them
-        if (records.filter(r => r.record).length === ids.length) return of(records.map(r => r.record as Record));
+        if (records.every(r => r.record))
+            return of(records.map(r => r.record as Record));
 
         // building query to get missing records
         const query = this.query.copy();
-        query.globalRelevance = 0;
-        query.addSelect(
-            this.exprBuilder.makeOrExpr('id', records.filter(r => !r.record).map(r => r.id))
-        );
+        delete query.page;
+        query.groupBy = 'id'; // Override the default group by if any
+        const recordIds = [...new Set(records.filter(r => !r.record).map(r => r.id))]; // Unique ids
+        query.pageSize = recordIds.length;
+        query.globalRelevance = 0; // Override the default globalRelevance >= 40
+        query.addFilter({
+            field: 'id',
+            operator: 'in',
+            values: recordIds
+        });
 
-        return this.queryService.getResults(query)
-                .pipe(map(res => records.map(r => r.record as Record || res.records.find(rec => rec.id === r.id))));
+        return this.getResults(query, undefined, {searchInactive: true})
+            .pipe(map(res => records.map(r => r.record || res.records.find(rec => rec.id === r.id))));
     }
 }
 
@@ -1003,20 +993,13 @@ export module SearchService {
         searchInactive?: boolean;   // default "false"
     }
 
-    export interface SetResultsOptions {
-        resuseBreadcrumbs?: boolean;
-        advanced?: boolean;
-    }
-
     export interface AddSelectOptions {
         not?: boolean;      // default "false"
         and?: boolean;      // default "false"
-        facetName?: string; // default: undefined
     }
 
     export interface NavigationOptions {
         path?: string; // absolute path, current path used if not specified
-        reuseBreadcrumbs?: boolean;
         selectTab?: boolean;
         analyzeQueryText?: boolean;
         queryIntents?: QueryIntent[];

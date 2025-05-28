@@ -1,7 +1,8 @@
-﻿import {Injectable, Inject} from "@angular/core";
-import {START_CONFIG, StartConfig, SqHttpClient, HttpService} from "@sinequa/core/web-services";
-import {Observable, map} from "rxjs";
-import {Credentials} from "./authentication.service";
+import {Injectable} from "@angular/core";
+import { Observable, map } from "rxjs";
+
+import {HttpService} from "@sinequa/core/web-services";
+import { Credentials } from "./typings";
 
 /**
  * A service to retrieve a JWT (JSON Web Token) from the Sinequa server.
@@ -10,12 +11,6 @@ import {Credentials} from "./authentication.service";
     providedIn: "root"
 })
 export class JWTService extends HttpService {
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Get a JWT from the Sinequa server using the passed credentials. The JWT is received in a cookie
@@ -38,8 +33,6 @@ export class JWTService extends HttpService {
                 })
             });
         return observable.pipe(
-            map((value) => {
-                return value.csrfToken;
-            }));
+            map((value) => value.csrfToken));
     }
 }

@@ -1,6 +1,4 @@
 import {LocaleData} from "@sinequa/core/intl";
-import d3Format from "../../../../node_modules/d3-format/locale/fr-FR.json";
-import d3Time from "../../../../node_modules/d3-time-format/locale/fr-FR.json";
 import {frCore} from "@sinequa/core/messages";
 import appMessages from "./messages/fr.json";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
@@ -12,7 +10,6 @@ import {frAlerts} from "@sinequa/components/alerts";
 import {frBaskets} from "@sinequa/components/baskets";
 import {frFacet} from "@sinequa/components/facet";
 import {frFeedback} from "@sinequa/components/feedback";
-import {frHeatmap} from "@sinequa/analytics/heatmap";
 import {frLabels} from "@sinequa/components/labels";
 import {frMetadata} from "@sinequa/components/metadata";
 import {frNotification} from "@sinequa/components/notification";
@@ -24,13 +21,17 @@ import {frSelection} from "@sinequa/components/selection";
 import {frSearch} from "@sinequa/components/search";
 import {frStatusBar} from "@sinequa/components/status-bar";
 import {frUserSettings} from "@sinequa/components/user-settings";
-import { frTimeline } from "@sinequa/analytics/timeline";
-import { frML } from "@sinequa/components/machine-learning";
+import {frTimeline} from "@sinequa/analytics/timeline";
+import {frML} from "@sinequa/components/machine-learning";
+import {frFilters} from "@sinequa/components/filters";
+import {frSearchForm} from "@sinequa/components/search-form";
 
+const d3Format = require('d3-format/locale/fr-FR');
 d3Format.thousands = " "; // consistency with intl-number-format
 
-const messages = Utils.merge({}, frCore, frUtils, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frHeatmap, frLabels, frMetadata,
-    frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, frTimeline, frML, appMessages);
+const messages = Utils.merge({}, frCore, frUtils, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frLabels, frMetadata,
+    frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, frTimeline,
+    frML, frFilters, frSearchForm, appMessages);
 
 export default <LocaleData>{
     intl: {
@@ -42,7 +43,7 @@ export default <LocaleData>{
     d3: {
         locale: "fr-FR",
         format: d3Format,
-        time: d3Time
+        time: require('d3-time-format/locale/fr-FR')
     },
     messages: messages
 };

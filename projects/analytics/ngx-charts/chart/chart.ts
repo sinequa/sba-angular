@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
-import {Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, DoCheck, SimpleChanges, ViewChild, ElementRef, Type} from "@angular/core";
+import {Component, Input, Output, EventEmitter, OnInit, OnDestroy, DoCheck, ViewChild, ElementRef, Type} from "@angular/core";
 import {Subscription} from "rxjs";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
@@ -24,7 +24,7 @@ export interface ChartDataPoint {
     templateUrl: "./chart.html",
     styleUrls: ["./chart.scss"]
 })
-export class NgxChart implements OnInit, OnDestroy, OnChanges, DoCheck {
+export class NgxChart implements OnInit, OnDestroy, DoCheck {
     @Input() options: ChartOptions;
     @Input() data: ChartDataPoint[];
     @Output("item-click") itemClickEvent: EventEmitter<ChartDataPoint>;
@@ -74,9 +74,6 @@ export class NgxChart implements OnInit, OnDestroy, OnChanges, DoCheck {
     // so we don't end up with no color scheme if the color scheme is not set
     get colorScheme(): string {
         return this.options.colorScheme || "cool";
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
     }
 
     // This is a clunky way of avoiding (briefly) seeing ngx-charts rendering with the default 600x400 dimensions

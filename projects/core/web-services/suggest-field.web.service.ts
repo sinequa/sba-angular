@@ -1,8 +1,6 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Observable, of, map} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils} from "@sinequa/core/base";
 import {Suggestion} from "./suggest/suggestion";
 import {IQuery} from "./query/query";
@@ -14,11 +12,6 @@ import {IQuery} from "./query/query";
     providedIn: "root"
 })
 export class SuggestFieldWebService extends HttpService {
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Gets suggestions for the passed text for a set of fields and in the context of the passed query
@@ -32,16 +25,14 @@ export class SuggestFieldWebService extends HttpService {
             return of([]);
         }
         else {
-            if (!Utils.isArray(fields)) {
-                fields = [fields];
-            }
+            fields = Utils.asArray(fields);
             const observable = this.httpClient.post<{suggests: Suggestion[]}>(this.makeUrl("suggestfield"), {
                 app: this.appName,
-                text: text,
-                fields: fields,
-                query: query
+                text,
+                fields,
+                query
             }).pipe(map((value) => {
-                value.suggests.forEach(value => value.display = Utils.toSqlValue(value.display)); // because dates get automatically converted by the interceptor
+                value.suggests.forEach(suggestion => suggestion.display = Utils.toSqlValue(suggestion.display)); // because dates get automatically converted by the interceptor
                 return value.suggests;
             }));
             return observable;

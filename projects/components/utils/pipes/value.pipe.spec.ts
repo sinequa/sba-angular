@@ -18,10 +18,12 @@ describe("DateFnsPipe", () => {
         { provide: ChangeDetectorRef, useValue: { markForCheck: () => {}} },
         IntlService,
         FormatService,
-        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig }      ]
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        ValuePipe
+      ]
     });
 
-    pipe = new ValuePipe(TestBed.inject(FormatService), TestBed.inject(IntlService), TestBed.inject(ChangeDetectorRef));
+    pipe = TestBed.inject(ValuePipe);
   })
 
   // all options are described here:

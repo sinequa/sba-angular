@@ -1,18 +1,19 @@
 @import "../facet-base.scss";
 
 .progress-bar {
-  right:0; 
-  bottom:0; 
+  right:0;
+  bottom:0;
   width: calc(100% - var(--count));
   height:2px;
-  
+
   &.progress-color {
     background-color: $color-gray-700;
     background-image: linear-gradient( 90deg, $color-blue-400, transparent);
   }
 }
 
-.facet-results-scrollable {
-  max-height: 385px;
-  overflow-y: auto;
+.item-opener {
+  --sq-tree-indent: 1em;
+  text-decoration: none !important;
+  margin-left: calc(var(--depth) * var(--sq-tree-indent));
 }

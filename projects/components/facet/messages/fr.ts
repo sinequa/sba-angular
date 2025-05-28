@@ -1,24 +1,12 @@
 export default {
     "facet": {
-        "showFacetTextView": "Afficher le texte",
-        "showFacetChartView": "Afficher le graphique",
-        "itemExclude": "Exclure",
-        "applyFilters": "{selections, plural, one {Appliquer le filtre} other {Appliquer les filtres}}",
-        "clearFilters": "{selected, plural, one {Effacer le filtre} other {Effacer les filtres}}",
+        "apply": "Appliquer",
+        "applyOr": "Appliquer avec un OU (par défaut)",
+        "applyAnd": "Appliquer avec un ET",
+        "applyNot": "Appliquer en excluant",
         "loadMore": "Charger plus",
-        "showMore": "Afficher plus",
-        "showLess": "Afficher moins",
-        "displayed": "Affiché",
-        "removeAll": "Supprimer tout",
         "searchPlaceholder": "Rechercher...",
-        "itemSelect": "Sélectionner cette valeur",
-        "itemUnselect": "Désélectionner cette valeur",
-        "filterItem": "Garder les documents qui contiennent {terme}",
-        "filterItems" : "Garder les documents qui contiennent n'importe lequel de ces termes",
-        "filterItemsAnd": "Garder les documents qui contiennent tous ces termes",
-        "excludeItems" : "Exclure les documents contenant un de ces termes",
         "clearSelects" : "Enlever les filtres",
-        "searchItems" : "Rechercher une valeur dans cette liste",
         "searchNoResult": "Pas de résultat",
         "openItem": "Ouvrir",
         "closeItem": "Refermer",
@@ -105,6 +93,7 @@ export default {
         },
 
         "filters":{
+            "title": "Filtres",
             "add":"Ajouter la facette",
             "addAll": "Ajouter toutes les facettes",
             "remove":"Retirer la facette",
@@ -125,6 +114,17 @@ export default {
         "previous": "Précédent",
         "next": "Suivant",
         "filterItemCountTooltip": "{count} valeurs possibles pour ce filtre",
+
+        "container": {
+            "close": "Fermer ce filtre",
+            "help": "Affiner la recherche avec des filtres:",
+            "filterFor": "{title} dans:",
+            "current": "Résultats actuels",
+            "currentTitle": "Les filtres sont calculés pour la liste de résultats actuellement affichée",
+            "all": "Toutes les données",
+            "allTitle": "Les filtres sont calculés pour toutes les données disponibles (appliquer des filtres peut ne renvoyer aucun résultat)",
+            "noData": "Pas de données à afficher"
+        },
     },
 
     "facetCard": {
@@ -134,5 +134,7 @@ export default {
         "reduce": "Réduire",
         "openSettings": "Ouvrir les paramètres",
         "saveSettings": "Enregistrer les paramètres"
-    }
+    },
+
+    "emptySearch": "Recherche vide"
 };

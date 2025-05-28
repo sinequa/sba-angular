@@ -27,7 +27,7 @@ export class AuditInterceptor implements HttpInterceptor {
     }
 
     private isJsonable(obj): boolean {
-        return (Utils.isObject(obj) || Utils.isArray(obj)) && !Utils.isArrayBuffer(obj) && !Utils.isBlob(obj) &&
+        return (Utils.isObject(obj) || Array.isArray(obj)) && !Utils.isArrayBuffer(obj) && !Utils.isBlob(obj) &&
             !Utils.isString(obj) && !(obj instanceof HttpParams);
     }
 
@@ -37,7 +37,7 @@ export class AuditInterceptor implements HttpInterceptor {
             return undefined;
         }
         let auditEvents1: AuditEvent[] | undefined;
-        if (Utils.isArray(auditEvents)) {
+        if (Array.isArray(auditEvents)) {
             auditEvents1 = auditEvents;
         }
         else if (Utils.isObject(auditEvents)) {
@@ -63,6 +63,20 @@ export class AuditInterceptor implements HttpInterceptor {
                 event.detail = {};
             }
             event.detail['sessionid'] = sessionid;
+        });
+    }
+
+    /**
+     * Add the URL to all the audit events
+     * @param auditRecord
+     */
+    private addUrl(auditRecord?: AuditRecord) {
+        const url = decodeURIComponent(window.location.href);
+        auditRecord?.auditEvents?.forEach(event => {
+            if(!event.detail) {
+                event.detail = {};
+            }
+            event.detail['url'] = url;
         });
     }
 
@@ -103,6 +117,7 @@ export class AuditInterceptor implements HttpInterceptor {
         if (this.shouldIntercept(request.url) && this.isJsonable(request.body)) {
             request.body.$auditRecord = this.ensureAuditRecord(request.body.$auditRecord);
             this.addSessionId(request.body.$auditRecord);
+            this.addUrl(request.body.$auditRecord);
             this.updateAuditRecord(request.body.$auditRecord);
         }
         return next.handle(request);

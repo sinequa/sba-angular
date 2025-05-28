@@ -1,5 +1,5 @@
-import {Injectable, Inject, InjectionToken, OnDestroy, ComponentFactory, ComponentRef, Type} from "@angular/core";
-import {Subject, Observable} from "rxjs";
+import {Injectable, Inject, InjectionToken, OnDestroy, ComponentRef} from "@angular/core";
+import {Subject, Observable, BehaviorSubject} from "rxjs";
 import {Utils, MapOf} from "@sinequa/core/base";
 import elementResizeDetectorMaker from "element-resize-detector";
 import {NotificationsService} from "@sinequa/core/notification";
@@ -21,18 +21,23 @@ export class UIService implements OnDestroy {
     screenSizes: string[];
     screenSize: string; // one of the screen size rules values
     elementResizeDetector: any;
-    factories = new Map<Type<any>, ComponentFactory<any>>();
+
+    isDarkTheme$ = new BehaviorSubject<boolean>(document.body.classList.contains("dark"));
+
+    private observer: MutationObserver;
 
     constructor(
         @Inject(SCREEN_SIZE_RULES) public screenSizeRules: MapOf<string>,
         public notificationsService: NotificationsService,
         public clipboard: Clipboard
     ) {
-
         this.screenSizes = ["xs", "sm", "md", "lg", "xl", "xxl"]; // in ascending size order
         this.setScreenSize();
         window.addEventListener("resize", this.resizeEventListener);
         this.elementResizeDetector = elementResizeDetectorMaker({ strategy: "scroll" });
+
+        // start dark/light theme mode observer
+        this.observeThemeChange();
     }
 
     protected resizeEventListener = Utils.frame((event: UIEvent) => {
@@ -45,6 +50,9 @@ export class UIService implements OnDestroy {
         this._resizeEvent.complete();
         this._priorityResizeEvent.complete();
         window.removeEventListener("resize", this.resizeEventListener);
+
+        // stop from receiving further notifications
+        this.observer.disconnect();
     }
 
     get resizeEvent(): Observable<UIEvent> {
@@ -55,25 +63,13 @@ export class UIService implements OnDestroy {
         return this._priorityResizeEvent;
     }
 
-    /*private setTitle(title: string) {
-        document.title = this.intlService.formatMessage(title);
-    }*/
-
-    appInit(appComponentRef: ComponentRef<any>) {
-        //this.setTitle();
-        //Utils.subscribe(this.intlService.events,
-        //    (value) => {
-        //        this.setTitle();
-        //    });
-
-        // See https://github.com/angular/angular/issues/18817
-        /*this.resizeEvent.subscribe(
-            (event) => {
-                appComponentRef.changeDetectorRef.markForCheck();
-            });*/
-
-        // this.loadComponent({component: DirtyChecker});
-    }
+    /**
+     *
+     * @param appComponentRef
+     *
+     * @deprecated Not used
+     */
+    appInit(appComponentRef: ComponentRef<any>) {}
 
     // legacy (was called from app.ts)
     addResizeListener(listener: (event?: UIEvent) => any) {
@@ -84,7 +80,7 @@ export class UIService implements OnDestroy {
         //let rules = this.coreConfig.screenSizeRules;
 
         // validate that we're getting a string or array.
-        if (!Utils.isString(list) && !Utils.isArray(list)) {
+        if (!Utils.isString(list) && !Array.isArray(list)) {
             throw new Error('screenSizeIs requires an array or comma-separated list');
         }
 
@@ -439,6 +435,37 @@ export class UIService implements OnDestroy {
             }
         };
         attempt();
+    }
+
+    /**
+     * Whether the UI is in dark or light mode
+     */
+    isDark(): boolean {
+        return this.isDarkTheme$.getValue();
+    }
+
+    /**
+     * Toggle dark mode
+     */
+    toggleDark() {
+        document.body.classList.toggle("dark");
+    }
+
+    private observeThemeChange() {
+        // Detect body's classes changes (use do detect theme toggle)
+        const el = document.getElementsByTagName('body')[0];
+        this.observer = new MutationObserver((e) => {
+            const isDarkTheme = (e[0].target as HTMLElement).classList.contains("dark");
+            localStorage.setItem('sinequa-theme', isDarkTheme ? 'dark' : 'normal');
+            this.isDarkTheme$.next(isDarkTheme);
+        });
+
+        this.observer.observe(el, {
+            attributes: true,
+            attributeFilter: ['class'],
+            childList: false,
+            characterData: false
+        });
     }
 }
 

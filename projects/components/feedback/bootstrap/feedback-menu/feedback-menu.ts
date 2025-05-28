@@ -23,10 +23,10 @@ export class BsFeedbackMenu implements OnInit {
     ngOnInit() {
         this.items = this.feedbackService.buildFeedbackAction();
         this.options = {
-            items: this.items, 
-            autoAdjust: true, 
-            rightAligned: this.rightAligned, 
-            size: this.size, 
+            items: this.items,
+            autoAdjust: true,
+            rightAligned: this.rightAligned,
+            size: this.size,
             style: this.style
         };
     }

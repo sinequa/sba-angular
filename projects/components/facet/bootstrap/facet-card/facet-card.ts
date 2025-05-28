@@ -1,8 +1,9 @@
-import { Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, HostListener, ContentChildren, QueryList, TemplateRef, DoCheck, OnChanges } from "@angular/core";
+import { Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, ContentChildren, QueryList, TemplateRef, DoCheck, OnChanges } from "@angular/core";
 import { delay, Subscription } from "rxjs";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "../../abstract-facet";
 import { FacetViewDirective } from "../facet-view.directive";
+import { Placement } from "@sinequa/components/utils";
 
 @Component({
     selector: "sq-facet-card",
@@ -109,6 +110,16 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     @Input() startSettingsOpened: boolean = false;
 
     /**
+     * Default placement of the title of All actions, if not specified in the action itself
+     */
+    @Input() defaultTooltipPlacement: Placement = "top";
+
+    /**
+     * Default fallback placements of the title of All actions, if not specified in the action itself
+     */
+    @Input() defaultTooltipFallbackPlacements: Placement[] = ["top", "bottom"];
+
+    /**
      * Event triggered when the facet gets expanded or reduced
      */
     @Output() facetExpanded = new EventEmitter<"expanded" | "reduced">();
@@ -165,6 +176,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     constructor() {
 
         this.collapseAction = new Action({
+            titlePlacement: this.defaultTooltipPlacement,
+            fallbackPlacements: this.defaultTooltipFallbackPlacements,
             action: (action, event) => {
                 // stop propagation to avoid the click outside event to be triggered
                 event.stopPropagation();
@@ -178,10 +191,13 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
             updater: (action) => {
                 action.icon = this._collapsed ? "fas fa-chevron-down" : "fas fa-chevron-up";
                 action.title = this._collapsed ? 'msg#facetCard.expand' : 'msg#facetCard.collapse';
+                this.updateActions();
             }
         });
 
         this.expandAction = new Action({
+            titlePlacement: this.defaultTooltipPlacement,
+            fallbackPlacements: this.defaultTooltipFallbackPlacements,
             action: (action) => {
                 this._expanded = !this._expanded;
                 this.facetExpanded.next(this._expanded ? "expanded" : "reduced");
@@ -197,6 +213,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         });
 
         this.settingsAction = new Action({
+            titlePlacement: this.defaultTooltipPlacement,
+            fallbackPlacements: this.defaultTooltipFallbackPlacements,
             action: (action) => {
                 this._settingsOpened = !this._settingsOpened;
                 this.settingsOpened.next(this._settingsOpened ? "opened" : "saved");
@@ -204,7 +222,7 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
                 action.update();
             },
             updater: (action) => {
-                action.icon = this._settingsOpened ? "far fa-save" : "fas fa-cog";
+                action.icon = this._settingsOpened ? "fas fa-save" : "fas fa-cog";
                 action.title = this._settingsOpened ? "msg#facetCard.saveSettings" : "msg#facetCard.openSettings";
             }
         });
@@ -227,6 +245,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
     ngOnChanges(): void {
         // Most Input() of this component potentially have an effect on the actions
         this.updateActions();
+
+        this.updateClickOutside();
     }
 
     // In ngAfterContentInit we have access to the facet content (facet component or views, depending on how the facet-card is used)
@@ -268,6 +288,10 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
 
     ngOnDestroy() {
         this.subs.unsubscribe();
+
+        if(this.onClickOutside) {
+            document.removeEventListener('click', this.onClickOutside);
+        }
     }
 
     updateFacetComponent() {
@@ -285,6 +309,8 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
 
     updateViews() {
         this.viewActions = this.views.map(view => new Action({
+            titlePlacement: this.defaultTooltipPlacement,
+            fallbackPlacements: this.defaultTooltipFallbackPlacements,
             ...view.viewOptions,
             action: (action, event) => {
                 view.viewOptions?.action?.(action, event); // If any, execute the view's action function
@@ -330,7 +356,11 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         if (!this.actionsFirst) {
             actions.push(...this.actions);
         }
-        return actions;
+        return actions.map((action) => {
+          action.titlePlacement = action.titlePlacement || this.defaultTooltipPlacement;
+          action.fallbackPlacements = action.fallbackPlacements || this.defaultTooltipFallbackPlacements;
+          return action;
+        });
     }
 
     public getSecondaryActions(): Action[] {
@@ -346,7 +376,11 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         if (!this.actionsFirst) {
             actions.push(...this.secondaryActions);
         }
-        return actions;
+        return actions.map((action) => {
+          action.titlePlacement = action.titlePlacement || this.defaultTooltipPlacement;
+          action.fallbackPlacements = action.fallbackPlacements || this.defaultTooltipFallbackPlacements;
+          return action;
+        });
     }
 
     // Manual change detection, to avoid constantly triggering refreshes of the actions
@@ -371,13 +405,23 @@ export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, After
         return this.hideActionsCollapsed && this._collapsed;
     }
 
-    @HostListener('window:click', ['$event'])
-    clickOut() {
-        if (this.collapseOnClickOutside) {
-            this._collapsed = true;
-            this.collapseAction.update();
-            this.expandAction.update();
-            this.settingsAction.update();
+    updateClickOutside() {
+        if(this.collapseOnClickOutside && !this.onClickOutside) {
+            this.onClickOutside = () => {
+                if(!this._collapsed) {
+                    this._collapsed = true;
+                    this.collapseAction.update();
+                    this.expandAction.update();
+                    this.settingsAction.update();
+                }
+            }
+            document.addEventListener('click', this.onClickOutside);
+        }
+        if(!this.collapseOnClickOutside && this.onClickOutside) {
+            document.removeEventListener('click', this.onClickOutside);
         }
     }
+
+    onClickOutside?: () => void;
+
 }

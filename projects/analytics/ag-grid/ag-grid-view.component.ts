@@ -9,9 +9,9 @@ import { AppService, FormatService, Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { IntlService } from "@sinequa/core/intl";
 import { ModalService } from "@sinequa/core/modal";
-import { Results, Record, CCColumn, EngineType } from "@sinequa/core/web-services";
-import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent, ModelUpdatedEvent } from 'ag-grid-community';
-import { ApplyColumnStateParams } from "ag-grid-community/dist/lib/columnController/columnApi";
+import { Results, Record, CCColumn, EngineType, getFieldPredicate } from "@sinequa/core/web-services";
+import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataUpdatedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent, ModelUpdatedEvent } from 'ag-grid-community';
+import { ApplyColumnStateParams } from "ag-grid-community/dist/types/core/columns/columnModel";
 import { Subscription } from "rxjs";
 import { DataModalComponent } from "./data-modal.component";
 import { SqDatasource } from "./datasource";
@@ -36,7 +36,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     /** List of column definitions for each column displayed in the grid */
     @Input() columns: Column[];
     /** Optional query to fetch more data from the server (defaults to searchService.query) */
-    @Input() query?: Query;
+    @Input() query?: Query = this.searchService.query;
 
     /** Width of the grid */
     @Input() width = "100%";
@@ -58,16 +58,18 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     @Input() defaultColumnWidth = 200;
     /** Configure scrolling functionality */
     @Input() rowModelType: string = 'infinite';
+    /** Name of this component for audit purposes */
+    @Input() name?: string;
 
     /** Default column definition */
     @Input()
     defaultColDef: ColDef = {
         resizable: true
     }
-    
+
     /** Actual column definitions (derived from this.columns) */
     colDefs: ColDef[] = [];
-    
+
     /** ag-grid API for the grid and the column model */
     gridApi: GridApi | null | undefined;
     gridColumnApi: ColumnApi | null | undefined;
@@ -77,12 +79,12 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
 
     // Flags to manage the state of filters and sorts
     _filterInput = false;
-    
+
     /** Custom components */
     frameworkComponents = {
         facet: FacetWrapperComponent
     };
-    
+
     /** List of action buttons displayed in the toolbar */
     gridActions: Action[];
     /** Action button allowing to toggle each column's visibility */
@@ -119,7 +121,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             if(event.source !== "ag-grid" && (event.type === SelectionEventType.SELECT || event.type === SelectionEventType.UNSELECT)) {
                 this.gridApi?.forEachNode(node => {
                     if(event.records.find(r => r.id === node.data.id)) {
-                        node.setSelected(event.type === SelectionEventType.SELECT, undefined, true);
+                        node.setSelected(event.type === SelectionEventType.SELECT, undefined);
                     }
                 });
             }
@@ -164,7 +166,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             col.tooltipValueGetter = col.tooltipValueGetter || this.tooltipValueGetter;
             col.headerName = col.headerName || (col.$column?.label? this.intlService.formatMessage(col.$column?.label) : col.field);
             col.headerTooltip = col.headerTooltip || col.headerName;
-            col.cellRenderer = col.cellRendererFramework ? undefined : col.cellRenderer || this.renderCell;
+            col.cellRenderer = col.cellRenderer ? undefined : col.cellRenderer || this.renderCell;
             col.sortable = col.sortable || this.appService.isSortable(col.field);
             const hidePref = this.prefs.get("ag-grid-hide-"+col.field);
             col.hide = hidePref === undefined? col.hide : hidePref;
@@ -236,19 +238,25 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * For each column of the grid, look for an active filter in the query
      * and create a filter model that the grid can understand.
      * Finally, set the filter model via the grid API.
-     * @param query 
+     * @param query
      */
     updateFilterState(query: Query) {
-        let model = {};
-        for(let col of this.colDefs) {
-            const select = query.findSelect("grid-filter-"+col.field);
-            if(col.field && select) {
-                if(col.filter === "facet") { // Sinequa facets
-                    model[col.field] = {facetActive: true}; // Lets us tell ag-grid that a custom filter is active this column
-                }
-                else { // AG Grid filters
-                    const filterType = col.filter ==="agNumberColumnFilter"? "number" : col.filter ==="agDateColumnFilter"? "date" : "text";
-                    model[col.field] = SqDatasource.exprToModel(filterType, col.field, select.expression);
+        const model = {};
+        for(const col of this.colDefs) {
+            if(col.field) {
+                const isField = getFieldPredicate(col.field);
+                const filter = query.findFilter(f =>
+                  isField(f) ||
+                  ((f.operator === 'and' || f.operator === 'or') && f.filters.length === 2 && isField(f.filters[0]) && isField(f.filters[1]))
+                );
+                if(filter) {
+                    if(col.filter === "facet") { // Sinequa facets
+                        model[col.field] = {facetActive: true}; // Lets us tell ag-grid that a custom filter is active this column
+                    }
+                    else { // AG Grid filters
+                        const filterType = col.filter ==="agNumberColumnFilter"? "number" : col.filter ==="agDateColumnFilter"? "date" : "text";
+                        model[col.field] = SqDatasource.filterToModel(filterType, filter);
+                    }
                 }
             }
         }
@@ -259,15 +267,18 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * If the query has a custom orderby clause, create
      * a sort model that the grid can understand and apply
      * that model via the grid column API.
-     * @param query 
+     * @param query
      */
     updateSortState(query: Query) {
         const model: ApplyColumnStateParams = {};
         if(query.orderBy) {
             let [colId, sort] = query.orderBy.split(" ");
             colId = this.appService.getColumnAlias(this.appService.getColumn(colId));
-            model.state = [{colId, sort}];
-        }
+            if (sort === "asc" || sort === "desc") {
+                model.state = [{colId, sort}];
+            } else {
+                model.state = [{colId, sort: null}];
+            }        }
         else {
             model.defaultState = {sort: null};
         }
@@ -280,7 +291,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     createActions() {
         // Initialization of button actions
         this.gridActions = [];
-        for(let action of this.toolbarActions) {
+        for(const action of this.toolbarActions) {
             if(!Utils.isString(action)) {
                 this.gridActions.push(action);
             }
@@ -324,7 +335,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
                     icon: this.formatContent? "far fa-fw fa-check-square" : "far fa-fw fa-square",
                     text: "msg#grid.formatData",
                     title: "msg#grid.formatDataTitle",
-                    action: action => this.toggleFormatContent(action)
+                    action: act => this.toggleFormatContent(act)
                 }));
             }
         }
@@ -351,17 +362,13 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * A function that returns a tooltip string for each cell's value
      */
     @Input()
-    tooltipValueGetter = (params: ITooltipParams) => {
-        return this.formatService.formatRaw(params.value);
-    }
+    tooltipValueGetter = (params: ITooltipParams) => this.formatService.formatRaw(params.value)
 
     /**
      * A function that returns a string formatted for export for each cell's value
      */
     @Input()
-    exportValueGetter = (params: ProcessCellForExportParams) => {
-        return this.formatService.formatRaw(params.value);
-    }
+    exportValueGetter = (params: ProcessCellForExportParams) => this.formatService.formatRaw(params.value)
 
 
     /**
@@ -385,14 +392,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             // In global search mode, the new query & results will update the filter model
             this.datasource?.destroy?.();
             delete this.searchService.query.orderBy;
-            if(this.searchService.query.select?.length) {
-                for(let i=this.searchService.query.select.length; i--; i>=0) {
-                    if(this.searchService.query.select[i].facet.startsWith("grid-filter-")) {
-                        this.searchService.query.removeSelect(i);
-                    }
-                }
-            }
-            this.searchService.search();
+            const fields = this.colDefs.map(col => col.field!).filter(f => f);
+            this.facetService.clearFiltersSearch(fields, true, this.query, this.name);
         }
         else {
             // clear filters
@@ -402,7 +403,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
                 defaultState:{
                     sort: null
                 }
-            })
+            });
         }
         // clear width, visiblity, order
         this.gridColumnApi?.applyColumnState({
@@ -451,7 +452,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             this.uiService.copyToClipboard(data);
         }
     }
-    
+
     /** Download the data as a CSV file */
     downloadCsv() {
         this.gridApi?.exportDataAsCsv(this.getExportParams());
@@ -463,7 +464,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     autoResize() {
         this.gridColumnApi?.autoSizeAllColumns();
     }
-    
+
     /**
      * Called when the user toggles the "format content" checkbox
      */
@@ -489,8 +490,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     /**
      * Callback function called when data in the grid changes
      */
-    onRowDataChanged(event: RowDataChangedEvent) {
-        
+    onRowDataChanged(event: RowDataUpdatedEvent) {
+
     }
 
     /**
@@ -532,7 +533,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * Callback triggered on every user key input. It is useful to capture
      * the fact that onFilterChanged is about to be called after some
      * user input.
-     * @param event 
+     * @param event
      */
      onFilterModified(event: FilterModifiedEvent) {
         if(!this._filterInput) {
@@ -545,7 +546,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
 
     /**
      * Notify the datasource that filter have changed
-     * @param event 
+     * @param event
      */
     onFilterChanged(event: FilterChangedEvent) {
         // The _filterInput flag allows us to only respond to actual user input and ignore programmatic changes
@@ -565,12 +566,12 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
 
     /**
      * Update selection when new rows are inserted in the table
-     * @param event 
+     * @param event
      */
     onModelUpdated(event: ModelUpdatedEvent) {
         this.gridApi?.forEachNode(node => {
             if(node.data?.$selected && !node.isSelected()) {
-                node.setSelected(true, undefined, true);
+                node.setSelected(true, undefined);
             }
         });
     }

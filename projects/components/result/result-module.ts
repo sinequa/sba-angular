@@ -6,7 +6,6 @@ import {IntlModule} from "@sinequa/core/intl";
 
 import {UtilsModule} from "@sinequa/components/utils";
 import {CollapseModule} from "@sinequa/components/collapse";
-import {MetadataModule} from "@sinequa/components/metadata";
 
 import {ResultTitle} from "./result-title/result-title";
 import {ResultSource} from "./result-source/result-source";
@@ -17,6 +16,9 @@ import {UserRating} from "./user-rating/user-rating";
 import {SponsoredResults} from './sponsored-results/sponsored-results';
 import {ResultsCounter} from "./results-counter/results-counter";
 import {ResultIcon} from "./result-icon/result-icon";
+import {ResultDuplicatesComponent} from "./result-duplicates/result-duplicates.component";
+import {ResultDuplicatesListComponent} from "./result-duplicates-list/result-duplicates-list.component";
+import { ResultDuplicatesSpacerComponent } from "./result-duplicates-spacer/result-duplicates-spacer.component";
 
 @NgModule({
     imports: [
@@ -26,22 +28,23 @@ import {ResultIcon} from "./result-icon/result-icon";
         IntlModule,
 
         UtilsModule,
-        CollapseModule,
-        MetadataModule
+        CollapseModule
     ],
     declarations: [
         ResultTitle, ResultExtracts,
         ResultMissingTerms,
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
-        ResultIcon, ResultSource
+        ResultIcon, ResultSource,
+        ResultDuplicatesComponent, ResultDuplicatesListComponent, ResultDuplicatesSpacerComponent
     ],
     exports: [
         ResultTitle, ResultExtracts,
         ResultMissingTerms,
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
-        ResultIcon, ResultSource
+        ResultIcon, ResultSource,
+        ResultDuplicatesComponent, ResultDuplicatesListComponent, ResultDuplicatesSpacerComponent
     ]
 })
 export class ResultModule {

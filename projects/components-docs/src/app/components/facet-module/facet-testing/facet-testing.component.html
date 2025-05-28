@@ -1,0 +1,88 @@
+<sq-facet-card title="Further testings" class="doc-component-demo shadow" [collapsible]="false">
+    <div class="row p-3">
+        <sq-facet-card [title]="'Booleans'" class="col-5 mb-3">
+            <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggBool'"></sq-facet-list>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code1"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Integers'" class="col-5 mb-3">
+            <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggInt'"></sq-facet-list>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code2"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Doubles'" class="col-5 mb-3">
+            <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggDouble'"></sq-facet-list>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code3"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Doubles Dist'" class="col-5 mb-3">
+            <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggDoubleDist'"></sq-facet-list>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code4"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Doubles Range'" class="col-5 mb-3">
+            <sq-facet-range #facet [results]="globalService.results" [aggregation]="'AggDoubleRange'"></sq-facet-range>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code5"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Dates Dist'" class="col-5 mb-3">
+            <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggDateDist'"></sq-facet-list>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code6"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Dates Range'" class="col-5 mb-3">
+            <sq-facet-range #facet [results]="globalService.results" [aggregation]="'AggDateRange'"></sq-facet-range>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code7"></doc-code>
+        </div>
+        <!-- <sq-facet-card [title]="'Dates Timeline'" class="col-5 mb-3">
+            <sq-facet-timeline #facet [results]="globalService.results"
+                [timeseries]="[{aggregation:'AggDateTimeline', primary: true}]" [width]="200"></sq-facet-timeline>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code8"></doc-code>
+        </div> -->
+        <sq-facet-card [title]="'Dates'" class="col-5 mb-3">
+            <sq-facet-date #facet [results]="globalService.results" [aggregation]="'AggDateDist'"
+                [timelineAggregation]="'AggDateTimeline'" [allowPredefinedRange]="true" [allowCustomRange]="true"
+                [showCustomRange]="true"></sq-facet-date>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code9"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Strings'" class="col-5 mb-3">
+            <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggString'"></sq-facet-list>
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code10"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Trees'" class="col-5 mb-3">
+            <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggTree'"></sq-facet-list>
+            <!-- <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggTree'" [expandedLevel]="0"></sq-facet-list> -->
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code11"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Entities'" class="col-5 mb-3">
+            <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggEntity'"></sq-facet-list>
+            <!-- <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggEntity'" [expandedLevel]="0"></sq-facet-list> -->
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code12"></doc-code>
+        </div>
+        <sq-facet-card [title]="'Normalized Entities'" class="col-5 mb-3">
+            <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggEntityNorm'"></sq-facet-list>
+            <!-- <sq-facet-list #facet [results]="globalService.results" [aggregation]="'AggEntityNorm'" [expandedLevel]="0"></sq-facet-list> -->
+        </sq-facet-card>
+        <div class="col-7">
+            <doc-code [code]="code13"></doc-code>
+        </div>
+    </div>
+</sq-facet-card>

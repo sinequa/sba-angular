@@ -23,7 +23,7 @@ export class NotificationsInterceptor implements HttpInterceptor {
     }
 
     protected processNotifications(notifications: Notification[] | undefined) {
-        if (Utils.isArray(notifications)) {
+        if (notifications) {
             for (const notification of notifications) {
                 let  type = notification.type;
                 if (Utils.isUndefined(type)) {

@@ -2,6 +2,7 @@
 <ng-container *ngFor="let child of options.item.children">
     <li *ngIf="!child.hidden" class="{{child.separator ? 'dropdown-divider' : child.scrollGroup ? 'sq-scroll-menu-item open' : child.hasChildren ? 'dropdown-submenu' : ''}}" title="{{child.title | sqMessage:child.messageParams}}" [attr.aria-label]="child.title | sqMessage:child.messageParams">
         <ng-container *ngIf="!child.separator">
+            <span *ngIf="child.title && child.headerGroup" class="ps-3 small text-muted pe-none">{{ child.title | sqMessage:item.messageParams }}</span>
             <a *ngIf="!child.scrollGroup && child.href" [ngClass]="{'disabled': child.disabled}" class="dropdown-item" tabindex="-1" [href]="child.href" [attr.target]="child.target">
                 <sq-action-item-content [item]="child" [text]="child.text" [in-dropdown-menu]="true"></sq-action-item-content>
             </a>
@@ -12,4 +13,5 @@
             <ul *ngIf="child.hasChildren" [sq-dropdown-menu]="{item: child, showMenuClass: options.showMenuClass}"></ul>
         </ng-container>
     </li>
+    <li *ngIf="child.scrollGroup" class="dropdown-divider"></li>
 </ng-container>

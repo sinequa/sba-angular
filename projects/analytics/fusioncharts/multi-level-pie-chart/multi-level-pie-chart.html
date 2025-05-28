@@ -1,4 +1,7 @@
 <fusioncharts *ngIf="ready && !isRefreshing"
+    class="d-block overflow-hidden {{styles}}"
+    [ngClass]="{'clickable': clickable}"
+    [ngStyle]="{'height.px': height}"
     [width]="width"
     [height]="height"
     [type]="type"
@@ -9,4 +12,4 @@
 </fusioncharts>
 
 <!-- Hidden element to avoid glitch when refreshing -->
-<div *ngIf="isRefreshing" [ngStyle]="{width: width + 'px', height: height + 'px'}"></div>
+<div *ngIf="isRefreshing" [ngStyle]="{'width.px': width, 'height.px': height}"></div>

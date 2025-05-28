@@ -75,7 +75,7 @@ export class ProviderFactory {
 
     /**
      * Transform a regular NodeType into a dynamic NodeType (enriched with a record, via a Query)
-     * @param nodeType A NodeType to transform into 
+     * @param nodeType A NodeType to transform into
      * @param getQuery A function that takes in a Node and returns a Query
      * @param nodeOptions Vis.js display properties of this node (may be a static object or a function returning an object given the node)
      * @param trigger (default: onclick) Determines when the node should be mutated (oninsert: when the node is created, onclick: when the node is cliked, manual: via a click on a button or link)
@@ -110,8 +110,8 @@ export class ProviderFactory {
      * @param size Size of the icon and text (the actual sizes in pixel are determined with a normalization function)
      */
     createFontAwesomeNodeOptions(icon: string, color: string, size: number) {
-        return { 
-            shape: "icon", 
+        return {
+            shape: "icon",
             icon: {
                 face:"'Font Awesome 5 Free'",
                 weight: "bold",
@@ -136,7 +136,7 @@ export class ProviderFactory {
             return this.createFontAwesomeNodeOptions(icon, color, node.count);
         }
     }
-    
+
     /**
      * Create node options to display a circular image with the given url, size and background as a node.
      * @param imageUrl Path to the image (eg. 'assets/images/...png')
@@ -144,8 +144,8 @@ export class ProviderFactory {
      * @param background The background color of the image, displayed while the image is loading
      */
     createImageNodeOptions(imageUrl: string, size: number, background = 'white'): {[key: string]: any} {
-        return { 
-            shape: "circularImage", 
+        return {
+            shape: "circularImage",
             image: imageUrl,
             size: this.logScale(size, 10, 1.0, 1.3),
             color: {
@@ -194,7 +194,7 @@ export class ProviderFactory {
     createGeoNodeType(icon = "\uf57d", color = "#5cb85c", name = 'geo'): NodeType {
         return this.createDynamicFontAwesomeNodeType(name, icon, color, name);
     }
-    
+
     /**
      * Create a standard dynamic node type for the company entity.
      * @param icon (default: \uf1ad) Unicode code of the FontAwesome icon
@@ -204,7 +204,7 @@ export class ProviderFactory {
     createCompanyNodeType(icon = "\uf1ad", color = "#f0ad4e", name = 'company'): NodeType {
         return this.createDynamicFontAwesomeNodeType(name, icon, color, name);
     }
-    
+
     /**
      * Create a standard dynamic node type for the person entity.
      * @param icon (default: \uf007) Unicode code of the FontAwesome icon
@@ -215,12 +215,12 @@ export class ProviderFactory {
         return this.createDynamicFontAwesomeNodeType(name, icon, color, name);
     }
 
-    
+
     // Edge Types
 
     /**
      * Create a list of StructuralEdgeType objects given a NodeType for the record and a map of field names to NodeTypes.
-     * (For example, a RecordsProvider will create a central node for a record, and then several edges pointing to nodes 
+     * (For example, a RecordsProvider will create a central node for a record, and then several edges pointing to nodes
      * for each field contained by that record, such as entities, CSV, or any other type of metadata attached to the record)
      * @param recordType The NodeType of the record node
      * @param fieldTypes A map of field names (eg. 'entity12') to NodeTypes, which will be used to create nodes for each entity12 value
@@ -276,7 +276,7 @@ export class ProviderFactory {
      * @param field The field of the record into which the data is stored (typically an entity)
      * @param trigger (default: oninsert) Determines when this edge should be created (oninsert: when the record node is created, onclick: when the record node is cliked, manual: via a click on a button or link)
      * @param display (default: existingnodes) Determines which edges should be visible (all: all the edges are visible; paginate: only a limited number are visible, but more can be shown, using an action; existingnodes: edges will only be created for nodes that already exist in the network; a function take the node as input can also be used to determine visibility dynamically)
-     * @param edgeOptions (default: standard edge options as returned by createEdgeOptions()) Edge options for displaying the edge with Vis.js 
+     * @param edgeOptions (default: standard edge options as returned by createEdgeOptions()) Edge options for displaying the edge with Vis.js
      * @param count (default: 10): when display=paginate, this setting limits the number of edges displayed
      */
     createCoocStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any, count?: number): StructuralEdgeType {
@@ -290,14 +290,14 @@ export class ProviderFactory {
     }
 
     /**
-     * Creates a custom structural edge type for typed cooccurrence entities (formatted in the form 
+     * Creates a custom structural edge type for typed cooccurrence entities (formatted in the form
      * (Value 1)#(Link)#(Value 2)).
      * @param recordType The NodeType of the record node
      * @param nodeTypes The NodeType(s) of the nodes of the cooccurrence (type of Value 1, type of Value 2)
      * @param field The field of the record into which the data is stored (typically an entity)
      * @param trigger (default: oninsert) Determines when this edge should be created (oninsert: when the record node is created, onclick: when the record node is cliked, manual: via a click on a button or link)
      * @param display (default: existingnodes) Determines which edges should be visible (all: all the edges are visible; paginate: only a limited number are visible, but more can be shown, using an action; existingnodes: edges will only be created for nodes that already exist in the network; a function take the node as input can also be used to determine visibility dynamically)
-     * @param edgeOptions (default: standard edge options as returned by createEdgeOptions()) Edge options for displaying the edge with Vis.js 
+     * @param edgeOptions (default: standard edge options as returned by createEdgeOptions()) Edge options for displaying the edge with Vis.js
      * @param count (default: 10): when display=paginate, this setting limits the number of edges displayed
      */
     createTypedCoocStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any, count?: number): StructuralEdgeType {
@@ -346,14 +346,14 @@ export class ProviderFactory {
      * The aggregation (configured on the Sinequa server) must return pairs of items,
      * using a simple distribution of pre-existing pairs, such as co-occurrences.
      * @param nodeTypes A pair of NodeType for each "side" of the aggregation
-     * @param aggregation The name of an aggregation configured on the server, returning a list of cooccurrence "pairs" 
+     * @param aggregation The name of an aggregation configured on the server, returning a list of cooccurrence "pairs"
      * @param edgeOptions (default: custom edge options similar to createAggregationEdgeOptions()) Edge options for displaying the edge with Vis.js
      * @param count Number of aggregation items to fetch (default: 10)
      * @param field An optional field name to filter the content with aggregation item
      * @param parse Custom function for parsing each aggregation item into a AggregationData (containing normally two nodes and one edge)
      */
     createCoocAggregationEdgeType(nodeTypes: NodeType[], aggregation: string, edgeOptions?: any, count?: number, field?: string, parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData): AggregationEdgeType {
-        
+
         if(!edgeOptions) {
             edgeOptions = (nodes: Node[], edge: Edge, type: EdgeType) => {
                 const count = edge.count;
@@ -365,7 +365,7 @@ export class ProviderFactory {
 
         if(!parse) {
             parse = (item: AggregationItem, type: AggregationEdgeType) => {
-                const value = item.value.toString()
+                const value = String(item.value)
                 const display = item.display || value;
                 const values = value.substr(1, value.length-2).split(")#(");
                 const displays = display.substr(1, display.length-2).split(")#(");
@@ -382,14 +382,14 @@ export class ProviderFactory {
      * The aggregation (configured on the Sinequa server) must return triples,
      * using a simple distribution of pre-existing triples, obtained for example via co-occurrence entities.
      * @param nodeTypes A pair of NodeType for each "side" of the aggregation
-     * @param aggregation The name of an aggregation configured on the server, returning a list of cooccurrence "triples" 
+     * @param aggregation The name of an aggregation configured on the server, returning a list of cooccurrence "triples"
      * @param edgeOptions  (default: custom edge options similar to createAggregationEdgeOptions()) Edge options for displaying the edge with Vis.js
      * @param count Number of aggregation items to fetch (default: 10)
      * @param field An optional field name to filter the content with aggregation item
      * @param parse Custom function for parsing each aggregation item into a AggregationData (containing normally two nodes and one edge, plus the relation between them)
      */
     createTypedCoocAggregationEdgeType(nodeTypes: NodeType[], aggregation: string, edgeOptions?: any, count?: number, field?: string, parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData): AggregationEdgeType {
-        
+
         if(!edgeOptions) {
             edgeOptions = (nodes: Node[], edge: Edge, type: EdgeType) => {
                 const count = edge.count;
@@ -400,7 +400,7 @@ export class ProviderFactory {
 
         if(!parse) {
             parse = (item: AggregationItem, type: AggregationEdgeType) => {
-                const value = item.value.toString()
+                const value = String(item.value)
                 const display = item.display || value;
                 const valuesSplit = value.substr(1, value.length-2).split(")#(");
                 const displaysSplit = display.substr(1, display.length-2).split(")#(");
@@ -481,9 +481,9 @@ export class ProviderFactory {
             dashes: !!dashes && Utils.isBoolean(dashes)? [12, 15]: dashes,
             width: width,
             color: {
-                color: "#cccccc", 
-                highlight: "#ff0000", 
-                hover: "#ee0000", 
+                color: "#cccccc",
+                highlight: "#ff0000",
+                hover: "#ee0000",
                 opacity: 0.5
             }
         };

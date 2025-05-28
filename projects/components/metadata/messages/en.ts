@@ -58,10 +58,15 @@ export default {
             label: "{label}:",
             separator: " ",
             treeSeparator: " ; ",
-            treeNodeSeparator: "/",
+            treeNodeSeparator: " ❯ ",
             listSeparator: ", ",
             empty_boolean: 'false',
             empty_number: '0'
+        },
+        actions: {
+            filter: "Filter",
+            exclude: "Exclude",
+            removeFilter: "Remove filter"
         }
     },
 };

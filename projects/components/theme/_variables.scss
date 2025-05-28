@@ -1,8 +1,223 @@
 /**
-VARIABLES
- */
-$sq-transition: all 250ms ease;
-$sq-focus-outline: .4rem solid var(--primary-100, #{$blue-focus});
-$sq-border: .1rem solid $grey-1;
-$sq-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .1);
-$sq-input-padding: .8rem;
+    VARIABLES + BOOTSTRAP'S OVERRIDES
+**/
+
+/** sinequa custom variables **/
+$sq-transition: all 250ms ease !default;
+$sq-focus-outline: .4rem solid var(--primary-100, #{$blue-focus}) !default;
+
+$sq-box-shadow: 0 0 1.5rem 0 rgba(0, 0, 0, .1) !default;
+$sq-btn-box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .1) !default;
+$sq-input-padding: .8rem !default;
+
+
+/** input **/
+$input-border-width: .1rem !default;
+$input-border-color: $grey-100 !default;
+
+$sq-border: $input-border-width solid $input-border-color !default;
+
+
+$input-focus-border-color: var(--primary, #{$blue}) !default;
+$input-focus-box-shadow: none !default;
+
+$input-disabled-color: $grey-600 !default;
+$input-disabled-border-color: $grey-500 !default;
+$input-disabled-bg: $grey-300 !default;
+
+$input-placeholder-color: $grey-100 !default;
+
+/** input-group **/
+$input-group-addon-border-color: transparent !default;
+
+
+/** dropdown **/
+$dropdown-border-color: $grey-100 !default;
+$dropdown-border-width: 1px !default;
+
+$dropdown-link-color: $black !default;
+$dropdown-link-hover-color: $black !default;
+$dropdown-link-hover-bg: $blue-selection !default;
+
+$dropdown-link-active-color: $white !default;
+
+$dropdown-box-shadow: 0 0 .9rem rgba(0, 0, 0, .1) !default;
+
+/** breadcrumbs **/
+// @deprecated?
+$breadcrumb-divider: ">" !default;
+$breadcrumb-item-active-color: $body-text-grey !default;
+$breadcrumb-margin-bottom: 0 !default;
+
+
+/** link **/
+$link-decoration: none !default;
+
+/** list groups **/
+$list-group-action-active-bg: $blue-selection !default;
+
+
+/** nab tab **/
+$nav-tabs-box-shadow: $sq-box-shadow !default;
+$nav-tabs-border-width: 0 !default;
+$nav-tabs-border-radius: .3rem !default;
+$nav-tabs-padding: .2rem !default;
+
+$nav-tabs-link-active-color: var(--sq-text, #{$black}) !default;
+$nav-tabs-link-active-bg: var(--brand, #{$blue-focus}) !default;
+$nav-tabs-link-active-box-shadow: 0 0 .4rem rgba(0, 0, 0, .1) !default;
+
+/** nav link **/
+$nav-link-padding-y: 0.75rem !default;
+$nav-link-padding-x: 1rem !default;
+
+$nav-link-font-weight: 600 !default;
+$nav-link-color: rgb(0,0,0,0.55) !default;
+$nav-link-hover-color: rgb(0,0,0,0.7) !default;
+
+$nav-link-hover-bg: var(--brand-100, #{$blue-focus}) !default;
+$nav-link-active-hover-bg: var(--brand-200, #{$blue-focus}) !default;
+
+/** form check input **/
+$form-check-input-checked-bg-color: $grey-500 !default;
+$form-check-input-checked-border-color: $grey-500 !default;
+
+$form-check-input-border: $sq-border !default;
+$form-check-input-disabled-opacity: 1 !default;
+
+$form-check-input-outline: $sq-focus-outline !default;
+$form-check-input-hover-border-color: $grey-500 !default;
+
+$form-check-input-valid-border-color: $success-1 !default;
+$form-check-input-valid-hover-border-color: $darker-green !default;
+$form-check-input-valid-checked-bg: $success-1 !default;
+$form-check-input-valid-checked-hover-bg: $darker-green !default;
+
+$form-check-input-invalid-border-color: $error-1 !default;
+$form-check-input-invalid-hover-border-color: $darker-red !default;
+$form-check-input-invalid-checked-bg: $error-1 !default;
+$form-check-input-invalid-checked-hover-bg: $darker-red !default;
+
+/** checkbox **/
+$form-check-input-checkbox-checked-bg: var(--primary, #{$blue-500}) !default;
+$form-check-input-checkbox-checked-border-color: var(--primary, #{$blue-500}) !default;
+$form-check-input-checkbox-checked-hover-bg: var(--primary-400, #{$darker-blue}) !default;
+$form-check-input-checkbox-checked-hover-border-color: var(--primary-400, #{$darker-blue}) !default;
+
+$form-check-input-checkbox-disabled-bg: $grey-300 !default;
+$form-check-input-checkbox-disabled-border-color: $grey-300 !default;
+
+/** radio **/
+$form-check-input-radio-checked-box-shadow: inset 0 0 0 .14rem $white !default;
+$form-check-input-radio-disabled-bg: $grey-300 !default;
+$form-check-input-radio-disabled-border-color: $grey-500 !default;
+
+$form-check-input-radio-disabled-checked-bg: $grey-500 !default;
+$form-check-input-radio-disabled-checked-box-shadow: inset 0 0 0 .14rem $grey-300 !default;
+
+$form-check-transition: $sq-transition !default;
+
+/** form label **/
+$form-label-font-weight: 600 !default;
+
+
+/** buttons **/
+$btn-padding-x-lg: 1.5rem !default;
+$btn-padding-y-lg: .8rem !default;
+$btn-border-radius-lg: .3rem !default;
+
+$btn-focus-box-shadow: none !default;
+$btn-box-shadow: $sq-box-shadow !default;
+$btn-transition: $sq-transition !default;
+
+$btn-link-color: $body-text-grey !default;
+$btn-link-hover-color: $grey-600 !default;
+
+$btn-disabled-opacity:.5 !default;
+
+/** facet buttons **/
+$facet-btn-light-bg: transparent !default;
+$facet-btn-light-border-color: transparent !default;
+$facet-btn-light-active-color: white !default;
+$facet-btn-light-active-bg: var(--brand-400, #{$darker-blue}) !default;
+$facet-btn-light-active-border-color: var(--brand-400, #{$darker-blue}) !default;
+
+$facet-item-opener-color: $body-text-grey !default;
+$facet-item-opener-hover-color: $body-text-grey-lighter !default;
+
+
+/** card **/
+$card-border-width: 0 !default;
+$card-box-shadow: $sq-box-shadow !default;
+$card-cap-bg: var(--brand-300, #{$blue-focus}) !default;
+$card-cap-color: var(--sq-text, #{$body-text-grey}) !default;
+
+$card-cap-font-weight: 600 !default;
+$card-cap-primary-icon-color: var(--primary, $blue-100) !default;
+$card-cap-action-font-size: 1rem !default;
+
+/** alert **/
+$alert-padding-x: 1.5rem !default;
+
+/** pagination **/
+$pagination-font-weight: 600 !default;
+$pagination-padding-x: .5rem !default;
+$pagination-padding-y: .1rem !default;
+$pagination-color: $black !default;
+$pagination-bg: transparent !default;
+$pagination-border-color: transparent !default;
+$pagination-border-radius: .35rem !default;
+
+$pagination-hover-color: $white !default;
+$pagination-hover-bg: $blue-hover !default;
+$pagination-hover-border-color: $blue-hover !default;
+
+$pagination-active-bg: $blue !default;
+$pagination-active-border-color: $blue !default;
+
+$pagination-disabled-color: $grey-500 !default;
+$pagination-disabled-bg: transparent !default;
+
+
+/** list group **/
+$list-group-color: $body-text-grey !default;
+$list-group-border-width: 0 !default;
+
+$list-group-active-color: var(--sq-text, #{$black}) !default;
+$list-group-active-bg: $blue-selection !default;
+$list-group-active-border-color: $blue-selection !default;
+
+/** alert **/
+$alert-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1) !default;
+
+
+// sinequa mixin button-variant
+@mixin sq-button-variant(
+  $background,
+  $border,
+  $color,
+  $hover-background,
+  $hover-border,
+  $hover-color,
+  $active-background,
+  $active-border,
+  $active-color,
+  $disabled-background,
+  $disabled-border,
+  $disabled-color
+) {
+  --#{$prefix}btn-color: #{$color};
+  --#{$prefix}btn-bg: #{$background};
+  --#{$prefix}btn-border-color: #{$border};
+  --#{$prefix}btn-hover-color: #{$hover-color};
+  --#{$prefix}btn-hover-bg: #{$hover-background};
+  --#{$prefix}btn-hover-border-color: #{$hover-border};
+  --#{$prefix}btn-focus-shadow-rgb: #{to-rgb(mix($color, $border, 15%))};
+  --#{$prefix}btn-active-color: #{$active-color};
+  --#{$prefix}btn-active-bg: #{$active-background};
+  --#{$prefix}btn-active-border-color: #{$active-border};
+  --#{$prefix}btn-active-shadow: #{$btn-active-box-shadow};
+  --#{$prefix}btn-disabled-color: #{$disabled-color};
+  --#{$prefix}btn-disabled-bg: #{$disabled-background};
+  --#{$prefix}btn-disabled-border-color: #{$disabled-border};
+}

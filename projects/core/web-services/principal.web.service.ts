@@ -1,8 +1,6 @@
-import {Injectable, Inject, OnDestroy} from "@angular/core";
+import {Injectable, OnDestroy} from "@angular/core";
 import {Subject, Observable, map} from "rxjs";
-import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
-import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils} from "@sinequa/core/base";
 
 /**
@@ -84,12 +82,6 @@ export interface PrincipalChangedEvent extends PrincipalEvent {
 export class PrincipalWebService extends HttpService implements OnDestroy {
     private _principal: Principal | undefined;
     private _events = new Subject<PrincipalChangedEvent>();
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     ngOnDestroy() {
         this._events.complete();

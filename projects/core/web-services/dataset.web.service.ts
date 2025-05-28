@@ -1,9 +1,7 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
-import { SqHttpClient } from "./http-client";
 import { HttpService } from "./http.service";
 import { Results } from "./query.web.service";
-import { StartConfig, START_CONFIG } from "./start-config.web.service";
 
 export type Dataset = {[key: string]: Results|DatasetError};
 
@@ -17,6 +15,10 @@ export interface DatasetDescription {
     description?: string;
 }
 
+export function isDatasetError(res: Results|DatasetError): res is DatasetError {
+    return !!(res as DatasetError).errorMessage;
+}
+
 /**
  * A service to notify the audit manager on the Sinequa server of client-side events
  */
@@ -25,12 +27,6 @@ export interface DatasetDescription {
 })
 export class DatasetWebService extends HttpService {
     private static readonly endpoint = "search.dataset";
-
-    constructor(
-        @Inject(START_CONFIG) startConfig: StartConfig,
-        protected httpClient: SqHttpClient) {
-        super(startConfig);
-    }
 
     /**
      * Return the list of queries configured in the given
@@ -49,10 +45,17 @@ export class DatasetWebService extends HttpService {
      * @param query name of the query
      * @param params parameters of the queries
      */
-    get(webServiceName: string, query: string, parameters = {}): Observable<Dataset> {
+    get(webServiceName: string, query: string, parameters = {}): Observable<Results> {
         const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}/${query}`;
-        return this.httpClient.post<{datasets: Dataset}>(url, {parameters})
-            .pipe(map(d => {const obj = new Object(); obj[query]= d.datasets[query]; return obj as Dataset}));
+        return this.httpClient.post<{datasets: Dataset}>(url, {parameters}).pipe(
+            map(d => {
+                const res = d.datasets[query];
+                if(isDatasetError(res)) {
+                    throw new Error(res.errorMessage);
+                }
+                return res;
+            })
+        );
     }
 
     /**
@@ -61,21 +64,11 @@ export class DatasetWebService extends HttpService {
      * @param params parameters of the queries
      * @param datasets precise list of queries, defined in the web service, to be executed
      */
-    getBulk(webServiceName: string, parameters = {}, datasets: string[]): Observable<Dataset> {
+    getBulk(webServiceName: string, parameters = {}, datasets?: string[]): Observable<Dataset> {
         const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
-        return this.httpClient.post<{datasets: Dataset}>(url, {parameters, datasets})
-            .pipe(map(d => d.datasets));
-    }
-
-    /**
-     * Queries the given web service.
-     * @param webServiceName name of the web service
-     * @param params parameters of the queries
-     */
-    getAll(webServiceName: string, parameters = {}): Observable<Dataset> {
-        const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
-        return this.httpClient.post<{datasets: Dataset}>(url, {parameters})
-            .pipe(map(d => d.datasets));
+        return this.httpClient.post<{datasets: Dataset}>(url, {parameters, datasets}).pipe(
+            map(d => d.datasets)
+        );
     }
 
 }

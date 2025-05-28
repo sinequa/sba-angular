@@ -1,11 +1,15 @@
-fusioncharts ::ng-deep {
-
+fusioncharts.clickable ::ng-deep {
     g[class$="plots"] path {
         cursor: pointer;
     }
 
     g[class$="datalabel"] text {
-        display: var(--display) !important;
         cursor: pointer;
+    }
+}
+
+fusioncharts ::ng-deep {
+    g[class$="datalabel"] text {
+        display: var(--display) !important;
     }
 }

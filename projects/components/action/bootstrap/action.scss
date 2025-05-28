@@ -176,34 +176,43 @@ $action-menu-breakpoint: md !default;
     white-space: nowrap;
 }
 
+.dropdown-menu {
+    padding: 0;
+
+    &[role="combobox"]{
+        top: 2.9rem;
+        overflow: visible;
+
+        .dropdown-item {
+            display: flex;
+            align-items: baseline;
+            gap: .5rem;
+        }
+    }
+
+    > li:not(.dropdown-divider) {
+        border-radius: 0.25rem;
+    }
+
+    > li.dropdown-divider {
+        margin: 0;
+    }
+
+    .dropdown-item {
+        margin: .25rem;
+        border-radius: 0.25rem;
+        width: inherit;
+    }
+}
+
 /* so dropdown menu item keeps its highlight when showing submenu - see .nav .open > a rule in navs.less */
 .dropdown-menu > li.open > a {
     background-color: $dropdown-link-hover-bg;
 }
 
-li.sq-scroll-menu-item ul.sq-scroll-menu{
-    border-radius: 0;
-}
-
 /* scroll menu */
-li.sq-scroll-menu-item:first-child {
-    margin-top: -(2 * $dropdown-padding-y);
-
-    ul.sq-scroll-menu {
-        border-top: none;
-        border-top-left-radius: var(--bs-dropdown-border-radius);
-        border-top-right-radius: var(--bs-dropdown-border-radius);
-    }
-}
-
-li.sq-scroll-menu-item:last-child {
-    margin-bottom: -(2 * $dropdown-padding-y);
-
-    ul.sq-scroll-menu {
-        border-bottom: none;
-        border-bottom-left-radius: var(--bs-dropdown-border-radius);
-        border-bottom-right-radius: var(--bs-dropdown-border-radius);
-    }
+li.sq-scroll-menu-item {
+    margin: 0;
 }
 
 @function sq-px2rem($size) {
@@ -219,15 +228,19 @@ ul.sq-scroll-menu {
     display: inherit !important;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    top: 0 !important;
-    left: 0 !important;
     width: 100%;
-    height: auto;
-    max-height: scroll-menu-max-height(10);
-    margin: $dropdown-padding-y 0 !important;
-    border-left: none;
-    border-right: none;
+    max-height: 20rem;
+    margin: 0;
+    padding: 0;
+    border: none;
     @include box-shadow(none);
+
+    &.dropdown-menu {
+        > li {
+            border-radius: 0.25rem;
+            margin: 0;
+        }
+    }
 }
 
 ul.sq-scrollable-menu {
@@ -248,4 +261,57 @@ ul.sq-scrollable-menu {
             left: auto; // Reset the default from `.dropdown-menu`
         }
     }
+}
+
+/* dropdown-menu arrow indicator */
+*:not(.dropdown-submenu) > .dropdown-menu::before {
+	position: absolute;
+	display: inline-block;
+	content: "";
+
+	border: 9px solid transparent;
+	border-bottom-color: var(--bs-dropdown-border-color, white);
+	top: -18px;
+
+	right: auto;
+	left: 9px;
+}
+*:not(.dropdown-submenu) > .dropdown-menu[data-popper-placement^="top"]::before {
+	top: unset;
+	bottom: -8px;
+	border-width: 8px 8px 0;
+	border-color: transparent;
+	border-style: solid;
+	border-top-color: var(--bs-dropdown-border-color, white);
+}
+*:not(.dropdown-submenu) > .dropdown-menu.dropdown-menu-end::before {
+	right: 9px;
+	left: auto;
+}
+
+*:not(.dropdown-submenu) > .dropdown-menu::after {
+	position: absolute;
+	display: inline-block;
+	content: "";
+
+	border: 8px solid transparent;
+	border-bottom-color: var(--bs-dropdown-bg, white);
+	top: -16px;
+
+	right: auto;
+	left: 10px;
+
+	z-index: 1000;
+}
+*:not(.dropdown-submenu) > .dropdown-menu[data-popper-placement^="top"]::after {
+	top: unset;
+	bottom: -7px;
+	border-width: 7px 7px 0;
+	border-style: solid;
+	border-color: transparent;
+	border-top-color: var(--bs-dropdown-bg, white);
+}
+*:not(.dropdown-submenu) > .dropdown-menu.dropdown-menu-end::after {
+	right: 10px;
+	left: auto;
 }

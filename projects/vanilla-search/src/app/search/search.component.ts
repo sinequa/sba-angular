@@ -1,72 +1,81 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { Action } from '@sinequa/components/action';
-import { BsFacetCard, default_facet_components, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
-import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
+import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
+import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Answer, AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
+import { AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
+import { FacetParams, FACETS, FEATURES, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { TopPassage } from '@sinequa/core/web-services';
+import { MetadataConfig } from '@sinequa/components/metadata';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
-  // Dynamic display of facets titles/icons in the multi-facet component
-  public multiFacetIcon? = "fas fa-filter fa-fw";
-  public multiFacetTitle = "msg#facet.filters.title";
 
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
+  public passageId?: string;
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
 
-  // Whether the left facet bar is shown
-  public _showFilters = this.ui.screenSizeIsEqual('md');
-  // Whether the menu is shown on small screens
-  public _showMenu = false;
+  /**
+   * Controls visibility of filters (small screen sizes)
+   */
+  public showFilters = this.ui.screenSizeIsGreaterOrEqual('md');
+  /**
+   * Controls visibility of menu (small screen sizes)
+   */
+  public showMenu = (this.ui.screenSizeIsGreaterOrEqual('md')) ? true : false;
+  /**
+   * Controls visibility of the search bar (small screen sizes)
+   */
+  public showSearch = true;
+  /**
+   * Controls visibility of the filters toggle button (small screen sizes)
+   */
+  public showFilterToggle = false;
 
   public results$: Observable<Results | undefined>;
 
-  // Whether the results contain answers/passages data (neural search)
-  public hasAnswers: boolean;
-  public hasPassages: boolean;
-  public passageId?: string;
-
   public readonly facetComponents = {
-      ...default_facet_components,
+      ...DEFAULT_FACET_COMPONENTS,
       "date": BsFacetDate
   }
 
+  public isDark: boolean;
+
   @ViewChild("previewFacet") previewFacet: BsFacetCard;
   @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
+
+  private subscription = new Subscription();
 
   constructor(
     private previewService: PreviewService,
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
+    public readonly ui: UIService,
     public searchService: SearchService,
     public selectionService: SelectionService,
     public loginService: LoginService,
     public auditService: AuditWebService,
-    public ui: UIService,
   ) {
 
     const expandAction = new Action({
       icon: "fas fa-fw fa-expand-alt",
-      title: "msg#facet.preview.expandTitle",
+      title: "msg#preview.expandTitle",
       action: () => {
         if (this.openedDoc) {
           this.previewService.openRoute(this.openedDoc, this.searchService.query);
@@ -76,13 +85,31 @@ export class SearchComponent implements OnInit {
 
     const closeAction = new Action({
       icon: "fas fa-fw fa-times",
-      title: "msg#facet.preview.closeTitle",
+      title: "msg#preview.closeTitle",
       action: () => {
         this.closeDocument();
       }
     });
 
-    this.previewCustomActions = [ expandAction, closeAction ];
+    this.previewCustomActions = [expandAction, closeAction];
+
+    this.showFilters = (this.ui.screenSizeIsGreater('md'));
+    this.showFilterToggle = (this.ui.screenSizeIsLessOrEqual('md'));
+
+    // when size change, adjust _showFilters variable accordingly
+    // To avoid weird behavior with the Toggle Filters button
+    this.subscription.add(this.ui.resizeEvent.subscribe(_ => {
+      this.showFilterToggle = (this.ui.screenSizeIsLessOrEqual('md'));
+      this.showMenu = (this.ui.screenSizeIsGreaterOrEqual('md'));
+      this.showSearch = (this.ui.screenSizeIsGreaterOrEqual('sm'));
+      this.showFilters = (this.ui.screenSizeIsGreaterOrEqual('md'));
+    }));
+
+    this.subscription.add(this.ui.isDarkTheme$.subscribe(value => this.isDark = value))
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**
@@ -99,10 +126,11 @@ export class SearchComponent implements OnInit {
           this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
           if (!this.showResults) {
             this.openedDoc = undefined;
-            this._showFilters = false;
+            this.showFilters = false;
           }
-          this.hasAnswers = !!results?.answers?.answers?.length;
-          this.hasPassages = !!results?.topPassages?.passages?.length;
+          if(results && results.records.length <= results.pageSize) {
+            window.scrollTo({top: 0, behavior: 'auto'});
+          }
         })
       );
   }
@@ -130,23 +158,12 @@ export class SearchComponent implements OnInit {
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
-  public get metadata(): string[] {
-    return this.appService.app?.data?.metadata as string[] || METADATA;
+  public get metadata(): MetadataConfig[] {
+    return this.appService.app?.data?.metadata as any as MetadataConfig[] || METADATA_CONFIG;
   }
 
-  /**
-   * Responds to a change of facet in the multi facet
-   * @param facet
-   */
-  facetChanged(facet: FacetConfig<FacetParams>){
-    if(!facet) {
-      this.multiFacetIcon = "fas fa-filter fa-fw";
-      this.multiFacetTitle = "msg#facet.filters.title";
-    }
-    else {
-      this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = facet.title || facet.name || facet.parameters?.aggregation || '';
-    }
+  public get previewHighlights(): PreviewHighlightColors[] {
+    return this.appService.app?.data?.previewHighlights as any || PREVIEW_HIGHLIGHTS;
   }
 
   /**
@@ -162,7 +179,6 @@ export class SearchComponent implements OnInit {
 
   openMiniPreview(record: Record, passageId?: number) {
     this.openedDoc = record;
-    this.openedDoc.$hasPassages = !!this.openedDoc.matchingpassages?.passages?.length;
     this.passageId = passageId?.toString();
     if (this.passageId) {
       if (this.previewFacet && this.passagesList) {
@@ -170,7 +186,7 @@ export class SearchComponent implements OnInit {
       }
     }
     if (this.ui.screenSizeIsLessOrEqual('md')) {
-      this._showFilters = false; // Hide filters on small screens if a document gets opened
+      this.showFilters = false; // Hide filters on small screens if a document gets opened
     }
   }
 
@@ -196,68 +212,34 @@ export class SearchComponent implements OnInit {
       });
       this.openedDoc = undefined;
       if(this.ui.screenSizeIsEqual('md')){
-        this._showFilters = true; // Show filters on medium screen when document is closed
+        this.showFilters = true; // Show filters on medium screen when document is closed
       }
     }
   }
 
-  /**
-   * Document is loaded and displayed on screen. It could be manipulated easily.
-   *
-   * eg: scroll to a specific location
-   * document.getContentWindow().scrollTo(0, 3000);
-   * @param document the document currently in preview
-   */
-  previewReady(document: PreviewDocument) {
-    // document.getContentWindow().scrollTo(0, Math.random() * 4000);
-  }
-
-  // VERY SPECIFIC TO THIS APP:
-  // Make sure the click is not meant to trigger an action (from sq-result-source or sq-result-title)
+  // Make sure the click is not meant to trigger an action
   private isClickAction(event: Event): boolean {
-    if (event.type !== 'click') {
-      return true;
-    }
-    const target = event.target as HTMLElement;
-    if (!target) {
-      return false;
-    }
-    return event.type !== 'click' ||
-      target.tagName === "A" ||
-      target.tagName === "INPUT" ||
-      target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
-  }
-
-
-  /**
-   * Controls visibility of filters (small screen sizes)
-   */
-  get showFilters(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('lg') || this._showFilters;
+    const target = event.target as HTMLElement|null;
+    return event.type !== 'click' || !!target?.matches("a, a *, input, input *, button, button *");
   }
 
   /**
    * Show or hide the left facet bar (small screen sizes)
    */
   toggleFilters(){
-    this._showFilters = !this._showFilters;
-    if(this._showFilters){ // Close document if filters are displayed
+    this.showFilters = !this.showFilters;
+    if(this.showFilters){ // Close document if filters are displayed
       this.openedDoc = undefined;
     }
   }
 
-  /**
-   * Controls visibility of menu (small screen sizes)
-   */
-  get showMenu(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('sm') || this._showMenu;
-  }
 
   /**
    * Show or hide the user menus (small screen sizes)
    */
   toggleMenu(){
-    this._showMenu = !this._showMenu;
+    this.showMenu = !this.showMenu;
+    this.showSearch = !this.showMenu;
   }
 
   /**
@@ -271,36 +253,11 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-   * On small screens only show the search form when the facets are displayed
+   * Any icons mappings overrides
+   * Overrides "defaultFormatIcons" from @sinequa/components/result
    */
-  get showForm(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('sm') || this._showFilters;
+  get formatIcons(): any {
+    return this.appService.app?.data?.formatIcons;
   }
 
-  /**
-   * On small screens, show the logo unless the filters or menu are displayed
-   */
-  get showLogo(): boolean {
-    return this.ui.screenSizeIsGreaterOrEqual('sm') || !(this._showFilters || this._showMenu)
-  }
-
-  /**
-   * On medium screens, show the filter toggle, unless on mobile the menu is displayed
-   */
-  get showFilterToggle(): boolean {
-    return this.ui.screenSizeIsLess('lg') && (this.ui.screenSizeIsGreaterOrEqual('sm') || !this._showMenu);
-  }
-
-  /**
-   * Whether the UI is in dark or light mode
-   */
-  isDark(): boolean {
-    return document.body.classList.contains("dark");
-  }
-
-  onTitleClick(value: {item: Answer | TopPassage, isLink: boolean}) {
-    if (value.item.$record) {
-      this.openPreviewIfNoUrl(value.item.$record, value.isLink);
-    }
-  }
 }

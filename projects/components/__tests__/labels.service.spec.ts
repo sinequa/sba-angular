@@ -9,7 +9,6 @@ import { START_CONFIG, PrincipalWebService, LabelsWebService, CCLabels, AuditEve
 import { IntlService, LOCALES_CONFIG } from "@sinequa/core/intl";
 import { MODAL_LOGIN } from '@sinequa/core/login';
 import { MODAL_CONFIRM, MODAL_PROMPT, ModalService } from '@sinequa/core/modal';
-import { AuthService } from 'ng2-ui-auth';
 import { AppLocalesConfig } from './mocks/app.locales.config';
 import { LabelsService, LABELS_COMPONENTS, defaultLabelComponents, ModalProperties, BsRenameLabel, BsDeleteLabel, BsAddLabel, BsEditLabel } from '../labels';
 import { NotificationsService } from '@sinequa/core/notification';
@@ -36,7 +35,6 @@ describe("LabelsService", () => {
       parseDate: () => {},
     });
 
-    const AuthServiceFactory = () => ({});
 
     const UIServiceFactory = () => ({});
 
@@ -50,7 +48,6 @@ describe("LabelsService", () => {
         { provide: MODAL_CONFIRM, useValue: "MODAL_CONFIRM" },
         { provide: MODAL_PROMPT, useValue: "MODAL_PROMPT" },
         { provide: IntlService, useFactory: IntlServiceFactory },
-        { provide: AuthService, useFactory: AuthServiceFactory },
         { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
         { provide: LocationStrategy, useClass: MockLocationStrategy },
         ModalService,

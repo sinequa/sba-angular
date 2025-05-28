@@ -1,6 +1,4 @@
 import {LocaleData} from "@sinequa/core/intl";
-import d3Format from "../../../../node_modules/d3-format/locale/fr-FR.json";
-import d3Time from "../../../../node_modules/d3-time-format/locale/fr-FR.json";
 import {frCore} from "@sinequa/core/messages";
 import appMessages from "./messages/fr.json";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
@@ -26,15 +24,18 @@ import {frStatusBar} from "@sinequa/components/status-bar";
 import {frUserSettings} from "@sinequa/components/user-settings";
 import {frNetwork} from "@sinequa/analytics/network";
 import {frGooglemaps} from "@sinequa/analytics/googlemaps";
-import {frTheme} from "@sinequa/components/theme-toggle";
 import {frFinance} from "@sinequa/analytics/finance";
 import {frTimeline} from "@sinequa/analytics/timeline";
+import {frFilters} from "@sinequa/components/filters";
+import {frSearchForm} from "@sinequa/components/search-form";
+import {frDashboard} from "@sinequa/analytics/dashboard";
 
+const d3Format = require('d3-format/locale/fr-FR');
 d3Format.thousands = " "; // consistency with intl-number-format
 
 const messages = Utils.merge({}, frCore, frUtils, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frHeatmap, frLabels, frMetadata,
-    frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, frNetwork, frGooglemaps, frFinance, frTimeline, appMessages,
-    frTheme);
+    frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, frNetwork,
+    frGooglemaps, frFinance, frTimeline, frFilters, frSearchForm, frDashboard, appMessages);
 
 export default <LocaleData>{
     intl: {
@@ -46,7 +47,7 @@ export default <LocaleData>{
     d3: {
         locale: "fr-FR",
         format: d3Format,
-        time: d3Time
+        time: require('d3-time-format/locale/fr-FR')
     },
     messages: messages
 };

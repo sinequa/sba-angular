@@ -1,0 +1,18 @@
+<div class="my-3">
+  <label for="global-font-size" class="form-label">Global font size:</label>
+  <input type="number"
+    placeholder="Type something"
+    id="global-font-size"
+    class="form-control"
+    [(ngModel)]="fontSize"
+    (ngModelChange)="changedFontSize()" />
+</div>
+
+<ng-container *ngFor="let route of routes">
+  <h6>{{route.path | titlecase}}</h6>
+  <ul>
+    <li *ngFor="let item of route.children">
+      <a [routerLink]="route.path + '/' + item.path" routerLinkActive="active" [id]="item.path">{{item.path | titlecase}}</a>
+    </li>
+  </ul>
+</ng-container>

@@ -1,0 +1,7 @@
+<doc-component-demo title="sq-selection-arranger" [html]="code">
+    <sq-selection-arranger [records]="globalService.records">
+        <ng-template let-record>
+            {{record.title}}
+        </ng-template>
+    </sq-selection-arranger>
+</doc-component-demo>

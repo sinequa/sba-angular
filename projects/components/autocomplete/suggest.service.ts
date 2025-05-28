@@ -1,67 +1,81 @@
 import {Injectable} from "@angular/core";
-import {Observable, of, switchMap} from "rxjs";
+import {map, Observable, of, switchMap, tap} from "rxjs";
 import {Utils} from "@sinequa/core/base";
 import {SuggestQueryWebService, SuggestFieldWebService, Suggestion, EngineType} from "@sinequa/core/web-services";
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {AutocompleteItem} from './autocomplete.directive';
+
+export interface ScoredAutocompleteItem<T, Tcat extends string> extends AutocompleteItem {
+  score: number;
+  data: T;
+  category: Tcat;
+}
 
 @Injectable({
     providedIn: "root"
 })
 export class SuggestService {
 
-    fieldCategory: string;
-
     constructor(
         private suggestQueryWebService: SuggestQueryWebService,
         private suggestFieldWebService: SuggestFieldWebService,
         private appService: AppService) {
-        this.fieldCategory = "$field$";
     }
 
-    private addFields(text: string, suggests: Suggestion[]) {
-        if (text.includes(" ")) {
-            return;
-        }
-        for (const field of this.appService.fields) {
-            if (Utils.startsWith(field, text)) {
-                suggests.unshift({
-                    category: this.fieldCategory,
-                    display: field
-                });
-            }
-        }
-    }
-
-    get(suggestQuery: string, text: string, fields?: string | string[], query?: Query): Observable<Suggestion[]> {
-        if (!this.appService.ccquery) {
+    get(suggestQuery: string | undefined, text: string, fields?: string | string[], query?: Query, maxCount = 10): Observable<ScoredAutocompleteItem<undefined,string>[]> {
+        text = text.trim();
+        if (!this.appService.ccquery || !text) {
             return of([]);
         }
-        return this.suggestQueryWebService.get(suggestQuery, text, this.appService.ccquery.name, fields)
-            .pipe(switchMap(suggests => {
-                if (!fields) {
-                    if (!suggests) {
-                        suggests = [];
+        const sugQuery = suggestQuery || this.appService.suggestQueries[0];
+        const ccquery = this.appService.ccquery.name;
+        return this.suggestQueryWebService.get(sugQuery, text, ccquery, fields).pipe(
+            // If no suggestion is returned, attempt fallback strategies
+            switchMap(suggests => {
+                if(!suggests || suggests.length === 0) {
+                    if (fields) {
+                        // If we are looking for specific fields, use the suggest field web service
+                        return this.getFields(text, fields, query).pipe(map(items => ({items, searchText: text})));
                     }
-                    this.addFields(text, suggests);
-                }
-                else {
-                    if (!suggests || suggests.length === 0) {
-                        const _fields = Utils.isArray(fields) ? fields : [fields];
-                        fields = [];
-                        for (const field of _fields) {
-                            const column = this.appService.getColumn(field);
-                            if (!!column && (column.eType === EngineType.csv || AppService.isScalar(column))) {
-                                fields.push(field);
-                            }
-                        }
-                        if (fields.length > 0) {
-                            return this.suggestFieldWebService.get(text, fields, query);
+                    else {
+                        // Fall back to a strategy of autocompleting only the last token
+                        const i = text.lastIndexOf(" ")+1;
+                        if(i > 0) {
+                            const suffix = text.substring(i);
+                            return this.suggestQueryWebService.get(sugQuery, suffix, ccquery).pipe(
+                                tap(items => items?.forEach(s => s.display = s.display)),
+                                map(items => ({items: items || [], searchText: suffix }))
+                            );
                         }
                     }
                 }
-                return of(suggests);
-            }));
+                return of({items: suggests || [], searchText: text});
+            }),
+            // Post process suggestions
+            map(({items, searchText}) => items
+                // Deduplicate items
+                .filter((item,i) => items.findIndex(_item => Utils.eqNC(_item.display, item.display)) === i)
+                // Limit the total number of items
+                .slice(0, maxCount)
+                // Add a score and highlight the text with HTML markup
+                .map(item => {
+                    const match = this.findMatch(item.display, searchText, undefined, undefined);
+                    const score = (match?.score || 0) * 0.9; // Reduce the score of suggestions wrt other objects
+                    return {...item, score, displayHtml: match?.displayHtml, data: undefined};
+                })
+            )
+        );
+    }
+
+    getFields(text: string, fields: string | string[], query?: Query): Observable<Suggestion[]> {
+        fields = Utils.asArray(fields).filter(field => {
+            const column = this.appService.getColumn(field);
+            return column && (column.eType === EngineType.csv || AppService.isScalar(column))
+        });
+        if (fields.length > 0) {
+            return this.suggestFieldWebService.get(text, fields, query);
+        }
+        return of([]);
     }
 
 
@@ -72,18 +86,18 @@ export class SuggestService {
      * @param primaryText A function that returns the primary text input given the object
      * @param secondaryText An (optional) function that returns a list of secondary text inputs given the object
      */
-    public async searchData<T>(
-        category: string,
+    public async searchData<T, Tcat extends string>(
+        category: Tcat,
         query: string,
         data: T[],
         primaryText: (obj:T) => string,
         secondaryText?: (obj:T) => string[],
-        label?: string) : Promise<AutocompleteItem[]> {
+        label?: string) : Promise<ScoredAutocompleteItem<T, Tcat>[]> {
 
         return data
-            .map(obj => SuggestService.findMatch(primaryText(obj), query,
+            .map(obj => this.findMatch(primaryText(obj), query,
                 !!secondaryText ? secondaryText(obj) : [], obj)) // Look for matches in all saved queries
-            .filter(item => !!item) // Keep only the matches
+            .filter((item): item is { display: string; displayHtml: string; score: number; data: T; } => !!item) // Keep only the matches
             .sort((a,b) => b!.score - a!.score) // Sort by decreasing score
             .map(item => {
                 item = item!;
@@ -107,14 +121,15 @@ export class SuggestService {
      * @param secondaryText Secondary fields to search input, with less importance than the primary field
      * @param data A data object to be included in the match object (for convenience mostly)
      */
-    public static findMatch(text: string, query: string, secondaryText?: string[], data?: any): {display: string, displayHtml: string, score: number, data?:any} | undefined {
+    public findMatch<T>(text: string, query: string, secondaryText: string[]|undefined, data: T): {display: string, displayHtml: string, score: number, data:T} | undefined {
 
         if(!text || !query){
             return undefined;
         }
 
         // pass text and query in lower case and no accent to make search case insensitive
-        const textLower = Utils.removeAccents(text.toLowerCase());
+        let html = text.replace(/<[^>]+>/g,""); // Remove HTML tags to protect against attacks
+        const textLower = Utils.removeAccents(html.toLowerCase());
         query = Utils.removeAccents(query.toLowerCase());
         let i = 0;
         const matches: number[] = [];
@@ -137,16 +152,15 @@ export class SuggestService {
         }
 
         // Format HTML display
-        let html = Utils.escapeHtml(text);
         for(let j=matches.length-1; j>=0; j--) { // decreasing order so the indices remain valid
             i = matches[j];
-            html = html.slice(0, i).concat("<strong>", html.slice(i, i+query.length), "</strong>", html.slice(i+query.length));
+            html = html.slice(0, i).concat("<b>", html.slice(i, i+query.length), "</b>", html.slice(i+query.length));
         }
 
         // Secondary text
         if(secondaryText) {
             secondaryText
-                .map(t => this.findMatch(t, query)) // Search each secondary text for matches
+                .map(t => this.findMatch(t, query, undefined, undefined)) // Search each secondary text for matches
                 .filter(item => !!item) // Keep only the matches
                 .sort((a,b) => b!.score - a!.score) // Sort by decreasing score
                 .forEach(match => {
@@ -160,8 +174,8 @@ export class SuggestService {
             return {
                 display: text,
                 displayHtml: html,
-                score: score,
-                data: data
+                score,
+                data
             };
         }
         return undefined;

@@ -1,7 +1,7 @@
-<div class="my-search d-flex flex-row align-items-center flex-wrap" [ngClass]="collapsed ? 'collapsed-view' : 'expanded-view'">
+<div class="my-search" [ngClass]="collapsed ? 'collapsed-view' : 'expanded-view'">
     <ng-container *ngFor="let item of items; index as i">
         <div *ngIf="!item.hidden"
-            class="px-1 ms-1 mb-1 sq-metadata-item sq-metadata-color-{{fields[i]}}"
+            class="my-search-content sq-metadata-item sq-metadata-color-{{fields[i]}}"
             [ngClass]="{'sq-metadata-border': useBadges}">
             <span
                 [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"

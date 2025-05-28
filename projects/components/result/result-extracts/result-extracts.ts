@@ -9,6 +9,11 @@ import {Record} from "@sinequa/core/web-services";
 p, ul {
     margin: 0;
 }
+.sq-single-extract {
+    display: -webkit-box;
+    -webkit-line-clamp: var(--line-clamp, 4);
+    -webkit-box-orient: vertical;
+}
 .extracts-text {
     word-break: break-word;
 }

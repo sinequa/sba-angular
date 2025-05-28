@@ -1,38 +1,32 @@
-import {Component, Input, OnInit, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
+import {Component, Input, OnInit, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy} from "@angular/core";
 import {Action} from "../../action";
 import {UIService} from "@sinequa/components/utils";
-import {DropdownMenuOptions} from "../dropdown-menu/dropdown-menu";
-
-
-export interface ActionItemOptions {
-    item: Action;
-    size?: string;
-    style?: string;
-    autoAdjust?: boolean;
-    autoAdjustBreakpoint?: string;
-    inMenu: boolean;
-    rightAligned?: boolean;
-}
+import { ActionItemOptions, ActionSize, DropdownMenuOptions } from "../../typings";
 
 @Component({
     selector: "[sq-action-item]",
     templateUrl: "./action-item.html",
-    styles: [`
-    :host-context(.dark)
-        button.btn-light {
-            filter: invert(0.76);
-        }
-    `],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsActionItem implements OnInit, AfterViewInit {
-    @Input("sq-action-item") options: ActionItemOptions;
-    @Input() collapseBreakpoint: string = "md";
-    inListItem: boolean;
-    dropdownButton: Element;
-    dropdownListItem: Element;
-    autoAdjustBreakpoint?: string;
-    showDropdown: boolean;
+export class BsActionItem implements OnInit, OnDestroy, AfterViewInit {
+    @Input("sq-action-item")
+    set options(props: ActionItemOptions) {
+        this.props = props;
+        this.item = props.item;
+    }
+    get options() {
+        return this.props;
+    }
+    @Input() collapseBreakpoint: ActionSize = "md";
+
+    protected props: ActionItemOptions;
+    protected item: Action;
+
+    protected inListItem: boolean;
+    protected dropdownButton: Element;
+    protected dropdownListItem: Element;
+    protected autoAdjustBreakpoint?: string;
+    protected showDropdown: boolean;
 
     constructor(
         private uiService: UIService,
@@ -41,31 +35,31 @@ export class BsActionItem implements OnInit, AfterViewInit {
     ) {}
 
     get haveItem(): boolean {
-        return !!this.options.item;
+        return !!this.item;
     }
 
     get isVisible(): boolean {
-        return this.haveItem && !this.options.item.hidden;
+        return this.haveItem && !this.item.hidden;
     }
 
     get hasAction(): boolean {
-        return this.haveItem && !!this.options.item.action;
+        return this.haveItem && !!this.item.action;
     }
 
     get isDropdownButton(): boolean {
-        return this.isVisible && !this.inListItem && this.options.item.hasChildren;
+        return this.isVisible && !this.inListItem && this.item.hasChildren;
     }
 
     get isButton(): boolean {
-        return this.isVisible && !this.inListItem && !this.options.item.hasChildren && this.hasAction;
+        return this.isVisible && !this.inListItem && !this.item.hasChildren && this.hasAction;
     }
 
     get isDropdownListItem(): boolean {
-        return this.isVisible && this.inListItem && this.options.item.hasChildren;
+        return this.isVisible && this.inListItem && this.item.hasChildren;
     }
 
     get isListItem(): boolean {
-        return this.isVisible && this.inListItem && !this.options.item.hasChildren && this.hasAction;
+        return this.isVisible && this.inListItem && !this.item.hasChildren && this.hasAction;
     }
 
     get haveSpace(): boolean {
@@ -79,14 +73,14 @@ export class BsActionItem implements OnInit, AfterViewInit {
     }
 
     get haveIcon(): boolean {
-        return !!this.options.item.icon || !!this.options.item.iconAfter;
+        return !!this.item.icon || !!this.item.iconAfter;
     }
 
     get itemText(): string {
         if (!this.haveItem) {
             return "";
         }
-        const text = this.options.item.text || "";
+        const text = this.item.text || "";
         if (this.options.autoAdjust && this.haveIcon) {
             return this.haveSpace ? text : "";
         }
@@ -99,8 +93,8 @@ export class BsActionItem implements OnInit, AfterViewInit {
         if (!this.haveItem) {
             return "";
         }
-        const text = this.options.item.text || "";
-        const title = this.options.item.title || "";
+        const text = this.item.text || "";
+        const title = this.item.title || "";
         if (this.options.autoAdjust && this.haveIcon) {
             return this.haveSpace ? (title !== text ? title : "") : title || text;
         }
@@ -113,7 +107,7 @@ export class BsActionItem implements OnInit, AfterViewInit {
         if (!this.haveItem) {
             return null;
         }
-        return this.options.item.messageParams;
+        return this.item.messageParams;
     }
 
     get sizeClass(): string {
@@ -135,28 +129,28 @@ export class BsActionItem implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.inListItem = (this.elementRef.nativeElement.nodeName === "LI");
-        if (this.options.item.init) {
-            this.options.item.init(this.options.item);
+        if (this.item.init) {
+            this.item.init(this.item);
         }
         this.autoAdjustBreakpoint = this.options.autoAdjustBreakpoint;
         this.uiService.resizeEvent.subscribe(e => this.cdRef.detectChanges());
     }
 
     ngOnDestroy() {
-        if (this.options.item.destroy) {
-            this.options.item.destroy(this.options.item);
+        if (this.item.destroy) {
+            this.item.destroy(this.item);
         }
     }
 
     click(event: UIEvent) {
-        if (!this.options.item.disabled) {
-            if (this.options.item.action) {
-                this.options.item.action(this.options.item, event);
+        if (!this.item.disabled) {
+            if (this.item.action) {
+                this.item.action(this.item, event);
             }
-            if (this.options.item.toggle && (this.isDropdownButton || this.isDropdownListItem)) {
+            if (this.item.toggle && (this.isDropdownButton || this.isDropdownListItem)) {
                 const openElement = this.dropdownButton || (this.dropdownListItem ? this.dropdownListItem.parentElement : null);
                 if (openElement) {
-                    this.options.item.toggle(this.options.item, !openElement.classList.contains("open"));
+                    this.item.toggle(this.item, !openElement.classList.contains("open"));
                 }
             }
         }

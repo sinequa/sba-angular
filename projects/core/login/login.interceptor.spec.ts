@@ -1,17 +1,21 @@
 import {HttpClient, HttpErrorResponse, HttpInterceptor, HttpParams, HTTP_INTERCEPTORS} from "@angular/common/http";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {inject, TestBed} from "@angular/core/testing";
+import { inject, TestBed } from "@angular/core/testing";
 
-import {HTTP_REQUEST_INITIALIZERS, LoginInterceptor} from '.';
-import {NotificationsService} from '../notification';
-import {START_CONFIG} from '../web-services';
-import {AuthenticationService} from './authentication.service';
-import {LoginService} from './login.service';
+import { NotificationsService } from "@sinequa/core/notification";
+import { START_CONFIG } from "@sinequa/core/web-services";
+
+import { AuthenticationService } from "./authentication.service";
+import { HTTP_REQUEST_INITIALIZERS, LoginInterceptor } from "./login.interceptor";
+import { LoginService } from "./login.service";
+import { IntlService, LOCALES_CONFIG, Locale } from "../intl";
+
 
 describe("login interceptor", () => {
   let interceptorInstance: HttpInterceptor | null;
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
+  let intlService: IntlService;
 
   function getInterceptorInstance<T extends HttpInterceptor>(interceptors: HttpInterceptor[], type: any): HttpInterceptor | null {
     let searchedInterceptor: HttpInterceptor | null = null;
@@ -32,9 +36,11 @@ describe("login interceptor", () => {
       providers: [
         { provide: START_CONFIG, useValue: { app: "testing_app" } },
         { provide: HTTP_REQUEST_INITIALIZERS, useValue: {} },
+        { provide: LOCALES_CONFIG, useValue: {}},
         { provide: LoginService, deps: [START_CONFIG], useClass: LoginService },
         { provide: AuthenticationService, deps: [START_CONFIG], useClass: AuthenticationService },
-        { provide: HTTP_INTERCEPTORS, deps: [START_CONFIG, HTTP_REQUEST_INITIALIZERS, NotificationsService, LoginService, AuthenticationService], useClass: LoginInterceptor, multi: true }
+        { provide: IntlService, deps: [START_CONFIG, LOCALES_CONFIG], useClass: IntlService },
+        { provide: HTTP_INTERCEPTORS, deps: [START_CONFIG, HTTP_REQUEST_INITIALIZERS, NotificationsService, LoginService, AuthenticationService, IntlService], useClass: LoginInterceptor, multi: true }
       ]
     });
 
@@ -43,6 +49,8 @@ describe("login interceptor", () => {
 
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
+    intlService = TestBed.inject(IntlService);
+    intlService.currentLocale = { name: "fr" } as Locale;
   });
 
   afterEach(() => {
@@ -83,7 +91,7 @@ describe("login interceptor", () => {
       });
 
     // The following `expectOne()` will match the request's URL.
-    const req = httpMock.expectOne("/data");
+    const req = httpMock.expectOne("/data?ui-language=fr");
 
     // Respond with mock error
     req.flush(message, { status: 401, statusText: 'Unauthorized' });
@@ -110,7 +118,7 @@ describe("login interceptor", () => {
       });
 
     // The following `expectOne()` will match the request's URL.
-    const req = httpMock.expectOne("/data");
+    const req = httpMock.expectOne("/data?ui-language=fr");
 
     // Respond with mock error
     req.flush(message, {status: 403, statusText: 'Forbidden'});
@@ -124,7 +132,7 @@ describe("login interceptor", () => {
         expect(res).toEqual("ok");
       });
 
-    const req = httpMock.expectOne("/data");
+    const req = httpMock.expectOne("/data?ui-language=fr");
     req.flush("ok");
 
     expect(req.request.params.has("noAutoAuthentication")).toBeFalse();
