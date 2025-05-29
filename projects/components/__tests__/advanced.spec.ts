@@ -1,6 +1,6 @@
 import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from '@angular/router/testing';
-import { OverlayModule } from '@angular/cdk/overlay';
+import { RouterTestingModule } from "@angular/router/testing";
+import { OverlayModule } from "@angular/cdk/overlay";
 import { AppService, FormatService } from "@sinequa/core/app-utils";
 
 import { SearchService } from "../search";
@@ -10,10 +10,10 @@ import { START_CONFIG, CCColumn } from "@sinequa/core/web-services";
 import { HttpHandler } from "@angular/common/http";
 import { IntlService, LOCALES_CONFIG } from "@sinequa/core/intl";
 import { UntypedFormControl } from "@angular/forms";
-import { MODAL_LOGIN } from '@sinequa/core/login';
-import { MODAL_CONFIRM, MODAL_PROMPT } from '@sinequa/core/modal';
-import { AppLocalesConfig } from './mocks/app.locales.config';
-import { Utils } from '@sinequa/core/base';
+import { MODAL_LOGIN } from "@sinequa/core/login";
+import { MODAL_CONFIRM, MODAL_PROMPT } from "@sinequa/core/modal";
+import { AppLocalesConfig } from "./mocks/app.locales.config";
+import { Utils } from "@sinequa/core/base";
 
 describe("AdvancedService", () => {
   let service: AdvancedService;
@@ -23,7 +23,6 @@ describe("AdvancedService", () => {
   // let intlService: IntlService;
 
   beforeEach(() => {
-
     const IntlServiceFactory = () => ({
       parseDate: () => {},
     });
@@ -41,12 +40,9 @@ describe("AdvancedService", () => {
         { provide: MODAL_CONFIRM, useValue: "MODAL_CONFIRM" },
         { provide: MODAL_PROMPT, useValue: "MODAL_PROMPT" },
         { provide: IntlService, useFactory: IntlServiceFactory },
-        {provide: LOCALES_CONFIG, useClass: AppLocalesConfig},
+        { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
       ],
-      imports: [
-        RouterTestingModule,
-        OverlayModule
-      ]
+      imports: [RouterTestingModule, OverlayModule],
     });
     service = TestBed.inject(AdvancedService);
     searchService = TestBed.inject(SearchService);
@@ -478,16 +474,16 @@ describe("AdvancedService", () => {
   describe("format an advanced value", () => {
     let spy;
     beforeEach(() => {
-      spy = spyOn(formatService, 'formatValue');
+      spy = spyOn(formatService, "formatValue");
     });
 
     afterEach(() => {
       spy.calls.reset();
-    })
+    });
 
     it("single value with formatted column", () => {
-      const column = {formatter: "toto"} as CCColumn;
-      spyOn(appService, 'getColumn').and.returnValue(column)
+      const column = { formatter: "toto" } as CCColumn;
+      spyOn(appService, "getColumn").and.returnValue(column);
 
       service.formatAdvancedValue("toto", "foo");
 
@@ -496,9 +492,9 @@ describe("AdvancedService", () => {
     });
 
     it("list of items (including undefined values) with formatted column", () => {
-      const column = {formatter: "toto"} as CCColumn;
+      const column = { formatter: "toto" } as CCColumn;
       const value = ["foo", "test", undefined];
-      spyOn(appService, 'getColumn').and.returnValue(column)
+      spyOn(appService, "getColumn").and.returnValue(column);
 
       service.formatAdvancedValue("toto", value);
 
@@ -508,26 +504,25 @@ describe("AdvancedService", () => {
     });
 
     it("with unformatted column", () => {
-      const column = {formatter: undefined} as CCColumn;
-      spyOn(appService, 'getColumn').and.returnValue(column)
+      const column = { formatter: undefined } as CCColumn;
+      spyOn(appService, "getColumn").and.returnValue(column);
 
       service.formatAdvancedValue("toto", 1520845152);
 
       expect(spy).not.toHaveBeenCalled();
     });
-
   });
 
   describe("cast an advanced value", () => {
     let column;
     beforeEach(() => {
-      column = {formatter: "toto"} as CCColumn;
-      spyOn(Utils, 'isString').and.returnValue(true)
+      column = { formatter: "toto" } as CCColumn;
+      spyOn(Utils, "isString").and.returnValue(true);
     });
 
     it("string as Date", () => {
-      spyOn(AppService, 'isDate').and.returnValue(true)
-      const spy = spyOn(Utils, 'toDate');
+      spyOn(AppService, "isDate").and.returnValue(true);
+      const spy = spyOn(Utils, "toDate");
 
       service.castAdvancedValue("12/12/1212", column);
 
@@ -536,9 +531,9 @@ describe("AdvancedService", () => {
     });
 
     it("string as integer", () => {
-      spyOn(AppService, 'isInteger').and.returnValue(true)
-      spyOn(Utils, 'testInteger').and.returnValue(true)
-      const spy = spyOn(Utils, 'toInt');
+      spyOn(AppService, "isInteger").and.returnValue(true);
+      spyOn(Utils, "testInteger").and.returnValue(true);
+      const spy = spyOn(Utils, "toInt");
 
       service.castAdvancedValue("12", column);
 
@@ -547,9 +542,9 @@ describe("AdvancedService", () => {
     });
 
     it("string as number", () => {
-      spyOn(AppService, 'isDouble').and.returnValue(true)
-      spyOn(Utils, 'testFloat').and.returnValue(true)
-      const spy = spyOn(Utils, 'toNumber');
+      spyOn(AppService, "isDouble").and.returnValue(true);
+      spyOn(Utils, "testFloat").and.returnValue(true);
+      const spy = spyOn(Utils, "toNumber");
 
       service.castAdvancedValue("129.487", column);
 
@@ -558,14 +553,13 @@ describe("AdvancedService", () => {
     });
 
     it("string as boolean", () => {
-      spyOn(AppService, 'isBoolean').and.returnValue(true)
-      const spy = spyOn(Utils, 'isTrue');
+      spyOn(AppService, "isBoolean").and.returnValue(true);
+      const spy = spyOn(Utils, "isTrue");
 
       service.castAdvancedValue("true", column);
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith("true");
     });
-
   });
 });
