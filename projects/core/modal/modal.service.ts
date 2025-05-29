@@ -1,11 +1,14 @@
-import {Injectable, Inject, Type, Injector, InjectionToken} from "@angular/core";
-import {UntypedFormGroup, ValidatorFn} from "@angular/forms";
-import {Overlay, OverlayConfig, OverlayRef} from '@angular/cdk/overlay';
-import {ComponentPortal} from '@angular/cdk/portal';
-import {Utils, Keys} from "@sinequa/core/base";
-import {MessageParams} from "@sinequa/core/intl"; // Dependency to INTL !
-import {ModalRef, IModalRef} from "./modal-ref";
 import { firstValueFrom } from "rxjs";
+
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { Inject, Injectable, InjectionToken, Injector, Type } from "@angular/core";
+import { UntypedFormGroup, ValidatorFn } from "@angular/forms";
+
+import { Keys, Utils } from "@sinequa/core/base";
+import { MessageParams } from "@sinequa/core/intl"; // Dependency to INTL !
+
+import { IModalRef, ModalRef } from "./modal-ref";
 
 /** Describes the configuration object that can be passed when opening
  * a modal with the {@link ModalService}.
@@ -100,7 +103,7 @@ export interface ConfirmOptions {
      */
     title?: string;
     /**
-     * The message dispayed in the confirm modal.
+     * The message displayed in the confirm modal.
      */
     message: string;
     /**
@@ -163,7 +166,7 @@ export interface IModalButton {
      */
     validation?: UntypedFormGroup;
     /**
-     * Indicats whether the button should be rendered with an `<a>` tag rather than
+     * Indicates whether the button should be rendered with an `<a>` tag rather than
      * a `<button>` tag.
      */
     anchor?: boolean;
@@ -201,7 +204,7 @@ export class ModalButton implements IModalButton {
      */
     validation: UntypedFormGroup;
     /**
-     * Indicats whether the button should be rendered with an `<a>` tag rather than
+     * Indicates whether the button should be rendered with an `<a>` tag rather than
      * a `<button>` tag.
      */
     anchor: boolean;
@@ -298,7 +301,7 @@ export class ModalService {
      *
      * @param component The type of the component to use for the modal.
      * @param config Configuration options for the modal.
-     * @retuns An `IModalRef` object that can be used to close the modal.
+     * @returns An `IModalRef` object that can be used to close the modal.
      */
     openRef(component: Type<any>, config: ModalConfig = {}): IModalRef {
         // Override default configuration
@@ -359,7 +362,7 @@ export class ModalService {
      *
      * @param component The type of the component to use for the modal.
      * @param config Configuration options for the modal.
-     * @retuns The `ModalResult` when the modal is closed.
+     * @returns The `ModalResult` when the modal is closed.
      */
     open(component: Type<any>, config: ModalConfig = {}): Promise<ModalResult> {
         const modalRef = this.openRef(component, config);
@@ -404,7 +407,7 @@ export class ModalService {
     }
 
     /**
-     * Open a confirmation modal dialog displaying a message and a set buttons. This is similar to the Javacsript
+     * Open a confirmation modal dialog displaying a message and a set buttons. This is similar to the Javascript
      * `Window.alert` method but renders a modal.
      *
      * @param options The options used to open the confirm modal. These are set as the `MODAL_MODEL`  of the modal.

@@ -10,7 +10,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2020",
+    "target": "ES2022",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -30,18 +30,36 @@
     ],
     "lib": [
       "es2020",
-      "dom"
+      "dom",
+      "ES2021.Intl"
     ],
     "paths": {
-      "@sinequa/core": ["projects/core"],
-      "@sinequa/core/*": ["projects/core/*"],
-      "@sinequa/components": ["projects/components"],
-      "@sinequa/components/*": ["projects/components/*"],
-      "@sinequa/analytics": ["projects/analytics"],
-      "@sinequa/analytics/*": ["projects/analytics/*"],
-      "@sinequa/vanilla/*": ["projects/vanilla-search/src/*"],
-      "@testing/*": ["projects/components/__tests__/*"]
-    }
+      "@sinequa/core": [
+        "projects/core"
+      ],
+      "@sinequa/core/*": [
+        "projects/core/*"
+      ],
+      "@sinequa/components": [
+        "projects/components"
+      ],
+      "@sinequa/components/*": [
+        "projects/components/*"
+      ],
+      "@sinequa/analytics": [
+        "projects/analytics"
+      ],
+      "@sinequa/analytics/*": [
+        "projects/analytics/*"
+      ],
+      "@sinequa/vanilla/*": [
+        "projects/vanilla-search/src/*"
+      ],
+      "@testing/*": [
+        "projects/components/__tests__/*"
+      ]
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

@@ -1,8 +1,9 @@
-import {Injectable} from "@angular/core";
-import {Observable, tap} from "rxjs";
-import {HttpService} from "./http.service";
-import {Record} from "./query.web.service";
-import {AuditEventType} from "./audit.web.service";
+import { Observable, tap } from "rxjs";
+
+import { Injectable } from "@angular/core";
+
+import { HttpService } from "./http.service";
+import { Record } from "./types";
 
 /**
  * Describes a rating configuration object
@@ -46,7 +47,7 @@ export class UserRatingsWebService extends HttpService {
             averagecolumn: config.averageColumn,
             ratingsdistribution: config.ratingsDistribution
         }).pipe(tap(
-            r => {},
+            () => {},
             error => console.log("ratingsService.getRating failure - error: ", error)
         ));
     }
@@ -71,7 +72,7 @@ export class UserRatingsWebService extends HttpService {
             $auditRecord: {
                 auditEvents: [
                     {
-                        type: AuditEventType.Rating_Set,
+                        type: "Rating_Set",
                         detail: {
                             docid: record.id,
                             ratingnum: rating,
@@ -115,7 +116,7 @@ export class UserRatingsWebService extends HttpService {
             $auditRecord: {
                 auditEvents: [
                     {
-                        type: AuditEventType.Rating_Delete,
+                        type: "Rating_Delete",
                         detail: {
                             docid: record.id,
                             value: ratingResponse.rating,

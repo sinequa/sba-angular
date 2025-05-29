@@ -24,6 +24,7 @@ export class FiltersViewComponent implements OnChanges {
   @Input() closeOnClickOutside = false;
   @Input() simpleModeClass = "";
   @Input() advancedModeClass = "";
+  @Input() filtersClass: string;
 
   @Output() filterEdit = new EventEmitter<Query>();
 

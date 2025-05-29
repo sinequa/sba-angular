@@ -1,7 +1,7 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Query } from "@sinequa/core/app-utils";
 import { Record } from "@sinequa/core/web-services";
-import { MetadataConfig } from "../metadata.interface";
+import { MetadataConfig, MetadataItem } from "../metadata.interface";
 
 @Component({
     selector: "sq-metadata",
@@ -26,6 +26,8 @@ export class MetadataComponent {
      * Size for the tooltip buttons
      */
     @Input() actionsButtonsSize = 'sm';
+
+    @Output() valueClicked = new EventEmitter<{field: string, value: MetadataItem}>();
 
     isString(config) {
         return typeof config === 'string';

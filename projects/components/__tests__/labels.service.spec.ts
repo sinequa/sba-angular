@@ -1,25 +1,27 @@
-import { TestBed } from "@angular/core/testing";
-import { LocationStrategy } from "@angular/common";
-import { MockLocationStrategy } from "@angular/common/testing";
-import { RouterTestingModule } from '@angular/router/testing';
+import { EMPTY, throwError } from 'rxjs';
+
 import { OverlayModule } from '@angular/cdk/overlay';
+import { LocationStrategy } from "@angular/common";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MockLocationStrategy } from "@angular/common/testing";
+import { TestBed } from "@angular/core/testing";
+import { UntypedFormBuilder } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { AppService, Query } from "@sinequa/core/app-utils";
-import { SearchService } from "../search";
-import { START_CONFIG, PrincipalWebService, LabelsWebService, CCLabels, AuditEventType } from "@sinequa/core/web-services";
 import { IntlService, LOCALES_CONFIG } from "@sinequa/core/intl";
 import { MODAL_LOGIN } from '@sinequa/core/login';
 import { MODAL_CONFIRM, MODAL_PROMPT, ModalService } from '@sinequa/core/modal';
-import { AppLocalesConfig } from './mocks/app.locales.config';
-import { LabelsService, LABELS_COMPONENTS, defaultLabelComponents, ModalProperties, BsRenameLabel, BsDeleteLabel, BsAddLabel, BsEditLabel } from '../labels';
 import { NotificationsService } from '@sinequa/core/notification';
-import { SelectionService, SELECTION_OPTIONS } from '../selection';
-import { UntypedFormBuilder } from '@angular/forms';
 import { VALIDATION_MESSAGE_COMPONENT } from '@sinequa/core/validation';
+import { CCLabels, LabelsWebService, PrincipalWebService, START_CONFIG } from "@sinequa/core/web-services";
+
+import { BsAddLabel, BsDeleteLabel, BsEditLabel, BsRenameLabel, LABELS_COMPONENTS, LabelsService, ModalProperties, defaultLabelComponents } from '../labels';
+import { SearchService } from "../search";
+import { SELECTION_OPTIONS, SelectionService } from '../selection';
 import { UIService } from '../utils';
-import {
-  HttpClientTestingModule
-} from '@angular/common/http/testing';
-import { EMPTY, throwError } from 'rxjs';
+import { AppLocalesConfig } from './mocks/app.locales.config';
 
 describe("LabelsService", () => {
   let service: LabelsService;
@@ -39,7 +41,9 @@ describe("LabelsService", () => {
     const UIServiceFactory = () => ({});
 
     TestBed.configureTestingModule({
-      providers: [
+    imports: [RouterTestingModule,
+        OverlayModule],
+    providers: [
         LabelsService,
         AppService,
         SearchService,
@@ -60,13 +64,10 @@ describe("LabelsService", () => {
         UntypedFormBuilder,
         { provide: VALIDATION_MESSAGE_COMPONENT, useValue: {} },
         { provide: UIService, useFactory: UIServiceFactory },
-      ],
-      imports: [
-        RouterTestingModule,
-        OverlayModule,
-        HttpClientTestingModule
-      ]
-    });
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+    ]
+});
 
     service = TestBed.inject(LabelsService);
     searchService = TestBed.inject(SearchService);
@@ -74,6 +75,9 @@ describe("LabelsService", () => {
     modalService = TestBed.inject(ModalService);
     notificationsService = TestBed.inject(NotificationsService);
     labelsWebService = TestBed.inject(LabelsWebService);
+
+    // do not call ngOnDestroy
+    spyOn<any>(service, 'ngOnDestroy');
   });
 
   it("can load instance", () => {
@@ -520,7 +524,7 @@ describe("LabelsService", () => {
 
       expect(spyAddFieldSelect).toHaveBeenCalledWith("test", items);
       expect(spySearch).toHaveBeenCalledOnceWith(undefined, {
-          type: AuditEventType.Label_Open,
+          type: "Label_Open",
           detail: {
               label: "toto,foo",
               public: true,
@@ -543,7 +547,7 @@ describe("LabelsService", () => {
 
       expect(spyAddFieldSelect).toHaveBeenCalledWith("testing", items);
       expect(spySearch).toHaveBeenCalledOnceWith(undefined, {
-          type: AuditEventType.Label_Open,
+          type: "Label_Open",
           detail: {
               label: "toto,foo",
               public: false,

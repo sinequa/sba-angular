@@ -1,4 +1,6 @@
 import { Inject, Injectable, InjectionToken, Optional } from "@angular/core";
+import { addDays } from "date-fns";
+
 import { Action, ActionSeparator } from "@sinequa/components/action";
 import { SuggestService } from "@sinequa/components/autocomplete";
 import { FirstPageService, SearchService } from "@sinequa/components/search";
@@ -40,7 +42,7 @@ export interface NamedFacetConfig extends FacetConfig<{}> {
  * Options for the [[FacetService.AddFilter]] and [[FacetService.AddFilterSearch]] methods
  *
  * and: If multiple items are filtered, determines whether they are filtered as AND or OR
- * not: Whether this is an exlusion of the filtered item
+ * not: Whether this is an exclusion of the filtered item
  * replaceCurrent: if true, the current filter is replaced
  */
 export interface AddFilterOptions {
@@ -128,16 +130,16 @@ export class FacetService {
      * Using this service creates the list of facets if it does not already exist.
      */
     public get facets() : FacetState[] {
-        if(!this.userSettingsService.userSettings)
-            this.userSettingsService.userSettings = {};
-        if(!this.userSettingsService.userSettings["facets"]) {
-            this.userSettingsService.userSettings["facets"] = [];
-            if(!!this.defaultFacets){
-                this.userSettingsService.userSettings["facets"].push(...this.defaultFacets);
-                this.patchFacets();
-            }
-        }
-        return this.userSettingsService.userSettings["facets"];
+      if(!this.userSettingsService.userSettings)
+      this.userSettingsService.userSettings = {};
+      if(!this.userSettingsService.userSettings["facets"]) {
+          this.userSettingsService.userSettings["facets"] = [];
+          if(!!this.defaultFacets){
+              this.userSettingsService.userSettings["facets"].push(...this.defaultFacets);
+              this.patchFacets();
+          }
+      }
+      return this.userSettingsService.userSettings["facets"];
     }
 
     /**
@@ -209,13 +211,13 @@ export class FacetService {
 
     public setDefaultFacets() {
         this.facets.splice(0);
-        if(!!this.defaultFacets) this.facets.push(...this.defaultFacets);
+        if(this.defaultFacets) this.facets.push(...this.defaultFacets);
         this.updateFacets(FacetEventType.SetDefaults);
     }
 
     public addAllFacets() {
         this.facets.splice(0);
-        if(!!this.allFacets) this.allFacets.forEach(f => this.facets.push({name: f.name, position: 0}));
+        if(this.allFacets) this.allFacets.forEach(f => this.facets.push({name: f.name, position: 0}));
         this.updateFacets(FacetEventType.AddAll);
     }
 
@@ -269,7 +271,7 @@ export class FacetService {
                 text: facet.title,
                 icon: facet.icon,
                 selected: !!this.facets?.find(userFacet => userFacet.name === facet.name),
-                title: !!this.facets?.find(userFacet => userFacet.name === facet.name) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
+                title: this.facets?.find(userFacet => userFacet.name === facet.name) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
                 action: () => {
                     const fs = this.facets?.find(userFacet => userFacet.name === facet.name);
                     if (fs) {
@@ -451,7 +453,7 @@ export class FacetService {
           else if(filters.length === 1) {
             return {...filters[0], display};
           }
-          throw new Error("Failed to parse distribution expresion");
+          throw new Error("Failed to parse distribution expression");
         }
       }
 
@@ -538,7 +540,7 @@ export class FacetService {
                         item: item.value,
                         itembox: facetName,
                         itemcolumn: aggregation.column,
-                        fromresultid: !!this.searchService.results ? this.searchService.results.id : null
+                        fromresultid: this.searchService.results ? this.searchService.results.id : null
                     }
                 });
             }
@@ -546,26 +548,42 @@ export class FacetService {
         return Promise.resolve(false);
     }
 
-    public makeRangeFilter(field: string, start: Date|number|string|undefined, end: Date|number|string|undefined): ExprFilter|NumericalFilter|undefined {
+    public makeRangeFilter(field: string, start: Date|number|string|undefined, end: Date|number|string|undefined, fromOperator: 'gte' | 'eq' = 'gte'): ExprFilter|NumericalFilter|undefined {
+      let from,to;
       if(end instanceof Date) {
-        end = Utils.toSysDateStr(end);
+        to = Utils.toSysDateStr(end);
+      } else {
+        to = end;
       }
       if(start instanceof Date) {
-        start = Utils.toSysDateStr(start);
+        from = Utils.toSysDateStr(start);
+      } else {
+        from = start;
       }
+
       if(typeof start === 'undefined' && typeof end === 'undefined') {
         return undefined;
       }
       if(typeof start === 'undefined') {
-        return {field, operator: 'lte', value: end!};
+          return {field, operator: 'lte', value: to!};
       }
       else if(typeof end === 'undefined') {
-        return {field, operator: 'gte', value: start!};
+        if(fromOperator === 'eq') {
+          const date = start as Date;
+          to = Utils.toSysDateStr(addDays(date, 1));
+
+          return { operator: 'and', filters: [
+            {field, operator: 'gte', value: from},
+            {field, operator: 'lt', value: to }
+          ]};
+        }
+
+        return {field, operator: 'gte', value: from!};
       }
       else {
         return { operator: 'and', filters: [
-          {field, operator: 'gte', value: start},
-          {field, operator: 'lte', value: end}
+          {field, operator: 'gte', value: from},
+          {field, operator: 'lte', value: to}
         ]}
       }
     }

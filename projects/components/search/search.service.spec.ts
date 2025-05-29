@@ -50,8 +50,11 @@ describe("SearchService", () => {
     });
 
     service = TestBed.inject(SearchService);
+
+    // do not call the real methods
     spyOn<any>(service, "handleLogin");
     spyOn<any>(service, "handleNavigation");
+    spyOn<any>(service, 'ngOnDestroy');
   });
 
   it("can load instance", () => {

@@ -1,13 +1,15 @@
-﻿import {Injectable} from "@angular/core";
-import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from "@angular/common/http";
-import {Observable, of, throwError, Subject, firstValueFrom, map, catchError, take} from "rxjs";
+﻿import { Observable, Subject, catchError, firstValueFrom, map, of, take, throwError } from "rxjs";
+
+import { HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+
 import { authentication } from "@microsoft/teams-js";
 
-import {HttpService, AuditWebService} from "@sinequa/core/web-services";
-import { Utils, IRef } from "@sinequa/core/base";
+import { IRef, Utils } from "@sinequa/core/base";
+import { AuditWebService, HttpService } from "@sinequa/core/web-services";
 
-import {TokenService} from "./token.service";
-import {JWTService} from "./jwt.service";
+import { JWTService } from "./jwt.service";
+import { TokenService } from "./token.service";
 import { Authentication, Credentials, LEGACY_PROCESSED_CREDENTIALS_KIND, ProcessedCredentials, UserOverride } from "./typings";
 
 /**
@@ -129,7 +131,7 @@ export class AuthenticationService extends HttpService {
     }
 
     private init() {
-        // To avoid multipe redirection when multiple HTTP 401 error occurs
+        // To avoid multiple redirection when multiple HTTP 401 error occurs
         this.redirect$.pipe(take(1)).subscribe(url => window.location.replace(url));
         if (this.startConfig.authenticationStorage === "local") {
             this.storage = window.localStorage;
@@ -302,7 +304,7 @@ export class AuthenticationService extends HttpService {
      */
     logout() {
         this.auditService.notifyLogout().subscribe(
-            _ => {
+            () => {
                 this.tokenService.deleteWebTokenCookie().subscribe()
                 this.authentication = undefined;
                 this.processedCredentials = undefined;
@@ -385,7 +387,7 @@ export class AuthenticationService extends HttpService {
      * The {@LoginService} calls this method at startup. First, an attempt is made to retrieve a CSRF token.
      * If that works, then the token is set and authentication is complete. Otherwise, the initial OAuth or SAML
      * call is made to the Sinequa server. The `redirectUrl` in the response to this call is then used to redirect
-     * the browser to continue the normal OAuth/SAML autentication flow. A successful authentiction will culminate
+     * the browser to continue the normal OAuth/SAML authentication flow. A successful authentication will culminate
      * in the SBA being loaded a second time, this method being called again and the attempt to retrieve a CSRF
      * token succeeding because a valid JWT cookie will now be present.
      *

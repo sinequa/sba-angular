@@ -1,29 +1,24 @@
-import {NgModule/*, APP_INITIALIZER*/} from "@angular/core";
-import {BrowserModule} from "@angular/platform-browser";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {RouterModule} from '@angular/router';
-import {LocationStrategy, HashLocationStrategy} from "@angular/common";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {WebServicesModule, StartConfigWebService, StartConfig} from "@sinequa/core/web-services";
-import {LoginModule, LoginInterceptor} from "@sinequa/core/login";
-import {IntlModule} from "@sinequa/core/intl";
-import {ModalModule} from "@sinequa/core/modal";
-import {NotificationsInterceptor} from "@sinequa/core/notification";
-import {AuditInterceptor} from "@sinequa/core/app-utils";
+import { HashLocationStrategy, LocationStrategy } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterModule } from '@angular/router';
+import { AuditInterceptor } from "@sinequa/core/app-utils";
+import { IntlModule } from "@sinequa/core/intl";
+import { LoginInterceptor, LoginModule } from "@sinequa/core/login";
+import { ModalModule } from "@sinequa/core/modal";
+import { NotificationsInterceptor } from "@sinequa/core/notification";
+import { StartConfigWebService, WebServicesModule } from "@sinequa/core/web-services";
 
-import {DefaultLocalesConfig} from "@sinequa/core/default-locales-config";
-import {AppComponent} from "./app.component";
-import {environment} from "../environments/environment";
+import { DefaultLocalesConfig } from "@sinequa/core/default-locales-config";
+import { environment as startConfig } from "../environments/environment";
+import { AppComponent } from "./app.component";
 
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService) {
     return () => startConfigWebService.fetchPreLoginAppConfig();
 }
-
-export const startConfig: StartConfig = {
-    app: "your-app-name",
-    production: environment.production
-};
 
 @NgModule({
     imports: [
@@ -46,7 +41,7 @@ export const startConfig: StartConfig = {
         // server automatically at startup using the application name specified in the URL (app[-debug]/<app-name>).
         // This allows an application to avoid hard-coding parameters in the StartConfig but requires that the application
         // be served from the an app[-debug]/<app name> URL.
-        // {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true},
+        {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true},
 
         // Provides the Angular LocationStrategy to be used for reading route state from the browser's URL. Currently
         // only the HashLocationStrategy is supported by Sinequa.

@@ -1,48 +1,49 @@
-import { NgModule, APP_INITIALIZER } from "@angular/core";
+import { ScrollingModule } from "@angular/cdk/scrolling";
+import { HashLocationStrategy, LocationStrategy } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from '@angular/router';
-import { LocationStrategy, HashLocationStrategy } from "@angular/common";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 // @sinequa/core library
+import { AuditInterceptor } from "@sinequa/core/app-utils";
 import { WebServicesModule, StartConfigWebService } from "@sinequa/core/web-services";
 import { LoginModule, LoginInterceptor, TeamsInitializer, AuthenticationService } from "@sinequa/core/login";
 import { IntlModule } from "@sinequa/core/intl";
 import { ModalModule } from "@sinequa/core/modal";
 import { NotificationsInterceptor } from "@sinequa/core/notification";
-import { AuditInterceptor } from "@sinequa/core/app-utils";
 
 // @sinequa/components library
-import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
-import { BsNotificationModule } from "@sinequa/components/notification";
-import { BsFacetModule } from "@sinequa/components/facet";
 import { BsActionModule } from "@sinequa/components/action";
-import { BsModalModule } from "@sinequa/components/modal";
-import { BsBasketsModule } from '@sinequa/components/baskets';
 import { BsAlertsModule } from '@sinequa/components/alerts';
-import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
-import { UtilsModule, SCREEN_SIZE_RULES } from '@sinequa/components/utils';
-import { BsLabelsModule } from '@sinequa/components/labels';
-import { APP_HELP_FOLDER_OPTIONS, BsUserSettingsModule } from '@sinequa/components/user-settings';
-import { ResultModule } from '@sinequa/components/result';
+import { BsBasketsModule } from '@sinequa/components/baskets';
+import { BsFacetModule } from "@sinequa/components/facet";
 import { BsFeedbackModule } from '@sinequa/components/feedback';
-import { PreviewModule } from '@sinequa/components/preview';
+import { BsLabelsModule } from '@sinequa/components/labels';
+import { MLModule, SimilarDocumentsComponent } from '@sinequa/components/machine-learning';
 import { MetadataModule } from '@sinequa/components/metadata';
+import { BsModalModule } from "@sinequa/components/modal";
+import { BsNotificationModule } from "@sinequa/components/notification";
+import { PreviewModule } from '@sinequa/components/preview';
+import { ResultModule } from '@sinequa/components/result';
+import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
+import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
 import { BsSelectionModule } from '@sinequa/components/selection';
-import { MLModule } from '@sinequa/components/machine-learning';
+import { APP_HELP_FOLDER_OPTIONS, BsUserSettingsModule } from '@sinequa/components/user-settings';
+import { SCREEN_SIZE_RULES, UtilsModule } from '@sinequa/components/utils';
 
-import { SearchFormComponent } from "@sinequa/components/search-form";
 import { FiltersModule } from "@sinequa/components/filters";
+import { SearchFormComponent } from "@sinequa/components/search-form";
 
 // Components
 import { AppComponent } from "./app.component";
 import { HomeComponent } from './home/home.component';
-import { SearchComponent } from './search/search.component';
 import { PreviewComponent } from './preview/preview.component';
-import { AppSearchFormComponent } from "./search-form/search-form.component";
 import { AutocompleteComponent } from "./search-form/autocomplete.component";
+import { AppSearchFormComponent } from "./search-form/search-form.component";
+import { SearchComponent } from './search/search.component';
 
 // Environment
 import { environment as startConfig } from "../environments/environment";
@@ -73,10 +74,10 @@ export const searchOptions: SearchOptions = {
 
 
 // Application languages (intl service)
-import {LocalesConfig, Locale} from "@sinequa/core/intl";
+import { Locale, LocalesConfig } from "@sinequa/core/intl";
+import deLocale from "../locales/de";
 import enLocale from "../locales/en";
 import frLocale from "../locales/fr";
-import deLocale from "../locales/de";
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -109,6 +110,7 @@ export const breakpoints = {
         RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
+        ScrollingModule,
 
         WebServicesModule.forRoot(startConfig),
         IntlModule.forRoot(AppLocalesConfig),
@@ -134,6 +136,7 @@ export const breakpoints = {
         MLModule,
         FiltersModule,
         SearchFormComponent,
+        SimilarDocumentsComponent
     ],
     declarations: [
         AppComponent,

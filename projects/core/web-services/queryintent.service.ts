@@ -1,7 +1,9 @@
-import {Injectable} from "@angular/core";
-import {Observable, of, map, tap} from "rxjs";
-import {HttpService} from "./http.service";
-import {IQuery} from "./query/query";
+import { Observable, of, map, tap } from "rxjs";
+
+import { Injectable } from "@angular/core";
+
+import { HttpService } from "./http.service";
+import { API_ENDPOINTS, IQuery } from "./types";
 
 export interface QueryIntentResponse {
     query: string;
@@ -49,17 +51,17 @@ export interface QueryIntentEntity2 {
     providedIn: "root"
 })
 export class QueryIntentWebService extends HttpService {
-    private readonly endpoint = "queryintent";
+    private readonly endpoint: API_ENDPOINTS = "queryintent";
 
     // The cache prevents analyzing the same query multiple times
-    cache = new Map<string,QueryIntentMatch[]>();
+    cache = new Map<string, QueryIntentMatch[]>();
 
     getQueryIntent(query: IQuery): Observable<QueryIntentMatch[]> {
-        if(!query.text){
+        if (!query.text) {
             return of([]);
         }
         const text = query.text.toLowerCase();
-        if(this.cache.has(text)){
+        if (this.cache.has(text)) {
             return of(this.cache.get(text)!);
         }
         const data = {
@@ -68,11 +70,11 @@ export class QueryIntentWebService extends HttpService {
         };
         return this.httpClient.post<QueryIntentResponse>(
             this.makeUrl(this.endpoint), data)
-                .pipe(
-                    map(r => r.intents),
-                    tap(intents => {
-                        this.cache.set(text, intents);
-                    })
-                );
+            .pipe(
+                map(r => r.intents),
+                tap(intents => {
+                    this.cache.set(text, intents);
+                })
+            );
     }
 }

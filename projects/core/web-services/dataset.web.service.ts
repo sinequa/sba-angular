@@ -1,9 +1,11 @@
-import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
-import { HttpService } from "./http.service";
-import { Results } from "./query.web.service";
 
-export type Dataset = {[key: string]: Results|DatasetError};
+import { Injectable } from "@angular/core";
+
+import { HttpService } from "./http.service";
+import { Results } from "./types";
+
+export type Dataset<T extends Results = Results> = {[key: string]: T|DatasetError};
 
 export interface DatasetError {
     errorCode: number;
@@ -15,7 +17,7 @@ export interface DatasetDescription {
     description?: string;
 }
 
-export function isDatasetError(res: Results|DatasetError): res is DatasetError {
+export function isDatasetError<T extends Results = Results>(res: T|DatasetError): res is DatasetError {
     return !!(res as DatasetError).errorMessage;
 }
 
@@ -25,7 +27,7 @@ export function isDatasetError(res: Results|DatasetError): res is DatasetError {
 @Injectable({
     providedIn: "root"
 })
-export class DatasetWebService extends HttpService {
+export class DatasetWebService<T extends Results = Results> extends HttpService {
     private static readonly endpoint = "search.dataset";
 
     /**
@@ -45,12 +47,12 @@ export class DatasetWebService extends HttpService {
      * @param query name of the query
      * @param params parameters of the queries
      */
-    get(webServiceName: string, query: string, parameters = {}): Observable<Results> {
+    get(webServiceName: string, query: string, parameters = {}): Observable<T> {
         const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}/${query}`;
-        return this.httpClient.post<{datasets: Dataset}>(url, {parameters}).pipe(
+        return this.httpClient.post<{datasets: Dataset<T>}>(url, {parameters}).pipe(
             map(d => {
                 const res = d.datasets[query];
-                if(isDatasetError(res)) {
+                if(isDatasetError<T>(res)) {
                     throw new Error(res.errorMessage);
                 }
                 return res;
@@ -64,9 +66,9 @@ export class DatasetWebService extends HttpService {
      * @param params parameters of the queries
      * @param datasets precise list of queries, defined in the web service, to be executed
      */
-    getBulk(webServiceName: string, parameters = {}, datasets?: string[]): Observable<Dataset> {
+    getBulk(webServiceName: string, parameters = {}, datasets?: string[]): Observable<Dataset<T>> {
         const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
-        return this.httpClient.post<{datasets: Dataset}>(url, {parameters, datasets}).pipe(
+        return this.httpClient.post<{datasets: Dataset<T>}>(url, {parameters, datasets}).pipe(
             map(d => d.datasets)
         );
     }

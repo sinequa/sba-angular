@@ -2,6 +2,7 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { SearchFormComponent } from "@sinequa/components/search-form";
+import { HelpFolderOptions } from "@sinequa/components/user-settings";
 
 @Component({
   selector: 'app-search-form',
@@ -34,6 +35,11 @@ export class AppSearchFormComponent {
   @Input() searchRoute = "search";
 
   @ViewChild("searchForm") searchForm: SearchFormComponent;
+
+  public helpFolderOptions: HelpFolderOptions = {
+    path: '/r/_sinequa/webpackages/help',
+    indexFile: 'olh-search.html#sdard-search',
+  }
 
   constructor(
     public searchService: SearchService

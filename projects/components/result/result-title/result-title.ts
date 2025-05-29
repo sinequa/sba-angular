@@ -1,7 +1,8 @@
-import {ViewEncapsulation, Component, Input, OnChanges, Output, EventEmitter} from "@angular/core";
-import {Utils} from "@sinequa/core/base";
-import {AuditEventType, Record} from "@sinequa/core/web-services";
-import {SearchService} from "@sinequa/components/search";
+import { Component, EventEmitter, Input, OnChanges, Output, ViewEncapsulation } from "@angular/core";
+
+import { SearchService } from "@sinequa/components/search";
+import { Utils } from "@sinequa/core/base";
+import { AuditEventType, Record } from "@sinequa/core/web-services";
 
 
 @Component({

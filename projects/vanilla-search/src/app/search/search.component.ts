@@ -1,19 +1,22 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable, Subscription, tap } from 'rxjs';
+import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { Action } from '@sinequa/components/action';
-import { BsFacetCard, DEFAULT_FACET_COMPONENTS, FacetConfig, FacetViewDirective } from '@sinequa/components/facet';
-import { PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
+import { DEFAULT_FACET_COMPONENTS, FacetConfig } from '@sinequa/components/facet';
+import { MetadataConfig } from '@sinequa/components/metadata';
+import { Preview, PreviewHighlightColors, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
+import { HelpFolderOptions } from '@sinequa/components/user-settings';
 import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { AuditEventType, AuditWebService, Record, Results } from '@sinequa/core/web-services';
-import { FacetParams, FACETS, FEATURES, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
-import { BsFacetDate } from '@sinequa/analytics/timeline';
-import { MetadataConfig } from '@sinequa/components/metadata';
+import { AuditEventType, AuditWebService, Filter, Record, Results } from '@sinequa/core/web-services';
+import { Observable, Subscription, filter, tap } from 'rxjs';
+
+import { FACETS, FEATURES, FacetParams, METADATA_CONFIG, PREVIEW_HIGHLIGHTS } from '../../config';
 
 @Component({
   selector: 'app-search',
@@ -21,11 +24,15 @@ import { MetadataConfig } from '@sinequa/components/metadata';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
-
+  @ViewChild(CdkVirtualScrollViewport)
+  public viewPort?: CdkVirtualScrollViewport
 
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
-  public passageId?: string;
+  public preview?: Preview;
+  public passageId?: number;
+
+  ui = inject(UIService);
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
@@ -54,10 +61,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       "date": BsFacetDate
   }
 
-  public isDark: boolean;
+  public helpFolderOptions: HelpFolderOptions = {
+    path: '/r/_sinequa/webpackages/help',
+    indexFile: 'olh-search.html#sdard-search',
+  }
 
-  @ViewChild("previewFacet") previewFacet: BsFacetCard;
-  @ViewChild("passagesList", {read: FacetViewDirective}) passagesList: FacetViewDirective;
+  public isDark: boolean;
+  public queryName: string;
+  public filters?: Filter;
 
   private subscription = new Subscription();
 
@@ -66,7 +77,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
-    public readonly ui: UIService,
     public searchService: SearchService,
     public selectionService: SelectionService,
     public loginService: LoginService,
@@ -115,15 +125,30 @@ export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Initialize the page title
    */
+  /**
+   * Initializes the component.
+   * Sets the page title and subscribes to the search service events.
+   * Updates the query name and filters when new results are received.
+   * Mutates the results/records if desired and updates the page title.
+   */
   ngOnInit() {
-    this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: ""}));
+    this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", { search: "" }));
+
+    this.searchService.events
+      .pipe(filter(event => event.type === "new-results"))
+      .subscribe(() => {
+        const { name, filters } = this.searchService.query;
+        this.queryName = name
+        this.filters = filters;
+      });
+
 
     // mutate results/records if desired, convert to switchMap or mergeMap if additional calls need to be chained
     // consult RxJS documentation for additional functionality like combineLatest, etc.
     this.results$ = this.searchService.resultsStream
       .pipe(
         tap(results => {
-          this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
+          this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", { search: this.searchService.query.text || "" }));
           if (!this.showResults) {
             this.openedDoc = undefined;
             this.showFilters = false;
@@ -178,15 +203,37 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   openMiniPreview(record: Record, passageId?: number) {
-    this.openedDoc = record;
-    this.passageId = passageId?.toString();
-    if (this.passageId) {
-      if (this.previewFacet && this.passagesList) {
-        this.previewFacet.setView(this.passagesList);
-      }
+
+    this.passageId = passageId;
+
+    if(this.openedDoc !== record) {
+      this.preview = undefined;
+      this.openedDoc = record;
     }
+    else {
+      // Select the passage in the already open preview
+      this.selectPassage();
+    }
+
     if (this.ui.screenSizeIsLessOrEqual('md')) {
       this.showFilters = false; // Hide filters on small screens if a document gets opened
+    }
+  }
+
+  onPreviewReady(preview: Preview) {
+    this.preview = preview;
+    this.selectPassage();
+  }
+
+  /**
+   * Select the selected matchingpassage in the preview, if any
+   */
+  selectPassage() {
+    if(this.passageId !== undefined && this.preview) {
+      const passage = this.preview.data?.record.matchingpassages?.passages.find(p => p.id === this.passageId);
+      if(passage) {
+        this.preview.selectStart("matchingpassages", passage.rlocation[0]);
+      }
     }
   }
 
@@ -260,4 +307,28 @@ export class SearchComponent implements OnInit, OnDestroy {
     return this.appService.app?.data?.formatIcons;
   }
 
+  /**
+   * Handles the click event for similar documents.
+   * @param {Object} id - The ID of the document.
+   */
+  similarDocumentsClick({id}) {
+    this.searchService.getRecords([id]).subscribe(records => {
+      if (records.length > 0) {
+        const record = records[0] as Record;
+        this.previewService.openRoute(record, this.searchService.query);
+      }
+    });
+  }
+
+  fetchMore() {
+    if (this.viewPort) {
+      const end = this.viewPort.getRenderedRange().end
+      const total = this.viewPort.getDataLength()
+
+      // If we're close to the bottom, fetch the next page.
+      if (end >= total - 3) {
+        this.searchService.loadMore();
+      }
+    }
+  }
 }

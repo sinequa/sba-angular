@@ -25,6 +25,8 @@ import {deTimeline} from "@sinequa/analytics/timeline";
 import {deML} from "@sinequa/components/machine-learning";
 import {deFilters} from "@sinequa/components/filters";
 import {deSearchForm} from "@sinequa/components/search-form";
+import * as format from "node_modules/d3-format/locale/de-DE.json";
+import * as time from "node_modules/d3-time-format/locale/de-DE.json";
 
 const messages = Utils.merge({}, deCore, deUtils, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deLabels, deMetadata,
     deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deTimeline,
@@ -39,8 +41,8 @@ export default <LocaleData>{
     },
     d3: {
         locale: "de-DE",
-        format: require('d3-format/locale/de-DE'),
-        time: require('d3-time-format/locale/de-DE')
+        format,
+        time
     },
     messages: messages
 };

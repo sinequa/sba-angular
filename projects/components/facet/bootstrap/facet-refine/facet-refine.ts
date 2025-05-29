@@ -1,11 +1,13 @@
-import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {UntypedFormGroup, UntypedFormBuilder, AbstractControl} from "@angular/forms";
-import {AuditEventType, Results} from "@sinequa/core/web-services";
-import {Utils} from "@sinequa/core/base";
-import {SearchService} from "@sinequa/components/search";
-import {AbstractFacet} from "../../abstract-facet";
-import {FacetConfig} from "../../facet-config";
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
+
+import { SearchService } from "@sinequa/components/search";
 import { AppService, Query } from "@sinequa/core/app-utils";
+import { Utils } from "@sinequa/core/base";
+import { AuditEventType, Results } from "@sinequa/core/web-services";
+
+import { AbstractFacet } from "../../abstract-facet";
+import { FacetConfig } from "../../facet-config";
 import { FacetService } from "../../facet.service";
 
 export interface FacetRefineParams {

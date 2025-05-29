@@ -6,10 +6,25 @@ $theme-primary: (
   "hover-background": $blue-hover,
   "hover-border": transparent,
   "hover-color": $white,
-  "active-background": $darker-blue,
+  "active-background": $brand-300,
   "active-border": transparent,
   "active-color": $white,
   "disabled-background": $blue-focus,
+  "disabled-border": none,
+  "disabled-color": $white
+  ) !default;
+
+$theme-accent: (
+  "background": $accent-500,
+  "border": transparent,
+  "color": $white,
+  "hover-background": $accent-300,
+  "hover-border": transparent,
+  "hover-color": $white,
+  "active-background": $accent-900,
+  "active-border": transparent,
+  "active-color": $white,
+  "disabled-background": $accent-100,
   "disabled-border": none,
   "disabled-color": $white
   ) !default;
@@ -20,7 +35,7 @@ $theme-outline: (
   "color": $blue-500,
 
   "hover-background": $blue-hover,
-  "hover-border": $blue-hover,
+  "hover-border": $brand-500,
   "hover-color": $white,
 
   "active-background": $darker-blue,
@@ -32,17 +47,35 @@ $theme-outline: (
   "disabled-color": $white
   ) !default;
 
-$theme-outline-light: (
+$theme-outline-accent: (
   "background": transparent,
-  "border": $grey-200,
-  "color": $grey-200,
+  "border": $accent-500,
+  "color": $accent-500,
 
-  "hover-background": $grey-200,
-  "hover-border": $grey-200,
+  "hover-background": $blue-hover,
+  "hover-border": $blue-hover,
   "hover-color": $white,
 
-  "active-background": $grey-200,
-  "active-border": $grey-200,
+  "active-background": $accent-500,
+  "active-border": $accent-500,
+  "active-color": $white,
+
+  "disabled-background": $blue-focus,
+  "disabled-border": $blue-focus,
+  "disabled-color": $white
+  ) !default;
+
+$theme-outline-light: (
+  "background": transparent,
+  "border": transparent,
+  "color": $black,
+
+  "hover-background": $blue-focus,
+  "hover-border": $blue-focus,
+  "hover-color": $black,
+
+  "active-background": $blue,
+  "active-border": $blue,
   "active-color": $white,
 
   "disabled-background": transparent,
@@ -52,7 +85,9 @@ $theme-outline-light: (
 
 $theme: (
   "primary": $theme-primary,
+  "accent": $theme-accent,
   "outline-primary": $theme-outline,
+  "outline-accent": $theme-outline-accent,
   "outline-light": $theme-outline-light
 );
 

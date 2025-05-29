@@ -3,7 +3,8 @@ import {Router, NavigationEnd, Params, NavigationExtras} from "@angular/router";
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError, map, switchMap, tap, catchError} from "rxjs";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation, IQuery, Aggregation} from "@sinequa/core/web-services";
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch, Filter, TreeAggregationNode, TreeAggregation, ListAggregation, IQuery, Aggregation,
+    AuditEventTypeValues} from "@sinequa/core/web-services";
 import {AppService, FormatService, ValueItem, Query} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
@@ -99,9 +100,9 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.loginSubscription.unsubscribe();
-        this.routerSubscription.unsubscribe();
-        this.appSubscription.unsubscribe();
+        this.loginSubscription?.unsubscribe();
+        this.routerSubscription?.unsubscribe();
+        this.appSubscription?.unsubscribe();
         this._events.complete();
         this._queryStream.complete();
         this._resultsStream.complete();
@@ -183,7 +184,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             }
         }
         this._events.next({type: "new-results", results: this.results});
-        this._resultsStream.next(this.results);
+        this._resultsStream.next(results);
     }
 
     public setResults(results: T) {
@@ -201,7 +202,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                         const event: SearchService.ProcessQueryIntentActionEvent = {type: "process-query-intent-action", action: action, intent: intent, analysis: results.queryAnalysis};
                         this._events.next(event);
                         if (!event.actionProcessed) {
-                            if (!!action.data) {
+                            if (action.data) {
                                 switch (action.type) {
                                     case "tab":
                                         if (results.queryAnalysis.initial && this.query &&
@@ -360,7 +361,8 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
         return this.queryService.getResults(query, auditEvents,
             this.makeQueryIntentData({
-                tab: !!tab ? tab.name : undefined,
+                tab: tab ? tab.name : undefined,
+                queryIntentsV2: options.queryIntentsV2,
                 queryIntents: (query.spellingCorrectionMode !== "dymonly") ? options.queryIntents : undefined,
                 queryAnalysis: (query.spellingCorrectionMode !== "dymonly") ? options.queryAnalysis : undefined
             })
@@ -439,7 +441,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
       for(const aggregation of results.aggregations) {
         // Populate aggregation map
-        results.$aggregationMap[aggregation.name.toLowerCase()] = aggregation;
+        results.$aggregationMap[aggregation.name.toLowerCase()] = aggregation as ListAggregation | TreeAggregation;
 
         // Columns and aggregation configuration
         aggregation.$cccolumn = this.appService.getColumn(aggregation.column, ccquery);
@@ -452,15 +454,15 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 
         // List aggregations
         if(!aggregation.isTree) {
-          this.initializeAggregation(aggregation);
+          this.initializeAggregation(aggregation as ListAggregation);
         }
         // Tree aggregations
         else {
-          this.initializeTreeAggregation(aggregation);
+          this.initializeTreeAggregation(aggregation as TreeAggregation);
         }
 
         // Custom initialization
-        this.options.initializeAggregation?.(query, aggregation);
+        this.options.initializeAggregation?.(query, aggregation as Aggregation);
       }
     }
 
@@ -680,26 +682,27 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             return
         }
 
-        let obs = of(false);
+        let obs = of({cancelSearch: false}) as Observable<SearchService.NewQueryIntentsEvent>;
 
         // Insert a call to the query intent web service (if any)
         if(this.appService.ccquery?.queryIntentSet) {
             // In synchronous mode, the query intents are executed before search
             if(this.options.queryIntentsSync) {
-                obs = this.pipeQueryIntent(obs);
+                obs = this.pipeQueryIntent(of(false));
             }
             // In asynchronous mode, the query intents are executed in parallel
             else {
-                this.pipeQueryIntent(obs).subscribe();
+                this.pipeQueryIntent(of(false)).subscribe();
             }
         }
 
         // Get results (except if the search query is cancelled)
         let observable = obs.pipe(
-            switchMap(cancel => {
-                if(cancel) return of(undefined);
+            switchMap((event: SearchService.NewQueryIntentsEvent) => {
+                if(event.cancelSearch) return of(undefined);
                 return this.getResults(this.query, audit, {
                     queryIntents: navigationOptions?.queryIntents,
+                    queryIntentsV2: event.intents,
                     queryAnalysis: navigationOptions?.queryAnalysis
                 });
             })
@@ -724,7 +727,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         });
     }
 
-    pipeQueryIntent(obs: Observable<boolean>): Observable<boolean> {
+    pipeQueryIntent(obs: Observable<boolean>): Observable<SearchService.NewQueryIntentsEvent> {
         return obs.pipe(
             switchMap(() => this.queryIntentWebService.getQueryIntent(this.query)),
             map(intents => {
@@ -737,7 +740,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 this._events.next(event);
                 if(intents.length > 0) {
                     const events = intents.map(intent => ({
-                        type: "Search_QueryIntent_Detected",
+                        type: AuditEventType.Search_QueryIntent_Detected,
                         detail: {
                             querytext: this.query.text,
                             item: intent.name,
@@ -746,7 +749,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     }));
                     this.auditService.notify(events);
                 }
-                return event.cancelSearch;
+                return event;
             })
         );
     }
@@ -789,7 +792,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
             type: AuditEventType.Search_GotoPage,
             detail: {
                 page: page,
-                fromresultid: !!this.results ? this.results.id : null
+                fromresultid: this.results ? this.results.id : null
             }
         }));
     }
@@ -809,7 +812,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                     type: AuditEventType.Search_GotoPage,
                     detail: {
                         page: page,
-                        fromresultid: !!this.results ? this.results.id : null
+                        fromresultid: this.results ? this.results.id : null
                     }
                 })
 
@@ -889,7 +892,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
                 type: AuditEventType.Search_GotoTab,
                 detail: {
                     tab: tabName,
-                    fromresultid: !!this.results ? this.results.id : null
+                    fromresultid: this.results ? this.results.id : null
                 }
             }));
     }
@@ -916,7 +919,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
         return undefined;
     }
 
-    notifyOpenOriginalDocument(record: Record, resultId?: string, type = AuditEventType.Click_ResultLink): void {
+    notifyOpenOriginalDocument(record: Record, resultId?: string, type: AuditEventType | AuditEventTypeValues = AuditEventType.Click_ResultLink): void {
         const results = this.results && this.results.records && this.results.records.includes(record) ? this.results : undefined;
         this._events.next({ type: "open-original-document", record });
         const querylang = this.results?.queryAnalysis?.queryLanguage
@@ -989,6 +992,7 @@ export class SearchService<T extends Results = Results> implements OnDestroy {
 export module SearchService {
     export interface GetResultsOptions {
         queryIntents?: QueryIntent[];
+        queryIntentsV2?: QueryIntentMatch[];
         queryAnalysis?: QueryAnalysis;
         searchInactive?: boolean;   // default "false"
     }

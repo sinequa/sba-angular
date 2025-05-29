@@ -1,0 +1,52 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #2566bb;
+  --ifm-color-primary-dark: #215ca8;
+  --ifm-color-primary-darker: #1f579f;
+  --ifm-color-primary-darkest: #1a4783;
+  --ifm-color-primary-light: #2970ce;
+  --ifm-color-primary-lighter: #2565b9;
+  --ifm-color-primary-lightest: #286eca;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #a8ceff;
+  --ifm-color-primary-dark: #7eb6ff;
+  --ifm-color-primary-darker: #69aaff;
+  --ifm-color-primary-darkest: #2987ff;
+  --ifm-color-primary-light: #d2e6ff;
+  --ifm-color-primary-lighter: #e7f2ff;
+  --ifm-color-primary-lightest: #ffffff;
+  --ifm-background-color: #0d0d0d;
+}
+
+.code-block-error-line {
+  background-color: #ff000020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #ff000080;
+}
+.code-block-add-line {
+  background-color: #6aff0020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #00ff0880;
+}
+
+.code-block-remove-line {
+  background-color: #ff000020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #ff000080;
+  text-decoration: line-through;
+}

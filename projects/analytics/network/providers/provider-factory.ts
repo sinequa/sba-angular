@@ -113,7 +113,7 @@ export class ProviderFactory {
         return {
             shape: "icon",
             icon: {
-                face:"'Font Awesome 5 Free'",
+                face:"'Font Awesome 6 Free'",
                 weight: "bold",
                 code: icon,
                 color: color,

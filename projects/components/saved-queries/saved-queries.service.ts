@@ -154,11 +154,7 @@ export class SavedQueriesService implements OnDestroy {
      * Using this service creates the list of saved queries if it does not already exist.
      */
     public get savedqueries() : SavedQuery[]{
-        if(!this.userSettingsService.userSettings)
-            this.userSettingsService.userSettings = {};
-        if(!this.userSettingsService.userSettings["savedQueries"])
-            this.userSettingsService.userSettings["savedQueries"] = [];
-        return this.userSettingsService.userSettings["savedQueries"];
+        return this.userSettingsService.get("savedQueries");
     }
 
     /**

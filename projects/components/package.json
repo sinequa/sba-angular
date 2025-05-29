@@ -1,16 +1,9 @@
 {
   "name": "@sinequa/components",
-  "version": "0.0.1",
+  "version": "11.12.0",
   "author": "Sinequa",
   "peerDependencies": {
-    "@fortawesome/fontawesome-free": "^5.13.0",
-    "bootstrap": "^5.2.0",
-    "element-resize-detector": "^1.2.1",
-    "@angular-slider/ngx-slider": "^2.0.4",
-    "ngx-bootstrap": "^8.0.0",
-    "@popperjs/core": "^2.10.2"
-  },
-  "dependencies": {
-    "@sinequa/core": "^0.0.1"
+    "@popperjs/core": "^2.10.2",
+    "remark": "^14.0.3"
   }
 }

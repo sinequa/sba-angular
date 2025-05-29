@@ -1,26 +1,28 @@
-import {
-    Injectable,
-    Inject,
-    InjectionToken,
-    Type,
-    OnDestroy,
-} from "@angular/core";
 import { Observable, of, Subscription } from "rxjs";
+
 import {
-    PrincipalWebService,
-    LabelsWebService,
-    AuditEventType,
-    LabelsRights,
-    StringFilter,
-} from "@sinequa/core/web-services";
+    Inject,
+    Injectable,
+    InjectionToken,
+    OnDestroy,
+    Type,
+} from "@angular/core";
+
+import { Action } from "@sinequa/components/action";
+import { SearchService } from "@sinequa/components/search";
+import { SelectionService } from "@sinequa/components/selection";
 import { AppService, ValueItem } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
-import { SearchService } from "@sinequa/components/search";
-import { ModalService, ModalResult } from "@sinequa/core/modal";
-import { Action } from "@sinequa/components/action";
 import { IntlService } from "@sinequa/core/intl";
+import { ModalResult, ModalService } from "@sinequa/core/modal";
 import { NotificationsService } from "@sinequa/core/notification";
-import { SelectionService } from "@sinequa/components/selection";
+import {
+    AuditEventType,
+    LabelsRights,
+    LabelsWebService,
+    PrincipalWebService,
+    StringFilter
+} from "@sinequa/core/web-services";
 
 export interface LabelsComponents {
     renameModal: Type<any>;
@@ -327,8 +329,8 @@ export class LabelsService implements OnDestroy {
             },
         });
         if (action) {
-            action.updater = (action) => {
-                action.hidden = !this.selectionService.haveSelectedRecords;
+            action.updater = (item) => {
+                item.hidden = !this.selectionService.haveSelectedRecords;
             };
             action.hidden = true;
         }
@@ -520,7 +522,7 @@ export class LabelsService implements OnDestroy {
         return observable;
     }
 
-    sort(labels: string[], _public: boolean): string[] {
+    sort(labels: string[]): string[] {
         if (!labels) return labels;
         return labels.sort((a, b) => {
             if (!a) return -1;
@@ -538,8 +540,6 @@ export class LabelsService implements OnDestroy {
         return labels
             .trim()
             .split(/\s*;\s*/)
-            .filter((value) => {
-                return value !== "";
-            });
+            .filter((value) => value !== "");
     }
 }

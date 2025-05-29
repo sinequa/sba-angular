@@ -21,11 +21,7 @@ export class UserPreferences {
     }
 
     private get prefs(): any {
-        if(!this.userSettingsService.userSettings)
-            this.userSettingsService.userSettings = {};
-        if(!this.userSettingsService.userSettings["prefs"])
-            this.userSettingsService.userSettings["prefs"] = {};
-        return this.userSettingsService.userSettings["prefs"];
+        return this.userSettingsService.get("prefs");
     }
 
     /**

@@ -3,11 +3,11 @@ span.matchlocations {
 }
 
 .sq-result-title {
-    color: $blue;
+    color: $brand-500;
     font-weight: 600;
 }
 
 sq-result-source :where(a, span) {
     font-size: .875rem;
-    color: $blue;
+    color: $brand-500;
 }

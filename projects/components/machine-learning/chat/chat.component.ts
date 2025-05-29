@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, ViewChild } from "@angular/core";
-import { Record } from "@sinequa/core/web-services";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import { Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
-import { BehaviorSubject, delay, map, Observable, of, Subscription, switchMap } from "rxjs";
+import { Record } from "@sinequa/core/web-services";
+import { BehaviorSubject, Observable, Subscription, delay, map, of, switchMap } from "rxjs";
 import { ChatService, SearchAttachmentsOptions } from "./chat.service";
-import { ChatAttachment, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
+import { ChatAttachment, ChatAttachmentOpen, ChatMessage, GllmModel, GllmModelDescription, GllmTokens, RawMessage } from "./types";
 
 export interface ChatConfig extends SearchAttachmentsOptions {
   // Model
@@ -91,6 +91,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() textBeforeAttachments =    defaultChatConfig.textBeforeAttachments;
   @Input() displayAttachments =       defaultChatConfig.displayAttachments;
   @Input() showCredits = true;
+  @Input() customAssistantIcon?: string;
 
   // Prompts
   @Input() initialSystemPrompt =      defaultChatConfig.initialSystemPrompt;
@@ -113,11 +114,16 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   @Input() query?: Query;
   @Output() data = new EventEmitter<ChatMessage[]>();
   @Output() referenceClicked = new EventEmitter<Record>();
+  @Output() openPreview = new EventEmitter<ChatAttachmentOpen>();
+  @Output() loading = new EventEmitter<boolean>(false);
+  @Output() error = new EventEmitter<any>();
 
   @ViewChild('messageList') messageList?: ElementRef<HTMLUListElement>;
   @ViewChild('questionInput') questionInput?: ElementRef<HTMLInputElement>;
 
-  loading = false;
+  @ContentChild('loadingTpl') loadingTpl?: TemplateRef<any>;
+
+  streaming = false;
   loadingAttachments = false;
   messages$ = new BehaviorSubject<ChatMessage[] | undefined>(undefined);
 
@@ -140,6 +146,8 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   assistantIcon: string;
   privacyUrl: string;
 
+  messageToEdit?: number;
+
   constructor(
     public chatService: ChatService,
     public searchService: SearchService,
@@ -151,7 +159,9 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
         this.loadingAttachments = false;
         this.updateTokensPercentage();
         this.question = this.suggestQuestion(attachments);
-        setTimeout(() => this.questionInput?.nativeElement.focus());
+        if (attachments.length) {
+          setTimeout(() => this.questionInput?.nativeElement.focus());
+        }
       })
     );
 
@@ -185,14 +195,18 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     );
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     this.chatService.attachmentModel = this.model;
-    if(this.chat) {
-      this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
+
+    if (!this.messages$.value || changes.chat) {
+      if (this.chat) {
+        this.openChat(this.chat.messages, this.chat.tokens, this.chat.attachments);
+      }
+      else {
+        this.loadDefaultChat();
+      }
     }
-    else {
-      this.loadDefaultChat();
-    }
+
     this.updateActions();
     this.updateModelDescription();
   }
@@ -205,7 +219,11 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   submitQuestion() {
     if(this.question.trim() && this.messages$.value) {
       const attachments = this.chatService.attachments$.value;
-      this.fetchAnswer(this.question.trim(), this.messages$.value, attachments);
+      if (this.messageToEdit !== undefined) {
+        this.messages$.next(this.messages$.value.slice(0, this.messageToEdit));
+        this.messageToEdit = undefined;
+      }
+      this.fetchAnswer(this.question.trim(), this.messages$.value!, attachments);
     }
   }
 
@@ -272,11 +290,24 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
    * @param messages
    */
   public fetch(messages: ChatMessage[]) {
-    this.loading = true;
+    this.loading.next(true);
     this.cdr.detectChanges();
     this.dataSubscription?.unsubscribe();
     this.dataSubscription = this.chatService.fetch(messages, this.model, this.temperature, this.maxTokens, this.topP, this.googleContextPrompt, this.stream)
-      .subscribe(res => this.updateData(res.messagesHistory, res.tokens));
+      .subscribe({
+        next: res => this.updateData(res.messagesHistory, res.tokens),
+        error: err => {
+          this.terminateFetch();
+          console.error(err);
+          this.error.emit(err);
+        },
+        complete: () => {
+          this.terminateFetch();
+          setTimeout(() => {
+            this.questionInput?.nativeElement.focus();
+          })
+        }
+      });
     this.scrollDown();
   }
 
@@ -293,12 +324,12 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
   updateData(messages: ChatMessage[], tokens: number) {
     this.messages$.next(messages);
     this.data.emit(messages);
-    this.loading = false;
+    this.loading.next(false);
+    this.streaming = this.stream; // streaming = false set in terminateFetch
     this.tokens = tokens;
     this.chatService.attachments$.next([]); // This updates the tokensPercentage
     this.question = '';
     this.scrollDown();
-    this.dataSubscription = undefined;
   }
 
   suggestQuestion(attachments: ChatAttachment[]) {
@@ -323,12 +354,11 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     if(this.messages$.value) {
       this.messages$.next(undefined); // Reset chat
     }
-    this.loading = false;
     this.question = '';
     this.tokensPercentage = 0;
     this.tokensAbsolute = 0;
     this.tokens = 0;
-    this.dataSubscription?.unsubscribe();
+    this.terminateFetch();
   }
 
   loadDefaultChat() {
@@ -346,7 +376,7 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
 
   openChat(messages: RawMessage[], tokens?: GllmTokens, attachments$?: Observable<ChatAttachment[]|ChatAttachment>) {
     this.resetChat();
-    this.loading = true;
+    this.loading.next(true);
     this.dataSubscription = this.chatService.restoreMessages(messages)
       .pipe(
         delay(0), // In case the observer completes synchronously, the delay forces async update and prevents "change after checked" error
@@ -378,11 +408,23 @@ export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy
     this.openChatAction.hidden = this.openChatAction.children.length === 0;
   }
 
-  onReferenceClicked(record: Record, event: MouseEvent) {
-    const url = record.url1 || record.originalUrl;
-    if(!url) {
-      event.preventDefault();
-    }
-    this.referenceClicked.emit(record);
+  terminateFetch() {
+    this.dataSubscription?.unsubscribe();
+    this.dataSubscription = undefined;
+    this.streaming = false;
+    this.loading.next(false);
+    this.cdr.markForCheck();
+  }
+
+  editMessage(index: number) {
+    this.messageToEdit = index;
+    this.question = this.messages$.value![index].content;
+    this.questionInput?.nativeElement.focus();
+  }
+
+  regenerateMessage(index: number) {
+    const slicedMessages = this.messages$.value!.slice(0, index);
+    this.messages$.next(slicedMessages);
+    this.fetch(slicedMessages);
   }
 }

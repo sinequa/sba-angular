@@ -1,5 +1,5 @@
 import { InjectionToken, Type } from "@angular/core";
-import { MapOf } from "@sinequa/core/base";
+
 import { CCApp, Principal, UserSettings } from "@sinequa/core/web-services";
 
 /**
@@ -43,8 +43,8 @@ export interface LoginData {
 
 export interface Authentication {
   csrfToken: string;
-  headers?: MapOf<string>;    // set in http headers
-  params?: MapOf<string>;     // added to query string
+  headers?: Record<string, string>;    // set in http headers
+  params?: Record<string, string>;     // added to query string
 }
 
 /**

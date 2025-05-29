@@ -3,9 +3,9 @@
   "dest": "../../dist/components",
   "assets": [
     "action/bootstrap/action.scss",
-    "notification/bootstrap/notification.scss",
-    "metadata/metadata.scss",
     "advanced/bootstrap/advanced.scss",
+    "metadata/metadata.scss",
+    "notification/bootstrap/notification.scss",
     "theme"
   ],
   "lib": {

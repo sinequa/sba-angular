@@ -1,10 +1,13 @@
+import { Observable, map, of } from "rxjs";
+
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
-import { SearchService } from "@sinequa/components/search";
+
 import { AbstractFacet } from '@sinequa/components/facet';
+import { SearchService } from "@sinequa/components/search";
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Answer, AuditEvent, AuditEventType, AuditWebService, Results } from "@sinequa/core/web-services";
-import { map, Observable, of } from "rxjs";
+import { AuditEventTypeValues } from "@sinequa/core/web-services/types/audit/AuditEventType";
 
 @Component({
   selector: 'sq-answer-card',
@@ -105,7 +108,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     const type = liked ? AuditEventType.Answer_Liked : AuditEventType.Answer_Disliked;
     if (answer.$liked === liked) {
       answer.$liked = undefined;
-      this.auditService.notify(this.makeAuditEvent(type + "_Cancelled", answer));
+      this.auditService.notify(this.makeAuditEvent(`${type}_Cancelled`, answer));
     }
     else {
       answer.$liked = liked;
@@ -125,7 +128,7 @@ export class AnswerCardComponent extends AbstractFacet implements OnChanges {
     this.auditService.notify(auditEvents);
   }
 
-  private makeAuditEvent(type: string, answer: Answer): AuditEvent {
+  private makeAuditEvent(type: AuditEventType | AuditEventTypeValues, answer: Answer): AuditEvent {
     const rank = this.answers.indexOf(answer);
     return {
       type,

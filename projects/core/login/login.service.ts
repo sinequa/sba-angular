@@ -1,13 +1,17 @@
-import {Injectable, Inject, OnDestroy, Type, Optional} from "@angular/core";
-import {HttpErrorResponse} from "@angular/common/http";
-import {Router} from "@angular/router";
 import {BehaviorSubject, Observable, forkJoin, of, throwError, firstValueFrom, switchMap} from "rxjs";
+
+import {HttpErrorResponse} from "@angular/common/http";
+import {Injectable, Inject, OnDestroy, Type, Optional} from "@angular/core";
+import {Router} from "@angular/router";
+
+
+import {AppService} from "@sinequa/core/app-utils";
 import {Utils, SqError, SqErrorCode} from "@sinequa/core/base";
-import {START_CONFIG, StartConfig, CCApp, PrincipalWebService, Principal,
-    UserSettingsWebService, UserSettings, AuditWebService} from "@sinequa/core/web-services";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {NotificationsService} from "@sinequa/core/notification";
-import {AppService} from "@sinequa/core/app-utils";
+import {START_CONFIG, StartConfig, CCApp, PrincipalWebService, Principal,
+    UserSettingsWebService, UserSettings, AuditWebService} from "@sinequa/core/web-services";
+
 import {AuthenticationService} from "./authentication.service";
 import { CREDENTIALS, Credentials, LoginData, MODAL_LOGIN, ProcessedCredentials, SessionEvent, UserOverride } from "./typings";
 
@@ -47,7 +51,7 @@ export class LoginService implements OnDestroy {
         window.addEventListener("beforeunload", this.beforeUnloadEventListener);
     }
 
-    protected beforeUnloadEventListener = (e: Event) => {
+    protected beforeUnloadEventListener = () => {
         this._events.next({type: "session-end"});
     }
 
@@ -88,7 +92,7 @@ export class LoginService implements OnDestroy {
 
     /**
      * Perform a logout of the currently logged in user. [AppService.app]{@link AppService#app},
-     * [PrincipalWebService.principal]{@link PrincipalWebService#prinicpal} and
+     * [PrincipalWebService.principal]{@link PrincipalWebService#principal} and
      * [UserSettingsWebService.userSettings]{@link UserSettingsWebService#userSettings} are reset.
      * The `session-end` event is emitted
      */
@@ -284,7 +288,7 @@ export class LoginService implements OnDestroy {
                                 .then((principal) => {
                                     this.checkPrincipalPromise = undefined;
                                     if (!this.principalService.principal || this.principalService.principal.id === principal.id) {
-                                        // no current principal OR prinicpal unchanged - initiate retry
+                                        // no current principal OR principal unchanged - initiate retry
                                         return Promise.resolve();
                                     }
                                     const error = new SqError(SqErrorCode.principalSwitched);

@@ -1,16 +1,18 @@
+import { BehaviorSubject, Observable, Subject, of } from "rxjs";
+
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
-import { AppService, Query } from "@sinequa/core/app-utils";
-import { AuditEventType, PreviewData } from "@sinequa/core/web-services";
 import { UserPreferences } from "@sinequa/components/user-settings";
-import { PreviewFrameService } from "./preview-frames.service";
-import { BehaviorSubject, Observable, of, Subject } from "rxjs";
-import { PreviewEntityOccurrence } from "./preview-tooltip/preview-tooltip.component";
 import { UIService } from "@sinequa/components/utils";
+import { AppService, Query } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
+import { AuditEventType, CustomHighlights, PreviewData } from "@sinequa/core/web-services";
+
+import { PreviewFrameService } from "./preview-frames.service";
 import { PreviewService } from "./preview.service";
 
 export interface PreviewHighlightColors {
@@ -30,6 +32,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   // Document management
   @Input() id: string;
   @Input() query?: Query;
+  @Input() customHighlights?: CustomHighlights[];
 
   // Scale management
   /** Default scale */
@@ -165,11 +168,11 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges) {
     // Update the preview content
-    if(changes.id || changes.query) {
+    if(changes.id || changes.query || changes.customHighlights) {
 
       this.loading = true;
       const query = this.query || this.searchService.query;
-      this.previewService.getPreviewData(this.id, query).subscribe(data => {
+      this.previewService.getPreviewData(this.id, query, this.customHighlights).subscribe(data => {
         this.data = data;
         if(this.url) {
           this.previewFrames.unsubscribe(this.url);
@@ -354,24 +357,23 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   }
 
 
-  selectEntity(occurrence: PreviewEntityOccurrence) {
-    if(this.data) {
-      // TODO Refactor this mess with better data structures from new web service
-      const entity = this.data.highlightsPerCategory[occurrence.type].values.find(v => v.value === occurrence.value);
-      const start = entity?.locations[occurrence.index].start;
-      const id = Object.values(this.data.highlightsPerLocation).find(l => l.start === start && l.values.includes(entity?.value))?.positionInCategories[occurrence.type];
-      if(typeof id=== 'number') {
-        this.select(`${occurrence.type}_${id}`);
+  selectEntity(type: string, value: string, index=0) {
+    if (this.data) {
+      const entity = this.data.highlightsPerCategory[type].values
+        .find(v => v.value === value);
+      if(entity) {
+        const start = entity.locations[index].start;
+        this.selectStart(type, start, entity.value);
       }
     }
   }
 
-  selectFirstEntity(type: string, value: string) {
-    if (this.data) {
-      const entity = this.data.highlightsPerCategory[type].values.find(v => v.value === value);
-      const start = entity?.locations[0].start;
-      const id = Object.values(this.data.highlightsPerLocation).find(l => l.start === start && l.values.includes(entity?.value))?.positionInCategories[type];
-      if(typeof id=== 'number') {
+  selectStart(type: string, start: number, value?: string) {
+    if(this.data) {
+      const location = Object.values(this.data.highlightsPerLocation)
+        .find(l => l.start === start && l.positionInCategories.hasOwnProperty(type) && (!value || l.values.includes(value)));
+      const id = location?.positionInCategories[type];
+      if(typeof id === 'number') {
         this.select(`${type}_${id}`);
       }
     }
