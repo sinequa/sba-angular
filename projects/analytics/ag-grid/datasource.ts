@@ -86,7 +86,13 @@ export class SqDatasource implements IDatasource {
 
                 // Query the server for data
                 this.searchService.getResults(query).subscribe(results => {
-                    this.latestResults = results;
+                    // concatenate results.records with searchService.results.records
+                    const latestRecords = this.latestResults.records || [];
+                    const newRecords = results.records || [];
+                    this.searchService.results = {...results, records: [...latestRecords, ...newRecords]}; // Update the search service with the latest results
+
+                    this.latestResults = this.searchService.results;
+
                     const selected = new Set(this.selectionService.getSelectedIds());
                     results.records.forEach(r => r.$selected = selected.has(r.id));
                     params.successCallback(results.records || [], this.rowCount);
@@ -126,7 +132,14 @@ export class SqDatasource implements IDatasource {
 
                 // Query the server for data
                 this.searchService.getResults(query).subscribe(results => {
-                    this.latestResults = results;
+
+                    // concatenate results.records with searchService.results.records
+                    const latestRecords = this.latestResults.records || [];
+                    const newRecords = results.records || [];
+                    this.searchService.results = {...results, records: [...latestRecords, ...newRecords]}; // Update the search service with the latest results
+
+                    this.latestResults = this.searchService.results;
+
                     params.successCallback(results.records || [], this.rowCount);
                 },
                 err => {
