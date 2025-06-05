@@ -22,11 +22,12 @@ export class BsPageSizeSelector implements OnChanges {
     @Input() showInCustomization: boolean;
     @Input() pageSizes: number[];
     @Input() rightAligned: boolean;
+    @Input('defaultPageSize') _defaultPageSize: number;
 
     public pageSizingAction: Action;
 
-    private availableSizes: number[];
-    private currentPageSize: number;
+    protected availableSizes: number[];
+    protected currentPageSize: number;
 
     constructor(
         private appService: AppService,
@@ -38,17 +39,18 @@ export class BsPageSizeSelector implements OnChanges {
     }
 
     /*
-    private get globalPageSize(): number {
+    protected get globalPageSize(): number {
         const globalQueryParams = this.userSettingsService.getUserSettings().queryParams;
         return globalQueryParams ? globalQueryParams.pageSize : undefined;
     }
     */
 
-    private get configPageSize(): number {
+    protected get configPageSize(): number {
         return this.appService.ccquery ? this.appService.ccquery.pageSize : 0;
     }
 
-    private get defaultPageSize(): number {
+    protected get defaultPageSize(): number {
+        if (this._defaultPageSize) return this._defaultPageSize;
         //let res = this.globalPageSize;
         //if (!res) {
         let res = this.configPageSize;
@@ -60,7 +62,7 @@ export class BsPageSizeSelector implements OnChanges {
         return res;
     }
 
-    private buildPageSizingAction(): Action {
+    protected buildPageSizingAction(): Action {
         this.availableSizes = this.pageSizes ? this.pageSizes.slice(0) : [];
         this.availableSizes.sort((a, b) => a - b);
         const children: Action[] = [];
@@ -91,7 +93,7 @@ export class BsPageSizeSelector implements OnChanges {
         });
     }
 
-    private refreshVisualisation(): void {
+    protected refreshVisualisation(): void {
         this.pageSizingAction = this.buildPageSizingAction();
         if (this.results) {
             //const queryParams = this.userSettingsService.getViewQueryParams(this.resultsView.name);
@@ -100,7 +102,7 @@ export class BsPageSizeSelector implements OnChanges {
         }
     }
 
-    private setCurrentSize(size: number): void {
+    protected setCurrentSize(size: number): void {
         if (!size) {
             this.pageSizingAction.text = 'msg#pageSizeSelector.defaultPageSizeChoice';
             this.pageSizingAction.messageParams = { values: { size: this.defaultPageSize } };
@@ -112,7 +114,7 @@ export class BsPageSizeSelector implements OnChanges {
         }
     }
 
-    private updatePageSize(size: number): void {
+    protected updatePageSize(size: number): void {
         if (this.currentPageSize !== size) {
             //this.userSettingsService.saveResultsViewPageSize(this.resultsView.name, size);
             this.currentPageSize = size;
