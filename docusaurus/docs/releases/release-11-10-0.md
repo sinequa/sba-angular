@@ -102,7 +102,7 @@ This release introduces end-to-end (e2e) tests for the SBA components. These tes
 
 ### Miscellaneous
 
-- Fixed the escaping of html elements passed to formatjs (<https://github.com/sinequa/sba-angular/issues/108>).
+- Fixed the escaping of html elements passed to formatjs ([issues/108](https://github.com/sinequa/sba-angular/issues/108)).
 - `IntlService.formatRelativeTime()` now behaves consistently whether given a string/Date (delay relative to now) or a number (delay) and always auto-determines the display unit (min, hour, day, week, etc.).
 
 ## Components
@@ -150,7 +150,7 @@ This release introduces end-to-end (e2e) tests for the SBA components. These tes
 - Refactoring of the `sq-facet-filters` component to properly display the actions and custom templates of the facet components in the dropdown panels.
 
 - Facet card:
-  - Handle the "click outside" event more efficiently (see: <https://github.com/sinequa/sba-angular/issues/106>).
+  - Handle the "click outside" event more efficiently (see: [Issues/106](https://github.com/sinequa/sba-angular/issues/106)).
   - New inputs to control the actions' tooltip placement (`defaultTooltipPlacement` and `defaultTooltipFallbackPlacements`).
 
 ### New Filters module
