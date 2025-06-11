@@ -689,7 +689,7 @@ export class FacetService {
         const value = item.$path + "*";
         query = Query.copy(query);
         query.action = "open";
-        const expr = `${aggregation.column}: ${Utils.escapeExpr(value)}`;
+        const expr = `${aggregation.column}:${Utils.escapeExpr(value)}`;
         query.addOpen(expr, aggregation.name);
 
         this.events.next({type: FacetEventType.Open, facet: this.facet(facetName), query});
