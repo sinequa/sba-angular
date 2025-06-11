@@ -1,6 +1,6 @@
 {
   "name": "@sinequa/core",
-  "version": "11.12.0",
+  "version": "11.13.0",
   "author": "Sinequa",
   "peerDependencies": {
     "@microsoft/teams-js": "^2.3.0",
