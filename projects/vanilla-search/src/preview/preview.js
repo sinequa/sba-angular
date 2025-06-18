@@ -38,6 +38,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 unselect();
                 break;
             case 'paging': break;
+            case 'toggle-description':
+                // if data.show is true, show the description
+                // just set a new value to the css variable --desc-display
+                document.documentElement.style.setProperty('--desc-display', data.show ? 'inline-block' : 'none');
+                break;
         }
     }
     function returnMessage(type, data) {

@@ -86,6 +86,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   zoomOutAction: Action;
   toggleEntitiesAction: Action;
   toggleExtractsAction: Action;
+  toggleDescriptionAction: Action;
   pdfDownloadAction: Action;
 
   _actions: Action[];
@@ -155,6 +156,16 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       title: "msg#preview.toggleExtracts",
       action: (action) => this.toggleExtracts(!action.selected),
       updater: action => action.selected = this.extracts.some(e => this.highlightsPref.includes(e))
+    });
+
+    this.toggleDescriptionAction = new Action({
+      icon: "fas fa-fw fa-info-circle",
+      title: "msg#preview.toggleDescription",
+      action: (action) => {
+        this.sendMessage({ action: 'toggle-description', show: !action.selected });
+        action.selected = !action.selected;
+      },
+      updater: action => action.selected = false // Default to false, will be updated by the preview
     });
 
     this.pdfDownloadAction = new Action({
@@ -244,7 +255,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
         this._actions.push(this.pdfDownloadAction);
       }
       if (this.highlightActions) {
-        this._actions.push(this.toggleExtractsAction, this.toggleEntitiesAction);
+        this._actions.push(this.toggleExtractsAction, this.toggleEntitiesAction, this.toggleDescriptionAction);
       }
       this._actions.push(this.zoomOutAction, this.zoomInAction);
       this._actions.forEach(a => a.update());
