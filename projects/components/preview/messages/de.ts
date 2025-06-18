@@ -16,6 +16,7 @@ export default {
         "maximize": "hineinzoomen",
         "toggleHighlight": "Alle Hervorhebungen schalten",
         "toggleExtracts": "Schalten Sie die Hervorhebung relevanter Auszüge um",
+        "toggleDescription": "Schalten Sie die Beschreibung um",
         "extracts": "Relevante Auszüge",
         "toggleEntities": "Schalten Sie die Hervorhebung von Objekten",
         "entities": "Objekten",

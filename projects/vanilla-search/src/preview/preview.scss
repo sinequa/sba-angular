@@ -86,3 +86,11 @@ body.bd {
   }
 }
 
+//  hide multi-modal description
+:root {
+  --desc-display: none;
+}
+
+.pn_page_visual_description {
+  display: var(--desc-display);
+}
