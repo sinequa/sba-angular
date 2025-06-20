@@ -16,7 +16,7 @@ export default {
         "maximize": "Agrandir",
         "toggleHighlight": "Activer/désactiver le surlignage",
         "toggleExtracts": "Surlignage des extraits pertinents",
-        "toggleDescription": "Activer/désactiver la description",
+        "toggleDescription": "Activer/désactiver la description de l'image IA",
         "extracts": "Extraits Pertinents",
         "toggleEntities": "Surlignage des entités",
         "entities": "Entités",

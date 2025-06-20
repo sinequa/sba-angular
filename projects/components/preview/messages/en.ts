@@ -17,7 +17,7 @@ export default {
         "toggleHighlight": "Toggle highlighting",
         "toggleExtracts": "Toggle relevant extracts highlighting",
         "toggleEntities": "Toggle entities highlighting",
-        "toggleDescription": "Toggle description",
+        "toggleDescription": "Toggle AI image description",
         "extracts": "Relevant Extracts",
         "entities": "Entities",
         "downloadPdf": "Download PDF version",
