@@ -159,7 +159,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     });
 
     this.toggleDescriptionAction = new Action({
-      icon: "fas fa-fw fa-info-circle",
+      icon: "fas fa-fw fa-wand-magic-sparkles",
       title: "msg#preview.toggleDescription",
       action: (action) => {
         this.sendMessage({ action: 'toggle-description', show: !action.selected });
@@ -255,7 +255,11 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
         this._actions.push(this.pdfDownloadAction);
       }
       if (this.highlightActions) {
-        this._actions.push(this.toggleExtractsAction, this.toggleEntitiesAction, this.toggleDescriptionAction);
+        this._actions.push(this.toggleExtractsAction, this.toggleEntitiesAction);
+      }
+      // Add the toggle description action only if the record has the "ps" flag
+      if(this.data?.record.flags?.includes("ps")) {
+        this._actions.push(this.toggleDescriptionAction);
       }
       this._actions.push(this.zoomOutAction, this.zoomInAction);
       this._actions.forEach(a => a.update());
