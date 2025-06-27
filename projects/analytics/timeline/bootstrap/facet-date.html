@@ -36,16 +36,19 @@
                         [displaySeparator]="false"
                         [displayLabel]="true">
                     </sq-date-range-picker>
-                    <div class="d-flex align-items-center">
-                        <label for="mask-date" class="w-25">{{ 'msg#facet.date.mask.label' | sqMessage }}</label>
-                        <select name="mask-date" id="mask-date" class="form-select w-75" aria-label="Select a date's mask"
-                            [value]="mask.value"
-                            (change)="setMask($event.target.value)">
-                            <option *ngFor="let unit of mask.units"
-                                [selected]="unit.value === mask.value"
-                                [value]="unit.value">{{ unit.text | sqMessage }}</option>
-                        </select>
-                    </div>
+                    <!-- mask control -->
+                    @if(mask.visible) {
+                        <div class="d-flex align-items-center">
+                            <label for="mask-date" class="w-25">{{ 'msg#facet.date.mask.label' | sqMessage }}</label>
+                            <select name="mask-date" id="mask-date" class="form-select w-75" aria-label="Select a date's mask"
+                                [value]="mask.value"
+                                (change)="setMask($event.target.value)">
+                                <option *ngFor="let unit of mask.units"
+                                    [selected]="unit.value === mask.value"
+                                    [value]="unit.value">{{ unit.text | sqMessage }}</option>
+                            </select>
+                        </div>
+                    }
                     <button class="btn btn-primary btn-sm align-self-end px-4" (click)="applyCustomRange()">{{ 'msg#facet.apply' | sqMessage }}</button>
                 </div>
             </form>
