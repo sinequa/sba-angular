@@ -17,7 +17,7 @@ export default {
         "toggleHighlight": "Alle Hervorhebungen schalten",
         "toggleExtracts": "Schalten Sie die Hervorhebung relevanter Auszüge um",
         "toggleEntities": "Schalten Sie die Hervorhebung von Objekten",
-        "toggleDescription": "AI-Bildbeschreibung umschalten",
+        "toggleDescription": "AI-Beschreibung anzeigen / AI-Beschreibung ausblenden",
         "extracts": "Relevante Auszüge",
         "entities": "Objekten",
         "downloadPdf": "PDF-Version herunterladen",
