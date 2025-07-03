@@ -31,7 +31,8 @@ import { TimelineSeries } from "./timeline.model";
 
 export type MaskProps = {
     value?: string,
-    units?: { text: string, value?: string }[]
+    units?: { text: string, value?: string }[],
+    visible?: boolean
 }
 
 export interface FacetDateParams {
@@ -60,6 +61,16 @@ export interface FacetDateConfig extends FacetConfig<FacetDateParams> {
 export class BsFacetDate extends AbstractFacet implements FacetDateParams, OnInit, OnChanges, OnDestroy {
     @ViewChild(BsDateRangePicker) dateRangePicker?: BsDateRangePicker;
 
+    maskDefaults: MaskProps = {
+        value: undefined,
+        units: [
+            { text: 'msg#facet.date.mask.none' },
+            { text: 'msg#facet.date.mask.yearMonth', value: 'YYYY-MM' },
+            { text: 'msg#facet.date.mask.year', value: 'YYYY' }
+        ],
+        visible: true
+    };
+
     @Input() name: string = "Date";
     @Input() results: Results;
     @Input() query?: Query;
@@ -75,14 +86,8 @@ export class BsFacetDate extends AbstractFacet implements FacetDateParams, OnIni
     @Input() timelineWidth = 250;
     @Input() timelineHeight = 150;
     @Input() timelineMargin = {top: 15, bottom: 20, left: 30, right: 15};
-    @Input() mask: MaskProps = {
-        value: undefined,
-        units: [
-            { text: 'msg#facet.date.mask.none' },
-            { text: 'msg#facet.date.mask.yearMonth', value: 'YYYY-MM' },
-            { text: 'msg#facet.date.mask.year', value: 'YYYY' }
-        ]
-    }
+    @Input() mask: MaskProps = this.maskDefaults;
+
 
     clearFiltersAction: Action;
     items: AggregationItem[] = [];
@@ -163,6 +168,11 @@ export class BsFacetDate extends AbstractFacet implements FacetDateParams, OnIni
 
         if (changes.query && this.query) {
             this.onQueryChange(this.query); // When the query changes, update the date-picker and timeline selection
+        }
+
+        if(changes.mask && this.mask){
+            // override the mask value with the new one
+            this.mask = { ...this.maskDefaults, ...this.mask };
         }
     }
 
