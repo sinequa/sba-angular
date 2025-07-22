@@ -4,7 +4,14 @@ import {Basket, BasketsService, SelectBasketModel} from "../../baskets.service";
 
 @Component({
     selector: "sq-select-basket",
-    templateUrl: "./select-basket.html"
+    templateUrl: "./select-basket.html",
+    styles: `
+li {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+    `
 })
 export class BsSelectBasket implements OnInit {
     baskets: Basket[];
