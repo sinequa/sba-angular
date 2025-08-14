@@ -75,12 +75,14 @@ document.addEventListener("DOMContentLoaded", function () {
             return box.width && box.height;
         });
         (visibleElements[0] || elements[0]).scrollIntoView({ block: 'center', behavior: 'auto' });
-        if (usePassageHighlighter) {
-            selectPassage(visibleElements);
-        }
-        else {
-            selectHighlight(elements);
-        }
+        setTimeout(() => {
+            if (usePassageHighlighter) {
+                selectPassage(visibleElements);
+            }
+            else {
+                selectHighlight(elements);
+            }
+        }, 400);
         returnMessage('selected-position', getVerticalPositions(visibleElements)[0]);
     }
     function selectPassage(elements) {
