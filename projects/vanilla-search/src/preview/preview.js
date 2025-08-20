@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var box = el.getBoundingClientRect();
             return box.width && box.height;
         });
-        (visibleElements[0] || elements[0]).scrollIntoView({ block: 'center', behavior: 'auto' });
+        (visibleElements[0] || elements[0]).scrollIntoView({ block: 'center', behavior: 'instant' });
         setTimeout(() => {
             if (usePassageHighlighter) {
                 selectPassage(visibleElements);
