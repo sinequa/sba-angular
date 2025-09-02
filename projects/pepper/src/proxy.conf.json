@@ -1,25 +1,17 @@
-{
-    "/api": {
-      "target": "https://su-sba.demo.sinequa.com",
-      "secure": true,
-      "changeOrigin": true
-    },
-
-    "/xdownload": {
-        "target": "https://su-sba.demo.sinequa.com",
-        "secure": true,
-        "changeOrigin": true
-    },
-
-    "/auth/redirect": {
-        "target": "https://su-sba.demo.sinequa.com",
-        "secure": true,
-        "changeOrigin": true
-    },
-
-    "/saml/redirect": {
-        "target": "https://su-sba.demo.sinequa.com",
-        "secure": true,
-        "changeOrigin": true
-    }
-}
+[
+  {
+    "context": [
+      "/api",
+      "/xdownload",
+      "/auth/redirect",
+      "/saml/redirect",
+      "/r",
+      "/endpoints",
+      "/assets"
+    ],
+    "target": "https://su-sba.demo.sinequa.com",
+    "secure": false,
+    "changeOrigin": true,
+    "ws": true
+  }
+]
