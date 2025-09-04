@@ -198,7 +198,7 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
       text: "msg#userMenu.darkMode",
       action: action => {
         this.ui.toggleDark();
-        action.update();
+        setTimeout(() => action.update());
       },
       updater: action => {
         action.icon = this.ui.isDark()? "fas fa-toggle-on" : "fas fa-toggle-off";
