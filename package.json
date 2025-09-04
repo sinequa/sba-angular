@@ -98,8 +98,9 @@
     "esbuild": "0.25.0",
     "dompurify": "3.2.4",
     "canvg": ">=4.0.3",
-    "jspdf": "3.0.1",
-    "webpack-dev-server": "5.2.1"
+    "jspdf": ">=3.0.2",
+    "webpack-dev-server": "5.2.1",
+    "tmp": ">=0.2.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.8",
