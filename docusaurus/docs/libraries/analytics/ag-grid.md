@@ -42,12 +42,10 @@ const messages = Utils.merge({}, ..., enGrid, appMessages);
 
 Additionally, the AG Grid component requires various global stylesheets. Import at least the first one of the following, as well as the theme(s) that your application will use.
 
-```scss
-@import "~ag-grid-community/dist/styles/ag-grid.css";
-@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
-@import "~ag-grid-community/dist/styles/ag-theme-alpine.css";
-@import "~ag-grid-community/dist/styles/ag-theme-balham-dark.css";
-@import "~ag-grid-community/dist/styles/ag-theme-alpine-dark.css";
+```css
+@import "/node_modules/ag-grid-community/styles/ag-grid.css";
+@import "/node_modules/ag-grid-community/styles/ag-theme-balham.css";
+@import "/node_modules/ag-grid-community/styles/ag-theme-alpine.css";
 ```
 
 ## Configuration
@@ -57,7 +55,6 @@ The `sq-ag-grid-view` component can be integrated in an Angular template with th
 ```html
 <sq-ag-grid-view [results]="results" [columns]="columns"></sq-ag-grid-view>
 ```
-
 
 In the snippet above,
 
@@ -146,10 +143,8 @@ You can configure the component in 2 different modes, depending on whether or no
 
     ![Local query process](/assets/modules/ag-grid/local-query.png)
     *1) The user acts on the grid (eg. by adding a filter) 2) The grid calls the `getRows()` method to get data 3) The server responds and the grid displays the results*
-    
 
 2. **Global Query mode**: If you **do not** pass a `Query` to the component, it will use `SearchService.query` and modify that query globally. This means that the filters and sorts defined in the grid are persisted in the URL, and therefore the state of the grid is preserved when the page is reloaded (as well as when using the back button). However, the pagination state is not persisted (or else it wouldn't really make sense to use the infinite row model).
 
     ![Global query process](/assets/modules/ag-grid/global-query.png)
     *1) The user acts on the grid (eg. by adding a filter) 2) The grid calls the `getRows()` method to get data 3) The global query is modified by the search service, the grid gets new results and a new datasource is created 4) The pagination is managed like in the local query mode*
-    
