@@ -1,6 +1,6 @@
 {
   "name": "ng-ws",
-  "version": "11.13.0",
+  "version": "11.12.0",
   "workspaces": [
     "projects/*"
   ],
@@ -100,7 +100,6 @@
     "dompurify": "3.2.4",
     "canvg": ">=4.0.3",
     "jspdf": ">=3.0.2",
-    "webpack-dev-server": "5.2.1",
     "tmp": ">=0.2.4"
   },
   "devDependencies": {
