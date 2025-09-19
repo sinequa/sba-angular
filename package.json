@@ -80,7 +80,7 @@
     "matchmedia-polyfill": "^0.3.2",
     "moment": "^2.29.4",
     "ngx-bootstrap": "^12.0.0",
-    "ngx-remark": "^0.0.6-ng14",
+    "ngx-remark": "^0.2.0",
     "propagating-hammerjs": "^2.0.1",
     "remark": "^14.0.3",
     "rxjs": "~7.5.0",
