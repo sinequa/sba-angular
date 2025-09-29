@@ -25,7 +25,10 @@ export interface PreviewHighlightColors {
   selector: 'sq-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'position-relative'
+  }
 })
 export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
@@ -196,6 +199,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
         }
         this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
         this.previewFrames.subscribe(this.url, 'ready', () => this.onReady());
+        this.previewFrames.subscribe<{current: number, total: number}>(this.url, 'page-info', (info) => this.onPageInfo(info));
         this.cdRef.detectChanges();
       });
     }
@@ -224,6 +228,16 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     this.updateActions();
     this.loading = false;
     this.ready.emit();
+    this.cdRef.detectChanges();
+  }
+
+  totalPages: number = 0;
+  currentPage: number = 0;
+  onPageInfo({current, total}: {current: number, total: number}) {
+    // Handle page info updates
+    this.totalPages = total ?? 1;
+    this.currentPage = current ?? 1;
+    console.log(`Preview page info: ${this.currentPage}/${this.totalPages}`);
     this.cdRef.detectChanges();
   }
 
@@ -417,6 +431,28 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
   set highlightsPref(pref: string[]) {
     this.prefs.set(`${this.preferenceName}-highlights`, pref);
+  }
+
+  gotoPage(page: number) {
+    this.currentPage = page;
+    this.sendMessage({ action: 'goto-page', page });
+  }
+
+  nextPage() {
+    this.currentPage = this.currentPage + 1;
+    this.sendMessage({ action: 'next-page' });
+  }
+  prevPage() {
+    this.currentPage = this.currentPage - 1;
+    this.sendMessage({ action: 'prev-page' });
+  }
+  firstPage() {
+    this.currentPage = 1;
+    this.sendMessage({ action: 'first-page' });
+  }
+  lastPage() {
+    this.currentPage = this.totalPages;
+    this.sendMessage({ action: 'last-page' });
   }
 
 }
