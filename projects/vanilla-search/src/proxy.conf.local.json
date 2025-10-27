@@ -1,4 +1,4 @@
-{
+[{
     "context": [
         "/api",
         "/xdownload",
@@ -9,4 +9,4 @@
     "target": "http://localhost",
     "secure": true,
     "changeOrigin": true
-}
+}]
