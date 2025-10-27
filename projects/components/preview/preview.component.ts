@@ -185,6 +185,8 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
     if(changes.id || changes.query || changes.customHighlights) {
 
       this.loading = true;
+      this.totalPages = 0;
+
       const query = this.query || this.searchService.query;
       this.previewService.getPreviewData(this.id, query, this.customHighlights).subscribe(data => {
         this.data = data;
