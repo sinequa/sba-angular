@@ -1675,6 +1675,10 @@ export interface ExprParserOptions {
      * If `true` then arbitrary field names are permitted. This is typically used with `Expr.evaluate`
      */
     disallowFulltext?: boolean;
+    /**
+     * If `true` then fielded search is enabled
+     */
+    enabledFieldedSearch?: boolean;
 }
 
 /**
@@ -1778,6 +1782,11 @@ export class ExprParser {
         this.current = 0;
         this.length = 0;
         this.op = this.prevOp = this.saveOp = ExprParserOperator.invalid;
+
+        // Set enabledFieldedSearch from appService.ccquery if not explicitly provided
+        if (Utils.isUndefined(this.options.enabledFieldedSearch)) {
+            this.options.enabledFieldedSearch = exprContext.appService.ccquery?.enableFieldedSearch;
+        }
     }
 
     /**
@@ -2250,7 +2259,7 @@ export class ExprParser {
                 return "bad operator: " + ch;
             }
             else {
-                if (ch === ":") { // Field
+                if (ch === ":" && this.options.enabledFieldedSearch) { // Field
                     // Pick out previous value and/or field name
                     // Field specifier can be:
                     // field:value

@@ -79,6 +79,10 @@ export const CCQuerySchema = CCWebServiceSchema.extend({
      */
     allowEmptySearch: z.boolean(),
     /**
+     * Determines whether fielded search is enabled for this query
+     */
+    enableFieldedSearch: z.boolean(),
+    /**
      * Defines the patterns to control which column fields are allowed
      * in fielded search expressions.
      */
