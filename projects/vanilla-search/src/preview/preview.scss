@@ -62,6 +62,22 @@ line.sq-svg {
 }
 
 // sinequePdfToHtml
+body {
+  --factor: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  transform: scale(var(--factor));
+  height: calc(98% / var(--factor));
+  width: calc(99% / var(--factor));
+  border: 0;
+  transform-origin: 0 0;
+}
+/* hide the document navigator */
+body .ph {
+  display: none;
+}
 // add a shadow on page navigator
 body.bd {
   background-color: #eee;
@@ -147,4 +163,19 @@ body.bd {
       color: var(--color-foreground);
     }
   }
+}
+
+/* invisible extracts locations (remove black squares) */
+.invisible .extractslocations,
+.invisible .extractslocations * {
+    background-color: transparent;
+    color: transparent;
+}
+.invisible::selection {
+    color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 255, 0.2);
+}
+.invisible .matchlocations {
+    color: transparent;
+    background-color: #ff0c!important
 }
