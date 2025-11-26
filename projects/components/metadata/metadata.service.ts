@@ -27,7 +27,10 @@ export class MetadataService {
     const isCsv = !!column && AppService.isCsv(column);
     let fnEntityTooltip: ((data: { entity: EntityItem, record: Record, query: Query }) => Observable<SafeHtml | undefined>) | undefined;
 
-    const values: RecordType = record[this.appService.getColumnAlias(column, item)];
+    const alias = this.appService.getColumnAlias(column, item);
+    const key = Object.keys(record).find(k => k.toLowerCase() === alias.toLowerCase());
+
+    const values: RecordType = record[key ?? alias];
 
     if (isTree) {
       if(Array.isArray(values)) {
