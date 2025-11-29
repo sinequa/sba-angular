@@ -16,6 +16,7 @@ import { PreviewExtractsPanelComponent } from './preview-extracts-panel/preview-
 import { PreviewMinimapComponent } from "./preview-minimap/preview-minimap.component";
 import { PreviewEntityFacetComponent } from "./preview-entity-facet/preview-entity-facet.component";
 import { PreviewEntityPanelComponent } from "./preview-entity-panel/preview-entity-panel.component";
+import { PreviewNavigator } from "./preview-navigator";
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { PreviewEntityPanelComponent } from "./preview-entity-panel/preview-enti
     UtilsModule,
     BsActionModule,
     BsFacetModule,
-    BsSearchModule
+    BsSearchModule,
+    PreviewNavigator
   ],
   declarations: [
     Preview,

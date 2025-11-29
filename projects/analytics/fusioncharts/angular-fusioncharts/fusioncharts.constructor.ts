@@ -15,7 +15,7 @@ export function FusionChartsConstructor(fusionchartsService: any, chartConfig: O
 }
 
 async function getLicense() {
-    const response = await fetch("r/_sinequa/webpackages/lib/FusionCharts-core/fusioncharts.json");
+    const response = await fetch("/r/_sinequa/webpackages/lib/FusionCharts-core/fusioncharts.json");
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }

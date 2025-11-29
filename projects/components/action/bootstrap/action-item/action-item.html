@@ -31,7 +31,7 @@
     <a href="javascript:void(0)" (click)="click($event)" [ngClass]="{'nav-link': options.inMenu, 'dropdown-item': !options.inMenu, 'disabled': options.item.disabled}" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" title="{{itemTitle | sqMessage:itemMessageParams}}" aria-haspopup="true" aria-expanded="false" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams"
     sq-action-item-content [item]="item" [text]="itemText">
     </a>
-    <ul [sq-dropdown-menu]="dropdownMenuOptions"></ul>
+    <ul [sq-dropdown-menu]="dropdownMenuOptions" class="dropdown-list-item"></ul>
 </ng-container>
 
 <!-- list item -->
