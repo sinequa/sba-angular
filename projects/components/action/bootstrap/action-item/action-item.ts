@@ -6,6 +6,11 @@ import { ActionItemOptions, ActionSize, DropdownMenuOptions } from "../../typing
 @Component({
     selector: "[sq-action-item]",
     templateUrl: "./action-item.html",
+    styles: `
+.dropdown-list-item {
+    max-width: 24rem;
+}
+    `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsActionItem implements OnInit, OnDestroy, AfterViewInit {

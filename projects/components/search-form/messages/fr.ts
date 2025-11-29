@@ -14,6 +14,7 @@ export default {
     "neural": {
       "on": "Neural Search est activé",
       "off": "Neural Search est désactivé"
-    }
+    },
+    "invalidQuery": "Requête de recherche invalide"
   }
 }
