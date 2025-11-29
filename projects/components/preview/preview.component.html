@@ -1,7 +1,16 @@
 
 <sq-loading-bar [active]="loading"></sq-loading-bar>
 
-<iframe *ngIf="safeUrl && !isExcelDocFormat; else noSandbox"
+<preview-navigator class="m-2 position-absolute top-0 z-1"
+  [total]="totalPages"
+  [current]="currentPage"
+  (firstPage)="firstPage()"
+  (prevPage)="prevPage()"
+  (nextPage)="nextPage()"
+  (lastPage)="lastPage()"
+  (gotoPage)="gotoPage($event)"
+></preview-navigator>
+<iframe *ngIf="safeUrl && !isExcelDocFormat; else noSandbox" class="position-absolute top-0"
   #preview
   [src]="safeUrl"
   sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"
@@ -9,7 +18,7 @@
   (load)="onLoad()">
 </iframe>
 <ng-template #noSandbox>
-  <iframe *ngIf="safeUrl"
+  <iframe *ngIf="safeUrl" class="position-absolute top-0"
     #preview
     [src]="safeUrl"
     [style.--sq-scale]="scale"

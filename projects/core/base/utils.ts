@@ -582,6 +582,12 @@ export class Utils {
                  * // After processing
                  * 'tomato (author:Smith) tomato (date:2023) (author:Smith) tomato'
                  */
+
+                // Handle array values, if any
+                if(Array.isArray(val)) {
+                    return val;
+                }
+
                 const regex = /\(?\b\w+:(?:"[^"]*"|'[^']*'|[^ \(|$\)]+)\)?/gm
                 let m;
                 while ((m = regex.exec(val)) !== null) {
@@ -2094,7 +2100,6 @@ export class Utils {
             case "second": case "seconde":
             case "secs": case "sec":
                 return current * Utils.oneSecond;
-                break;
             case "ms":
             case "milliseconds": case "miliseconds": case "millisecondes": case "milisecondes":
             case "millisecond": case "milliseconde": case "milisecond": case "miliseconde":
