@@ -24,7 +24,8 @@ export default {
         "userOverrideFailure": "Benutzerwechsel fehlgeschlagen (unable to override user)",
         "responseLoadFailure": "Antwort konnte nicht geladen werden (failed to load response)",
         "queryError": "Es ist ein Serverfehler aufgetreten. Dies kann durch einen Fehler in der Abfragesyntax verursacht werden. Bitte überprüfen Sie dies auf der Seite \"Selection Queries Syntax\" Dokumentationsseite: https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.syntax.selection-query.html",
-        "unknownError": "Unbekannter Fehler"
+        "unknownError": "Unbekannter Fehler",
+        "recordNotFound": "Der angeforderte Datensatz konnte nicht gefunden werden."
     },
 
     "language": {
