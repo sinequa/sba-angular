@@ -7,7 +7,8 @@ import {Subscription} from "rxjs";
 
 @Component({
     selector: "sq-rfm-action",
-    templateUrl: "./rfm-action.html"
+    templateUrl: "./rfm-action.html",
+    standalone: false
 })
 export class BsRfmAction implements OnChanges, OnDestroy {
     @Input() results: Results;

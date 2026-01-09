@@ -3,10 +3,9 @@ import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } 
 import { TooltipManager } from './tooltip-manager';
 
 @Component({
-  standalone: true,
-  selector: "sq-tooltip",
-  imports: [CommonModule],
-  template: `
+    selector: "sq-tooltip",
+    imports: [CommonModule],
+    template: `
 <div *ngIf="manager.tooltip$ | async as tooltip"
   [ngStyle]="tooltip.style"
   [ngClass]="tooltip.orientation"
@@ -16,7 +15,7 @@ import { TooltipManager } from './tooltip-manager';
   </div>
 </div>
 `,
-  styles: [`
+    styles: [`
 .sq-tooltip {
     z-index: 10;
     max-height: 100%;
@@ -45,7 +44,7 @@ import { TooltipManager } from './tooltip-manager';
     border-color: transparent transparent transparent rgb(0,0,0,0.125);
 }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsTooltipComponent {
   @Input() manager: TooltipManager<any>;

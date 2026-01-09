@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { DocAgGridViewComponent } from './ag-grid-view/ag-grid-view.component';
 
 @Component({
-  selector: 'doc-ag-grid-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-ag-grid-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocAgGridModuleComponent {
 

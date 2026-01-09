@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-collapse-button',
-  templateUrl: './collapse-button.component.html'
+    selector: 'doc-collapse-button',
+    templateUrl: './collapse-button.component.html',
+    standalone: false
 })
 export class DocCollapseButtonComponent {
 

@@ -1,7 +1,10 @@
 import {Pipe} from "@angular/core";
 import {AbstractIntlPipe} from "@sinequa/core/intl";
 
-@Pipe({name: "sqTime", pure: false})
+@Pipe({
+    name: "sqTime", pure: false,
+    standalone: false
+})
 export class TimePipe extends AbstractIntlPipe<(number | Date), Intl.DateTimeFormatOptions> {
 
     override updateValue(key: number | Date, params: Intl.DateTimeFormatOptions): void {

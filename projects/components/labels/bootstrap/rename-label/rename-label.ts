@@ -34,6 +34,7 @@ import { ModalProperties, LabelsService } from "../../labels.service";
             }
         `,
     ],
+    standalone: false
 })
 export class BsRenameLabel implements OnInit, OnDestroy {
     public labelControl: UntypedFormControl;

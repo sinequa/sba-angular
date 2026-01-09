@@ -20,7 +20,8 @@ import { VisTimelineService } from './vis-timeline.service';
  * @implements {OnChanges}
  */
 @Directive({
-  selector: '[visTimeline]',
+    selector: '[visTimeline]',
+    standalone: false
 })
 export class VisTimelineDirective implements OnInit, OnDestroy, OnChanges {
   /**

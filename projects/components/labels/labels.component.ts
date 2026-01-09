@@ -29,6 +29,7 @@ import { LabelsService } from "./labels.service";
             }
         `,
     ],
+    standalone: false
 })
 export class Labels implements OnChanges {
     @Input() record: Record;

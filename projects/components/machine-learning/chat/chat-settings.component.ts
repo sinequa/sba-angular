@@ -3,8 +3,9 @@ import { ChatConfig, defaultChatConfig } from "./chat.component";
 import { ChatService } from "./chat.service";
 
 @Component({
-  selector: 'sq-chat-settings',
-  templateUrl: './chat-settings.component.html'
+    selector: 'sq-chat-settings',
+    templateUrl: './chat-settings.component.html',
+    standalone: false
 })
 export class ChatSettingsComponent {
   @Input() config: ChatConfig;

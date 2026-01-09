@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { TimelineSeries } from '@sinequa/analytics/timeline';
 
 @Component({
-  selector: 'doc-timeline-legend',
-  templateUrl: './timeline-legend.component.html'
+    selector: 'doc-timeline-legend',
+    templateUrl: './timeline-legend.component.html',
+    standalone: false
 })
 export class DocTimelineLegendComponent {
 

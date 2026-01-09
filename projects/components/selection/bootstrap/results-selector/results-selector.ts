@@ -4,7 +4,8 @@ import {Action} from '@sinequa/components/action';
 
 @Component({
     selector: "sq-results-selector",
-    templateUrl: "./results-selector.html"
+    templateUrl: "./results-selector.html",
+    standalone: false
 })
 export class BsResultsSelector {
     @Input() size: string;

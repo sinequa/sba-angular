@@ -12,10 +12,11 @@ export interface MinimapItem {
 }
 
 @Component({
-  selector: 'sq-preview-minimap',
-  templateUrl: './preview-minimap.component.html',
-  styleUrls: [`./preview-minimap.component.scss`],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-preview-minimap',
+    templateUrl: './preview-minimap.component.html',
+    styleUrls: [`./preview-minimap.component.scss`],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class PreviewMinimapComponent implements OnInit {
   /** Which highlight type should the minimap display */

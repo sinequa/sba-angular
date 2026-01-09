@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-tooltip',
-  templateUrl: './tooltip.component.html'
+    selector: 'doc-tooltip',
+    templateUrl: './tooltip.component.html',
+    standalone: false
 })
 export class DocTooltipComponent {
 

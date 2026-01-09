@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { buttons } from '../modal.mock';
 
 @Component({
-  selector: 'doc-modal',
-  templateUrl: './modal.component.html'
+    selector: 'doc-modal',
+    templateUrl: './modal.component.html',
+    standalone: false
 })
 export class DocModalComponent {
 

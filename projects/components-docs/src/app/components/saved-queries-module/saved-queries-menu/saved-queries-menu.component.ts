@@ -4,8 +4,9 @@ import { environment } from 'src/environments/environment';
 import { savedQueries } from 'src/mocks/data/user-settings';
 
 @Component({
-  selector: 'doc-saved-queries-menu',
-  templateUrl: './saved-queries-menu.component.html'
+    selector: 'doc-saved-queries-menu',
+    templateUrl: './saved-queries-menu.component.html',
+    standalone: false
 })
 export class DocSavedQueriesMenuComponent {
 

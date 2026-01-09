@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-action-item',
-  templateUrl: './action-item.component.html'
+    selector: 'doc-action-item',
+    templateUrl: './action-item.component.html',
+    standalone: false
 })
 export class DocActionItemComponent extends BaseComponent {
 

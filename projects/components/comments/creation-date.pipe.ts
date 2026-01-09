@@ -3,7 +3,8 @@ import { IntlService } from "@sinequa/core/intl";
 import { Comment } from "./comments.web.service";
 
 @Pipe({
-    name: "sqCreationDate"
+    name: "sqCreationDate",
+    standalone: false
 })
 export class CreationDatePipe implements PipeTransform {
 

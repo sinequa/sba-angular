@@ -27,7 +27,8 @@ export interface Column extends ColDef {
 @Component({
     selector: 'sq-ag-grid-view',
     templateUrl: './ag-grid-view.component.html',
-    styleUrls: ['./ag-grid-view.component.scss']
+    styleUrls: ['./ag-grid-view.component.scss'],
+    standalone: false
 })
 export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
 

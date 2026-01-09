@@ -9,8 +9,9 @@ import { FacetEventType, FacetService } from "../../facet.service";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'sq-facet-container',
-  templateUrl: './facet-container.component.html'
+    selector: 'sq-facet-container',
+    templateUrl: './facet-container.component.html',
+    standalone: false
 })
 export class FacetContainerComponent<T extends {}> implements OnChanges, OnDestroy {
 

@@ -7,8 +7,9 @@ import { Utils } from '@sinequa/core/base';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'sq-alerts-menu',
-  templateUrl: './alerts-menu.component.html'
+    selector: 'sq-alerts-menu',
+    templateUrl: './alerts-menu.component.html',
+    standalone: false
 })
 export class BsAlertsMenuComponent implements OnInit, OnDestroy {
 

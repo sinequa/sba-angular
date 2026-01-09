@@ -17,7 +17,8 @@ import { AppService } from '@sinequa/core/app-utils';
  */
 @Component({
     selector: 'sq-export-query',
-    templateUrl: './export-query.html'
+    templateUrl: './export-query.html',
+    standalone: false
 })
 export class BsExportQuery implements OnInit, OnDestroy {
 

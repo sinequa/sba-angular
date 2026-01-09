@@ -3,8 +3,9 @@ import { DocCollapseButtonComponent } from './collapse-button/collapse-button.co
 import { DocCollapseComponent } from './collapse/collapse.component';
 
 @Component({
-  selector: 'doc-collapse-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-collapse-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocCollapseModuleComponent {
 

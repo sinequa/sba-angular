@@ -1,7 +1,10 @@
 import {Pipe} from "@angular/core";
 import {AbstractIntlPipe} from "@sinequa/core/intl";
 
-@Pipe({name: "sqLabel", pure: false})
+@Pipe({
+    name: "sqLabel", pure: false,
+    standalone: false
+})
 export class LabelPipe extends AbstractIntlPipe<string, boolean> {
 
     override updateValue(value: string, _public?: boolean): void {

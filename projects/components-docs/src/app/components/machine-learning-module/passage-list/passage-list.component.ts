@@ -3,8 +3,9 @@ import { Record } from '@sinequa/core/web-services';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-passage-list',
-  templateUrl: './passage-list.component.html'
+    selector: 'doc-passage-list',
+    templateUrl: './passage-list.component.html',
+    standalone: false
 })
 export class DocPassageListComponent extends BaseComponent {
 

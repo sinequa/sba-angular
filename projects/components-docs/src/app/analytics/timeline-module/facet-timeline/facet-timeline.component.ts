@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-timeline',
-  templateUrl: './facet-timeline.component.html'
+    selector: 'doc-facet-timeline',
+    templateUrl: './facet-timeline.component.html',
+    standalone: false
 })
 export class DocFacetTimelineComponent extends BaseComponent {
 

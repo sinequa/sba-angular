@@ -4,6 +4,11 @@
       "secure": true,
       "changeOrigin": true
     },
+    "/r": {
+      "target": "https://su-sba.demo.sinequa.com",
+      "secure": true,
+      "changeOrigin": true
+    },
 
     "/xdownload": {
         "target": "https://su-sba.demo.sinequa.com",

@@ -22,8 +22,9 @@ export interface PreviewEntityOccurrence {
 }
 
 @Component({
-  selector: 'sq-preview-tooltip',
-  templateUrl: './preview-tooltip.component.html'
+    selector: 'sq-preview-tooltip',
+    templateUrl: './preview-tooltip.component.html',
+    standalone: false
 })
 export class PreviewTooltipComponent implements OnInit, OnDestroy {
   /** Actions to display above a hovered entity */

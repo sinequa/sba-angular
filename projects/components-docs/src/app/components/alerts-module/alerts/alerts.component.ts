@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import {NotificationsService} from "@sinequa/core/notification";
 
 @Component({
-  selector: 'doc-alerts',
-  templateUrl: './alerts.component.html'
+    selector: 'doc-alerts',
+    templateUrl: './alerts.component.html',
+    standalone: false
 })
 export class DocAlertsComponent {
 

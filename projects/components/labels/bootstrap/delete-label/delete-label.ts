@@ -25,6 +25,7 @@ import { Utils } from "@sinequa/core/base";
             }
         `,
     ],
+    standalone: false
 })
 export class BsDeleteLabel implements OnInit {
     public buttons: ModalButton[];

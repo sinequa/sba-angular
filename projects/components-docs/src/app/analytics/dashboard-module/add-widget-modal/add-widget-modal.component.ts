@@ -3,8 +3,9 @@ import { AddWidgetModal, AddWidgetModel } from '@sinequa/analytics/dashboard';
 import { ModalService } from '@sinequa/core/modal';
 
 @Component({
-  selector: 'doc-add-widget-modal',
-  templateUrl: './add-widget-modal.component.html'
+    selector: 'doc-add-widget-modal',
+    templateUrl: './add-widget-modal.component.html',
+    standalone: false
 })
 export class DocAddWidgetModalComponent {
 

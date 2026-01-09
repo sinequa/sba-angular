@@ -3,8 +3,9 @@ import { GridView } from '@sinequa/components/results-view';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-results-grid-view',
-  templateUrl: './results-grid-view.component.html'
+    selector: 'doc-results-grid-view',
+    templateUrl: './results-grid-view.component.html',
+    standalone: false
 })
 export class DocResultsGridViewComponent extends BaseComponent {
 

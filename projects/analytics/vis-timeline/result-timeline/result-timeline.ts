@@ -15,7 +15,8 @@ export const defaultOptions : TimelineOptions = {
 
 @Component({
     selector: "sq-result-timeline",
-    templateUrl: "./result-timeline.html"
+    templateUrl: "./result-timeline.html",
+    standalone: false
 })
 export class ResultTimeline implements OnChanges {
     @Input() name = "vis-timeline";

@@ -24,7 +24,8 @@ export interface MoneyCloudDatum {
 @Component({
     selector: 'sq-money-cloud',
     templateUrl: './money-cloud.component.html',
-    styleUrls: ['./money-cloud.component.scss']
+    styleUrls: ['./money-cloud.component.scss'],
+    standalone: false
 })
 export class MoneyCloudComponent extends AbstractFacet implements OnChanges,AfterViewInit {
     @Input() name = "money-cloud"

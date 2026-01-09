@@ -5,7 +5,8 @@ import { Record } from "@sinequa/core/web-services";
 @Component({
     selector: 'sq-slide-tile',
     templateUrl: './slide-tile.component.html',
-    styleUrls: ['./slide-tile.component.scss']
+    styleUrls: ['./slide-tile.component.scss'],
+    standalone: false
 })
 export class SlideTileComponent {
     @Input() record: Record;

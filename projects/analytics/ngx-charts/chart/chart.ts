@@ -22,7 +22,8 @@ export interface ChartDataPoint {
 @Component({
     selector: "sq-ngx-chart",
     templateUrl: "./chart.html",
-    styleUrls: ["./chart.scss"]
+    styleUrls: ["./chart.scss"],
+    standalone: false
 })
 export class NgxChart implements OnInit, OnDestroy, DoCheck {
     @Input() options: ChartOptions;

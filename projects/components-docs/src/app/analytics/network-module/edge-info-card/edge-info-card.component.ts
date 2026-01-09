@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Edge } from '@sinequa/analytics/network';
 
 @Component({
-  selector: 'doc-edge-info-card',
-  templateUrl: './edge-info-card.component.html'
+    selector: 'doc-edge-info-card',
+    templateUrl: './edge-info-card.component.html',
+    standalone: false
 })
 export class DocEdgeInfoCardComponent {
 

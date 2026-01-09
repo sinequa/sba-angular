@@ -30,7 +30,8 @@ export interface ColumnData {
 
 @Component({
     selector: "sq-results-grid-view",
-    templateUrl: "./results-grid-view.html"
+    templateUrl: "./results-grid-view.html",
+    standalone: false
 })
 export class BsResultsGridView implements OnChanges {
     @Input() results: Results;

@@ -3,15 +3,16 @@ import { MODAL_MODEL } from '@sinequa/core/modal';
 import { LABELS_MODAL_MODEL } from 'src/mocks/data/labels';
 
 @Component({
-  selector: 'doc-rename-label',
-  templateUrl: './rename-label.component.html',
-  providers: [{
-    provide: MODAL_MODEL, useValue: {
-      oldValues: [],
-      newValue: "",
-      properties: LABELS_MODAL_MODEL
-    }
-  }]
+    selector: 'doc-rename-label',
+    templateUrl: './rename-label.component.html',
+    providers: [{
+            provide: MODAL_MODEL, useValue: {
+                oldValues: [],
+                newValue: "",
+                properties: LABELS_MODAL_MODEL
+            }
+        }],
+    standalone: false
 })
 export class DocRenameLabelComponent {
 

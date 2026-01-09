@@ -11,8 +11,9 @@ import { DocFacetComponent } from './facet/facet.component';
 // import { DocRefineComponent } from './refine/refine.component';
 
 @Component({
-  selector: 'doc-facet-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-facet-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocFacetModuleComponent {
 

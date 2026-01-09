@@ -5,8 +5,9 @@ import { PreviewData } from '@sinequa/core/web-services';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-preview',
-  templateUrl: './preview.component.html'
+    selector: 'doc-preview',
+    templateUrl: './preview.component.html',
+    standalone: false
 })
 export class DocPreviewComponent extends BaseComponent {
 
