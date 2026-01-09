@@ -5,7 +5,8 @@ import {FeedbackService} from "../../feedback.service";
 @Component({
     selector: "sq-feedback-menu",
     templateUrl: "./feedback-menu.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class BsFeedbackMenu implements OnInit {
 

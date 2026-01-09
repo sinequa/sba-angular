@@ -6,10 +6,11 @@ import { Subject, Subscription } from "rxjs";
 import { FiltersComponent } from "./filters.component";
 
 @Component({
-  selector: 'sq-filters-editor',
-  templateUrl: './filters-editor.component.html',
-  styleUrls: ['./filters-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-filters-editor',
+    templateUrl: './filters-editor.component.html',
+    styleUrls: ['./filters-editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class FiltersEditorComponent extends FiltersComponent implements OnInit, OnDestroy {
   @Input() canDrag = false;

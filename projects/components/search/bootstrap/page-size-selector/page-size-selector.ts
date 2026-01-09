@@ -13,7 +13,8 @@ import {SearchService} from "../../search.service";
  */
 @Component({
     selector: 'sq-page-size-selector',
-    templateUrl: './page-size-selector.html'
+    templateUrl: './page-size-selector.html',
+    standalone: false
 })
 export class BsPageSizeSelector implements OnChanges {
     @Input() results: Results;

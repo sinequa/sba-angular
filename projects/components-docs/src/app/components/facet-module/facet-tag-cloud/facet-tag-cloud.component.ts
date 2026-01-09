@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-tag-cloud',
-  templateUrl: './facet-tag-cloud.component.html'
+    selector: 'doc-facet-tag-cloud',
+    templateUrl: './facet-tag-cloud.component.html',
+    standalone: false
 })
 export class DocFacetTagCloudComponent extends BaseComponent {
 

@@ -43,7 +43,8 @@ import { TimelineEventType, TimelineSeries } from "./timeline.model";
             font-size: 12px;
             color: darkgrey;
         }
-    `]
+    `],
+    standalone: false
 })
 export class TimelineLegendComponent {
     @Input() data?: TimelineSeries[];

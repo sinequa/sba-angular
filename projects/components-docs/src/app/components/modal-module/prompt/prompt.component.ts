@@ -10,9 +10,10 @@ const promptOptions: PromptOptions = {
 };
 
 @Component({
-  selector: 'doc-prompt',
-  templateUrl: './prompt.component.html',
-  providers: [{ provide: MODAL_MODEL, useValue: promptOptions }]
+    selector: 'doc-prompt',
+    templateUrl: './prompt.component.html',
+    providers: [{ provide: MODAL_MODEL, useValue: promptOptions }],
+    standalone: false
 })
 export class DocPromptComponent {
 

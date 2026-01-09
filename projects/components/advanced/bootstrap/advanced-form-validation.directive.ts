@@ -4,6 +4,7 @@ import { ValidationDirective } from "@sinequa/core/validation";
 
 @Directive({
     selector: "[sqAdvancedFormValidation]",
+    standalone: false
 })
 export class BsAdvancedFormValidation extends ValidationDirective implements OnInit {
     @Input() field: string;

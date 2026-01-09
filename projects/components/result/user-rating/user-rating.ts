@@ -4,7 +4,8 @@ import {Record, CCRating, UserRatingsWebService, UserRatingResponse} from "@sine
 @Component({
     selector: "sq-user-rating",
     templateUrl: "./user-rating.html",
-    styleUrls: ["./user-rating.css"]
+    styleUrls: ["./user-rating.css"],
+    standalone: false
 })
 export class UserRating implements OnInit {
     @Input() record: Record;

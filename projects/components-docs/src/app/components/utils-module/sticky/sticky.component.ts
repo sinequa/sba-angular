@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-sticky',
-  templateUrl: './sticky.component.html'
+    selector: 'doc-sticky',
+    templateUrl: './sticky.component.html',
+    standalone: false
 })
 export class DocStickyComponent {
 

@@ -5,8 +5,9 @@ import { RFMActionDisplay } from '@sinequa/core/web-services';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-rfm-action',
-  templateUrl: './rfm-action.component.html'
+    selector: 'doc-rfm-action',
+    templateUrl: './rfm-action.component.html',
+    standalone: false
 })
 export class DocRfmActionComponent extends BaseComponent {
 

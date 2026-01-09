@@ -3,8 +3,9 @@ import { DocNotificationsManagerComponent } from './notifications-manager/notifi
 import { DocNotificationsComponent } from './notifications/notifications.component';
 
 @Component({
-  selector: 'doc-notification-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-notification-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocNotificationModuleComponent {
 

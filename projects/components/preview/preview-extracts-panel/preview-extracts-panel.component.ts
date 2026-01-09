@@ -18,10 +18,11 @@ type ExtractsLocations = Extract & {
 }
 
 @Component({
-  selector: 'sq-preview-extracts-panel',
-  templateUrl: './preview-extracts-panel.component.html',
-  styleUrls: ['./preview-extracts-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-preview-extracts-panel',
+    templateUrl: './preview-extracts-panel.component.html',
+    styleUrls: ['./preview-extracts-panel.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class PreviewExtractsPanelComponent implements OnChanges, OnDestroy {
   @Input() previewData: PreviewData;

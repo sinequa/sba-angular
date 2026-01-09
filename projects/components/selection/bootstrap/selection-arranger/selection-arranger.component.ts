@@ -7,7 +7,8 @@ import { SelectionService, SelectionItem } from '../../selection.service';
 @Component({
     selector: "sq-selection-arranger",
     templateUrl: "./selection-arranger.component.html",
-    styleUrls: ["./selection-arranger.component.scss"]
+    styleUrls: ["./selection-arranger.component.scss"],
+    standalone: false
 })
 export class BsSelectionArranger {
 

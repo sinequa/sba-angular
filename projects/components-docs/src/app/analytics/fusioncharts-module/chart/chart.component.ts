@@ -4,8 +4,9 @@ import { environment } from 'src/environments/environment';
 import { mockChartResults, mockChartAggregation } from './mock';
 
 @Component({
-  selector: 'doc-chart',
-  templateUrl: './chart.component.html'
+    selector: 'doc-chart',
+    templateUrl: './chart.component.html',
+    standalone: false
 })
 export class DocChartComponent extends BaseComponent {
 

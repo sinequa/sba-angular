@@ -3,8 +3,9 @@ import { DocChartComponent } from './chart/chart.component';
 import { DocMultiLevelPieChartComponent } from './multi-level-pie-chart/multi-level-pie-chart.component';
 
 @Component({
-  selector: 'doc-fusioncharts-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-fusioncharts-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocFusionchartsModuleComponent {
 

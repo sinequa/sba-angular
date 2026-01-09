@@ -6,7 +6,8 @@ import {UIService} from "@sinequa/components/utils";
 
 @Component({
     selector: "sq-fullscreen-activator",
-    templateUrl: "./fullscreen-activator.html"
+    templateUrl: "./fullscreen-activator.html",
+    standalone: false
 })
 export class BsFullscreenActivator {
     action: Action;

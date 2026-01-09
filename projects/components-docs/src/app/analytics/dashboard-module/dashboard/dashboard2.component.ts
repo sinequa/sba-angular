@@ -3,8 +3,9 @@ import { Widget } from '@sinequa/analytics/dashboard';
 import { GlobalService } from 'src/app/shared/global.service';
 
 @Component({
-  selector: 'doc-dashboard2',
-  templateUrl: './dashboard2.component.html'
+    selector: 'doc-dashboard2',
+    templateUrl: './dashboard2.component.html',
+    standalone: false
 })
 export class DocDashboard2Component {
 

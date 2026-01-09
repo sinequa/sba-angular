@@ -3,9 +3,10 @@ import { HighlightValue, PreviewData } from '@sinequa/core/web-services';
 import { Preview, PreviewHighlightColors } from '../preview.component';
 
 @Component({
-  selector: 'sq-preview-entity-panel',
-  templateUrl: './preview-entity-panel.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-preview-entity-panel',
+    templateUrl: './preview-entity-panel.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class PreviewEntityPanelComponent implements OnChanges {
   @Input() preview: Preview;

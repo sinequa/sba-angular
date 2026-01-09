@@ -14,7 +14,8 @@ import {Action} from "../../action";
 .sq-action-item-content-container > div:not(:last-child) {
     margin-right: 0.25rem;
 }
-    `]
+    `],
+    standalone: false
 })
 export class BsActionItemContent {
     @HostBinding('class') klass = 'sq-action-item-content';

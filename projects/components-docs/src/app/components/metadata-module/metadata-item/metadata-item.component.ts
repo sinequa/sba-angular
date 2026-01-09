@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-metadata-item',
-  templateUrl: './metadata-item.component.html'
+    selector: 'doc-metadata-item',
+    templateUrl: './metadata-item.component.html',
+    standalone: false
 })
 export class DocMetadataItemComponent extends BaseComponent {
 

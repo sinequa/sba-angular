@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-range',
-  templateUrl: './facet-range.component.html'
+    selector: 'doc-facet-range',
+    templateUrl: './facet-range.component.html',
+    standalone: false
 })
 export class DocFacetRangeComponent extends BaseComponent {
 

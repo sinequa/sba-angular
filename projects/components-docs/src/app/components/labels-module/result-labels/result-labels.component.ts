@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-result-labels',
-  templateUrl: './result-labels.component.html'
+    selector: 'doc-result-labels',
+    templateUrl: './result-labels.component.html',
+    standalone: false
 })
 export class DocResultLabelsComponent extends BaseComponent {
 

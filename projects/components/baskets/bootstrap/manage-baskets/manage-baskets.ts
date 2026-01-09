@@ -12,7 +12,8 @@ import { SavedQueriesService } from "@sinequa/components/saved-queries";
 @Component({
     selector: "sq-manage-baskets",
     templateUrl: "./manage-baskets.html",
-    styleUrls: ["./manage-baskets.scss"]
+    styleUrls: ["./manage-baskets.scss"],
+    standalone: false
 })
 export class BsManageBaskets implements OnInit {
     reordering: boolean;

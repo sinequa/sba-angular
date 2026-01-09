@@ -7,7 +7,8 @@ import {UserOverride} from "@sinequa/core/login";
 
 @Component({
     selector: "sq-override-user",
-    templateUrl: "./override-user.html"
+    templateUrl: "./override-user.html",
+    standalone: false
 })
 export class BsOverrideUser implements OnInit, OnDestroy {
     form: UntypedFormGroup;

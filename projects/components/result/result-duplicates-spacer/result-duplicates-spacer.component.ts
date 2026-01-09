@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from "@angular
 import { Record } from "@sinequa/core/web-services";
 
 @Component({
-  selector: 'sq-result-duplicates-spacer',
-  template: '',
-  styleUrls: ['./result-duplicates-spacer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-result-duplicates-spacer',
+    template: '',
+    styleUrls: ['./result-duplicates-spacer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ResultDuplicatesSpacerComponent {
   @Input()

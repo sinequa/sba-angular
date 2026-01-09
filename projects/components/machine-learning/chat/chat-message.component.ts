@@ -15,10 +15,11 @@ declare module Prism {
 }
 
 @Component({
-  selector: "sq-chat-message",
-  templateUrl: "./chat-message.component.html",
-  styleUrls: ["./chat-message.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: "sq-chat-message",
+    templateUrl: "./chat-message.component.html",
+    styleUrls: ["./chat-message.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ChatMessageComponent implements OnChanges, AfterViewInit {
   @Input() message: ChatMessage;

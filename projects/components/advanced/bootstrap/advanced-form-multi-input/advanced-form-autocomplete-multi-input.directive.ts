@@ -13,6 +13,7 @@ import { BsAdvancedFormAutocomplete } from "../advanced-form-autocomplete.direct
 
 @Directive({
     selector: "[sqAdvancedFormAutocompleteMultiInput]",
+    standalone: false
 })
 export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomplete {
     /** Event synchronizing the list of search terms in the parent component */

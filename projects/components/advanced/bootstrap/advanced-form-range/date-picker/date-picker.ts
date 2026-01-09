@@ -28,7 +28,8 @@ export interface DatePickerOptions {
             </div>
         </div>
     `,
-    providers: [DATE_PICKER_VALUE_ACCESSOR]
+    providers: [DATE_PICKER_VALUE_ACCESSOR],
+    standalone: false
 })
 export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
 

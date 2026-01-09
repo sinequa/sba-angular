@@ -10,7 +10,8 @@ import { AbstractFacet } from "../../abstract-facet";
 @Component({
     selector: "sq-facet-filters",
     templateUrl: "./facet-filters.html",
-    styleUrls: ["./facet-filters.scss"]
+    styleUrls: ["./facet-filters.scss"],
+    standalone: false
 })
 export class BsFacetFilters implements OnChanges, OnDestroy {
     @Input() results: Results;

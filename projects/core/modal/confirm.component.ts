@@ -14,7 +14,8 @@ import {ModalRef} from "./modal-ref";
                     (click)="buttonClick(button)">{{button.getText() | sqMessage}}</button>
             </ng-container>
         </div>
-    `
+    `,
+    standalone: false
 })
 export class Confirm {
     constructor(

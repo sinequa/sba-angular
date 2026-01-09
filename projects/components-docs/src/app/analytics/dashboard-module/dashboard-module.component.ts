@@ -4,8 +4,9 @@ import { DocDashboardComponent } from './dashboard/dashboard.component';
 import { DocDashboard2Component } from './dashboard/dashboard2.component';
 
 @Component({
-  selector: 'doc-dashboard-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-dashboard-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocDashboardModuleComponent {
 

@@ -7,7 +7,8 @@ import { AutocompleteItem } from '@sinequa/components/autocomplete';
 
 @Component({
     selector: "sq-advanced-form-input",
-    templateUrl: "./advanced-form-input.html"
+    templateUrl: "./advanced-form-input.html",
+    standalone: false
 })
 export class BsAdvancedFormInput implements OnChanges, OnDestroy {
     @Input() form: UntypedFormGroup;

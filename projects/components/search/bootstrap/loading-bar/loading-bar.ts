@@ -50,7 +50,8 @@ animation: decrease 1s 0.25s infinite;
  from { left: -80%; width: 80%; }
  to { left: 110%; width: 10%;}
 }
-    `]
+    `],
+    standalone: false
 })
 export class BsLoadingBar {
   /**

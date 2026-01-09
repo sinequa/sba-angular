@@ -4,8 +4,9 @@ import { BaseComponent } from 'src/app/shared/base.component';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'doc-slide-builder',
-  templateUrl: './slide-builder.component.html'
+    selector: 'doc-slide-builder',
+    templateUrl: './slide-builder.component.html',
+    standalone: false
 })
 export class DocSlideBuilderComponent extends BaseComponent {
 

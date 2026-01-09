@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-scroller',
-  templateUrl: './scroller.component.html'
+    selector: 'doc-scroller',
+    templateUrl: './scroller.component.html',
+    standalone: false
 })
 export class DocScrollerComponent {
 

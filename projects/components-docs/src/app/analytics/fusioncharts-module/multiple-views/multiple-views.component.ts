@@ -3,8 +3,9 @@ import { mockChartAggregation, mockChartResultsShortened } from 'src/app/analyti
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-multiple-views',
-  templateUrl: './multiple-views.component.html'
+    selector: 'doc-multiple-views',
+    templateUrl: './multiple-views.component.html',
+    standalone: false
 })
 export class DocMultipleViewsComponent extends BaseComponent {
 

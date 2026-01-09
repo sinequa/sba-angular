@@ -10,7 +10,8 @@ import {KeyValue} from "@angular/common";
 @Component({
     selector: "sq-edit-alert",
     templateUrl: "./edit-alert.html",
-    styleUrls: ["./edit-alert.scss"]
+    styleUrls: ["./edit-alert.scss"],
+    standalone: false
 })
 export class BsEditAlert implements OnInit, OnDestroy {
     form: UntypedFormGroup;

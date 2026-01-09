@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-facet-hello-world',
-  templateUrl: './facet-hello-world.component.html'
+    selector: 'doc-facet-hello-world',
+    templateUrl: './facet-hello-world.component.html',
+    standalone: false
 })
 export class DocFacetHelloWorldComponent {
 

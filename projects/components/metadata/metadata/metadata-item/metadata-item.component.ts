@@ -11,7 +11,8 @@ import { MetadataService } from "../../metadata.service";
 @Component({
     selector: "sq-metadata-item",
     templateUrl: "./metadata-item.component.html",
-    styleUrls: ['./metadata-item.component.scss']
+    styleUrls: ['./metadata-item.component.scss'],
+    standalone: false
 })
 export class MetadataItemComponent implements OnChanges {
     @Input() record: Record;

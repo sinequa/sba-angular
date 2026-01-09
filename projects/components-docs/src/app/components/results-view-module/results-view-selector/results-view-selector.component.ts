@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-results-view-selector',
-  templateUrl: './results-view-selector.component.html'
+    selector: 'doc-results-view-selector',
+    templateUrl: './results-view-selector.component.html',
+    standalone: false
 })
 export class DocResultsViewSelectorComponent extends BaseComponent {
 

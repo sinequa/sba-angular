@@ -9,7 +9,10 @@ import {Utils} from "@sinequa/core/base";
  * be declared as `pure: false` - the current value is cached to avoid
  * unnecessary processing
  */
-@Pipe({name: "sqAbstractIntlPipe", pure: false})
+@Pipe({
+    name: "sqAbstractIntlPipe", pure: false,
+    standalone: false
+})
 export abstract class AbstractIntlPipe<U, V> implements PipeTransform, OnDestroy {
     protected value: any = "";
     protected lastValue: any;

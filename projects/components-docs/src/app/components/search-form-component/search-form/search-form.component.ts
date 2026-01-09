@@ -5,14 +5,15 @@ import { LoginService } from '@sinequa/core/login';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-search-form',
-  templateUrl: './search-form.component.html',
-  styles: [`
+    selector: 'doc-search-form',
+    templateUrl: './search-form.component.html',
+    styles: [`
 .list-group-flush > .list-group-item:last-child {
   border-end-start-radius: 20px;
   border-end-end-radius: 20px;
 }
-  `]
+  `],
+    standalone: false
 })
 export class DocSearchFormComponent extends BaseComponent {
 

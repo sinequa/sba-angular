@@ -16,7 +16,8 @@ export function collapseButtonAnimations(timings: number | string): AnimationTri
 @Component({
     selector: "sq-collapse-button",
     templateUrl: "./collapse-button.component.html",
-    animations: collapseButtonAnimations(".15s ease-in-out")
+    animations: collapseButtonAnimations(".15s ease-in-out"),
+    standalone: false
 })
 export class CollapseButton {
     @Input() collapsed = true;

@@ -3,7 +3,8 @@ import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
     selector: 'doc-facet-bar',
-    templateUrl: './facet-bar.component.html'
+    templateUrl: './facet-bar.component.html',
+    standalone: false
 })
 export class DocFacetBarComponent extends BaseComponent {
 

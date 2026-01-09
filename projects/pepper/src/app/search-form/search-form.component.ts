@@ -8,9 +8,10 @@ import { BsFacetDate } from '@sinequa/analytics/timeline';
 import { SearchFormComponent } from "@sinequa/components/search-form";
 
 @Component({
-  selector: 'app-search-form',
-  templateUrl: './search-form.component.html',
-  styleUrls: ['./search-form.component.scss'],
+    selector: 'app-search-form',
+    templateUrl: './search-form.component.html',
+    styleUrls: ['./search-form.component.scss'],
+    standalone: false
 })
 export class AppSearchFormComponent {
 

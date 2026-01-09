@@ -20,7 +20,8 @@ const gConfig = {
 
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector
-    selector: "[data-bs-toggle='dropdown']"
+    selector: "[data-bs-toggle='dropdown']",
+    standalone: false
 })
 export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
     private subscription: Subscription;

@@ -2,9 +2,10 @@ import { Component, Renderer2 } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 
 @Component({
-  selector: 'doc-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+    selector: 'doc-menu',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss'],
+    standalone: false
 })
 export class DocMenuComponent {
 

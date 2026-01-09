@@ -3,14 +3,15 @@ import { AppService, Query } from "@sinequa/core/app-utils";
 import { Filter, ExprFilter, ValueFilter, NullFilter, InFilter, BetweenFilter, isExprFilter, CCColumn } from "@sinequa/core/web-services";
 
 @Component({
-  selector: 'sq-filters',
-  templateUrl: './filters.component.html',
-  styles: [`
+    selector: 'sq-filters',
+    templateUrl: './filters.component.html',
+    styles: [`
 a {
   color: inherit;
 }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class FiltersComponent implements OnChanges {
   @Input() query: Query;

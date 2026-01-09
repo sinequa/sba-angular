@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-editable',
-  templateUrl: './editable.component.html'
+    selector: 'doc-editable',
+    templateUrl: './editable.component.html',
+    standalone: false
 })
 export class DocEditableComponent {
 

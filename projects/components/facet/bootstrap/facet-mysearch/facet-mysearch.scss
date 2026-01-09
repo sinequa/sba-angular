@@ -1,3 +1,6 @@
+@use 'sass:color';
+@use 'sass:map';
+
 .my-search {
   display: flex;
   flex-direction: row;
@@ -68,10 +71,10 @@ sq-metadata-item .sq-metadata-item {
 
   a.badge {
       background-color: lightgrey;
-      color: lighten(black, 10%);
+      color: color.adjust(black, $lightness: 10%);
 
       &:hover, &:focus {
-          background-color: darken(lightgrey, 10%);
+          background-color: color.adjust(lightgrey, $lightness: -10%);
           color: black;
       }
   }
@@ -135,16 +138,16 @@ $metadata : (
 
 // Returns the "main color" of an entity
 @function get-metadata-color($name) {
-  $item: map-get($metadata, $name);
-  $color: map-get($item, "main-color");
+  $item: map.get($metadata, $name);
+  $color: map.get($item, "main-color");
   @return $color;
 }
 
 // Inserts the color and background of an entity
 @mixin generate-metadata-color($name, $link: false) {
-  $item: map-get($metadata, $name);
-  $color: map-get($item, "background-color");
-  $bg-color: map-get($item, "color");
+  $item: map.get($metadata, $name);
+  $color: map.get($item, "background-color");
+  $bg-color: map.get($item, "color");
   color: $color;
   background-color: $bg-color;
   &:hover, &:focus, &:active {
@@ -153,7 +156,7 @@ $metadata : (
   }
 }
 
-@each $name in map-keys($metadata) {
+@each $name in map.keys($metadata) {
   .sq-metadata-color-#{$name} {
       @include generate-metadata-color($name);
   }

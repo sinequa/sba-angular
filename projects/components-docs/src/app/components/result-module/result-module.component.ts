@@ -11,8 +11,9 @@ import { DocSponsoredResultsComponent } from './sponsored-results/sponsored-resu
 import { DocUserRatingComponent } from './user-rating/user-rating.component';
 
 @Component({
-  selector: 'doc-result-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-result-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocResultModuleComponent {
 

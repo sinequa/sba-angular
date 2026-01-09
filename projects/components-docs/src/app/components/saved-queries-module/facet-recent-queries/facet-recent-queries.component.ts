@@ -4,8 +4,9 @@ import { environment } from 'src/environments/environment';
 import { recentQueries } from 'src/mocks/data/user-settings';
 
 @Component({
-  selector: 'doc-facet-recent-queries',
-  templateUrl: './facet-recent-queries.component.html'
+    selector: 'doc-facet-recent-queries',
+    templateUrl: './facet-recent-queries.component.html',
+    standalone: false
 })
 export class DocFacetRecentQueriesComponent {
 

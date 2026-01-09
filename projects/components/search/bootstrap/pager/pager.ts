@@ -6,6 +6,7 @@ import {SearchService} from "../../search.service";
 @Component({
     selector: "sq-pager",
     templateUrl: "./pager.html",
+    standalone: false
 })
 export class BsPager implements OnChanges {
     @Input() results: Results;

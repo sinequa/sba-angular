@@ -7,10 +7,11 @@ import { ValueItem } from '@sinequa/core/app-utils';
     selector: "sq-select",
     templateUrl: "./select.html",
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        multi: true,
-        useExisting: forwardRef(() => BsSelectComponent),
-        }]
+            provide: NG_VALUE_ACCESSOR,
+            multi: true,
+            useExisting: forwardRef(() => BsSelectComponent),
+        }],
+    standalone: false
 })
 export class BsSelectComponent implements ControlValueAccessor, OnInit {
     @Input() items: ValueItem[];

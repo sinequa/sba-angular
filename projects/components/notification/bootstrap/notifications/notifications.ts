@@ -4,7 +4,8 @@ import {NotificationsService, Notification, NotificationState} from "@sinequa/co
 
 @Component({
     selector: "sq-notifications",
-    templateUrl: "./notifications.html"
+    templateUrl: "./notifications.html",
+    standalone: false
 })
 export class BsNotifications implements OnInit, OnDestroy {
     private subscription: Subscription;

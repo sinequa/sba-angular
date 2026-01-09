@@ -5,7 +5,8 @@ import { SelectionService } from '@sinequa/components/selection';
 @Component({
     selector: 'sq-slide-list',
     templateUrl: './slide-list.component.html',
-    styleUrls: ['./slide-list.component.scss']
+    styleUrls: ['./slide-list.component.scss'],
+    standalone: false
 })
 export class SlideListComponent {
     @Input() results: Results;

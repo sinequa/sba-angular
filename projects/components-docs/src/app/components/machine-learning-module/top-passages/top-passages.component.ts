@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-top-passages',
-  templateUrl: './top-passages.component.html'
+    selector: 'doc-top-passages',
+    templateUrl: './top-passages.component.html',
+    standalone: false
 })
 export class DocTopPassagesComponent extends BaseComponent {
 

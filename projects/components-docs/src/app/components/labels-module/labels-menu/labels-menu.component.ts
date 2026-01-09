@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-labels-menu',
-  templateUrl: './labels-menu.component.html'
+    selector: 'doc-labels-menu',
+    templateUrl: './labels-menu.component.html',
+    standalone: false
 })
 export class DocLabelsMenuComponent extends BaseComponent {
 

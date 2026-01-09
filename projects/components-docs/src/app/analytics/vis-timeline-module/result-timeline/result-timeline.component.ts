@@ -3,8 +3,9 @@ import { EntityItem } from '@sinequa/core/web-services';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-result-timeline',
-  templateUrl: './result-timeline.component.html'
+    selector: 'doc-result-timeline',
+    templateUrl: './result-timeline.component.html',
+    standalone: false
 })
 export class DocResultTimelineComponent extends BaseComponent {
 

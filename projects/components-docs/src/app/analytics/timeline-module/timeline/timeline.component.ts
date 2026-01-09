@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { mockTimelineData } from './mock';
 
 @Component({
-  selector: 'doc-timeline',
-  templateUrl: './timeline.component.html'
+    selector: 'doc-timeline',
+    templateUrl: './timeline.component.html',
+    standalone: false
 })
 export class DocTimelineComponent {
 

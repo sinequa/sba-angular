@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from "@angular/core";
 import {marked} from "marked";
 
 @Pipe({
-  name: "sqMarkdown"
+    name: "sqMarkdown",
+    standalone: false
 })
 export class MarkdownPipe implements PipeTransform {
   transform(value: any): any {

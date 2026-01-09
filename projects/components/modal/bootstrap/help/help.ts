@@ -4,7 +4,8 @@ import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
 
 @Component({
     selector: "sq-help",
-    templateUrl: "./help.html"
+    templateUrl: "./help.html",
+    standalone: false
 })
 export class BsHelp  implements OnInit {
     @HostBinding("class.modal-content") true;

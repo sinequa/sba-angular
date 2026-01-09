@@ -3,15 +3,16 @@ import { BaseComponent } from '../shared/base.component';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'doc-search-bar',
-  templateUrl: './search-bar.component.html',
-  styles: [`input {
+    selector: 'doc-search-bar',
+    templateUrl: './search-bar.component.html',
+    styles: [`input {
     width: 100%;
     border: 0;
     &:focus-visible {
       outline: 0;
     }
-  }`]
+  }`],
+    standalone: false
 })
 export class DocSearchBarComponent extends BaseComponent implements OnChanges {
 

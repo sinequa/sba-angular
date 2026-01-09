@@ -6,7 +6,8 @@ import {Action, ActionSeparator} from "@sinequa/components/action";
 
 @Component({
     selector: "sq-notifications-manager",
-    templateUrl: "./notifications-manager.html"
+    templateUrl: "./notifications-manager.html",
+    standalone: false
 })
 export class BsNotificationsManager implements OnInit, OnDestroy {
     private subscription: Subscription | undefined;

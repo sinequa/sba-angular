@@ -11,10 +11,9 @@ export type OptionsProps = {
 };
 
 @Component({
-  selector: 'sq-similar-documents',
-  standalone: true,
-  imports: [CommonModule, UtilsModule, IntlModule],
-  template: `
+    selector: 'sq-similar-documents',
+    imports: [CommonModule, UtilsModule, IntlModule],
+    template: `
     <ng-container *ngIf="similarDocuments && similarDocuments.length > 0; else noSimilarDocuments">
       <li *ngFor="let document of similarDocuments" (click)="handleClick(document)" class="similar-document d-flex mb-2">
         <span role="button" class="similarDocument link-primary">{{ document.doc.title }}</span>
@@ -24,12 +23,12 @@ export type OptionsProps = {
       <p class="fst-italic text-muted">{{ 'msg#machine-learning.similarDocumentsNotFound' | sqMessage }}</p>
     </ng-template>
   `,
-  styles: [`
+    styles: [`
     :host {
       display: block;
     }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimilarDocumentsComponent implements OnInit {
   cdr = inject(ChangeDetectorRef);

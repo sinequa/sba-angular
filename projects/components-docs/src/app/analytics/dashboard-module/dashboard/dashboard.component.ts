@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Widget } from '@sinequa/analytics/dashboard';
 
 @Component({
-  selector: 'doc-dashboard',
-  templateUrl: './dashboard.component.html'
+    selector: 'doc-dashboard',
+    templateUrl: './dashboard.component.html',
+    standalone: false
 })
 export class DocDashboardComponent {
 

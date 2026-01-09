@@ -34,6 +34,7 @@ export interface TagCloudItem {
     selector: "sq-facet-tag-cloud",
     templateUrl: "./facet-tag-cloud.html",
     styleUrls: ["./facet-tag-cloud.scss"],
+    standalone: false
 })
 export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParams, OnChanges {
     /** search results */

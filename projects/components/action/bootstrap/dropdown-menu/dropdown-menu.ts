@@ -6,6 +6,7 @@ import { DropdownMenuOptions } from "../../typings";
     selector: "[sq-dropdown-menu]",
     templateUrl: "./dropdown-menu.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class BsDropdownMenu {
     item: Action;

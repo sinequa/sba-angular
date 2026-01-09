@@ -6,6 +6,7 @@ import { ActionItemOptions, ActionSize, DropdownMenuOptions } from "../../typing
 @Component({
     selector: "[sq-action-item]",
     templateUrl: "./action-item.html",
+    standalone: false,
     styles: `
 .dropdown-list-item {
     max-width: 24rem;

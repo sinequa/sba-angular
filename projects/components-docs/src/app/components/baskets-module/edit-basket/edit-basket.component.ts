@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-edit-basket',
-  templateUrl: './edit-basket.component.html'
+    selector: 'doc-edit-basket',
+    templateUrl: './edit-basket.component.html',
+    standalone: false
 })
 export class DocEditBasketComponent {
 

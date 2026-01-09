@@ -5,9 +5,9 @@ import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
 
 @Component({
-  selector: 'sq-facet-recent-documents',
-  templateUrl: './facet-recent-documents.html',
-  styles: [`
+    selector: 'sq-facet-recent-documents',
+    templateUrl: './facet-recent-documents.html',
+    styles: [`
 .recent-document-item .document-delete,
 .recent-document-item:hover .document-date {
     display: none;
@@ -17,7 +17,8 @@ import { SearchService } from '@sinequa/components/search';
 .recent-document-item .document-date {
     display: block;
 }
-  `]
+  `],
+    standalone: false
 })
 export class BsFacetRecentDocuments extends AbstractFacet  {
     @Input() searchRoute: string = "/preview";

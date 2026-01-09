@@ -62,7 +62,8 @@ export type TimelineEventData = TimelineEvent[] | TimelineRecords | TimelineEven
 @Component({
     selector: 'sq-facet-timeline',
     templateUrl: './facet-timeline.component.html',
-    styleUrls: ['./facet-timeline.component.scss']
+    styleUrls: ['./facet-timeline.component.scss'],
+    standalone: false
 })
 export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges {
     @Input() name = 'Timeline';

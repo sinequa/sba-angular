@@ -3,8 +3,9 @@ import { DocPreviewComponent } from './preview/preview.component';
 import { DocPreviewSearchFormComponent } from './preview-search-form/preview-search-form.component';
 
 @Component({
-  selector: 'doc-preview-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-preview-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocPreviewModuleComponent {
 

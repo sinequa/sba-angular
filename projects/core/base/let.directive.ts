@@ -50,7 +50,8 @@ export interface LetViewContext<T> {
  *
  */
 @Directive({
-  selector: '[sqLet]',
+    selector: '[sqLet]',
+    standalone: false
 })
 export class LetDirective<T> {
   private readonly viewContext: LetViewContext<T | undefined> = {

@@ -20,7 +20,8 @@ export function collapseAnimations(timings: number | string): AnimationTriggerMe
         </div>
     `,
     styles: [".sq-collapse.ng-animating { overflow: hidden; }"],
-    animations: collapseAnimations(".15s ease-in-out")
+    animations: collapseAnimations(".15s ease-in-out"),
+    standalone: false
 })
 export class Collapse implements AfterViewInit {
     @Input() collapsed: boolean;

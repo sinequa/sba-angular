@@ -3,8 +3,9 @@ import { DocFullscreenActivatorComponent } from './fullscreen-activator/fullscre
 import { DocNetworkActivityComponent } from './network-activity/network-activity.component';
 
 @Component({
-  selector: 'doc-status-bar-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-status-bar-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocStatusBarModuleComponent {
 

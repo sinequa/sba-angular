@@ -6,8 +6,9 @@ import { SavedQueriesService } from '../../saved-queries.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'sq-saved-queries-menu',
-  templateUrl: './saved-queries-menu.component.html'
+    selector: 'sq-saved-queries-menu',
+    templateUrl: './saved-queries-menu.component.html',
+    standalone: false
 })
 export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
   @Input() searchRoute: string = "/search";

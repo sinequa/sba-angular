@@ -6,7 +6,8 @@ import {Action} from "@sinequa/components/action";
  * a list of actions and event listeners
  */
 @Component({
-    template: ""
+    template: "",
+    standalone: false
 })
 export abstract class AbstractFacet {
 

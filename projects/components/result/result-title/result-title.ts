@@ -19,7 +19,9 @@ sq-result-title {
     font-style: italic;
 }
     `],
-    encapsulation: ViewEncapsulation.None   // Currently necessary for the match-highlight
+    encapsulation: ViewEncapsulation.None // Currently necessary for the match-highlight
+    ,
+    standalone: false
 })
 export class ResultTitle implements OnChanges {
     /** The record which title we want to display */

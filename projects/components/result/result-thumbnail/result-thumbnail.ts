@@ -6,7 +6,8 @@ import {SearchService} from "@sinequa/components/search";
 @Component({
     selector: "sq-result-thumbnail",
     templateUrl: "./result-thumbnail.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ResultThumbnail implements OnChanges {
     @Input() record: Record;

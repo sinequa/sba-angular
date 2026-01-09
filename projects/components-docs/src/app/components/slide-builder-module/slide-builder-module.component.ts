@@ -3,8 +3,9 @@ import { DocSlideBuilderComponent } from './slide-builder/slide-builder.componen
 import { DocSlideListComponent } from './slide-list/slide-list.component';
 
 @Component({
-  selector: 'doc-slide-builder-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-slide-builder-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocSlideBuilderModuleComponent {
 

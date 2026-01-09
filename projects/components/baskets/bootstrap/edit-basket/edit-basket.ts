@@ -7,7 +7,8 @@ import {Basket} from "../../baskets.service";
 
 @Component({
     selector: "sq-edit-basket",
-    templateUrl: "./edit-basket.html"
+    templateUrl: "./edit-basket.html",
+    standalone: false
 })
 export class BsEditBasket implements OnInit, OnDestroy {
     nameControl: UntypedFormControl;

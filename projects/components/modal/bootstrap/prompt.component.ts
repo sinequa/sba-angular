@@ -17,7 +17,8 @@ import { Utils } from '@sinequa/core/base';
                 </div>
             </sq-modal>
         </form>
-    `
+    `,
+    standalone: false
 })
 export class BsPrompt implements OnInit, OnDestroy {
     inputControl: UntypedFormControl;

@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges } from "@angular/c
 import { Record } from "@sinequa/core/web-services";
 
 @Component({
-  selector: 'sq-result-duplicates',
-  templateUrl: './result-duplicates.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-result-duplicates',
+    templateUrl: './result-duplicates.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ResultDuplicatesComponent implements OnChanges {
   @Input() record: Record;

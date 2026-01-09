@@ -2,7 +2,8 @@ import {Directive, ElementRef, Output, EventEmitter, AfterViewInit, OnDestroy, N
 import {UIService} from "../ui.service";
 
 @Directive({
-    selector: "[sqResize]"
+    selector: "[sqResize]",
+    standalone: false
 })
 export class ResizeEventDirective implements AfterViewInit, OnDestroy {
     @Output("sqResize") resizeEvent = new EventEmitter<DOMRectReadOnly>();

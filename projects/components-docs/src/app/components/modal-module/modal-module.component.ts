@@ -10,8 +10,9 @@ import { DocOverrideUserComponent } from './override-user/override-user.componen
 import { DocPromptComponent } from './prompt/prompt.component';
 
 @Component({
-  selector: 'doc-modal-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-modal-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocModalModuleComponent {
 

@@ -4,7 +4,8 @@ import {ModalButton, ModalRef, ModalResult} from "@sinequa/core/modal";
 @Component({
     selector: "sq-modal-footer",
     templateUrl: "./modal-footer.component.html",
-    styleUrls: ["./modal-footer.component.scss"]
+    styleUrls: ["./modal-footer.component.scss"],
+    standalone: false
 })
 export class BsModalFooter implements OnChanges{
     @Input() buttons: ModalButton[] = [];

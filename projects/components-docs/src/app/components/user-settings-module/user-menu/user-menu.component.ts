@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-user-menu',
-  templateUrl: './user-menu.component.html'
+    selector: 'doc-user-menu',
+    templateUrl: './user-menu.component.html',
+    standalone: false
 })
 export class DocUserMenuComponent {
 

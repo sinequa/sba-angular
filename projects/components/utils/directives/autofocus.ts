@@ -2,7 +2,8 @@ import {Directive, Input, ElementRef, OnChanges} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 
 @Directive({
-    selector: "[sqAutofocus]"
+    selector: "[sqAutofocus]",
+    standalone: false
 })
 export class Autofocus implements OnChanges {
     @Input("sqAutofocus") value: number;

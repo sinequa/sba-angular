@@ -5,8 +5,9 @@ import {ModalButton} from "@sinequa/core/modal";
     selector: "sq-modal",
     templateUrl: "./modal.component.html",
     styleUrls: ["./modal.component.scss"],
-    host: {'class': 'modal d-block position-relative'},
-    encapsulation: ViewEncapsulation.None
+    host: { 'class': 'modal d-block position-relative' },
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class BsModal {
     @Input() title: string;

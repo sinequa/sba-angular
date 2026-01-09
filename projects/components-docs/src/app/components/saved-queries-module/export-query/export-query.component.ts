@@ -10,11 +10,12 @@ const exportQuery: ExportQueryModel = {
 };
 
 @Component({
-  selector: 'doc-export-query',
-  templateUrl: './export-query.component.html',
-  providers: [
-    {provide: MODAL_MODEL, useValue: exportQuery}
-  ]
+    selector: 'doc-export-query',
+    templateUrl: './export-query.component.html',
+    providers: [
+        { provide: MODAL_MODEL, useValue: exportQuery }
+    ],
+    standalone: false
 })
 export class DocExportQueryComponent {
 

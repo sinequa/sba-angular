@@ -4,7 +4,10 @@ import {FormatService, ValueItem} from "@sinequa/core/app-utils";
 import {CCColumn} from "@sinequa/core/web-services";
 import {Utils, FieldValue} from "@sinequa/core/base";
 
-@Pipe({name: "sqValue", pure: false})
+@Pipe({
+    name: "sqValue", pure: false,
+    standalone: false
+})
 export class ValuePipe extends AbstractIntlPipe<(ValueItem | FieldValue), CCColumn> {
 
     protected readonly formatService: FormatService = inject(FormatService);

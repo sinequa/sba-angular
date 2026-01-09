@@ -13,12 +13,11 @@ import { compareFilters } from "@sinequa/core/web-services";
 import { NotificationsService } from "@sinequa/core/notification";
 
 @Component({
-  selector: 'sq-search-form',
-  templateUrl: './search-form.component.html',
-  styleUrls: ['./search-form.component.scss'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, IntlModule, UtilsModule, BsSearchModule],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-search-form',
+    templateUrl: './search-form.component.html',
+    styleUrls: ['./search-form.component.scss'],
+    imports: [CommonModule, ReactiveFormsModule, FormsModule, IntlModule, UtilsModule, BsSearchModule],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() query: Query;

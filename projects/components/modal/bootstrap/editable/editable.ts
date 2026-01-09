@@ -7,7 +7,8 @@ import {Utils, Keys} from "@sinequa/core/base";
 @Component({
     selector: "sq-editable",
     templateUrl: "./editable.html",
-    styleUrls: ["./editable.scss"]
+    styleUrls: ["./editable.scss"],
+    standalone: false
 })
 export class BsEditable implements OnInit, OnDestroy {
     @HostBinding("attr.tabindex") tabindex = "0";

@@ -7,14 +7,15 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, O
  * It takes the whole list in which to scroll in input, and emits the updated one upon scrolling
  */
 @Component({
-  selector: 'sq-virtual-scroller',
-  styles: [`:host {
+    selector: 'sq-virtual-scroller',
+    styles: [`:host {
     display: block;
   }`],
-  template: `
+    template: `
 <ng-content></ng-content>
 <div #spacing class="d-block" style="height:1rem">&nbsp;</div>
-    `
+    `,
+    standalone: false
 })
 export class BsVirtualScroller implements OnChanges, AfterViewInit, OnDestroy {
 
