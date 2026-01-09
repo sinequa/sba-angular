@@ -7,7 +7,8 @@ import {SavedQuery} from "../../saved-queries.service";
 
 @Component({
     selector: "sq-edit-saved-query",
-    templateUrl: "./edit-saved-query.html"
+    templateUrl: "./edit-saved-query.html",
+    standalone: false
 })
 export class BsEditSavedQuery implements OnInit, OnDestroy {
     nameControl: UntypedFormControl;

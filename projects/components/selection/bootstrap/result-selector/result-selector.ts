@@ -4,7 +4,8 @@ import {SelectionService} from "../../selection.service";
 
 @Component({
     selector: "sq-result-selector",
-    templateUrl: "./result-selector.html"
+    templateUrl: "./result-selector.html",
+    standalone: false
 })
 export class BsResultSelector {
     @Input() record: Record;

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-labels-autocomplete',
-  templateUrl: './labels-autocomplete.component.html'
+    selector: 'doc-labels-autocomplete',
+    templateUrl: './labels-autocomplete.component.html',
+    standalone: false
 })
 export class DocLabelsAutocompleteComponent {
 

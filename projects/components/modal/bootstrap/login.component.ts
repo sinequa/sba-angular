@@ -9,7 +9,8 @@ import { AuthenticationService, Credentials } from "@sinequa/core/login";
 
 @Component({
     selector: "sq-login",
-    templateUrl: "./login.component.html"
+    templateUrl: "./login.component.html",
+    standalone: false
 })
 export class BsLogin implements OnInit, OnDestroy {
     @HostBinding("class.sq-login") true;

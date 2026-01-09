@@ -62,10 +62,9 @@ type MySearchExpr = {
 
 @Component({
     selector: "sq-facet-mysearch",
-    standalone: true,
     imports: [CommonModule, IntlModule, ExprPipe],
     templateUrl: "./facet-mysearch.html",
-    styleUrls: ["./facet-mysearch.scss"],
+    styleUrls: ["./facet-mysearch.scss"]
 })
 export class BsMySearch extends AbstractFacet implements FacetMySearchParams, OnChanges {
     @Input() results: Results;

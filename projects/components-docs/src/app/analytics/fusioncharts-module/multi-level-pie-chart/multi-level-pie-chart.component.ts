@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-multi-level-pie-chart',
-  templateUrl: './multi-level-pie-chart.component.html'
+    selector: 'doc-multi-level-pie-chart',
+    templateUrl: './multi-level-pie-chart.component.html',
+    standalone: false
 })
 export class DocMultiLevelPieChartComponent extends BaseComponent {
 

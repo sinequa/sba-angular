@@ -33,7 +33,8 @@ import { Credentials } from "./typings";
             <button type="submit" (click)="ok()">{{'msg#modal.buttons.ok' | sqMessage}}</button>
             <button type="button" (click)="cancel()">{{'msg#modal.buttons.cancel' | sqMessage}}</button>
         </form>
-    `
+    `,
+    standalone: false
 })
 export class LoginComponent implements OnInit, OnDestroy {
     userNameControl: UntypedFormControl;

@@ -6,6 +6,7 @@ import { Autocomplete, AutocompleteItem, AutocompleteState } from "@sinequa/comp
 
 @Directive({
     selector: "[sqAdvancedFormAutocomplete]",
+    standalone: false
 })
 export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
     @Output() UpdateItem = new EventEmitter<AutocompleteItem | undefined>();

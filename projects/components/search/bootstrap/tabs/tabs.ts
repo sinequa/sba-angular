@@ -4,7 +4,8 @@ import { SearchService } from "../../search.service";
 
 @Component({
     selector: "sq-tabs",
-    templateUrl: "./tabs.html"
+    templateUrl: "./tabs.html",
+    standalone: false
 })
 export class BsTabs implements OnChanges {
 

@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-list',
-  templateUrl: './facet-list.component.html'
+    selector: 'doc-facet-list',
+    templateUrl: './facet-list.component.html',
+    standalone: false
 })
 export class DocFacetListComponent extends BaseComponent {
 

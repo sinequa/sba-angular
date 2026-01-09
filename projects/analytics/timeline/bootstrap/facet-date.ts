@@ -57,6 +57,7 @@ export interface FacetDateConfig extends FacetConfig<FacetDateParams> {
     selector: "sq-facet-date",
     templateUrl: "./facet-date.html",
     styleUrls: ["./facet-date.scss"],
+    standalone: false
 })
 export class BsFacetDate extends AbstractFacet implements FacetDateParams, OnInit, OnChanges, OnDestroy {
     @ViewChild(BsDateRangePicker) dateRangePicker?: BsDateRangePicker;

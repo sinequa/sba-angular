@@ -39,7 +39,10 @@ export type Placement = "top" | "bottom" | "right" | "left";
  * //HTML can be used directly (not recommanded)
  * <div sqTooltip="<h1>Title</h1><br><p>This is a comment</p>"></div>
  */
-@Directive({ selector: "[sqTooltip]" })
+@Directive({
+    selector: "[sqTooltip]",
+    standalone: false
+})
 export class TooltipDirective<TooltipData=undefined, TooltipDisplay=string> implements OnDestroy {
   /**
    * Defining a property called textOrTemplate that can be a string, a function that

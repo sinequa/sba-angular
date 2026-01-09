@@ -8,7 +8,8 @@ import {Record} from "@sinequa/core/web-services";
     selector: "sq-result-missing-terms",
     templateUrl: "./result-missing-terms.html",
     styleUrls: ["./result-missing-terms.css"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ResultMissingTerms implements OnChanges {
     @Input() record: Record;

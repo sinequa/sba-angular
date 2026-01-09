@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-alerts-menu',
-  templateUrl: './alerts-menu.component.html'
+    selector: 'doc-alerts-menu',
+    templateUrl: './alerts-menu.component.html',
+    standalone: false
 })
 export class DocAlertsMenuComponent {
 

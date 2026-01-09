@@ -10,8 +10,9 @@ import { DocSelectComponent } from './select/select.component';
 import { DocAdvancedFormComponent } from './advanced-form/doc-advanced-form.component';
 
 @Component({
-  selector: 'doc-advanced-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-advanced-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocAdvancedModuleComponent {
 

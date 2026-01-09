@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subject, of } from "rxjs";
+import { BehaviorSubject, Observable, Subject, catchError, of } from "rxjs";
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
@@ -23,6 +23,7 @@ export interface PreviewHighlightColors {
 
 @Component({
   selector: 'sq-preview',
+  standalone: false,
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -188,11 +189,41 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       this.totalPages = 0;
 
       const query = this.query || this.searchService.query;
-      this.previewService.getPreviewData(this.id, query, this.customHighlights).subscribe(data => {
-        this.data = data;
+      this.previewService.getPreviewData(this.id, query, this.customHighlights)
+      .pipe(catchError(() => {
+        // In case of error, return an empty preview data
+        // to avoid breaking the preview component
+        return of({
+          resultId: "",
+          cacheId: "",
+          highlightsPerCategory: {
+            "matchingpassages": {
+              categoryDisplayLabel: "",
+              categoryDisplayLabelPlural: "",
+              categoryFilterAllLabel: "",
+              categoryFilterNoneLabel: "",
+              values: []
+            }
+          },
+          highlightsPerLocation: {},
+          documentCachedContentUrl: "",
+          record: { id: "", pdfUrl: "" }
+        });
+      }))
+      .subscribe(data => {
+        this.data = data as PreviewData;
         if(this.url) {
           this.previewFrames.unsubscribe(this.url);
         }
+
+        if(!data.record || !data.record.id) {
+          // No preview available
+          this.loading = false;
+          this.ready.emit();
+          this.cdRef.detectChanges();
+          return;
+        }
+
         this.pdfDownloadAction.href = data.record.pdfUrl;
         this.url = this.appService.updateUrlForCors(data.documentCachedContentUrl);
         if(this.safeUrl) {

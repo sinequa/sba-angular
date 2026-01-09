@@ -5,7 +5,8 @@ export interface ClickOutsideOptions {
 }
 
 @Directive({
-    selector: "[sqClickOutside]"
+    selector: "[sqClickOutside]",
+    standalone: false
 })
 export class ClickOutside {
     @Input("sqClickOutside") options?: ClickOutsideOptions;

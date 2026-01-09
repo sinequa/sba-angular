@@ -7,7 +7,8 @@ import {LoadComponentService, LoadComponentOptions, LoadedComponent} from "./loa
  * `options` reflected to the component by rebinding it using {@link LoadComponentService}
  */
 @Directive({
-    selector: "[sqLoadComponent]"
+    selector: "[sqLoadComponent]",
+    standalone: false
 })
 export class LoadComponentDirective implements OnChanges, OnDestroy {
     /**

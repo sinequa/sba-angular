@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-pager',
-  templateUrl: './pager.component.html'
+    selector: 'doc-pager',
+    templateUrl: './pager.component.html',
+    standalone: false
 })
 export class DocPagerComponent extends BaseComponent {
 

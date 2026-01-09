@@ -5,9 +5,10 @@ import { environment } from 'src/environments/environment';
 import { baskets } from 'src/mocks/data/user-settings';
 
 @Component({
-  selector: 'doc-manage-baskets',
-  templateUrl: './manage-baskets.component.html',
-  providers: [{ provide: MODAL_MODEL, useValue: { baskets } }]
+    selector: 'doc-manage-baskets',
+    templateUrl: './manage-baskets.component.html',
+    providers: [{ provide: MODAL_MODEL, useValue: { baskets } }],
+    standalone: false
 })
 export class DocManageBasketsComponent {
 

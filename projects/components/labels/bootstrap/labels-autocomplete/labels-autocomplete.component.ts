@@ -74,6 +74,7 @@ import { AutocompleteItem } from "@sinequa/components/autocomplete";
             }
         `,
     ],
+    standalone: false
 })
 export class BsLabelsAutocompleteComponent implements OnChanges {
     /** Event synchronizing the list of selected labels and label's type in the parent component */

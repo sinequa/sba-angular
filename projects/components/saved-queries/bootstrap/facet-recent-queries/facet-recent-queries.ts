@@ -8,9 +8,9 @@ import { Utils } from '@sinequa/core/base';
 import { Query } from '@sinequa/core/app-utils';
 
 @Component({
-  selector: 'sq-facet-recent-queries',
-  templateUrl: './facet-recent-queries.html',
-  styles: [`
+    selector: 'sq-facet-recent-queries',
+    templateUrl: './facet-recent-queries.html',
+    styles: [`
 .recent-query-item .query-delete,
 .recent-query-item .query-save,
 .recent-query-item:hover .query-date {
@@ -22,7 +22,8 @@ import { Query } from '@sinequa/core/app-utils';
 .recent-query-item .query-date {
     display: block;
 }
-  `]
+  `],
+    standalone: false
 })
 export class BsFacetRecentQueries extends AbstractFacet  {
     @Input() searchRoute: string = "/search";

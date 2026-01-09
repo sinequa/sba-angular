@@ -10,7 +10,8 @@ import {SavedQueriesService, SavedQuery, SavedQueryEventType, ManageSavedQueries
 @Component({
     selector: "sq-manage-saved-queries",
     templateUrl: "./manage-saved-queries.html",
-    styleUrls: ["./manage-saved-queries.scss"]
+    styleUrls: ["./manage-saved-queries.scss"],
+    standalone: false
 })
 export class BsManageSavedQueries implements OnInit {
     reordering: boolean;

@@ -6,7 +6,8 @@ import { MetadataConfig, MetadataItem } from "../metadata.interface";
 @Component({
     selector: "sq-metadata",
     templateUrl: "./metadata.component.html",
-    styleUrls: ['./metadata.component.scss']
+    styleUrls: ['./metadata.component.scss'],
+    standalone: false
 })
 export class MetadataComponent {
     @Input() record: Record;

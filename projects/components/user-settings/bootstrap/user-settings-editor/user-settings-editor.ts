@@ -15,7 +15,8 @@ import {JsonInfo} from './jsonInfo.model';
  */
 @Component({
     selector: 'sq-user-settings-editor',
-    templateUrl: './user-settings-editor.html'
+    templateUrl: './user-settings-editor.html',
+    standalone: false
 })
 export class BsUserSettingsEditor implements OnInit {
 

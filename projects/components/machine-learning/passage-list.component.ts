@@ -2,8 +2,8 @@ import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { MatchingPassage, Record } from "@sinequa/core/web-services";
 
 @Component({
-  selector: 'sq-passage-list',
-  template: `
+    selector: 'sq-passage-list',
+    template: `
 <ol class="list-group list-group-flush" *ngIf="record.matchingpassages?.passages?.length">
   <li class="list-group-item list-group-item-action sq-passage" #list [id]="'li-'+index" [ngClass]="{expanded: passage.$expanded}"
       *ngFor="let passage of record.matchingpassages?.passages|slice:0:maxPassages; let index = index"
@@ -15,7 +15,8 @@ import { MatchingPassage, Record } from "@sinequa/core/web-services";
   </li>
 </ol>
   `,
-  styleUrls: ['passage-list.component.scss']
+    styleUrls: ['passage-list.component.scss'],
+    standalone: false
 })
 export class PassageListComponent implements OnChanges {
 

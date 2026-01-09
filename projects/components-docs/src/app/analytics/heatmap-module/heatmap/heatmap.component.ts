@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { mockHeatmapData } from './mock';
 
 @Component({
-  selector: 'doc-heatmap',
-  templateUrl: './heatmap.component.html'
+    selector: 'doc-heatmap',
+    templateUrl: './heatmap.component.html',
+    standalone: false
 })
 export class DocHeatmapComponent {
 

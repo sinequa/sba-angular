@@ -9,6 +9,7 @@ import { FacetService } from "../../facet.service";
 @Component({
     selector: "sq-facet-bar",
     templateUrl: "./facet-bar.html",
+    standalone: false
 })
 export class BsFacetBar {
     @Input() results: Results;

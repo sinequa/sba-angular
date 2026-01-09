@@ -7,10 +7,11 @@ import { SearchService } from "@sinequa/components/search";
 import { AuditEvent, AuditEventType, AuditWebService, Record, Results, TopPassage } from "@sinequa/core/web-services";
 
 @Component({
-  selector: 'sq-top-passages',
-  templateUrl: 'top-passages.component.html',
-  styleUrls: ['./top-passages.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-top-passages',
+    templateUrl: 'top-passages.component.html',
+    styleUrls: ['./top-passages.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TopPassagesComponent extends AbstractFacet implements OnChanges {
   @Input() results: Results;

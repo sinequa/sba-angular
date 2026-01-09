@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-notifications',
-  templateUrl: './notifications.component.html'
+    selector: 'doc-notifications',
+    templateUrl: './notifications.component.html',
+    standalone: false
 })
 export class DocNotificationsComponent {
 

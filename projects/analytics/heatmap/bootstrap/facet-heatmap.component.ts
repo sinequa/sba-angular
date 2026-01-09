@@ -15,7 +15,8 @@ import {HeatmapItem} from './heatmap.component';
 
 @Component({
     selector: "sq-facet-heatmap",
-    templateUrl: './facet-heatmap.component.html'
+    templateUrl: './facet-heatmap.component.html',
+    standalone: false
 })
 export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, OnDestroy, DoCheck {
     @Input() results: Results;

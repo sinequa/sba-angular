@@ -4,8 +4,9 @@ import { environment } from 'src/environments/environment';
 import { recentDocuments } from 'src/mocks/data/user-settings';
 
 @Component({
-  selector: 'doc-facet-recent-documents',
-  templateUrl: './facet-recent-documents.component.html'
+    selector: 'doc-facet-recent-documents',
+    templateUrl: './facet-recent-documents.component.html',
+    standalone: false
 })
 export class DocFacetRecentDocumentsComponent {
 

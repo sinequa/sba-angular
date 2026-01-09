@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { TooltipManager } from '@sinequa/analytics/tooltip';
 
 @Component({
-  selector: 'doc-tooltip-2',
-  templateUrl: './tooltip-2.component.html'
+    selector: 'doc-tooltip-2',
+    templateUrl: './tooltip-2.component.html',
+    standalone: false
 })
 export class DocTooltip2Component {
 

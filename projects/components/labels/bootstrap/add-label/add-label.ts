@@ -21,6 +21,7 @@ import { Utils } from "@sinequa/core/base";
             }
         `,
     ],
+    standalone: false
 })
 export class BsAddLabel implements OnInit {
     public buttons: ModalButton[];

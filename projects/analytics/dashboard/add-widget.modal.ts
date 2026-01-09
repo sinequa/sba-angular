@@ -18,11 +18,10 @@ export interface AddWidgetModel {
 }
 
 @Component({
-  selector: 'sq-add-widget-modal',
-  templateUrl: './add-widget.modal.html',
-  styleUrls: ['./add-widget.modal.scss'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, IntlModule, BsModalModule, BsActionModule]
+    selector: 'sq-add-widget-modal',
+    templateUrl: './add-widget.modal.html',
+    styleUrls: ['./add-widget.modal.scss'],
+    imports: [CommonModule, FormsModule, IntlModule, BsModalModule, BsActionModule]
 })
 export class AddWidgetModal {
 

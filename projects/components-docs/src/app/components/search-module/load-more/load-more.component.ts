@@ -4,8 +4,9 @@ import { GlobalService } from 'src/app/shared/global.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'doc-load-more',
-  templateUrl: './load-more.component.html'
+    selector: 'doc-load-more',
+    templateUrl: './load-more.component.html',
+    standalone: false
 })
 export class DocLoadMoreComponent {
 

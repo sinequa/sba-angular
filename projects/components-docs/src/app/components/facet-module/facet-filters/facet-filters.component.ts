@@ -4,8 +4,9 @@ import { DEFAULT_FACET_COMPONENTS, FacetConfig } from '@sinequa/components/facet
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-filters',
-  templateUrl: './facet-filters.component.html'
+    selector: 'doc-facet-filters',
+    templateUrl: './facet-filters.component.html',
+    standalone: false
 })
 export class DocFacetFiltersComponent extends BaseComponent {
 

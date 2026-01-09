@@ -34,7 +34,8 @@ export interface FacetListConfig extends FacetConfig<FacetListParams> {
     selector: "sq-facet-list",
     templateUrl: "./facet-list.html",
     styleUrls: ["./facet-list.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class BsFacetList extends AbstractFacet implements FacetListParams, OnChanges, OnDestroy, AfterViewInit {
     @Input() name: string; // If omitted, the aggregation name is used

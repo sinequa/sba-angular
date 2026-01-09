@@ -4,8 +4,9 @@ import { environment } from 'src/environments/environment';
 import { baskets } from 'src/mocks/data/user-settings';
 
 @Component({
-  selector: 'doc-facet-baskets',
-  templateUrl: './facet-baskets.component.html'
+    selector: 'doc-facet-baskets',
+    templateUrl: './facet-baskets.component.html',
+    standalone: false
 })
 export class DocFacetBasketsComponent {
 

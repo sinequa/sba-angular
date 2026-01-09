@@ -10,8 +10,9 @@ import { DocSortSelectorComponent } from './sort-selector/sort-selector.componen
 import { DocTabsComponent } from './tabs/tabs.component';
 
 @Component({
-  selector: 'doc-search-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-search-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocSearchModuleComponent {
 

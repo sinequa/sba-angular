@@ -18,7 +18,8 @@ import { Node, Edge } from './network-models';
     border-radius: 50%;
     object-fit: cover;
 }
-    `]
+    `],
+    standalone: false
 })
 export class BsEdgeInfoCard implements OnChanges {
     @Input() edge: Edge;

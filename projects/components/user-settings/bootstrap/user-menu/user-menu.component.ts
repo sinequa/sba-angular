@@ -36,8 +36,9 @@ export type HelpFolderOptions = {
 }
 
 @Component({
-  selector: 'sq-user-menu',
-  templateUrl: './user-menu.component.html'
+    selector: 'sq-user-menu',
+    templateUrl: './user-menu.component.html',
+    standalone: false
 })
 export class BsUserMenuComponent implements OnChanges, OnDestroy {
 

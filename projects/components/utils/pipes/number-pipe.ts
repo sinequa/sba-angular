@@ -1,7 +1,10 @@
 import {Pipe} from "@angular/core";
 import {AbstractIntlPipe} from "@sinequa/core/intl";
 
-@Pipe({name: "sqNumber", pure: false})
+@Pipe({
+    name: "sqNumber", pure: false,
+    standalone: false
+})
 export class NumberPipe extends AbstractIntlPipe<(number | string), Intl.NumberFormatOptions> {
 
     override updateValue(key: number | string, params: Intl.NumberFormatOptions): void {

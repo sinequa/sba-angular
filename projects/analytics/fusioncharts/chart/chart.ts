@@ -19,7 +19,8 @@ export const defaultChart = {
 @Component({
     selector: "sq-fusion-chart",
     templateUrl: "./chart.html",
-    styleUrls: ["./chart.scss"]
+    styleUrls: ["./chart.scss"],
+    standalone: false
 })
 // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
 export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, DoCheck {

@@ -2,7 +2,8 @@ import { Directive, HostBinding, ElementRef } from "@angular/core";
 import { FocusableOption } from "@angular/cdk/a11y";
 
 @Directive({
-    selector: "[sqFocusKeyListItem]"
+    selector: "[sqFocusKeyListItem]",
+    standalone: false
 })
 export class FocusKeyListItemDirective implements FocusableOption {
     @HostBinding() tabindex = -1;

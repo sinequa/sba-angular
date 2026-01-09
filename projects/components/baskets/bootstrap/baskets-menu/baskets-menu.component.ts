@@ -4,8 +4,9 @@ import { LoginService } from '@sinequa/core/login';
 import { BasketsService } from '../../baskets.service';
 
 @Component({
-  selector: 'sq-baskets-menu',
-  templateUrl: './baskets-menu.component.html'
+    selector: 'sq-baskets-menu',
+    templateUrl: './baskets-menu.component.html',
+    standalone: false
 })
 export class BsBasketsMenuComponent implements OnInit {
   @Input() searchRoute: string = "/search";

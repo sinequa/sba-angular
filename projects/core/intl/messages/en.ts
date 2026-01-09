@@ -24,7 +24,8 @@ export default {
         "userOverrideFailure": "unable to override user",
         "responseLoadFailure": "failed to load response",
         "queryError": "An error occurred in the server side. It might be caused by a wrong query syntax, please verify on the \"Selection Queries Syntax\" documentation page: https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.syntax.selection-query.html",
-        "unknownError": "unknown error"
+        "unknownError": "unknown error",
+        "recordNotFound": "The requested record could not be found."
     },
 
     "language": {

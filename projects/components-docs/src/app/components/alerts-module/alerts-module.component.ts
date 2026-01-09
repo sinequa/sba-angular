@@ -5,8 +5,9 @@ import { DocEditAlertComponent } from './edit-alert/edit-alert.component';
 import { DocManageAlertsComponent } from './manage-alerts/manage-alerts.component';
 
 @Component({
-  selector: 'doc-alerts-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-alerts-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocAlertsModuleComponent {
 

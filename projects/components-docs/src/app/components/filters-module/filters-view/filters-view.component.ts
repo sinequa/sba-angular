@@ -3,8 +3,9 @@ import { BaseComponent } from 'src/app/shared/base.component';
 import { querySample } from '../query';
 
 @Component({
-  selector: 'doc-filters',
-  templateUrl: './filters-view.component.html'
+    selector: 'doc-filters',
+    templateUrl: './filters-view.component.html',
+    standalone: false
 })
 export class DocFiltersViewComponent extends BaseComponent {
 

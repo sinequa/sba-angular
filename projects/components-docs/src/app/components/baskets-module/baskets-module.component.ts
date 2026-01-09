@@ -7,8 +7,9 @@ import { DocResultBasketsComponent } from './result-baskets/result-baskets.compo
 import { DocSelectBasketsComponent } from './select-baskets/select-baskets.component';
 
 @Component({
-  selector: 'doc-baskets-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-baskets-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocBasketsModuleComponent {
 

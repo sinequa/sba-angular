@@ -33,7 +33,8 @@ export interface Category extends AggregationItem {
 @Component({
     selector: "sq-multi-level-pie-chart",
     templateUrl: "./multi-level-pie-chart.html",
-    styleUrls: ["./multi-level-pie-chart.scss"]
+    styleUrls: ["./multi-level-pie-chart.scss"],
+    standalone: false
 })
 // eslint-disable-next-line @angular-eslint/no-conflicting-lifecycle
 export class MultiLevelPieChart extends AbstractFacet implements OnChanges, OnDestroy {

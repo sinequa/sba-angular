@@ -7,7 +7,8 @@ import { CommentsWebService, Comment, NormalComment } from "./comments.web.servi
 @Component({
     selector: 'sq-comments',
     templateUrl: './comments.component.html',
-    styleUrls: ['./comments.component.scss']
+    styleUrls: ['./comments.component.scss'],
+    standalone: false
 })
 export class CommentsComponent implements OnChanges {
     @Input() docid: string;

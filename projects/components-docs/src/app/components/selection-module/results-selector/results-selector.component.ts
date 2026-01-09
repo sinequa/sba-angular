@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-results-selector',
-  templateUrl: './results-selector.component.html'
+    selector: 'doc-results-selector',
+    templateUrl: './results-selector.component.html',
+    standalone: false
 })
 export class DocResultsSelectorComponent {
 

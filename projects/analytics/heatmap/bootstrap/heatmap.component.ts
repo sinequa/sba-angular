@@ -25,7 +25,8 @@ export const colorSchemes = {
 @Component({
     selector: "sq-heatmap",
     templateUrl: "./heatmap.component.html",
-    styleUrls: ['./heatmap.component.scss']
+    styleUrls: ['./heatmap.component.scss'],
+    standalone: false
 })
 export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     /**
