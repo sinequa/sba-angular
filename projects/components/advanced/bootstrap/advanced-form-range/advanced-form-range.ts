@@ -12,7 +12,8 @@ import { AppService } from "@sinequa/core/app-utils";
 
 @Component({
     selector: "sq-advanced-form-range",
-    templateUrl: "./advanced-form-range.html"
+    templateUrl: "./advanced-form-range.html",
+    standalone: false
 })
 export class BsAdvancedFormRange implements OnInit, OnDestroy {
     @Input() form: UntypedFormGroup;

@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { DocRfmActionComponent } from './rfm-action/rfm-action.component';
 
 @Component({
-  selector: 'doc-rfm-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-rfm-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocRfmModuleComponent {
 

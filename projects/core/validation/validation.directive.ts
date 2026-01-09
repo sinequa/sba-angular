@@ -53,7 +53,8 @@ export const VALIDATION_MESSAGE_COMPONENT = new InjectionToken<Type<any>>("VALID
  * By default, the {@link ValidationMessageComponent} component is used.
  */
 @Directive({
-    selector: "[sqValidation]"
+    selector: "[sqValidation]",
+    standalone: false
 })
 export class ValidationDirective implements OnInit, DoCheck {
     @Input("sqValidation") options: UntypedFormGroup | ValidationOptions;

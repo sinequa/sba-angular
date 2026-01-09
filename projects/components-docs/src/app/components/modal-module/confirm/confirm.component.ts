@@ -9,9 +9,10 @@ const confirmOptions: ConfirmOptions = {
 };
 
 @Component({
-  selector: 'doc-confirm',
-  templateUrl: './confirm.component.html',
-  providers: [{ provide: MODAL_MODEL, useValue: confirmOptions }]
+    selector: 'doc-confirm',
+    templateUrl: './confirm.component.html',
+    providers: [{ provide: MODAL_MODEL, useValue: confirmOptions }],
+    standalone: false
 })
 export class DocConfirmComponent {
 

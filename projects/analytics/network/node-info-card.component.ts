@@ -23,7 +23,8 @@ export interface NodeData {
     border-radius: 50%;
     object-fit: cover;
 }
-    `]
+    `],
+    standalone: false
 })
 export class BsNodeInfoCard implements OnChanges {
     @Input() node: Node;

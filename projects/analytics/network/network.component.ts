@@ -38,7 +38,8 @@ export interface VisEvent {
 
 @Component({
     selector: 'sq-network',
-    templateUrl: './network.component.html'
+    templateUrl: './network.component.html',
+    standalone: false
 })
 export class NetworkComponent extends AbstractFacet implements OnChanges, OnDestroy {
 

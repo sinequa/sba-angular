@@ -24,7 +24,8 @@ sq-facet-list {
     padding-bottom: 0.25rem!important;
     padding-top: 0.25rem!important;
 }
-   `]
+   `],
+    standalone: false
 })
 export class FacetWrapperComponent {
     params: IFilterParams;

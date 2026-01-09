@@ -5,9 +5,9 @@ import { SearchFormComponent } from "@sinequa/components/search-form";
 import { HelpFolderOptions } from "@sinequa/components/user-settings";
 
 @Component({
-  selector: 'app-search-form',
-  templateUrl: './search-form.component.html',
-  styles: [`
+    selector: 'app-search-form',
+    templateUrl: './search-form.component.html',
+    styles: [`
   :host {
     position: relative;
     display: block;
@@ -26,6 +26,7 @@ import { HelpFolderOptions } from "@sinequa/components/user-settings";
     }
   }
   `],
+    standalone: false
 })
 export class AppSearchFormComponent {
 

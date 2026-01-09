@@ -4,8 +4,9 @@ import { DocActionItemComponent } from './action-item/action-item.component';
 import { DocActionMenuComponent } from './action-menu/action-menu.component';
 
 @Component({
-  selector: 'doc-action-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-action-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocActionModuleComponent {
 

@@ -78,7 +78,11 @@ export class LoginInterceptor implements HttpInterceptor {
                 }
                 if (data && data.errorMessage) {
                     message = data.errorMessage;
-                    if (data.errorCodeText) {
+
+                    // Special handling for "record not found" errors to have a user friendly message
+                    if(message.startsWith("unable to get record for id:")) {
+                        message = this.intlService.formatMessage("msg#error.recordNotFound");
+                    } else if (data.errorCodeText) {
                         message = `${message} (${data.errorCodeText})`;
                     }
                     else if (data.errorCode) {

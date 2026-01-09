@@ -4,9 +4,9 @@ import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 
 @Component({
-  selector: 'sq-facet-saved-queries',
-  templateUrl: './facet-saved-queries.html',
-  styles: [`
+    selector: 'sq-facet-saved-queries',
+    templateUrl: './facet-saved-queries.html',
+    styles: [`
 .saved-query-item .query-delete,
 .saved-query-item:hover .query-text {
     display: none;
@@ -16,7 +16,8 @@ import { Action } from '@sinequa/components/action';
 .saved-query-item .query-text {
     display: block;
 }
-  `]
+  `],
+    standalone: false
 })
 export class BsFacetSavedQueries extends AbstractFacet  {
     @Input() searchRoute: string = "/search";

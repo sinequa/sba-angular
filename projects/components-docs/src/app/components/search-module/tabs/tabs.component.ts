@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-tabs',
-  templateUrl: './tabs.component.html'
+    selector: 'doc-tabs',
+    templateUrl: './tabs.component.html',
+    standalone: false
 })
 export class DocTabsComponent extends BaseComponent {
 

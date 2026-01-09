@@ -24,7 +24,8 @@ export default {
         "userOverrideFailure": "Echec de surchargement de l'utilisateur",
         "responseLoadFailure": "Echec de chargement de la réponse",
         "queryError": "Il y a eu une erreur de serveur. Cela peut être causé par une erreur de syntaxe de la requête, vous pouvez vérifier sur la page de documentation \"Syntaxe des critères de sélection\": https://doc.sinequa.com/fr.sinequa-es.v11/Content/fr.sinequa-es.syntax.selection-query.html",
-        "unknownError": "Erreur inconnue"
+        "unknownError": "Erreur inconnue",
+        "recordNotFound": "L'enregistrement demandé est introuvable."
     },
 
     "language": {

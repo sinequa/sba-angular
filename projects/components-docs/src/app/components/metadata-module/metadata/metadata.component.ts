@@ -3,9 +3,9 @@ import { MetadataConfig } from '@sinequa/components/metadata';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-metadata',
-  templateUrl: './metadata.component.html',
-  styles: [`
+    selector: 'doc-metadata',
+    templateUrl: './metadata.component.html',
+    styles: [`
   /* override just-the-docs.css for docs */
   :host ::ng-deep ol > li::before {
       content: initial;
@@ -14,7 +14,8 @@ import { BaseComponent } from 'src/app/shared/base.component';
   :host ::ng-deep ol {
       padding-left: 0;
   }
-  `]
+  `],
+    standalone: false
 })
 export class DocMetadataComponent extends BaseComponent {
 

@@ -12,7 +12,8 @@ import { Action } from "@sinequa/components/action";
  */
 @Component({
     selector: 'sq-query-exporter',
-    templateUrl: './query-exporter.html'
+    templateUrl: './query-exporter.html',
+    standalone: false
 })
 export class BsQueryExporter {
 

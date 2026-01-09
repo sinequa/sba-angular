@@ -10,7 +10,8 @@ import { DownloadWebService, DocBuilderWebService, StartConfig, START_CONFIG } f
 @Component({
     selector: 'sq-slide-builder',
     templateUrl: './slide-builder.component.html',
-    styleUrls: ['./slide-builder.component.scss']
+    styleUrls: ['./slide-builder.component.scss'],
+    standalone: false
 })
 export class SlideBuilderComponent extends AbstractFacet implements OnInit, OnDestroy {
     @ContentChild(TemplateRef, {static: false}) recordTpl: TemplateRef<any>;

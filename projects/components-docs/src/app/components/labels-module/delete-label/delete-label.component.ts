@@ -3,14 +3,15 @@ import { MODAL_MODEL } from '@sinequa/core/modal';
 import { LABELS_MODAL_MODEL } from 'src/mocks/data/labels';
 
 @Component({
-  selector: 'doc-delete-label',
-  templateUrl: './delete-label.component.html',
-  providers: [{
-    provide: MODAL_MODEL, useValue: {
-      values: ["string", "test", "abcd"],
-      properties: LABELS_MODAL_MODEL
-    }
-  }]
+    selector: 'doc-delete-label',
+    templateUrl: './delete-label.component.html',
+    providers: [{
+            provide: MODAL_MODEL, useValue: {
+                values: ["string", "test", "abcd"],
+                properties: LABELS_MODAL_MODEL
+            }
+        }],
+    standalone: false
 })
 export class DocDeleteLabelComponent {
 

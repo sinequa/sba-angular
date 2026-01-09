@@ -20,8 +20,9 @@ export interface GeoRecord {
 }
 
 @Component({
-  selector: "sq-googlemaps",
-  templateUrl: "./map.component.html"
+    selector: "sq-googlemaps",
+    templateUrl: "./map.component.html",
+    standalone: false
 })
 export class MapComponent extends AbstractFacet implements OnChanges, OnDestroy {
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;

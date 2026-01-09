@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-edit-user-settings',
-  templateUrl: './edit-user-settings.component.html'
+    selector: 'doc-edit-user-settings',
+    templateUrl: './edit-user-settings.component.html',
+    standalone: false
 })
 export class DocEditUserSettingsComponent {
 

@@ -4,8 +4,9 @@ import { DocTooltipComponent } from './tooltip/tooltip.component';
 
 // Keeping the custom template to force a bigger height to test the sticky component
 @Component({
-  selector: 'doc-utils-module',
-  templateUrl: './utils-module.component.html'
+    selector: 'doc-utils-module',
+    templateUrl: './utils-module.component.html',
+    standalone: false
 })
 export class DocUtilsModuleComponent {
 

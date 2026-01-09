@@ -9,8 +9,9 @@ import { DocRenameLabelComponent } from './rename-label/rename-label.component';
 import { DocResultLabelsComponent } from './result-labels/result-labels.component';
 
 @Component({
-  selector: 'doc-labels-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-labels-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocLabelsModuleComponent {
 

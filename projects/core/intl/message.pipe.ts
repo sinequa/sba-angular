@@ -18,7 +18,10 @@ export type MessageParams = {
  * A pipe to display messages in the current locale. Inputs are processed by
  * [IntlService.formatMessage]{@link IntlService#formatMessage}
  */
-@Pipe({name: "sqMessage", pure: false})
+@Pipe({
+    name: "sqMessage", pure: false,
+    standalone: false
+})
 export class MessagePipe extends AbstractIntlPipe<any, Record<string, any>> {
 
     protected override updateValue(value: any, params: Record<string, any>): void {

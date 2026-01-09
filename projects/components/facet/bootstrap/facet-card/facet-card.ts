@@ -9,7 +9,8 @@ import { UserPreferences } from "@sinequa/components/user-settings";
 @Component({
     selector: "sq-facet-card",
     templateUrl: "./facet-card.html",
-    styleUrls: ['./facet-card.scss']
+    styleUrls: ['./facet-card.scss'],
+    standalone: false
 })
 export class BsFacetCard implements OnInit, OnChanges, OnDestroy, DoCheck, AfterContentInit {
 

@@ -22,7 +22,8 @@ export interface FacetRefineConfig extends FacetConfig<FacetRefineParams> {
 
 @Component({
     selector: "sq-refine",
-    templateUrl: "./facet-refine.html"
+    templateUrl: "./facet-refine.html",
+    standalone: false
 })
 export class BsRefine extends AbstractFacet implements FacetRefineParams, OnChanges {
 

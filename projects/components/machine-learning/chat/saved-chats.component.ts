@@ -4,8 +4,8 @@ import { ChatService } from "./chat.service";
 import { SavedChat } from "./types";
 
 @Component({
-  selector: 'sq-saved-chats',
-  template: `
+    selector: 'sq-saved-chats',
+    template: `
   <ul class="list-group list-group-flush rounded-4">
     <li *ngFor="let chat of chatService.savedChats"
       class="d-flex align-items-center list-group-item list-group-item-action">
@@ -17,7 +17,8 @@ import { SavedChat } from "./types";
       </button>
     </li>
   </ul>
-  `
+  `,
+    standalone: false
 })
 export class SavedChatsComponent {
   @Output() load = new EventEmitter<SavedChat>();

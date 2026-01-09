@@ -46,7 +46,8 @@ export interface FacetRangeConfig extends FacetConfig<FacetRangeParams> {
 
 @Component({
     selector: "sq-facet-range",
-    templateUrl: "./facet-range.html"
+    templateUrl: "./facet-range.html",
+    standalone: false
 })
 export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnChanges, AfterViewInit, OnDestroy {
     @Input() name?: string;

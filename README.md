@@ -5,8 +5,6 @@
 
 ## Please visit our [documentation website](https://sinequa.github.io/sba-angular/)
 
-## [Changelog](https://github.com/sinequa/sba-angular/tree/release/11.13.0/changelog/2025-11-29.md)
-
 ## Quick start
 
 1. Clone the repository

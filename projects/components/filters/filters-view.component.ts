@@ -3,9 +3,9 @@ import { Query } from "@sinequa/core/app-utils";
 import { isExprFilter } from "@sinequa/core/web-services";
 
 @Component({
-  selector: 'sq-filters-view',
-  templateUrl: './filters-view.component.html',
-  styles: [`
+    selector: 'sq-filters-view',
+    templateUrl: './filters-view.component.html',
+    styles: [`
   .sq-simple-mode a:not(:hover) {
     color: rgb(0,0,0,.5);
   }
@@ -14,7 +14,8 @@ import { isExprFilter } from "@sinequa/core/web-services";
     border-radius: 0.25rem;
   }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class FiltersViewComponent implements OnChanges {
   @Input() query: Query;

@@ -4,7 +4,8 @@ import { Subscription } from "rxjs";
 import { DragAndDropManagerService } from "./drag-drop-manager.service";
 
 @Directive({
-  selector: '[dragAndDropManager]'
+    selector: '[dragAndDropManager]',
+    standalone: false
 })
 export class DragAndDropManagerDirective implements OnInit, OnDestroy {
 

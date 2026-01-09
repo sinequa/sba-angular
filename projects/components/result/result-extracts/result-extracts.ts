@@ -21,7 +21,8 @@ p, ul {
     max-height: 6em;
     overflow: hidden;
 }
-    `]
+    `],
+    standalone: false
 })
 export class ResultExtracts implements OnChanges {
     @Input() record: Record;

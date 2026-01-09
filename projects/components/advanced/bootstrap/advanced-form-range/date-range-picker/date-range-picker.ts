@@ -41,7 +41,8 @@ export interface DateRangePickerOptions extends DatePickerOptions {
             </div>
         </div>
     `,
-    providers: [DATE_RANGE_PICKER_VALUE_ACCESSOR]
+    providers: [DATE_RANGE_PICKER_VALUE_ACCESSOR],
+    standalone: false
 })
 export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
 

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-autocomplete-list',
-  templateUrl: './autocomplete-list.component.html'
+    selector: 'doc-autocomplete-list',
+    templateUrl: './autocomplete-list.component.html',
+    standalone: false
 })
 export class DocAutocompleteListComponent {
 

@@ -5,7 +5,8 @@ import { ActionButtonsOptions, ActionItemOptions } from "../../typings";
 
 @Component({
     selector: "[sq-action-buttons]",
-    templateUrl: "./action-buttons.html"
+    templateUrl: "./action-buttons.html",
+    standalone: false
 })
 export class BsActionButtons {
     @HostBinding('class') klass = "sq-action-buttons";

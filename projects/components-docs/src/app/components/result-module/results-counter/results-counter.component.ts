@@ -3,8 +3,9 @@ import { SearchService } from '@sinequa/components/search';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'doc-results-counter',
-  templateUrl: './results-counter.component.html'
+    selector: 'doc-results-counter',
+    templateUrl: './results-counter.component.html',
+    standalone: false
 })
 export class DocResultsCounterComponent {
 

@@ -10,9 +10,9 @@ import { Answer, AuditEvent, AuditEventType, AuditWebService, Results } from "@s
 import { AuditEventTypeValues } from "@sinequa/core/web-services/types/audit/AuditEventType";
 
 @Component({
-  selector: 'sq-answer-card',
-  templateUrl: 'answer-card.component.html',
-  styles: [`
+    selector: 'sq-answer-card',
+    templateUrl: 'answer-card.component.html',
+    styles: [`
 .card-body {
   cursor: pointer;
 }
@@ -24,7 +24,8 @@ import { AuditEventTypeValues } from "@sinequa/core/web-services/types/audit/Aud
 .passage-text {
   font-size: 0.875em;
 }
-  `]
+  `],
+    standalone: false
 })
 export class AnswerCardComponent extends AbstractFacet implements OnChanges {
   @Input() results: Results;

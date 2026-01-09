@@ -11,12 +11,11 @@ import { filter, merge, Subscription } from "rxjs";
 import { Widget } from "./widget.model";
 
 @Component({
-  selector: 'sq-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
-  standalone: true,
-  imports: [CommonModule, GridsterModule, BsFacetModule],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss'],
+    imports: [CommonModule, GridsterModule, BsFacetModule],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnChanges, OnInit, OnDestroy {
   @ContentChild(TemplateRef) template: TemplateRef<any>;

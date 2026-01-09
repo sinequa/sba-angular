@@ -36,7 +36,10 @@ const differenceIn = {
     seconds: (d, r) => differenceInSeconds(d, r),
 };
 
-@Pipe({ name: "sqDateExt", pure: false })
+@Pipe({
+    name: "sqDateExt", pure: false,
+    standalone: false
+})
 export class DateFnsPipe extends AbstractIntlPipe<(Date | number | string), DateParams> {
 
     override updateValue(key: Date | number | string, params: DateParams = {} as DateParams): void {

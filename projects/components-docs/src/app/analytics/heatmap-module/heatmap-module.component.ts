@@ -4,8 +4,9 @@ import { DocHeatmapComponent } from './heatmap/heatmap.component';
 import { DocResultsHeatmapViewComponent } from './results-heatmap-view/results-heatmap-view.component';
 
 @Component({
-  selector: 'doc-heatmap-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-heatmap-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocHeatmapModuleComponent {
 

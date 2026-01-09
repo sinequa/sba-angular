@@ -4,9 +4,9 @@ import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 
 @Component({
-  selector: 'sq-facet-baskets',
-  templateUrl: './facet-baskets.component.html',
-  styles: [`
+    selector: 'sq-facet-baskets',
+    templateUrl: './facet-baskets.component.html',
+    styles: [`
 .basket-item .basket-delete,
 .basket-item:hover .basket-count {
     display: none;
@@ -16,7 +16,8 @@ import { Action } from '@sinequa/components/action';
 .basket-item .basket-count {
     display: block;
 }
-  `]
+  `],
+    standalone: false
 })
 export class BsFacetBasketsComponent extends AbstractFacet {
   @Input() searchRoute: string = "/search";

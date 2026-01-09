@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-page-size-selector',
-  templateUrl: './page-size-selector.component.html'
+    selector: 'doc-page-size-selector',
+    templateUrl: './page-size-selector.component.html',
+    standalone: false
 })
 export class DocPageSizeSelectorComponent extends BaseComponent {
 

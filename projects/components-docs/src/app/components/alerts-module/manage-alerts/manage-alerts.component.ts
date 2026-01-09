@@ -39,9 +39,10 @@ const modalModel: ManageAlertsModel = {
 };
 
 @Component({
-  selector: 'doc-manage-alerts',
-  templateUrl: './manage-alerts.component.html',
-  providers: [{ provide: MODAL_MODEL, useValue: modalModel }]
+    selector: 'doc-manage-alerts',
+    templateUrl: './manage-alerts.component.html',
+    providers: [{ provide: MODAL_MODEL, useValue: modalModel }],
+    standalone: false
 })
 export class DocManageAlertsComponent {
 

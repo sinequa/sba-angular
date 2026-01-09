@@ -17,9 +17,10 @@ import { AppSearchFormComponent } from '../search-form/search-form.component';
 import { AppDashboardComponent } from '../dashboard/dashboard.component';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    standalone: false
 })
 export class SearchComponent implements OnInit, OnDestroy {
 

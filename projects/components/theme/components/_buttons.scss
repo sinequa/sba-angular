@@ -1,4 +1,6 @@
-// sinequa custom button theme
+/* sinequa custom button theme */
+@use "sass:map";
+
 $theme-primary: (
   "background": $blue-500,
   "border": transparent,
@@ -95,21 +97,21 @@ $theme: (
   .btn-#{$color} {
       @if(type-of($value) == 'map') {
           @include sq-button-variant(
-            map-get($value, "background"),
-            map-get($value, "border"),
-            map-get($value, "color"),
+            map.get($value, "background"),
+            map.get($value, "border"),
+            map.get($value, "color"),
 
-            map-get($value, "hover-background"),
-            map-get($value, "hover-border"),
-            map-get($value, "hover-color"),
+            map.get($value, "hover-background"),
+            map.get($value, "hover-border"),
+            map.get($value, "hover-color"),
 
-            map-get($value, "active-background"),
-            map-get($value, "active-border"),
-            map-get($value, "active-color"),
+            map.get($value, "active-background"),
+            map.get($value, "active-border"),
+            map.get($value, "active-color"),
 
-            map-get($value, "disabled-background"),
-            map-get($value, "disabled-border"),
-            map-get($value, "disabled-color")
+            map.get($value, "disabled-background"),
+            map.get($value, "disabled-border"),
+            map.get($value, "disabled-color")
 
             );
           } @else {

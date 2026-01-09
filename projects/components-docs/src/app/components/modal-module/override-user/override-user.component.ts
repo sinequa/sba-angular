@@ -8,9 +8,10 @@ const userOverride: UserOverride = {
 };
 
 @Component({
-  selector: 'doc-override-user',
-  templateUrl: './override-user.component.html',
-  providers: [{ provide: MODAL_MODEL, useValue: userOverride }]
+    selector: 'doc-override-user',
+    templateUrl: './override-user.component.html',
+    providers: [{ provide: MODAL_MODEL, useValue: userOverride }],
+    standalone: false
 })
 export class DocOverrideUserComponent {
 

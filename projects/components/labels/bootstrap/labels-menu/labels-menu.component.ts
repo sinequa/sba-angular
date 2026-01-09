@@ -15,6 +15,7 @@ import { Subscription } from "rxjs";
 @Component({
     selector: "sq-labels-menu",
     templateUrl: "./labels-menu.component.html",
+    standalone: false
 })
 export class BsLabelsMenuComponent implements OnInit, OnChanges, OnDestroy {
     @Input() results: Results;

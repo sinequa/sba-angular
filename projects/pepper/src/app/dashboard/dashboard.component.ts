@@ -32,9 +32,9 @@ const defaultOptions = {
 };
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styles: [`
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styles: [`
 :host {
   position: relative;
 }
@@ -45,13 +45,12 @@ const defaultOptions = {
   z-index: 2;
 }
   `],
-  standalone: true,
-  imports: [
-    CommonModule, // angular dependencies
-    IntlModule,   // @sinequa/core
-    ResultModule, BsFacetModule, PreviewModule, UtilsModule, // @sinequa/components
-    DashboardComponent, FusionChartsModule,  BsHeatmapModule, BsTimelineModule, NetworkModule, GoogleMapsModule, FinanceModule, // @sinequa/analytics
-  ],
+    imports: [
+        CommonModule, // angular dependencies
+        IntlModule, // @sinequa/core
+        ResultModule, BsFacetModule, PreviewModule, UtilsModule, // @sinequa/components
+        DashboardComponent, FusionChartsModule, BsHeatmapModule, BsTimelineModule, NetworkModule, GoogleMapsModule, FinanceModule, // @sinequa/analytics
+    ]
 })
 export class AppDashboardComponent implements OnChanges {
   @Input() results: Results;

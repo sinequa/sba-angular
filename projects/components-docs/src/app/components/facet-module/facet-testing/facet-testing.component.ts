@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-testing',
-  templateUrl: './facet-testing.component.html',
-  styles: [`::ng-deep :host > sq-facet-card > .card > .card-header {
+    selector: 'doc-facet-testing',
+    templateUrl: './facet-testing.component.html',
+    styles: [`::ng-deep :host > sq-facet-card > .card > .card-header {
     background-color: #f5f6fa !important;
-  }`]
+  }`],
+    standalone: false
 })
 export class DocFacetTestingComponent extends BaseComponent {
 
