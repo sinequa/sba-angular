@@ -3,7 +3,8 @@ import { Action } from '@sinequa/components/action';
 
 @Component({
     selector: 'doc-facet',
-    templateUrl: './facet.component.html'
+    templateUrl: './facet.component.html',
+    standalone: false
 })
 export class DocFacetComponent {
 

@@ -2,9 +2,9 @@ import { Component } from "@angular/core";
 import { BaseComponent } from "src/app/shared/base.component";
 
 @Component({
-  selector: 'doc-result-duplicates',
-  templateUrl: './result-duplicates.component.html',
-  styles: [`
+    selector: 'doc-result-duplicates',
+    templateUrl: './result-duplicates.component.html',
+    styles: [`
   li.duplicate sq-result-duplicates-spacer {
     margin-right: 1em;
     --sq-v-offset: 1em;
@@ -12,7 +12,8 @@ import { BaseComponent } from "src/app/shared/base.component";
   li:has(+.duplicate) sq-result-duplicates-spacer {
     height: auto;
   }
-  `]
+  `],
+    standalone: false
 })
 export class DocResultDuplicatesComponent extends BaseComponent {
 

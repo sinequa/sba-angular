@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-result-icon',
-  templateUrl: './result-icon.component.html'
+    selector: 'doc-result-icon',
+    templateUrl: './result-icon.component.html',
+    standalone: false
 })
 export class DocResultIconComponent extends BaseComponent {
 

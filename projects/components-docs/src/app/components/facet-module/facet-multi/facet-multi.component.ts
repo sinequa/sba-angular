@@ -4,8 +4,9 @@ import { DEFAULT_FACET_COMPONENTS, FacetConfig } from '@sinequa/components/facet
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-multi',
-  templateUrl: './facet-multi.component.html'
+    selector: 'doc-facet-multi',
+    templateUrl: './facet-multi.component.html',
+    standalone: false
 })
 export class DocFacetMultiComponent extends BaseComponent {
 

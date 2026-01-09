@@ -26,6 +26,7 @@ import { NotificationsService } from "@sinequa/core/notification";
             }
         `,
     ],
+    standalone: false
 })
 export class BsEditLabel implements OnInit {
     public selectedRecordsIds: string[];

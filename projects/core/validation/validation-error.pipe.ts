@@ -6,7 +6,10 @@ import {ValidationService} from "./validation.service";
 /**
  * A pipe to display the first error in a `ValidationErrors` map.
  */
-@Pipe({name: "sqValidationError", pure: false})
+@Pipe({
+    name: "sqValidationError", pure: false,
+    standalone: false
+})
 export class ValidationErrorPipe extends AbstractIntlPipe<ValidationErrors, any> {
     private validationService: ValidationService = inject(ValidationService);
 

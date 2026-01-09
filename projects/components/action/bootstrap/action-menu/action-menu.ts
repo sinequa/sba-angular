@@ -6,7 +6,8 @@ import { ActionSize } from "../../typings";
 @Component({
     selector: "sq-action-menu",
     templateUrl: "./action-menu.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class BsActionMenu implements OnInit{
     /**

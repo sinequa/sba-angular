@@ -16,7 +16,8 @@ import { UIService } from '../ui.service';
     position: -webkit-sticky;
 }
     `],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class StickyComponent implements OnInit, AfterViewInit, OnDestroy{
     @Input("sqSticky") offsets?: {top: number, bottom: number};

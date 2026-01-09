@@ -5,9 +5,10 @@ import { Record } from "@sinequa/core/web-services";
 import { map, Observable, tap } from "rxjs";
 
 @Component({
-  selector: 'sq-result-duplicates-list',
-  templateUrl: './result-duplicates-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-result-duplicates-list',
+    templateUrl: './result-duplicates-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ResultDuplicatesListComponent implements OnChanges {
   @Input() record: Record;

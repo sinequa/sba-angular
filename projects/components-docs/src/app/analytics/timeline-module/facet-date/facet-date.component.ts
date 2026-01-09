@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-date',
-  templateUrl: './facet-date.component.html'
+    selector: 'doc-facet-date',
+    templateUrl: './facet-date.component.html',
+    standalone: false
 })
 export class DocFacetDateComponent extends BaseComponent {
 

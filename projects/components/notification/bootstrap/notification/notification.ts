@@ -16,7 +16,8 @@ export function notificationAnimations(timings: number | string): AnimationTrigg
 @Component({
     selector: "sq-notification",
     templateUrl: "./notification.html",
-    animations: notificationAnimations(".15s ease-in-out")
+    animations: notificationAnimations(".15s ease-in-out"),
+    standalone: false
 })
 export class BsNotification implements OnInit {
     @Input() notification: Notification;

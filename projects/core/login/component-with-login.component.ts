@@ -8,7 +8,8 @@ import {LoginService} from "./login.service";
  * whenever the login state changes
  */
 @Component({
-    template: ''
+    template: '',
+    standalone: false
 })
 export class ComponentWithLogin implements OnInit, OnDestroy, AfterViewInit {
     protected loginSubscription: Subscription;

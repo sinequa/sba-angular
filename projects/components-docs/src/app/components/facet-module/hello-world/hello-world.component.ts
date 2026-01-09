@@ -3,8 +3,9 @@ import { Action } from '@sinequa/components/action';
 import { AbstractFacet } from '@sinequa/components/facet';
 
 @Component({
-  selector: 'hello-world',
-  templateUrl: './hello-world.component.html'
+    selector: 'hello-world',
+    templateUrl: './hello-world.component.html',
+    standalone: false
 })
 export class HelloWorldComponent extends AbstractFacet {
 

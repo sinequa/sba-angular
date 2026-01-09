@@ -11,9 +11,9 @@ import { debounceTime, map, switchMap } from "rxjs/operators";
 
 
 @Component({
-  selector: "app-autocomplete",
-  templateUrl: './autocomplete.component.html',
-  styles: [`
+    selector: "app-autocomplete",
+    templateUrl: './autocomplete.component.html',
+    styles: [`
   .list-group-item {
     display: flex;
     align-items: center;
@@ -22,7 +22,8 @@ import { debounceTime, map, switchMap } from "rxjs/operators";
     font-size: 0.875rem;
   }
   `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AutocompleteComponent implements OnInit, OnChanges, OnDestroy {
   @Input() inputElement: HTMLInputElement;

@@ -5,8 +5,9 @@ import { environment } from 'src/environments/environment';
 import { baskets } from 'src/mocks/data/user-settings';
 
 @Component({
-  selector: 'doc-baskets-menu',
-  templateUrl: './baskets-menu.component.html'
+    selector: 'doc-baskets-menu',
+    templateUrl: './baskets-menu.component.html',
+    standalone: false
 })
 export class DocBasketsMenuComponent {
 

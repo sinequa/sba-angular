@@ -5,7 +5,8 @@ import {NotificationsService} from "@sinequa/core/notification";
 @Component({
     selector: "sq-network-activity",
     templateUrl: "./network-activity.html",
-    styleUrls: ["./network-activity.scss"]
+    styleUrls: ["./network-activity.scss"],
+    standalone: false
 })
 export class BsNetworkActivity implements OnInit, OnDestroy {
     subscription: Subscription | undefined;

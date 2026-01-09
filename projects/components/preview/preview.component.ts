@@ -23,6 +23,7 @@ export interface PreviewHighlightColors {
 
 @Component({
   selector: 'sq-preview',
+  standalone: false,
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

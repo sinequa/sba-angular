@@ -5,6 +5,7 @@ import {Basket, BasketsService, SelectBasketModel} from "../../baskets.service";
 @Component({
     selector: "sq-select-basket",
     templateUrl: "./select-basket.html",
+    standalone: false,
     styles: `
 li {
     overflow: hidden;

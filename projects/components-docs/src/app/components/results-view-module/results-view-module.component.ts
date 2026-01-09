@@ -3,8 +3,9 @@ import { DocResultsGridViewComponent } from './results-grid-view/results-grid-vi
 import { DocResultsViewSelectorComponent } from './results-view-selector/results-view-selector.component';
 
 @Component({
-  selector: 'doc-results-view-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-results-view-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocResultsViewModuleComponent {
 

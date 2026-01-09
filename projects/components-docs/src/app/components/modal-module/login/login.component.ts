@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-login',
-  templateUrl: './login.component.html'
+    selector: 'doc-login',
+    templateUrl: './login.component.html',
+    standalone: false
 })
 export class DocLoginComponent {
 

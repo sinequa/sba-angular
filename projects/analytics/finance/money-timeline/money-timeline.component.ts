@@ -24,7 +24,8 @@ export interface MoneyDatum {
 @Component({
     selector: 'sq-money-timeline',
     templateUrl: './money-timeline.component.html',
-    styleUrls: ['./money-timeline.component.scss']
+    styleUrls: ['./money-timeline.component.scss'],
+    standalone: false
 })
 export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,AfterViewInit {
     @Input() name = "money-timeline"

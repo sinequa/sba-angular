@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-feedback-menu',
-  templateUrl: './feedback-menu.component.html'
+    selector: 'doc-feedback-menu',
+    templateUrl: './feedback-menu.component.html',
+    standalone: false
 })
 export class DocFeedbackMenuComponent {
 

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'doc-help',
-  templateUrl: './help.component.html'
+    selector: 'doc-help',
+    templateUrl: './help.component.html',
+    standalone: false
 })
 export class DocHelpComponent {
 

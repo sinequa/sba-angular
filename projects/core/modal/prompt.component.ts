@@ -22,7 +22,8 @@ import { Utils } from '@sinequa/core/base';
             <button type="submit" (click)="ok()">{{'msg#modal.buttons.ok' | sqMessage}}</button>
             <button type="button" (click)="cancel()">{{'msg#modal.buttons.cancel' | sqMessage}}</button>
         </form>
-    `
+    `,
+    standalone: false
 })
 export class Prompt implements OnInit, OnDestroy {
     inputControl: UntypedFormControl;

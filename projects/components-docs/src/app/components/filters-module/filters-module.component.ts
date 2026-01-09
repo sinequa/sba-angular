@@ -4,8 +4,9 @@ import { DocFiltersViewComponent } from './filters-view/filters-view.component';
 import { DocFiltersComponent } from './filters/filters.component';
 
 @Component({
-  selector: 'doc-filters-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-filters-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocFiltersModuleComponent {
 

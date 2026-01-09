@@ -8,7 +8,8 @@ import { AuditEvent, AuditEventType, AuditWebService, LinkResult, SponsoredLinks
 @Component({
     selector: 'sq-sponsored-results',
     templateUrl: './sponsored-results.html',
-    styleUrls: ["./sponsored-results.scss"]
+    styleUrls: ["./sponsored-results.scss"],
+    standalone: false
 })
 
 /**

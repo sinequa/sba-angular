@@ -5,8 +5,9 @@ import {Subscription} from 'rxjs';
 import {SearchService} from '../../search.service';
 
 @Component({
-  selector: "sq-load-more",
-  templateUrl: "./load-more.html"
+    selector: "sq-load-more",
+    templateUrl: "./load-more.html",
+    standalone: false
 })
 export class BsLoadMore implements OnInit, OnDestroy {
   @Input() buttonsStyle = "outline-primary";

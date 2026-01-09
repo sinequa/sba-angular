@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { DateRangePickerOptions } from '@sinequa/components/advanced';
 
 @Component({
-  selector: 'doc-date-range-picker',
-  templateUrl: './date-range-picker.component.html'
+    selector: 'doc-date-range-picker',
+    templateUrl: './date-range-picker.component.html',
+    standalone: false
 })
 export class DocDateRangePickerComponent {
 

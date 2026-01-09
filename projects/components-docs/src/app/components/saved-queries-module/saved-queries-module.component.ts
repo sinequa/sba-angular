@@ -9,8 +9,9 @@ import { DocQueryExporterComponent } from './query-exporter/query-exporter.compo
 import { DocSavedQueriesMenuComponent } from './saved-queries-menu/saved-queries-menu.component';
 
 @Component({
-  selector: 'doc-saved-queries-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-saved-queries-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocSavedQueriesModuleComponent {
 

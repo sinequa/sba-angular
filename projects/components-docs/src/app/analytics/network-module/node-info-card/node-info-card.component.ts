@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Node } from '@sinequa/analytics/network';
 
 @Component({
-  selector: 'doc-node-info-card',
-  templateUrl: './node-info-card.component.html'
+    selector: 'doc-node-info-card',
+    templateUrl: './node-info-card.component.html',
+    standalone: false
 })
 export class DocNodeInfoCardComponent {
 

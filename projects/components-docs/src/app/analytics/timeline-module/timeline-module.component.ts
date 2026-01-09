@@ -5,8 +5,9 @@ import { DocTimelineLegendComponent } from './timeline-legend/timeline-legend.co
 import { DocTimelineComponent } from './timeline/timeline.component';
 
 @Component({
-  selector: 'doc-timeline-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-timeline-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocTimelineModuleComponent {
 

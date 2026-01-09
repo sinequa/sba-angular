@@ -4,7 +4,8 @@ import {AutocompleteItem, AutocompleteComponent} from "../../autocomplete.direct
 @Component({
     selector: "sq-autocomplete-list",
     templateUrl: "./autocomplete-list.html",
-    styleUrls: ["./autocomplete-list.css"]
+    styleUrls: ["./autocomplete-list.css"],
+    standalone: false
 })
 export class BsAutocompleteList implements AutocompleteComponent {
 

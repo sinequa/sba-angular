@@ -5,6 +5,7 @@ import { AppService } from '@sinequa/core/app-utils';
 @Component({
     selector: "sq-advanced-form-checkbox",
     templateUrl: "./advanced-form-checkbox.html",
+    standalone: false
 })
 export class BsAdvancedFormCheckbox implements OnChanges {
     @Input() form: UntypedFormGroup;

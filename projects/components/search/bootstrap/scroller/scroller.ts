@@ -5,27 +5,28 @@ import {SearchService} from '../../search.service';
 export type FloatStyle = "float-right" | "float-left-15" | "float-left-35";
 
 @Component({
-  selector: 'sq-scroller',
-  styleUrls: ['./scroller.scss'],
-  animations: [
-    trigger("fadeInOut", [
-      transition(":enter", [
-        style({opacity: 0}),
-        animate('1s', style({opacity: 1}))
-      ]),
-      transition(":leave", [
-        animate('0.5s', style({opacity: 0}))
-      ])
-    ])
-  ],
-  template: `
+    selector: 'sq-scroller',
+    styleUrls: ['./scroller.scss'],
+    animations: [
+        trigger("fadeInOut", [
+            transition(":enter", [
+                style({ opacity: 0 }),
+                animate('1s', style({ opacity: 1 }))
+            ]),
+            transition(":leave", [
+                animate('0.5s', style({ opacity: 0 }))
+            ])
+        ])
+    ],
+    template: `
 <div @fadeInOut *ngIf="hasMore" class="load-more-indicator" [ngClass]="position">
   <div class="arrow arrow-color bounce">
     <i class="fas fa-chevron-down fa-2x"></i>
   </div>
 </div>
 <div #anchor style="height:5px"></div>
-    `
+    `,
+    standalone: false
 })
 export class BsScroller implements AfterViewInit, OnDestroy, OnInit {
 

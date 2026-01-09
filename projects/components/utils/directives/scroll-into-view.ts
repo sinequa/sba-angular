@@ -6,7 +6,8 @@ export interface ScrollIntoViewOptions {
 }
 
 @Directive({
-    selector: "[sqScrollIntoView]"
+    selector: "[sqScrollIntoView]",
+    standalone: false
 })
 export class ScrollIntoView implements OnChanges {
     @Input("sqScrollIntoView") options: ScrollIntoViewOptions;

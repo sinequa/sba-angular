@@ -9,7 +9,10 @@ import {FormatService} from "@sinequa/core/app-utils";
  * @example
  * <span>Size:</span><span>{{ documentSize | sqMemorySize }}</span>
  */
-@Pipe({name: "sqMemorySize", pure: false})
+@Pipe({
+    name: "sqMemorySize", pure: false,
+    standalone: false
+})
 export class MemorySizePipe extends AbstractIntlPipe<number, void> {
 
     protected readonly formatService: FormatService = inject(FormatService);

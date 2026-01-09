@@ -19,6 +19,7 @@ import { LabelsService } from "./labels.service";
 
 @Directive({
     selector: "[sqAutocompleteLabels]",
+    standalone: false
 })
 export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChanges {
     /** Event synchronizing the list of selected labels in the parent component */

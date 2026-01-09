@@ -3,7 +3,8 @@ import {MODAL_MODEL, ModalRef, ConfirmOptions, ConfirmType} from "@sinequa/core/
 
 @Component({
     selector: "sq-confirm",
-    templateUrl: "./confirm.component.html"
+    templateUrl: "./confirm.component.html",
+    standalone: false
 })
 export class BsConfirm {
     @HostBinding("class.sq-confirm") true;

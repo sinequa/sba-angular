@@ -4,8 +4,9 @@ import { AppService, Query } from "@sinequa/core/app-utils";
 import { CCScope } from "@sinequa/core/web-services";
 
 @Component({
-  selector: 'sq-scope',
-  template: `<li *ngIf="scopeAction" [sq-action-item]="{item: scopeAction, autoAdjust: true}" class="list-inline-item me-2"></li>`
+    selector: 'sq-scope',
+    template: `<li *ngIf="scopeAction" [sq-action-item]="{item: scopeAction, autoAdjust: true}" class="list-inline-item me-2"></li>`,
+    standalone: false
 })
 export class BsScopeComponent implements OnChanges {
   @Input() query: Query;

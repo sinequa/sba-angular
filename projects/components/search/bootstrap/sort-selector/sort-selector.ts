@@ -9,7 +9,8 @@ import { SearchService } from "../../search.service";
 
 @Component({
     selector: "sq-sort-selector",
-    templateUrl: "./sort-selector.html"
+    templateUrl: "./sort-selector.html",
+    standalone: false
 })
 export class BsSortSelector implements OnChanges {
     @Input() results: Results;  // Needed to detect Changes

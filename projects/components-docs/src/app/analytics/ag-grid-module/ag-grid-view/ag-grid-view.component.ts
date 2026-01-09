@@ -4,8 +4,9 @@ import { mockAgGridColumns, mockAgGridDefaultColDef, mockAgGridResults } from '.
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'doc-ag-grid-view',
-  templateUrl: './ag-grid-view.component.html'
+    selector: 'doc-ag-grid-view',
+    templateUrl: './ag-grid-view.component.html',
+    standalone: false
 })
 export class DocAgGridViewComponent extends BaseComponent {
 

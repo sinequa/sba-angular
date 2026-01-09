@@ -4,7 +4,8 @@ import {ModalService, ModalResult, ModalRef} from "@sinequa/core/modal";
 
 @Component({
     selector: "sq-modal-header",
-    templateUrl: "./modal-header.component.html"
+    templateUrl: "./modal-header.component.html",
+    standalone: false
 })
 export class BsModalHeader {
     @Input() title: string;

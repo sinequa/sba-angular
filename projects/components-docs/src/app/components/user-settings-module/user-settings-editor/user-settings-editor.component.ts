@@ -5,8 +5,9 @@ import { MapOf } from '@sinequa/core/base';
 import { IntlService } from '@sinequa/core/intl/intl.service';
 
 @Component({
-  selector: 'doc-user-settings-editor',
-  templateUrl: './user-settings-editor.component.html'
+    selector: 'doc-user-settings-editor',
+    templateUrl: './user-settings-editor.component.html',
+    standalone: false
 })
 export class DocUserSettingsEditorComponent {
 

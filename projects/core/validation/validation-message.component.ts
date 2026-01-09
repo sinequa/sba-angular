@@ -8,7 +8,8 @@ import {Component, Input} from "@angular/core";
     selector: "sq-validation-message",
     template: `
         <div class="sq-validation-message">{{text | sqMessage:{values: info} }}</div>
-    `
+    `,
+    standalone: false
 })
 export class ValidationMessageComponent {
     /**

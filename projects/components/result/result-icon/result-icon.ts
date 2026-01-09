@@ -4,7 +4,8 @@ import { IconFormat, defaultFormatIcons } from "./icons";
 
 @Component({
     selector: "sq-result-icon",
-    templateUrl: "./result-icon.html"
+    templateUrl: "./result-icon.html",
+    standalone: false
 })
 export class ResultIcon implements OnChanges {
     /**

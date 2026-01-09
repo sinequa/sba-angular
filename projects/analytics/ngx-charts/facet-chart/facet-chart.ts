@@ -23,7 +23,8 @@ export interface FacetChartDataPoint extends ChartDataPoint {
     :host-context(.dark) {
         fill: var(--bs-light);
     }
-    `]
+    `],
+    standalone: false
 })
 export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, OnDestroy {
     @Input() results: Results;

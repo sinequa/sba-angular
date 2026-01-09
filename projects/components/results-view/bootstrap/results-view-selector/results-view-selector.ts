@@ -9,7 +9,8 @@ import {Subscription} from 'rxjs';
 
 @Component({
     selector: "sq-results-view-selector",
-    templateUrl: "./results-view-selector.html"
+    templateUrl: "./results-view-selector.html",
+    standalone: false
 })
 export class BsResultsViewSelector implements OnChanges, OnDestroy {
     @Input() query: Query;  // Needed to get tab, and possibly include/exclude results views

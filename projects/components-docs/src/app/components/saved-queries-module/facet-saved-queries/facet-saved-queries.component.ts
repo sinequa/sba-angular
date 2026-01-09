@@ -4,8 +4,9 @@ import { environment } from 'src/environments/environment';
 import { savedQueries } from 'src/mocks/data/user-settings';
 
 @Component({
-  selector: 'doc-facet-saved-queries',
-  templateUrl: './facet-saved-queries.component.html'
+    selector: 'doc-facet-saved-queries',
+    templateUrl: './facet-saved-queries.component.html',
+    standalone: false
 })
 export class DocFacetSavedQueriesComponent {
 

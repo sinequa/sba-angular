@@ -13,10 +13,11 @@ interface PreviewEntity {
 }
 
 @Component({
-  selector: 'sq-preview-entity-facet',
-  templateUrl: './preview-entity-facet.component.html',
-  styleUrls: ['./preview-entity-facet.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-preview-entity-facet',
+    templateUrl: './preview-entity-facet.component.html',
+    styleUrls: ['./preview-entity-facet.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class PreviewEntityFacetComponent extends AbstractFacet implements OnChanges, OnDestroy {
   @Input() entity: string;  // Required from init

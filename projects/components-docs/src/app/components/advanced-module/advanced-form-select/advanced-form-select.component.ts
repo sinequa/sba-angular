@@ -6,8 +6,9 @@ import { environment } from 'src/environments/environment';
 import { RESULTS } from 'src/mocks/data/results';
 
 @Component({
-  selector: 'doc-advanced-form-select',
-  templateUrl: './advanced-form-select.component.html'
+    selector: 'doc-advanced-form-select',
+    templateUrl: './advanced-form-select.component.html',
+    standalone: false
 })
 export class DocAdvancedFormSelectComponent implements OnInit {
 

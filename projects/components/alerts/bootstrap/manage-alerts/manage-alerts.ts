@@ -11,7 +11,8 @@ import { Alert, AlertEventType, AlertsService, ManageAlertsModel } from "../../a
 @Component({
     selector: "sq-manage-alerts",
     templateUrl: "./manage-alerts.html",
-    styleUrls: ["./manage-alerts.scss"]
+    styleUrls: ["./manage-alerts.scss"],
+    standalone: false
 })
 export class BsManageAlerts implements OnInit {
     reordering: boolean;

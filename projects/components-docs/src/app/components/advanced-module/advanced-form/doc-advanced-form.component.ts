@@ -10,7 +10,8 @@ import { RESULTS } from "src/mocks/data/results";
 
 @Component({
     selector: 'doc-advanced-form',
-    templateUrl: './doc-advanced-form.component.html'
+    templateUrl: './doc-advanced-form.component.html',
+    standalone: false
 })
 export class DocAdvancedFormComponent extends BaseComponent implements OnChanges, OnDestroy {
     @Input() query: Query;

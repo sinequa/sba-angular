@@ -69,10 +69,11 @@ export interface InitChat {
 }
 
 @Component({
-  selector: 'sq-chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'sq-chat',
+    templateUrl: './chat.component.html',
+    styleUrls: ['./chat.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ChatComponent extends AbstractFacet implements OnChanges, OnDestroy {
   @Input() chat?: InitChat;

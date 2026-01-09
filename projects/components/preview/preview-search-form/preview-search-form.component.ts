@@ -3,8 +3,8 @@ import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angul
 import { Query } from '@sinequa/core/app-utils';
 
 @Component({
-  selector: 'sq-preview-search-form',
-  template: `
+    selector: 'sq-preview-search-form',
+    template: `
 <form novalidate [formGroup]="form">
   <div class="input-group">
     <input id="search-input" type="text" placeholder="{{ 'msg#searchForm.searchFor' | sqMessage }}" formControlName="search" class="form-control" sqAutofocus>
@@ -15,6 +15,7 @@ import { Query } from '@sinequa/core/app-utils';
   </div>
 </form>
   `,
+    standalone: false
 })
 export class PreviewSearchFormComponent implements OnChanges {
   @Input() query: Query;

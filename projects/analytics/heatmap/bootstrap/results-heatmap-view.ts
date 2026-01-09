@@ -7,7 +7,8 @@ import { BsFacetHeatmapComponent } from './facet-heatmap.component';
 
 @Component({
     selector: 'sq-results-heatmap-view',
-    templateUrl: './results-heatmap-view.html'
+    templateUrl: './results-heatmap-view.html',
+    standalone: false
 })
 export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
     @Input() selectView?: string;

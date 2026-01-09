@@ -76,7 +76,8 @@ export enum AutocompleteState {
 }
 
 @Directive({
-    selector: "[sqAutocomplete]"
+    selector: "[sqAutocomplete]",
+    standalone: false
 })
 export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 

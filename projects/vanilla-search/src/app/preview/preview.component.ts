@@ -21,10 +21,11 @@ export interface EntitiesState {
 }
 
 @Component({
-  selector: 'app-preview',
-  templateUrl: './preview.component.html',
-  styleUrls: ['./preview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-preview',
+    templateUrl: './preview.component.html',
+    styleUrls: ['./preview.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class PreviewComponent implements OnDestroy {
 

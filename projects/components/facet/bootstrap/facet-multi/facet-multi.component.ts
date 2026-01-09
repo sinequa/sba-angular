@@ -19,9 +19,10 @@ declare interface FacetMultiConfig extends FacetConfig<{displayEmptyDistribution
 }
 
 @Component({
-  selector: 'sq-facet-multi',
-  templateUrl: './facet-multi.component.html',
-  styleUrls: ['./facet-multi.component.scss']
+    selector: 'sq-facet-multi',
+    templateUrl: './facet-multi.component.html',
+    styleUrls: ['./facet-multi.component.scss'],
+    standalone: false
 })
 export class BsFacetMultiComponent extends AbstractFacet implements OnChanges, OnDestroy {
 

@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-sort-selector',
-  templateUrl: './sort-selector.component.html'
+    selector: 'doc-sort-selector',
+    templateUrl: './sort-selector.component.html',
+    standalone: false
 })
 export class DocSortSelectorComponent extends BaseComponent {
 

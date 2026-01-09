@@ -3,8 +3,9 @@ import { BaseComponent } from 'src/app/shared/base.component';
 import { RESULTS } from 'src/mocks/data/results';
 
 @Component({
-  selector: 'doc-template-customization',
-  templateUrl: './template-customization.component.html'
+    selector: 'doc-template-customization',
+    templateUrl: './template-customization.component.html',
+    standalone: false
 })
 export class DocTemplateCustomizationComponent extends BaseComponent {
 

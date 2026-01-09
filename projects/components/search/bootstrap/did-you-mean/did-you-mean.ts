@@ -5,7 +5,8 @@ import {SearchService} from "../../search.service";
 @Component({
     selector: "sq-did-you-mean",
     templateUrl: "./did-you-mean.html",
-    styleUrls: ["./did-you-mean.css"]
+    styleUrls: ["./did-you-mean.css"],
+    standalone: false
 })
 export class BsDidYouMean implements OnChanges {
     @Input() results: Results;

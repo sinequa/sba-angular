@@ -23,7 +23,8 @@ pre {
     font-size: 12px;
     max-height: 50vh;
 }
-    `]
+    `],
+    standalone: false
 })
 export class DataModalComponent {
 

@@ -4,8 +4,9 @@ import { DocResultsSelectorComponent } from './results-selector/results-selector
 import { DocSelectionArrangerComponent } from './selection-arranger/selection-arranger.component';
 
 @Component({
-  selector: 'doc-selection-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-selection-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocSelectionModuleComponent {
 

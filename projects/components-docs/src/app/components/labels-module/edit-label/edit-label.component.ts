@@ -3,15 +3,16 @@ import { MODAL_MODEL } from '@sinequa/core/modal';
 import { LABELS_MODAL_MODEL } from 'src/mocks/data/labels';
 
 @Component({
-  selector: 'doc-edit-label',
-  templateUrl: './edit-label.component.html',
-  providers: [{
-    provide: MODAL_MODEL, useValue: {
-      valuesToBeAdded: [],
-      valuesToBeRemoved: [],
-      properties: LABELS_MODAL_MODEL
-    }
-  }]
+    selector: 'doc-edit-label',
+    templateUrl: './edit-label.component.html',
+    providers: [{
+            provide: MODAL_MODEL, useValue: {
+                valuesToBeAdded: [],
+                valuesToBeRemoved: [],
+                properties: LABELS_MODAL_MODEL
+            }
+        }],
+    standalone: false
 })
 export class DocEditLabelComponent {
 

@@ -11,7 +11,8 @@ import { Action } from "@sinequa/components/action";
  */
 @Component({
     selector: 'sq-result-baskets',
-    templateUrl: './result-baskets.html'
+    templateUrl: './result-baskets.html',
+    standalone: false
 })
 export class BsResultBaskets implements OnChanges, OnDestroy {
     @Input() record: Record;

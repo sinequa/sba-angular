@@ -3,8 +3,9 @@ import { ActionButtonsOptions } from '@sinequa/components/action';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-action-buttons',
-  templateUrl: './action-buttons.component.html'
+    selector: 'doc-action-buttons',
+    templateUrl: './action-buttons.component.html',
+    standalone: false
 })
 export class DocActionButtonsComponent extends BaseComponent {
 

@@ -18,9 +18,10 @@ import FusionChartInstance from './interfaces/FusionChartInstance';
 import EventsList from './events/events';
 
 @Directive({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'fusioncharts',
-  providers: [FusionChartsService]
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'fusioncharts',
+    providers: [FusionChartsService],
+    standalone: false
 })
 export class FusionChartsDirective implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   chartObj: any;

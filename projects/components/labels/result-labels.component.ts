@@ -3,7 +3,8 @@ import {Record} from "@sinequa/core/web-services";
 
 @Component({
     selector: "sq-result-labels",
-    templateUrl: "./result-labels.component.html"
+    templateUrl: "./result-labels.component.html",
+    standalone: false
 })
 export class ResultLabels {
     @Input() record: Record;

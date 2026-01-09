@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'doc-component-demo',
-  templateUrl: './component-demo.component.html',
-  styles: [`:host {
+    selector: 'doc-component-demo',
+    templateUrl: './component-demo.component.html',
+    styles: [`:host {
     display: block;
     margin-top: 1rem;
     margin-bottom: 1rem;
-  }`]
+  }`],
+    standalone: false
 })
 export class DocComponentDemoComponent {
 

@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { ValueItem } from '@sinequa/core/app-utils';
 
 @Component({
-  selector: 'doc-select',
-  templateUrl: './select.component.html'
+    selector: 'doc-select',
+    templateUrl: './select.component.html',
+    standalone: false
 })
 export class DocSelectComponent {
 

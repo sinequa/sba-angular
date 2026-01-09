@@ -4,8 +4,9 @@ import { DocPassageListComponent } from './passage-list/passage-list.component';
 import { DocTopPassagesComponent } from './top-passages/top-passages.component';
 
 @Component({
-  selector: 'doc-machine-learning-module',
-  templateUrl: '../../module-template.html'
+    selector: 'doc-machine-learning-module',
+    templateUrl: '../../module-template.html',
+    standalone: false
 })
 export class DocMachineLearningModuleComponent {
 

@@ -14,6 +14,7 @@ import { AppService, ValueItem } from '@sinequa/core/app-utils';
     selector: "sq-advanced-form-multi-input",
     templateUrl: "./advanced-form-multi-input.html",
     styleUrls: ["./advanced-form-multi-input.scss"],
+    standalone: false
 })
 export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
     @Input() form: UntypedFormGroup;

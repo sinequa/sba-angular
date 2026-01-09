@@ -8,7 +8,8 @@ import { AuditEventType, Record } from "@sinequa/core/web-services";
     selector: "sq-result-source",
     templateUrl: "./result-source.html",
     styleUrls: ["./result-source.scss"],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ResultSource {
     @Input() record: Record;

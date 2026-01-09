@@ -9,6 +9,7 @@ import {FirstPageService} from "@sinequa/components/search";
 @Component({
     selector: "sq-advanced-form-select",
     templateUrl: "./advanced-form-select.html",
+    standalone: false
 })
 export class BsAdvancedFormSelect implements OnInit, OnDestroy {
     @Input() form: UntypedFormGroup;

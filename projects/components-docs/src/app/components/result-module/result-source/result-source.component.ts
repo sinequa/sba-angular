@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-result-source',
-  templateUrl: './result-source.component.html'
+    selector: 'doc-result-source',
+    templateUrl: './result-source.component.html',
+    standalone: false
 })
 export class DocResultSourceComponent extends BaseComponent {
 

@@ -8,7 +8,8 @@ import { APP_HELP_FOLDER_OPTIONS, BsUserMenuComponent, HelpFolderOptions } from 
 @Component({
     selector: 'sq-help-button',
     templateUrl: './help-button.component.html',
-    styleUrls: ['./help-button.component.scss']
+    styleUrls: ['./help-button.component.scss'],
+    standalone: false
 })
 export class BsHelpButtonComponent {
 

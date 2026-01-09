@@ -5,7 +5,8 @@ import { FocusKeyListItemDirective } from "./focus-key-list-item.directive";
 import { Utils } from "@sinequa/core/base";
 
 @Directive({
-    selector: "[sqFocusKeyList]"
+    selector: "[sqFocusKeyList]",
+    standalone: false
 })
 export class FocusKeyListDirective implements OnChanges, AfterContentInit {
     @Input() activeItem = -1;

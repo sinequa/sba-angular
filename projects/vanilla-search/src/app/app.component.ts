@@ -13,7 +13,8 @@ import { PreviewHighlightColors } from "@sinequa/components/preview";
 
 @Component({
     selector: "app",
-    templateUrl: "./app.component.html"
+    templateUrl: "./app.component.html",
+    standalone: false
 })
 export class AppComponent extends ComponentWithLogin {
 

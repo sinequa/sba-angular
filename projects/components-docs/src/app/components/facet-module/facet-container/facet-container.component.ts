@@ -5,8 +5,9 @@ import { Query } from '@sinequa/core/app-utils';
 import { BaseComponent } from 'src/app/shared/base.component';
 
 @Component({
-  selector: 'doc-facet-container',
-  templateUrl: './facet-container.component.html'
+    selector: 'doc-facet-container',
+    templateUrl: './facet-container.component.html',
+    standalone: false
 })
 export class DocFacetContainerComponent extends BaseComponent {
 
