@@ -87,7 +87,7 @@
     "timsort": "^0.3.0",
     "tslib": "^2.3.1",
     "uuid": "8.3.2",
-    "vis-data": "^7.1.5",
+    "vis-data": "^8.0.3",
     "vis-network": "9.1.2",
     "vis-timeline": "7.7.0",
     "vis-util": "5.0.3",
