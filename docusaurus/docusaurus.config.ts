@@ -27,7 +27,6 @@ const config: Config = {
   deploymentBranch: 'gh-pages',
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
 
   trailingSlash: false,
 
@@ -46,6 +45,9 @@ const config: Config = {
       comments: false,
       admonitions: false,
       headingIds: false
+    },
+    hooks: {
+      onBrokenMarkdownLinks: 'warn'
     }
   },
 
