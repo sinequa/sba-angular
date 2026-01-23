@@ -1,0 +1,25 @@
+/**********************************************
+  Dropdown button
+***********************************************/
+.dropdown-toggle {
+
+  &.is-valid,
+  &.is-invalid {
+    padding-right: 1.5rem;
+    background-image: none;
+  }
+
+  &.is-valid,
+  &.is-valid:hover {
+    border: $dropdown-border-width solid #{$success-1};
+  }
+
+  &.is-invalid,
+  &.is-invalid:hover {
+    border: $dropdown-border-width solid #{$error-1};
+  }
+}
+
+.dropdown-menu {
+  --bs-dropdown-bg: #{$white};
+}

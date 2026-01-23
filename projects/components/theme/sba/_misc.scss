@@ -1,0 +1,51 @@
+// large screens (> sm)
+@include media-breakpoint-up(sm) {
+
+  .sq-home-facet-bar {
+    min-height: 287px;
+  }
+
+  .card {
+    box-shadow: 0 5px 7px rgba(0, 0, 0, .08);
+  }
+}
+
+/** sinequa theme **/
+
+
+
+/**
+Footer action buttons
+*/
+sq-results-selector .btn {
+  --bs-btn-padding-x: 0.5rem !important;
+  --bs-btn-padding-y: 0.25rem !important;
+}
+
+.sq-dropdown-menu,
+.sq-scroll-menu {
+  &.dropdown-menu {
+
+    .dropdown-item {
+      &.link {
+        color: #{$blue-500};
+        font-weight: 600;
+      }
+
+      &.delete {
+        color: #{$error-1};
+        font-weight: 600;
+      }
+    }
+
+    .dropdown-item span,
+    .sq-action-item-icon {
+      margin-right: 0.4rem !important;
+    }
+
+    /* nested menu */
+    .dropdown-menu {
+      box-shadow: none;
+    }
+  }
+}

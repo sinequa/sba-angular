@@ -1,0 +1,23 @@
+.advanced-search {
+    margin-top: .5rem;
+    padding: .5rem 1rem .5rem .5rem;
+    border: 0;
+    box-shadow: 0px 4px 9px 0px rgba(0,0,0,.08);
+
+    .card-header {
+        border-width: 0;
+        background-color: transparent;
+        color: #{$blue};
+        font-weight: 600;
+        font-size: 1.15rem;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    sq-advanced-form-multi-input {
+        margin-bottom: 1rem;
+    }
+}

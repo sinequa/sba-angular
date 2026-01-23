@@ -1,0 +1,11 @@
+sq-preview-extracts-panel {
+    .list-group-item {
+        &:active {
+            background-color: $blue-focus;
+        }
+
+        &.active {
+            background-color: $blue-selection;
+        }
+    }
+}
