@@ -16,8 +16,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@docusaurus/core": "3.8.1",
-    "@docusaurus/preset-classic": "3.8.1",
+    "@docusaurus/core": "3.9.2",
+    "@docusaurus/preset-classic": "3.9.2",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.1.1",
     "docusaurus-lunr-search": "^3.6.0",
@@ -26,17 +26,14 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.8.1",
+    "@docusaurus/module-type-aliases": "3.9.2",
     "@docusaurus/tsconfig": "3.0.0",
-    "@docusaurus/types": "3.8.1",
+    "@docusaurus/types": "3.9.2",
     "@types/react": "^18.2.29",
     "typescript": "^5.2.2"
   },
   "overrides": {
-    "path-to-regexp@>= 0.2.0 < 1.9.0": "1.9.0",
-    "path-to-regexp@< 0.1.10": "0.1.10",
-    "path-to-regexp@>= 2.0.0 < 3.3.0": "3.3.0",
-    "webpack-dev-server": "5.2.1"
+    "minimatch": "3.1.4"
   },
   "browserslist": {
     "production": [
@@ -51,6 +48,6 @@
     ]
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   }
 }
