@@ -33,10 +33,7 @@
     "typescript": "^5.2.2"
   },
   "overrides": {
-    "path-to-regexp@>= 0.2.0 < 1.9.0": "1.9.0",
-    "path-to-regexp@< 0.1.10": "0.1.10",
-    "path-to-regexp@>= 2.0.0 < 3.3.0": "3.3.0",
-    "webpack-dev-server": "5.2.1"
+    "minimatch": "3.1.4"
   },
   "browserslist": {
     "production": [
@@ -51,6 +48,6 @@
     ]
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   }
 }
