@@ -52,7 +52,7 @@
     "@microsoft/teams-js": "^2.29.0",
     "@popperjs/core": "^2.10.2",
     "@swimlane/ngx-charts": "^20.1.0",
-    "ag-grid-angular": "^32.1.0",
+    "ag-grid-angular": "^35.1.0",
     "ag-grid-community": "^32.1.0",
     "angular-gridster2": "^20.1.0",
     "atomicjs": "^4.4.1",
