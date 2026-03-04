@@ -95,10 +95,7 @@
     "zone.js": "~0.15.1"
   },
   "overrides": {
-    "dompurify": "3.2.4",
-    "canvg": ">=4.0.3",
-    "jspdf": ">=3.0.2",
-    "tmp": ">=0.2.4"
+    "serialize-javascript": "^7.0.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.3.13",
