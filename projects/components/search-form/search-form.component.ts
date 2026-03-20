@@ -255,7 +255,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
    */
   onInputChange() {
     if (this.searchControl.value) {
-      const result = ExprParser.parse(this.searchControl.value, { appService: this.appService, formatService: this.formatService, intlService: this.intlService });
+      const result = ExprParser.parse(this.searchControl.value, { appService: this.appService, formatService: this.formatService, intlService: this.intlService }, { enabledFieldedSearch: false });
       const event = result instanceof Expr ? { result: result } : { error: result };
       this.searchControl.setErrors(event.error ? { incorrect: true } : null);
     }
