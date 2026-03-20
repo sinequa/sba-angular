@@ -95,7 +95,7 @@
     "zone.js": "~0.15.1"
   },
   "overrides": {
-    "dompurify": "3.2.4",
+    "dompurify": "3.3.2",
     "canvg": ">=4.0.3",
     "jspdf": ">=3.0.2",
     "tmp": ">=0.2.4"
