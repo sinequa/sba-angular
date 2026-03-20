@@ -13,7 +13,7 @@
                 <i class="sq-filter-clear text-muted ms-2"></i>
             </a>
             <span
-                *ngIf="showCount"
+              *ngIf="showCount && facet?.parameters?.showCount"
                 class="mx-2 text-muted small"
                 title="{{ 'msg#facet.filterItemCountTooltip' | sqMessage:{ values: { count: facet.$count + (facet.$hasMore? '+' : '') } } }}"
             >

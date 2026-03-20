@@ -354,15 +354,32 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
 
     protected compareItems(a: AggregationItem, b: AggregationItem) {
         // If the aggregation is a tree, we must compare paths, as "value" has a the value for a single node
-        if(this.data?.isTree) {
-            return (a as TreeAggregationNode).$path === (b as TreeAggregationNode).$path;
+        if (this.data?.isTree) {
+            return (
+                (a as TreeAggregationNode).$path === (b as TreeAggregationNode).$path
+            );
         }
-        if(a.value === b.value) {
+        if (a.value === b.value) {
             return true;
         }
-        return a.display === b.display;
+        // Fallback comparison on display value only if values are different and "display" exists
+        if (a.display && b.display) {
+            return a.display === b.display;
+        }
+        return false;
     }
 
+    /**
+     * Finds and removes an item from the given array of aggregation items.
+     *
+     * @param items - The array of aggregation items to search through
+     * @param item - The aggregation item to find and remove
+     * @returns `true` if the item was found and removed, `false` otherwise
+     *
+     * @remarks
+     * This method uses `compareItems()` to determine item equality and modifies
+     * the input array by removing the first matching item if found.
+     */
     protected findAndSplice(items: AggregationItem[], item: AggregationItem) {
         const index = items.findIndex(i => this.compareItems(i, item));
         if(index !== -1) {
