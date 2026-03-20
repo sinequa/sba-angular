@@ -22,17 +22,13 @@ export class FeedbackService {
         ) {
     }
 
-    private sanitizeInput(value: string): string {
-        return value.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
     public sendUserFeedback(type: string, message: string, thankUser: boolean){
         const event : AuditEvent = {
             type: AuditFeedbackType,
             detail: {
                 app: this.appService.appName,
                 message: type,
-                detail: this.sanitizeInput(message)
+                detail: message
             }
         };
         Utils.subscribe(this.auditService.notify([event]),
