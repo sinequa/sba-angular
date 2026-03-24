@@ -216,7 +216,12 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
      */
     filterItem(item: AggregationItem, event?: Event) {
         if (!item.$filtered) {
-            this.addFilter(item);
+            const currentFiltered = this.data?.$filtered ?? [];
+            if (currentFiltered.length > 0) {
+                this.addFilter([...currentFiltered, item], {replaceCurrent: true});
+            } else {
+                this.addFilter(item);
+            }
         }
         else {
             this.removeFilter(item);
@@ -227,7 +232,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
 
     addFilter(item: AggregationItem|AggregationItem[], options: AddFilterOptions = {}) {
         if(this.data) {
-            options.replaceCurrent = this.replaceCurrent;
+            options.replaceCurrent ??= this.replaceCurrent;
             if(!this.allowOr && this.allowAnd) {
               options.and = true; // The default mode is OR, unless explicitly forbidden
             }

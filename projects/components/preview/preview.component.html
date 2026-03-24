@@ -14,14 +14,12 @@
   #preview
   [src]="safeUrl"
   sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"
-  [style.--sq-scale]="scale"
   (load)="onLoad()">
 </iframe>
 <ng-template #noSandbox>
   <iframe *ngIf="safeUrl" class="position-absolute top-0"
     #preview
     [src]="safeUrl"
-    [style.--sq-scale]="scale"
     (load)="onLoad()">
   </iframe>
 </ng-template>
