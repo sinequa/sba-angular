@@ -178,6 +178,10 @@ document.addEventListener('DOMContentLoaded', function () {
         zoomFit();
         break;
 
+      case 'zoom':
+        zoom(data.factor);
+        break;
+
       case 'toggle-description':
         // if data.show is true, show the description
         // just set a new value to the css variable --desc-display
