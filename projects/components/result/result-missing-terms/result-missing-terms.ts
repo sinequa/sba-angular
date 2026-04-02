@@ -30,10 +30,15 @@ export class ResultMissingTerms implements OnChanges {
 
     mustInclude(term: string) {
         const query = this.query || this.searchService.query;
+        // Strip surrounding brackets if the term uses adjacent syntax (e.g. "[exit code]" → "exit code")
+        const bracketMatch = term.match(/^\[(.+)\]$/);
+        const cleanTerm = bracketMatch ? bracketMatch[1] : term;
         if(query.text) {
-            query.text = query.text.replace(new RegExp(`\\b${term}\\b`, 'gi'), "");
+            // Escape special regex characters to avoid regex injection (e.g. brackets becoming character classes)
+            const escapedTerm = cleanTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            query.text = query.text.replace(new RegExp(`\\b${escapedTerm}\\b`, 'gi'), "");
         }
-        query.addConcepts([term], '+');
+        query.addConcepts([cleanTerm], '+');
         if(this.searchService.isSearchRouteActive() && query === this.searchService.query) {
             this.searchService.search();
         }
