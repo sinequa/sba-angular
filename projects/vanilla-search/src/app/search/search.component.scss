@@ -118,3 +118,11 @@
 ::ng-deep .cdk-virtual-scroll-content-wrapper {
     width: 100%;
 }
+
+/** Isolate the result list scroll from the window scroll **/
+.result-col {
+    height: calc(100vh - 120px);
+    position: sticky;
+    top: 105px;
+    align-self: flex-start;
+}

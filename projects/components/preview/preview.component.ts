@@ -129,6 +129,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       title: "msg#preview.minimize",
       action: () => {
         this.scale -= this.scaleIncrement;
+        this.sendMessage({ action: 'zoom', factor: this.scale });
         this.updateActions();
         this.cdRef.detectChanges();
         this.onResize();
@@ -141,6 +142,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       title: "msg#preview.maximize",
       action: () => {
         this.scale += this.scaleIncrement;
+        this.sendMessage({ action: 'zoom', factor: this.scale });
         this.updateActions();
         this.cdRef.detectChanges();
         this.onResize();
@@ -257,6 +259,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   onReady() {
     const highlights = this.getHighlights();
     this.sendMessage({ action: 'init', highlights });
+    this.sendMessage({ action: 'zoom', factor: this.scale });
     this.highlights$.next(this.highlightsPref);
     this.updateActions();
     this.loading = false;
