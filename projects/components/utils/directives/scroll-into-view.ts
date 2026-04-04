@@ -1,4 +1,4 @@
-import {Directive, Input, OnChanges, ElementRef} from "@angular/core";
+import {Directive, Input, OnChanges, SimpleChanges, ElementRef} from "@angular/core";
 
 export interface ScrollIntoViewOptions {
     active: boolean;
@@ -16,14 +16,10 @@ export class ScrollIntoView implements OnChanges {
         private elementRef: ElementRef) {
     }
 
-    ngOnChanges() {
-        if (this.options.active) {
-            if (this.options.first) {
-                this.elementRef.nativeElement.scrollIntoView(false);
-            }
-            else {
-                this.elementRef.nativeElement.scrollIntoViewIfNeeded(false);
-            }
+    ngOnChanges(changes: SimpleChanges) {
+        const change = changes['sqScrollIntoView'];
+        if (change && this.options.active && !change.previousValue?.active) {
+            this.elementRef.nativeElement.scrollIntoView({ block: 'nearest', inline: 'nearest' });
         }
     }
 }
