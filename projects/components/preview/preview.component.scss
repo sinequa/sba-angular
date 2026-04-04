@@ -9,8 +9,6 @@
 }
 
 iframe {
-  height: calc(100% / var(--sq-scale));
-  width: calc(100% / var(--sq-scale));
-  transform: scale(var(--sq-scale));
-  transform-origin: 0 0;
+  height: 100%;
+  width: 100%;
 }
