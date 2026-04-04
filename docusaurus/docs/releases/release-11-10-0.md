@@ -1,13 +1,17 @@
 ---
 layout: default
 title: 11.10.0
-sidebar_position: 99
+sidebar_position: 98
 parent: Releases
 ---
 
 [See on Github](https://github.com/sinequa/sba-angular/releases/tag/11.10.0)
 
-# General changes
+## General changes
+
+| Version | Release Date |
+|---------|-------------|
+| [11.10.1](./release-11-10-1)  | 2025-06      |
 
 :::warning[Platform breaking changes]
 
@@ -79,7 +83,6 @@ This release introduces end-to-end (e2e) tests for the SBA components. These tes
 - The Query web service `Results` object is more accurately typed and was updated to match the latest platform changes (especially around the Neural Search data structures).
 - The download service now allows specifying a file name for the downloaded file (rather than the default one sent by the server).
 
-
 ### Login
 
 - ⚠️ Removed support for login in a popup window using `ng2-ui-auth` (unmaintained library).
@@ -99,14 +102,12 @@ This release introduces end-to-end (e2e) tests for the SBA components. These tes
 
 ### Miscellaneous
 
-- Fixed the escaping of html elements passed to formatjs (https://github.com/sinequa/sba-angular/issues/108).
+- Fixed the escaping of html elements passed to formatjs (<https://github.com/sinequa/sba-angular/issues/108>).
 - `IntlService.formatRelativeTime()` now behaves consistently whether given a string/Date (delay relative to now) or a number (delay) and always auto-determines the display unit (min, hour, day, week, etc.).
-
 
 ## Components
 
 *All components that apply filters to the `Query` have been migrated to the new filter syntax (see above)*
-
 
 ### Autocomplete module
 
@@ -116,14 +117,11 @@ This release introduces end-to-end (e2e) tests for the SBA components. These tes
   - Deduplication, highlighting and scoring of suggest results.
   - Better protection against HTML injection in the suggest results.
 
-
 ### Collapse module
 
 - ⚠️ Removed `sq-collapse-link` (unused and redundant with `sq-collapse-button`).
 
-
 ### Facet module
-
 
 - ⚠️ Major refactoring of the `sq-facet-list` component:
 
@@ -152,21 +150,18 @@ This release introduces end-to-end (e2e) tests for the SBA components. These tes
 - Refactoring of the `sq-facet-filters` component to properly display the actions and custom templates of the facet components in the dropdown panels.
 
 - Facet card:
-  - Handle the "click outside" event more efficiently (see: https://github.com/sinequa/sba-angular/issues/106).
+  - Handle the "click outside" event more efficiently (see: <https://github.com/sinequa/sba-angular/issues/106>).
   - New inputs to control the actions' tooltip placement (`defaultTooltipPlacement` and `defaultTooltipFallbackPlacements`).
-
 
 ### New Filters module
 
 This new module is documented in the [Components library](../libraries/components/filters.md). It allows displaying and editing the filters of a `Query` object. The component is meant to replace the `sq-facet-mysearch` and `sq-breadcrumbs` components.
-
 
 ### Machine Learning module
 
 - New `sq-chat` component and `ChatService` service to display a chatbot interface. This component allows to chat with a Large Language Model such as GPT-4 (the model powering ChatGPT). This component is documented in the [Machine Learning library](../libraries/components/machine-learning#chat).
 
 - Refactored the `sq-top-passages` component: No more pagination, passage truncation or custom facet card header. The text of the answer (predicted by the answer finder model is highlighted within the text of the passage). The component also auto-hides if no passages are found.
-
 
 ### Metadata module
 
@@ -175,6 +170,7 @@ This new module is documented in the [Components library](../libraries/component
 - Removal of the `sq-metadata-access-list` component (unused).
 - Redesign of the `sq-metadata` and `sq-metadata-item` components. Metadata is now displayed according to a configuration (incl. icon, label, filterable, etc.), similar to how the facets and facet containers work. The components are documented in the [Metadata library](../libraries/components/metadata.md).
 - New `HighlightService` whose role is to dynamically generate CSS styles to highlight entities in text, based on a given configuration. This service allows to decouple the preview CSS (which used to contain highlight colors for entities) from the main application, which may or may not want to highlight entities or other metadata dependending on the context. In the context of the metadata module, this service allows to apply highlighting in the "entity tooltip" that displays an extract from a document featuring the entity (see the documentation for more information).
+
 :::
 
 ### Preview module
@@ -193,6 +189,7 @@ This new module is documented in the [Components library](../libraries/component
 - The preview highlights (colors of the entities) are now generated dynamically based on configuration passed to the `sq-preview` component. This allows adding or removing entity highlights without having to recompile the application (simply by adding your custom configuration in the "Customization JSON" object of your application). This is again illustrated by default in Vanilla Search.
 
 - Note: This refactoring allows the preview to be used in CORS contexts (eg. when the application is served from a different domain as the Sinequa WebApp).
+
 :::
 
 ### Result module
@@ -213,7 +210,6 @@ This new module is documented in the [Components library](../libraries/component
 - Added internationalization of the treepath items in `sq-result-source`.
 - The `sq-result-thumbnail` component does NOT wrap the thumbnail in a link anymore if either `linkBehavior` is false or if the URL of the document is empty.
 
-
 ### New Search-Form module
 
 New module exporting a customizable `sq-search-form` component.
@@ -223,7 +219,6 @@ This component is used in a simple way in [Vanilla Search](../apps/vanilla-searc
 It is also used in Pepper to display an integrated search form (featuring filters, facets and autocomplete).
 
 This module is documented in the [Components library](../libraries/components/search-form).
-
 
 ### Search module
 
@@ -260,7 +255,6 @@ Major refactoring of the Sinequa theme that was introduced in the 11.9.0 release
 - The `UIService` now handles whether the dark theme is on or off.
 - New `sq-virtual-scroller` component that allows an infinite scroll behavior on a long list of data (e.g. the extracts of the preview).
 
-
 ## Analytics
 
 *All components that apply filters to the `Query` have been migrated to the new filter syntax (see above)*
@@ -279,9 +273,9 @@ The heatmap component properly handles filtering and formatting of the data (ent
 - The `sq-facet-timeline` component now handles timelines computed with hour or minute granularity (`MASK` parameter).
 - The `sq-timeline` component now handles data points with a `displayedDate` property. This property allows to show on the same chart 2 timeseries from a different time range plotted against each other. This allows for example to compare the evolution of a metric for a year vs. the same metric for the previous year. The timeline tooltip displays the date information accordingly.
 
-# Application updates
+## Application updates
 
-## Vanilla Search
+### Vanilla Search
 
 - Removed the logging of audit events from the AppComponent (now handled by the core library).
 
@@ -306,8 +300,7 @@ The heatmap component properly handles filtering and formatting of the data (ent
   - Improved list of extracts (now displayed in a virtual scroller).
   - Improved list of entities and query matches (with a refreshed look & feel and auto storage of highlight preferences).
 
-
-## Pepper
+### Pepper
 
 - Removed the logging of audit events from the AppComponent (now handled by the core library).
 
@@ -331,7 +324,6 @@ The heatmap component properly handles filtering and formatting of the data (ent
 
 - Only one dashboard can be saved in the user settings (as opposed to a list of named dashboards)
 
-
 ## LLM Integration
 
 The new `sq-chat` component (see above) allows to interact with a Large Language Model (LLM). This component was integrated in a custom version of Vanilla Search currently available on a separate branch of the repository (`chatgpt-integration`). On top of the chat itself, an "assistant" component acts as an interface between the Search interface and the chat (to perform Retrieval Augmented Generation). This application is documented in the [LLM integration documentation](../apps/llm-integration).
@@ -353,7 +345,7 @@ Note that the data used by this application can be either real data from a Sineq
 - Empty timeline-typed widgets are now displaying *no data to display* message.
 - Added native plot of multiple time series from different queries in timeline-typed widgets.
 - Changed the display of tooltips in timeline-typed widgets in order to fit the case of multiple time series charts.
-- Added a toggle button to timeline-typed widgets to display time series of the preceding period. 
+- Added a toggle button to timeline-typed widgets to display time series of the preceding period.
 - Enabled *Rename dashboard" action in the dashboard toolbar.
 - Fixed log errors when trying to switch from Chart to Grid view.
 - Added a custom configuration to the column *timestamp*, in the default query configuration so that it will be automatically well-formatted.
@@ -365,7 +357,7 @@ Note that the data used by this application can be either real data from a Sineq
 - Refreshed look & feel, based on the new Sinequa Theme (see above).
 - Added link to a new *Help page*, including detailed informations and explanations of the overall context of the application.
 - *Help page* and *feedback* buttons could be displayed or not, depending on the respective JSON configuration properties `enableHelpPageLink` and `enableUserFeedbackMenu`.
-- Grid rows are now selectable (with a checkbox) and the selection is handled by `onGridSelectionChanged()` in the `dashboard-item.component.ts`. 
+- Grid rows are now selectable (with a checkbox) and the selection is handled by `onGridSelectionChanged()` in the `dashboard-item.component.ts`.
 
 ## Vanilla Builder
 

@@ -1,12 +1,15 @@
 import { Injectable, InjectionToken } from "@angular/core";
-import { HttpService } from "./http.service";
+import { HttpTransportType, HubConnection, HubConnectionBuilder, ITransport, LogLevel, MessageHeaders } from '@microsoft/signalr';
+
 import { Utils } from "@sinequa/core/base";
-import { HubConnectionBuilder, LogLevel, HubConnection, MessageHeaders, HttpTransportType, ITransport } from '@microsoft/signalr';
+
+import { HttpService } from "./http.service";
 
 export interface ConnectionOptions {
   withCredentials?: boolean; // if true, the browser automatically includes the authentication cookie in the request headers when establishing the SignalR connection
   headers?: MessageHeaders;
   transport?: HttpTransportType | ITransport; // If transports are provided, use them; otherwise, let SignalR negotiate
+  skipNegotiation?: boolean;
   accessTokenFactory?: () => string | Promise<string>;
 }
 

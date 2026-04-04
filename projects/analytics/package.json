@@ -5,7 +5,7 @@
   "peerDependencies": {
     "@googlemaps/js-api-loader": "^1.14.3",
     "@swimlane/ngx-charts": "^20.1.0",
-    "fusioncharts": "3.15.1-sr.1",
+    "fusioncharts": "3.23.0",
     "vis-network": "9.1.2",
     "vis-timeline": "7.7.0",
     "vis-data": "7.1.5",

@@ -256,23 +256,22 @@ export class BsMySearch extends AbstractFacet implements FacetMySearchParams, On
     }
 
     removeItem(item) {
-        // this.searchService.removeBreadcrumbsItem(item);
         const index = this.items.indexOf(item);
-        if (index === -1) return
-        if (index === 0) {
+        if (index === -1) return;
+        if (index === 0 && !this.ignoreText) {
             // query text
             this.searchService.query.text = "";
-        }
-        if (index > 0) {
+        } else {
             if (item.select) {
-                this.searchService.query.select?.findIndex(s => s.expression === item.select?.expression);
-                this.searchService.query.select?.splice(index - 1, 1);
+                const selectIndex = this.searchService.query.select?.findIndex(s => s.expression === item.select?.expression) ?? -1;
+                if (selectIndex !== -1) {
+                    this.searchService.query.select?.splice(selectIndex, 1);
+                }
             }
             if (item.filter) {
                 this.searchService.query.removeFilters(f => f === item.filter);
             }
         }
-        console.log("remove filter index", index);
         this.searchService.search();
     }
 

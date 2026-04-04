@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { AppService, Query } from "@sinequa/core/app-utils";
 import { Filter, ExprFilter, ValueFilter, NullFilter, InFilter, BetweenFilter, isExprFilter, CCColumn } from "@sinequa/core/web-services";
+import { SearchService } from "@sinequa/components/search";
 
 @Component({
   selector: 'sq-filters',
@@ -31,6 +32,8 @@ export class FiltersComponent implements OnChanges {
   field?: string;
   column?: CCColumn;
   operator?: string;
+
+  searchService = inject(SearchService);
 
   constructor(
     public appService: AppService
@@ -83,6 +86,7 @@ export class FiltersComponent implements OnChanges {
   remove() {
     this.query.removeFilters(f => f === this.filter);
     this.filterEdit.emit(this.query);
+    this.searchService.search();
   }
 
   nestFilter() {

@@ -25,7 +25,10 @@ export interface PreviewHighlightColors {
   selector: 'sq-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'position-relative'
+  }
 })
 export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
@@ -86,6 +89,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   zoomOutAction: Action;
   toggleEntitiesAction: Action;
   toggleExtractsAction: Action;
+  toggleDescriptionAction: Action;
   pdfDownloadAction: Action;
 
   _actions: Action[];
@@ -124,6 +128,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       title: "msg#preview.minimize",
       action: () => {
         this.scale -= this.scaleIncrement;
+        this.sendMessage({ action: 'zoom', factor: this.scale });
         this.updateActions();
         this.cdRef.detectChanges();
         this.onResize();
@@ -136,6 +141,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       title: "msg#preview.maximize",
       action: () => {
         this.scale += this.scaleIncrement;
+        this.sendMessage({ action: 'zoom', factor: this.scale });
         this.updateActions();
         this.cdRef.detectChanges();
         this.onResize();
@@ -155,6 +161,16 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       title: "msg#preview.toggleExtracts",
       action: (action) => this.toggleExtracts(!action.selected),
       updater: action => action.selected = this.extracts.some(e => this.highlightsPref.includes(e))
+    });
+
+    this.toggleDescriptionAction = new Action({
+      icon: "fas fa-fw fa-wand-magic-sparkles",
+      title: "msg#preview.toggleDescription",
+      action: (action) => {
+        this.sendMessage({ action: 'toggle-description', show: !action.selected });
+        action.selected = !action.selected;
+      },
+      updater: action => action.selected = false // Default to false, will be updated by the preview
     });
 
     this.pdfDownloadAction = new Action({
@@ -185,6 +201,7 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
         }
         this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
         this.previewFrames.subscribe(this.url, 'ready', () => this.onReady());
+        this.previewFrames.subscribe<{current: number, total: number}>(this.url, 'page-info', (info) => this.onPageInfo(info));
         this.cdRef.detectChanges();
       });
     }
@@ -209,10 +226,21 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
   onReady() {
     const highlights = this.getHighlights();
     this.sendMessage({ action: 'init', highlights });
+    this.sendMessage({ action: 'zoom', factor: this.scale });
     this.highlights$.next(this.highlightsPref);
     this.updateActions();
     this.loading = false;
     this.ready.emit();
+    this.cdRef.detectChanges();
+  }
+
+  totalPages: number = 0;
+  currentPage: number = 0;
+  onPageInfo({current, total}: {current: number, total: number}) {
+    // Handle page info updates
+    this.totalPages = total ?? 1;
+    this.currentPage = current ?? 1;
+    console.log(`Preview page info: ${this.currentPage}/${this.totalPages}`);
     this.cdRef.detectChanges();
   }
 
@@ -245,6 +273,10 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
       }
       if (this.highlightActions) {
         this._actions.push(this.toggleExtractsAction, this.toggleEntitiesAction);
+      }
+      // Add the toggle description action only if the record has the "ps" flag
+      if(this.data?.record.flags?.includes("ps")) {
+        this._actions.push(this.toggleDescriptionAction);
       }
       this._actions.push(this.zoomOutAction, this.zoomInAction);
       this._actions.forEach(a => a.update());
@@ -402,6 +434,28 @@ export class Preview extends AbstractFacet implements OnChanges, OnDestroy {
 
   set highlightsPref(pref: string[]) {
     this.prefs.set(`${this.preferenceName}-highlights`, pref);
+  }
+
+  gotoPage(page: number) {
+    this.currentPage = page;
+    this.sendMessage({ action: 'goto-page', page });
+  }
+
+  nextPage() {
+    this.currentPage = this.currentPage + 1;
+    this.sendMessage({ action: 'next-page' });
+  }
+  prevPage() {
+    this.currentPage = this.currentPage - 1;
+    this.sendMessage({ action: 'prev-page' });
+  }
+  firstPage() {
+    this.currentPage = 1;
+    this.sendMessage({ action: 'first-page' });
+  }
+  lastPage() {
+    this.currentPage = this.totalPages;
+    this.sendMessage({ action: 'last-page' });
   }
 
 }

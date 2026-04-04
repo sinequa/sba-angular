@@ -5,6 +5,12 @@ import {Action} from "../../action";
     selector: "[sq-action-item-content], sq-action-item-content",
     templateUrl: "./action-item-content.html",
     styles: [`
+.sq-action-item-content-container span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .sq-action-item-content-container > div:not(:last-child) {
     margin-right: 0.25rem;
 }

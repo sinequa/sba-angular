@@ -10,6 +10,7 @@ import { IntlModule, IntlService } from "@sinequa/core/intl";
 import { Expr, ExprParser, UtilsModule, VoiceRecognitionService } from "@sinequa/components/utils";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { compareFilters } from "@sinequa/core/web-services";
+import { NotificationsService } from "@sinequa/core/notification";
 
 @Component({
   selector: 'sq-search-form',
@@ -52,6 +53,7 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
 
   formatService = inject(FormatService);
   intlService = inject(IntlService);
+  notificationService = inject(NotificationsService);
 
   constructor(
     public searchService: SearchService,
@@ -126,6 +128,12 @@ export class SearchFormComponent implements OnInit, OnChanges, OnDestroy {
    * @param collapse whether to collapse the form
    */
   applyFilters(collapse = true) {
+    // Check if the search control is valid
+    if(this.searchControl.valid === false) {
+      this.notificationService.error("msg#searchForm.invalidQuery");
+      return; // Do not apply if the input is invalid
+    }
+
     // Determine if the text has changed compared to the input query
     const isTextSearch = (this.query.text || '') !== (this.editedQuery.text || '');
 

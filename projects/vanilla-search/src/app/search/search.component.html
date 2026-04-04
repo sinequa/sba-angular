@@ -69,9 +69,9 @@
         </div>
 
         <!-- Results -->
-        <div class="col-sm-12 col-lg-5" [ngClass]="{'col-md-8': showFilters, 'col-md-6': !showFilters}" *ngIf="showResults">
+        <div class="col-sm-12 col-lg-5 d-flex flex-column result-col" [ngClass]="{'col-md-8': showFilters, 'col-md-6': !showFilters}" *ngIf="showResults">
 
-            <div class="result-toolbar d-flex flex-wrap">
+            <div class="result-toolbar d-flex flex-wrap flex-shrink-0">
 
                 <!-- Tabs -->
                 <sq-tabs class="w-100" [results]="results"></sq-tabs>
@@ -113,11 +113,11 @@
             </div>
 
             <!-- List of documents (for loop) with virtual scroll list -->
-            <ul class="result-list p-0" *ngIf="results.records.length > 0; else noResult">
+            <ul class="result-list p-0 flex-grow-1 overflow-hidden" *ngIf="results.records.length > 0; else noResult">
                 <cdk-virtual-scroll-viewport
                     role="presentation"
                     itemSize="100"
-                    scrollWindow
+                    style="height: 100%;"
                     (scrolledIndexChange)="fetchMore()"
                 >
 
@@ -192,7 +192,7 @@
                 viewActionsClass="d-block btn-group mt-2"
                 viewButtonsStyle="outline-primary"
                 [actions]="previewCustomActions"
-                actionsSize="" class="mb-3 facet-preview">
+                actionsSize="" class="mb-3 facet-preview position-absolute top-0 w-100 h-100">
 
                 <ng-template #headerTpl>
                     <sq-result-icon [record]="openedDoc" [formatIcons]="formatIcons" class="me-1"></sq-result-icon>

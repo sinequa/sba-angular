@@ -116,9 +116,10 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
     }
 
     openFacet(facet: FacetConfig<{}>) {
-        if(this.openedFacet) {
-          this.openedFacet = undefined;
-          this.cdRef.detectChanges(); // Force a new call to onLoadFacet
+        if(this.openedFacet === facet) {
+            // Same facet re-opened: force sqLoadComponent to re-emit by resetting first
+            this.openedFacet = undefined;
+            this.cdRef.detectChanges();
         }
         this.openedFacet = facet;
     }
