@@ -53,6 +53,8 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   @Input() display: keyof Principal = 'fullName';
   @Input() showText = false;
   @Input() customActions: Action[];
+  @Input() customHelpActions: Action[];
+  @Input() customCreditActions: Action[];
 
   menu: Action;
 
@@ -297,6 +299,9 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
   }
 
   getCreditActions(): Action[] {
+    if (this.customCreditActions?.length) {
+      return this.customCreditActions;
+    }
     const actions = [] as Action[];
     if(this.showCredits) {
       actions.push(this.creditAction);
@@ -306,6 +311,10 @@ export class BsUserMenuComponent implements OnChanges, OnDestroy {
 
   getHelpActions(): Action[] {
     if (!this.enableHelp || !this.loginService.complete) return [];
+
+    if (this.customHelpActions?.length) {
+      return [...this.customHelpActions, ActionSeparator];
+    }
 
     // "options" could be undefined
     // "helpDefaultFolderOptions" could be null, in this case map it to undefined
