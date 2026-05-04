@@ -32,6 +32,9 @@ export class ClickOutside {
         if (this.element.offsetWidth === 0) {
             return;
         }
+        if (!document.body.contains(<HTMLElement>event.target)) {
+            return;
+        }
         if (event.target === document.body && document.elementFromPoint(event.pageX, event.pageY) !== event.target) {
             return;
         }
