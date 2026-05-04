@@ -231,6 +231,12 @@ export class BsDropdownService implements OnDestroy {
             event.type === 'keyup' && event.key !== Keys.tab)) {
             return;
         }
+        if (event?.type === 'click') {
+            const target = event.target as HTMLElement;
+            if (!this.document.body.contains(target) || target.closest('bs-datepicker-container, bs-daterangepicker-container')) {
+                return;
+            }
+        }
         this._events.next({type: "clear", sourceEvent: event});
     }
 
