@@ -87,7 +87,6 @@
     "rxjs": "~7.5.0",
     "timsort": "^0.3.0",
     "tslib": "^2.3.1",
-    "uuid": "8.3.2",
     "vis-data": "^7.1.5",
     "vis-network": "9.1.2",
     "vis-timeline": "7.7.0",
@@ -96,7 +95,8 @@
     "zone.js": "~0.15.1"
   },
   "overrides": {
-    "serialize-javascript": "^7.0.3"
+    "serialize-javascript": "^7.0.3",
+    "webpack-dev-server": "5.2.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.3.13",
