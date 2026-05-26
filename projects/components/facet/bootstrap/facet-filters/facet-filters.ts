@@ -125,8 +125,9 @@ export class BsFacetFilters implements OnChanges, OnDestroy {
         this.openedFacet = facet;
     }
 
-    onLoadFacet(event: {componentRef: ComponentRef<AbstractFacet> | undefined}) {
-        this.facetInstance = event.componentRef?.instance;
+    onLoadFacet(event: { componentRef: ComponentRef<AbstractFacet> | undefined }) {
+        if(!event.componentRef) return;
+        this.facetInstance = event.componentRef.instance;
         this.cdRef.detectChanges(); // Detect changes manually, because the facet actions need to be displayed
     }
 
