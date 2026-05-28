@@ -77,6 +77,10 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.subscription = this.dropdownService.events.subscribe((event) => {
             if (event.type === "clear") {
+                // Keep ancestor dropdowns open when a nested dropdown triggers the clear
+                if (event.source && this.dropdown?.contains(event.source) && event.source !== this.dropdown) {
+                    return;
+                }
                 this.clear(event.sourceEvent as StrictUnion<KeyboardEvent | MouseEvent | undefined>);
             }
             else if (event.type === "toggle") {
@@ -119,7 +123,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
 
         const isActive = this.dropdownMenu && this.dropdownMenu.classList.contains("show");
 
-        this.dropdownService.raiseClear();
+        this.dropdownService.raiseClear(this.dropdown);
         // send dropdown's active state to the service
         this.dropdownService.raiseActive(!isActive);
         if (isActive) {
