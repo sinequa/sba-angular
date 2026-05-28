@@ -12,6 +12,7 @@ export interface DropdownEvent {
 export interface DropdownClearEvent extends DropdownEvent {
     type: "clear";
     sourceEvent: KeyboardEvent | MouseEvent | undefined;
+    source?: Element;
 }
 
 export interface DropdownToggleEvent extends DropdownEvent {
@@ -258,8 +259,8 @@ export class BsDropdownService implements OnDestroy {
         event.stopPropagation();
     }
 
-    raiseClear() {
-        this._events.next({type: "clear", sourceEvent: undefined});
+    raiseClear(source?: Element) {
+        this._events.next({type: "clear", sourceEvent: undefined, source});
     }
 
     raiseActive(active: boolean) {
