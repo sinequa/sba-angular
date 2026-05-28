@@ -269,6 +269,14 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
             return;
         }
 
+        // Keep this dropdown open when the click happens inside a nested dropdown
+        if (event?.target instanceof Element) {
+            const nestedDropdown = event.target.closest('.dropdown');
+            if (nestedDropdown && nestedDropdown !== parent && parent.contains(nestedDropdown)) {
+                return;
+            }
+        }
+
         // If this is a touch-enabled device we remove the extra
         // empty mouseover listeners we added for iOS support
         if ('ontouchstart' in document.documentElement) {
