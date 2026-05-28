@@ -4,6 +4,7 @@ import {ComponentFixture, TestBed, waitForAsync} from "@angular/core/testing";
 import {BsDropdownDirective} from "./dropdown.directive";
 
 @Component({
+    standalone: false,
     template: `
         <div class="dropdown" #outer>
             <button #outerToggle type="button" data-bs-toggle="dropdown" aria-expanded="false">
