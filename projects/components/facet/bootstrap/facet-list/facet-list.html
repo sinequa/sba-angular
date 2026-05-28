@@ -85,7 +85,7 @@
         data-bs-toggle="dropdown" aria-expanded="false">
         <span class="visually-hidden">Toggle Dropdown</span>
       </button>
-      <ul class="dropdown-menu dropdown-menu-end">
+      <ul class="dropdown-menu">
         <li *ngIf="allowOr && selected.length > 1">
           <a class="dropdown-item" role="button" (click)="addFilter(selected)">{{'msg#facet.applyOr' | sqMessage}}</a>
         </li>
