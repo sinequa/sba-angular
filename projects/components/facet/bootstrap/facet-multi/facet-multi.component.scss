@@ -1,4 +1,4 @@
-@import "../facet-base.scss";
+@use "../facet-base" as *;
 
 .btn.sq-back-button {
   margin-left: -0.5rem !important;
