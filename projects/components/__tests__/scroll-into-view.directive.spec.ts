@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ScrollIntoView, ScrollIntoViewOptions } from '../utils/directives/scroll-into-view';
 
 @Component({
+  standalone: false,
   template: `<div [sqScrollIntoView]="options"></div>`
 })
 class TestHostComponent {
