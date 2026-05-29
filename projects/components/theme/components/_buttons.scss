@@ -1,5 +1,40 @@
 /* sinequa custom button theme */
 @use "sass:map";
+@use "sass:meta";
+@use "sass:color";
+@use "../bootstrap" as bs;
+@use "../tokens" as *;
+
+// sinequa mixin button-variant (déplacé depuis _variables.scss : dépend de membres Bootstrap configurés)
+@mixin sq-button-variant(
+  $background,
+  $border,
+  $color,
+  $hover-background,
+  $hover-border,
+  $hover-color,
+  $active-background,
+  $active-border,
+  $active-color,
+  $disabled-background,
+  $disabled-border,
+  $disabled-color
+) {
+  --#{bs.$prefix}btn-color: #{$color};
+  --#{bs.$prefix}btn-bg: #{$background};
+  --#{bs.$prefix}btn-border-color: #{$border};
+  --#{bs.$prefix}btn-hover-color: #{$hover-color};
+  --#{bs.$prefix}btn-hover-bg: #{$hover-background};
+  --#{bs.$prefix}btn-hover-border-color: #{$hover-border};
+  --#{bs.$prefix}btn-focus-shadow-rgb: #{bs.to-rgb(color.mix($color, $border, 15%))};
+  --#{bs.$prefix}btn-active-color: #{$active-color};
+  --#{bs.$prefix}btn-active-bg: #{$active-background};
+  --#{bs.$prefix}btn-active-border-color: #{$active-border};
+  --#{bs.$prefix}btn-active-shadow: #{bs.$btn-active-box-shadow};
+  --#{bs.$prefix}btn-disabled-color: #{$disabled-color};
+  --#{bs.$prefix}btn-disabled-bg: #{$disabled-background};
+  --#{bs.$prefix}btn-disabled-border-color: #{$disabled-border};
+}
 
 $theme-primary: (
   "background": $blue-500,
@@ -95,7 +130,7 @@ $theme: (
 
 @each $color, $value in $theme {
   .btn-#{$color} {
-      @if(type-of($value) == 'map') {
+      @if(meta.type-of($value) == 'map') {
           @include sq-button-variant(
             map.get($value, "background"),
             map.get($value, "border"),
@@ -115,7 +150,7 @@ $theme: (
 
             );
           } @else {
-              @include button-variant($value, $value);
+              @include bs.button-variant($value, $value);
           }
   }
 }

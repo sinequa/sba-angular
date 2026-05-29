@@ -1,7 +1,9 @@
 /****************************************************
     DARK theme
 ****************************************************/
-@import "../../../components/theme/dark-colors";
+@use "../../../components/theme/dark-colors" as *;
+
+$dark-result-source-color: #a9c7b4;
 
 body.dark {
 

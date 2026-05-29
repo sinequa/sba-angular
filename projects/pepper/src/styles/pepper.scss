@@ -1,8 +1,11 @@
-@import "../../../vanilla-search/src/styles/vanilla";
+@use "../../../components/theme/bootstrap" as bs;
+@use "../../../components/theme/tokens" as *;
+@use "../../../vanilla-search/src/styles/vanilla";
+@use "dark";
 
 
 // large screens (> sm)
-@include media-breakpoint-up(sm) {
+@include bs.media-breakpoint-up(sm) {
 
     .sq-home-facet-bar {
         min-height: 287px;
@@ -36,8 +39,8 @@
 }
 
 sq-dashboard-add-item .modal-body .btn {
-    --bs-btn-color: #{$black} !important;
-    --bs-btn-hover-color: #{$black} !important;
+    --bs-btn-color: #{bs.$black} !important;
+    --bs-btn-hover-color: #{bs.$black} !important;
     box-shadow: none !important;
 
     span {
@@ -55,6 +58,3 @@ app-autocomplete .list-group-flush > .list-group-item:last-child {
     border-end-end-radius: .85rem;
 
 }
-
-// Pepper custom dark mode
-@import 'dark';

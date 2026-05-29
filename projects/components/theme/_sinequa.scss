@@ -1,30 +1,30 @@
-@import "colors";
-@import "variables";
+// Sinequa global theme — émet le CSS dans le même ordre qu'avant (base Bootstrap puis overrides).
+// La config Bootstrap vit dans `_bootstrap.scss` ; les variables/tokens dans `_colors.scss`/`_tokens.scss`.
 
 // fontawesome and sinequa recommended imports
-// need some bootstrap mixins
-@import "minimal";
-@import "fortawesome-free";
-@import "components/root";
+// (minimal contient Bootstrap + action + notification + dark)
+@use "minimal";
+@use "fortawesome-free";
+@use "components/root";
 
 // Sinequa components stylesheets
-@import "../advanced/bootstrap/advanced.scss";
+@use "../advanced/bootstrap/advanced";
 
-@import "components/forms";
-@import "components/buttons";
-@import "components/dropdown";
-@import "components/tabs";
-@import "components/alerts";
-@import "components/pagination";
-@import "components/modals";
+@use "components/forms";
+@use "components/buttons";
+@use "components/dropdown";
+@use "components/tabs";
+@use "components/alerts";
+@use "components/pagination";
+@use "components/modals";
 
-@import "sba/facets";
-@import "sba/results";
-@import "sba/preview";
+@use "sba/facets";
+@use "sba/results";
+@use "sba/preview";
 
 // is advanced-search deprecated ?
-@import "sba/advanced-search";
-@import "sba/notifications";
+@use "sba/advanced-search";
+@use "sba/notifications";
 
 // mixed components
-@import "sba/misc";
+@use "sba/misc";

@@ -1,8 +1,5 @@
-@import "bootstrap/scss/_functions";
-@import "bootstrap/scss/_variables";
-@import "bootstrap/scss/_mixins";
-
-@import "../../../../components/theme/breakpoints";
+@use "bootstrap/scss/mixins" as bs;
+@use "../../../../components/theme/breakpoints" as bp;
 
 #logo {
   content: url("^assets/sinequa-logo-light-lg.png");
@@ -51,7 +48,7 @@
 
     flex: 1;
 
-    @include media-breakpoint-up(lg) {
+    @include bs.media-breakpoint-up(lg, bp.$grid-breakpoints) {
       padding: 1.25rem;
     }
 

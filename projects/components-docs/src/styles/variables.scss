@@ -1,3 +1,6 @@
+@forward "../../../components/theme/colors";
+@use "../../../components/theme/colors" as *;
+
 $sq-transition: all 250ms ease;
 $sq-focus-outline: .4rem solid var(--primary-100, #{$blue-focus});
 $sq-border: .1rem solid $grey-100;

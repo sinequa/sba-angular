@@ -1,5 +1,4 @@
-@import "../../../../components/theme/colors";
-@import "../../styles/variables";
+@use "../../styles/variables" as *;
 
 :host {
   display: block;

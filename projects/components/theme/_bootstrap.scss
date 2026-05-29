@@ -1,0 +1,112 @@
+/**
+    BOOTSTRAP — point unique de configuration + émission du CSS Bootstrap.
+
+    Tout fichier ayant besoin de membres Bootstrap (variables, mixins, fonctions)
+    fait `@use "../bootstrap" as bs;` — JAMAIS `@use "bootstrap/scss/..."` directement
+    (sinon valeurs par défaut / erreur « module already loaded »).
+
+    Les knobs marqués `!default` dans le `with()` sont surchargeables par une app via
+    `@use ".../theme/bootstrap" with (...)` chargé AVANT `@use ".../theme/sinequa"`.
+**/
+@use "colors" as c;
+@use "tokens" as t;
+
+@forward "bootstrap/scss/bootstrap" with (
+  // --- couleur de base (dérive $primary) ---
+  $blue: c.$blue,
+  $link-decoration: none,
+
+  // --- input ---
+  $input-border-width: t.$input-border-width,
+  $input-border-color: t.$input-border-color,
+  $input-focus-border-color: var(--primary, #{c.$blue}),
+  $input-focus-box-shadow: none,
+  $input-disabled-color: c.$grey-600,
+  $input-disabled-border-color: c.$grey-500,
+  $input-disabled-bg: c.$grey-300,
+  $input-placeholder-color: c.$grey-100,
+  $input-group-addon-border-color: transparent,
+
+  // --- dropdown ---
+  $dropdown-border-color: c.$grey-100,
+  $dropdown-border-width: 1px,
+  $dropdown-link-color: c.$black,
+  $dropdown-link-hover-color: c.$black,
+  $dropdown-link-hover-bg: c.$blue-selection,
+  $dropdown-link-active-color: c.$white,
+  $dropdown-box-shadow: 0 0 .9rem rgba(0, 0, 0, .1),
+
+  // --- breadcrumbs ---
+  $breadcrumb-divider: ">",
+  $breadcrumb-margin-bottom: 0,
+
+  // --- list group ---
+  $list-group-action-active-bg: c.$blue-selection,
+  $list-group-color: c.$body-text-grey,
+  $list-group-border-width: 0,
+  $list-group-active-color: var(--sq-text, #{c.$black}),
+  $list-group-active-bg: c.$blue-selection,
+  $list-group-active-border-color: c.$blue-selection,
+
+  // --- nav tabs ---
+  $nav-tabs-border-width: 0,
+  $nav-tabs-border-radius: .3rem,
+  $nav-tabs-link-active-color: var(--sq-text, #{c.$black}),
+  $nav-tabs-link-active-bg: var(--brand, #{c.$blue-focus}),
+
+  // --- nav link ---
+  $nav-link-padding-y: 0.75rem,
+  $nav-link-padding-x: 1rem,
+  $nav-link-font-weight: 600,
+
+  // --- form check ---
+  $form-check-input-checked-bg-color: c.$grey-500,
+  $form-check-input-checked-border-color: c.$grey-500,
+  $form-check-input-border: t.$sq-border,
+  $form-check-input-disabled-opacity: 1,
+  $form-check-transition: t.$sq-transition,
+
+  // --- form label ---
+  $form-label-font-weight: 600,
+
+  // --- buttons ---
+  $btn-padding-x-lg: 1.5rem,
+  $btn-padding-y-lg: .8rem,
+  $btn-border-radius-lg: .3rem,
+  $btn-focus-box-shadow: none,
+  $btn-box-shadow: t.$sq-box-shadow,
+  $btn-transition: t.$sq-transition,
+  $btn-link-color: c.$body-text-grey,
+  $btn-link-hover-color: c.$grey-600,
+  $btn-disabled-opacity: .5,
+
+  // --- card ---
+  $card-border-width: 0,
+  $card-box-shadow: t.$sq-box-shadow,
+  $card-cap-bg: var(--brand-300, #{c.$blue-focus}),
+  $card-cap-color: var(--sq-text, #{c.$body-text-grey}),
+
+  // --- alert ---
+  $alert-padding-x: 1.5rem,
+
+  // --- pagination ---
+  $pagination-padding-x: .5rem,
+  $pagination-padding-y: .1rem,
+  $pagination-color: c.$black,
+  $pagination-bg: transparent,
+  $pagination-border-color: transparent,
+  $pagination-border-radius: .35rem,
+  $pagination-hover-color: c.$white,
+  $pagination-hover-bg: c.$blue-hover,
+  $pagination-hover-border-color: c.$blue-hover,
+  $pagination-active-bg: c.$blue,
+  $pagination-active-border-color: c.$blue,
+  $pagination-disabled-color: c.$grey-500,
+  $pagination-disabled-bg: transparent,
+
+  // --- knobs surchargeables par app (défauts = Bootstrap/Sinequa actuels) ---
+  $secondary: #6c757d !default,
+  $nav-link-color: rgb(0, 0, 0, 0.55) !default,
+  $nav-link-hover-color: rgb(0, 0, 0, 0.7) !default,
+  $navbar-padding-y: 0.5rem !default
+);
