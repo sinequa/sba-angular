@@ -1,4 +1,4 @@
-@import "../facet-base.scss";
+@use "../facet-base" as *;
 
 .progress-bar {
   right:0;
