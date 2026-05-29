@@ -1,3 +1,5 @@
+@use "../tokens" as *;
+
 sq-preview-extracts-panel {
     .list-group-item {
         &:active {

@@ -1,3 +1,6 @@
+// FontAwesome (pour les @extend .fas / .fa-* ci-dessous)
+@use "../../../components/theme/fortawesome-free";
+
 // Flag images
 .sq-flag-en:before {
     content: url('../resources/flags/flag-en.jpg');

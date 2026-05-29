@@ -1,5 +1,8 @@
+@use "../bootstrap" as bs;
+@use "../tokens" as *;
+
 // large screens (> sm)
-@include media-breakpoint-up(sm) {
+@include bs.media-breakpoint-up(sm) {
 
   .sq-home-facet-bar {
     min-height: 287px;

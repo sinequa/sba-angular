@@ -2,7 +2,7 @@
    COLORS
 ****************************************************/
 // tint-color() and shade-color() needs this import
-@import "bootstrap/scss/functions";
+@use "bootstrap/scss/functions" as *;
 
 $accent-100: #ffe2d4 !default;
 $accent-300: #ffa273 !default;

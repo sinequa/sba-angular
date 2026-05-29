@@ -1,10 +1,7 @@
 /****************************************************
     DARK theme
 ****************************************************/
-$dark-text-muted: #c1cad2;
-$dark-nav-link-focus-border-color: #666363;
-
-@import "../../../components/theme/dark-colors";
+@use "../../../components/theme/dark-colors" as *;
 
 
 // Additions specific to Pepper
