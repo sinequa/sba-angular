@@ -122,7 +122,7 @@ export class BsFacetDate extends AbstractFacet implements FacetDateParams, OnIni
             title: "msg#facet.clearSelects",
             action: () => {
                 if(this.data) {
-                    this.facetService.clearFiltersSearch(this.data.column, true, this.query);
+                    this.facetService.clearFiltersSearch(this.data.column, true, this.query, this.name);
                 }
             },
         });
@@ -266,8 +266,7 @@ export class BsFacetDate extends AbstractFacet implements FacetDateParams, OnIni
                         }
                     }
                 }
-                this.query = query;
-                this.facetService.applyFilterSearch(newFilter, this.query, true, this.name);
+                this.facetService.applyFilterSearch(newFilter, query, true, this.name);
             }
         }
     }
