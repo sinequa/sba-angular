@@ -1,8 +1,11 @@
+@use "../bootstrap" as bs;
+@use "../tokens" as *;
+
 .pagination {
   font-weight: $pagination-font-weight;
 
   .page-link {
-    border-radius: $pagination-border-radius;
+    border-radius: bs.$pagination-border-radius;
     margin: 0 .2rem;
   }
 }

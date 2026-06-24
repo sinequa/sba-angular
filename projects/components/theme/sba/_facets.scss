@@ -1,3 +1,5 @@
+@use "../tokens" as *;
+
 sq-facet-card {
 
   &.striped .list-group-item:not(.unstriped) {

@@ -1,33 +1,20 @@
 /****************************************************
-    colors overrides
+    Bootstrap configuration (overrides app-level)
 ****************************************************/
-$secondary: #515960;
-$link-decoration: none;
+@use "../../../components/theme/breakpoints" as bp;
 
-$nav-link-color: rgb(0, 0, 0, 0.55);
-$nav-link-hover-color: rgb(0, 0, 0, .7);
+@use "../../../components/theme/bootstrap" with (
+  $secondary: #515960,
+  $navbar-padding-y: 1.25rem,
+  $grid-breakpoints: bp.$grid-breakpoints,
+  $container-max-widths: bp.$container-max-widths
+);
 
-/****************************************************
-    Dark colors
-****************************************************/
-$dark-color: #f8f9fa;
-$dark-secondary: #c9c0c0;
-$dark-background: #1c1e21;
-$dark-background-highlight: rgb(255, 255, 255, 0.15);
-$dark-background-hover: rgb(255, 255, 255, 0.08);
-$dark-borders: #777373;
-$dark-link: #9bccff;
-
-$navbar-padding-y: 1.25rem;
-
-@import "../../../components/theme/breakpoints";
-
-// Sinequa global theme (contains Bootstrap imports)
-// @import "../../../components/theme/minimal";
-@import "../../../components/theme/sinequa";
+// Sinequa global theme (contains Bootstrap)
+@use "../../../components/theme/sinequa";
 
 // File formats & metadata icons
-@import "icons";
+@use "icons";
 
 // SBA components custom CSS overrides
-@import "vanilla";
+@use "vanilla";

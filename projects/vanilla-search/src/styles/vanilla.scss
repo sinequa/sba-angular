@@ -1,9 +1,8 @@
 /****************************************************
   VANILLA-SEARCH
 ****************************************************/
-
-// SBA Components
-$dark-result-source-color: #a9c7b4;
+@use "../../../components/theme/bootstrap" as bs;
+@use "dark";
 
 // thin scrollbar
 ::-webkit-scrollbar {
@@ -91,7 +90,7 @@ sq-tabs {
   }
   .nav-item .count {
     font-size: 0.875em;
-    color: $secondary;
+    color: bs.$secondary;
   }
 }
 
@@ -105,7 +104,7 @@ sq-did-you-mean {
 sq-filters,
 sq-filters-editor {
   .sq-filter-operator {
-    color: $secondary;
+    color: bs.$secondary;
   }
 
   .sq-filter-value {
@@ -114,13 +113,13 @@ sq-filters-editor {
 }
 
 sq-results-counter {
-  color: $secondary;
+  color: bs.$secondary;
 }
 
 sq-sort-selector button.btn {
   padding: 3px 5px;
   margin: -3px 0;
-  color: $secondary;
+  color: bs.$secondary;
   background-color: inherit;
   font-size: 1em;
   border: none;
@@ -139,7 +138,7 @@ sq-result-thumbnail img {
 
 .sq-passage {
   .sq-passage-icon {
-    color: $primary;
+    color: bs.$primary;
   }
 
   .sq-passage-text {
@@ -151,13 +150,13 @@ sq-result-thumbnail img {
 
 
 sq-result-duplicates {
-  color: $secondary;
+  color: bs.$secondary;
   font-size: 0.875em;
 }
 
 sq-result-extracts {
   p {
-    color: $secondary;
+    color: bs.$secondary;
     font-size: 0.875em;
   }
 }
@@ -168,7 +167,7 @@ sq-sponsored-results {
   }
 
   .sq-sponsored-link-view-summary {
-    color: $secondary;
+    color: bs.$secondary;
     font-size: 0.875em;
   }
 }
@@ -231,6 +230,3 @@ sq-help-button {
 sq-facet-preview-2 {
   height: calc(100vh - 230px) !important;
 }
-
-// Vanilla Dark mode
-@import "dark";
