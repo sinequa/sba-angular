@@ -1,3 +1,6 @@
+@use "../bootstrap" as bs;
+@use "../tokens" as *;
+
 /**********************************************
   Dropdown button
 ***********************************************/
@@ -11,12 +14,12 @@
 
   &.is-valid,
   &.is-valid:hover {
-    border: $dropdown-border-width solid #{$success-1};
+    border: bs.$dropdown-border-width solid #{$success-1};
   }
 
   &.is-invalid,
   &.is-invalid:hover {
-    border: $dropdown-border-width solid #{$error-1};
+    border: bs.$dropdown-border-width solid #{$error-1};
   }
 }
 

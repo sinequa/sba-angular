@@ -1,17 +1,11 @@
-// Fontawesome
-$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
-@import "@fortawesome/fontawesome-free/scss/fontawesome";
-@import "@fortawesome/fontawesome-free/scss/brands";
-@import "@fortawesome/fontawesome-free/scss/regular";
-@import "@fortawesome/fontawesome-free/scss/solid";
+@use "../../../components/theme/bootstrap" as bs;
 
-@import "../../../components/metadata/metadata.scss";
+// metadata + Sinequa theme (le thème inclut déjà FontAwesome)
+@use "../../../components/metadata/metadata";
+@use "../../../components/theme/sinequa";
 
-// Sinequa theme
-@import "../../../components/theme/sinequa";
-
-// Custom variables
-@import "variables";
+// Custom variables (re-exporte les couleurs Sinequa)
+@use "variables" as *;
 
 :root {
   --bs-body-bg: $bg-color;
@@ -22,7 +16,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   --bs-primary-rgb: var(--primary-rgb, #{$blue});
 
     .list-group {
-      --bs-list-group-bg: #{$list-group-bg};
+      --bs-list-group-bg: #{bs.$list-group-bg};
       --bs-list-group-action-active-bg: #{$blue-selection};
     }
 

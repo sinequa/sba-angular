@@ -1,16 +1,16 @@
-@import "dark-colors";
+@use "dark-colors" as *;
+@use "bootstrap" as *;
 
 body.dark,
 .sinequa.dark,
 .dark {
+    background-color: $dark-background;
+    color: $dark-color;
 
     .dark\:bg-dark {
         // Bootstrap set !important on bg-light class
         background-color: $dark !important;
     }
-
-    background-color: $dark-background;
-    color: $dark-color;
 
     a:not(.btn):not(.badge) {
         color: $dark-link;

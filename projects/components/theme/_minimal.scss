@@ -1,14 +1,15 @@
-@import "@angular/cdk/overlay-prebuilt";
+// CDK overlay (CSS pur, chargé en module via @use .css — inliné, sans déprécation)
+@use "@angular/cdk/overlay-prebuilt.css";
 
-// contains Bootstrap's imports
-@import "bootstrap";
+// Bootstrap (configuré) — émet le CSS Bootstrap une seule fois
+@use "bootstrap";
 
 // Sinequa components stylesheets
-@import "../action/bootstrap/action.scss";
-@import "../notification/bootstrap/notification.scss";
+@use "../action/bootstrap/action";
+@use "../notification/bootstrap/notification";
 
 // minimal dark mode
-@import "dark";
+@use "dark";
 
 // CDK drag & drop
 .cdk-drag-preview {

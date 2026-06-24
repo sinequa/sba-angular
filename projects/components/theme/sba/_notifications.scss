@@ -1,15 +1,19 @@
-@mixin alert-variant($background, $border, $color) {
-  --#{$prefix}alert-color: #{$color};
-  --#{$prefix}alert-bg: #{$background};
-  --#{$prefix}alert-border-color: #{$border};
-  --#{$prefix}alert-link-color: #{shade-color($color, 20%)};
+@use "sass:map";
+@use "../bootstrap" as bs;
+@use "../tokens" as *;
 
-  @if $enable-gradients {
-    background-image: var(--#{$prefix}gradient);
+@mixin alert-variant($background, $border, $color) {
+  --#{bs.$prefix}alert-color: #{$color};
+  --#{bs.$prefix}alert-bg: #{$background};
+  --#{bs.$prefix}alert-border-color: #{$border};
+  --#{bs.$prefix}alert-link-color: #{bs.shade-color($color, 20%)};
+
+  @if bs.$enable-gradients {
+    background-image: var(--#{bs.$prefix}gradient);
   }
 
   .alert-link {
-    color: var(--#{$prefix}alert-link-color);
+    color: var(--#{bs.$prefix}alert-link-color);
   }
 }
 
@@ -21,10 +25,10 @@ $theme: (
 );
 
 @each $state, $value in $theme {
-  $alert-background: map-get($value, "background");
-  $alert-border: map-get($value, "border");
-  $alert-color: map-get($value, "color");
-  $alert-icon-color: map-get($value, "icon-color");
+  $alert-background: map.get($value, "background");
+  $alert-border: map.get($value, "border");
+  $alert-color: map.get($value, "color");
+  $alert-icon-color: map.get($value, "icon-color");
   .alert-#{$state} {
     @include alert-variant($alert-background, $alert-border, $alert-color);
     .sq-notification-icon {
