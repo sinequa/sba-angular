@@ -1,3 +1,5 @@
+@use "../tokens" as *;
+
 .alert {
   box-shadow: $alert-box-shadow;
 }

@@ -1,11 +1,13 @@
+@use "sass:color";
+
 sq-metadata-item .sq-metadata-item {
 
     a.badge {
         background-color: lightgrey;
-        color: lighten(black, 10%);
+        color: color.adjust(black, $lightness: 10%);
 
         &:hover, &:focus {
-            background-color: darken(lightgrey, 10%);
+            background-color: color.adjust(lightgrey, $lightness: -10%);
             color: black;
         }
     }

@@ -1,8 +1,11 @@
+@use "../../bootstrap" as bs;
+@use "../../tokens" as *;
+
 .form-control {
   &:focus,
   &:focus-visible,
   &:focus-within {
-    box-shadow: $input-focus-box-shadow !important;
+    box-shadow: bs.$input-focus-box-shadow !important;
   }
 
   &.was-validated:valid {

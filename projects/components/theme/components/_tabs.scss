@@ -1,5 +1,8 @@
+@use "../bootstrap" as bs;
+@use "../tokens" as *;
+
 .nav-tabs {
-  border-radius: $nav-tabs-border-radius;
+  border-radius: bs.$nav-tabs-border-radius;
   padding: $nav-tabs-padding;
   box-shadow: $nav-tabs-box-shadow;
 
@@ -15,8 +18,8 @@
   }
 
   .nav-link {
-    border-bottom-left-radius: $nav-tabs-border-radius;
-    border-bottom-right-radius: $nav-tabs-border-radius;
+    border-bottom-left-radius: bs.$nav-tabs-border-radius;
+    border-bottom-right-radius: bs.$nav-tabs-border-radius;
 
     &.active {
       box-shadow: $nav-tabs-link-active-box-shadow;

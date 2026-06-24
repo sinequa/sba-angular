@@ -1,24 +1,19 @@
 /****************************************************
-    Colors overrides
+    Bootstrap configuration (overrides app-level)
 ****************************************************/
-$secondary: #515960;
-$link-decoration: none;
+@use "../../../components/theme/bootstrap" with (
+  $secondary: #515960
+);
 
-// Sinequa global theme (contains Bootstrap imports)
-// @import "../../../components/theme/minimal";
-@import "../../../components/theme/sinequa";
-
+// Sinequa global theme (contains Bootstrap)
+@use "../../../components/theme/sinequa";
 
 // Vis.js styles
-//@import "vis-timeline/dist/vis-timeline-graph2d.min";
-@import "vis-network/dist/dist/vis-network.min";
-
+@use "vis-network/dist/dist/vis-network.min.css";
 
 // By default we now reference the Vanilla Search icons.scss stylesheet,
 // to avoid duplicating the same code.
-// Feel free to copy the stylesheet into this project, to avoid having
-// to modifying it in the Vanilla Search project.
-@import "../../../vanilla-search/src/styles/icons";
+@use "../../../vanilla-search/src/styles/icons";
 
 // light and dark theme
-@import "pepper";
+@use "pepper";

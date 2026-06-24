@@ -1,0 +1,81 @@
+/**
+    SINEQUA TOKENS
+    Variables propres à Sinequa (PAS des variables Bootstrap).
+    Les overrides Bootstrap vivent dans `_bootstrap.scss` (via @forward ... with).
+**/
+@forward "colors";
+@use "colors" as *;
+
+/** sinequa custom variables **/
+$sq-transition: all 250ms ease !default;
+$sq-focus-outline: .4rem solid var(--primary-100, #{$blue-focus}) !default;
+
+$sq-box-shadow: 0 0 1.5rem 0 rgba(0, 0, 0, .1) !default;
+$sq-btn-box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .1) !default;
+$sq-input-padding: .8rem !default;
+
+/** input primitives (alimentent aussi la config Bootstrap : $input-border-*, $form-check-input-border) **/
+$input-border-width: .1rem !default;
+$input-border-color: $grey-100 !default;
+$sq-border: $input-border-width solid $input-border-color !default;
+
+/** nav tab (sinequa-only) **/
+$nav-tabs-box-shadow: $sq-box-shadow !default;
+$nav-tabs-padding: .2rem !default;
+$nav-tabs-link-active-box-shadow: 0 0 .4rem rgba(0, 0, 0, .1) !default;
+
+/** nav link (sinequa-only) **/
+$nav-link-hover-bg: var(--brand-100, #{$blue-focus}) !default;
+$nav-link-active-hover-bg: var(--brand-200, #{$blue-focus}) !default;
+
+/** form check input (sinequa-only) **/
+$form-check-input-outline: $sq-focus-outline !default;
+$form-check-input-hover-border-color: $grey-500 !default;
+
+$form-check-input-valid-border-color: $success-1 !default;
+$form-check-input-valid-hover-border-color: $darker-green !default;
+$form-check-input-valid-checked-bg: $success-1 !default;
+$form-check-input-valid-checked-hover-bg: $darker-green !default;
+
+$form-check-input-invalid-border-color: $error-1 !default;
+$form-check-input-invalid-hover-border-color: $darker-red !default;
+$form-check-input-invalid-checked-bg: $error-1 !default;
+$form-check-input-invalid-checked-hover-bg: $darker-red !default;
+
+/** checkbox (sinequa-only) **/
+$form-check-input-checkbox-checked-bg: var(--primary, #{$accent-500}) !default;
+$form-check-input-checkbox-checked-border-color: var(--primary, #{$accent-500}) !default;
+$form-check-input-checkbox-checked-hover-bg: var(--primary-400, #{$accent-900}) !default;
+$form-check-input-checkbox-checked-hover-border-color: var(--primary-400, #{$accent-900}) !default;
+
+$form-check-input-checkbox-disabled-bg: $grey-300 !default;
+$form-check-input-checkbox-disabled-border-color: $grey-300 !default;
+
+/** radio (sinequa-only) **/
+$form-check-input-radio-checked-box-shadow: inset 0 0 0 .14rem $white !default;
+$form-check-input-radio-disabled-bg: $grey-300 !default;
+$form-check-input-radio-disabled-border-color: $grey-500 !default;
+
+$form-check-input-radio-disabled-checked-bg: $grey-500 !default;
+$form-check-input-radio-disabled-checked-box-shadow: inset 0 0 0 .14rem $grey-300 !default;
+
+/** facet buttons (sinequa-only) **/
+$facet-btn-light-bg: transparent !default;
+$facet-btn-light-border-color: transparent !default;
+$facet-btn-light-active-color: white !default;
+$facet-btn-light-active-bg: var(--brand-400, #{$darker-blue}) !default;
+$facet-btn-light-active-border-color: var(--brand-400, #{$darker-blue}) !default;
+
+$facet-item-opener-color: $body-text-grey !default;
+$facet-item-opener-hover-color: $body-text-grey-lighter !default;
+
+/** card (sinequa-only) **/
+$card-cap-font-weight: 600 !default;
+$card-cap-primary-icon-color: var(--primary, $blue-100) !default;
+$card-cap-action-font-size: 1rem !default;
+
+/** alert (sinequa-only) **/
+$alert-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1) !default;
+
+/** pagination (sinequa-only) **/
+$pagination-font-weight: 600 !default;

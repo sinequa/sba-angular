@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use "../../theme/bootstrap" as *;
 
 $action-menu-breakpoint: md !default;
 
