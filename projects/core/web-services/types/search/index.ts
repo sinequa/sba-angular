@@ -19,6 +19,7 @@ export { Attributes } from "./Attributes";
 
 export { DidYouMean } from "./DidYouMean";
 export { DidYouMeanItem } from "./DidYouMeanItem";
+export { DidYouMeanAction } from "./DidYouMeanItem";
 export { DidYouMeanKind } from "./DidYouMeanKind";
 
 export { DocumentAccessLists } from "./DocumentAccessLists";

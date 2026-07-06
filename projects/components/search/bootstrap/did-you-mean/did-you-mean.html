@@ -1,11 +1,14 @@
-<div *ngIf="item" class="sq-did-you-mean sq-text" [ngSwitch]="results?.didYouMean.spellingCorrectionMode">
-    <ng-container *ngSwitchCase="'DYMOnly'">
-        {{'msg#didYouMean.dymonlyBeforeCorrected' | sqMessage}}<a class="sq-did-you-mean-corrected" href="#" (click)="selectCorrected()">{{item.corrected}}</a>{{'msg#didYouMean.dymonlyAfterCorrected' | sqMessage}}
+<div *ngIf="item" class="sq-did-you-mean sq-text" [ngSwitch]="action">
+    <!-- en: "Showing results for: {original}. Search instead for: {corrected}" -->
+    <ng-container *ngSwitchCase="'suggestion'">
+        {{'msg#didYouMean.suggestionBeforeOriginal' | sqMessage}}<span class="sq-did-you-mean-original">{{item.original}}</span>{{'msg#didYouMean.suggestionBeforeCorrected' | sqMessage}}<a class="sq-did-you-mean-corrected" href="#" (click)="selectCorrected()">{{item.corrected}}</a>{{'msg#didYouMean.suggestionAfterCorrected' | sqMessage}}
     </ng-container>
-    <ng-container *ngSwitchCase="'Correct'">
-        {{'msg#didYouMean.correctBeforeCorrected' | sqMessage}}<a class="sq-did-you-mean-corrected" href="#" (click)="selectCorrected()">{{item.corrected}}</a>{{'msg#didYouMean.correctBeforeOriginal' | sqMessage}}<a class="sq-did-you-mean-original" href="#" (click)="selectOriginal()">{{item.original}}</a>{{'msg#didYouMean.correctAfterOriginal' | sqMessage}}
+    <!-- en: "Showing results for: {corrected}. Search instead for: {original}" -->
+    <ng-container *ngSwitchCase="'correction'">
+        {{'msg#didYouMean.correctionBeforeCorrected' | sqMessage}}<span class="sq-did-you-mean-corrected">{{item.corrected}}</span>{{'msg#didYouMean.correctionBeforeOriginal' | sqMessage}}<a class="sq-did-you-mean-original" href="#" (click)="selectOriginal()">{{item.original}}</a>{{'msg#didYouMean.correctionAfterOriginal' | sqMessage}}
     </ng-container>
-    <ng-container *ngSwitchCase="'Smart'">
-        {{'msg#didYouMean.smartBeforeOriginal' | sqMessage}}<a class="sq-did-you-mean-original" href="#" (click)="selectOriginal()">{{item.original}}</a>{{'msg#didYouMean.smartBeforeCorrected' | sqMessage}}<a class="sq-did-you-mean-original" href="#" (click)="selectCorrected()">{{item.corrected}}</a>{{'msg#didYouMean.smartAfterCorrected' | sqMessage}}
+    <!-- en: "Showing results for: {original} and {corrected}" (both terms remain clickable: each narrows the search down to that term only) -->
+    <ng-container *ngSwitchCase="'expansion'">
+        {{'msg#didYouMean.expansionBeforeOriginal' | sqMessage}}<a class="sq-did-you-mean-original" href="#" (click)="selectOriginal()">{{item.original}}</a>{{'msg#didYouMean.expansionBeforeCorrected' | sqMessage}}<a class="sq-did-you-mean-corrected" href="#" (click)="selectCorrected()">{{item.corrected}}</a>{{'msg#didYouMean.expansionAfterCorrected' | sqMessage}}
     </ng-container>
 </div>

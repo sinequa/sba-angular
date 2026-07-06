@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {Results, DidYouMeanItem, DidYouMeanKind} from "@sinequa/core/web-services";
+import {Results, DidYouMeanItem, DidYouMeanAction, DidYouMeanKind} from "@sinequa/core/web-services";
 import {SearchService} from "../../search.service";
 
 @Component({
@@ -11,6 +11,7 @@ import {SearchService} from "../../search.service";
 export class BsDidYouMean implements OnChanges {
     @Input() results: Results;
     item: DidYouMeanItem | undefined;
+    action: DidYouMeanAction | undefined;
 
     constructor(
         public searchService: SearchService) {
@@ -18,11 +19,26 @@ export class BsDidYouMean implements OnChanges {
 
     private handleResults() {
         this.item = undefined;
+        this.action = undefined;
         if (this.results.didYouMean) {
             const item = this.results.didYouMean.text;
             if (item.corrected) {
                 this.item = item;
+                this.action = item.action ?? this.legacyAction(this.results.didYouMean.spellingCorrectionMode);
             }
+        }
+    }
+
+    /**
+     * Fallback for engine versions prior to 11.14 that do not report the per-term `action` (ES-28698).
+     * Defaults to `suggestion` for unknown modes, since it is the only case that does not assert
+     * a search behavior that may not actually have happened (the root cause of ES-27719).
+     */
+    private legacyAction(spellingCorrectionMode: string): DidYouMeanAction {
+        switch (spellingCorrectionMode) {
+            case "Correct": return "correction";
+            case "Smart": return "expansion";
+            default: return "suggestion";
         }
     }
 
