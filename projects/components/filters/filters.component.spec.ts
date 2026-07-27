@@ -1,3 +1,5 @@
+import type { MockInstance } from 'vitest';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchService } from '@sinequa/components/search';
 import { AppService, Query } from '@sinequa/core/app-utils';
@@ -8,14 +10,14 @@ import { FiltersComponent } from './filters.component';
 describe('FiltersComponent', () => {
     let context: FiltersComponent;
     let fixture: ComponentFixture<FiltersComponent>;
-    let searchSpy: jasmine.Spy;
+    let searchSpy: MockInstance;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [FiltersComponent],
             providers: [
                 { provide: AppService, useValue: { getColumn: () => null, getPluralLabel: () => '', getSingularLabel: () => '' } },
-                { provide: SearchService, useValue: { search: jasmine.createSpy('search') } },
+                { provide: SearchService, useValue: { search: vi.fn() } },
                 { provide: START_CONFIG, useValue: startConfig }
             ]
         })
@@ -26,7 +28,7 @@ describe('FiltersComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(FiltersComponent);
         context = fixture.componentInstance;
-        searchSpy = context.searchService.search as jasmine.Spy;
+        searchSpy = context.searchService.search as unknown as MockInstance;
 
         const query = new Query('test');
         const filter: any = { field: 'modified', operator: 'gte', value: '2024-01-01' };
@@ -38,7 +40,7 @@ describe('FiltersComponent', () => {
     describe('remove()', () => {
 
         it('should call removeFilters on the query', () => {
-            spyOn(context.query, 'removeFilters').and.callThrough();
+            vi.spyOn(context.query, 'removeFilters');
 
             context.remove();
 
@@ -46,7 +48,7 @@ describe('FiltersComponent', () => {
         });
 
         it('should emit filterEdit with the updated query', () => {
-            const emitSpy = spyOn(context.filterEdit, 'emit');
+            const emitSpy = vi.spyOn(context.filterEdit, 'emit').mockImplementation((() => undefined) as never);
 
             context.remove();
 

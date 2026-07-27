@@ -136,10 +136,10 @@ describe("AdvancedService", () => {
     let spyGetRange;
     let spyGetBoolean;
     beforeEach(() => {
-      spy = spyOn<any>(service, "createControl");
-      spyGetValue = spyOn<any>(service, "getValue");
-      spyGetRange = spyOn<any>(service, "getRangeValue");
-      spyGetBoolean = spyOn<any>(service, "getBooleanValue");
+      spy = vi.spyOn(service as any, "createControl").mockImplementation((() => undefined) as never);
+      spyGetValue = vi.spyOn(service as any, "getValue").mockImplementation((() => undefined) as never);
+      spyGetRange = vi.spyOn(service as any, "getRangeValue").mockImplementation((() => undefined) as never);
+      spyGetBoolean = vi.spyOn(service as any, "getBooleanValue").mockImplementation((() => undefined) as never);
       searchService.query.select = [];
     });
 
@@ -196,12 +196,12 @@ describe("AdvancedService", () => {
   //       {expression: "person: (`Bill Gates`:`BILL GATES` OR `Bill Clinton`:`BILL CLINTON`)", facet: "advanced_person"},
   //       {expression: "docformat: (`htm`:`htm`)", facet: "advanced_docformat"}
   //     ];
-  //     spy = spyOn(appService, 'parseExpr');
-  //     spyQueryAction = spyOn(searchService.query, 'findSelect').and.callThrough();
+  //     spy = vi.spyOn(appService, 'parseExpr').mockImplementation((() => undefined) as never);
+  //     spyQueryAction = vi.spyOn(searchService.query, 'findSelect');
   //   });
 
   //   afterEach(() => {
-  //     spy.calls.reset();
+  //     spy.mockClear();
   //   })
 
   //   it("when defined filter for a mono-select and multi-select component", () => {
@@ -232,7 +232,7 @@ describe("AdvancedService", () => {
   //       and: false
   //     };
   //     const expr1: Expr = new Expr(exprOperandsInitializer1);
-  //     spy.and.returnValue(expr1);
+  //     spy.mockReturnValue(expr1);
   //     const value1 = service.getValue("treepath");
 
   //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_treepath");
@@ -250,7 +250,7 @@ describe("AdvancedService", () => {
   //       operator: 0
   //     };
   //     const expr2: Expr = new Expr(exprValueInitializer2);
-  //     spy.and.returnValue(expr2);
+  //     spy.mockReturnValue(expr2);
   //     const value2 = service.getValue("authors");
 
   //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_authors");
@@ -267,7 +267,7 @@ describe("AdvancedService", () => {
   //       operator: 5
   //     };
   //     const expr1: Expr = new Expr(exprValueInitializer1);
-  //     spy.and.returnValue(expr1);
+  //     spy.mockReturnValue(expr1);
   //     const value1 = service.getRangeValue("size");
 
   //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_size");
@@ -281,7 +281,7 @@ describe("AdvancedService", () => {
   //       operator: 11
   //     };
   //     const expr2: Expr = new Expr(exprValueInitializer2);
-  //     spy.and.returnValue(expr2);
+  //     spy.mockReturnValue(expr2);
   //     const value2 = service.getRangeValue("modified");
 
   //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_modified");
@@ -316,7 +316,7 @@ describe("AdvancedService", () => {
   //       and: false
   //     };
   //     const expr1: Expr = new Expr(exprOperandsInitializer1);
-  //     spy.and.returnValue(expr1);
+  //     spy.mockReturnValue(expr1);
   //     const value1 = service.getValue("person");
 
   //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_person");
@@ -333,7 +333,7 @@ describe("AdvancedService", () => {
   //       operator: 0
   //     };
   //     const expr2: Expr = new Expr(exprValueInitializer2);
-  //     spy.and.returnValue(expr2);
+  //     spy.mockReturnValue(expr2);
   //     const value2 = service.getValue("docformat");
 
   //     expect(spyQueryAction).toHaveBeenCalledWith("advanced_docformat");
@@ -360,13 +360,13 @@ describe("AdvancedService", () => {
   //   let spyQueryAddAction;
   //   beforeEach(() => {
   //     searchService.query.select = [];
-  //     spyQueryAddAction = spyOn(searchService.query, 'addSelect').and.callThrough();
-  //     spyQueryRemoveAction = spyOn(searchService.query, 'removeSelect').and.callThrough();
+  //     spyQueryAddAction = vi.spyOn(searchService.query, 'addSelect');
+  //     spyQueryRemoveAction = vi.spyOn(searchService.query, 'removeSelect');
   //   });
 
   //   afterEach(() => {
-  //     spyQueryAddAction.calls.reset();
-  //     spyQueryRemoveAction.calls.reset();
+  //     spyQueryAddAction.mockClear();
+  //     spyQueryRemoveAction.mockClear();
   //   })
 
   //   it("from a number/date range component", () => {
@@ -407,13 +407,13 @@ describe("AdvancedService", () => {
   //   let spySearch;
   //   beforeEach(() => {
   //     searchService.query.select = [{expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"}];
-  //     spySearch = spyOn(searchService, 'search').and.callThrough();
-  //     spyQueryRemoveAction = spyOn(searchService.query, 'removeSelect').and.callThrough();
+  //     spySearch = vi.spyOn(searchService, 'search');
+  //     spyQueryRemoveAction = vi.spyOn(searchService.query, 'removeSelect');
   //   });
 
   //   afterEach(() => {
-  //     spySearch.calls.reset();
-  //     spyQueryRemoveAction.calls.reset();
+  //     spySearch.mockClear();
+  //     spyQueryRemoveAction.mockClear();
   //   })
 
   //   it("remove existing select and trigger new search", () => {
@@ -449,11 +449,11 @@ describe("AdvancedService", () => {
   //       {expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"},
   //       {expression: "test: (`titi`:`titi`)", facet: "test"}
   //     ];
-  //     spySearch = spyOn(searchService, 'search').and.callThrough();
+  //     spySearch = vi.spyOn(searchService, 'search');
   //   });
 
   //   afterEach(() => {
-  //     spySearch.calls.reset();
+  //     spySearch.mockClear();
   //   })
 
   //   it("then trigger new search", () => {
@@ -474,16 +474,16 @@ describe("AdvancedService", () => {
   describe("format an advanced value", () => {
     let spy;
     beforeEach(() => {
-      spy = spyOn(formatService, "formatValue");
+      spy = vi.spyOn(formatService, "formatValue").mockImplementation((() => undefined) as never);
     });
 
     afterEach(() => {
-      spy.calls.reset();
+      spy.mockClear();
     });
 
     it("single value with formatted column", () => {
       const column = { formatter: "toto" } as CCColumn;
-      spyOn(appService, "getColumn").and.returnValue(column);
+      vi.spyOn(appService, "getColumn").mockReturnValue(column);
 
       service.formatAdvancedValue("toto", "foo");
 
@@ -494,7 +494,7 @@ describe("AdvancedService", () => {
     it("list of items (including undefined values) with formatted column", () => {
       const column = { formatter: "toto" } as CCColumn;
       const value = ["foo", "test", undefined];
-      spyOn(appService, "getColumn").and.returnValue(column);
+      vi.spyOn(appService, "getColumn").mockReturnValue(column);
 
       service.formatAdvancedValue("toto", value);
 
@@ -505,7 +505,7 @@ describe("AdvancedService", () => {
 
     it("with unformatted column", () => {
       const column = { formatter: undefined } as CCColumn;
-      spyOn(appService, "getColumn").and.returnValue(column);
+      vi.spyOn(appService, "getColumn").mockReturnValue(column);
 
       service.formatAdvancedValue("toto", 1520845152);
 
@@ -517,12 +517,12 @@ describe("AdvancedService", () => {
     let column;
     beforeEach(() => {
       column = { formatter: "toto" } as CCColumn;
-      spyOn(Utils, "isString").and.returnValue(true);
+      vi.spyOn(Utils, "isString").mockReturnValue(true);
     });
 
     it("string as Date", () => {
-      spyOn(AppService, "isDate").and.returnValue(true);
-      const spy = spyOn(Utils, "toDate");
+      vi.spyOn(AppService, "isDate").mockReturnValue(true);
+      const spy = vi.spyOn(Utils, "toDate").mockImplementation((() => undefined) as never);
 
       service.castAdvancedValue("12/12/1212", column);
 
@@ -531,9 +531,9 @@ describe("AdvancedService", () => {
     });
 
     it("string as integer", () => {
-      spyOn(AppService, "isInteger").and.returnValue(true);
-      spyOn(Utils, "testInteger").and.returnValue(true);
-      const spy = spyOn(Utils, "toInt");
+      vi.spyOn(AppService, "isInteger").mockReturnValue(true);
+      vi.spyOn(Utils, "testInteger").mockReturnValue(true);
+      const spy = vi.spyOn(Utils, "toInt").mockImplementation((() => undefined) as never);
 
       service.castAdvancedValue("12", column);
 
@@ -542,9 +542,9 @@ describe("AdvancedService", () => {
     });
 
     it("string as number", () => {
-      spyOn(AppService, "isDouble").and.returnValue(true);
-      spyOn(Utils, "testFloat").and.returnValue(true);
-      const spy = spyOn(Utils, "toNumber");
+      vi.spyOn(AppService, "isDouble").mockReturnValue(true);
+      vi.spyOn(Utils, "testFloat").mockReturnValue(true);
+      const spy = vi.spyOn(Utils, "toNumber").mockImplementation((() => undefined) as never);
 
       service.castAdvancedValue("129.487", column);
 
@@ -553,8 +553,8 @@ describe("AdvancedService", () => {
     });
 
     it("string as boolean", () => {
-      spyOn(AppService, "isBoolean").and.returnValue(true);
-      const spy = spyOn(Utils, "isTrue");
+      vi.spyOn(AppService, "isBoolean").mockReturnValue(true);
+      const spy = vi.spyOn(Utils, "isTrue").mockImplementation((() => undefined) as never);
 
       service.castAdvancedValue("true", column);
 

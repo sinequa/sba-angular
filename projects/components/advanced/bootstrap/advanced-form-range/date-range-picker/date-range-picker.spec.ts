@@ -22,8 +22,8 @@ describe('BsFacetRange', () => {
   let context: BsDateRangePicker;
   let fixture: ComponentFixture<BsDateRangePicker>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [BsDateRangePicker],
       imports: [
         CommonModule,
@@ -41,7 +41,7 @@ describe('BsFacetRange', () => {
         {provide: MODAL_PROMPT, useValue: {}},
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BsDateRangePicker);
