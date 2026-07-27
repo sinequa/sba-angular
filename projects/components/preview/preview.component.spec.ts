@@ -2,17 +2,25 @@ import { ChangeDetectorRef, ElementRef } from '@angular/core';
 
 import { Preview } from './preview.component';
 
+/** Vitest counterpart of the former `jasmine.createSpyObj()`. */
+function createSpyObj(methodNames: string[], properties: Record<string, unknown> = {}): any {
+    return Object.fromEntries([
+        ...methodNames.map(name => [name, vi.fn()]),
+        ...Object.entries(properties)
+    ]);
+}
+
 describe('Preview', () => {
     let component: Preview;
 
-    const mockPreviewService = jasmine.createSpyObj('PreviewService', ['getPreviewData']);
-    const mockPreviewFrames = jasmine.createSpyObj('PreviewFrameService', ['subscribe', 'unsubscribe']);
-    const mockSanitizer = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustResourceUrl']);
-    const mockAppService = jasmine.createSpyObj('AppService', ['updateUrlForCors'], { origin: 'http://localhost' });
-    const mockSearchService = jasmine.createSpyObj('SearchService', ['notifyOpenOriginalDocument'], { query: undefined });
-    const mockPrefs = jasmine.createSpyObj('UserPreferences', ['get', 'set']);
-    const mockCdRef = jasmine.createSpyObj('ChangeDetectorRef', ['detectChanges']);
-    const mockUi = jasmine.createSpyObj('UIService', ['addElementResizeListener', 'removeElementResizeListener']);
+    const mockPreviewService = createSpyObj(['getPreviewData']);
+    const mockPreviewFrames = createSpyObj(['subscribe', 'unsubscribe']);
+    const mockSanitizer = createSpyObj(['bypassSecurityTrustResourceUrl']);
+    const mockAppService = createSpyObj(['updateUrlForCors'], { origin: 'http://localhost' });
+    const mockSearchService = createSpyObj(['notifyOpenOriginalDocument'], { query: undefined });
+    const mockPrefs = createSpyObj(['get', 'set']);
+    const mockCdRef = createSpyObj(['detectChanges']);
+    const mockUi = createSpyObj(['addElementResizeListener', 'removeElementResizeListener']);
     const mockEl = { nativeElement: document.createElement('div') } as ElementRef<HTMLElement>;
     const mockEvent = new MouseEvent('click') as UIEvent;
 
@@ -36,7 +44,7 @@ describe('Preview', () => {
 
     describe('zoom postMessage on zoom actions', () => {
         beforeEach(() => {
-            spyOn(component, 'sendMessage');
+            vi.spyOn(component, 'sendMessage').mockImplementation((() => undefined) as never);
         });
 
         it('should send zoom with new factor when zooming in', () => {
@@ -52,8 +60,8 @@ describe('Preview', () => {
         });
 
         it('should send zoom on ready with current scale', () => {
-            spyOn(component, 'getHighlights').and.returnValue([]);
-            spyOn(component, 'updateActions');
+            vi.spyOn(component, 'getHighlights').mockReturnValue([]);
+            vi.spyOn(component, 'updateActions').mockImplementation((() => undefined) as never);
             component.onReady();
             expect(component.sendMessage).toHaveBeenCalledWith({ action: 'zoom', factor: component.scale });
         });

@@ -4,7 +4,7 @@ import { ResultMissingTerms } from "../result/result-missing-terms/result-missin
 const mockSearchService: any = {
     query: null,
     isSearchRouteActive: () => false,
-    search: jasmine.createSpy('search')
+    search: vi.fn()
 };
 
 function createComponent(queryText: string): { component: ResultMissingTerms; query: Query } {

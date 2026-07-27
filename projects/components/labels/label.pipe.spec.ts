@@ -55,9 +55,9 @@ describe("LabelPipe", () => {
   let pipe: LabelPipe;
   let service: IntlService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
     imports: [RouterTestingModule,
         OverlayModule],
     providers: [
@@ -84,7 +84,7 @@ describe("LabelPipe", () => {
     service.init();
 
     pipe = TestBed.inject(LabelPipe);
-  }))
+  })
 
   it('transforms an error message ... with i18n (en-US)', () => {
     // This pipe has the same behavior of a Message Pipe !?
