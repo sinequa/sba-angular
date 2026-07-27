@@ -74,18 +74,22 @@ describe("Utils", () => {
     it("should convert a string to an object", () => {
       // Expected format is : YYY-MM-DD [HH:mm:ss]
       // in comment unknown formats by Moment
-      const json = [
-        ['{"number": 1, "text": "abc", "date": "2022-12-31"}', 'Sat Dec 31 2022 00:00:00 GMT+0100 (Central European Standard Time)'],
-        ['{"number": 1, "text": "abc", "date": "2022-12-31 18:12:36"}', 'Sat Dec 31 2022 18:12:36 GMT+0100 (Central European Standard Time)'],
-        // ['{"number": 1, "text": "abc", "date": "2022-12-31 18:12"}', 'Sat Dec 31 2022 18:12:00 GMT+0100 (Central European Standard Time)'],
-        // ['{"number": 1, "text": "abc", "date": "2022-12-31 18"}', 'Sat Dec 31 2022 18:00:00 GMT+0100 (Central European Standard Time)'],
-        // ['{"number": 1, "text": "abc", "date": "2022-12-31Z"}', 'Sat Dec 31 2022 01:00:00 GMT+0100 (Central European Standard Time)'],
-        // ['{"number": 1, "text": "abc", "date": "2022-12-31T"}', 'Sat Dec 31 2022 00:00:00 GMT+0100 (Central European Standard Time)'],
+      // Compared as Date instances rather than through toString(): the latter
+      // spells the time zone in the platform locale ("Central European Standard
+      // Time" under Chrome, its French name under Node), which says nothing
+      // about the parsing being tested.
+      const json: [string, Date][] = [
+        ['{"number": 1, "text": "abc", "date": "2022-12-31"}', new Date('2022-12-31 00:00:00')],
+        ['{"number": 1, "text": "abc", "date": "2022-12-31 18:12:36"}', new Date('2022-12-31 18:12:36')],
+        // ['{"number": 1, "text": "abc", "date": "2022-12-31 18:12"}', new Date('2022-12-31 18:12:00')],
+        // ['{"number": 1, "text": "abc", "date": "2022-12-31 18"}', new Date('2022-12-31 18:00:00')],
+        // ['{"number": 1, "text": "abc", "date": "2022-12-31Z"}', new Date('2022-12-31 01:00:00')],
+        // ['{"number": 1, "text": "abc", "date": "2022-12-31T"}', new Date('2022-12-31 00:00:00')],
       ];
 
-      json.map(item => {
-        expect(Utils.fromJson(item[0], { reviveDates: true }).date instanceof Date).toBeTruthy();
-        expect(Utils.fromJson(item[0], { reviveDates: true }).date.toString()).toEqual(item[1]);
+      json.map(([raw, expected]) => {
+        expect(Utils.fromJson(raw, { reviveDates: true }).date instanceof Date).toBeTruthy();
+        expect(Utils.fromJson(raw, { reviveDates: true }).date).toEqual(expected);
       })
 
 
@@ -95,7 +99,7 @@ describe("Utils", () => {
       expect(Utils.fromJson(json1, { reviveDates: true }).date).toEqual("2022-31-12");
 
       // when string is invalid, return null
-      spyOn(console, 'log'); // intercept console.log() call
+      vi.spyOn(console, 'log').mockImplementation((() => undefined) as never); // intercept console.log() call
       expect(Utils.fromJson("{")).toBeNull();
     });
 
