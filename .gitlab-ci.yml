@@ -1,0 +1,136 @@
+stages:
+  - check
+  - build
+  - deploy
+
+variables:
+  CI: "true"
+
+# ─── MR checks ───────────────────────────────────────────────────────────────
+
+jira-ticket-check:
+  stage: check
+  image: alpine:latest
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - |
+      title="$CI_MERGE_REQUEST_TITLE"
+      echo "Checking Merge Request title: $title"
+      if echo "$title" | grep -qiE '[A-Za-z]{2,6}-[0-9]+[[:space:]]+#done'; then
+        echo "Title contains a Jira ticket with '#done'"
+        exit 0
+      elif echo "$title" | grep -q '#noJiraCheck'; then
+        echo "Check disabled by #noJiraCheck"
+        exit 0
+      else
+        echo "ERROR: Title does not contain a Jira ticket with '#done'"
+        echo "Add #noJiraCheck to the title to bypass this check."
+        exit 1
+      fi
+
+# ─── Node.js CI ──────────────────────────────────────────────────────────────
+
+.node-ci:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
+  script:
+    - npm ci
+    - npm run buildcore --if-present
+    - npm run buildcomponents --if-present
+    - npm run test components -- --watch=false
+    - npm run buildanalytics --if-present
+    - npm run buildhellosearch --if-present
+    - npm run buildvanilla --if-present
+    - npm run buildpepper --if-present
+
+node-ci-node10:
+  extends: .node-ci
+  image: node:10
+
+node-ci-node12:
+  extends: .node-ci
+  image: node:12
+
+# ─── Docs: test build on MR to master ────────────────────────────────────────
+
+test-docs-build:
+  stage: build
+  image: node:18
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
+  script:
+    - npm run docs:ci
+    - npm run docs:build
+
+# ─── Docs: Docusaurus → GitLab Pages (public) ────────────────────────────────
+# GitLab Pages requires the job to be named "pages" and artifact path "public".
+
+pages:
+  stage: deploy
+  image: node:18
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - when: manual
+  script:
+    - npm run docs:ci
+    - npm run docs:build
+    - mv ./docusaurus/build public
+  artifacts:
+    paths:
+      - public
+
+# ─── Docs: Docusaurus → internal deployment (self-hosted runner) ─────────────
+
+pages-internal:
+  stage: deploy
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - when: manual
+  script:
+    - npm run docs:ci
+    - npm run docs:build-internal
+    - mv ./docusaurus/build public
+  artifacts:
+    paths:
+      - public
+
+# ─── Docs: Jekyll → GitLab Pages (public) ────────────────────────────────────
+
+pages-jekyll:
+  stage: deploy
+  image: node:18
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - when: manual
+  before_script:
+    - apt-get update -qq && apt-get install -y ruby-full build-essential zlib1g-dev
+    - gem install bundler
+    - bundle install --gemfile=docs/Gemfile
+  script:
+    - node ./scripts/doc-preprocess.js https://github.com/sinequa/sba-angular
+    - npm ci
+    - npm run builddocs
+    - BUNDLE_GEMFILE=docs/Gemfile bundle exec jekyll build --source ./docs --destination ./public
+  artifacts:
+    paths:
+      - public
+
+# ─── Docs: Jekyll → internal deployment (self-hosted runner) ─────────────────
+
+pages-jekyll-internal:
+  stage: deploy
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - when: manual
+  script:
+    - node ./scripts/doc-replace-baseurl.js
+    - node ./scripts/doc-preprocess.js https://github.sinequa.com/CustomerSolutions/sba-internal
+    - npm ci
+    - npm run builddocs
+    - bundle exec jekyll build --source ./docs --destination ./public
+  artifacts:
+    paths:
+      - public
