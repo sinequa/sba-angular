@@ -1,3 +1,5 @@
+import type { MockInstance } from 'vitest';
+
 import { EMPTY } from 'rxjs';
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -49,23 +51,23 @@ describe('FeedbackService', () => {
     });
 
     describe('sendUserFeedback — XSS sanitization (ES-30919)', () => {
-        let spyNotify: jasmine.Spy;
+        let spyNotify: MockInstance;
 
         beforeEach(() => {
-            spyNotify = spyOn(auditService, 'notify').and.returnValue(EMPTY);
+            spyNotify = vi.spyOn(auditService, 'notify').mockReturnValue(EMPTY);
         });
 
         it('should send plain text unchanged', () => {
             service.sendUserFeedback('content', 'Great search results!', false);
 
-            const event = spyNotify.calls.mostRecent().args[0][0];
+            const event = spyNotify.mock.lastCall![0][0];
             expect(event.detail.detail).toBe('Great search results!');
         });
 
         it('should encode < and > to prevent HTML injection', () => {
             service.sendUserFeedback('content', '<script>alert("xss")</script>', false);
 
-            const event = spyNotify.calls.mostRecent().args[0][0];
+            const event = spyNotify.mock.lastCall![0][0];
             expect(event.detail.detail).toBe('&lt;script&gt;alert("xss")&lt;/script&gt;');
         });
 
@@ -76,7 +78,7 @@ describe('FeedbackService', () => {
 
             service.sendUserFeedback('other', payload, false);
 
-            const event = spyNotify.calls.mostRecent().args[0][0];
+            const event = spyNotify.mock.lastCall![0][0];
             expect(event.detail.detail).not.toContain('<form');
             expect(event.detail.detail).not.toContain('<input');
             expect(event.detail.detail).toContain('&lt;form');
@@ -86,14 +88,14 @@ describe('FeedbackService', () => {
         it('should neutralize img onerror XSS vector', () => {
             service.sendUserFeedback('ui', '<img src=x onerror=alert(1)>', false);
 
-            const event = spyNotify.calls.mostRecent().args[0][0];
+            const event = spyNotify.mock.lastCall![0][0];
             expect(event.detail.detail).toBe('&lt;img src=x onerror=alert(1)&gt;');
         });
 
         it('should preserve special characters that are not HTML tags', () => {
             service.sendUserFeedback('lang', 'Price is 5 & 10 "quoted" value', false);
 
-            const event = spyNotify.calls.mostRecent().args[0][0];
+            const event = spyNotify.mock.lastCall![0][0];
             expect(event.detail.detail).toBe('Price is 5 & 10 "quoted" value');
         });
 
@@ -101,7 +103,7 @@ describe('FeedbackService', () => {
             service.sendUserFeedback('content', 'test message', false);
 
             expect(spyNotify).toHaveBeenCalledTimes(1);
-            const event = spyNotify.calls.mostRecent().args[0][0];
+            const event = spyNotify.mock.lastCall![0][0];
             expect(event.type).toBe('UserFeedback_UserFeedback');
             expect(event.detail.message).toBe('content');
         });

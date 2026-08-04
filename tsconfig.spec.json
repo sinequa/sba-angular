@@ -2,9 +2,17 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
+    // Vitest/Vite type definitions rely on package "exports" and self-references,
+    // which the root config's legacy "node" resolution cannot follow. Specs are
+    // bundled by Vite anyway, so this only affects the test programs.
+    "moduleResolution": "bundler",
     "types": [
-      "jasmine",
       "node"
     ]
-  }
+  },
+  // Inherited by every projects/*/tsconfig.spec.json, so the Vitest globals are
+  // declared once for all the test programs.
+  "files": [
+    "vitest-globals.d.ts"
+  ]
 }

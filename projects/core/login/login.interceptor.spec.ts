@@ -74,18 +74,18 @@ describe("login interceptor", () => {
 
   it('When 401, try to get Credentials or error is rethrow', async () => {
     const login = TestBed.inject(LoginService);
-    spyOn(login, "getCredentials").and.returnValue(Promise.resolve());
+    vi.spyOn(login, "getCredentials").mockReturnValue(Promise.resolve());
     // before refacto this method doesn't exists
-    spyOn<any>(interceptorInstance, "handle401Error").and.callThrough();
+    vi.spyOn(interceptorInstance as any, "handle401Error");
 
     const message = '401 error';
 
     // Make an HTTP GET request
     await httpClient.get("/api/v1/data")
       .subscribe({
-        next: res => fail('should have failed with the 401 error'),
+        next: () => expect.unreachable('should have failed with the 401 error'),
         error: (err: HttpErrorResponse) => {
-          expect(err.error).toEqual(message, 'message');
+          expect(err.error).toEqual(message);
         }
       });
 
@@ -97,22 +97,38 @@ describe("login interceptor", () => {
 
     expect(login.getCredentials).toHaveBeenCalledTimes(1);
     expect((interceptorInstance as LoginInterceptor)["handle401Error"]).toHaveBeenCalledTimes(1);
+
+    // Once the credentials promise settles, handle401Error replays the request.
+    // Under Karma that microtask had simply not been drained by the time the
+    // spec ended, so the replay went unnoticed; here it has to be discarded or
+    // afterEach's verify() reports it as a pending request.
+    //
+    // match() removes the requests it returns without answering them, which is
+    // what this spec needs: responding would make the original observable emit
+    // a value, and the subscription above asserts it never succeeds. The number
+    // of ticks the replay takes depends on how the promise and the RxJS chain
+    // interleave, so drain until nothing is left instead of waiting a fixed
+    // delay — a single tick makes this spec flaky on a loaded machine.
+    for (let attempt = 0; attempt < 10; attempt++) {
+      await new Promise(resolve => setTimeout(resolve));
+      if (httpMock.match(() => true).length === 0) break;
+    }
   });
 
   it('When an error occurs, error is rethrow', async () => {
     const login = TestBed.inject(LoginService);
-    spyOn(login, "getCredentials").and.returnValue(Promise.resolve());
+    vi.spyOn(login, "getCredentials").mockReturnValue(Promise.resolve());
     // before refacto this method doesn't exists
-    spyOn<any>(interceptorInstance, "handle401Error").and.callThrough();
+    vi.spyOn(interceptorInstance as any, "handle401Error");
 
     const message = '403 Forbidden';
 
     // Make an HTTP GET request
     await httpClient.get("/api/v1/data")
       .subscribe({
-        next: res => fail('should have failed with the 403 error'),
+        next: () => expect.unreachable('should have failed with the 403 error'),
         error: (err: HttpErrorResponse) => {
-          expect(err.error).toEqual(message, 'message');
+          expect(err.error).toEqual(message);
         }
       });
 
@@ -134,11 +150,11 @@ describe("login interceptor", () => {
     const req = httpMock.expectOne("/api/v1/data?ui-language=fr");
     req.flush("ok");
 
-    expect(req.request.params.has("noAutoAuthentication")).toBeFalse();
-    expect(req.request.params.has("noUserOverride")).toBeFalse();
-    expect(req.request.params.has("noNotify")).toBeFalse();
+    expect(req.request.params.has("noAutoAuthentication")).toBe(false);
+    expect(req.request.params.has("noUserOverride")).toBe(false);
+    expect(req.request.params.has("noNotify")).toBe(false);
 
-    expect(req.request.headers.has("sinequa-force-camel-case")).toBeTrue();
+    expect(req.request.headers.has("sinequa-force-camel-case")).toBe(true);
   });
 
   it("should no intercept request with 'noIntercept' params", () => {

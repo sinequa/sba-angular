@@ -1,5 +1,5 @@
 // import { HttpHandler } from "@angular/common/http";
-// import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+// import { ComponentFixture, TestBed } from "@angular/core/testing";
 // import { Router } from "@angular/router";
 
 // import { FirstPageService, SearchService } from "@sinequa/components/search";
@@ -19,7 +19,7 @@
 //   let context: BsFacetTimelineComponent;
 //   let fixture: ComponentFixture<BsFacetTimelineComponent>;
 
-//   beforeEach(waitForAsync(() => {
+//   beforeEach(async () => {
 
 //     const IntlServiceFactory = () => ({
 //       parseDate: () => {},
@@ -43,7 +43,7 @@
 //         { provide: Router, useClass: RouterStub }
 //       ]
 //     }).compileComponents();
-//   }));
+//   });
 
 //   beforeEach(() => {
 //     fixture = TestBed.createComponent(BsFacetTimelineComponent);
@@ -163,3 +163,10 @@
 //   })
 
 // })
+
+// The suite above is entirely commented out. Vitest fails a spec file that
+// declares no suite at all ("No test suite found"), where Karma silently
+// ignored it — so keep the file reported as skipped until it is restored.
+describe.skip("BsFacetTimelineComponent", () => {
+  it("is disabled pending a rewrite", () => { /* see the commented suite above */ });
+});
