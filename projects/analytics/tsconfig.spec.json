@@ -1,5 +1,7 @@
 {
   "extends": "../../tsconfig.spec.json",
-  "include": ["**/*.spec.ts", "**/*.d.ts", "../core/**/*.d.ts"],
-  "files": ["test.ts"]
+  "include": ["**/*.ts", "**/*.d.ts", "../core/**/*.d.ts"],
+  // ag-grid-view imports deep "ag-grid-community/dist/types/..." paths that the
+  // bundler resolution rejects. No spec covers it, so keep it out of the program.
+  "exclude": ["ag-grid/**"]
 }

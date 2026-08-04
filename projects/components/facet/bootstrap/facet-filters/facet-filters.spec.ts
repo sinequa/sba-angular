@@ -1,3 +1,5 @@
+import type { MockInstance } from 'vitest';
+
 import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FacetConfig } from '../../facet-config';
@@ -17,7 +19,7 @@ const mockFacetService = {
 describe('BsFacetFilters', () => {
     let context: BsFacetFilters;
     let fixture: ComponentFixture<BsFacetFilters>;
-    let detectChangesSpy: jasmine.Spy;
+    let detectChangesSpy: MockInstance;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -35,8 +37,8 @@ describe('BsFacetFilters', () => {
         fixture = TestBed.createComponent(BsFacetFilters);
         context = fixture.componentInstance;
         // Prevent ngOnDestroy from failing if ngOnChanges was never called
-        context['sub'] = { unsubscribe: jasmine.createSpy('unsubscribe') } as any;
-        detectChangesSpy = spyOn(context['cdRef'], 'detectChanges');
+        context['sub'] = { unsubscribe: vi.fn() } as any;
+        detectChangesSpy = vi.spyOn(context['cdRef'], 'detectChanges').mockImplementation((() => undefined) as never);
     });
 
     describe('openFacet()', () => {
@@ -65,7 +67,7 @@ describe('BsFacetFilters', () => {
             const facetA = { name: 'facetA' } as FacetConfig<{}>;
             const facetB = { name: 'facetB' } as FacetConfig<{}>;
             context.openedFacet = facetA;
-            detectChangesSpy.calls.reset();
+            detectChangesSpy.mockClear();
 
             context.openFacet(facetB);
 
@@ -76,7 +78,7 @@ describe('BsFacetFilters', () => {
         it('should call detectChanges once when re-opening the same facet (to force component reload)', () => {
             const facet = { name: 'facetA' } as FacetConfig<{}>;
             context.openedFacet = facet;
-            detectChangesSpy.calls.reset();
+            detectChangesSpy.mockClear();
 
             context.openFacet(facet);
 

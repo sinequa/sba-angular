@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {Router} from '@angular/router';
 import {NgxSliderModule} from '@angular-slider/ngx-slider';
 
@@ -57,7 +57,7 @@ describe('BsFacetRange', () => {
     context.aggregation = "ModifiedRange";
 
     // fake getColumn() return value
-    spyOn(context["appService"], "getColumn").and.returnValue({name: "modified", type: "date", eType: EngineType.date, eTypeModifier: EngineTypeModifier.none});
+    vi.spyOn(context["appService"], "getColumn").mockReturnValue({name: "modified", type: "date", eType: EngineType.date, eTypeModifier: EngineTypeModifier.none});
   }
 
   function setDoubleAggregation() {
@@ -68,11 +68,11 @@ describe('BsFacetRange', () => {
     context.aggregation = "DoubleAggregation";
 
     // fake getColumn() return value
-    spyOn(context["appService"], "getColumn").and.returnValue({name: "double", type: "double", eType: EngineType.double, eTypeModifier: EngineTypeModifier.none});
+    vi.spyOn(context["appService"], "getColumn").mockReturnValue({name: "double", type: "double", eType: EngineType.double, eTypeModifier: EngineTypeModifier.none});
   }
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [BsFacetRange],
       imports: [
         CommonModule,
@@ -90,7 +90,7 @@ describe('BsFacetRange', () => {
         {provide: MODAL_PROMPT, useValue: {}},
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BsFacetRange);
@@ -102,14 +102,14 @@ describe('BsFacetRange', () => {
   });
 
   it('should display dates range', () => {
-    spyOn<any>(context, "init").and.callThrough();
+    vi.spyOn(context as any, "init");
     setModifiedAggregation();
 
     context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true }});
 
     fixture.detectChanges();
 
-    expect(context.initDone).toBeTrue();
+    expect(context.initDone).toBe(true);
     expect(context.data?.items).toBeDefined();
     expect(new Date(context.options.floor as number).toLocaleDateString("en-US")).toEqual("1/1/1901");
     expect(new Date(context.options.ceil as number).toLocaleDateString("en-US")).toEqual("9/15/2020");
@@ -120,7 +120,7 @@ describe('BsFacetRange', () => {
   })
 
   it('should display new dates range when results changes', () => {
-    spyOn<any>(context, "init").and.callThrough();
+    vi.spyOn(context as any, "init");
     setModifiedAggregation();
 
     expect(context.initDone).toBeUndefined();
@@ -128,7 +128,7 @@ describe('BsFacetRange', () => {
     context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true}});
     fixture.detectChanges();
 
-    expect(context.initDone).toBeTrue();
+    expect(context.initDone).toBe(true);
     expect(context.data?.items).toBeDefined();
     expect(new Date(context.options.floor as number).toLocaleDateString("en-US")).toEqual("1/1/1901");
     expect(new Date(context.options.ceil as number).toLocaleDateString("en-US")).toEqual("9/15/2020");
@@ -152,7 +152,7 @@ describe('BsFacetRange', () => {
 
     context.ngOnChanges({results: {previousValue: undefined, currentValue: undefined, firstChange: true, isFirstChange: () => true}});
 
-    expect(context.initDone).toBeTrue();
+    expect(context.initDone).toBe(true);
     fixture.detectChanges();
 
     expect(new Date(context.options.floor as number).toLocaleDateString("en-US")).toEqual("9/2/1974");
@@ -165,7 +165,7 @@ describe('BsFacetRange', () => {
   })
 
   it("should handle number in min/max", () => {
-    spyOn<any>(context, "parseValue").and.callThrough();
+    vi.spyOn(context as any, "parseValue");
 
     setDoubleAggregation();
 
@@ -182,7 +182,7 @@ describe('BsFacetRange', () => {
   })
 
   it("should handle string in min/max", () => {
-    spyOn<any>(context, "parseValue").and.callThrough();
+    vi.spyOn(context as any, "parseValue");
 
     setDoubleAggregation();
 
@@ -200,7 +200,7 @@ describe('BsFacetRange', () => {
 
 
   it("should handle date as string in min/max", () => {
-    spyOn<any>(context, "parseValue").and.callThrough();
+    vi.spyOn(context as any, "parseValue");
 
     setModifiedAggregation();
 
@@ -218,7 +218,7 @@ describe('BsFacetRange', () => {
 
 
   it("should handle date as Date in min/max", () => {
-    spyOn<any>(context, "parseValue").and.callThrough();
+    vi.spyOn(context as any, "parseValue");
 
     setModifiedAggregation();
 
@@ -235,7 +235,7 @@ describe('BsFacetRange', () => {
   })
 
   it("should handle sizes (for non-date columns)", () => {
-    spyOn<any>(context, "parseValue").and.callThrough();
+    vi.spyOn(context as any, "parseValue");
 
     setDoubleAggregation();
 

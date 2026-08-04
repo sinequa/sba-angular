@@ -1,3 +1,5 @@
+import type { MockInstance } from 'vitest';
+
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { LocationStrategy } from "@angular/common";
 import { MockLocationStrategy } from "@angular/common/testing";
@@ -52,9 +54,9 @@ describe("SearchService", () => {
     service = TestBed.inject(SearchService);
 
     // do not call the real methods
-    spyOn<any>(service, "handleLogin");
-    spyOn<any>(service, "handleNavigation");
-    spyOn<any>(service, 'ngOnDestroy');
+    vi.spyOn(service as any, "handleLogin").mockImplementation((() => undefined) as never);
+    vi.spyOn(service as any, "handleNavigation").mockImplementation((() => undefined) as never);
+    vi.spyOn(service as any, 'ngOnDestroy').mockImplementation((() => undefined) as never);
   });
 
   it("can load instance", () => {
@@ -68,7 +70,7 @@ describe("SearchService", () => {
 
   describe("setQuery", () => {
     it("should sent event 'new-query'", () => {
-      spyOn<any>(service['_events'], "next");
+      vi.spyOn(service['_events'] as any, "next").mockImplementation((() => undefined) as never);
       const query: Query = new Query("abc");
 
       service.setQuery(query);
@@ -77,7 +79,7 @@ describe("SearchService", () => {
     });
 
     it("should sent event 'new-query' with prevents name changes and returns ccquery", () => {
-      spyOn<any>(service['_events'], "next");
+      vi.spyOn(service['_events'] as any, "next").mockImplementation((() => undefined) as never);
       const query: Query = new Query("abc");
 
       // When preventQueryNameChanges is true
@@ -90,7 +92,7 @@ describe("SearchService", () => {
     });
 
     it("should sent event 'new-query' with prevents name changes and returns default ccquery", () => {
-      spyOn<any>(service['_events'], "next");
+      vi.spyOn(service['_events'] as any, "next").mockImplementation((() => undefined) as never);
       const query: Query = new Query("abc");
       const appService = TestBed.inject(AppService);
       appService.ccquery = undefined;
@@ -105,10 +107,10 @@ describe("SearchService", () => {
     });
 
     it("should sent event 'new-query' and returns defaultCCQuery when query is not found", () => {
-      spyOn<any>(service['_events'], "next");
+      vi.spyOn(service['_events'] as any, "next").mockImplementation((() => undefined) as never);
       const query: Query = new Query("abc");
       const appService = TestBed.inject(AppService);
-      spyOn(appService, "getCCQuery").and.returnValue(undefined);
+      vi.spyOn(appService, "getCCQuery").mockReturnValue(undefined);
 
       // Then
       service.setQuery(query);
@@ -120,8 +122,8 @@ describe("SearchService", () => {
 
   describe("home", () => {
     it("should clear query and navigate to home", () => {
-      spyOn(service, "clear").and.callThrough();
-      spyOn(service, "navigate");
+      vi.spyOn(service, "clear");
+      vi.spyOn(service, "navigate").mockImplementation((() => undefined) as never);
       service["options"].homeRoute = "/home";
 
       service.home();
@@ -131,8 +133,8 @@ describe("SearchService", () => {
     })
 
     it("should clear query and navigate to path", () => {
-      spyOn(service, "clear").and.callThrough();
-      spyOn(service, "navigate");
+      vi.spyOn(service, "clear");
+      vi.spyOn(service, "navigate").mockImplementation((() => undefined) as never);
 
       service.home("/about");
 
@@ -147,10 +149,10 @@ describe("SearchService", () => {
       service.isEmptySearchIgnoreSelects(query);
 
       // by default
-      expect(service.isEmptySearchIgnoreSelects(query)).toBeTrue();
+      expect(service.isEmptySearchIgnoreSelects(query)).toBe(true);
 
       // query is undefined;
-      expect(service.isEmptySearchIgnoreSelects(undefined)).toBeTrue();
+      expect(service.isEmptySearchIgnoreSelects(undefined)).toBe(true);
     })
 
     it("should return false", () => {
@@ -158,51 +160,51 @@ describe("SearchService", () => {
       service.isEmptySearchIgnoreSelects(query);
 
       // isFirstPage = true
-      expect(service.isEmptySearchIgnoreSelects(query)).toBeFalse();
+      expect(service.isEmptySearchIgnoreSelects(query)).toBe(false);
 
       // text is defined
       query = {action: "search", text: "abc"} as Query;
       service.isEmptySearchIgnoreSelects(query);
-      expect(service.isEmptySearchIgnoreSelects(query)).toBeFalse();
+      expect(service.isEmptySearchIgnoreSelects(query)).toBe(false);
 
       // basket is defined
       query = {action: "search", basket: "abc"} as Query;
-      expect(service.isEmptySearchIgnoreSelects(query)).toBeFalse();
+      expect(service.isEmptySearchIgnoreSelects(query)).toBe(false);
 
       // query.action not "search"
       query = {action: "open"} as Query;
-      expect(service.isEmptySearchIgnoreSelects(query)).toBeFalse();
+      expect(service.isEmptySearchIgnoreSelects(query)).toBe(false);
     })
   });
 
   describe("isEmptySearch", () => {
     it("should return false", () => {
       let query = {action: "search", isFirstPage: true} as Query;
-      spyOn(service, "isEmptySearchIgnoreSelects").and.callThrough();
+      vi.spyOn(service, "isEmptySearchIgnoreSelects");
 
       // default
-      expect(service.isEmptySearch(query)).toBeFalse();
+      expect(service.isEmptySearch(query)).toBe(false);
 
       // when isEmptySearchIgnoreSelects returns false
       let expected = service.isEmptySearch(query);
       expect(service.isEmptySearchIgnoreSelects).toHaveBeenCalled();
-      expect(expected).toBeFalse();
+      expect(expected).toBe(false);
 
       // when isEmptySearchIgnoreSelects returns true and query.select is not empty
       query = {action: "search", select: [{name: "abc"}] as unknown} as Query;
       expected = service.isEmptySearch(query);
       expect(service.isEmptySearchIgnoreSelects).toHaveBeenCalled();
-      expect(expected).toBeFalse();
+      expect(expected).toBe(false);
 
       query = {action: "open"} as Query;
-      expect(service.isEmptySearch(query)).toBeFalse();
+      expect(service.isEmptySearch(query)).toBe(false);
     })
   })
 
   describe("getHistoryState", () => {
     it("makes expected calls", () => {
       const routerStub: Router = TestBed.inject(Router);
-      spyOn(routerStub, "getCurrentNavigation").and.callThrough();
+      vi.spyOn(routerStub, "getCurrentNavigation");
       service["getHistoryState"]();
       expect(routerStub.getCurrentNavigation).toHaveBeenCalled();
     });
@@ -210,7 +212,7 @@ describe("SearchService", () => {
 
   describe("isSearchRouteActive", () => {
     it("makes expected calls", () => {
-      spyOn<any>(service, "isSearchRoute").and.callThrough();
+      vi.spyOn(service as any, "isSearchRoute");
       service.isSearchRouteActive();
       expect(service["isSearchRoute"]).toHaveBeenCalled();
     });
@@ -222,8 +224,8 @@ describe("SearchService", () => {
       const url = 'search?query=%7B"name":"training_query","text":"obama","tab":"all","select":%5B%5D%7D';
       router.navigateByUrl(url);
 
-      spyOn<any>(service, "isSearchRoute").and.callThrough();
-      spyOn(service, "makeQuery").and.callThrough();
+      vi.spyOn(service as any, "isSearchRoute");
+      vi.spyOn(service, "makeQuery");
 
       service.getQueryFromUrl();
 
@@ -237,8 +239,8 @@ describe("SearchService", () => {
       const url = 'preview?id=%2FWeb%2FWikipedia%2F%7CPresident_Obama&query=%7B"name":"training_query","text":"obama"%7D';
       router.navigateByUrl(url);
 
-      spyOn<any>(service, "isSearchRoute").and.callThrough();
-      spyOn(service, "makeQuery").and.callThrough();
+      vi.spyOn(service as any, "isSearchRoute");
+      vi.spyOn(service, "makeQuery");
 
       service.getQueryFromUrl();
 
@@ -251,7 +253,9 @@ describe("SearchService", () => {
 
   describe("handleLogin", () => {
     beforeEach(() => {
-      (<jasmine.Spy>service["handleLogin"]).and.callThrough();
+      // These specs exercise the real handleLogin, which the outer beforeEach
+      // stubbed out (this was `.and.callThrough()` under Jasmine).
+      (service["handleLogin"] as unknown as MockInstance).mockRestore();
       const router = TestBed.inject(Router);
       const url = 'search?query=%7B"name":"training_query","text":"obama","tab":"all","select":%5B%5D%7D';
       router.navigateByUrl(url);
@@ -307,7 +311,7 @@ describe("SearchService", () => {
 
     describe("getCurrentTab", () => {
       it("should do nothing when results is undefined or results have no tab", () => {
-        spyOn(service, "getTab").and.callThrough();
+        vi.spyOn(service, "getTab");
         service.getCurrentTab();
         expect(service.getTab).not.toHaveBeenCalled();
 
@@ -317,7 +321,7 @@ describe("SearchService", () => {
       });
 
       it("should return current results tab", () => {
-        spyOn(service, "getTab").and.callThrough();
+        vi.spyOn(service, "getTab");
         const tab: Tab = {name: "abc", display: "efg", value: "abc/efg", count: 52};
         service.results = {tab: "abc", tabs: [tab]} as Results;
 
@@ -347,12 +351,12 @@ describe("SearchService", () => {
         // substribe to "make-query" event
         service.events.subscribe((e) => {
           expect(e.type).toEqual("make-query");
-          expect((e as SearchService.MakeQueryEvent).query.isFirstPage).toBeTrue();
+          expect((e as SearchService.MakeQueryEvent).query.isFirstPage).toBe(true);
         });
 
         // set then isFirstPage to true
         const query = service.makeQuery({ isFirstPage: true });
-        expect(query.isFirstPage).toBeTrue();
+        expect(query.isFirstPage).toBe(true);
       }))
 
       it("should returns a query without isFirstPage attribute", waitForAsync(() => {
@@ -372,7 +376,7 @@ describe("SearchService", () => {
           const e = (x as SearchService.MakeQueryEvent);
           expect(e.type).toEqual("make-query");
           expect(e.query.name).toEqual("my-query");
-          expect(e.query.isFirstPage).toBeTrue();
+          expect(e.query.isFirstPage).toBe(true);
         });
 
         // frist, create a dummy Query with isFirstPage set to true
@@ -381,7 +385,7 @@ describe("SearchService", () => {
 
         // make a query based on previous query
         const query = service.makeQuery(q);
-        expect(query.isFirstPage).toBeTrue()
+        expect(query.isFirstPage).toBe(true)
       }))
 
       it("should returns the basket name set", waitForAsync(() => {

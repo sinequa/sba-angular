@@ -92,7 +92,7 @@ describe("FacetService", () => {
       { name: 'facet2', position: 1 },
       { name: 'facet3', position: 2 },
     ];
-		spyOnProperty<any>(service, 'facets', "get").and.returnValue(mockFacets);
+		vi.spyOn(service as any, 'facets', "get").mockReturnValue(mockFacets);
 
     const facet = service.facet('facet2');
 
@@ -106,7 +106,7 @@ describe("FacetService", () => {
       { name: 'facet2', position: 1 },
       { name: 'facet3', position: 2 },
     ];
-		spyOnProperty<any>(service, 'facets', "get").and.returnValue(mockFacets);
+		vi.spyOn(service as any, 'facets', "get").mockReturnValue(mockFacets);
 
     const facet = service.facet('facet4');
 
@@ -117,22 +117,22 @@ describe("FacetService", () => {
 	describe("facets filters", () => {
 
 		// it("should clear filters", () => {
-		// 	spyOn(searchService.query, 'removeSelect');
+		// 	vi.spyOn(searchService.query, 'removeSelect').mockImplementation((() => undefined) as never);
 		// 	service.clearFilters('facetName');
 		// 	expect(searchService.query.removeSelect).toHaveBeenCalled();
 		// });
 
 		it("should clear filters and re-launch search", () => {
-			const spy = spyOn(searchService, 'search');
+			const spy = vi.spyOn(searchService, 'search').mockImplementation((() => undefined) as never);
 			// stub patchFacets() to avoid side effect on toHaveBeenCalledTimes() function
-			spyOn<any>(service, 'patchFacets');
-			spyOn<any>(service['_events'], 'next');
+			vi.spyOn(service as any, 'patchFacets').mockImplementation((() => undefined) as never);
+			vi.spyOn(service['_events'] as any, 'next').mockImplementation((() => undefined) as never);
 
 			// keep previous version working
 			service.clearFiltersSearch('geo', true);
 			expect(searchService.search).toHaveBeenCalledTimes(1);
 
-			spy.calls.reset();
+			spy.mockClear();
 
 			// an array should trigger searchService.search() once
 			// but event() should be triggered as usual
@@ -147,8 +147,8 @@ describe("FacetService", () => {
 			it("should trigger an event", () => {
 				// Given
 				const items = aggregation["geo"].items![0];
-				spyOn(service, 'addFilter').and.returnValue(true);
-				spyOn(service.events, 'next');
+				vi.spyOn(service, 'addFilter').mockReturnValue(true);
+				vi.spyOn(service.events, 'next').mockImplementation((() => undefined) as never);
 
 				// When
 				service.addFilterSearch(aggregation["geo"], items);
@@ -161,8 +161,8 @@ describe("FacetService", () => {
 			it("should not trigger an event", () => {
 				// Given
 				const items = aggregation["geo"].items![0];
-				spyOn(service, 'addFilter').and.returnValue(false);
-				spyOn(service.events, 'next');
+				vi.spyOn(service, 'addFilter').mockReturnValue(false);
+				vi.spyOn(service.events, 'next').mockImplementation((() => undefined) as never);
 
 				// When
 				service.addFilterSearch(aggregation["geo"], items);
@@ -201,9 +201,9 @@ describe("FacetService", () => {
 	// 			} as Breadcrumbs;
 	// 			searchService.breadcrumbs.items = [{expr: undefined, display: "abc"}, item];
 
-	// 			spyOn(searchService.query, "removeSelect");
-	// 			spyOn<any>(service, "findItemFilter").and.returnValue(item.expr)
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+	// 			vi.spyOn(searchService.query, "removeSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(service as any, "findItemFilter").mockReturnValue(item.expr)
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(0);
 
 	// 			service.removeFilter("Size", aggregation["size"], items);
 
@@ -249,18 +249,18 @@ describe("FacetService", () => {
 	// 				findSelect: (facet) => item2.expr
 	// 			} as Breadcrumbs;
 
-	// 			spyOn(searchService.query, "removeSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
-	// 			//spyOn<any>(service, "makeExpr").and.callThrough();
+	// 			vi.spyOn(searchService.query, "removeSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
+	// 			//vi.spyOn(service as any, "makeExpr");
 
 	// 			Object.assign(item2.expr!, {parent: {operands: [item.expr, item2.expr]}});
-	// 			spyOn<any>(service, "findItemFilter").and.returnValue(item2.expr);
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(1);
+	// 			vi.spyOn(service as any, "findItemFilter").mockReturnValue(item2.expr);
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(1);
 
 	// 			// When remove filter : 10 Ko to 100 Ko
 	// 			service.removeFilter("Size", aggregation["size"], aggItem);
 
-	// 			//expect(service["makeExpr"]).toHaveBeenCalledWith("Size", jasmine.anything(), [{count: 0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko", $column: undefined, $excluded: undefined}], jasmine.anything());
+	// 			//expect(service["makeExpr"]).toHaveBeenCalledWith("Size", expect.anything(), [{count: 0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko", $column: undefined, $excluded: undefined}], expect.anything());
 	// 			expect(searchService.query.replaceSelect).toHaveBeenCalledWith(1, {expression: "size`< 10 Ko`:(>= 0 AND < 10240)", facet: "Size"});
 	// 			expect(searchService.query.removeSelect).not.toHaveBeenCalled();
 	// 		});
@@ -271,7 +271,7 @@ describe("FacetService", () => {
 	// 		it("should add a single value filter", () => {
 	// 			// Given
 	// 			const items = aggregation["geo"].items![0];
-	// 			spyOn(searchService.query, "addSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], items);
@@ -287,7 +287,7 @@ describe("FacetService", () => {
 	// 				{items: undefined as unknown as AggregationItem},
 	// 				{items: [] as AggregationItem[]}
 	// 			];
-	// 			spyOn(searchService.query, "addSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
 
 	// 			// When Then
 	// 			testCases.forEach((test) => {
@@ -299,7 +299,7 @@ describe("FacetService", () => {
 	// 		it("should add a single value filter when items is an array of 1 element", () => {
 	// 			// Given
 	// 			const items = aggregation["geo"].items!.slice(0, 1);
-	// 			spyOn(searchService.query, "addSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], items);
@@ -312,7 +312,7 @@ describe("FacetService", () => {
 	// 		it("should add a select filter when items is an array", () => {
 	// 			// Given
 	// 			const items = aggregation["geo"].items!.slice(0, 2);
-	// 			spyOn(searchService.query, "addSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], items);
@@ -326,8 +326,8 @@ describe("FacetService", () => {
 	// 			// breadcrumps: IRAQ OR GUANTANAMO
 	// 			// expected breadcrumps: IRAQ OR GUANTANAMO OR IOWA
 	// 			// Given
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			searchService.breadcrumbs = {
 	// 				activeIndex: 0,
@@ -340,7 +340,7 @@ describe("FacetService", () => {
 	// 					]
 	// 				})
 	// 			} as Breadcrumbs;
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(0);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
@@ -355,8 +355,8 @@ describe("FacetService", () => {
 	// 			// breadcrumps: IRAQ AND GUANTANAMO
 	// 			// expected breadcrumps: IRAQ AND GUANTANAMO AND IOWA
 	// 			// Given
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			searchService.breadcrumbs = {
 	// 				activeIndex: 0,
@@ -370,7 +370,7 @@ describe("FacetService", () => {
 	// 					]
 	// 				})
 	// 			} as Breadcrumbs;
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(0);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
@@ -385,8 +385,8 @@ describe("FacetService", () => {
 	// 			// breadcrumps: NOT(IRAQ OR GUANTANAMO)
 	// 			// expected breadcrumps: NOT(IRAQ OR GUANTANAMO OR IOWA)
 	// 			// Given
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			// breadcrumbItem
 	// 			const item = {
@@ -406,7 +406,7 @@ describe("FacetService", () => {
 	// 				removeItem: (item) => (item),
 	// 				findSelect: (facetName) => item.expr
 	// 			} as Breadcrumbs;
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(0);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2], {not: true}); // IOWA
@@ -421,8 +421,8 @@ describe("FacetService", () => {
 	// 			// breadcrumps: IRAQ AND GUANTANAMO
 	// 			// expected breadcrumps: (IRAQ AND GUANTANAMO)/(IOWA OR NEW HAMPSHIRE)
 	// 			// Given
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			searchService.breadcrumbs = {
 	// 				activeIndex: 0,
@@ -436,7 +436,7 @@ describe("FacetService", () => {
 	// 					]
 	// 				})
 	// 			} as Breadcrumbs;
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(0);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4), {and: false}); // [IOWA, NEW HAMSPHIRE]
@@ -452,8 +452,8 @@ describe("FacetService", () => {
 	// 			// breadcrumps: IRAQ
 	// 			// expected breadcrumps: IRAQ OR IOWA
 	// 			// Given
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			searchService.breadcrumbs = {
 	// 				activeIndex: 0,
@@ -461,7 +461,7 @@ describe("FacetService", () => {
 	// 				removeItem: (item) => (item),
 	// 				findSelect: (facetName) => ({value: "IRAQ", display: "Iraq", toString: (withFields: boolean = true) => "IRAQ"})
 	// 			} as Breadcrumbs;
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(0);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
@@ -477,8 +477,8 @@ describe("FacetService", () => {
 	// 			// breadcrumps: IRAQ OR GUANTANAMO
 	// 			// expected breadcrumps : (IRAQ OR GUANTANAMO) / (IOWA AND NEW HAMPSHIRE)
 	// 			// Given
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			searchService.breadcrumbs = {
 	// 				activeIndex: 0,
@@ -509,8 +509,8 @@ describe("FacetService", () => {
 	// 			// breadcrumps: IRAQ AND GUANTANAMO
 	// 			// expected breadcrumps: (IRAQ AND GUANTANAMO)/(IOWA OR NEW HAMPSHIRE)
 	// 			// Given
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			searchService.breadcrumbs = {
 	// 				activeIndex: 0,
@@ -543,8 +543,8 @@ describe("FacetService", () => {
 	// 			// Given
 	// 			const items = aggregation["geo"].items![0];
 	// 			const facetName = "Geo";
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "removeSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "removeSelect").mockImplementation((() => undefined) as never);
 
 	// 			const exprValueInitializer: ExprValueInitializer = {
 	// 				exprContext: {appService, formatService, intlService},
@@ -584,7 +584,7 @@ describe("FacetService", () => {
 	// 			// expected breadcrumbs: NOT (IRAQ OR GUANTANAMO)
 	// 			// Given
 	// 			const items = aggregation["geo"].items!.slice(0, 2);
-	// 			spyOn(searchService.query, "addSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], items, {not: true});
@@ -597,7 +597,7 @@ describe("FacetService", () => {
 	// 		it("should add a filter with AND options", () => {
 	// 			// Given
 	// 			const items = aggregation["geo"].items!.slice(0, 2);
-	// 			spyOn(searchService.query, "addSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], items, {and: true});
@@ -657,8 +657,8 @@ describe("FacetService", () => {
 	// 				active: true,
 	// 			} as BreadcrumbsItem;
 
-	// 			spyOn(searchService.query, "removeSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "removeSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			searchService.breadcrumbs = {
 	// 				activeIndex: 0,
@@ -671,10 +671,10 @@ describe("FacetService", () => {
 	// 			} as Breadcrumbs;
 
 	// 			// return IOWA expression
-	// 			spyOn<any>(service, "findItemFilter").and.returnValue(exprs[2]);
+	// 			vi.spyOn(service as any, "findItemFilter").mockReturnValue(exprs[2]);
 	// 			// return select expression
-	// 			spyOn<any>(searchService.breadcrumbs, "findSelect").and.returnValue(exprs[2]);
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+	// 			vi.spyOn(searchService.breadcrumbs as any, "findSelect").mockReturnValue(exprs[2]);
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(0);
 
 	// 			// When remove item: IOWA
 	// 			service.removeFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
@@ -689,8 +689,8 @@ describe("FacetService", () => {
 	// 			// breadcrumps: IRAQ
 	// 			// expected breadcrumps: IRAQ / IOWA
 	// 			// Given
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			searchService.breadcrumbs = {
 	// 				activeIndex: 0,
@@ -703,7 +703,7 @@ describe("FacetService", () => {
 	// 					]
 	// 				})
 	// 			} as Breadcrumbs;
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(0);
 
 	// 			// When
 	// 			service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2], {forceAdd: true}); // IOWA
@@ -718,8 +718,8 @@ describe("FacetService", () => {
 	// 			// breadcrumbs: Huffington Post
 	// 			// expected breadcrumbs: Huffington Post / Web
 
-	// 			spyOn(searchService.query, "addSelect");
-	// 			spyOn(searchService.query, "replaceSelect");
+	// 			vi.spyOn(searchService.query, "addSelect").mockImplementation((() => undefined) as never);
+	// 			vi.spyOn(searchService.query, "replaceSelect").mockImplementation((() => undefined) as never);
 
 	// 			// Given
 	// 			searchService.breadcrumbs = {
@@ -733,7 +733,7 @@ describe("FacetService", () => {
 	// 					]
 	// 				})
 	// 			} as Breadcrumbs;
-	// 			spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+	// 			vi.spyOn(searchService.breadcrumbs?.activeSelects as any, "findIndex").mockReturnValue(0);
 
 	// 			// When
 	// 			service.addFilter('Treepath', aggregation['treepath'], aggregation["treepath"].items![0]); // Web
@@ -862,7 +862,7 @@ describe("FacetService", () => {
 
 	// 		const breadcrumbsItems = service.getBreadcrumbsItems("Geo", searchService.breadcrumbs);
 	// 		expect(breadcrumbsItems.length).toEqual(1);
-	// 		expect(breadcrumbsItems).toEqual([{expr: jasmine.anything(), display: "Iraq", facet: "Geo", active: true}]);
+	// 		expect(breadcrumbsItems).toEqual([{expr: expect.anything(), display: "Iraq", facet: "Geo", active: true}]);
 
 	// 		const aggregationItems = service.exprToAggregationItem(breadcrumbsItems[0].expr as Expr, aggregation["geo"].valuesAreExpressions);
 	// 		expect(aggregationItems.length).toEqual(1);
@@ -878,15 +878,15 @@ describe("FacetService", () => {
 	// 		query.addSelect("size`< 10 Ko`:(>=0 AND <10240)", "size");
 	// 		query.addSelect("documentlanguages:(`fr`)", "documentlanguages");
 
-	// 		spyOn(query, 'copy').and.returnValue(query);
-	// 		spyOn(query, 'copyAdvanced').and.returnValue(query);
+	// 		vi.spyOn(query, 'copy').mockReturnValue(query);
+	// 		vi.spyOn(query, 'copyAdvanced').mockReturnValue(query);
 
 	// 		// When
 	// 		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
 	// 		searchService.breadcrumbs = breadcrumbs;
 
 	// 		// Then
-	// 		expect(breadcrumbs.text instanceof Expr).toBeTrue();
+	// 		expect(breadcrumbs.text instanceof Expr).toBe(true);
 	// 		expect(breadcrumbs.text.toString()).toEqual('text:obama');
 	// 		expect(breadcrumbs.items.length).toEqual(5);
 	// 		expect(breadcrumbs.items[0].expr?.toString()).toEqual("text:obama");
@@ -896,7 +896,7 @@ describe("FacetService", () => {
 	// 		expect(breadcrumbs.items[4].expr?.toString(false)).toEqual("fr");
 
 	// 		let expr: Expr = appService.parseExpr(breadcrumbs.items[1].expr?.toString() || "") as Expr;
-	// 		expect(expr instanceof Expr).toBeTrue();
+	// 		expect(expr instanceof Expr).toBe(true);
 	// 		expect(expr.operands.length).toEqual(2);
 	// 		expect(expr.operands[0].value).toEqual("IRAQ");
 	// 		expect(expr.operands[0].field).toEqual("geo");
@@ -906,7 +906,7 @@ describe("FacetService", () => {
 	// 		expect(r).toEqual([{count: 0, value: "IRAQ", display: "Iraq", $column: undefined, $excluded: undefined}, {count: 0, value: "GUANTANAMO", display: "Guantanamo", $column: undefined, $excluded: undefined}])
 
 	// 		expr = appService.parseExpr(breadcrumbs.items[2].expr?.toString() || "") as Expr;
-	// 		expect(expr instanceof Expr).toBeTrue();
+	// 		expect(expr instanceof Expr).toBe(true);
 	// 		expect(expr.value).toEqual("WASHINGTON POST");
 	// 		expect(expr.field).toEqual("company");
 
@@ -914,7 +914,7 @@ describe("FacetService", () => {
 	// 		expect(r).toEqual([{count: 0, value: "WASHINGTON POST", display: "Washington POST", $column: undefined, $excluded: undefined}]);
 
 	// 		expr = appService.parseExpr(breadcrumbs.items[3].expr?.toString(false) || "") as Expr;
-	// 		expect(expr instanceof Expr).toBeTrue();
+	// 		expect(expr instanceof Expr).toBe(true);
 	// 		expect(expr.operands.length).toEqual(2);
 	// 		expect(expr.operands[0].value).toEqual(">=0");
 	// 		expect(expr.operands[0].field).toEqual("size");
@@ -938,8 +938,8 @@ describe("FacetService", () => {
 	// 		query.addSelect("geo`Chicago`:(`CHICAGO`)", "geo");
 
 
-	// 		spyOn(query, 'copy').and.returnValue(query);
-	// 		spyOn(query, 'copyAdvanced').and.returnValue(query);
+	// 		vi.spyOn(query, 'copy').mockReturnValue(query);
+	// 		vi.spyOn(query, 'copyAdvanced').mockReturnValue(query);
 
 	// 		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
 	// 		searchService.breadcrumbs = breadcrumbs;
@@ -976,8 +976,8 @@ describe("FacetService", () => {
 	// 		query.addSelect("((size`10 Ko à 100 Ko`:(>= 10240 AND < 102400)) OR (size`100 Ko à 1 Mo`:(>= 102400 AND < 1048576)))", "size");
 	// 		query.addSelect("size`1 Mo à 10 Mo`:(>= 1048576 AND < 10485760)", "size");
 
-	// 		spyOn(query, 'copy').and.returnValue(query);
-	// 		spyOn(query, 'copyAdvanced').and.returnValue(query);
+	// 		vi.spyOn(query, 'copy').mockReturnValue(query);
+	// 		vi.spyOn(query, 'copyAdvanced').mockReturnValue(query);
 
 	// 		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
 	// 		searchService.breadcrumbs = breadcrumbs;
@@ -1013,8 +1013,8 @@ describe("FacetService", () => {
 	// 		query.addSelect("bool:(`true`)", "bool");
 	// 		//query.addSelect("bool:((`false`) OR (`true`))", "bool");
 
-	// 		spyOn(query, 'copy').and.returnValue(query);
-	// 		spyOn(query, 'copyAdvanced').and.returnValue(query);
+	// 		vi.spyOn(query, 'copy').mockReturnValue(query);
+	// 		vi.spyOn(query, 'copyAdvanced').mockReturnValue(query);
 
 	// 		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
 	// 		searchService.breadcrumbs = breadcrumbs;
@@ -1025,7 +1025,7 @@ describe("FacetService", () => {
 	// 		expect(items[0].expr?.operands).toBeUndefined(); 		// (true) no operands
 
 	// 		// as no resolve columns are done to find column type, we fake this value here
-	// 		spyOnProperty<any>(items[0].expr, 'column', 'get').and.returnValue({eType: EngineType.bool});
+	// 		vi.spyOn(items[0].expr as any, 'column', 'get').mockReturnValue({eType: EngineType.bool});
 
 	// 		// aggregation items are constructed from nested expressions
 	// 		const r = [] as Expr[][];
@@ -1039,7 +1039,7 @@ describe("FacetService", () => {
 	// 		// When
 	// 		const aggItems = service.exprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 	// 		expect(aggItems.length).toEqual(1);
-	// 		expect(aggItems[0]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything(), $excluded: undefined});
+	// 		expect(aggItems[0]).toEqual({count: 0, value: true, display: undefined, $column: expect.anything(), $excluded: undefined});
 	// 	})
 
 	// 	it("should returns aggregationItems as boolean values", () => {
@@ -1050,8 +1050,8 @@ describe("FacetService", () => {
 	// 		query.tab = "all";
 	// 		query.addSelect("bool:((`false`) OR (`true`))", "bool");
 
-	// 		spyOn(query, 'copy').and.returnValue(query);
-	// 		spyOn(query, 'copyAdvanced').and.returnValue(query);
+	// 		vi.spyOn(query, 'copy').mockReturnValue(query);
+	// 		vi.spyOn(query, 'copyAdvanced').mockReturnValue(query);
 
 	// 		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
 	// 		searchService.breadcrumbs = breadcrumbs;
@@ -1062,8 +1062,8 @@ describe("FacetService", () => {
 	// 		expect(items[0].expr?.operands).toBeDefined(); 		// (false, true) operands
 
 	// 		// as no resolve columns are done to find column type, we fake this value here
-	// 		spyOnProperty<any>(items[0].expr?.operands[0], 'column', 'get').and.returnValue({eType: EngineType.bool});
-	// 		spyOnProperty<any>(items[0].expr?.operands[1], 'column', 'get').and.returnValue({eType: EngineType.bool});
+	// 		vi.spyOn(items[0].expr?.operands[0] as any, 'column', 'get').mockReturnValue({eType: EngineType.bool});
+	// 		vi.spyOn(items[0].expr?.operands[1] as any, 'column', 'get').mockReturnValue({eType: EngineType.bool});
 
 	// 		// aggregation items are constructed from nested expressions
 	// 		const r = [] as Expr[][];
@@ -1077,8 +1077,8 @@ describe("FacetService", () => {
 	// 		// When
 	// 		const aggItems = service.exprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 	// 		expect(aggItems.length).toEqual(2);
-	// 		expect(aggItems[0]).toEqual({count: 0, value: false, display: undefined, $column: jasmine.anything(), $excluded: undefined});
-	// 		expect(aggItems[1]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything(), $excluded: undefined});
+	// 		expect(aggItems[0]).toEqual({count: 0, value: false, display: undefined, $column: expect.anything(), $excluded: undefined});
+	// 		expect(aggItems[1]).toEqual({count: 0, value: true, display: undefined, $column: expect.anything(), $excluded: undefined});
 	// 	})
 
 	// 	it("should returns aggregationItems as integer value", () => {
@@ -1089,8 +1089,8 @@ describe("FacetService", () => {
 	// 		query.tab = "all";
 	// 		query.addSelect("sourceint1:(`344091`)", "integer");
 
-	// 		spyOn(query, 'copy').and.returnValue(query);
-	// 		spyOn(query, 'copyAdvanced').and.returnValue(query);
+	// 		vi.spyOn(query, 'copy').mockReturnValue(query);
+	// 		vi.spyOn(query, 'copyAdvanced').mockReturnValue(query);
 
 	// 		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
 	// 		searchService.breadcrumbs = breadcrumbs;
@@ -1101,7 +1101,7 @@ describe("FacetService", () => {
 	// 		expect(items[0].expr?.operands).toBeUndefined(); 		// (true) no operands
 
 	// 		// as no resolve columns are done to find column type, we fake this value here
-	// 		spyOnProperty<any>(items[0].expr, 'column', 'get').and.returnValue({eType: EngineType.integer});
+	// 		vi.spyOn(items[0].expr as any, 'column', 'get').mockReturnValue({eType: EngineType.integer});
 
 	// 		// aggregation items are constructed from nested expressions
 	// 		const r = [] as Expr[][];
@@ -1115,7 +1115,7 @@ describe("FacetService", () => {
 	// 		// When
 	// 		const aggItems = service.exprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 	// 		expect(aggItems.length).toEqual(1);
-	// 		expect(aggItems[0]).toEqual({count: 0, value: 344091, display: undefined, $column: jasmine.anything(), $excluded: undefined});
+	// 		expect(aggItems[0]).toEqual({count: 0, value: 344091, display: undefined, $column: expect.anything(), $excluded: undefined});
 	// 	})
 
 	// })

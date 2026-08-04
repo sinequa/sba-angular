@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
 
 import { FacetService } from "@sinequa/components/facet";
@@ -21,7 +21,7 @@ describe('MoneyTimelineComponent', () => {
   let context: MoneyTimelineComponent;
   let fixture: ComponentFixture<MoneyTimelineComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
 
     const IntlServiceFactory = () => ({
       parseDate: () => {},
@@ -40,7 +40,7 @@ describe('MoneyTimelineComponent', () => {
         { provide: Router, useClass: RouterStub }
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MoneyTimelineComponent);
