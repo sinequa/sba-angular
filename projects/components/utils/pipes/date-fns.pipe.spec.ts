@@ -40,7 +40,9 @@ describe("DateFnsPipe", () => {
   let service: IntlService;
 
   beforeEach(() => {
-    jasmine.clock().mockDate(new Date(2022, 9, 1));
+    // Only Date is faked, so timers used by waitForAsync keep working.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(2022, 9, 1));
   })
 
   beforeEach(() => {
@@ -89,13 +91,12 @@ describe("DateFnsPipe", () => {
     expect(pipe.transform(d, { type: 'iso' })).toEqual('2022-12-30T23:00:00.000Z');
 
     // iso with timeZone overrides
-    spyOn(Intl, 'DateTimeFormat').and.returnValue(({ resolvedOptions: () => ({ timeZone: 'Asia/Tokyo' }) } as unknown as any));
+    vi.spyOn(Intl, 'DateTimeFormat').mockReturnValue(({ resolvedOptions: () => ({ timeZone: 'Asia/Tokyo' }) } as unknown as any));
     expect(Intl.DateTimeFormat().resolvedOptions().timeZone).toEqual('Asia/Tokyo');
     expect(pipe.transform(d, { type: 'iso' })).toEqual('2022-12-30T23:00:00.000Z');
 
     // remove previous spy to restore the real behavior
-    jasmine.getEnv().allowRespy(true);
-    spyOn(Intl, 'DateTimeFormat').and.callThrough();
+    vi.restoreAllMocks();
     expect(Intl.DateTimeFormat().resolvedOptions().timeZone).toEqual('Europe/Paris');
   })
 

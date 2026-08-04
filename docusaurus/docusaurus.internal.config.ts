@@ -38,7 +38,21 @@ const config: Config = {
     locales: ['en'],
   },
 
-  plugins: [require.resolve('docusaurus-lunr-search')],
+  themes: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        indexDocs: true,
+        indexBlog: false,
+        indexPages: true,
+        // The classic preset serves the docs at the site root (docs.routeBasePath: '/'),
+        // so the default '/docs' would produce broken result links.
+        docsRouteBasePath: '/',
+        highlightSearchTermsOnTargetPage: true,
+      },
+    ],
+  ],
 
   markdown: {
     mdx1Compat: {

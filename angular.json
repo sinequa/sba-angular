@@ -21,16 +21,28 @@
             }
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+        "build-test": {
+          "builder": "@angular/build:application",
           "options": {
-            "polyfills": ["zone.js","zone.js/testing"],
-            "inlineStyleLanguage": "scss",
+            "tsConfig": "projects/core/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js"
+            ],
+            "inlineStyleLanguage": "scss"
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "runner": "vitest",
+            "buildTarget": "core:build-test",
+            "tsConfig": "projects/core/tsconfig.spec.json",
             "include": [
               "projects/core/**/*.spec.ts"
             ],
-            "tsConfig": "projects/core/tsconfig.spec.json",
-            "karmaConfig": "projects/core/karma.conf.js"
+            "setupFiles": [
+              "test-setup.ts"
+            ]
           }
         },
         "lint": {
@@ -62,18 +74,29 @@
             }
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+        "build-test": {
+          "builder": "@angular/build:application",
           "options": {
-            "polyfills": ["zone.js","zone.js/testing"],
-            "inlineStyleLanguage": "scss",
+            "tsConfig": "projects/components/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js"
+            ],
+            "inlineStyleLanguage": "scss"
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "runner": "vitest",
+            "buildTarget": "components:build-test",
+            "tsConfig": "projects/components/tsconfig.spec.json",
             "include": [
               "projects/components/**/*.spec.ts",
               "projects/components/__tests__/*.spec.ts"
-
             ],
-            "tsConfig": "projects/components/tsconfig.spec.json",
-            "karmaConfig": "projects/components/karma.conf.js"
+            "setupFiles": [
+              "test-setup.ts"
+            ]
           }
         },
         "lint": {
@@ -104,7 +127,9 @@
             "outputPath": "dist/hello-search",
             "index": "projects/hello-search/src/index.html",
             "browser": "projects/hello-search/src/main.ts",
-            "polyfills": ["projects/hello-search/src/polyfills.ts"],
+            "polyfills": [
+              "projects/hello-search/src/polyfills.ts"
+            ],
             "tsConfig": "projects/hello-search/tsconfig.json",
             "preserveSymlinks": true,
             "assets": [
@@ -199,23 +224,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "buildTarget": "hello-search:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/hello-search/src/test.ts",
-            "polyfills": "projects/hello-search/src/polyfills.ts",
-            "tsConfig": "projects/hello-search/tsconfig.spec.json",
-            "karmaConfig": "projects/hello-search/karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "projects/hello-search/src/assets"
-            ],
-            "styles": [
-              "projects/hello-search/src/styles/app.scss"
-            ],
-            "scripts": []
           }
         },
         "lint": {
@@ -349,23 +357,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "buildTarget": "vanilla-search:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/vanilla-search/src/test.ts",
-            "polyfills": "projects/vanilla-search/src/polyfills.ts",
-            "tsConfig": "projects/vanilla-search/tsconfig.spec.json",
-            "karmaConfig": "projects/vanilla-search/karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "projects/vanilla-search/src/assets"
-            ],
-            "styles": [
-              "projects/vanilla-search/src/styles/app.scss"
-            ],
-            "scripts": []
           }
         },
         "lint": {
@@ -513,23 +504,6 @@
             "buildTarget": "pepper:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/pepper/src/test.ts",
-            "polyfills": "projects/pepper/src/polyfills.ts",
-            "tsConfig": "projects/pepper/tsconfig.spec.json",
-            "karmaConfig": "projects/pepper/karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "projects/pepper/src/assets"
-            ],
-            "styles": [
-              "projects/pepper/src/styles/app.scss"
-            ],
-            "scripts": []
-          }
-        },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
@@ -559,16 +533,28 @@
             }
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+        "build-test": {
+          "builder": "@angular/build:application",
           "options": {
-            "polyfills": ["zone.js","zone.js/testing"],
-            "inlineStyleLanguage": "scss",
+            "tsConfig": "projects/analytics/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js"
+            ],
+            "inlineStyleLanguage": "scss"
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "runner": "vitest",
+            "buildTarget": "analytics:build-test",
+            "tsConfig": "projects/analytics/tsconfig.spec.json",
             "include": [
               "projects/analytics/**/*.spec.ts"
             ],
-            "tsConfig": "projects/analytics/tsconfig.spec.json",
-            "karmaConfig": "projects/analytics/karma.conf.js"
+            "setupFiles": [
+              "test-setup.ts"
+            ]
           }
         },
         "lint": {

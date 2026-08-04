@@ -77,7 +77,7 @@ describe("LabelsService", () => {
     labelsWebService = TestBed.inject(LabelsWebService);
 
     // do not call ngOnDestroy
-    spyOn<any>(service, 'ngOnDestroy');
+    vi.spyOn(service as any, 'ngOnDestroy').mockImplementation((() => undefined) as never);
   });
 
   it("can load instance", () => {
@@ -98,8 +98,8 @@ describe("LabelsService", () => {
       expect(service.publicLabelsField).toEqual("foo");
       expect(service.privateLabelsField).toEqual("toto");
       expect(service.labelsAutoSuggestWildcard).toEqual("&");
-      expect(service.allowPublicLabelsManagement).toBeTrue();
-      expect(service.allowPublicLabelsEdition).toBeFalse();
+      expect(service.allowPublicLabelsManagement).toBe(true);
+      expect(service.allowPublicLabelsEdition).toBe(false);
     });
 
     it("when default setup to be used", () => {
@@ -145,13 +145,13 @@ describe("LabelsService", () => {
     let spyProperties;
 
     beforeEach(() => {
-      spyOpenModal = spyOn(modalService, 'open').and.callThrough();
-      spyProperties = spyOn<any>(service, '_modalProperties').and.returnValue({})
+      spyOpenModal = vi.spyOn(modalService, 'open');
+      spyProperties = vi.spyOn(service as any, '_modalProperties').mockReturnValue({})
     });
 
     afterEach(() => {
-      spyOpenModal.calls.reset();
-      spyProperties.calls.reset();
+      spyOpenModal.mockClear();
+      spyProperties.mockClear();
     })
 
     it("modal rename labels", () => {
@@ -221,11 +221,11 @@ describe("LabelsService", () => {
     let spyAddLabels;
 
     beforeEach(() => {
-      spyAddLabels = spyOn(labelsWebService, 'add').and.callThrough();
+      spyAddLabels = vi.spyOn(labelsWebService, 'add');
     });
 
     afterEach(() => {
-      spyAddLabels.calls.reset();
+      spyAddLabels.mockClear();
     })
 
     it("when a list of labels is provided", () => {
@@ -251,11 +251,11 @@ describe("LabelsService", () => {
     let spyRemoveLabels;
 
     beforeEach(() => {
-      spyRemoveLabels = spyOn(labelsWebService, 'remove').and.callThrough();
+      spyRemoveLabels = vi.spyOn(labelsWebService, 'remove');
     });
 
     afterEach(() => {
-      spyRemoveLabels.calls.reset();
+      spyRemoveLabels.mockClear();
     })
 
     it("when a list of labels is provided", () => {
@@ -284,23 +284,23 @@ describe("LabelsService", () => {
     let spySearch;
 
     beforeEach(() => {
-      spyRenameLabels = spyOn(labelsWebService, 'rename').and.callThrough();
-      spyNotificationSuccess = spyOn(notificationsService, 'success');
-      spyNotificationError = spyOn(notificationsService, 'error');
-      spySearch = spyOn(searchService, 'search').and.callThrough();
+      spyRenameLabels = vi.spyOn(labelsWebService, 'rename');
+      spyNotificationSuccess = vi.spyOn(notificationsService, 'success').mockImplementation((() => undefined) as never);
+      spyNotificationError = vi.spyOn(notificationsService, 'error').mockImplementation((() => undefined) as never);
+      spySearch = vi.spyOn(searchService, 'search');
     });
 
     afterEach(() => {
-      spyRenameLabels.calls.reset();
-      spyNotificationSuccess.calls.reset();
-      spyNotificationError.calls.reset();
-      spySearch.calls.reset();
+      spyRenameLabels.mockClear();
+      spyNotificationSuccess.mockClear();
+      spyNotificationError.mockClear();
+      spySearch.mockClear();
     })
 
     it("when a list of labels is provided and the http request is successful", () => {
       const labels = ["toto", "foo"];
       const newLabel = "titi";
-      spyRenameLabels.and.returnValue(EMPTY);
+      spyRenameLabels.mockReturnValue(EMPTY);
 
       service.renameLabels(labels, newLabel, true);
 
@@ -313,7 +313,7 @@ describe("LabelsService", () => {
     it("when a list of labels is provided and the http request is failed", () => {
       const labels = ["toto", "foo"];
       const newLabel = "titi";
-      spyRenameLabels.and.returnValue(throwError({}));
+      spyRenameLabels.mockReturnValue(throwError({}));
 
       service.renameLabels(labels, newLabel, true);
 
@@ -340,22 +340,22 @@ describe("LabelsService", () => {
     let spySearch;
 
     beforeEach(() => {
-      spyDeleteLabels = spyOn(labelsWebService, 'delete').and.callThrough();
-      spyNotificationSuccess = spyOn(notificationsService, 'success');
-      spyNotificationError = spyOn(notificationsService, 'error');
-      spySearch = spyOn(searchService, 'search').and.callThrough();
+      spyDeleteLabels = vi.spyOn(labelsWebService, 'delete');
+      spyNotificationSuccess = vi.spyOn(notificationsService, 'success').mockImplementation((() => undefined) as never);
+      spyNotificationError = vi.spyOn(notificationsService, 'error').mockImplementation((() => undefined) as never);
+      spySearch = vi.spyOn(searchService, 'search');
     });
 
     afterEach(() => {
-      spyDeleteLabels.calls.reset();
-      spyNotificationSuccess.calls.reset();
-      spyNotificationError.calls.reset();
-      spySearch.calls.reset();
+      spyDeleteLabels.mockClear();
+      spyNotificationSuccess.mockClear();
+      spyNotificationError.mockClear();
+      spySearch.mockClear();
     })
 
     it("when a list of labels is provided and the http request is successful", () => {
       const labels = ["toto", "foo"];
-      spyDeleteLabels.and.returnValue(EMPTY);
+      spyDeleteLabels.mockReturnValue(EMPTY);
 
       service.deleteLabels(labels, true);
 
@@ -367,7 +367,7 @@ describe("LabelsService", () => {
 
     it("when a list of labels is provided and the http request is failed", () => {
       const labels = ["toto", "foo"];
-      spyDeleteLabels.and.returnValue(throwError({}));
+      spyDeleteLabels.mockReturnValue(throwError({}));
 
       service.deleteLabels(labels, true);
 
@@ -393,23 +393,23 @@ describe("LabelsService", () => {
     let spySearch;
 
     beforeEach(() => {
-      spyBulkRemoveLabels = spyOn(labelsWebService, 'bulkRemove').and.callThrough();
-      spyNotificationSuccess = spyOn(notificationsService, 'success');
-      spyNotificationError = spyOn(notificationsService, 'error');
-      spySearch = spyOn(searchService, 'search').and.callThrough();
+      spyBulkRemoveLabels = vi.spyOn(labelsWebService, 'bulkRemove');
+      spyNotificationSuccess = vi.spyOn(notificationsService, 'success').mockImplementation((() => undefined) as never);
+      spyNotificationError = vi.spyOn(notificationsService, 'error').mockImplementation((() => undefined) as never);
+      spySearch = vi.spyOn(searchService, 'search');
       searchService.setQuery(new Query("test"));
     });
 
     afterEach(() => {
-      spyBulkRemoveLabels.calls.reset();
-      spyNotificationSuccess.calls.reset();
-      spyNotificationError.calls.reset();
-      spySearch.calls.reset();
+      spyBulkRemoveLabels.mockClear();
+      spyNotificationSuccess.mockClear();
+      spyNotificationError.mockClear();
+      spySearch.mockClear();
     })
 
     it("when a list of labels is provided and the http request is successful", () => {
       const labels = ["toto", "foo"];
-      spyBulkRemoveLabels.and.returnValue(EMPTY);
+      spyBulkRemoveLabels.mockReturnValue(EMPTY);
 
       service.bulkRemoveLabels(labels, true);
 
@@ -421,7 +421,7 @@ describe("LabelsService", () => {
 
     it("when a list of labels is provided and the http request is failed", () => {
       const labels = ["toto", "foo"];
-      spyBulkRemoveLabels.and.returnValue(throwError({}));
+      spyBulkRemoveLabels.mockReturnValue(throwError({}));
 
       service.bulkRemoveLabels(labels, true);
 
@@ -447,23 +447,23 @@ describe("LabelsService", () => {
     let spySearch;
 
     beforeEach(() => {
-      spyBulkAddLabels = spyOn(labelsWebService, 'bulkAdd').and.callThrough();
-      spyNotificationSuccess = spyOn(notificationsService, 'success');
-      spyNotificationError = spyOn(notificationsService, 'error');
-      spySearch = spyOn(searchService, 'search').and.callThrough();
+      spyBulkAddLabels = vi.spyOn(labelsWebService, 'bulkAdd');
+      spyNotificationSuccess = vi.spyOn(notificationsService, 'success').mockImplementation((() => undefined) as never);
+      spyNotificationError = vi.spyOn(notificationsService, 'error').mockImplementation((() => undefined) as never);
+      spySearch = vi.spyOn(searchService, 'search');
       searchService.setQuery(new Query("test"));
     });
 
     afterEach(() => {
-      spyBulkAddLabels.calls.reset();
-      spyNotificationSuccess.calls.reset();
-      spyNotificationError.calls.reset();
-      spySearch.calls.reset();
+      spyBulkAddLabels.mockClear();
+      spyNotificationSuccess.mockClear();
+      spyNotificationError.mockClear();
+      spySearch.mockClear();
     })
 
     it("when a list of labels is provided and the http request is successful", () => {
       const labels = ["toto", "foo"];
-      spyBulkAddLabels.and.returnValue(EMPTY);
+      spyBulkAddLabels.mockReturnValue(EMPTY);
 
       service.bulkAddLabels(labels, true);
 
@@ -475,7 +475,7 @@ describe("LabelsService", () => {
 
     it("when a list of labels is provided and the http request is failed", () => {
       const labels = ["toto", "foo"];
-      spyBulkAddLabels.and.returnValue(throwError({}));
+      spyBulkAddLabels.mockReturnValue(throwError({}));
 
       service.bulkAddLabels(labels, true);
 
@@ -499,14 +499,14 @@ describe("LabelsService", () => {
     let spySearch;
 
     beforeEach(() => {
-      spyAddFieldSelect = spyOn(searchService, 'addFieldSelect').and.callThrough();
-      spySearch = spyOn(searchService, 'search').and.callThrough();
-      spyOn<any>(service, 'getSelectedLabels').and.returnValue([]);
+      spyAddFieldSelect = vi.spyOn(searchService, 'addFieldSelect');
+      spySearch = vi.spyOn(searchService, 'search');
+      vi.spyOn(service as any, 'getSelectedLabels').mockReturnValue([]);
     });
 
     afterEach(() => {
-      spyAddFieldSelect.calls.reset();
-      spySearch.calls.reset();
+      spyAddFieldSelect.mockClear();
+      spySearch.mockClear();
     })
 
     it("when a list of public labels is provided", () => {
@@ -523,7 +523,7 @@ describe("LabelsService", () => {
       service.selectLabels(labels, true);
 
       expect(spyAddFieldSelect).toHaveBeenCalledWith("test", items);
-      expect(spySearch).toHaveBeenCalledOnceWith(undefined, {
+      expect(spySearch).toHaveBeenCalledExactlyOnceWith(undefined, {
           type: "Label_Open",
           detail: {
               label: "toto,foo",
@@ -546,7 +546,7 @@ describe("LabelsService", () => {
       service.selectLabels(labels, false);
 
       expect(spyAddFieldSelect).toHaveBeenCalledWith("testing", items);
-      expect(spySearch).toHaveBeenCalledOnceWith(undefined, {
+      expect(spySearch).toHaveBeenCalledExactlyOnceWith(undefined, {
           type: "Label_Open",
           detail: {
               label: "toto,foo",

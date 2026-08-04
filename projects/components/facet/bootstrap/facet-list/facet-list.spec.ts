@@ -1,7 +1,9 @@
+import type { MockInstance } from 'vitest';
+
 import {Overlay} from '@angular/cdk/overlay';
 import {CommonModule} from '@angular/common';
 import {HttpHandler} from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {Router} from '@angular/router';
 import {SearchService} from '@sinequa/components/search';
 
@@ -23,9 +25,13 @@ describe('BsFacetList', () => {
     let context: BsFacetList;
     let fixture: ComponentFixture<BsFacetList>;
 
-    beforeEach(waitForAsync(() => {
-        TestBed.configureTestingModule({
-            declarations: [BsFacetList, ValuePipe, NumberPipe],
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            // BsFacetList is declared and exported by BsFacetModule below.
+            // Re-declaring it here would rebuild its scope from this testing
+            // module, which does not re-export BsSearchModule — and its template
+            // would then no longer know <sq-loading-bar>.
+            declarations: [ValuePipe, NumberPipe],
             imports: [
                 CommonModule,
                 IntlModule.forRoot(AppLocalesConfig),
@@ -47,7 +53,7 @@ describe('BsFacetList', () => {
                 {provide: MODAL_PROMPT, useValue: {}},
             ]
         }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(BsFacetList);
@@ -60,22 +66,22 @@ describe('BsFacetList', () => {
     });
 
     describe('filterItem', () => {
-        let addFilterSpy: jasmine.Spy;
-        let removeFilterSpy: jasmine.Spy;
+        let addFilterSpy: MockInstance;
+        let removeFilterSpy: MockInstance;
 
         const makeItem = (value: string, filtered = false) =>
             ({ value, count: 1, $filtered: filtered } as any);
 
         beforeEach(() => {
-            addFilterSpy = spyOn(context, 'addFilter');
-            removeFilterSpy = spyOn(context, 'removeFilter');
+            addFilterSpy = vi.spyOn(context, 'addFilter').mockImplementation((() => undefined) as never);
+            removeFilterSpy = vi.spyOn(context, 'removeFilter').mockImplementation((() => undefined) as never);
             context.data = { column: 'treepath', isTree: true, $filtered: [] } as any;
         });
 
         it('should call addFilter with the single item when no items are already filtered', () => {
             const item = makeItem('SourceA');
             context.filterItem(item);
-            expect(addFilterSpy).toHaveBeenCalledOnceWith(item);
+            expect(addFilterSpy).toHaveBeenCalledExactlyOnceWith(item);
         });
 
         it('should call addFilter with all filtered items + new item and replaceCurrent:true when items are already filtered (ES-31072)', () => {
@@ -85,13 +91,13 @@ describe('BsFacetList', () => {
 
             context.filterItem(newItem);
 
-            expect(addFilterSpy).toHaveBeenCalledOnceWith([existing, newItem], { replaceCurrent: true });
+            expect(addFilterSpy).toHaveBeenCalledExactlyOnceWith([existing, newItem], { replaceCurrent: true });
         });
 
         it('should call removeFilter when the clicked item is already filtered', () => {
             const item = makeItem('SourceA', true);
             context.filterItem(item);
-            expect(removeFilterSpy).toHaveBeenCalledOnceWith(item);
+            expect(removeFilterSpy).toHaveBeenCalledExactlyOnceWith(item);
             expect(addFilterSpy).not.toHaveBeenCalled();
         });
 
@@ -103,16 +109,16 @@ describe('BsFacetList', () => {
 
             context.filterItem(c);
 
-            expect(addFilterSpy).toHaveBeenCalledOnceWith([a, b, c], { replaceCurrent: true });
+            expect(addFilterSpy).toHaveBeenCalledExactlyOnceWith([a, b, c], { replaceCurrent: true });
         });
     });
 
     describe('addFilter', () => {
-        let addFilterSearchSpy: jasmine.Spy;
+        let addFilterSearchSpy: MockInstance;
 
         beforeEach(() => {
             const facetService = fixture.debugElement.injector.get(FacetService);
-            addFilterSearchSpy = spyOn(facetService, 'addFilterSearch');
+            addFilterSearchSpy = vi.spyOn(facetService, 'addFilterSearch').mockImplementation((() => undefined) as never);
             context.data = { column: 'treepath', isTree: true, $filtered: [] } as any;
         });
 
@@ -120,8 +126,8 @@ describe('BsFacetList', () => {
             context.replaceCurrent = false;
             const item = { value: 'SourceA', count: 1 } as any;
             context.addFilter(item);
-            expect(addFilterSearchSpy).toHaveBeenCalledOnceWith(
-                context.data, item, jasmine.objectContaining({ replaceCurrent: false }), undefined, undefined
+            expect(addFilterSearchSpy).toHaveBeenCalledExactlyOnceWith(
+                context.data, item, expect.objectContaining({ replaceCurrent: false }), undefined, undefined
             );
         });
 
@@ -129,8 +135,8 @@ describe('BsFacetList', () => {
             context.replaceCurrent = false;
             const item = { value: 'SourceA', count: 1 } as any;
             context.addFilter(item, { replaceCurrent: true });
-            expect(addFilterSearchSpy).toHaveBeenCalledOnceWith(
-                context.data, item, jasmine.objectContaining({ replaceCurrent: true }), undefined, undefined
+            expect(addFilterSearchSpy).toHaveBeenCalledExactlyOnceWith(
+                context.data, item, expect.objectContaining({ replaceCurrent: true }), undefined, undefined
             );
         });
 
@@ -139,8 +145,8 @@ describe('BsFacetList', () => {
             context.allowAnd = true;
             const item = { value: 'SourceA', count: 1 } as any;
             context.addFilter(item);
-            expect(addFilterSearchSpy).toHaveBeenCalledOnceWith(
-                context.data, item, jasmine.objectContaining({ and: true }), undefined, undefined
+            expect(addFilterSearchSpy).toHaveBeenCalledExactlyOnceWith(
+                context.data, item, expect.objectContaining({ and: true }), undefined, undefined
             );
         });
     });
@@ -148,7 +154,7 @@ describe('BsFacetList', () => {
     // it('should display data', () => {
     //     // stub FacetService to returns mocked data
     //     const service = TestBed.inject(FacetService);
-    //     spyOn(service, 'getAggregation').and.returnValue(AGGREGATION_GEO as ListAggregation);
+    //     vi.spyOn(service, 'getAggregation').mockReturnValue(AGGREGATION_GEO as ListAggregation);
 
     //     // @Input()
     //     context.name = "Geo";
@@ -156,7 +162,7 @@ describe('BsFacetList', () => {
     //     context.searchItems.selected = true;
 
     //     expect(context.data).toBeUndefined();
-    //     expect(context.isHidden()).toBeTrue();
+    //     expect(context.isHidden()).toBe(true);
 
     //     context.ngOnChanges({results: {} as SimpleChange});
     //     fixture.detectChanges();
@@ -170,18 +176,18 @@ describe('BsFacetList', () => {
 
     //     // Components expectations
     //     expect(context.data?.name).toEqual("Geo");
-    //     expect(context.isHidden()).toBeFalse();
+    //     expect(context.isHidden()).toBe(false);
 
     //     expect(context.actions.length).toBeGreaterThan(0);
-    //     expect(context.searchItems.selected).toBeFalse();
+    //     expect(context.searchItems.selected).toBe(false);
     // });
 
     // it("should mark an item selected on user's click", () => {
     //     // stub FacetService to returns mocked data
     //     const service = TestBed.inject(FacetService);
-    //     spyOn(service, 'getAggregation').and.returnValue(AGGREGATION_CONCEPTS as unknown as ListAggregation);
-    //     spyOn(context, 'ngOnChanges').and.callThrough();
-    //     spyOn(context, 'selectItem').and.callThrough();
+    //     vi.spyOn(service, 'getAggregation').mockReturnValue(AGGREGATION_CONCEPTS as unknown as ListAggregation);
+    //     vi.spyOn(context, 'ngOnChanges');
+    //     vi.spyOn(context, 'selectItem');
 
     //     // @Input()
     //     context.name = 'Geo';
@@ -209,7 +215,7 @@ describe('BsFacetList', () => {
     //     expect(el?.title).toEqual("msg#facet.itemUnselect");
 
     //     // Component expectations
-    //     expect(context.items[4].$selected).toBeTrue();
+    //     expect(context.items[4].$selected).toBe(true);
     //     expect(context.selected.length).toEqual(1);
 
     //     expect(context.selectItem).toHaveBeenCalledTimes(1);

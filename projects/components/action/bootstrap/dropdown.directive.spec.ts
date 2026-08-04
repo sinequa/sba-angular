@@ -1,5 +1,5 @@
 import {Component, ViewChild, ElementRef} from "@angular/core";
-import {ComponentFixture, TestBed, waitForAsync} from "@angular/core/testing";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 
 import {BsDropdownDirective} from "./dropdown.directive";
 
@@ -41,11 +41,11 @@ describe("BsDropdownDirective", () => {
     let fixture: ComponentFixture<NestedHost>;
     let host: NestedHost;
 
-    beforeEach(waitForAsync(() => {
-        TestBed.configureTestingModule({
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
             declarations: [NestedHost, BsDropdownDirective]
         }).compileComponents();
-    }));
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(NestedHost);
