@@ -18,7 +18,7 @@ describe('BsMySearch', () => {
                 {
                     provide: SearchService,
                     useValue: {
-                        search: jasmine.createSpy('search'),
+                        search: vi.fn(),
                         query: new Query('test'),
                         isSearchRouteActive: () => true
                     }
@@ -72,7 +72,7 @@ describe('BsMySearch', () => {
             // Old code: splice(index - 1) = splice(0) → would remove select1 (wrong)
             // New code: splice(findIndex result) = splice(1) → removes select2 (correct)
             expect(context.searchService.query.select).toEqual([select1] as any);
-            expect(context.searchService.search).toHaveBeenCalledOnceWith();
+            expect(context.searchService.search).toHaveBeenCalledExactlyOnceWith();
         });
 
         it('should not splice query.select when the expression is not found', () => {
@@ -91,7 +91,7 @@ describe('BsMySearch', () => {
         it('should remove a filter via query.removeFilters', () => {
             const filter: any = { field: 'modified', operator: 'gte', value: '2024-01-01' };
             const filterItem: any = { display: '2024-01-01', filter };
-            spyOn(context.searchService.query, 'removeFilters');
+            vi.spyOn(context.searchService.query, 'removeFilters').mockImplementation((() => undefined) as never);
 
             context['items'] = [filterItem];
             context.removeItem(filterItem);

@@ -30,7 +30,7 @@ describe('IntlService', () => {
   })
 
   it("should init() and overrides default locale with initial locale (en-US)", waitForAsync(() => {
-    const init = spyOn(service, "init").and.callThrough();
+    const init = vi.spyOn(service, "init");
 
     // default locale is set to "fr" but initial locale is "en-US"
     expect(service['localesConfig'].defaultLocale.name).toEqual('fr');
@@ -125,7 +125,7 @@ describe('IntlService', () => {
     }));
 
     it("should format a date in the current locale according options (en-US)", () => {
-      const spy = spyOn(console, 'warn').and.callThrough();
+      const spy = vi.spyOn(console, 'warn');
 
       expect(service.formatDate("12/31/2022", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("Dec 31, 2022");
       expect(service.formatDate("12-31-2022", { year: 'numeric', month: 'long', day: '2-digit' })).toEqual("December 31, 2022");
@@ -144,7 +144,7 @@ describe('IntlService', () => {
     }));
 
     it("should format an ISO 8601 date with week number in the current locale (en-US)", () => {
-      const spy = spyOn(console, 'warn').and.callThrough();
+      const spy = vi.spyOn(console, 'warn');
 
       // First day of 2022 week 52 with weekday set as Monday (default)
       expect(service.formatDate("2022-W52", { year: 'numeric', month: 'short', day: '2-digit' })).toEqual("Dec 26, 2022");
@@ -157,7 +157,7 @@ describe('IntlService', () => {
     })
 
     it("should format an ISO 8601 date with week number in the current locale (french)", () => {
-      const spy = spyOn(console, 'warn').and.callThrough();
+      const spy = vi.spyOn(console, 'warn');
       service.use("fr", false).subscribe(() => {
 
         // weekday number (1-7) can be used, week begin with Monday and ends with Sunday
@@ -231,11 +231,13 @@ describe('IntlService', () => {
 
   describe('formatRelativeTime()', () => {
     beforeEach(() => {
-      jasmine.clock().mockDate(new Date(2022, 9, 1));
+      // Only Date is faked, so timers used by waitForAsync keep working.
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(2022, 9, 1));
     })
 
     it('should format a relative time in the current locale (en-US)', () => {
-      spyOn(console, "warn");
+      vi.spyOn(console, "warn").mockImplementation((() => undefined) as never);
       expect(service.formatRelativeTime("12/31/2022")).toEqual("in 3 months");
       expect(service.formatRelativeTime("12-31-2022")).toEqual("in 3 months");
       expect(service.formatRelativeTime("2022-12-31")).toEqual("in 3 months");
@@ -324,7 +326,7 @@ describe('IntlService', () => {
       };
 
       // spy the console.warn
-      const log = spyOn(console, "warn").and.callThrough();
+      const log = vi.spyOn(console, "warn");
 
       // here no warn should be displayed as the translated message exist
       expect(service.formatMessage("msg#results.all.tab")).toEqual("All");
