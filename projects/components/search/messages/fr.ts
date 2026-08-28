@@ -5,14 +5,15 @@ export default {
     },
 
     "didYouMean": {
-        "dymonlyBeforeCorrected": "Essayez avec cette orthographe : ",
-        "dymonlyAfterCorrected": "",
-        "correctBeforeCorrected": "Résultats pour : ",
-        "correctBeforeOriginal": ". Essayez avec l'orthographe : ",
-        "correctAfterOriginal": "",
-        "smartBeforeOriginal": "Résultats pour : ",
-        "smartBeforeCorrected": " et ",
-        "smartAfterCorrected": ""
+        "suggestionBeforeOriginal": "Résultats pour : ",
+        "suggestionBeforeCorrected": ". Essayez avec l'orthographe : ",
+        "suggestionAfterCorrected": "",
+        "correctionBeforeCorrected": "Résultats pour : ",
+        "correctionBeforeOriginal": ". Essayez avec l'orthographe : ",
+        "correctionAfterOriginal": "",
+        "expansionBeforeOriginal": "Résultats pour : ",
+        "expansionBeforeCorrected": " et ",
+        "expansionAfterCorrected": ""
     },
 
     "pageSizeSelector": {
