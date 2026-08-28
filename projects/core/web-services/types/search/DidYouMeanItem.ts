@@ -14,6 +14,26 @@ export const DidYouMeanActionSchema = z.enum(["correction", "expansion", "sugges
 export type DidYouMeanAction = z.infer<typeof DidYouMeanActionSchema>;
 
 /**
+ * Describes a single correction applied by the engine to one term of the query
+ */
+export const DidYouMeanAppliedChangeSchema = z.object({
+    /**
+     * The original form of this term
+     */
+    form: z.string(),
+    /**
+     * The corrected form of this term
+     */
+    correction: z.string(),
+    /**
+     * How this term's correction was applied by the engine. Not present when the engine version does not provide this information (before 11.14)
+     */
+    action: DidYouMeanActionSchema.optional(),
+})
+
+export type DidYouMeanAppliedChange = z.infer<typeof DidYouMeanAppliedChangeSchema>;
+
+/**
  * Describes a single "did you mean" item
  */
 export const DidYouMeanItemSchema = z.object({
@@ -26,9 +46,9 @@ export const DidYouMeanItemSchema = z.object({
      */
     corrected: z.string(),
     /**
-     * How the corrected term was applied by the engine. Not present when the engine version does not provide this information (before 11.14)
+     * The list of per-term corrections applied by the engine to produce `corrected` from `original`. Not present when the engine version does not provide this information (before 11.14)
      */
-    action: DidYouMeanActionSchema.optional(),
+    appliedChanges: z.array(DidYouMeanAppliedChangeSchema).optional(),
 })
 
 export type DidYouMeanItem = z.infer<typeof DidYouMeanItemSchema>;

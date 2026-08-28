@@ -24,9 +24,28 @@ export class BsDidYouMean implements OnChanges {
             const item = this.results.didYouMean.text;
             if (item.corrected) {
                 this.item = item;
-                this.action = item.action ?? this.legacyAction(this.results.didYouMean.spellingCorrectionMode);
+                this.action = this.resolveAction(item, this.results.didYouMean.spellingCorrectionMode);
             }
         }
+    }
+
+    /**
+     * Resolves the action to display from the per-term `appliedChanges` reported by the engine (ES-28698).
+     * Falls back to `spellingCorrectionMode`-based inference for engine versions prior to 11.14 that
+     * do not report `appliedChanges`, or when the applied changes disagree on the action to take
+     * (defaults to `suggestion`, the only case that does not assert a search behavior that may not
+     * actually have happened — the root cause of ES-27719).
+     */
+    private resolveAction(item: DidYouMeanItem, spellingCorrectionMode: string): DidYouMeanAction {
+        const appliedChanges = item.appliedChanges;
+        if (!appliedChanges?.length) {
+            return this.legacyAction(spellingCorrectionMode);
+        }
+        const [first, ...rest] = appliedChanges;
+        if (first.action && rest.every(change => change.action === first.action)) {
+            return first.action;
+        }
+        return "suggestion";
     }
 
     /**
