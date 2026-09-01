@@ -1,10 +1,14 @@
 import { RFMData, RFMDisplay, TermPresence } from "@sinequa/core/web-services";
 
 const didYouMean: any = {
-  spellingCorrectionMode: 'Correct',
+  spellingCorrectionMode: 'Smart',
   text: {
-    original: 'original text',
-    corrected: 'corrected text'
+    original: 'katalon selenim',
+    corrected: 'Catalon selenium',
+    appliedChanges: [
+      { form: 'katalon', correction: 'Catalon', action: 'expansion' },
+      { form: 'selenim', correction: 'selenium', action: 'expansion' }
+    ]
   }
 };
 
