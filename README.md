@@ -1,7 +1,8 @@
 
 <img src="docs/assets/index/sinequa-logo-light-lg.png" width="300" style="margin: auto; display: block;">
 
-# Search-Based Applications (SBA)
+# Search-Based Applications (SBA) (Deprecated)
+SBA are now done under the [Mint](https://github.com/sinequa/sba-mint) project.
 
 ## Please visit our [documentation website](https://sinequa.github.io/sba-angular/)
 

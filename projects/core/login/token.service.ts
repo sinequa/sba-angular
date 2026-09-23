@@ -35,8 +35,8 @@ export class TokenService extends HttpService {
      * Delete the current JWT cookie.
      * This method is called by [AuthenticationService.logout]{@link AuthenticationService#logout}
      */
-    deleteWebTokenCookie(): Observable<void> {
-        return this.httpClient.get<void>(this.makeUrl("challenge"), {
+    deleteWebTokenCookie(): Observable<{logoutUrl?: string | undefined}> {
+      return this.httpClient.get<{logoutUrl?: string | undefined}>(this.makeUrl("challenge"), {
             params: this.makeParams({
                 action: "deleteWebTokenCookie",
                 noUserOverride: true,
