@@ -100,7 +100,9 @@
     "dompurify": "3.2.4",
     "canvg": ">=4.0.3",
     "jspdf": ">=3.0.2",
-    "tmp": ">=0.2.4"
+    "tmp": ">=0.2.4",
+    "webpack-dev-middleware": "7.4.6",
+    "http-cache-semantics": "4.3.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.8",
