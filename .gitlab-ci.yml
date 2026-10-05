@@ -80,6 +80,7 @@ pages:
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
+      allow_failure: true
   script:
     - npm run docs:ci
     - npm run docs:build
@@ -95,6 +96,7 @@ pages-internal:
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
+      allow_failure: true
   script:
     - npm run docs:ci
     - npm run docs:build-internal
@@ -111,6 +113,7 @@ pages-jekyll:
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
+      allow_failure: true
   before_script:
     - apt-get update -qq && apt-get install -y ruby-full build-essential zlib1g-dev
     - gem install bundler
@@ -131,6 +134,7 @@ pages-jekyll-internal:
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
+      allow_failure: true
   script:
     - node ./scripts/doc-replace-baseurl.js
     - node ./scripts/doc-preprocess.js https://github.sinequa.com/CustomerSolutions/sba-internal
