@@ -106,7 +106,9 @@
     "qs": "^6.16.0",
     "@types/google.maps": "3.58.1",
     "less": ">=4.7.0",
-    "fast-uri": ">=3.1.6 <4.0.0"
+    "fast-uri": ">=3.1.6 <4.0.0",
+    "webpack-dev-middleware": "7.4.6",
+    "http-cache-semantics": "4.3.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.3.32",
