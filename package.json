@@ -96,9 +96,9 @@
     "zone.js": "~0.15.1"
   },
   "overrides": {
-    "serialize-javascript": "^7.0.3",
+    "serialize-javascript": "^7.1.2",
     "postcss": ">8.5.17",
-    "@modelcontextprotocol/sdk": ">=1.29.0",
+    "@modelcontextprotocol/sdk": ">=1.31.0",
     "@hono/node-server": ">=2.0.5",
     "uuid": "^11.1.1",
     "webpack-dev-server": "^5.2.6",
@@ -108,7 +108,10 @@
     "less": ">=4.7.0",
     "fast-uri": ">=3.1.6 <4.0.0",
     "webpack-dev-middleware": "7.4.6",
-    "http-cache-semantics": "4.3.0"
+    "http-cache-semantics": "4.3.0",
+    "piscina": "^5.3.2",
+    "dompurify": "^3.4.16",
+    "source-map-js": "^1.2.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.3.32",
