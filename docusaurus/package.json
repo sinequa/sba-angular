@@ -42,7 +42,9 @@
     "http-cache-semantics": "4.3.0",
     "source-map-js": "^1.2.2",
     "compression": "^1.8.2",
-    "shell-quote": "^1.11.0"
+    "shell-quote": "^1.11.0",
+    "postcss-selector-parser": "^7.1.6",
+    "tinypool": "^2.1.2"
   },
   "browserslist": {
     "production": [
