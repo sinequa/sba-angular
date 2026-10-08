@@ -16,7 +16,9 @@ variables:
 
 jira-ticket-check:
   stage: check
-  image: alpine:latest
+  # grep only: no node/npm, so no container. `sinequa` is required: a bare `shell` tag can land on the old
+  # runner, which fails with runner_system_failure.
+  tags: [sinequa, shell]
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   script:
@@ -39,6 +41,7 @@ jira-ticket-check:
 
 .node-ci:
   stage: build
+  tags: [sinequa, docker]
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
@@ -65,6 +68,7 @@ node-ci-node12:
 test-docs-build:
   stage: build
   image: node:18
+  tags: [sinequa, docker]
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
   script:
@@ -77,6 +81,7 @@ test-docs-build:
 pages:
   stage: deploy
   image: node:18
+  tags: [sinequa, docker]
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
@@ -110,6 +115,7 @@ pages-internal:
 pages-jekyll:
   stage: deploy
   image: node:18
+  tags: [sinequa, docker]
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
