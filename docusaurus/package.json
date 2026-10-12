@@ -38,7 +38,10 @@
     "path-to-regexp@>= 2.0.0 < 3.3.0": "3.3.0",
     "webpack-dev-server": "5.2.1",
     "webpack-dev-middleware": "7.4.6",
-    "http-cache-semantics": "4.3.0"
+    "http-cache-semantics": "4.3.0",
+    "postcss-selector-parser@^7.0.0": "7.1.6",
+    "postcss-selector-parser@^6.0.0": "7.1.6",
+    "webpackbar": "7.0.0"
   },
   "browserslist": {
     "production": [
