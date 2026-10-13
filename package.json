@@ -112,7 +112,8 @@
     "http-cache-semantics": "4.3.0",
     "piscina": "^5.3.2",
     "dompurify": "^3.4.16",
-    "source-map-js": "^1.2.2"
+    "source-map-js": "^1.2.2",
+    "postcss-selector-parser@^7.0.0": "7.1.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.3.32",
