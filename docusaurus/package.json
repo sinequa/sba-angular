@@ -44,7 +44,8 @@
     "compression": "^1.8.2",
     "shell-quote": "^1.11.0",
     "postcss-selector-parser": "^7.1.6",
-    "tinypool": "^2.1.2"
+    "tinypool": "^2.1.2",
+    "webpackbar": "7.0.0"
   },
   "browserslist": {
     "production": [
