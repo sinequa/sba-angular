@@ -305,7 +305,13 @@ export class AuthenticationService extends HttpService {
     logout() {
         this.auditService.notifyLogout().subscribe(
             () => {
-                this.tokenService.deleteWebTokenCookie().subscribe()
+                this.tokenService.deleteWebTokenCookie().subscribe(
+                    (result) => {
+                        if (result.logoutUrl) {
+                            window.location.href = result.logoutUrl;
+                        }
+                    }
+                );
                 this.authentication = undefined;
                 this.processedCredentials = undefined;
             }
