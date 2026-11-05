@@ -1,3 +1,9 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+
 stages:
   - check
   - build
@@ -10,7 +16,9 @@ variables:
 
 jira-ticket-check:
   stage: check
-  image: alpine:latest
+  # grep only: no node/npm, so no container. `sinequa` is required: a bare `shell` tag can land on the old
+  # runner, which fails with runner_system_failure.
+  tags: [sinequa, shell]
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   script:
@@ -33,6 +41,7 @@ jira-ticket-check:
 
 .node-ci:
   stage: build
+  tags: [sinequa, docker]
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
@@ -59,6 +68,7 @@ node-ci-node12:
 test-docs-build:
   stage: build
   image: node:18
+  tags: [sinequa, docker]
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"
   script:
@@ -71,9 +81,11 @@ test-docs-build:
 pages:
   stage: deploy
   image: node:18
+  tags: [sinequa, docker]
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
+      allow_failure: true
   script:
     - npm run docs:ci
     - npm run docs:build
@@ -89,6 +101,7 @@ pages-internal:
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
+      allow_failure: true
   script:
     - npm run docs:ci
     - npm run docs:build-internal
@@ -102,9 +115,11 @@ pages-internal:
 pages-jekyll:
   stage: deploy
   image: node:18
+  tags: [sinequa, docker]
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
+      allow_failure: true
   before_script:
     - apt-get update -qq && apt-get install -y ruby-full build-essential zlib1g-dev
     - gem install bundler
@@ -125,6 +140,7 @@ pages-jekyll-internal:
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
     - when: manual
+      allow_failure: true
   script:
     - node ./scripts/doc-replace-baseurl.js
     - node ./scripts/doc-preprocess.js https://github.sinequa.com/CustomerSolutions/sba-internal

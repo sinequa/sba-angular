@@ -5,14 +5,15 @@ export default {
     },
 
     "didYouMean": {
-        "dymonlyBeforeCorrected": "Did you mean: ",
-        "dymonlyAfterCorrected": "?",
-        "correctBeforeCorrected": "Showing results for: ",
-        "correctBeforeOriginal": ". Search instead for: ",
-        "correctAfterOriginal": "",
-        "smartBeforeOriginal": "Showing results for: ",
-        "smartBeforeCorrected": " and ",
-        "smartAfterCorrected": ""
+        "suggestionBeforeOriginal": "Showing results for: ",
+        "suggestionBeforeCorrected": ". Search instead for: ",
+        "suggestionAfterCorrected": "",
+        "correctionBeforeCorrected": "Showing results for: ",
+        "correctionBeforeOriginal": ". Search instead for: ",
+        "correctionAfterOriginal": "",
+        "expansionBeforeOriginal": "Showing results for: ",
+        "expansionBeforeCorrected": " and ",
+        "expansionAfterCorrected": ""
     },
 
     "pageSizeSelector": {
